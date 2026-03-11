@@ -1,0 +1,79 @@
+concept,doc_frequency,avg_relevance
+cadmium telluride,2,0.8600000000000001
+crystalline silicon,2,0.815
+cadmium selenide telluride,1,1.0
+cdsete solar cells,1,1.0
+cdte,1,1.0
+photovoltaic modules,1,1.0
+external radiative efficiency,1,0.95
+failure modes,1,0.95
+i-v curve,1,0.95
+ideality diode factor,1,0.95
+thin film photovoltaic,1,0.95
+voltage deficit,1,0.95
+cdsexte1-x,1,0.93
+internal voltage ivoc,1,0.93
+open-circuit voltage voc,1,0.93
+back-contact selectivity,1,0.92
+cigs,1,0.92
+parasitic resistances,1,0.92
+voltage loss analysis,1,0.92
+cst absorber,1,0.91
+degradation mechanisms,1,0.9
+perovskite solar cells,1,0.9
+photoluminescence,1,0.9
+photovoltaic module,1,0.9
+arsenic doping,1,0.88
+carrier selectivity,1,0.88
+emerging pv technologies,1,0.88
+open circuit voltage,1,0.88
+thin-film devices,1,0.88
+aluminium-oxide passivation,1,0.87
+minority carrier lifetime,1,0.87
+passivating contacts,1,0.86
+amorphous silicon,1,0.85
+chlorine passivation,1,0.85
+long-term stability,1,0.85
+multi-crystalline silicon,1,0.85
+recombination losses,1,0.85
+single-crystalline silicon,1,0.85
+thermodynamic voltage limit,1,0.85
+back contact,1,0.84
+se defect passivation,1,0.84
+as doping,1,0.83
+micro-crystalline silicon,1,0.83
+operational lifetime,1,0.83
+a-si/µc-si tandem,1,0.82
+cds/cdte tandem,1,0.82
+encapsulant,1,0.82
+cu doping,1,0.81
+absorber layer,1,0.8
+copper indium selenide,1,0.8
+fill factor,1,0.8
+luminescent absorber,1,0.8
+polycrystalline absorber,1,0.8
+qualification tests,1,0.8
+cadmium selenide,1,0.78
+cis,1,0.78
+dopant concentration,1,0.78
+dye sensitised pv,1,0.78
+organic photovoltaics,1,0.78
+window layer optimization,1,0.78
+grain boundary recombination,1,0.77
+electrical parameters,1,0.75
+front electrode,1,0.75
+interface recombination,1,0.75
+rear electrode,1,0.75
+band diagram engineering,1,0.74
+film microstructure,1,0.72
+first solar,1,0.72
+interlayers,1,0.72
+thermal behavior,1,0.72
+module stability,1,0.7
+series resistance,1,0.7
+shunt resistance,1,0.7
+substrate,1,0.7
+photocurrent,1,0.68
+device stack,1,0.65
+technology readiness level,1,0.65
+module efficiency,1,0.63

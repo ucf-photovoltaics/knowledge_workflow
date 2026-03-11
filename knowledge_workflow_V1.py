@@ -10,7 +10,7 @@ import spacy
 # --- CONFIG ---
 LIBRARY_ID = '2189702'
 LIBRARY_TYPE = 'group'
-API_KEY = ''
+API_KEY = 'W3COg3WIiWEvORVM3CiTLwc2'
 zot = Zotero(LIBRARY_ID, LIBRARY_TYPE, API_KEY)
 nlp = spacy.load('en_core_web_sm')
 

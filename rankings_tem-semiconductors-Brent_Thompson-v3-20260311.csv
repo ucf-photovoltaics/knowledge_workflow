@@ -1,0 +1,900 @@
+concept,doc_frequency,avg_relevance
+transmission electron microscopy,31,0.9312903225806451
+stacking faults,12,0.8691666666666666
+scanning transmission electron microscopy,10,0.931
+crystal defects,9,0.84
+threading dislocations,7,0.9185714285714285
+gan,7,0.9114285714285714
+defect density,7,0.8042857142857143
+epitaxial growth,7,0.7757142857142857
+dislocation density,5,0.876
+structural defects,5,0.842
+cathodoluminescence,4,0.8999999999999999
+atomic-resolution imaging,4,0.89
+misfit dislocations,4,0.88
+2d materials,4,0.8775
+electron energy loss spectroscopy,4,0.8275
+point defects,4,0.8225
+heteroepitaxy,4,0.8125
+defect characterization,4,0.7849999999999999
+dislocations,4,0.7575000000000001
+aberration-corrected stem,3,0.9833333333333334
+gaas on si,3,0.9700000000000001
+molecular beam epitaxy,3,0.96
+extended defects,3,0.9166666666666666
+thermal annealing,3,0.89
+semiconductor defects,3,0.8766666666666666
+dislocation loops,3,0.8366666666666666
+planar defects,3,0.8233333333333334
+burgers vector,3,0.8233333333333333
+semiconductor heterostructures,3,0.82
+nanostructures,3,0.8166666666666668
+tem analysis,3,0.7999999999999999
+electron probe,3,0.7966666666666667
+electronic structure,3,0.7866666666666667
+structure-property relationship,3,0.7433333333333333
+transition metal dichalcogenides,2,1.0
+electron beam induced current,2,0.98
+inversion domain boundaries,2,0.9650000000000001
+multicrystalline silicon,2,0.96
+in situ tem,2,0.95
+inversion domains,2,0.935
+electron microscopy,2,0.925
+electron-beam-induced current,2,0.925
+czochralski silicon,2,0.9199999999999999
+gaas,2,0.9199999999999999
+electron energy-loss spectroscopy,2,0.91
+metalorganic vapor phase epitaxy,2,0.91
+transmission electron microscope,2,0.9099999999999999
+electrically active defects,2,0.905
+nanocrystals,2,0.905
+partial dislocations,2,0.89
+high-resolution electron microscopy,2,0.885
+energy dispersive x-ray spectroscopy,2,0.875
+p-n junction,2,0.865
+semiconductor devices,2,0.865
+vacancy clusters,2,0.8600000000000001
+grain boundaries,2,0.8500000000000001
+epilayer,2,0.8400000000000001
+crystal structure,2,0.835
+electron optics,2,0.835
+atomic structure,2,0.825
+electron diffraction,2,0.825
+stem,2,0.825
+silicon wafer,2,0.8200000000000001
+defect formation,2,0.82
+dislocation tangles,2,0.815
+photoluminescence,2,0.815
+electrical activity,2,0.81
+high-resolution transmission electron microscopy,2,0.81
+quantum well,2,0.81
+defect localization,2,0.8049999999999999
+cross-sectional tem,2,0.79
+impurity atoms,2,0.79
+diffusion length,2,0.785
+chemical analysis,2,0.78
+gaas epilayer,2,0.775
+carrier lifetime,2,0.77
+defect formation mechanism,2,0.75
+high-angle annular dark-field,2,0.75
+spatial resolution,2,0.75
+structural analysis,2,0.75
+edge dislocations,2,0.745
+electron spectroscopy,2,0.74
+silicon substrate,2,0.74
+sapphire substrate,2,0.735
+defect engineering,2,0.725
+device reliability,2,0.72
+ii-vi semiconductor,2,0.7
+crystal orientation,2,0.635
+1d nanostructures,1,1.0
+2d layered materials,1,1.0
+3d electron tomography,1,1.0
+6h-sic,1,1.0
+algan/gan,1,1.0
+aluminum nitride,1,1.0
+band gap reduction,1,1.0
+black phosphorus,1,1.0
+cdte solar cells,1,1.0
+cu2znsns4,1,1.0
+cu2znsns4 (czts),1,1.0
+cubic boron nitride,1,1.0
+dark line defects,1,1.0
+differential phase contrast,1,1.0
+electron tomography,1,1.0
+electronic defect identification,1,1.0
+fe contamination,1,1.0
+finfet transistors,1,1.0
+gasb diodes,1,1.0
+hgcdte,1,1.0
+high-electron mobility transistors,1,1.0
+in0.6ga0.4as/gaas,1,1.0
+ingan/gan,1,1.0
+nanopipes,1,1.0
+nonpolar zno films,1,1.0
+oxidation-induced stacking fault,1,1.0
+photoelectrochemical etching,1,1.0
+polarized cl,1,1.0
+semiconductor nanowires,1,1.0
+semiconductor quantum dots,1,1.0
+semiconductor-metal interfaces,1,1.0
+si nanowires,1,1.0
+si(100) surface,1,1.0
+smart-cut process,1,1.0
+strained layer superlattices,1,1.0
+v defects,1,1.0
+vacancy defects,1,1.0
+zn1−xcdxse,1,1.0
+β-ga2o3,1,1.0
+beta gallium oxide,1,0.99
+2d tmds,1,0.98
+antimony,1,0.98
+conservative ripening,1,0.98
+heteroepitaxial gaas,1,0.98
+topologically protected line defects,1,0.98
+cbn crystallites,1,0.97
+cdte,1,0.97
+ebic,1,0.97
+frank-type stacking faults,1,0.97
+grazing incidence diffuse x-ray scattering,1,0.97
+haadf-stem tomography,1,0.97
+hydrogen passivation,1,0.97
+in situ ebic,1,0.97
+infrared light scattering tomography,1,0.97
+inverse piezoelectric effect,1,0.97
+multi-twin defects,1,0.97
+null burgers vector,1,0.97
+platelets,1,0.97
+rf-plasma hydrogenation,1,0.97
+stacking fault ring,1,0.97
+(2110)(0001) slip,1,0.96
+cavities,1,0.96
+focused ion beam,1,0.96
+hydrogen plasma treatment,1,0.96
+thermal-cycle annealing,1,0.96
+aberration correctors,1,0.95
+aberration-corrected transmission electron microscopy,1,0.95
+algan/gan heterostructure,1,0.95
+composition inhomogeneity,1,0.95
+defects,1,0.95
+deformation kinks,1,0.95
+di-vacancies,1,0.95
+dopant deactivation,1,0.95
+ebic imaging,1,0.95
+elastic strain engineering,1,0.95
+epitaxial gan,1,0.95
+epitaxial strain,1,0.95
+failure analysis,1,0.95
+gallium knudsen cells,1,0.95
+gan films,1,0.95
+gasb substrates,1,0.95
+heteroepitaxial films,1,0.95
+high-k dielectrics,1,0.95
+hrtem,1,0.95
+hydrogen-induced defects,1,0.95
+iii-v compound semiconductors,1,0.95
+ingan,1,0.95
+ingan/gan multi-quantum well,1,0.95
+inp,1,0.95
+interface defects,1,0.95
+multiple quantum well,1,0.95
+nanobelts,1,0.95
+nanocavities,1,0.95
+nanowires,1,0.95
+ohmic contacts,1,0.95
+organometallic vapor phase epitaxy,1,0.95
+paramagnetic point defects,1,0.95
+proton implantation,1,0.95
+segmented-type stem detectors,1,0.95
+slip system,1,0.95
+stem spectroscopy,1,0.95
+ultra-wide-band gap semiconductor,1,0.95
+valence electron energy-loss spectroscopy,1,0.95
+y0 emission,1,0.95
+y1 emission,1,0.95
+znse,1,0.95
+znse films,1,0.95
+znsse,1,0.95
+(algaas) interlayer,1,0.94
+antimony precipitates,1,0.94
+tem lamella preparation,1,0.94
+antimony aggregates,1,0.93
+aspect ratio trapping,1,0.93
+atomic resolution,1,0.93
+blue-green laser,1,0.93
+burgers circuit method,1,0.93
+dc bias stress,1,0.93
+defect analysis,1,0.93
+defect passivation,1,0.93
+defect structures,1,0.93
+dislocation reduction,1,0.93
+electromagnetic field imaging,1,0.93
+electron spin resonance,1,0.93
+gaas/si,1,0.93
+gallium droplets,1,0.93
+ge/si,1,0.93
+heterostructure,1,0.93
+hfo2,1,0.93
+hydrogen implantation,1,0.93
+interface roughness,1,0.93
+nanoparticles,1,0.93
+recombination-active defects,1,0.93
+screw dislocations,1,0.93
+si(100) surfaces,1,0.93
+silicon carbide,1,0.93
+supersaturated dopants,1,0.93
+tem lamella,1,0.93
+vacancy lines,1,0.93
+β-sic/si,1,0.93
+(211)b orientation,1,0.92
+3d nanostructures,1,0.92
+3d structural characterization,1,0.92
+aberration-corrected scanning transmission electron microscopy,1,0.92
+buried interface states,1,0.92
+crystallographic defects,1,0.92
+deep levels,1,0.92
+defect generation,1,0.92
+diamond paste polishing,1,0.92
+hot-injection synthesis,1,0.92
+image simulation,1,0.92
+ion implantation,1,0.92
+light emitting diodes,1,0.92
+open-core dislocation,1,0.92
+photodegradation,1,0.92
+point defect chemistry,1,0.92
+solid-state electronic materials,1,0.92
+stem imaging,1,0.92
+strain measurement,1,0.92
+twin boundaries,1,0.92
+v-defects,1,0.92
+zno,1,0.92
+atomic electric field,1,0.91
+hydrogen,1,0.91
+laser annealing,1,0.91
+plastic relaxation,1,0.91
+single dopant atoms,1,0.91
+syton ht 50,1,0.91
+tmd heterostructures,1,0.91
+aln thin films,1,0.9
+annular dark-field stem,1,0.9
+antisite defects,1,0.9
+borazon cbn1000,1,0.9
+borazon cbn400,1,0.9
+borazon cbn500,1,0.9
+bp monolayer,1,0.9
+bright-field tem tomography,1,0.9
+cathodoluminescence microscopy,1,0.9
+cdse,1,0.9
+crack propagation,1,0.9
+defect configurations,1,0.9
+defect migration,1,0.9
+defect topology,1,0.9
+eds tomography,1,0.9
+excitonic transitions,1,0.9
+first-principles calculations,1,0.9
+hfo2 layer,1,0.9
+interface superlattices,1,0.9
+interfacial layer,1,0.9
+interfacial superconductors,1,0.9
+iron silicide,1,0.9
+laser ablation,1,0.9
+low-energy ebic,1,0.9
+mechanical polishing,1,0.9
+metal organic vapour phase epitaxy,1,0.9
+minority carrier diffusion length,1,0.9
+misfit,1,0.9
+monolayer tmds,1,0.9
+movpe,1,0.9
+multi-chroic infrared,1,0.9
+on-zone bright-field imaging,1,0.9
+p-on-n device structure,1,0.9
+plasma-assisted molecular beam epitaxy,1,0.9
+polarization direction,1,0.9
+pulsed laser deposition,1,0.9
+quantum dot morphology,1,0.9
+si substrates,1,0.9
+silicon,1,0.9
+strain contrast,1,0.9
+strain quantification,1,0.9
+twin facet,1,0.9
+zncu antisite donors,1,0.9
+zns,1,0.9
+α-gan,1,0.9
+alas,1,0.89
+channel temperature,1,0.89
+defect complex,1,0.89
+gaas heterostructure,1,0.89
+high resolution tem,1,0.89
+metal-semiconductor junction,1,0.89
+metastable dopants,1,0.89
+multiply twinned material,1,0.89
+osf-ring,1,0.89
+sio2 thin film,1,0.89
+5-8-5 di-vacancy,1,0.88
+al2o3 substrate,1,0.88
+atom column chemical analysis,1,0.88
+atomic defects,1,0.88
+band gap,1,0.88
+block-cast silicon,1,0.88
+cdte/cds interface,1,0.88
+crack nucleation,1,0.88
+cross-section transmission electron microscopy,1,0.88
+dark spot micrographs,1,0.88
+directional defects,1,0.88
+dislocation line,1,0.88
+ebic signal,1,0.88
+electron-transparent foils,1,0.88
+electronic material interfaces,1,0.88
+gate dielectric interface,1,0.88
+g·b criterion,1,0.88
+heteroepitaxial layers,1,0.88
+in situ hrtem,1,0.88
+in situ mechanical testing,1,0.88
+individual dislocations,1,0.88
+kink formation mechanism,1,0.88
+lens-shaped quantum dots,1,0.88
+micro-patterned si substrates,1,0.88
+mosfet scaling,1,0.88
+n-p-n device structure,1,0.88
+nanorods,1,0.88
+nanosized trench structures,1,0.88
+near band edge,1,0.88
+optoelectronic properties,1,0.88
+scanning electron microscopy,1,0.88
+scanning tem,1,0.88
+selected area electron diffraction,1,0.88
+solar cell,1,0.88
+spectroscopy,1,0.88
+sub-angstrom spatial resolution,1,0.88
+subsurface defects,1,0.88
+tin,1,0.88
+tunnel-like defects,1,0.88
+two-step growth,1,0.88
+v-pits,1,0.88
+vapor-liquid-solid growth,1,0.88
+wurtzite structure,1,0.88
+aln interfacial layer,1,0.87
+baliga figure of merit,1,0.87
+bulk dislocations,1,0.87
+cation disorder,1,0.87
+convergent beam electron diffraction,1,0.87
+exfoliation mechanism,1,0.87
+filamentary etch features,1,0.87
+frank's theory,1,0.87
+hf atoms,1,0.87
+high-resolution dark-field tem,1,0.87
+high-resolution x-ray diffraction,1,0.87
+in situ electron microscopy,1,0.87
+machine learning,1,0.87
+migration barriers,1,0.87
+nanophase materials,1,0.87
+non-radiative recombination centers,1,0.87
+pit-shaped defects,1,0.87
+pyramidal defects,1,0.87
+surface defects,1,0.87
+tc annealing,1,0.87
+tem lamellae,1,0.87
+tem specimen preparation,1,0.87
+vga–on complexes,1,0.87
+vga–siga complexes,1,0.87
+abrasive grooving,1,0.86
+crystalline materials,1,0.86
+exciton bound to stacking fault,1,0.86
+incoherent clusters,1,0.86
+movpe growth,1,0.86
+nanosized patterns,1,0.86
+non-radiative defects,1,0.86
+platelet density,1,0.86
+self-catalyzed growth,1,0.86
+shockley-type stacking faults,1,0.86
+si wafers,1,0.86
+structure-property correlations,1,0.86
+twin formation,1,0.86
+twin grain boundaries,1,0.86
+(0001) basal plane,1,0.85
+ab initio calculations,1,0.85
+al2o3 substrates,1,0.85
+band gap determination,1,0.85
+carbon impurity,1,0.85
+chemical structure,1,0.85
+cl imaging,1,0.85
+coherent precipitates,1,0.85
+computer vision,1,0.85
+crack defects,1,0.85
+cu depletion,1,0.85
+cubic semiconductors,1,0.85
+deformation-induced defects,1,0.85
+edge dislocation,1,0.85
+electron dispersive spectroscopy,1,0.85
+electron-beam-pumped,1,0.85
+electronic structure modification,1,0.85
+epitaxial regions,1,0.85
+equilibrium solubility limit,1,0.85
+frank partial dislocations,1,0.85
+ga-polar,1,0.85
+gaas(001),1,0.85
+gate stack,1,0.85
+growth direction,1,0.85
+heterointerface,1,0.85
+hexagonal growth hillocks,1,0.85
+high angle annular dark field,1,0.85
+ion thinning,1,0.85
+lattice imaging,1,0.85
+low-temperature gaas layer,1,0.85
+mems techniques,1,0.85
+monoclinic structure,1,0.85
+n-polar,1,0.85
+nanoscale dimensions,1,0.85
+oxygen impurity,1,0.85
+passivation efficiency,1,0.85
+patterned substrates,1,0.85
+phase contrast imaging,1,0.85
+projection artifacts,1,0.85
+rapid thermal annealing,1,0.85
+scanning electron microscope,1,0.85
+scanning force microscopy,1,0.85
+semiconductor defect structures,1,0.85
+silicon crystal growth,1,0.85
+silicon impurity,1,0.85
+stem data analytics,1,0.85
+structural characterization,1,0.85
+substrate orientation,1,0.85
+super abrasive powders,1,0.85
+tem observation,1,0.85
+thin film transfer,1,0.85
+twins,1,0.85
+two-beam diffraction,1,0.85
+type-i1 intrinsic stacking fault,1,0.85
+vacuum thermal annealing,1,0.85
+valence band maximum,1,0.85
+vapor-solid shell growth,1,0.85
+zn enrichment,1,0.85
+1/2〈110〉{111} dislocation type,1,0.84
+cl microscopy,1,0.84
+coalescence,1,0.84
+contact resistance,1,0.84
+drain-side gate edge,1,0.84
+electron beam manipulation,1,0.84
+gan/sapphire,1,0.84
+hairpin dislocation loops,1,0.84
+high-temperature gaas layer,1,0.84
+hydrogen transfer,1,0.84
+interface diffusion,1,0.84
+kesterite structure,1,0.84
+local electric field,1,0.84
+microelectromechanical systems,1,0.84
+nanowire microstructure,1,0.84
+nonradiative transitions,1,0.84
+power electronics,1,0.84
+si patterns,1,0.84
+surface structure,1,0.84
+te-precipitates,1,0.84
+amorphous aggregates,1,0.83
+atomic scale techniques,1,0.83
+atomic structure identification,1,0.83
+atomic-scale characterization,1,0.83
+bandgap reduction,1,0.83
+defect research,1,0.83
+density-functional theory,1,0.83
+electrical degradation,1,0.83
+energy filtered tem,1,0.83
+holographic techniques,1,0.83
+iii-v on silicon,1,0.83
+impurity gettering,1,0.83
+interdiffusion,1,0.83
+lattice imperfections,1,0.83
+localization accuracy,1,0.83
+mass contrast tem,1,0.83
+metallic contamination,1,0.83
+microstructure,1,0.83
+minority carrier lifetime,1,0.83
+multiple quantum wells,1,0.83
+nanocavity coalescence,1,0.83
+p-type doping,1,0.83
+shape-controlled nanocrystals,1,0.83
+si substrate,1,0.83
+stannite structure,1,0.83
+stem detector,1,0.83
+stereographic projection,1,0.83
+surface reconstruction,1,0.83
+whiskers,1,0.83
+5-7-7-5 di-vacancy,1,0.82
+atomic layer deposition,1,0.82
+bilayer tmds,1,0.82
+carrier separation efficiency,1,0.82
+chemical sensitivity,1,0.82
+cross-section imaging,1,0.82
+defect states,1,0.82
+diffraction techniques,1,0.82
+dislocation core,1,0.82
+dislocation mechanism,1,0.82
+displacement vector,1,0.82
+dissimilar materials,1,0.82
+donor-acceptor transition,1,0.82
+elastic energy,1,0.82
+gate materials,1,0.82
+graphene,1,0.82
+half-loops,1,0.82
+idmax,1,0.82
+in situ heating,1,0.82
+intermetallic layer,1,0.82
+lattice misfit,1,0.82
+magnetic skyrmions,1,0.82
+nanoscale techniques,1,0.82
+non-polar facets,1,0.82
+nonradiative recombination centers,1,0.82
+nuclear spin isotopes,1,0.82
+plastic cutting,1,0.82
+polarization condition,1,0.82
+pole figure,1,0.82
+sawing defects,1,0.82
+silicon matrix,1,0.82
+spiral steps,1,0.82
+strain contrast mechanisms,1,0.82
+substrate-epilayer interface,1,0.82
+surface polar direction,1,0.82
+〈211〉 direction,1,0.82
+cation ordering,1,0.81
+floating zone silicon,1,0.81
+intragranular defects,1,0.81
+magnetic domain imaging,1,0.81
+nanoscale structures,1,0.81
+plastic shearing,1,0.81
+silicon valence state,1,0.81
+thermal conductivity,1,0.81
+al–n bonds,1,0.8
+band bending,1,0.8
+buried heterostructures,1,0.8
+chemical etching,1,0.8
+crater-like etch features,1,0.8
+crystal growth defects,1,0.8
+crystal oxidation,1,0.8
+electronic properties,1,0.8
+enhanced recombination,1,0.8
+epi-surface,1,0.8
+extrinsic defects,1,0.8
+high leakage current,1,0.8
+high-resolution imaging,1,0.8
+high-temperature deformation,1,0.8
+iii-v semiconductors,1,0.8
+imaging vector,1,0.8
+implanted layer,1,0.8
+in-situ doping,1,0.8
+intrinsic defects,1,0.8
+intrinsic strain,1,0.8
+ion milling,1,0.8
+junction displacement,1,0.8
+laser structures,1,0.8
+lattice mismatched interfaces,1,0.8
+low-temperature measurement,1,0.8
+minority carrier diffusion,1,0.8
+nanodevices,1,0.8
+nanostructure morphology,1,0.8
+p-type gan,1,0.8
+physical damage,1,0.8
+pz orbital,1,0.8
+quantitative data analysis,1,0.8
+semiconductor wafers,1,0.8
+sio2 interfacial layer,1,0.8
+spintronics,1,0.8
+strain rate,1,0.8
+structural determination,1,0.8
+tem,1,0.8
+tem imaging,1,0.8
+thermal donors,1,0.8
+yellow emission,1,0.8
+zigzag pattern,1,0.8
+zno (112¯0),1,0.8
+{111} surfaces,1,0.8
+blue laser,1,0.79
+extended bulk defects,1,0.79
+gaas semiconductor,1,0.79
+lateral spatial resolution,1,0.79
+mass removal mechanism,1,0.79
+mocvd,1,0.79
+optoelectronics,1,0.79
+pattern size dependence,1,0.79
+strain localization,1,0.79
+surface facetting,1,0.79
+tetragonal unit cell,1,0.79
+valence state mapping,1,0.79
+wurtzite lattice,1,0.79
+3d computer graphics simulation,1,0.78
+3d reconstruction,1,0.78
+al2o3 (11¯02),1,0.78
+algan layer,1,0.78
+applied strain,1,0.78
+cbn lattice defects,1,0.78
+crystalline samples,1,0.78
+defect core,1,0.78
+defect distribution,1,0.78
+deformation tests,1,0.78
+diagonal defect,1,0.78
+diffraction contrast imaging,1,0.78
+diffusion profiles,1,0.78
+diode shorting,1,0.78
+dislocation dipoles,1,0.78
+dislocation glide,1,0.78
+double-tilt specimen holder,1,0.78
+electron-beam irradiation,1,0.78
+epitaxial layer,1,0.78
+epitaxial silicon,1,0.78
+grain orientation,1,0.78
+helium implantation,1,0.78
+intra-grain defects,1,0.78
+lattice mismatch,1,0.78
+layered materials,1,0.78
+light scattering,1,0.78
+luminescence properties,1,0.78
+metal gate,1,0.78
+microelectronics,1,0.78
+monolayer-height steps,1,0.78
+oleylamine,1,0.78
+potential wells,1,0.78
+projected range,1,0.78
+reciprocity theorem,1,0.78
+recombination efficiency,1,0.78
+semiconductor structures,1,0.78
+single crystal substrates,1,0.78
+spatial distribution,1,0.78
+superficial amorphization,1,0.78
+synchrotron x-ray techniques,1,0.78
+thin-film techniques,1,0.78
+top-side contact metal,1,0.78
+twin structures,1,0.78
+x-ray mapping,1,0.78
+〈110〉 cross-section,1,0.78
+bicrystal structures,1,0.77
+cubic gan inclusion,1,0.77
+depth sensitivity,1,0.77
+dynamic manipulation,1,0.77
+eels mapping,1,0.77
+si whiskers,1,0.77
+space charge region,1,0.77
+[001] on-zone,1,0.76
+abrasive particle size,1,0.76
+carrier recombination centers,1,0.76
+diffraction patterns,1,0.76
+dislocation defects,1,0.76
+epilayer microstructure,1,0.76
+lamellar twins,1,0.76
+long-range strain fields,1,0.76
+melt growth,1,0.76
+microstructure characterization,1,0.76
+nanocrystal assemblies,1,0.76
+nanometer diameter ids,1,0.76
+optical techniques,1,0.76
+phase distribution,1,0.76
+precipitates,1,0.76
+ultra-thin materials,1,0.76
+60° misfit dislocations,1,0.75
+90° misfit dislocations,1,0.75
+atomic configurations,1,0.75
+atomic-resolution spectroscopy,1,0.75
+big data,1,0.75
+bulk aln,1,0.75
+bulk materials,1,0.75
+cds,1,0.75
+crystallization,1,0.75
+dark contrast regions,1,0.75
+dark field tem,1,0.75
+defect volume,1,0.75
+electronic characterization,1,0.75
+electrostatic potential,1,0.75
+furnace thermal treatment,1,0.75
+hg/te flux ratio,1,0.75
+iii-nitride,1,0.75
+impurity aggregates,1,0.75
+intensity distribution,1,0.75
+interface engineering,1,0.75
+large area diodes,1,0.75
+mixed dislocations,1,0.75
+nanotechnology,1,0.75
+nanowire axes,1,0.75
+optical microscopy,1,0.75
+piezoelectric strain,1,0.75
+probe forming angles,1,0.75
+projection effects,1,0.75
+semiconductor materials,1,0.75
+stacking fault density,1,0.75
+subsurface region,1,0.75
+surface cavity,1,0.75
+surface craters,1,0.75
+surface morphology,1,0.75
+temperature dependence,1,0.75
+thin film deposition,1,0.75
+two-dimensional crystal defects,1,0.75
+{111} planes,1,0.75
+annealing conditions,1,0.74
+atomic scale,1,0.74
+bulk crystals,1,0.74
+crack formation,1,0.74
+defect imaging,1,0.74
+deformation imaging,1,0.74
+dislocation core structure,1,0.74
+gallium incorporation,1,0.74
+hydrogen storage material,1,0.74
+local luminescence,1,0.74
+low temperature luminescence,1,0.74
+microscopic techniques,1,0.74
+microstructural defects,1,0.74
+nanointerface,1,0.74
+nanowire tip,1,0.74
+nucleation,1,0.74
+polarity,1,0.74
+real space imaging,1,0.74
+si wafer,1,0.74
+sic substrate,1,0.74
+solid-state effects,1,0.74
+ultrathin films,1,0.74
+beam irradiation,1,0.73
+charge redistribution,1,0.73
+conduction band,1,0.73
+elongated dislocation loops,1,0.73
+nuclear moments,1,0.73
+optical emission quenching,1,0.73
+oxide thickness,1,0.73
+space group c2/m,1,0.73
+strained semiconductors,1,0.73
+structure-property investigation,1,0.73
+tomographic characterization,1,0.73
+valence band,1,0.73
+anisotropic unit cell,1,0.72
+armchair pattern,1,0.72
+catalysts,1,0.72
+central void,1,0.72
+charge-coupled-device camera,1,0.72
+columnar growth,1,0.72
+crystal growth direction,1,0.72
+defect dynamics,1,0.72
+defect healing,1,0.72
+diffraction contrast,1,0.72
+displacement measurement,1,0.72
+electrocatalysis,1,0.72
+equilibrium dislocation spacing,1,0.72
+external stimuli,1,0.72
+heterojunction interface,1,0.72
+high power transistors,1,0.72
+high-throughput analysis,1,0.72
+infrared tomography,1,0.72
+intimate interface,1,0.72
+koh solution,1,0.72
+leakage current,1,0.72
+localized measurements,1,0.72
+ordered arrays,1,0.72
+p-type layer,1,0.72
+si core,1,0.72
+statistical methods,1,0.72
+structural control,1,0.72
+superlattice period,1,0.72
+thin films,1,0.72
+thin foil samples,1,0.72
+wafer characterization,1,0.72
+zone axes,1,0.72
+〈100〉 edges,1,0.72
+chemical bonding,1,0.71
+dislocation locks,1,0.71
+liquid/gas environment tem,1,0.71
+thermodynamic properties,1,0.71
+zns secondary phase,1,0.71
+actuation device,1,0.7
+atomic scale analysis,1,0.7
+dielectric constant,1,0.7
+diffusion annealing,1,0.7
+dislocation density reduction,1,0.7
+electro-active impurities,1,0.7
+electro-optical devices,1,0.7
+electronic behavior,1,0.7
+energy dispersive x-ray,1,0.7
+energy resolution,1,0.7
+gallium sites,1,0.7
+gate degradation,1,0.7
+growth rates,1,0.7
+heteroepitaxial interface,1,0.7
+light element implantation,1,0.7
+light-emitting structure,1,0.7
+macroscale properties,1,0.7
+opto-active impurities,1,0.7
+photovoltaics,1,0.7
+plastic deformation,1,0.7
+point defect clusters,1,0.7
+polycrystalline thin film,1,0.7
+single crystalline domains,1,0.7
+single-crystal substrate,1,0.7
+specimen orientation,1,0.7
+spherical quantum dot,1,0.7
+structural reconstruction,1,0.7
+transistors,1,0.7
+two-dimensional materials,1,0.7
+{112} planes,1,0.7
+mechanical properties,1,0.69
+adjacent facets,1,0.68
+annealing,1,0.68
+atomic resolution imaging,1,0.68
+carrier transport,1,0.68
+crystalline structures,1,0.68
+cz silicon defects,1,0.68
+dark-field stem,1,0.68
+defect identification,1,0.68
+device degradation mechanism,1,0.68
+electrical quality,1,0.68
+gettering,1,0.68
+hemt,1,0.68
+high-resolution 3d imaging,1,0.68
+nanoscale crystals,1,0.68
+oxygen coordination sites,1,0.68
+semiconductor failure,1,0.68
+si crystals,1,0.68
+square-shaped contrast,1,0.68
+tem microstructural analysis,1,0.68
+thermal field,1,0.68
+top surfaces,1,0.68
+voids,1,0.68
+bright-field stem,1,0.67
+capped quantum dots,1,0.67
+dynamic evolution,1,0.67
+haadf-stem,1,0.67
+mechanical field,1,0.67
+recombination centers,1,0.66
+znsse-based heterostructure,1,0.66
+aberration correction,1,0.65
+amorphous specimens,1,0.65
+band offset,1,0.65
+bias stress,1,0.65
+device performance,1,0.65
+electrical characterization,1,0.65
+electron beam diffraction,1,0.65
+etch pit density,1,0.65
+extreme environment applications,1,0.65
+film thickness,1,0.65
+foreign atom incorporation,1,0.65
+ingaas heterostructure,1,0.65
+kink structure,1,0.65
+magnetism,1,0.65
+miniaturized semiconductor,1,0.65
+nanoscale probing,1,0.65
+photovoltaic devices,1,0.65
+real-space electromagnetic imaging,1,0.65
+semiconductor substrate,1,0.65
+simultaneous signal acquisition,1,0.65
+structural integrity,1,0.65
+turbine blades,1,0.65
+atom localization,1,0.63
+atomic nucleus electron cloud,1,0.63
+bright-field contrast,1,0.63
+equivalent oxide thickness,1,0.63
+high vacuum environment,1,0.63
+imaging,1,0.63
+mbe growth conditions,1,0.63
+partially crystalline materials,1,0.63
+strained layers,1,0.63
+superlattice fabrication,1,0.63
+transformation pathways,1,0.63
+interface states,1,0.62
+large-area epitaxial films,1,0.62
+microstructure analysis,1,0.62
+nanowire diameter,1,0.62
+x-ray diffraction,1,0.62
+z-contrast imaging,1,0.62
+film surface roughness,1,0.61
+dislocation analysis,1,0.6
+gaas matrix,1,0.6
+high temperature synthesis,1,0.6
+iron impurity,1,0.6
+physical properties,1,0.6
+pre-existing defects,1,0.6
+semiconductor characterization,1,0.6
+structural investigations,1,0.6
+unified framework,1,0.6
+dot shape determination,1,0.58
+epitaxial film,1,0.58
+microscopic properties,1,0.58
+nanoscale characterization,1,0.58
+vacancy emission,1,0.58
+hrem imaging,1,0.55
+physical sciences,1,0.55
+superconductors,1,0.55
+semiconductor industry,1,0.53
+electron optics advances,1,0.52
+nanometer resolution,1,0.5
+life sciences applications,1,0.42
