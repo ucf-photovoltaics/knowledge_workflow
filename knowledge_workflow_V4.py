@@ -43,7 +43,7 @@ load_dotenv()
 # ---------------------------------------------------------------------------
 LIBRARY_ID       = '2189702'
 LIBRARY_TYPE     = 'group'
-API_KEY          = 'W3COg3WIiWEvORVM3CiTLwc2'                       # Zotero API key (do not commit)
+API_KEY          = ''                      
 MODEL            = 'claude-sonnet-4-6'
 RATE_LIMIT_DELAY = 0.5                      # seconds between Claude API calls
 
