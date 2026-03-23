@@ -1,0 +1,601 @@
+paper,doi,canonical,paper_term,relevance
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,degradation rate,"0.50% (HIT, water and land)",0.98
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,degradation rate,"1.32% (m-Si, water-mounted)",0.98
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,degradation rate,"1.68% (CdTe, water-mounted)",0.98
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,mounting environment,water-mounted (floating PV),0.97
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,degradation comparison,water vs. land-mounted PV degradation comparison,0.96
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,photovoltaic technology type,multicrystalline-Si (m-Si),0.95
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,photovoltaic technology type,heterojunction intrinsic thin layer (HIT),0.95
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,photovoltaic technology type,cadmium telluride (CdTe),0.95
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,land degradation rate,"0.93% (m-Si, land-mounted)",0.93
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,land degradation rate,"1.41% (CdTe, land-mounted)",0.93
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,mounting environment,land-mounted PV,0.92
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,system reliability,reliability of PV technologies on water bodies,0.91
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,environmental condition,high humid conditions above water surface,0.9
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,degradation analysis method,electrical parameter measurement,0.88
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,characterisation technique,thermal imaging,0.87
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,electrical parameter,electrical parameters of PV modules,0.86
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,device modelling,mathematical PV model for internal parameter degradation,0.85
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,evaporation reduction,evaporation reduction by water-mounted PV,0.84
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,internal device parameter,internal parameters degradation,0.84
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,evaporation model,analytical model to estimate evaporation,0.83
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,defect identification,various defects distinguished by thermal imaging,0.82
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,installation scale,megawatt-scale,0.8
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,model validation,experimentally validated evaporation model,0.79
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,study duration,13 months,0.78
+Comparative degradation analysis of different photovoltaic technologies on experimentally simulated water bodies and estimation of evaporation loss reduction,10.1002/pip.3370,module type,commercially available PV modules,0.75
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,absorber material,CdTe,1.0
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,back contact material,copper (Cu) back contact,1.0
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,back contact layer thickness,"0.1, 0.5, 1.0, 2.0 nm thick Cu layers",1.0
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,dopant species,copper (Cu),1.0
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,impurity diffusion,Cu fast diffuser in CdTe,0.95
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,dopant concentration,copper quantity / concentration,0.95
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,device degradation,devices degradation,0.95
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,cell architecture,thin film solar cells,0.9
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,stability,stability at the back contact,0.9
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,aging mechanism,aging of the samples,0.9
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,bias dependency inversion,inversion of the bias dependency,0.9
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,device performance,performance of the devices,0.9
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,back contact stability,stability at the back contact,0.88
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,device efficiency,22.1% efficiency record,0.85
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,bias condition,open circuit or short circuit under current flow,0.85
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,degradation mechanism,another degradation mechanism predominates,0.85
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,thin film technology,CdTe based thin film,0.85
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,copper-free back contact,copper-free back contacts,0.8
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,minimum layer thickness,copper layer below a certain thickness,0.8
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,solar cell fabrication,CdTe cells fabricated with Cu layer,0.8
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,open circuit condition,open circuit,0.75
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,short circuit condition,short circuit under current flow,0.75
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,production yield,production yield,0.7
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,competing technology,competing technology with silicon solar cells,0.65
+How the amount of copper influences the formation and stability of defects in CdTe solar cells,10.1016/j.solmat.2019.110228,reference cell technology,traditional silicon solar cells,0.65
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,absorber material,CdTe,1.0
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,device type,CdTe solar cells,0.98
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,stress type,short-term thermal stresses,0.97
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,device architecture,thin film solar cells,0.95
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,thermal stress condition,thermal stresses,0.95
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,degradation mode,soft degradation,0.92
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,series resistance,series resistance increase,0.9
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,defect type,crystal defects,0.88
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,characterization method,external quantum efficiency (EQE),0.88
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,defect generation,generation of crystal defects,0.88
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,quantum efficiency measurement,EQE,0.88
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,degradation mechanism,diffusion of copper or oxygen atoms,0.87
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,characterization method,electroluminescence (EL) measurement,0.87
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,luminescence imaging,electroluminescence (EL),0.87
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,diffusing species,copper atoms,0.85
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,physical process,degradation effects,0.85
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,diffusing species,oxygen atoms,0.83
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,stress duration,short-term,0.82
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,reliability assessment,reliability of solar cells,0.8
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,deposition method,physical vapour deposition,0.78
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,substrate material,soda lime glass,0.75
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,measurement type,electrical measurement,0.75
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,measurement type,optical measurement,0.75
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,cell configuration,superstrate configuration,0.72
+Reliability investigation on CdTe solar cells submitted to short-term thermal stress,10.1016/j.microrel.2019.113490,film thickness class,thin film,0.7
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,absorber material,cadmium telluride (CdTe),1.0
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,open circuit voltage,open-circuit voltage (VOC),1.0
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,solar cell type,CdTe solar cells,1.0
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,voltage deficit,VOC deficit,0.98
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,front interface,front interface (heterojunction region),0.97
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,interface characterization method,thermomechanical cleaving,0.97
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,layer delamination,delamination,0.93
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,open circuit voltage limit,VOC > 1 V,0.92
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,heterojunction region,heterojunction region,0.9
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,interface limiting factor,interfaces become limiting,0.89
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,device architecture,superstrate configuration,0.88
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,absorber morphology,polycrystalline CdTe,0.88
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,open circuit voltage range,≈800–900 mV,0.88
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,carrier lifetime,carrier lifetime,0.87
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,hole density,hole density,0.86
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,back interface,back interface,0.85
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,absorber opto-electronic properties,absorber opto-electronic properties,0.85
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,device stack,polycrystalline CdTe device stacks,0.83
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,interface passivation,controlled manipulation of front interface,0.82
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,device modeling,device modeling,0.8
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,flexible solar cell,"flexible, low-cost solar",0.78
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,power to weight ratio,high power-to-weight ratio,0.76
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,substrate type,single crystal,0.75
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,theoretical efficiency limit,theoretical studies,0.72
+Thermomechanical Cleave of Polycrystalline CdTe Solar Cells and its Applications: A Review,10.1002/solr.202300074,research institution,NREL,0.7
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,outdoor performance ratio,PR (Performance Ratio),0.97
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,power degradation rate,"mc-Si PERC 5.33%, n-type multi-busbar 3.19%, sc-Si PERC 1.32%, monofacial HIT 0.25%",0.97
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,module technology,HIT (heterojunction with intrinsic thin layer),0.95
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,temperature-calibrated performance ratio,PRT = 25°C (PR calibrated to 25 °C),0.95
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,annual average performance ratio,annual average uncalibrated PR (bifacial HIT 1.0345 to CdTe 0.9067),0.95
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,module technology,CIGS,0.93
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,module technology,PERC (Passivated Emitter and Rear Cell),0.93
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,bifacial module,bifacial HIT,0.92
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,light soaking effect,light soaking (power increase of bifacial HIT 0.72%),0.92
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,module technology,CdTe,0.9
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,heterointerface metastability,metastability of amorphous–crystalline silicon heterointerface,0.9
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,module technology,n-type multi-busbar module,0.88
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,monofacial module,monofacial HIT,0.88
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,seasonal performance variation,seasonal cyclic patterns in daily and monthly PR,0.88
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,outdoor reliability,outdoor reliability and degradation of PV modules,0.88
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,power output improvement,power increase of bifacial HIT 0.72% after two years,0.87
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,absorber material,monocrystalline silicon (sc-Si),0.85
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,absorber material,multicrystalline silicon (mc-Si),0.85
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,amorphous silicon layer,amorphous–crystalline silicon heterointerface (HIT structure),0.85
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,outdoor irradiance,intense irradiance (March–May 2018),0.8
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,operating temperature,relative low temperature (March–May 2018),0.8
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,monitoring duration,2016 to 2018 (more than 2 years),0.78
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,installed capacity,more than 30 kW modules,0.75
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,pv grid installation,PV power grid installation,0.72
+"Out-door reliability and degradation of HIT, CIGS, n-type multi-busbar, PERC, and CdTe modules in Shanghai, China",10.1016/j.solmat.2021.111490,test location,"Chinese Academy of Sciences – SIMIT, Shanghai",0.7
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,absorber material,CdSeTe,0.95
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,device structure,TCO/MZO/CdSeTe/CdTe/back-contact,0.93
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,buffer layer,MZO (magnesium zinc oxide),0.92
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,device stability,irreversible degradation state (DgS),0.92
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,light soaking state,light-soak state (LSS),0.91
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,dark soaking state,dark-soak state (DSS),0.9
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,buried homojunction,buried homojunction (BHJ),0.9
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,electric field profile,anomalous electric field profiles,0.89
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,potential imaging technique,Kelvin probe force microscopy (KPFM),0.88
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,heterointerface,MZO/CdSeTe heterointerface,0.87
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,device efficiency,best device efficiency (LSS),0.86
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,fill factor,inferior fill factor at the DSS,0.85
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,back contact,back contact,0.83
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,device modeling,COMSOL software modeling,0.82
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,current-voltage characteristics,device current-voltage curves,0.81
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,doping concentration,low n-doped CdSeTe,0.8
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,conduction band offset,conduction band offset spike,0.8
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,reversible transition,reversible transitions between LSS and DSS,0.79
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,spatial resolution,nm-resolution potential imaging,0.77
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,light soaking stress,long-hour light soaking at elevated temperature,0.76
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,transparent conductive oxide,TCO,0.74
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,interface doping loss,loss of MZO doping,0.73
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,secondary absorber layer,CdTe,0.72
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,electric field peak location,electric field peak inside the CdSeTe layer,0.71
+Electrical potential investigation of reversible metastability and irreversible degradation of CdTe solar cells,10.1016/j.solmat.2022.111610,thermal stress condition,elevated temperature long-term stress,0.68
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,photovoltaic technology,thin film photovoltaic modules,1.0
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,degradation rate,−4.45%/year (CdTe),0.98
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,degradation rate,−1.04%/year (CIS),0.98
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,module degradation,degradation of PV modules,0.97
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,absorber material,a-Si:H,0.95
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,absorber material,a-Si:H/μc-Si:H (tandem),0.95
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,absorber material,CIS,0.95
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,absorber material,CdTe,0.95
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,outdoor exposure duration,5 years (January 2011 – December 2015),0.92
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,stabilization period,24 months (a-Si:H),0.9
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,stabilization period,6 months (a-Si:H/μc-Si:H),0.9
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,thin film technology,thin film PV,0.9
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,amorphous silicon,a-Si:H,0.9
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,stabilization period,32 months (CdTe),0.88
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,outdoor testing,outdoor long term exposure,0.88
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,microcrystalline silicon,μc-Si:H,0.88
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,module stability,most stable module (CIS),0.87
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,module stability,highest degradation (CdTe),0.87
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,fill factor,fill factor evolution,0.85
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,performance ratio,performance ratio evolution,0.85
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,tandem cell structure,a-Si:H/μc-Si:H tandem,0.85
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,long-term reliability,outdoor long term exposure campaign,0.83
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,degradation analysis method,two different techniques for degradation rate analysis,0.82
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,test location,"Leganés, Spain",0.8
+Degradation analysis of thin film photovoltaic modules under outdoor long term exposure in Spanish continental climate conditions,10.1016/j.solener.2016.10.030,exposure period,January 2011 to December 2015,0.78
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,absorber material,CdTe,1.0
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,front contact material,transparent conductive oxide (TCO),0.97
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,device architecture,thin film solar cell,0.95
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,device stability,stability after aging,0.95
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,defect distribution,different defects distribution,0.93
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,contact material variation,different transparent conductive oxides,0.93
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,degradation mechanism,cell degradation,0.92
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,defect formation,defects formation after aging,0.92
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,front contact stability,less stable front contact,0.91
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,aging treatment,aged cells,0.89
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,device efficiency,record efficiency exceeds 22%,0.88
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,characterisation method,capacitance-voltage (C-V) profiling,0.88
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,characterisation method,admittance spectroscopy,0.88
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,conversion efficiency,similar conversion efficiencies,0.87
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,characterisation method,drive level capacitance profiling (DLCP),0.87
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,defect profiling technique,drive level capacitance profiling,0.87
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,performance metric,conversion efficiency,0.86
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,dopant species,copper,0.85
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,deep level defects,defects highlighted by admittance spectroscopy,0.85
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,copper diffusion,insertion of copper,0.84
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,cell degradation cause,copper-induced degradation,0.83
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,cell preparation method,CdTe solar cells prepared with different TCOs,0.82
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,electron affinity,CdTe high electron affinity,0.8
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,material property,electron affinity of CdTe,0.78
+Analysis of the influence on the performance degradation of CdTe solar cells by the front contact,10.1016/j.tsf.2016.09.052,scalability,scalability of CdTe thin film,0.72
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,absorber material,cadmium telluride (CdTe),1.0
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,device architecture,CdTe/CdS solar cell,1.0
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,degradation mechanism,junction degradation,1.0
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,defect generation mechanism,defect generation rates proportional to nonequilibrium charge carrier concentrations,0.98
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,modeling method,time-dependent numerical modeling,0.97
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,defect location,narrow region of absorber layer close to CdTe/CdS junction,0.96
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,buffer layer material,CdS,0.95
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,defect type,mid-gap donor defects,0.95
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,defect type,shallow acceptor-type defects,0.95
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,carrier concentration,nonequilibrium charge carrier concentrations,0.93
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,junction type,CdTe/CdS junction,0.93
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,stress condition,"temperature, bias, and illumination stress",0.92
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,degradation mode,commonly observed degradation mode,0.9
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,simulation approach,numerical modeling,0.9
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,defect energy level,mid-gap,0.88
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,defect generation trigger,photo-excitation,0.88
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,defect generation trigger,applied bias,0.87
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,defect energy level,shallow,0.85
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,defect charge type,donor,0.85
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,defect charge type,acceptor,0.85
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,stress condition type,temperature stress,0.82
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,stress condition type,bias stress,0.82
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,stress condition type,illumination stress,0.82
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,device type,photovoltaic,0.75
+Towards understanding junction degradation in cadmium telluride solar cells,10.1063/1.4883368,model extensibility,extended to study other mechanisms for any photovoltaic technology,0.7
+Photovoltaic fleet degradation insights,10.1002/pip.3566,performance loss rate,PLR (performance loss rate),1.0
+Photovoltaic fleet degradation insights,10.1002/pip.3566,overall degradation rate,−0.75%/year,0.97
+Photovoltaic fleet degradation insights,10.1002/pip.3566,fleet scale analysis,PV Fleet Performance Data Initiative,0.95
+Photovoltaic fleet degradation insights,10.1002/pip.3566,cooler climate loss rate,median −0.48%/year loss (cooler climates),0.9
+Photovoltaic fleet degradation insights,10.1002/pip.3566,hotter climate loss rate,−0.88%/year (hotter climates),0.9
+Photovoltaic fleet degradation insights,10.1002/pip.3566,installed capacity,7.2-gigawatt (GW) capacity,0.88
+Photovoltaic fleet degradation insights,10.1002/pip.3566,climate zone,hotter temperature zones,0.88
+Photovoltaic fleet degradation insights,10.1002/pip.3566,high-efficiency module technology,high-efficiency module technologies,0.88
+Photovoltaic fleet degradation insights,10.1002/pip.3566,temperature effect on degradation,higher PLRs in hotter temperature zones,0.87
+Photovoltaic fleet degradation insights,10.1002/pip.3566,absorber material,silicon (Si),0.85
+Photovoltaic fleet degradation insights,10.1002/pip.3566,absorber material,cadmium telluride (CdTe),0.85
+Photovoltaic fleet degradation insights,10.1002/pip.3566,low-light performance,low-light conditions <600 W/m²,0.85
+Photovoltaic fleet degradation insights,10.1002/pip.3566,technology-dependent behavior,technology-dependent PLR behavior,0.83
+Photovoltaic fleet degradation insights,10.1002/pip.3566,number of sites,1700 sites,0.82
+Photovoltaic fleet degradation insights,10.1002/pip.3566,system type,commercial and utility-scale photovoltaic (PV) systems,0.82
+Photovoltaic fleet degradation insights,10.1002/pip.3566,number of inverters,"19,000 inverters",0.8
+Photovoltaic fleet degradation insights,10.1002/pip.3566,mounting configuration,fixed-tilt systems,0.8
+Photovoltaic fleet degradation insights,10.1002/pip.3566,irradiance threshold,<600 W/m²,0.8
+Photovoltaic fleet degradation insights,10.1002/pip.3566,market share,6% to 7% of the entire US PV market,0.78
+Photovoltaic fleet degradation insights,10.1002/pip.3566,tracking system type,tracked silicon (Si) and cadmium telluride (CdTe),0.78
+Photovoltaic fleet degradation insights,10.1002/pip.3566,data acquisition frequency,high-frequency data,0.75
+Photovoltaic fleet degradation insights,10.1002/pip.3566,data filtering method,filtered only for low-light conditions,0.72
+Photovoltaic fleet degradation insights,10.1002/pip.3566,inverter monitoring,"19,000 inverters",0.7
+Photovoltaic fleet degradation insights,10.1002/pip.3566,performance metric,performance data,0.68
+Photovoltaic fleet degradation insights,10.1002/pip.3566,historical benchmark,historical and recent findings,0.65
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,solar cell technology,CdTe solar cells,1.0
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,heterojunction structure,CdS/CdTe,1.0
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,degradation mechanism,junction degradation,1.0
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,absorber material,CdTe,1.0
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,buffer layer,CdS,0.95
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,point defect type,Cd vacancy,0.95
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,dopant species,Cu atoms,0.95
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,back contact material,Cu back contact,0.9
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,defect energy level,1.55 eV below the conduction band,0.9
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,impurity incorporation,incorporation of Cu atoms in CdS,0.9
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,built-in potential,junction built-in potential,0.88
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,absorber composition,Cd deficient composition,0.88
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,absorber stoichiometry,Cd deficient CdTe layer,0.88
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,junction potential reduction,junction built-in potential is decreased,0.87
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,defect concentration,Cd vacancy concentration,0.85
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,dopant diffusion,transport to junction area,0.85
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,vacancy filling mechanism,Cu atoms filled the Cd vacancies,0.85
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,degradation condition,solar illumination,0.82
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,light-induced degradation,degraded under solar illumination,0.82
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,characterisation method,PL measurement,0.8
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,characterisation method,spectral quantum efficiency measurement,0.8
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,optical shielding,light penetration into CdTe absorber is shielded,0.78
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,device stability,reliable and stable CdTe cells,0.75
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,defect formation control,careful control of CdTe,0.7
+Understanding the junction degradation mechanism in CdS/CdTe solar cells using a Cd-deficient CdTe layer,10.1016/j.cap.2011.05.031,conduction band reference,conduction band in CdS,0.7
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,photovoltaic technology type,thin-film CdTe vs. polycrystalline-Si PV modules,1.0
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,absorber material,CdTe,0.95
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,absorber material,polycrystalline-Si,0.95
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,efficiency degradation rate,efficiency degradation rates,0.95
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,accelerated lifetime test,accelerated lifecycle test (ALT) sequence,0.93
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,device efficiency,power conversion efficiency,0.92
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,aging behavior,efficiency degradation behavior,0.9
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,energy payback time,energy payback time,0.88
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,temperature derating,temperature de-rating effects,0.88
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,weather cycling test,seven-month equivalent compressed night-day weather cycling regimen,0.88
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,module lifetime,total lifetime,0.87
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,temperature sensitivity,15% less sensitive to ambient temperature variation,0.87
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,module performance,long-term device performance,0.86
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,environmental degradation chamber,industrial-standard environmental degradation chamber,0.85
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,in-situ measurement,in-situ measurements of key electrical characteristics,0.85
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,maximum power output,P_max,0.82
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,ambient temperature,ambient temperature variation,0.82
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,current density,J,0.8
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,environmental conditions,southern Arizona representative conditions,0.8
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,irradiance source,single-sun irradiance source,0.78
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,operating voltage,V,0.78
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,return on investment,return-on-investment for local PV system installations,0.78
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,initial aging rate,significant aging during the first two years of usage,0.76
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,humidity control,humidity controls,0.75
+Comparison of efficiency degradation in polycrystalline-Si and CdTe thin-film PV modules via accelerated lifecycle testing,10.1117/12.2274294,mass production process,simpler mass-production process,0.68
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,absorber material,CdTe,1.0
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,degradation mechanism,degradation mechanism,0.97
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,module type,commercial CdTe modules,0.95
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,open circuit voltage degradation,Voc degraded 6%,0.93
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,fill factor degradation,FF degraded 7%,0.93
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,operating mode,open-circuit conditions,0.92
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,operating mode,maximum power point (grid connected),0.92
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,outdoor exposure,outdoor exposure,0.9
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,open circuit voltage,Voc,0.9
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,fill factor,FF,0.9
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,characterisation method,electro-luminescence imaging,0.89
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,characterisation method,spectral response measurements,0.88
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,field testing condition,representative field conditions,0.88
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,maximum power point operation,maximum power point,0.87
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,degradation rate,no degradation over the same period of time (grid connected),0.86
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,imaging defect feature,large dark areas,0.85
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,spectral response,enhanced response at blue wavelengths,0.84
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,spectral response,reduced response at red and near infrared wavelengths,0.84
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,performance metric,degradation of commercial CdTe modules,0.83
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,ageing method,standard accelerated ageing methods,0.82
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,panel interconnection,grid connected PV panels,0.8
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,array configuration,array of 8 CdTe modules,0.78
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,spectral wavelength region,near infrared wavelengths,0.76
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,spectral wavelength region,blue wavelengths,0.76
+Outdoor degradation of CdTe modules at open circuit and at maximum power point,10.1109/PVSC.2015.7355628,measurement environment,laboratory measurements,0.75
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,absorber material,cadmium telluride (CdTe),1.0
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,degradation mechanism,light and heat degradation,0.97
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,impurity element,sodium (Na),0.97
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,device architecture,thin-film solar cell,0.95
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,buffer layer morphology,discontinuous CdS layer,0.95
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,characterization method,transmission electron microscopy (TEM),0.93
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,buffer layer,CdS layer,0.93
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,elemental analysis technique,energy-dispersive X-ray spectrometry (EDS),0.92
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,impurity accumulation site,discontinuous part of the CdS layer,0.91
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,stress condition,one-sun light exposure at 100 °C for 400 h,0.9
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,defect species,"O- and S-rich, Te-depleted particles",0.89
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,impurity concentration,16 at.% Na,0.88
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,recombination center,enhanced recombination centers,0.88
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,device performance metric,photovoltaic conversion efficiency,0.87
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,interface region,soda-lime glass/transparent conductive oxide interface,0.86
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,long-term stability,long-term high-power output,0.86
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,substrate material,soda-lime glass,0.85
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,microstructural feature,discontinuous layer morphology,0.85
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,transparent conductor,transparent conductive oxide (TCO),0.84
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,elemental distribution,EDS maps,0.83
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,module type,photovoltaic minimodule,0.82
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,degradation extent,most degraded CdTe sample,0.8
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,stress temperature,100 °C,0.78
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,stress duration,400 h,0.77
+Transmission Electron Microscopy Study on Microstructure of Degraded CdTe Mini-Modules,10.1109/JPHOTOV.2019.2893854,reference sample,baseline CdTe mini-module with no stress,0.76
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,photovoltaic module type,thin-film photovoltaic modules,1.0
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,annual degradation rate,4.0% per year (a-Si:H),0.98
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,annual degradation rate,3.4% per year (a-Si/μc-Si),0.97
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,annual degradation rate,3.5% per year (CdS/CdTe),0.97
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,annual degradation rate,0.2% per year (CIGS),0.96
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,absorber material,hydrogenated amorphous silicon (a-Si:H),0.95
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,tandem cell architecture,amorphous microcrystalline silicon tandem (a-Si/μc-Si),0.93
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,absorber material,cadmium sulfide-cadmium telluride (CdS/CdTe),0.92
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,absorber material,copper indium gallium selenide (CIGS),0.92
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,long-term degradation model,linear long-term degradation component,0.92
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,seasonal variation,stationary seasonal variation component,0.9
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,power output,annual power degradation rates,0.9
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,performance model,novel mathematical model,0.88
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,current-voltage characterization,I–V curves,0.87
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,outdoor testing,outdoor exposition,0.85
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,performance analysis,performance of four thin-film photovoltaic modules,0.85
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,spectral response,spectral changes,0.83
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,stabilization period,initial stabilization period,0.82
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,electrical parameters,electrical parameters,0.82
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,parasitic resistance,parasitic resistances,0.8
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,single junction architecture,single-junction,0.8
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,irradiance condition,narrow interval of irradiance,0.78
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,cell temperature,cell temperature,0.78
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,model fitting method,fitted mathematical model,0.75
+New model to study the outdoor degradation of thin–film photovoltaic modules,10.1016/j.renene.2022.05.063,measurement interval,every 5 min,0.7
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,degradation rate,degradation rate (% per year),0.98
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,absorber material,monocrystalline Si,0.95
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,absorber material,heterojunction crystalline Si,0.93
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,performance ratio,PR (performance ratio),0.93
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,absorber material,multicrystalline Si,0.92
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,short-circuit current,ISC (short-circuit current),0.92
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,open circuit voltage,VOC (open-circuit voltage),0.92
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,fill factor,FF (fill factor),0.92
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,absorber material,monocrystalline Si back-contact,0.91
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,absorber material,amorphous Si (single-junction/double-junction),0.9
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,absorber material,micromorph Si (double-junction),0.9
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,absorber material,CdTe,0.9
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,absorber material,CIGS,0.9
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,cigs degradation rate,-6% per year,0.9
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,deployment climate,tropical climate of Singapore,0.88
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,monocrystalline si degradation rate,≤ -0.8% per year,0.88
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,thin-film degradation rate,"~-2% per year (amorphous Si, micromorph Si, CdTe)",0.88
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,module technology category,crystalline silicon modules,0.88
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,module technology category,thin-film modules,0.88
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,degradation analysis method,statistical decomposition methods,0.87
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,multicrystalline si degradation rate,-1.0% per year,0.87
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,degradation mechanism,decrease in FF and VOC (dominant for thin-film modules),0.86
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,monitoring duration,three years of outdoor monitoring,0.85
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,degradation mechanism,decrease in ISC (dominant for crystalline Si),0.85
+Performance Degradation of Various PV Module Technologies in Tropical Singapore,10.1109/JPHOTOV.2014.2338051,module construction,glass-backsheet with frame vs. glass-glass without frame,0.82
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,photovoltaic technology,photovoltaic (PV) modules,1.0
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,degradation mechanism,degradation and failure phenomena,1.0
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,module reliability,reliability of PV modules,1.0
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,operational lifetime,operational lifetime of PV systems,0.95
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,failure mode,degradation and failure modes,0.95
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,electricity cost,cost of the electricity produced,0.9
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,stress factor,main stress factors,0.9
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,absorber material,mono- and multi-crystalline silicon,0.88
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,long-term stability,long term stability,0.88
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,degradation rate,module degradation,0.88
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,crystalline silicon technology,mono- and multi-crystalline silicon,0.87
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,absorber material,cadmium telluride,0.85
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,absorber material,copper indium gallium selenide,0.85
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,reliability metric,reliability metrics,0.85
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,thin film technology,"cadmium telluride, copper indium gallium selenide",0.84
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,stressor impact,stressors and their impact,0.83
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,emerging pv technology,emerging low-cost high-efficiency technologies,0.82
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,failure analysis,failure analysis,0.82
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,module component,individual component within a PV module,0.8
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,lifetime improvement strategy,strategies to improve the operational lifetime,0.8
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,accelerated testing,extensive testing,0.78
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,pv system performance,effects on the PV system,0.78
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,device efficiency,low-cost high-efficiency technologies,0.75
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,encapsulant degradation,module component degradation,0.72
+Review of degradation and failure phenomena in photovoltaic modules,10.1016/j.rser.2022.112160,review methodology,review article,0.65
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,degradation mechanism,potential-induced degradation (PID) mechanisms,1.0
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,absorber material,CdTe,0.95
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,degradation rate,PID rate,0.95
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,module type,thin-film modules,0.9
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,degradation rate model,exponential model,0.9
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,voltage stress,potential-induced,0.9
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,characterization method,dark I–V method,0.88
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,degradation prediction,predicting the observed degradation,0.88
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,module performance,Pmax degradation,0.88
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,electrical characterization,dark I–V,0.87
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,failure mode,shunting,0.85
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,failure mode,junction degradation,0.85
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,performance metric,Pmax,0.85
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,module temperature,module temperature,0.85
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,relative humidity,relative humidity (RH),0.85
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,field validation,validated by predicting the observed degradation in the field,0.85
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,failure mode,series resistance,0.82
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,characterization approach,in situ characterization,0.82
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,stress factor,stress level,0.8
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,environmental stressor,moisture ingress,0.8
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,testing environment,chamber tests,0.8
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,series resistance,two different manifestations of series resistance,0.8
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,model fitting,fit to the PID rate,0.78
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,superposition principle,superposition,0.75
+Elucidating PID Degradation Mechanisms and In Situ Dark I–V Monitoring for Modeling Degradation Rate in CdTe Thin-Film Modules,10.1109/JPHOTOV.2016.2598269,test condition,multiple stress levels,0.75
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,absorber material,Cadmium Telluride (CdTe),1.0
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,device technology,thin film PV,0.95
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,open circuit voltage,VOC,0.95
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,short circuit current,ISC,0.95
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,degradation rate,2.86% VOC degradation after 23 months,0.95
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,current degradation rate,2.29% ISC degradation after 23 months,0.92
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,module power rating,80WP CdTe PV module,0.9
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,outdoor exposure duration,23 months,0.88
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,performance analysis method,long-term time series data analysis,0.85
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,standard test conditions,standard test conditions (STC),0.85
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,reporting irradiance condition,800 W/m² irradiance,0.82
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,reporting temperature condition,40°C module temperature,0.82
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,qualification standard,IEC 61646,0.8
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,alternate reporting conditions,alternate reporting conditions (ARC),0.8
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,normalized performance metric,monthly averaged and normalized VOC and ISC,0.8
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,module reliability,long-term stability and robustness,0.78
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,parameter translation method,translation of electrical parameters to reporting conditions,0.78
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,diurnal performance analysis,diurnal analysis,0.75
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,measurement conditions,outdoor conditions,0.75
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,energy payback period,lower energy payback period,0.72
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,electrical parameter,measured electrical parameters,0.72
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,economic payback period,economic payback period,0.7
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,device efficiency,energy efficiency competitive to wafer-based technology,0.68
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,energy application,solar photovoltaic (PV),0.65
+Long-term Performance Analysis of CdTe PV module in real operating conditions,10.1016/j.matpr.2018.11.052,substrate technology,wafer-based technology,0.6
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,absorber material,CdTe,1.0
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,characterisation technique,photoluminescence (PL) imaging,0.95
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,dopant species,Cu (copper),0.95
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,dopant concentration,increased Cu concentration at the front interface,0.95
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,space charge region,reduced space charge region,0.93
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,degradation mechanism,module degradation under one-Sun light at elevated temperature,0.92
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,device type,CdTe module,0.92
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,characterisation technique,electroluminescence (EL) imaging,0.9
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,luminescence intensity,reduced PL intensity,0.9
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,junction property,Cu concentration at the junction,0.9
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,stress condition,one-Sun light at 100°C,0.88
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,interface location,front interface / junction,0.88
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,depth profiling technique,time-of-flight secondary ion-mass spectrometry (ToF-SIMS),0.88
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,degradation indicator,PL intensity as degradation indicator,0.87
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,characterisation technique,dark lock-in thermography,0.85
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,surface characterisation method,Kelvin probe force microscopy (KPFM),0.85
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,numerical modelling,numerical modeling of Cu concentration and space charge region,0.85
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,spatial degradation distribution,differing degrees of degradation across the module,0.82
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,stress temperature,100°C,0.8
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,stress condition type,light-induced degradation stressing,0.8
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,defect type,shunt defects,0.78
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,shunting effect,shunting and resistance effects,0.75
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,measurement validation,agreement between numerical modeling and measurements,0.72
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,region selection method,avoiding pre-existing shunt defects for region evaluation,0.65
+"Imaging, microscopic analysis, and modeling of a CdTe module degraded by heat and light",10.1016/j.solmat.2017.12.021,imaging system complexity,simple and economical PL imaging system,0.6
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,absorber material,cadmium telluride (CdTe),1.0
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,absorber material,copper indium gallium selenide (CIS),1.0
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,module technology,thin-film photovoltaic (PV) modules,0.97
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,degradation rate,module degradation factor (MDF),0.96
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,power loss,21.7% power loss (CdTe) / 31.5% power loss (CIS),0.95
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,failure mode,delamination,0.93
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,failure mode,micro-cracks,0.93
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,module degradation factor (cdte),14.49% MDF (CdTe modules),0.92
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,module degradation factor (cis),21.24% MDF (CIS modules),0.92
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,failure mode,hot-spot failures,0.91
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,failure mode,corrosion,0.9
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,characterisation method,x-ray diffraction (XRD),0.88
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,characterisation method,infrared radiation imaging,0.88
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,module efficiency,cell efficiency (measured over 3.5 years),0.87
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,operational lifetime,3.5-year monitoring period,0.86
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,environmental stress factor,aging and environmental conditions,0.85
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,environmental stress factor,meteorological conditions,0.83
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,electrical performance metric,"current, voltage, power, and efficiency measurements",0.82
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,surface characterisation,imperfect surfaces of CdTe and CIS samples,0.8
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,performance evaluation method,long-term outdoor performance monitoring,0.75
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,manufacturing cost,reduced manufacturing costs,0.72
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,power system application,solar-energy-generation systems,0.7
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,pv system design,cost-effective power generation design,0.68
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,module sample source,real application field samples,0.65
+Effects of Aging and Environmental Factors on Performance of CdTe and CIS Thin-Film Photovoltaic Modules,10.1007/s11664-019-07172-z,thin-film technology,recent developments in thin-film technology,0.63
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,absorber material,cadmium telluride (CdTe),1.0
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,photovoltaic technology type,thin-film photovoltaic,0.97
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,device efficiency,efficiencies close to 22%,0.95
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,module efficiency,efficiencies above 18%,0.93
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,device architecture,polycrystalline thin-film solar cells,0.92
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,photovoltaic module,CdTe-based modules,0.9
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,fabrication process,fully automated in-line machines,0.88
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,competing technology,silicon,0.85
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,production scale,industrial production process,0.85
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,life cycle assessment,life cycle assessment of CdTe-based modules,0.85
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,end of life management,end-of-life recycling,0.83
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,substrate material,substrates (most common),0.82
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,environmental impact,environmental aspects,0.82
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,device scale,laboratory scale,0.8
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,interface engineering,interfaces,0.8
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,layer composition,constituent layers,0.78
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,market competitiveness,commercially compete with silicon,0.78
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,device optimisation,tricks to obtain highly efficient devices,0.76
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,toxicity concern,cadmium (Cd) environmental aspects,0.76
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,layer interaction,interaction between layers,0.75
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,film morphology,polycrystalline,0.74
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,cell type,solar cells,0.72
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,production process maturity,effective and consolidated production processes,0.7
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,research duration,over 40 years of research,0.65
+The History of Photovoltaics with Emphasis on CdTe Solar Cells and Modules,10.3390/coatings10040344,literature review method,large literature survey on photovoltaics,0.65
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,control algorithm,control algorithm for PV power smoothing,0.95
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,energy storage technology,distributed batteries,0.95
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,photovoltaic system,PV,0.95
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,power output variability,PV power output variability,0.93
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,ramp rate smoothing,PV ramp rate smoothing,0.92
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,distributed storage,distributed energy storage,0.91
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,power smoothing method,smoothing,0.89
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,storage sizing tradeoff,tradeoff between smoothing and battery size,0.88
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,centralized storage control,centralized energy storage control,0.87
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,communication update rate,15-second update rate,0.85
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,distributed sensors,"highly distributed current, voltage, and irradiance sensors",0.84
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,advanced inverter,advanced inverter,0.83
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,reactive current injection,dynamic reactive current,0.82
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,voltage variability,voltage variability smoothing,0.81
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,irradiance sensor,irradiance sensors,0.8
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,reactive power support,reactive current for voltage variability smoothing,0.8
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,voltage sensor,voltage sensors,0.79
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,current sensor,current sensors,0.78
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,voltage regulator,voltage regulator tap changes,0.78
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,tap change reduction,reducing the number of voltage regulator tap changes,0.76
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,battery size,battery size,0.76
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,grid-tied inverter,inverter,0.74
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,optimal control,more optimal manner,0.72
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,communication latency,fast communication,0.7
+Photoluminescence-imaging-based Evaluation of Non-uniform CdTe Degradation,10.1109/PVSC.2017.8366452,sensor network density,large numbers of highly distributed sensors,0.68
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,antireflection coating type,multilayer broadband antireflection coating,1.0
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,absorber material,thin film CdTe,1.0
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,coating layer materials,silica and zirconia layers,0.97
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,deposition method,reactive magnetron sputtering,0.95
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,weighted average reflectance,∼1.22% weighted average reflection,0.95
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,relative efficiency gain,3.6% relative increase in device efficiency,0.93
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,surface reflection loss,∼4% energy loss at glass-air interface,0.92
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,device configuration,superstrate configuration,0.88
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,single layer coating material,magnesium fluoride or porous silica,0.87
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,substrate material,soda lime glass,0.87
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,coating durability standard,IEC 61646 PV qualification tests,0.85
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,thermal stability limit,600 °C,0.85
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,absorber deposition temperature,up to ∼550 °C,0.83
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,accelerated durability test,thermal cycling and damp heat,0.82
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,activation treatment,cadmium chloride activation treatment,0.8
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,coating architecture,multilayer dielectric metal-oxide stack,0.8
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,refractive index,sufficiently low refractive index,0.78
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,spectral range,wavelength range used by thin film CdTe devices,0.77
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,adhesion test,pull tests (adhesive or substrate failure),0.75
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,chemical resistance test,acid attack tests,0.73
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,mechanical resistance,scratch and abrasion resistance,0.72
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,thermal degradation mode,mild crazing at 600 °C,0.7
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,alternative coating method,single layer porous sol–gel coatings,0.68
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,coating optical characterisation,optical performance monitoring,0.65
+Performance and durability of broadband antireflection coatings for thin film CdTe solar cells,10.1116/1.4973909,module lifetime,lifetime of the solar module,0.63
