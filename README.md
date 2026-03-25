@@ -1,6 +1,6 @@
 # Knowledge Workflow
 
-Python pipeline for pulling papers from a Zotero group library, extracting concepts, and building structured CSV outputs for knowledge management. Built around solar cell materials research but works with any Zotero collection.
+Python pipeline for building structured CSV outputs for knowledge management by pulling papers from a Zotero group library, and extracting concepts using modern llm models. Built around solar cell materials research but works with any Zotero collection or domain.
 
 ## Setup
 
