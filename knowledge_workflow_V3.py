@@ -352,8 +352,11 @@ if __name__ == '__main__':
     print(f'\nExtracted {len(df)} rows  ×  {len(df.columns)} columns')
 
     # 6. Save CSV
+    collection_slug = collection_name.replace(' ', '_').lower()
+    out_dir  = os.path.join('outputs', collection_slug)
+    os.makedirs(out_dir, exist_ok=True)
     prefix   = make_filename(collection_name)
-    out_file = f'extraction_{prefix}'
+    out_file = os.path.join(out_dir, f'extraction_{prefix}')
     df.to_csv(out_file, index=False)
     print(f'Saved: {out_file}')
 
