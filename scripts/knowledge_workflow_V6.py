@@ -157,6 +157,169 @@ def _stage_color(stage_str: str):
     return _STAGE_COLORS.get(first, _STAGE_COLORS['unknown'])
 
 # ---------------------------------------------------------------------------
+# MDS-ONTO RELATIONSHIP PROPERTIES
+# Source: https://cwrusdle.bitbucket.io/files/MDS_Onto/ontology.ttl
+# ---------------------------------------------------------------------------
+
+# (label, IRI)
+MDS_OBJECT_PROPERTIES: list[tuple[str, str]] = [
+    ("mds:DirectlyPrecedes",          "https://cwrusdle.bitbucket.io/mds/DirectlyPrecedes"),
+    ("mds:Formulates",                "https://cwrusdle.bitbucket.io/mds/Formulates"),
+    ("mds:Instrument",                "https://cwrusdle.bitbucket.io/mds/Instrument"),
+    ("mds:acquiredOn",                "https://cwrusdle.bitbucket.io/mds/acquiredOn"),
+    ("mds:containsBand",              "https://cwrusdle.bitbucket.io/mds/containsBand"),
+    ("mds:containsGeospatialProperty","https://cwrusdle.bitbucket.io/mds/containsGeospatialProperty"),
+    ("mds:containsSensor",            "https://cwrusdle.bitbucket.io/mds/containsSensor"),
+    ("mds:deliversCoolant",           "https://cwrusdle.bitbucket.io/mds/deliversCoolant"),
+    ("mds:generatedBySatellite",      "https://cwrusdle.bitbucket.io/mds/generatedBySatellite"),
+    ("mds:generatedBySensor",         "https://cwrusdle.bitbucket.io/mds/generatedBySensor"),
+    ("mds:hasAdhesive",               "https://cwrusdle.bitbucket.io/mds/hasAdhesive"),
+    ("mds:hasAmbientTemperature",     "https://cwrusdle.bitbucket.io/mds/hasAmbientTemperature"),
+    ("mds:hasArchitecture",           "https://cwrusdle.bitbucket.io/mds/hasArchitecture"),
+    ("mds:hasBackSideEncapsulant",    "https://cwrusdle.bitbucket.io/mds/hasBackSideEncapsulant"),
+    ("mds:hasBacksheetLayer",         "https://cwrusdle.bitbucket.io/mds/hasBacksheetLayer"),
+    ("mds:hasBandDescription",        "https://cwrusdle.bitbucket.io/mds/hasBandDescription"),
+    ("mds:hasBatchNumber",            "https://cwrusdle.bitbucket.io/mds/hasBatchNumber"),
+    ("mds:hasBuildJobName",           "https://cwrusdle.bitbucket.io/mds/hasBuildJobName"),
+    ("mds:hasCentroid",               "https://cwrusdle.bitbucket.io/mds/hasCentroid"),
+    ("mds:hasClimateZone",            "https://cwrusdle.bitbucket.io/mds/hasClimateZone"),
+    ("mds:hasCoating",                "https://cwrusdle.bitbucket.io/mds/hasCoating"),
+    ("mds:hasDepth",                  "https://cwrusdle.bitbucket.io/mds/hasDepth"),
+    ("mds:hasDirection",              "https://cwrusdle.bitbucket.io/mds/hasDirection"),
+    ("mds:hasEastNeighbor",           "https://cwrusdle.bitbucket.io/mds/hasEastNeighbor"),
+    ("mds:hasElectronicBandGap",      "https://cwrusdle.bitbucket.io/mds/hasElectronicBandGap"),
+    ("mds:hasElectronicProperty",     "https://cwrusdle.bitbucket.io/mds/hasElectronicProperty"),
+    ("mds:hasElevation",              "https://cwrusdle.bitbucket.io/mds/hasElevation"),
+    ("mds:hasEndedOn",                "https://cwrusdle.bitbucket.io/mds/hasEndedOn"),
+    ("mds:hasExposureStep",           "https://cwrusdle.bitbucket.io/mds/hasExposureStep"),
+    ("mds:hasExposureTime",           "https://cwrusdle.bitbucket.io/mds/hasExposureTime"),
+    ("mds:hasFileFormat",             "https://cwrusdle.bitbucket.io/mds/hasFileFormat"),
+    ("mds:hasFlux",                   "https://cwrusdle.bitbucket.io/mds/hasFlux"),
+    ("mds:hasFrontGlass",             "https://cwrusdle.bitbucket.io/mds/hasFrontGlass"),
+    ("mds:hasFrontSideEncapsulant",   "https://cwrusdle.bitbucket.io/mds/hasFrontSideEncapsulant"),
+    ("mds:hasGapDistance",            "https://cwrusdle.bitbucket.io/mds/hasGapDistance"),
+    ("mds:hasGeometryType",           "https://cwrusdle.bitbucket.io/mds/hasGeometryType"),
+    ("mds:hasGeospatialBoundingBox",  "https://cwrusdle.bitbucket.io/mds/hasGeospatialBoundingBox"),
+    ("mds:hasHatchDistance",          "https://cwrusdle.bitbucket.io/mds/hasHatchDistance"),
+    ("mds:hasHeight",                 "https://cwrusdle.bitbucket.io/mds/hasHeight"),
+    ("mds:hasIdentifier",             "https://cwrusdle.bitbucket.io/mds/hasIdentifier"),
+    ("mds:hasIndex",                  "https://cwrusdle.bitbucket.io/mds/hasIndex"),
+    ("mds:hasInstrumentStatus",       "https://cwrusdle.bitbucket.io/mds/hasInstrumentStatus"),
+    ("mds:hasInverter",               "https://cwrusdle.bitbucket.io/mds/hasInverter"),
+    ("mds:hasLaserPower",             "https://cwrusdle.bitbucket.io/mds/hasLaserPower"),
+    ("mds:hasLat",                    "https://cwrusdle.bitbucket.io/mds/hasLat"),
+    ("mds:hasLicense",                "https://cwrusdle.bitbucket.io/mds/hasLicense"),
+    ("mds:hasLong",                   "https://cwrusdle.bitbucket.io/mds/hasLong"),
+    ("mds:hasManufacturingMethod",    "https://cwrusdle.bitbucket.io/mds/hasManufacturingMethod"),
+    ("mds:hasMaterialComposition",    "https://cwrusdle.bitbucket.io/mds/hasMaterialComposition"),
+    ("mds:hasMaterialProperty",       "https://cwrusdle.bitbucket.io/mds/hasMaterialProperty"),
+    ("mds:hasMatrix",                 "https://cwrusdle.bitbucket.io/mds/hasMatrix"),
+    ("mds:hasMission",                "https://cwrusdle.bitbucket.io/mds/hasMission"),
+    ("mds:hasName",                   "https://cwrusdle.bitbucket.io/mds/hasName"),
+    ("mds:hasNorthNeighbor",          "https://cwrusdle.bitbucket.io/mds/hasNorthNeighbor"),
+    ("mds:hasNortheastNeighbor",      "https://cwrusdle.bitbucket.io/mds/hasNortheastNeighbor"),
+    ("mds:hasNorthwestNeighbor",      "https://cwrusdle.bitbucket.io/mds/hasNorthwestNeighbor"),
+    ("mds:hasNumberPerString",        "https://cwrusdle.bitbucket.io/mds/hasNumberPerString"),
+    ("mds:hasOperationalStatus",      "https://cwrusdle.bitbucket.io/mds/hasOperationalStatus"),
+    ("mds:hasOrbitalType",            "https://cwrusdle.bitbucket.io/mds/hasOrbitalType"),
+    ("mds:hasOrientation",            "https://cwrusdle.bitbucket.io/mds/hasOrientation"),
+    ("mds:hasOwner",                  "https://cwrusdle.bitbucket.io/mds/hasOwner"),
+    ("mds:hasPart",                   "https://cwrusdle.bitbucket.io/mds/hasPart"),
+    ("mds:hasPhase",                  "https://cwrusdle.bitbucket.io/mds/hasPhase"),
+    ("mds:hasPixelInformation",       "https://cwrusdle.bitbucket.io/mds/hasPixelInformation"),
+    ("mds:hasPointDistance",          "https://cwrusdle.bitbucket.io/mds/hasPointDistance"),
+    ("mds:hasPreparedSurface",        "https://cwrusdle.bitbucket.io/mds/hasPreparedSurface"),
+    ("mds:hasProcessingParameter",    "https://cwrusdle.bitbucket.io/mds/hasProcessingParameter"),
+    ("mds:hasProductModel",           "https://cwrusdle.bitbucket.io/mds/hasProductModel"),
+    ("mds:hasReinforcement",          "https://cwrusdle.bitbucket.io/mds/hasReinforcement"),
+    ("mds:hasSatelliteAltitude",      "https://cwrusdle.bitbucket.io/mds/hasSatelliteAltitude"),
+    ("mds:hasSiteID",                 "https://cwrusdle.bitbucket.io/mds/hasSiteID"),
+    ("mds:hasSouthNeighbor",          "https://cwrusdle.bitbucket.io/mds/hasSouthNeighbor"),
+    ("mds:hasSoutheastNeighbor",      "https://cwrusdle.bitbucket.io/mds/hasSoutheastNeighbor"),
+    ("mds:hasSouthwestNeighbor",      "https://cwrusdle.bitbucket.io/mds/hasSouthwestNeighbor"),
+    ("mds:hasSpaceGroup",             "https://cwrusdle.bitbucket.io/mds/hasSpaceGroup"),
+    ("mds:hasSpatialResolution",      "https://cwrusdle.bitbucket.io/mds/hasSpatialResolution"),
+    ("mds:hasSpectralResolution",     "https://cwrusdle.bitbucket.io/mds/hasSpectralResolution"),
+    ("mds:hasStorageCondition",       "https://cwrusdle.bitbucket.io/mds/hasStorageCondition"),
+    ("mds:hasStructuralQuality",      "https://cwrusdle.bitbucket.io/mds/hasStructuralQuality"),
+    ("mds:hasTemperatureCoefficient", "https://cwrusdle.bitbucket.io/mds/hasTemperatureCoefficient"),
+    ("mds:hasTemporalResolution",     "https://cwrusdle.bitbucket.io/mds/hasTemporalResolution"),
+    ("mds:hasThickness",              "https://cwrusdle.bitbucket.io/mds/hasThickness"),
+    ("mds:hasTimeInterval",           "https://cwrusdle.bitbucket.io/mds/hasTimeInterval"),
+    ("mds:hasVoltage",                "https://cwrusdle.bitbucket.io/mds/hasVoltage"),
+    ("mds:hasWavelengthRange",        "https://cwrusdle.bitbucket.io/mds/hasWavelengthRange"),
+    ("mds:hasWeight",                 "https://cwrusdle.bitbucket.io/mds/hasWeight"),
+    ("mds:hasWestNeighbor",           "https://cwrusdle.bitbucket.io/mds/hasWestNeighbor"),
+    ("mds:hasWidth",                  "https://cwrusdle.bitbucket.io/mds/hasWidth"),
+    ("mds:hasWindSpeed",              "https://cwrusdle.bitbucket.io/mds/hasWindSpeed"),
+    ("mds:holds",                     "https://cwrusdle.bitbucket.io/mds/holds"),
+    ("mds:isComponentOf",             "https://cwrusdle.bitbucket.io/mds/isComponentOf"),
+    ("mds:isExposed",                 "https://cwrusdle.bitbucket.io/mds/isExposed"),
+    ("mds:isLocatedAt",               "https://cwrusdle.bitbucket.io/mds/isLocatedAt"),
+    ("mds:isProcessStepOf",           "https://cwrusdle.bitbucket.io/mds/isProcessStepOf"),
+    ("mds:isQualityCheckOf",          "https://cwrusdle.bitbucket.io/mds/isQualityCheckOf"),
+    ("mds:launchedFrom",              "https://cwrusdle.bitbucket.io/mds/launchedFrom"),
+    ("mds:launchedOn",                "https://cwrusdle.bitbucket.io/mds/launchedOn"),
+    ("mds:mountedOn",                 "https://cwrusdle.bitbucket.io/mds/mountedOn"),
+    ("mds:occupiesSpatialRegion",     "https://cwrusdle.bitbucket.io/mds/occupiesSpatialRegion"),
+    ("mds:ownedByAgency",             "https://cwrusdle.bitbucket.io/mds/ownedByAgency"),
+    ("mds:processedUsing",            "https://cwrusdle.bitbucket.io/mds/processedUsing"),
+    ("mds:producedBy",                "https://cwrusdle.bitbucket.io/mds/producedBy"),
+    ("mds:undergoesProcessing",       "https://cwrusdle.bitbucket.io/mds/undergoesProcessing"),
+    ("mds:usesEquipment",             "https://cwrusdle.bitbucket.io/mds/usesEquipment"),
+    ("mds:usesLicense",               "https://cwrusdle.bitbucket.io/mds/usesLicense"),
+    ("mds:usesMedia",                 "https://cwrusdle.bitbucket.io/mds/usesMedia"),
+    ("mds:usesRecipe",                "https://cwrusdle.bitbucket.io/mds/usesRecipe"),
+    ("mds:usesSpatialReferenceSystem","https://cwrusdle.bitbucket.io/mds/usesSpatialReferenceSystem"),
+    ("mds:usesTool",                  "https://cwrusdle.bitbucket.io/mds/usesTool"),
+]
+
+BFO_OBJECT_PROPERTIES: list[tuple[str, str]] = [
+    ("bfo:has realization",         "http://purl.obolibrary.org/obo/BFO_0000054"),
+    ("bfo:realizes",                "http://purl.obolibrary.org/obo/BFO_0000055"),
+    ("bfo:participates in",         "http://purl.obolibrary.org/obo/BFO_0000056"),
+    ("bfo:has participant",         "http://purl.obolibrary.org/obo/BFO_0000057"),
+    ("bfo:preceded by",             "http://purl.obolibrary.org/obo/BFO_0000062"),
+    ("bfo:precedes",                "http://purl.obolibrary.org/obo/BFO_0000063"),
+    ("bfo:generically depends on",  "http://purl.obolibrary.org/obo/BFO_0000084"),
+    ("bfo:has member part",         "http://purl.obolibrary.org/obo/BFO_0000115"),
+    ("bfo:has occurent part",       "http://purl.obolibrary.org/obo/BFO_0000117"),
+    ("bfo:has temporal part",       "http://purl.obolibrary.org/obo/BFO_0000121"),
+    ("bfo:member part of",          "http://purl.obolibrary.org/obo/BFO_0000129"),
+    ("bfo:temporal part of",        "http://purl.obolibrary.org/obo/BFO_0000139"),
+    ("bfo:located in",              "http://purl.obolibrary.org/obo/BFO_0000171"),
+    ("bfo:environs",                "http://purl.obolibrary.org/obo/BFO_0000183"),
+    ("bfo:bearer of",               "http://purl.obolibrary.org/obo/BFO_0000196"),
+    ("bfo:inheres in",              "http://purl.obolibrary.org/obo/BFO_0000197"),
+    ("bfo:occupies temporal region","http://purl.obolibrary.org/obo/BFO_0000199"),
+    ("bfo:occupies spatial region", "http://purl.obolibrary.org/obo/BFO_0000210"),
+]
+
+CCO_OBJECT_PROPERTIES: list[tuple[str, str]] = [
+    ("cco:has input",              "http://www.ontologyrepository.com/CommonCoreOntologies/has_input"),
+    ("cco:has output",             "http://www.ontologyrepository.com/CommonCoreOntologies/has_output"),
+    ("cco:is input of",            "http://www.ontologyrepository.com/CommonCoreOntologies/is_input_of"),
+    ("cco:is made of",             "http://www.ontologyrepository.com/CommonCoreOntologies/is_made_of"),
+    ("cco:has process part",       "https://www.commoncoreontologies.org/ont00001777"),
+    ("cco:agent in",               "https://www.commoncoreontologies.org/ont00001787"),
+    ("cco:is subject of",          "https://www.commoncoreontologies.org/ont00001801"),
+    ("cco:is cause of",            "https://www.commoncoreontologies.org/ont00001803"),
+    ("cco:is about",               "https://www.commoncoreontologies.org/ont00001808"),
+    ("cco:is output of",           "https://www.commoncoreontologies.org/ont00001816"),
+    ("cco:caused by",              "https://www.commoncoreontologies.org/ont00001819"),
+    ("cco:has agent",              "https://www.commoncoreontologies.org/ont00001833"),
+    ("cco:affects",                "https://www.commoncoreontologies.org/ont00001834"),
+    ("cco:aggregate bearer of",    "https://www.commoncoreontologies.org/ont00001836"),
+    ("cco:is part of process",     "https://www.commoncoreontologies.org/ont00001857"),
+    ("cco:is material of",         "https://www.commoncoreontologies.org/ont00001861"),
+    ("cco:uses measurement unit",  "https://www.commoncoreontologies.org/ont00001863"),
+    ("cco:is temporal region of",  "https://www.commoncoreontologies.org/ont00001874"),
+    ("cco:designated by",          "https://www.commoncoreontologies.org/ont00001879"),
+    ("cco:condition described by", "https://www.commoncoreontologies.org/ont00001884"),
+    ("cco:is site of",             "https://www.commoncoreontologies.org/ont00001845"),
+]
+
+# ---------------------------------------------------------------------------
 # LLM CLIENT
 # ---------------------------------------------------------------------------
 
@@ -729,6 +892,71 @@ def build_drawio_xml(df: pd.DataFrame, page_title: str = 'Concepts') -> str:
 # HELPERS
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# RELATIONSHIP LIBRARY BUILDERS
+# ---------------------------------------------------------------------------
+
+def _make_property_shape_xml(label: str, fill: str, stroke: str) -> str:
+    """Return a compact mxGraphModel XML string for one labeled connector shape."""
+    box_style  = (f"rounded=1;whiteSpace=wrap;html=1;"
+                  f"fillColor={fill};strokeColor={stroke};fontSize=9;")
+    edge_style = (f"edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;"
+                  f"jettySize=auto;html=1;endArrow=block;endFill=1;"
+                  f"strokeColor={stroke};fontStyle=1;fontSize=10;")
+
+    model = ET.Element('mxGraphModel')
+    root  = ET.SubElement(model, 'root')
+    ET.SubElement(root, 'mxCell', {'id': '0'})
+    ET.SubElement(root, 'mxCell', {'id': '1', 'parent': '0'})
+
+    src = ET.SubElement(root, 'mxCell',
+                        {'id': '2', 'value': '', 'style': box_style,
+                         'vertex': '1', 'parent': '1'})
+    ET.SubElement(src, 'mxGeometry',
+                  {'x': '0', 'y': '10', 'width': '80', 'height': '30', 'as': 'geometry'})
+
+    tgt = ET.SubElement(root, 'mxCell',
+                        {'id': '3', 'value': '', 'style': box_style,
+                         'vertex': '1', 'parent': '1'})
+    ET.SubElement(tgt, 'mxGeometry',
+                  {'x': '160', 'y': '10', 'width': '80', 'height': '30', 'as': 'geometry'})
+
+    edge = ET.SubElement(root, 'mxCell',
+                         {'id': '4', 'value': label, 'style': edge_style,
+                          'edge': '1', 'source': '2', 'target': '3', 'parent': '1'})
+    ET.SubElement(edge, 'mxGeometry', {'relative': '1', 'as': 'geometry'})
+
+    return ET.tostring(model, encoding='unicode')
+
+
+def build_relationship_library(
+    properties: list[tuple[str, str]],
+    fill: str,
+    stroke: str,
+) -> str:
+    """Return mxlibrary XML for a list of (label, iri) property pairs."""
+    items = [
+        {'xml': _make_property_shape_xml(label, fill, stroke),
+         'w': 240, 'h': 50, 'aspect': 'fixed', 'title': label}
+        for label, _ in properties
+    ]
+    return f'<mxlibrary>{json.dumps(items)}</mxlibrary>'
+
+
+def _write_relationship_libraries(out_dir: str) -> None:
+    """Write three mxlibrary .xml files (MDS / BFO / CCO) into out_dir."""
+    specs = [
+        ('library_mds_object_properties.xml', MDS_OBJECT_PROPERTIES, '#dae8fc', '#6c8ebf'),
+        ('library_bfo_object_properties.xml', BFO_OBJECT_PROPERTIES, '#fff2cc', '#d6b656'),
+        ('library_cco_object_properties.xml', CCO_OBJECT_PROPERTIES, '#d5e8d4', '#82b366'),
+    ]
+    for fname, props, fill, stroke in specs:
+        path = os.path.join(out_dir, fname)
+        with open(path, 'w', encoding='utf-8') as fh:
+            fh.write(build_relationship_library(props, fill, stroke))
+        print(f'  library  : {path}')
+
+
 def _process_one(csv_path: str, date_stamp: str) -> tuple[str, str]:
     """
     Load, tag, and save outputs for a single concepts CSV.
@@ -762,6 +990,9 @@ def _process_one(csv_path: str, date_stamp: str) -> tuple[str, str]:
     with open(drawio_out, 'w', encoding='utf-8') as fh:
         fh.write(xml)
     print(f'  draw.io  : {drawio_out}')
+
+    # Write relationship palette libraries alongside the diagram
+    _write_relationship_libraries(out_dir)
 
     return csv_out, drawio_out
 
@@ -814,3 +1045,4 @@ if __name__ == '__main__':
         print(f'  {drawio_out}')
         print(f'  {csv_out}')
     print('\nOpen .drawio files in draw.io → File → Open from → This Device')
+    print('Load relationship palettes: Extras → Edit Library → open library_*_object_properties.xml')
