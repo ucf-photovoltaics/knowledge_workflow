@@ -308,9 +308,37 @@ def _parse_tool_call(response, expected_name):
 # ZOTERO
 # ---------------------------------------------------------------------------
 
-def get_collection_map():
-    """Return {collection_name: collection_id} for all collections."""
-    return {c['data']['name']: c['key'] for c in zot.collections()}
+def get_collection_map(zot):
+    """Return {'Parent > Subcollection': collection_id} for all collections."""
+
+    # 1. Fetch ALL collections, bypassing the pagination limit
+    all_collections = zot.everything(zot.collections())
+
+    # 2. Create a fast lookup dictionary so we can find parent names easily
+    key_to_data = {c['key']: c['data'] for c in all_collections}
+
+    collection_map = {}
+
+    # 3. Build the paths
+    for c in all_collections:
+        key = c['key']
+        name = c['data']['name']
+        parent_key = c['data'].get('parentCollection', False)
+
+        path = name
+
+        # Traverse up the tree to prepend parent names
+        while parent_key:
+            parent_data = key_to_data.get(parent_key)
+            if parent_data:
+                path = f"{parent_data['name']} > {path}"
+                parent_key = parent_data.get('parentCollection', False)
+            else:
+                break  # Safety break if a parent is missing
+
+        collection_map[path] = key
+
+    return collection_map
 
 
 def get_pdf_text(item_key):
@@ -538,7 +566,7 @@ if __name__ == '__main__':
     print(f'Model:    {MODEL}\n')
 
     # 1. List available Zotero collections
-    my_collections = get_collection_map()
+    my_collections = get_collection_map(zot)
     print('Available collections:')
     for name in my_collections:
         print(f'  {name}')
