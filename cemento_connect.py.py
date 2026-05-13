@@ -6,26 +6,21 @@ Automatically processes every concepts_*.csv produced by the V5 workflow
 and generates one enriched CSV + one draw.io diagram per file.
 
 Pipeline (runs once per concepts file found):
-  1. Discover all concepts_*.csv files under SCHEMAS_DIR (V5 output location).
+  1. Discover all concepts_*.csv files under OUTPUTS_DIR (V5 output location).
   2. Load unique canonical concept labels from each file.
   3. Call an LLM to tag every concept with:
        mds:studyStage        — one or more MDS-Onto study stages
        mds:supplyChainLevel  — one or more supply chain levels
   4. Save an enriched concepts CSV with those two new columns.
-  5. Write a .drawio file — one rounded-rectangle node per concept,
-     coloured by study stage, with mds: tags shown inside each node.
+  5. Write a .drawio file with:
+       Page 1  — concept map (nodes coloured by study stage)
+       Page 2  — MDS-Onto Library (from mds_onto.json)
+       Page 3  — Cemento Templates (from cemento-templates.xml)
 
-MDS-Onto study stages (from MDS-Onto / SeMatS 2025):
-  sample | tool | recipe | pre-processing | analysis | modeling | results publishing
-
-Supply chain levels:
-  materials | subcomponent | component | assembly | subsystem | system
+The library pages are embedded directly from the existing mxlibrary files so
+they are always up-to-date and require no manual "Load Library" step.
 
 Configuration — edit the CONFIG block below, or set environment variables.
-
-Output files (written to OUTPUTS_DIR/<collection>/):
-  enriched_<stem>-v6-<date>.csv    — concept list + mds:studyStage + mds:supplyChainLevel
-  diagram_<stem>-v6-<date>.drawio  — draw.io concept map
 
 Override:
   Set INPUT_CSV to a single file path to process just that one file.
@@ -34,6 +29,7 @@ Override:
 from openai import OpenAI
 import pandas as pd
 import os, glob, json, time, math
+import html as _html
 from datetime import datetime
 from xml.etree import ElementTree as ET
 from xml.dom import minidom
@@ -45,15 +41,17 @@ load_dotenv()
 # CONFIG
 # ---------------------------------------------------------------------------
 
-# Leave '' to process ALL concepts_*.csv files found under SCHEMAS_DIR.
+# Leave '' to process ALL concepts_*.csv files found under OUTPUTS_DIR.
 # Set to a specific file path to process just that one file.
 INPUT_CSV = ''
 
-# Where V5 saves its concepts_*.csv files.
-SCHEMAS_DIR = 'schemas'
-
-# Where V6 writes enriched CSVs and .drawio files.
+# Where V5 saves its concepts_*.csv files (outputs/<collection>/).
 OUTPUTS_DIR = 'outputs'
+
+# mxlibrary files to embed as palette pages in every generated diagram.
+# Paths are relative to the working directory (same folder as this script).
+MDS_ONTO_LIBRARY          = 'mds_onto.json'
+CEMENTO_TEMPLATES_LIBRARY = 'cemento-templates.xml'
 
 # LLM — same defaults as V5 (Anthropic via openai-compat layer)
 LLM_BASE_URL = os.getenv('LLM_BASE_URL', 'https://api.anthropic.com/v1')
@@ -110,38 +108,23 @@ SUPPLY_CHAIN_LEVELS = [
 ]
 
 # Colour per study stage (fill, stroke)
-# Top row (creation): warm tones — synthesis→red, formulation→peach, mat.proc→mauve, sample→yellow
-# Left col (measurement): cool blues — tool, data
-# Right col (processing): greens — recipe, data processing
-# Bottom row (outputs): purples/teals — result, analysis, modeling, results & metadata
 _STAGE_COLORS = {
-    'synthesis':            ('#f4cccc', '#cc0000'),   # red        — chemical creation
-    'formulation':          ('#fce5cd', '#e06c00'),   # orange     — mixing/blending
-    'materials processing': ('#ead1dc', '#a64d79'),   # mauve      — physical transformation
-    'sample':               ('#fff2cc', '#d6b656'),   # yellow     — the study object
-    'tool':                 ('#dae8fc', '#3e7fc1'),   # blue       — instruments
-    'recipe':               ('#d5e8d4', '#82b366'),   # green      — measurement settings
-    'data':                 ('#cfe2f3', '#4a86e8'),   # light blue — raw instrument output
-    'data processing':      ('#f8cecc', '#b85450'),   # pink       — data manipulation
-    'result':               ('#d9ead3', '#38761d'),   # dark green — polished data
-    'analysis':             ('#e1d5e7', '#9673a6'),   # purple     — scripts & reasoning
-    'modeling':             ('#ffe6cc', '#d79b00'),   # amber      — simulation & fitting
-    'results and metadata': ('#d0e0e3', '#006eaf'),   # teal       — final outputs
-    'unclassified':         ('#f5f5f5', '#888888'),   # grey       — fallback
-    'unknown':              ('#ffffff', '#aaaaaa'),   # white
+    'synthesis':            ('#f4cccc', '#cc0000'),
+    'formulation':          ('#fce5cd', '#e06c00'),
+    'materials processing': ('#ead1dc', '#a64d79'),
+    'sample':               ('#fff2cc', '#d6b656'),
+    'tool':                 ('#dae8fc', '#3e7fc1'),
+    'recipe':               ('#d5e8d4', '#82b366'),
+    'data':                 ('#cfe2f3', '#4a86e8'),
+    'data processing':      ('#f8cecc', '#b85450'),
+    'result':               ('#d9ead3', '#38761d'),
+    'analysis':             ('#e1d5e7', '#9673a6'),
+    'modeling':             ('#ffe6cc', '#d79b00'),
+    'results and metadata': ('#d0e0e3', '#006eaf'),
+    'unclassified':         ('#f5f5f5', '#888888'),
+    'unknown':              ('#ffffff', '#aaaaaa'),
 }
 
-# Zone membership — groups are arranged in four zones around the centre blank.
-# Stages follow the MDS-Onto research-workflow sequence:
-#
-#   TOP:   synthesis  formulation  mat.proc  sample      ← creation / study object
-#   LEFT:  tool  data                                    ← instrument & raw output   (stacked)
-#   RIGHT: recipe  data processing                       ← settings & cleaning       (stacked)
-#   BOTTOM: result  analysis  modeling  results&metadata ← interpreted outputs
-#   CENTRE: blank drag-and-drop workspace
-#
-# Within each zone containers are sized to fit their own content exactly
-# (no stretching to match a neighbour), so the layout auto-balances.
 _ZONE_TOP    = ['synthesis', 'formulation', 'materials processing', 'sample']
 _ZONE_LEFT   = ['tool', 'data']
 _ZONE_RIGHT  = ['recipe', 'data processing']
@@ -155,169 +138,6 @@ def _stage_color(stage_str: str):
         return _STAGE_COLORS['unknown']
     first = stage_str.split(',')[0].strip().lower()
     return _STAGE_COLORS.get(first, _STAGE_COLORS['unknown'])
-
-# ---------------------------------------------------------------------------
-# MDS-ONTO RELATIONSHIP PROPERTIES
-# Source: https://cwrusdle.bitbucket.io/files/MDS_Onto/ontology.ttl
-# ---------------------------------------------------------------------------
-
-# (label, IRI)
-MDS_OBJECT_PROPERTIES: list[tuple[str, str]] = [
-    ("mds:DirectlyPrecedes",          "https://cwrusdle.bitbucket.io/mds/DirectlyPrecedes"),
-    ("mds:Formulates",                "https://cwrusdle.bitbucket.io/mds/Formulates"),
-    ("mds:Instrument",                "https://cwrusdle.bitbucket.io/mds/Instrument"),
-    ("mds:acquiredOn",                "https://cwrusdle.bitbucket.io/mds/acquiredOn"),
-    ("mds:containsBand",              "https://cwrusdle.bitbucket.io/mds/containsBand"),
-    ("mds:containsGeospatialProperty","https://cwrusdle.bitbucket.io/mds/containsGeospatialProperty"),
-    ("mds:containsSensor",            "https://cwrusdle.bitbucket.io/mds/containsSensor"),
-    ("mds:deliversCoolant",           "https://cwrusdle.bitbucket.io/mds/deliversCoolant"),
-    ("mds:generatedBySatellite",      "https://cwrusdle.bitbucket.io/mds/generatedBySatellite"),
-    ("mds:generatedBySensor",         "https://cwrusdle.bitbucket.io/mds/generatedBySensor"),
-    ("mds:hasAdhesive",               "https://cwrusdle.bitbucket.io/mds/hasAdhesive"),
-    ("mds:hasAmbientTemperature",     "https://cwrusdle.bitbucket.io/mds/hasAmbientTemperature"),
-    ("mds:hasArchitecture",           "https://cwrusdle.bitbucket.io/mds/hasArchitecture"),
-    ("mds:hasBackSideEncapsulant",    "https://cwrusdle.bitbucket.io/mds/hasBackSideEncapsulant"),
-    ("mds:hasBacksheetLayer",         "https://cwrusdle.bitbucket.io/mds/hasBacksheetLayer"),
-    ("mds:hasBandDescription",        "https://cwrusdle.bitbucket.io/mds/hasBandDescription"),
-    ("mds:hasBatchNumber",            "https://cwrusdle.bitbucket.io/mds/hasBatchNumber"),
-    ("mds:hasBuildJobName",           "https://cwrusdle.bitbucket.io/mds/hasBuildJobName"),
-    ("mds:hasCentroid",               "https://cwrusdle.bitbucket.io/mds/hasCentroid"),
-    ("mds:hasClimateZone",            "https://cwrusdle.bitbucket.io/mds/hasClimateZone"),
-    ("mds:hasCoating",                "https://cwrusdle.bitbucket.io/mds/hasCoating"),
-    ("mds:hasDepth",                  "https://cwrusdle.bitbucket.io/mds/hasDepth"),
-    ("mds:hasDirection",              "https://cwrusdle.bitbucket.io/mds/hasDirection"),
-    ("mds:hasEastNeighbor",           "https://cwrusdle.bitbucket.io/mds/hasEastNeighbor"),
-    ("mds:hasElectronicBandGap",      "https://cwrusdle.bitbucket.io/mds/hasElectronicBandGap"),
-    ("mds:hasElectronicProperty",     "https://cwrusdle.bitbucket.io/mds/hasElectronicProperty"),
-    ("mds:hasElevation",              "https://cwrusdle.bitbucket.io/mds/hasElevation"),
-    ("mds:hasEndedOn",                "https://cwrusdle.bitbucket.io/mds/hasEndedOn"),
-    ("mds:hasExposureStep",           "https://cwrusdle.bitbucket.io/mds/hasExposureStep"),
-    ("mds:hasExposureTime",           "https://cwrusdle.bitbucket.io/mds/hasExposureTime"),
-    ("mds:hasFileFormat",             "https://cwrusdle.bitbucket.io/mds/hasFileFormat"),
-    ("mds:hasFlux",                   "https://cwrusdle.bitbucket.io/mds/hasFlux"),
-    ("mds:hasFrontGlass",             "https://cwrusdle.bitbucket.io/mds/hasFrontGlass"),
-    ("mds:hasFrontSideEncapsulant",   "https://cwrusdle.bitbucket.io/mds/hasFrontSideEncapsulant"),
-    ("mds:hasGapDistance",            "https://cwrusdle.bitbucket.io/mds/hasGapDistance"),
-    ("mds:hasGeometryType",           "https://cwrusdle.bitbucket.io/mds/hasGeometryType"),
-    ("mds:hasGeospatialBoundingBox",  "https://cwrusdle.bitbucket.io/mds/hasGeospatialBoundingBox"),
-    ("mds:hasHatchDistance",          "https://cwrusdle.bitbucket.io/mds/hasHatchDistance"),
-    ("mds:hasHeight",                 "https://cwrusdle.bitbucket.io/mds/hasHeight"),
-    ("mds:hasIdentifier",             "https://cwrusdle.bitbucket.io/mds/hasIdentifier"),
-    ("mds:hasIndex",                  "https://cwrusdle.bitbucket.io/mds/hasIndex"),
-    ("mds:hasInstrumentStatus",       "https://cwrusdle.bitbucket.io/mds/hasInstrumentStatus"),
-    ("mds:hasInverter",               "https://cwrusdle.bitbucket.io/mds/hasInverter"),
-    ("mds:hasLaserPower",             "https://cwrusdle.bitbucket.io/mds/hasLaserPower"),
-    ("mds:hasLat",                    "https://cwrusdle.bitbucket.io/mds/hasLat"),
-    ("mds:hasLicense",                "https://cwrusdle.bitbucket.io/mds/hasLicense"),
-    ("mds:hasLong",                   "https://cwrusdle.bitbucket.io/mds/hasLong"),
-    ("mds:hasManufacturingMethod",    "https://cwrusdle.bitbucket.io/mds/hasManufacturingMethod"),
-    ("mds:hasMaterialComposition",    "https://cwrusdle.bitbucket.io/mds/hasMaterialComposition"),
-    ("mds:hasMaterialProperty",       "https://cwrusdle.bitbucket.io/mds/hasMaterialProperty"),
-    ("mds:hasMatrix",                 "https://cwrusdle.bitbucket.io/mds/hasMatrix"),
-    ("mds:hasMission",                "https://cwrusdle.bitbucket.io/mds/hasMission"),
-    ("mds:hasName",                   "https://cwrusdle.bitbucket.io/mds/hasName"),
-    ("mds:hasNorthNeighbor",          "https://cwrusdle.bitbucket.io/mds/hasNorthNeighbor"),
-    ("mds:hasNortheastNeighbor",      "https://cwrusdle.bitbucket.io/mds/hasNortheastNeighbor"),
-    ("mds:hasNorthwestNeighbor",      "https://cwrusdle.bitbucket.io/mds/hasNorthwestNeighbor"),
-    ("mds:hasNumberPerString",        "https://cwrusdle.bitbucket.io/mds/hasNumberPerString"),
-    ("mds:hasOperationalStatus",      "https://cwrusdle.bitbucket.io/mds/hasOperationalStatus"),
-    ("mds:hasOrbitalType",            "https://cwrusdle.bitbucket.io/mds/hasOrbitalType"),
-    ("mds:hasOrientation",            "https://cwrusdle.bitbucket.io/mds/hasOrientation"),
-    ("mds:hasOwner",                  "https://cwrusdle.bitbucket.io/mds/hasOwner"),
-    ("mds:hasPart",                   "https://cwrusdle.bitbucket.io/mds/hasPart"),
-    ("mds:hasPhase",                  "https://cwrusdle.bitbucket.io/mds/hasPhase"),
-    ("mds:hasPixelInformation",       "https://cwrusdle.bitbucket.io/mds/hasPixelInformation"),
-    ("mds:hasPointDistance",          "https://cwrusdle.bitbucket.io/mds/hasPointDistance"),
-    ("mds:hasPreparedSurface",        "https://cwrusdle.bitbucket.io/mds/hasPreparedSurface"),
-    ("mds:hasProcessingParameter",    "https://cwrusdle.bitbucket.io/mds/hasProcessingParameter"),
-    ("mds:hasProductModel",           "https://cwrusdle.bitbucket.io/mds/hasProductModel"),
-    ("mds:hasReinforcement",          "https://cwrusdle.bitbucket.io/mds/hasReinforcement"),
-    ("mds:hasSatelliteAltitude",      "https://cwrusdle.bitbucket.io/mds/hasSatelliteAltitude"),
-    ("mds:hasSiteID",                 "https://cwrusdle.bitbucket.io/mds/hasSiteID"),
-    ("mds:hasSouthNeighbor",          "https://cwrusdle.bitbucket.io/mds/hasSouthNeighbor"),
-    ("mds:hasSoutheastNeighbor",      "https://cwrusdle.bitbucket.io/mds/hasSoutheastNeighbor"),
-    ("mds:hasSouthwestNeighbor",      "https://cwrusdle.bitbucket.io/mds/hasSouthwestNeighbor"),
-    ("mds:hasSpaceGroup",             "https://cwrusdle.bitbucket.io/mds/hasSpaceGroup"),
-    ("mds:hasSpatialResolution",      "https://cwrusdle.bitbucket.io/mds/hasSpatialResolution"),
-    ("mds:hasSpectralResolution",     "https://cwrusdle.bitbucket.io/mds/hasSpectralResolution"),
-    ("mds:hasStorageCondition",       "https://cwrusdle.bitbucket.io/mds/hasStorageCondition"),
-    ("mds:hasStructuralQuality",      "https://cwrusdle.bitbucket.io/mds/hasStructuralQuality"),
-    ("mds:hasTemperatureCoefficient", "https://cwrusdle.bitbucket.io/mds/hasTemperatureCoefficient"),
-    ("mds:hasTemporalResolution",     "https://cwrusdle.bitbucket.io/mds/hasTemporalResolution"),
-    ("mds:hasThickness",              "https://cwrusdle.bitbucket.io/mds/hasThickness"),
-    ("mds:hasTimeInterval",           "https://cwrusdle.bitbucket.io/mds/hasTimeInterval"),
-    ("mds:hasVoltage",                "https://cwrusdle.bitbucket.io/mds/hasVoltage"),
-    ("mds:hasWavelengthRange",        "https://cwrusdle.bitbucket.io/mds/hasWavelengthRange"),
-    ("mds:hasWeight",                 "https://cwrusdle.bitbucket.io/mds/hasWeight"),
-    ("mds:hasWestNeighbor",           "https://cwrusdle.bitbucket.io/mds/hasWestNeighbor"),
-    ("mds:hasWidth",                  "https://cwrusdle.bitbucket.io/mds/hasWidth"),
-    ("mds:hasWindSpeed",              "https://cwrusdle.bitbucket.io/mds/hasWindSpeed"),
-    ("mds:holds",                     "https://cwrusdle.bitbucket.io/mds/holds"),
-    ("mds:isComponentOf",             "https://cwrusdle.bitbucket.io/mds/isComponentOf"),
-    ("mds:isExposed",                 "https://cwrusdle.bitbucket.io/mds/isExposed"),
-    ("mds:isLocatedAt",               "https://cwrusdle.bitbucket.io/mds/isLocatedAt"),
-    ("mds:isProcessStepOf",           "https://cwrusdle.bitbucket.io/mds/isProcessStepOf"),
-    ("mds:isQualityCheckOf",          "https://cwrusdle.bitbucket.io/mds/isQualityCheckOf"),
-    ("mds:launchedFrom",              "https://cwrusdle.bitbucket.io/mds/launchedFrom"),
-    ("mds:launchedOn",                "https://cwrusdle.bitbucket.io/mds/launchedOn"),
-    ("mds:mountedOn",                 "https://cwrusdle.bitbucket.io/mds/mountedOn"),
-    ("mds:occupiesSpatialRegion",     "https://cwrusdle.bitbucket.io/mds/occupiesSpatialRegion"),
-    ("mds:ownedByAgency",             "https://cwrusdle.bitbucket.io/mds/ownedByAgency"),
-    ("mds:processedUsing",            "https://cwrusdle.bitbucket.io/mds/processedUsing"),
-    ("mds:producedBy",                "https://cwrusdle.bitbucket.io/mds/producedBy"),
-    ("mds:undergoesProcessing",       "https://cwrusdle.bitbucket.io/mds/undergoesProcessing"),
-    ("mds:usesEquipment",             "https://cwrusdle.bitbucket.io/mds/usesEquipment"),
-    ("mds:usesLicense",               "https://cwrusdle.bitbucket.io/mds/usesLicense"),
-    ("mds:usesMedia",                 "https://cwrusdle.bitbucket.io/mds/usesMedia"),
-    ("mds:usesRecipe",                "https://cwrusdle.bitbucket.io/mds/usesRecipe"),
-    ("mds:usesSpatialReferenceSystem","https://cwrusdle.bitbucket.io/mds/usesSpatialReferenceSystem"),
-    ("mds:usesTool",                  "https://cwrusdle.bitbucket.io/mds/usesTool"),
-]
-
-BFO_OBJECT_PROPERTIES: list[tuple[str, str]] = [
-    ("bfo:has realization",         "http://purl.obolibrary.org/obo/BFO_0000054"),
-    ("bfo:realizes",                "http://purl.obolibrary.org/obo/BFO_0000055"),
-    ("bfo:participates in",         "http://purl.obolibrary.org/obo/BFO_0000056"),
-    ("bfo:has participant",         "http://purl.obolibrary.org/obo/BFO_0000057"),
-    ("bfo:preceded by",             "http://purl.obolibrary.org/obo/BFO_0000062"),
-    ("bfo:precedes",                "http://purl.obolibrary.org/obo/BFO_0000063"),
-    ("bfo:generically depends on",  "http://purl.obolibrary.org/obo/BFO_0000084"),
-    ("bfo:has member part",         "http://purl.obolibrary.org/obo/BFO_0000115"),
-    ("bfo:has occurent part",       "http://purl.obolibrary.org/obo/BFO_0000117"),
-    ("bfo:has temporal part",       "http://purl.obolibrary.org/obo/BFO_0000121"),
-    ("bfo:member part of",          "http://purl.obolibrary.org/obo/BFO_0000129"),
-    ("bfo:temporal part of",        "http://purl.obolibrary.org/obo/BFO_0000139"),
-    ("bfo:located in",              "http://purl.obolibrary.org/obo/BFO_0000171"),
-    ("bfo:environs",                "http://purl.obolibrary.org/obo/BFO_0000183"),
-    ("bfo:bearer of",               "http://purl.obolibrary.org/obo/BFO_0000196"),
-    ("bfo:inheres in",              "http://purl.obolibrary.org/obo/BFO_0000197"),
-    ("bfo:occupies temporal region","http://purl.obolibrary.org/obo/BFO_0000199"),
-    ("bfo:occupies spatial region", "http://purl.obolibrary.org/obo/BFO_0000210"),
-]
-
-CCO_OBJECT_PROPERTIES: list[tuple[str, str]] = [
-    ("cco:has input",              "http://www.ontologyrepository.com/CommonCoreOntologies/has_input"),
-    ("cco:has output",             "http://www.ontologyrepository.com/CommonCoreOntologies/has_output"),
-    ("cco:is input of",            "http://www.ontologyrepository.com/CommonCoreOntologies/is_input_of"),
-    ("cco:is made of",             "http://www.ontologyrepository.com/CommonCoreOntologies/is_made_of"),
-    ("cco:has process part",       "https://www.commoncoreontologies.org/ont00001777"),
-    ("cco:agent in",               "https://www.commoncoreontologies.org/ont00001787"),
-    ("cco:is subject of",          "https://www.commoncoreontologies.org/ont00001801"),
-    ("cco:is cause of",            "https://www.commoncoreontologies.org/ont00001803"),
-    ("cco:is about",               "https://www.commoncoreontologies.org/ont00001808"),
-    ("cco:is output of",           "https://www.commoncoreontologies.org/ont00001816"),
-    ("cco:caused by",              "https://www.commoncoreontologies.org/ont00001819"),
-    ("cco:has agent",              "https://www.commoncoreontologies.org/ont00001833"),
-    ("cco:affects",                "https://www.commoncoreontologies.org/ont00001834"),
-    ("cco:aggregate bearer of",    "https://www.commoncoreontologies.org/ont00001836"),
-    ("cco:is part of process",     "https://www.commoncoreontologies.org/ont00001857"),
-    ("cco:is material of",         "https://www.commoncoreontologies.org/ont00001861"),
-    ("cco:uses measurement unit",  "https://www.commoncoreontologies.org/ont00001863"),
-    ("cco:is temporal region of",  "https://www.commoncoreontologies.org/ont00001874"),
-    ("cco:designated by",          "https://www.commoncoreontologies.org/ont00001879"),
-    ("cco:condition described by", "https://www.commoncoreontologies.org/ont00001884"),
-    ("cco:is site of",             "https://www.commoncoreontologies.org/ont00001845"),
-]
 
 # ---------------------------------------------------------------------------
 # LLM CLIENT
@@ -593,7 +413,6 @@ def tag_concepts(df: pd.DataFrame) -> pd.DataFrame:
         stages = item.get('mds_study_stage', [])
         levels = item.get('mds_supply_chain_level', [])
 
-        # Format as "mds:<value>" comma-separated
         study_stages.append(', '.join(f'mds:{s}' for s in stages) if stages else '')
         supply_levels.append(', '.join(f'mds:{l}' for l in levels) if levels else '')
 
@@ -603,18 +422,8 @@ def tag_concepts(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 # ---------------------------------------------------------------------------
-# DRAW.IO XML BUILDER
+# DRAW.IO XML BUILDER  (concept-map page)
 # ---------------------------------------------------------------------------
-
-def _node_style(fill: str, stroke: str) -> str:
-    return (
-        'rounded=1;whiteSpace=wrap;html=1;'
-        'align=center;verticalAlign=middle;'
-        'fontFamily=Helvetica;fontSize=11;'
-        'labelBackgroundColor=none;resizable=1;'
-        f'fillColor={fill};strokeColor={stroke};strokeWidth=2;'
-    )
-
 
 def _node_value(concept: str, study_stage: str, supply_level: str) -> str:
     """Build HTML label: concept name + mds: tag lines."""
@@ -632,10 +441,6 @@ def _node_value(concept: str, study_stage: str, supply_level: str) -> str:
 
 
 def _optimal_group_cols(n: int) -> int:
-    """
-    Choose a column count that makes the group roughly rectangular (≈ 3:2 w:h).
-    Clamped to [GROUP_COLS_MIN, GROUP_COLS_MAX].
-    """
     if n <= GROUP_COLS_MIN:
         return max(1, n)
     cols = round(math.sqrt(n * 1.5))
@@ -643,10 +448,6 @@ def _optimal_group_cols(n: int) -> int:
 
 
 def _group_dims(n: int) -> tuple[int, int, int]:
-    """
-    Return (width, height, n_cols) for a swimlane sized to fit n nodes.
-    Uses optimal column count so the group is roughly rectangular.
-    """
     n_cols = _optimal_group_cols(n)
     cols   = min(n_cols, max(n, 1))
     rows   = math.ceil(n / n_cols) if n > 0 else 1
@@ -656,7 +457,6 @@ def _group_dims(n: int) -> tuple[int, int, int]:
 
 
 def _add_swimlane(root_el, container_id, label, fill, stroke, gx, gy, gw, gh):
-    """Append a swimlane mxCell with its geometry to root_el."""
     c = ET.SubElement(root_el, 'mxCell', {
         'id':     container_id,
         'value':  label,
@@ -678,7 +478,6 @@ def _add_swimlane(root_el, container_id, label, fill, stroke, gx, gy, gw, gh):
 
 
 def _place_nodes(root_el, concept_rows, container_id, n_cols, stroke, cell_id_start):
-    """Write child concept mxCells into a swimlane container. Returns next cell_id."""
     cell_id = cell_id_start
     for j, row in enumerate(concept_rows):
         nx = GROUP_PAD + (j % n_cols) * (NODE_W + GAP_X)
@@ -705,24 +504,10 @@ def _place_nodes(root_el, concept_rows, container_id, n_cols, stroke, cell_id_st
     return cell_id
 
 
-def build_drawio_xml(df: pd.DataFrame, page_title: str = 'Concepts') -> str:
+def build_drawio_xml(df: pd.DataFrame, page_title: str = 'Concepts') -> ET.Element:
     """
-    Build a structured, auto-balanced draw.io diagram.
-
-    Each swimlane is sized to fit its own content exactly — no stretching to
-    match a neighbour.  Column count per group is chosen automatically
-    (square-root heuristic) so every group is roughly rectangular.
-
-    Zone layout around a dynamically-sized centre workspace:
-
-        [synthesis] [formulation] [mat.proc] [sample]   ← TOP (side by side)
-        [tool  ]   [  CENTRE BLANK  (drag   ]  [recipe]
-        [data  ]   [  and drop workspace)   ]  [data p]  ← MIDDLE
-        [result] [analysis] [modeling] [res&meta]        ← BOTTOM (side by side)
-
-    Containers that are empty (no concepts assigned) are omitted entirely.
-    An "unclassified" group appears below the layout if the LLM left any
-    concepts untagged.
+    Build the concept-map diagram page and return the mxfile ET.Element.
+    Callers should add extra pages (e.g. library palettes) before serialising.
     """
 
     # ---- 1. Bucket concepts by primary study stage -------------------------
@@ -734,7 +519,6 @@ def build_drawio_xml(df: pd.DataFrame, page_title: str = 'Concepts') -> str:
         buckets[key].append(row)
 
     def zone_groups(zone):
-        """Return [(stage, rows, w, h, n_cols)] for non-empty stages in zone."""
         out = []
         for s in zone:
             rows = buckets.get(s, [])
@@ -749,14 +533,12 @@ def build_drawio_xml(df: pd.DataFrame, page_title: str = 'Concepts') -> str:
     bottom_gs = zone_groups(_ZONE_BOTTOM)
 
     def zone_row_dims(gs):
-        """Total width and max height for a side-by-side zone."""
         if not gs: return 0, 0
         total_w = sum(w for _, _, w, _, _ in gs) + GRID_GAP * (len(gs) - 1)
         max_h   = max(h for _, _, _, h, _ in gs)
         return total_w, max_h
 
     def zone_col_dims(gs):
-        """Max width and total height for a stacked zone."""
         if not gs: return 0, 0
         max_w   = max(w for _, _, w, _, _ in gs)
         total_h = sum(h for _, _, _, h, _ in gs) + GRID_GAP * (len(gs) - 1)
@@ -768,8 +550,6 @@ def build_drawio_xml(df: pd.DataFrame, page_title: str = 'Concepts') -> str:
     bottom_w, bottom_h = zone_row_dims(bottom_gs)
 
     # ---- 2. Resolve canvas and centre dimensions ---------------------------
-    # Horizontal: canvas must fit the widest of (top, middle, bottom) bands.
-    # Middle band = left_zone + gap + centre + gap + right_zone.
     min_middle_w = left_w + (GRID_GAP if left_w else 0) + CENTER_MIN_W + (GRID_GAP if right_w else 0) + right_w
     inner_w  = max(top_w, bottom_w, min_middle_w)
     canvas_w = inner_w + 2 * MARGIN
@@ -778,8 +558,6 @@ def build_drawio_xml(df: pd.DataFrame, page_title: str = 'Concepts') -> str:
                    - (GRID_GAP if left_w  else 0)
                    - (GRID_GAP if right_w else 0),
                    CENTER_MIN_W)
-
-    # Vertical: centre height = max of side zone heights or minimum.
     centre_h = max(left_h, right_h, CENTER_MIN_H)
 
     canvas_h = (2 * MARGIN
@@ -787,9 +565,8 @@ def build_drawio_xml(df: pd.DataFrame, page_title: str = 'Concepts') -> str:
                 + centre_h
                 + (GRID_GAP + bottom_h if bottom_gs else 0))
 
-    # Absolute pixel origins for each zone.
-    cx = MARGIN + left_w + (GRID_GAP if left_w else 0)   # centre blank x
-    cy = MARGIN + (top_h + GRID_GAP if top_gs else 0)    # centre blank y
+    cx = MARGIN + left_w + (GRID_GAP if left_w else 0)
+    cy = MARGIN + (top_h + GRID_GAP if top_gs else 0)
 
     # ---- 3. Build XML ------------------------------------------------------
     mxfile  = ET.Element('mxfile', {'host': 'knowledge_workflow_v6', 'version': '1.0'})
@@ -838,7 +615,7 @@ def build_drawio_xml(df: pd.DataFrame, page_title: str = 'Concepts') -> str:
         _add_swimlane(root_el, cid, f'mds:{stage}', fill, stroke, gx, gy, gw, gh)
         cell_id = _place_nodes(root_el, rows, cid, n_cols, stroke, cell_id)
 
-    # ---- 6. TOP zone — groups side by side, horizontally centred -----------
+    # ---- 6. TOP zone -------------------------------------------------------
     if top_gs:
         x_start = MARGIN + max(0, (inner_w - top_w) // 2)
         x = x_start
@@ -846,14 +623,14 @@ def build_drawio_xml(df: pd.DataFrame, page_title: str = 'Concepts') -> str:
             write_group(stage, rows, x, MARGIN, w, h, nc)
             x += w + GRID_GAP
 
-    # ---- 7. LEFT zone — stacked vertically, left-aligned ------------------
+    # ---- 7. LEFT zone ------------------------------------------------------
     if left_gs:
         y = cy
         for stage, rows, w, h, nc in left_gs:
             write_group(stage, rows, MARGIN, y, w, h, nc)
             y += h + GRID_GAP
 
-    # ---- 8. RIGHT zone — stacked vertically, right-aligned ----------------
+    # ---- 8. RIGHT zone -----------------------------------------------------
     if right_gs:
         rx = cx + centre_w + GRID_GAP
         y  = cy
@@ -861,7 +638,7 @@ def build_drawio_xml(df: pd.DataFrame, page_title: str = 'Concepts') -> str:
             write_group(stage, rows, rx, y, w, h, nc)
             y += h + GRID_GAP
 
-    # ---- 9. BOTTOM zone — groups side by side, horizontally centred --------
+    # ---- 9. BOTTOM zone ----------------------------------------------------
     if bottom_gs:
         by      = cy + centre_h + GRID_GAP
         x_start = MARGIN + max(0, (inner_w - bottom_w) // 2)
@@ -870,18 +647,22 @@ def build_drawio_xml(df: pd.DataFrame, page_title: str = 'Concepts') -> str:
             write_group(stage, rows, x, by, w, h, nc)
             x += w + GRID_GAP
 
-    # ---- 10. Unclassified — below everything if non-empty ------------------
+    # ---- 10. Unclassified --------------------------------------------------
     leftover = buckets.get('unclassified', [])
     if leftover:
         w, h, nc = _group_dims(len(leftover))
-        gy = canvas_h - MARGIN + GRID_GAP   # just below canvas (user can scroll)
+        gy = canvas_h - MARGIN + GRID_GAP
         fill, stroke = _STAGE_COLORS['unclassified']
         cid = 'grp-unclassified'
         _add_swimlane(root_el, cid, 'mds:unclassified', fill, stroke, MARGIN, gy, w, h)
         cell_id = _place_nodes(root_el, leftover, cid, nc, stroke, cell_id)
 
-    # ---- 11. Serialise -----------------------------------------------------
-    raw    = ET.tostring(mxfile, encoding='unicode')
+    return mxfile
+
+
+def _serialize_drawio(mxfile_el: ET.Element) -> str:
+    """Convert an mxfile ET.Element to pretty-printed draw.io XML string."""
+    raw    = ET.tostring(mxfile_el, encoding='unicode')
     pretty = minidom.parseString(raw).toprettyxml(indent='  ')
     lines  = pretty.splitlines()
     if lines and lines[0].startswith('<?xml'):
@@ -889,73 +670,180 @@ def build_drawio_xml(df: pd.DataFrame, page_title: str = 'Concepts') -> str:
     return '\n'.join(lines)
 
 # ---------------------------------------------------------------------------
-# HELPERS
+# LIBRARY PAGE EMBEDDING
 # ---------------------------------------------------------------------------
 
-# ---------------------------------------------------------------------------
-# RELATIONSHIP LIBRARY BUILDERS
-# ---------------------------------------------------------------------------
-
-def _make_property_shape_xml(label: str, fill: str, stroke: str) -> str:
-    """Return a compact mxGraphModel XML string for one labeled connector shape."""
-    box_style  = (f"rounded=1;whiteSpace=wrap;html=1;"
-                  f"fillColor={fill};strokeColor={stroke};fontSize=9;")
-    edge_style = (f"edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;"
-                  f"jettySize=auto;html=1;endArrow=block;endFill=1;"
-                  f"strokeColor={stroke};fontStyle=1;fontSize=10;")
-
-    model = ET.Element('mxGraphModel')
-    root  = ET.SubElement(model, 'root')
-    ET.SubElement(root, 'mxCell', {'id': '0'})
-    ET.SubElement(root, 'mxCell', {'id': '1', 'parent': '0'})
-
-    src = ET.SubElement(root, 'mxCell',
-                        {'id': '2', 'value': '', 'style': box_style,
-                         'vertex': '1', 'parent': '1'})
-    ET.SubElement(src, 'mxGeometry',
-                  {'x': '0', 'y': '10', 'width': '80', 'height': '30', 'as': 'geometry'})
-
-    tgt = ET.SubElement(root, 'mxCell',
-                        {'id': '3', 'value': '', 'style': box_style,
-                         'vertex': '1', 'parent': '1'})
-    ET.SubElement(tgt, 'mxGeometry',
-                  {'x': '160', 'y': '10', 'width': '80', 'height': '30', 'as': 'geometry'})
-
-    edge = ET.SubElement(root, 'mxCell',
-                         {'id': '4', 'value': label, 'style': edge_style,
-                          'edge': '1', 'source': '2', 'target': '3', 'parent': '1'})
-    ET.SubElement(edge, 'mxGeometry', {'relative': '1', 'as': 'geometry'})
-
-    return ET.tostring(model, encoding='unicode')
+def _load_mxlibrary(path: str) -> list[dict]:
+    """
+    Parse an mxlibrary file (either .xml or .json extension) and return
+    the list of item dicts: [{xml, w, h, title}, ...].
+    """
+    with open(path, encoding='utf-8') as f:
+        raw = f.read().strip()
+    inner = raw.removeprefix('<mxlibrary>').removesuffix('</mxlibrary>')
+    return json.loads(inner)
 
 
-def build_relationship_library(
-    properties: list[tuple[str, str]],
-    fill: str,
-    stroke: str,
-) -> str:
-    """Return mxlibrary XML for a list of (label, iri) property pairs."""
-    items = [
-        {'xml': _make_property_shape_xml(label, fill, stroke),
-         'w': 240, 'h': 50, 'aspect': 'fixed', 'title': label}
-        for label, _ in properties
-    ]
-    return f'<mxlibrary>{json.dumps(items)}</mxlibrary>'
+def _embed_library_page(
+    mxfile_el: ET.Element,
+    page_name: str,
+    page_id:   str,
+    items:     list[dict],
+    cols:      int = 6,
+    gap_x:     int = 20,
+    gap_y:     int = 20,
+    pad:       int = 30,
+) -> None:
+    """
+    Append a diagram page to mxfile_el with all mxlibrary items tiled in a grid.
+
+    Each item's mxGraphModel XML is decoded and its cells placed at the correct
+    grid position. Handles both plain mxCell vertices and UserObject-wrapped
+    edge cells (the format draw.io uses for labeled connectors with hyperlinks).
+    """
+    # --- calculate grid layout ---
+    rows_list = [items[i:i + cols] for i in range(0, len(items), cols)]
+
+    col_widths = []
+    for c in range(cols):
+        w = max((it['w'] for i, it in enumerate(items) if i % cols == c), default=120)
+        col_widths.append(w)
+
+    row_heights = [max(it['h'] for it in row) for row in rows_list]
+
+    pw = sum(col_widths) + gap_x * max(cols - 1, 0) + 2 * pad
+    ph = sum(row_heights) + gap_y * max(len(rows_list) - 1, 0) + 2 * pad
+
+    diagram = ET.SubElement(mxfile_el, 'diagram', {'name': page_name, 'id': page_id})
+    model   = ET.SubElement(diagram, 'mxGraphModel', {
+        'pageWidth':  str(max(int(pw), 800)),
+        'pageHeight': str(max(int(ph), 600)),
+        'background': '#ffffff',
+        'grid': '0',
+    })
+    root_el = ET.SubElement(model, 'root')
+    ET.SubElement(root_el, 'mxCell', {'id': '0'})
+    ET.SubElement(root_el, 'mxCell', {'id': '1', 'parent': '0'})
+
+    uid = 2  # unique cell-id counter for this page
+
+    for ri, row_items in enumerate(rows_list):
+        oy = pad + sum(row_heights[:ri]) + gap_y * ri
+        for ci, item in enumerate(row_items):
+            ox = pad + sum(col_widths[:ci]) + gap_x * ci
+
+            try:
+                item_tree = ET.fromstring(_html.unescape(item['xml']))
+            except ET.ParseError:
+                uid += 10
+                continue
+
+            item_root = item_tree.find('root')
+            if item_root is None:
+                uid += 10
+                continue
+
+            # Collect all non-root-marker children
+            children = [c for c in item_root if c.get('id') not in ('0', '1')]
+
+            # Build a stable ID remap for this item
+            id_map: dict[str, str] = {}
+            for child in children:
+                old = child.get('id', '')
+                id_map[old] = f'{page_id}-{uid}'
+                uid += 1
+
+            # Emit each cell with remapped IDs and offset geometry
+            for child in children:
+                new_id = id_map.get(child.get('id', ''), f'{page_id}-{uid}')
+
+                if child.tag == 'UserObject':
+                    # UserObject wraps an mxCell — common for labeled edges with links
+                    attrs = {k: v for k, v in child.attrib.items()}
+                    attrs['id'] = new_id
+                    user_el = ET.SubElement(root_el, 'UserObject', attrs)
+
+                    inner = child.find('mxCell')
+                    if inner is not None:
+                        cell_attrs = {k: v for k, v in inner.attrib.items()}
+                        cell_attrs.pop('id', None)
+                        cell_attrs['parent'] = '1'
+                        for a in ('source', 'target'):
+                            if a in cell_attrs:
+                                cell_attrs[a] = id_map.get(cell_attrs[a], cell_attrs[a])
+                        ic_el = ET.SubElement(user_el, 'mxCell', cell_attrs)
+                        _copy_geom_offset(inner, ic_el, ox, oy)
+
+                else:
+                    # Plain mxCell (vertex or edge)
+                    cell_attrs = {k: v for k, v in child.attrib.items()}
+                    cell_attrs['id'] = new_id
+                    cell_attrs['parent'] = '1'
+                    for a in ('source', 'target'):
+                        if a in cell_attrs:
+                            cell_attrs[a] = id_map.get(cell_attrs[a], cell_attrs[a])
+                    cell_el = ET.SubElement(root_el, 'mxCell', cell_attrs)
+                    _copy_geom_offset(child, cell_el, ox, oy)
 
 
-def _write_relationship_libraries(out_dir: str) -> None:
-    """Write three mxlibrary .xml files (MDS / BFO / CCO) into out_dir."""
+def _copy_geom_offset(src_cell: ET.Element, dst_cell: ET.Element, ox: float, oy: float) -> None:
+    """
+    Copy the mxGeometry from src_cell into dst_cell, shifting all coordinate
+    values (x/y on the geometry element and on any mxPoint children) by (ox, oy).
+    """
+    geom = src_cell.find('mxGeometry')
+    if geom is None:
+        return
+
+    g_attrs = dict(geom.attrib)
+    if 'x' in g_attrs:
+        g_attrs['x'] = str(float(g_attrs['x']) + ox)
+    if 'y' in g_attrs:
+        g_attrs['y'] = str(float(g_attrs['y']) + oy)
+    geom_el = ET.SubElement(dst_cell, 'mxGeometry', g_attrs)
+
+    for pt in geom.findall('mxPoint'):
+        pt_attrs = dict(pt.attrib)
+        if 'x' in pt_attrs:
+            pt_attrs['x'] = str(float(pt_attrs['x']) + ox)
+        if 'y' in pt_attrs:
+            pt_attrs['y'] = str(float(pt_attrs['y']) + oy)
+        ET.SubElement(geom_el, 'mxPoint', pt_attrs)
+
+    for arr in geom.findall('Array'):
+        arr_el = ET.SubElement(geom_el, 'Array', dict(arr.attrib))
+        for pt in arr.findall('mxPoint'):
+            pt_attrs = dict(pt.attrib)
+            if 'x' in pt_attrs:
+                pt_attrs['x'] = str(float(pt_attrs['x']) + ox)
+            if 'y' in pt_attrs:
+                pt_attrs['y'] = str(float(pt_attrs['y']) + oy)
+            ET.SubElement(arr_el, 'mxPoint', pt_attrs)
+
+
+def _add_template_pages(mxfile_el: ET.Element) -> None:
+    """
+    Embed the MDS-Onto library and Cemento templates as extra pages in the
+    diagram.  Falls back gracefully if a library file is not found.
+    """
     specs = [
-        ('library_mds_object_properties.xml', MDS_OBJECT_PROPERTIES, '#dae8fc', '#6c8ebf'),
-        ('library_bfo_object_properties.xml', BFO_OBJECT_PROPERTIES, '#fff2cc', '#d6b656'),
-        ('library_cco_object_properties.xml', CCO_OBJECT_PROPERTIES, '#d5e8d4', '#82b366'),
+        (MDS_ONTO_LIBRARY,          'MDS-Onto Library',  'lib-mds-onto', 6),
+        (CEMENTO_TEMPLATES_LIBRARY, 'Cemento Templates', 'lib-cemento',  2),
     ]
-    for fname, props, fill, stroke in specs:
-        path = os.path.join(out_dir, fname)
-        with open(path, 'w', encoding='utf-8') as fh:
-            fh.write(build_relationship_library(props, fill, stroke))
-        print(f'  library  : {path}')
+    for path, page_name, page_id, cols in specs:
+        if not os.path.isfile(path):
+            print(f'  [skip] library file not found: {path}')
+            continue
+        try:
+            items = _load_mxlibrary(path)
+            _embed_library_page(mxfile_el, page_name, page_id, items, cols=cols)
+            print(f'  library  : "{page_name}" — {len(items)} items embedded')
+        except Exception as exc:
+            print(f'  [warn] could not embed {path}: {exc}')
 
+# ---------------------------------------------------------------------------
+# PROCESS ONE FILE
+# ---------------------------------------------------------------------------
 
 def _process_one(csv_path: str, date_stamp: str) -> tuple[str, str]:
     """
@@ -964,9 +852,9 @@ def _process_one(csv_path: str, date_stamp: str) -> tuple[str, str]:
     """
     stem = os.path.splitext(os.path.basename(csv_path))[0]
 
-    # Derive a collection slug from the stem for the output sub-folder.
-    # e.g. "concepts_cdte-Brent_Thompson-v4-20260311" → "cdte"
-    slug = stem.replace('concepts_', '').split('-')[0]
+    # Derive the collection slug from the containing directory name.
+    # V5 writes to outputs/<slug>/concepts_*.csv, so the parent dir IS the slug.
+    slug = os.path.basename(os.path.dirname(os.path.abspath(csv_path)))
     out_dir = os.path.join(OUTPUTS_DIR, slug)
     os.makedirs(out_dir, exist_ok=True)
 
@@ -983,19 +871,18 @@ def _process_one(csv_path: str, date_stamp: str) -> tuple[str, str]:
     df.to_csv(csv_out, index=False)
     print(f'  CSV      : {csv_out}')
 
-    # Build and save draw.io
+    # Build concept-map page, embed library pages, then serialise
     page_title = slug.replace('_', ' ').replace('-', ' ').title()
-    xml = build_drawio_xml(df, page_title=page_title)
+    mxfile_el  = build_drawio_xml(df, page_title=page_title)
+    _add_template_pages(mxfile_el)
+    xml = _serialize_drawio(mxfile_el)
+
     drawio_out = os.path.join(out_dir, f'diagram_{stem}-v6-{date_stamp}.drawio')
     with open(drawio_out, 'w', encoding='utf-8') as fh:
         fh.write(xml)
     print(f'  draw.io  : {drawio_out}')
 
-    # Write relationship palette libraries alongside the diagram
-    _write_relationship_libraries(out_dir)
-
     return csv_out, drawio_out
-
 
 # ---------------------------------------------------------------------------
 # MAIN
@@ -1012,12 +899,13 @@ if __name__ == '__main__':
     if INPUT_CSV:
         csv_files = [INPUT_CSV]
     else:
-        pattern   = os.path.join(SCHEMAS_DIR, '**', 'concepts_*.csv')
+        pattern   = os.path.join(OUTPUTS_DIR, '**', 'concepts_*.csv')
         csv_files = sorted(glob.glob(pattern, recursive=True))
         if not csv_files:
             raise FileNotFoundError(
-                f'No concepts_*.csv files found under "{SCHEMAS_DIR}".\n'
-                f'Run the V5 workflow first, or set INPUT_CSV to a specific path.'
+                f'No concepts_*.csv files found under "{OUTPUTS_DIR}".\n'
+                f'Run the V5 workflow first to generate concepts files, '
+                f'or set INPUT_CSV to a specific path.'
             )
 
     print(f'Found {len(csv_files)} concepts file(s) to process:\n')
@@ -1045,4 +933,4 @@ if __name__ == '__main__':
         print(f'  {drawio_out}')
         print(f'  {csv_out}')
     print('\nOpen .drawio files in draw.io → File → Open from → This Device')
-    print('Load relationship palettes: Extras → Edit Library → open library_*_object_properties.xml')
+    print('Library pages (MDS-Onto Library, Cemento Templates) are included as tabs.')

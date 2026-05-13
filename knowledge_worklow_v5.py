@@ -566,7 +566,11 @@ if __name__ == '__main__':
     print(f'Model:    {MODEL}\n')
 
     # 1. List available Zotero collections
-    my_collections = get_collection_map(zot)
+    my_collections = None
+    if my_collections:
+        pass
+    else:
+        my_collections = get_collection_map(zot)
     print('Available collections:')
     for name in my_collections:
         print(f'  {name}')
@@ -631,7 +635,7 @@ if __name__ == '__main__':
     # -----------------------------------------------------------------------
     # Save outputs to outputs/<collection>/
     # -----------------------------------------------------------------------
-    collection_slug = collection_name.replace(' ', '_').lower().replace('>', '')
+    collection_slug = collection_name.replace(' ', '_').lower().replace('>', '').replace('-','')
     out_dir = os.path.join('outputs', collection_slug)
     os.makedirs(out_dir, exist_ok=True)
     prefix = make_filename(collection_name)
