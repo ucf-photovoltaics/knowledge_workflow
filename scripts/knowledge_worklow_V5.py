@@ -63,9 +63,9 @@ ZOTERO_API_KEY      = os.getenv('ZOTERO_API_KEY', '')
 #   Anthropic:  LLM_BASE_URL=https://api.anthropic.com/v1 LLM_MODEL=claude-sonnet-4-6
 #   Groq:       LLM_BASE_URL=https://api.groq.com/openai/v1
 #   Ollama:     LLM_BASE_URL=http://localhost:11434/v1    LLM_MODEL=llama3.2
-LLM_BASE_URL = os.getenv('LLM_BASE_URL', 'https://api.openai.com/v1')
+LLM_BASE_URL = os.getenv('LLM_BASE_URL', 'https://api.anthropic.com/v1')
 LLM_API_KEY  = os.getenv('LLM_API_KEY',  os.getenv('OPENAI_API_KEY', os.getenv('ANTHROPIC_API_KEY', '')))
-MODEL        = os.getenv('LLM_MODEL',    'gpt-4o')
+MODEL        = os.getenv('LLM_MODEL',    'claude-sonnet-4-6')
 
 # If your provider/model doesn't support forced tool_choice by name, set False.
 # Responses will still be parsed from the first tool call returned.
@@ -266,7 +266,7 @@ _SCHEMA_SYSTEM = (
 
 def make_filename(collection_name, username='Brent_Thompson', version=5):
     date = datetime.now().strftime('%Y%m%d')
-    name = collection_name.replace(' ', '_').lower()
+    name = collection_name.replace(' ', '_').lower().replace('>', '')
     return f"{name}-{username}-v{version}-{date}.csv"
 
 
@@ -572,7 +572,7 @@ if __name__ == '__main__':
         print(f'  {name}')
 
     # 2. Select collection
-    collection_name = 'CdTe'            # <-- change this
+    collection_name = '-In Development- > Copper Metallization Review > 2-Technologies'            # <-- change this
     domain          = collection_name.lower().replace(' ', '_')
 
     papers = get_collection_with_text(my_collections[collection_name])
@@ -631,7 +631,7 @@ if __name__ == '__main__':
     # -----------------------------------------------------------------------
     # Save outputs to outputs/<collection>/
     # -----------------------------------------------------------------------
-    collection_slug = collection_name.replace(' ', '_').lower()
+    collection_slug = collection_name.replace(' ', '_').lower().replace('>', '')
     out_dir = os.path.join('outputs', collection_slug)
     os.makedirs(out_dir, exist_ok=True)
     prefix = make_filename(collection_name)

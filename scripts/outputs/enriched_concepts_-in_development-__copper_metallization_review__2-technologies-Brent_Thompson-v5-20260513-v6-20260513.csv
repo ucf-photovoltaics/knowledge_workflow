@@ -1,0 +1,488 @@
+concept,doc_frequency,mds:studyStage,mds:supplyChainLevel
+absorber material,14,mds:sample,"mds:materials, mds:subcomponent"
+cell architecture,12,mds:sample,mds:component
+device efficiency,11,mds:result,mds:component
+metallization method,11,mds:synthesis,mds:subcomponent
+contact resistivity,7,mds:result,mds:subcomponent
+deposition method,7,mds:synthesis,mds:subcomponent
+metallization material,7,mds:sample,"mds:materials, mds:subcomponent"
+substrate material,7,mds:sample,"mds:materials, mds:subcomponent"
+transparent conductive oxide,7,mds:sample,"mds:materials, mds:subcomponent"
+electrode material,6,mds:sample,"mds:materials, mds:subcomponent"
+reference metallization,5,mds:sample,mds:subcomponent
+solar cell architecture,5,mds:sample,mds:component
+application domain,4,mds:results and metadata,mds:system
+particle morphology,4,mds:result,mds:materials
+silver consumption,4,mds:results and metadata,mds:materials
+sintering method,4,mds:materials processing,mds:subcomponent
+cell area,3,mds:result,mds:component
+contact resistance,3,mds:result,mds:subcomponent
+degradation mechanism,3,mds:analysis,"mds:component, mds:subsystem"
+electrode geometry,3,mds:sample,mds:subcomponent
+environmental impact,3,mds:results and metadata,mds:system
+fill factor,3,mds:result,mds:component
+finger width,3,mds:result,mds:subcomponent
+ink composition,3,mds:formulation,mds:materials
+metallization cost,3,mds:results and metadata,mds:subcomponent
+paste composition,3,mds:formulation,mds:materials
+paste rheology,3,mds:result,mds:materials
+patterning technique,3,mds:materials processing,mds:subcomponent
+photovoltaic technology,3,mds:results and metadata,"mds:component, mds:subsystem, mds:system"
+process scalability,3,mds:results and metadata,"mds:subcomponent, mds:component"
+reliability test,3,mds:tool,"mds:component, mds:subsystem"
+seed layer material,3,mds:sample,"mds:materials, mds:subcomponent"
+adhesion improvement,2,mds:materials processing,mds:subcomponent
+alternative metallization,2,mds:sample,mds:subcomponent
+cell configuration,2,mds:sample,mds:component
+cell efficiency,2,mds:result,mds:component
+cell technology,2,mds:results and metadata,mds:component
+cell type,2,mds:sample,mds:component
+conductive paste,2,mds:formulation,mds:materials
+conductor material,2,mds:sample,"mds:materials, mds:subcomponent"
+contact formation,2,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g","mds:subcomponent, mds:component"
+contact formation method,2,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g","mds:subcomponent, mds:component"
+contact metallization material,2,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:materials, mds:subcomponent"
+electrical characterization,2,"mds:t, mds:o, mds:o, mds:l","mds:component, mds:subcomponent"
+film thickness,2,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:subcomponent
+finger aspect ratio,2,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:subcomponent
+finger geometry,2,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:subcomponent
+finger height,2,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:subcomponent
+heating mechanism,2,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e","mds:materials, mds:subcomponent"
+impurity diffusion,2,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g",mds:subcomponent
+ink type,2,"mds:f, mds:o, mds:r, mds:m, mds:u, mds:l, mds:a, mds:t, mds:i, mds:o, mds:n",mds:materials
+light source,2,"mds:t, mds:o, mds:o, mds:l","mds:component, mds:subcomponent"
+line resistance,2,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:subcomponent
+manufacturing cost,2,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a","mds:system, mds:subsystem"
+manufacturing method,2,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g","mds:component, mds:subcomponent"
+manufacturing scalability,2,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a","mds:subsystem, mds:system"
+masking layer material,2,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:materials, mds:subcomponent"
+metallization technique,2,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g","mds:subcomponent, mds:component"
+metallization technology,2,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g","mds:subcomponent, mds:component"
+microstructural characterization,2,"mds:t, mds:o, mds:o, mds:l","mds:materials, mds:subcomponent"
+open circuit voltage,2,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:component
+passivation method,2,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g",mds:subcomponent
+paste formulation,2,"mds:f, mds:o, mds:r, mds:m, mds:u, mds:l, mds:a, mds:t, mds:i, mds:o, mds:n",mds:materials
+patterning method,2,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g",mds:subcomponent
+photoconversion efficiency,2,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:component
+plating process,2,"mds:s, mds:y, mds:n, mds:t, mds:h, mds:e, mds:s, mds:i, mds:s",mds:subcomponent
+print quality,2,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:subcomponent
+process complexity,2,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a","mds:subcomponent, mds:component"
+process throughput,2,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a","mds:component, mds:subsystem"
+processing atmosphere,2,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e","mds:materials, mds:subcomponent"
+processing temperature,2,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e","mds:materials, mds:subcomponent"
+reference contact material,2,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:materials, mds:subcomponent"
+replaced material,2,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:materials, mds:subcomponent"
+series resistance,2,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:component
+short circuit current density,2,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:component
+substrate temperature tolerance,2,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e","mds:subcomponent, mds:component"
+tandem cell architecture,2,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:component, mds:assembly"
+technology adoption,2,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a",mds:system
+test duration,2,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e","mds:component, mds:subsystem"
+wafer size,2,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:subcomponent, mds:component"
+absorber chemistry,1,mds:sample,"mds:materials, mds:subcomponent"
+accelerated test duration,1,mds:recipe,"mds:component, mds:subsystem"
+active area fraction,1,mds:result,"mds:component, mds:assembly"
+actuator type,1,mds:tool,mds:system
+additive species,1,mds:formulation,mds:materials
+adhesion,1,mds:result,"mds:subcomponent, mds:component"
+adhesion measurement,1,mds:tool,"mds:subcomponent, mds:component"
+adhesion strength,1,mds:result,"mds:subcomponent, mds:component"
+alternative cell technology,1,mds:sample,mds:component
+alternative masking material,1,mds:sample,"mds:materials, mds:subcomponent"
+alternative metallization method,1,mds:materials processing,"mds:subcomponent, mds:component"
+annealing technique,1,mds:materials processing,"mds:materials, mds:subcomponent"
+anti-reflection coating,1,mds:sample,mds:subcomponent
+antireflection coating,1,mds:sample,mds:subcomponent
+background plating,1,mds:synthesis,mds:subcomponent
+barrier layer,1,mds:sample,mds:subcomponent
+barrier layer material,1,mds:sample,"mds:materials, mds:subcomponent"
+baseline metallization technology,1,mds:materials processing,"mds:subcomponent, mds:component"
+batch average efficiency,1,mds:results and metadata,mds:component
+belt firing speed,1,mds:recipe,"mds:subcomponent, mds:component"
+bifacial design,1,mds:sample,mds:component
+bottom cell material,1,mds:sample,"mds:materials, mds:subcomponent"
+bottom cell technology,1,mds:sample,mds:component
+buffer layer,1,mds:sample,mds:subcomponent
+bulk contamination,1,mds:result,"mds:materials, mds:subcomponent"
+bulk metal conductivity,1,mds:result,mds:materials
+bulk resistivity,1,mds:result,"mds:materials, mds:subcomponent"
+busbar material,1,mds:sample,"mds:materials, mds:subcomponent"
+carbon emission,1,mds:results and metadata,mds:system
+carbon footprint,1,mds:results and metadata,mds:system
+cation composition,1,mds:result,"mds:materials, mds:subcomponent"
+cell active area,1,mds:result,mds:component
+cell concept development,1,mds:results and metadata,mds:component
+cell geometry,1,mds:sample,mds:component
+cell manufacturing process,1,mds:materials processing,mds:component
+cell metallization material,1,mds:sample,"mds:materials, mds:subcomponent"
+cell metallization method,1,mds:materials processing,"mds:subcomponent, mds:component"
+cell performance metric,1,mds:result,mds:component
+cell performance stability,1,mds:result,mds:component
+cell physics,1,mds:modeling,mds:component
+cell production process,1,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g",mds:component
+cell size,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:component
+cell structure,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e",mds:component
+cell substrate material,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:materials, mds:subcomponent"
+cell surface treatment,1,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g","mds:component, mds:subcomponent"
+cell type compatibility,1,"mds:a, mds:n, mds:a, mds:l, mds:y, mds:s, mds:i, mds:s",mds:component
+characterization method,1,"mds:t, mds:o, mds:o, mds:l","mds:materials, mds:subcomponent, mds:component"
+characterization technique,1,"mds:t, mds:o, mds:o, mds:l","mds:materials, mds:subcomponent, mds:component"
+chemical compatibility,1,"mds:a, mds:n, mds:a, mds:l, mds:y, mds:s, mds:i, mds:s","mds:materials, mds:subcomponent"
+chemical reaction process,1,"mds:s, mds:y, mds:n, mds:t, mds:h, mds:e, mds:s, mds:i, mds:s","mds:materials, mds:subcomponent"
+compatible cell technology,1,"mds:a, mds:n, mds:a, mds:l, mds:y, mds:s, mds:i, mds:s",mds:component
+competing cell technology,1,"mds:a, mds:n, mds:a, mds:l, mds:y, mds:s, mds:i, mds:s",mds:component
+conducting layer material,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:materials, mds:subcomponent"
+conductive film application,1,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g",mds:subcomponent
+conductive ink type,1,"mds:f, mds:o, mds:r, mds:m, mds:u, mds:l, mds:a, mds:t, mds:i, mds:o, mds:n",mds:materials
+conductive species,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e",mds:materials
+contact adhesion,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t","mds:subcomponent, mds:component"
+contact adhesion strength,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t","mds:subcomponent, mds:component"
+contact aspect ratio,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:subcomponent
+contact electrode material,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:materials, mds:subcomponent"
+contact finger count,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e","mds:subcomponent, mds:component"
+contact finger height,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:subcomponent
+contact finger width,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:subcomponent
+contact fingers,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e",mds:subcomponent
+contact geometry,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t","mds:subcomponent, mds:component"
+contact geometry optimization,1,"mds:a, mds:n, mds:a, mds:l, mds:y, mds:s, mds:i, mds:s","mds:subcomponent, mds:component"
+contact grid design,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e","mds:subcomponent, mds:component"
+contact grid geometry,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t","mds:subcomponent, mds:component"
+contact grid structure,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:subcomponent, mds:component"
+contact interface,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e",mds:subcomponent
+contact layer material,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:materials, mds:subcomponent"
+contact location,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e","mds:subcomponent, mds:component"
+contact material,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:materials, mds:subcomponent"
+contact metal,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:materials, mds:subcomponent"
+contact metallization method,1,"mds:s, mds:y, mds:n, mds:t, mds:h, mds:e, mds:s, mds:i, mds:s",mds:subcomponent
+contact reliability,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a","mds:subcomponent, mds:component"
+contact shading width,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t","mds:subcomponent, mds:component"
+contact type,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:subcomponent, mds:component"
+contamination,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:materials, mds:subcomponent, mds:component"
+contamination risk,1,"mds:a, mds:n, mds:a, mds:l, mds:y, mds:s, mds:i, mds:s","mds:materials, mds:subcomponent, mds:component"
+conventional metallization,1,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g","mds:subcomponent, mds:component"
+conventional metallization material,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:materials, mds:subcomponent"
+cost reduction strategy,1,"mds:a, mds:n, mds:a, mds:l, mds:y, mds:s, mds:i, mds:s",mds:system
+critical raw material,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e",mds:materials
+curing atmosphere,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e",mds:subcomponent
+curing duration,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e",mds:subcomponent
+curing temperature,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e",mds:subcomponent
+current collection,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t","mds:subcomponent, mds:component"
+current distribution,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t","mds:subcomponent, mds:component"
+current distribution support,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:subcomponent, mds:component"
+damp heat humidity,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e","mds:component, mds:subsystem"
+damp heat temperature,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e","mds:component, mds:subsystem"
+damp heat test,1,"mds:t, mds:o, mds:o, mds:l","mds:component, mds:subsystem"
+deposition rate,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e",mds:subcomponent
+deposition technique,1,"mds:s, mds:y, mds:n, mds:t, mds:h, mds:e, mds:s, mds:i, mds:s",mds:subcomponent
+device architecture,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e",mds:component
+device efficiency loss,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t","mds:component, mds:subsystem"
+device evaluation,1,"mds:a, mds:n, mds:a, mds:l, mds:y, mds:s, mds:i, mds:s",mds:component
+device form factor,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:component, mds:assembly"
+device optimization,1,"mds:a, mds:n, mds:a, mds:l, mds:y, mds:s, mds:i, mds:s",mds:component
+device performance,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:component
+device reliability,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a","mds:component, mds:subsystem"
+device simulation,1,"mds:m, mds:o, mds:d, mds:e, mds:l, mds:i, mds:n, mds:g",mds:component
+device stability,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t","mds:component, mds:subsystem"
+device type,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e",mds:component
+device upscaling,1,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g","mds:component, mds:assembly, mds:subsystem"
+dielectric mask material,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:materials, mds:subcomponent"
+diffusion barrier,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e",mds:subcomponent
+dopant diffusion risk,1,"mds:a, mds:n, mds:a, mds:l, mds:y, mds:s, mds:i, mds:s",mds:subcomponent
+drop formation method,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e",mds:subcomponent
+drop separation,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e",mds:subcomponent
+electrical conductivity,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t","mds:materials, mds:subcomponent"
+electrical contact,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:subcomponent, mds:component"
+electrical performance,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t","mds:component, mds:subsystem"
+electrical properties,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t","mds:materials, mds:subcomponent, mds:component"
+electrical property,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t","mds:materials, mds:subcomponent, mds:component"
+electrode application,1,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g","mds:subcomponent, mds:component"
+electrode busbar design,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:subcomponent, mds:component"
+electrode composition,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:materials, mds:subcomponent"
+electrode conductivity,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:subcomponent
+electrode geometry sizing,1,mds:recipe,"mds:subcomponent, mds:component"
+electrode grid,1,mds:sample,mds:subcomponent
+electrode height deviation,1,mds:result,mds:subcomponent
+electrode material cost,1,mds:results and metadata,mds:materials
+electrode material susceptibility,1,mds:analysis,"mds:materials, mds:subcomponent"
+electrode metal,1,mds:sample,mds:materials
+electrode metal species,1,mds:sample,mds:materials
+electrode morphology,1,mds:result,mds:subcomponent
+electrode orientation,1,mds:recipe,"mds:subcomponent, mds:component"
+electrode performance,1,mds:result,"mds:subcomponent, mds:component"
+electrode reproducibility metric,1,mds:results and metadata,mds:subcomponent
+electrode resistivity,1,mds:result,mds:subcomponent
+electrode structure,1,mds:sample,mds:subcomponent
+electroplating layer,1,mds:sample,mds:subcomponent
+electroplating seed layer,1,mds:sample,mds:subcomponent
+electroplating substrate,1,mds:sample,"mds:subcomponent, mds:component"
+elemental analysis method,1,mds:tool,"mds:materials, mds:subcomponent"
+encapsulation method,1,mds:materials processing,mds:subsystem
+energy demand,1,mds:results and metadata,mds:system
+energy window,1,mds:recipe,mds:subcomponent
+etchant type,1,mds:recipe,"mds:materials, mds:subcomponent"
+fabrication cost,1,mds:results and metadata,"mds:component, mds:subsystem"
+fabrication platform,1,mds:tool,"mds:component, mds:subsystem"
+fabrication process,1,mds:materials processing,"mds:subcomponent, mds:component"
+fabrication scalability,1,mds:results and metadata,"mds:component, mds:subsystem, mds:system"
+feature size,1,mds:result,mds:subcomponent
+filler content,1,mds:recipe,mds:materials
+film conductivity,1,mds:result,mds:subcomponent
+film deposition method,1,mds:synthesis,mds:subcomponent
+film stability,1,mds:result,mds:subcomponent
+finger length,1,mds:recipe,"mds:subcomponent, mds:component"
+finger line geometry optimization,1,mds:analysis,"mds:subcomponent, mds:component"
+firing peak temperature,1,mds:recipe,"mds:subcomponent, mds:component"
+firing process,1,mds:materials processing,"mds:subcomponent, mds:component"
+firing technique,1,mds:materials processing,"mds:subcomponent, mds:component"
+fluid viscosity independence,1,mds:result,mds:materials
+front contact formation,1,mds:synthesis,"mds:subcomponent, mds:component"
+front contact paste,1,mds:sample,mds:materials
+front contact technology,1,mds:materials processing,"mds:subcomponent, mds:component"
+front grid design,1,mds:recipe,"mds:subcomponent, mds:component"
+front grid geometry,1,mds:recipe,mds:component
+front metallization,1,mds:synthesis,mds:subcomponent
+front transparent conductive oxide,1,mds:sample,mds:subcomponent
+front-side metallization,1,mds:synthesis,mds:subcomponent
+frontside metallization,1,mds:synthesis,mds:subcomponent
+functional material,1,mds:sample,mds:materials
+grid design,1,mds:recipe,mds:component
+grid line width,1,mds:recipe,mds:subcomponent
+gridline geometry,1,mds:recipe,mds:subcomponent
+gridline resistance,1,mds:result,mds:subcomponent
+halide composition,1,mds:formulation,mds:materials
+heating duration,1,mds:recipe,mds:subcomponent
+heterojunction interface,1,mds:sample,mds:subcomponent
+humidity condition,1,mds:recipe,"mds:materials, mds:subcomponent, mds:component"
+incumbent metallization material,1,mds:sample,mds:materials
+industrial applicability,1,mds:results and metadata,mds:system
+industrial laser,1,mds:tool,mds:subcomponent
+industrial printing process,1,mds:materials processing,mds:subcomponent
+industrial reliability,1,mds:results and metadata,"mds:subsystem, mds:system"
+industrial review,1,mds:results and metadata,mds:system
+industrialization stage,1,mds:results and metadata,mds:system
+industry scalability,1,mds:results and metadata,mds:system
+industry sector,1,mds:results and metadata,mds:system
+initial contact resistivity,1,mds:result,mds:subcomponent
+ink formulation,1,mds:formulation,mds:materials
+ink particle scale,1,mds:recipe,mds:materials
+ink particle size,1,mds:result,mds:materials
+ink solvent,1,mds:sample,mds:materials
+interconnection technology,1,mds:materials processing,"mds:assembly, mds:subsystem"
+interface morphology,1,mds:result,mds:subcomponent
+lab-scale analysis,1,mds:analysis,mds:component
+laboratory cell efficiency,1,mds:results and metadata,mds:component
+laser parameters,1,mds:recipe,mds:subcomponent
+laser process parameters,1,mds:recipe,mds:subcomponent
+laser processing method,1,mds:materials processing,mds:subcomponent
+laser processing speed,1,mds:recipe,mds:subcomponent
+laser scribing,1,mds:materials processing,mds:subcomponent
+laser wavelength,1,mds:recipe,mds:subcomponent
+laser-material interaction,1,mds:analysis,mds:subcomponent
+lateral carrier transport,1,mds:result,mds:subcomponent
+layer optimization tradeoff,1,mds:analysis,mds:subcomponent
+layer stack composition,1,mds:sample,mds:subcomponent
+layer treatment method,1,mds:materials processing,mds:subcomponent
+light absorption loss,1,mds:result,"mds:subcomponent, mds:component"
+light irradiation,1,mds:recipe,"mds:subcomponent, mds:component"
+light pulse duration,1,mds:recipe,"mds:subcomponent, mds:component"
+line resistance change,1,mds:result,mds:subcomponent
+line resistivity,1,mds:result,mds:subcomponent
+line resolution,1,mds:result,mds:subcomponent
+line width,1,mds:result,mds:subcomponent
+low temperature processing,1,mds:materials processing,mds:subcomponent
+majority carrier transport,1,mds:result,"mds:subcomponent, mds:component"
+market context,1,mds:results and metadata,mds:system
+mask function,1,mds:recipe,mds:subcomponent
+masking layer,1,mds:sample,mds:subcomponent
+masking layer deposition method,1,mds:synthesis,mds:subcomponent
+masking layer function,1,mds:analysis,mds:subcomponent
+masking layer thickness,1,mds:result,mds:subcomponent
+masking process,1,mds:materials processing,mds:subcomponent
+mass production process,1,mds:materials processing,"mds:subsystem, mds:system"
+material consumption,1,mds:results and metadata,mds:materials
+material conversion,1,mds:synthesis,"mds:materials, mds:subcomponent"
+material cost,1,mds:results and metadata,mds:materials
+material cost reduction,1,mds:results and metadata,mds:materials
+material densification,1,mds:materials processing,"mds:materials, mds:subcomponent"
+material scarcity,1,mds:results and metadata,mds:materials
+material substitution,1,mds:analysis,mds:materials
+material supply risk,1,mds:results and metadata,mds:materials
+mechanical adhesion,1,mds:result,"mds:subcomponent, mds:component"
+mechanical load,1,mds:recipe,"mds:component, mds:subsystem"
+metal conductivity,1,mds:result,"mds:materials, mds:subcomponent"
+metal consumption,1,mds:results and metadata,mds:materials
+metal contact formation,1,mds:synthesis,"mds:subcomponent, mds:component"
+metal contact material,1,mds:sample,"mds:materials, mds:subcomponent"
+metal contact properties,1,mds:result,"mds:subcomponent, mds:component"
+metal grid geometry,1,mds:result,mds:subcomponent
+metal layer stack,1,mds:sample,mds:subcomponent
+metal paste,1,mds:formulation,mds:materials
+metal paste material,1,mds:sample,mds:materials
+metallization comparison,1,mds:analysis,"mds:subcomponent, mds:component"
+metallization cost reduction,1,mds:results and metadata,"mds:component, mds:subsystem"
+metallization feature,1,mds:sample,"mds:subcomponent, mds:component"
+metallization history,1,mds:results and metadata,"mds:subcomponent, mds:component"
+metallization mechanism,1,mds:analysis,"mds:subcomponent, mds:component"
+metallization paste form,1,mds:formulation,mds:materials
+metallization review,1,mds:results and metadata,"mds:subcomponent, mds:component"
+metallization scheme,1,mds:recipe,"mds:subcomponent, mds:component"
+metallization selectivity,1,mds:result,"mds:subcomponent, mds:component"
+metallization side,1,mds:recipe,"mds:subcomponent, mds:component"
+metallization structure,1,mds:sample,"mds:subcomponent, mds:component"
+metallization surface,1,mds:sample,mds:subcomponent
+microstructure characterisation,1,mds:tool,"mds:materials, mds:subcomponent"
+minimum cycle time,1,mds:recipe,"mds:subcomponent, mds:component"
+module configuration,1,mds:recipe,mds:subsystem
+module geometry,1,mds:sample,mds:subsystem
+module interconnect,1,mds:sample,"mds:assembly, mds:subsystem"
+module interconnection,1,mds:materials processing,"mds:assembly, mds:subsystem"
+module power output,1,mds:result,mds:subsystem
+module size,1,mds:recipe,mds:subsystem
+module total area,1,mds:result,mds:subsystem
+module type,1,mds:sample,mds:subsystem
+n-type layer material,1,mds:sample,"mds:materials, mds:subcomponent"
+nano-micro ratio,1,mds:recipe,mds:materials
+nanoparticle sintering,1,mds:materials processing,"mds:materials, mds:subcomponent"
+optical properties,1,mds:result,"mds:materials, mds:subcomponent"
+optimal curing conditions,1,mds:recipe,"mds:materials, mds:subcomponent"
+opto-chemical mechanism,1,mds:analysis,"mds:materials, mds:subcomponent"
+opto-thermal mechanism,1,mds:analysis,"mds:materials, mds:subcomponent"
+oxidation challenge,1,mds:analysis,"mds:materials, mds:subcomponent"
+oxidation mechanism,1,mds:analysis,"mds:materials, mds:subcomponent"
+oxidation resistance,1,mds:result,"mds:materials, mds:subcomponent"
+oxide inhibition,1,mds:materials processing,"mds:materials, mds:subcomponent"
+oxide shell thickness,1,mds:result,"mds:materials, mds:subcomponent"
+p-type layer material,1,mds:sample,"mds:materials, mds:subcomponent"
+parasitic absorption,1,mds:result,"mds:subcomponent, mds:component"
+particle scale,1,mds:recipe,mds:materials
+particle size,1,mds:result,mds:materials
+particle synthesis technology,1,mds:synthesis,mds:materials
+paste adhesion,1,mds:result,"mds:materials, mds:subcomponent"
+paste characterisation,1,mds:tool,mds:materials
+paste conductivity,1,mds:result,"mds:materials, mds:subcomponent"
+paste curing temperature,1,mds:recipe,"mds:materials, mds:subcomponent"
+paste-screen interaction,1,mds:materials processing,"mds:materials, mds:subcomponent"
+paste-wire interface,1,mds:sample,mds:subcomponent
+patterning approach,1,mds:materials processing,"mds:subcomponent, mds:component"
+performance comparison,1,mds:analysis,"mds:component, mds:subsystem, mds:system"
+perovskite composition,1,mds:formulation,"mds:materials, mds:subcomponent"
+photonic sintering,1,mds:materials processing,mds:subcomponent
+photovoltaic application,1,mds:results and metadata,"mds:component, mds:subsystem, mds:system"
+photovoltaic production,1,mds:materials processing,"mds:component, mds:subsystem, mds:system"
+plating current distribution,1,mds:result,mds:subcomponent
+plating process type,1,mds:synthesis,mds:subcomponent
+plating selectivity mechanism,1,mds:analysis,mds:subcomponent
+plating uniformity,1,mds:result,mds:subcomponent
+post-processing method,1,mds:materials processing,"mds:subcomponent, mds:component"
+precursor compound,1,mds:formulation,mds:materials
+pressing process,1,mds:materials processing,"mds:subcomponent, mds:component"
+pretreatment reagent,1,mds:formulation,"mds:materials, mds:subcomponent"
+printability,1,mds:result,"mds:materials, mds:subcomponent"
+printed electronics substrate,1,mds:sample,mds:subcomponent
+printing method,1,mds:materials processing,"mds:subcomponent, mds:component"
+printing method comparison,1,mds:analysis,"mds:subcomponent, mds:component"
+printing parameters,1,mds:recipe,mds:subcomponent
+printing pass count,1,mds:recipe,mds:subcomponent
+printing platform,1,mds:tool,"mds:subcomponent, mds:component"
+printing process mechanics,1,mds:materials processing,mds:subcomponent
+printing speed,1,mds:recipe,mds:subcomponent
+printing technique,1,mds:materials processing,"mds:subcomponent, mds:component"
+printing technology,1,mds:materials processing,"mds:subcomponent, mds:component"
+process atmosphere,1,mds:recipe,"mds:materials, mds:subcomponent"
+process challenge,1,mds:results and metadata,"mds:subcomponent, mds:component, mds:assembly"
+process compatibility,1,mds:analysis,"mds:subcomponent, mds:component"
+process cost,1,mds:results and metadata,"mds:component, mds:subsystem, mds:system"
+process feasibility,1,mds:analysis,"mds:subcomponent, mds:component"
+process improvement,1,mds:results and metadata,"mds:subcomponent, mds:component"
+process innovation,1,mds:results and metadata,"mds:subcomponent, mds:component, mds:system"
+process parameter,1,mds:recipe,"mds:materials, mds:subcomponent"
+process parameter optimisation,1,mds:analysis,"mds:subcomponent, mds:component"
+process reproducibility,1,mds:results and metadata,"mds:subcomponent, mds:component"
+process requirement,1,mds:recipe,"mds:subcomponent, mds:component"
+process sequence,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e",mds:subcomponent
+process speed,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e",mds:subcomponent
+process temperature,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e",mds:subcomponent
+process uniformity,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:subcomponent
+process window,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e",mds:subcomponent
+processing duration,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e",mds:subcomponent
+processing technique,1,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g",mds:subcomponent
+processing tool,1,"mds:t, mds:o, mds:o, mds:l",mds:subcomponent
+product certification,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a",mds:system
+product cost reduction,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a","mds:subsystem, mds:system"
+production cost reduction,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a","mds:subsystem, mds:system"
+production throughput,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a","mds:subsystem, mds:system"
+productivity improvement,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a","mds:subsystem, mds:system"
+pulse amplitude,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e",mds:subcomponent
+pulse frequency,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e",mds:subcomponent
+pv expansion,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a",mds:system
+pv research focus,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a",mds:system
+rear contact efficiency loss,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:component
+rear contact metallization,1,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g",mds:subcomponent
+rear transparent conductive oxide,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e",mds:subcomponent
+reducing agent,1,"mds:f, mds:o, mds:r, mds:m, mds:u, mds:l, mds:a, mds:t, mds:i, mds:o, mds:n",mds:materials
+reference adhesion strength,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:subcomponent
+reference architecture,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a",mds:component
+reference cell technology,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a",mds:component
+reference conductivity,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:subcomponent
+reference device efficiency,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:component
+reference metallization material,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:materials, mds:subcomponent"
+reference metallization method,1,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g",mds:subcomponent
+reliability testing,1,"mds:t, mds:o, mds:o, mds:l","mds:component, mds:subsystem"
+replaced metal,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:materials, mds:subcomponent"
+reported cell efficiency,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a",mds:component
+resistance component analysis,1,"mds:a, mds:n, mds:a, mds:l, mds:y, mds:s, mds:i, mds:s",mds:component
+resistivity metric,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t",mds:subcomponent
+resource availability,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a","mds:materials, mds:system"
+review scope,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a",mds:system
+scalability,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a","mds:subsystem, mds:system"
+screen opening width,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e",mds:subcomponent
+screen optimization,1,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g",mds:subcomponent
+screen technology,1,"mds:t, mds:o, mds:o, mds:l",mds:subcomponent
+screen wire interaction,1,"mds:a, mds:n, mds:a, mds:l, mds:y, mds:s, mds:i, mds:s",mds:subcomponent
+seed layer,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e",mds:subcomponent
+seed layer deposition method,1,"mds:s, mds:y, mds:n, mds:t, mds:h, mds:e, mds:s, mds:i, mds:s",mds:subcomponent
+seed layer deposition technique,1,"mds:s, mds:y, mds:n, mds:t, mds:h, mds:e, mds:s, mds:i, mds:s",mds:subcomponent
+seed layer elimination,1,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g",mds:subcomponent
+selective metallization,1,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g","mds:subcomponent, mds:component"
+semiconductor polarity,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t","mds:materials, mds:subcomponent"
+silver content,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t","mds:materials, mds:subcomponent"
+silver reduction,1,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g","mds:materials, mds:subcomponent"
+sintering additive,1,"mds:f, mds:o, mds:r, mds:m, mds:u, mds:l, mds:a, mds:t, mds:i, mds:o, mds:n",mds:materials
+sintering atmosphere,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e","mds:materials, mds:subcomponent"
+sintering duration,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e","mds:materials, mds:subcomponent"
+sintering energy source,1,"mds:t, mds:o, mds:o, mds:l","mds:materials, mds:subcomponent"
+sintering product state,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t","mds:materials, mds:subcomponent"
+sintering temperature,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e","mds:materials, mds:subcomponent"
+solar cell cost reduction,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a","mds:component, mds:subsystem, mds:system"
+solar cell type,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e",mds:component
+solar industry growth,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a",mds:system
+structuring method,1,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g","mds:subcomponent, mds:component"
+substrate cost,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a","mds:materials, mds:subcomponent"
+substrate damage,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t","mds:materials, mds:subcomponent"
+substrate flexibility,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t","mds:materials, mds:subcomponent"
+substrate rigidity,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t","mds:materials, mds:subcomponent"
+substrate scalability,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a","mds:materials, mds:subcomponent"
+substrate surface,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:materials, mds:subcomponent"
+substrate temperature,1,"mds:r, mds:e, mds:c, mds:i, mds:p, mds:e","mds:materials, mds:subcomponent"
+substrate type,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:materials, mds:subcomponent"
+supply forecast horizon,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a","mds:materials, mds:system"
+surface modification,1,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g","mds:materials, mds:subcomponent"
+surface pretreatment,1,"mds:m, mds:a, mds:t, mds:e, mds:r, mds:i, mds:a, mds:l, mds:s, mds: , mds:p, mds:r, mds:o, mds:c, mds:e, mds:s, mds:s, mds:i, mds:n, mds:g","mds:materials, mds:subcomponent"
+synergetic mechanism,1,"mds:a, mds:n, mds:a, mds:l, mds:y, mds:s, mds:i, mds:s","mds:materials, mds:subcomponent, mds:component"
+tandem cell configuration,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e","mds:component, mds:assembly"
+target material,1,"mds:s, mds:a, mds:m, mds:p, mds:l, mds:e",mds:materials
+technique comparison,1,"mds:a, mds:n, mds:a, mds:l, mds:y, mds:s, mds:i, mds:s","mds:materials, mds:subcomponent, mds:component"
+technology readiness,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a","mds:component, mds:subsystem, mds:system"
+technology timeline,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a","mds:component, mds:subsystem, mds:system"
+thermal cycling test,1,"mds:t, mds:o, mds:o, mds:l","mds:component, mds:assembly, mds:subsystem"
+thermal stress management,1,"mds:a, mds:n, mds:a, mds:l, mds:y, mds:s, mds:i, mds:s","mds:subcomponent, mds:component, mds:assembly"
+thermal stress test,1,"mds:t, mds:o, mds:o, mds:l","mds:component, mds:assembly, mds:subsystem"
+tool durability,1,"mds:r, mds:e, mds:s, mds:u, mds:l, mds:t, mds:s, mds: , mds:a, mds:n, mds:d, mds: , mds:m, mds:e, mds:t, mds:a, mds:d, mds:a, mds:t, mds:a","mds:subcomponent, mds:component"
+trade-off analysis,1,"mds:a, mds:n, mds:a, mds:l, mds:y, mds:s, mds:i, mds:s","mds:materials, mds:subcomponent, mds:component, mds:assembly, mds:subsystem, mds:system"
+transition layer composition,1,mds:result,mds:subcomponent
+treated contact resistivity,1,mds:result,mds:subcomponent
+trench circumference ratio,1,mds:result,mds:subcomponent
+trench geometry,1,mds:recipe,mds:subcomponent
+untreated reference,1,mds:sample,mds:component
+wafer thickness,1,mds:result,mds:materials
+work of adhesion,1,mds:result,mds:subcomponent
