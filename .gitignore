@@ -5,3 +5,6 @@ __pycache__/
 .venv/
 .claude
 CLAUDE.md
+uv.lock
+.gitignore
+.python-version
