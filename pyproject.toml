@@ -21,4 +21,5 @@ dependencies = [
     "pydantic>=2.0.0",
     "shiny>=1.0.0",
     "spyder-kernels==3.1",
+    "fastmcp>=3.2.4",
 ]

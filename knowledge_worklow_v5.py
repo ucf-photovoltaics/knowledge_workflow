@@ -52,6 +52,7 @@ load_dotenv()
 # CONFIG — edit these, or set the equivalent environment variables
 # ---------------------------------------------------------------------------
 
+COLLECTION_ID       = 'VWMCLGL5' # <-- change this
 # Zotero
 ZOTERO_LIBRARY_ID   = '2189702'
 ZOTERO_LIBRARY_TYPE = 'group'
@@ -451,7 +452,7 @@ def normalize_concept_list(all_canonicals):
             {'role': 'system', 'content': _NORMALIZE_SYSTEM},
             {'role': 'user',   'content': (
                 f'Here are {len(unique)} candidate concept labels from a corpus of '
-                f'solar cell materials papers. '
+                f'a domain specific set of peer reviewed research papers. '
                 f'Normalize and deduplicate into a clean ontology-ready list (30–80 concepts).\n\n'
                 + '\n'.join(f'- {c}' for c in unique)
             )}
@@ -572,15 +573,16 @@ if __name__ == '__main__':
     else:
         my_collections = get_collection_map(zot)
     print('Available collections:')
-    for name in my_collections:
-        print(f'  {name}')
+    for name, key in my_collections.items():
+        print(f'  {name}:{key}')
 
-    # 2. Select collection
-    collection_name = '-In Development- > Copper Metallization Review > 2-Technologies'            # <-- change this
+    # 2. Select collection  (set COLLECTION_ID at the top of the file)
+    _id_to_name     = {v: k for k, v in my_collections.items()}
+    collection_name = _id_to_name.get(COLLECTION_ID, COLLECTION_ID)
     domain          = collection_name.lower().replace(' ', '_')
 
-    papers = get_collection_with_text(my_collections[collection_name])
-    print(f'\nLoaded {len(papers)} papers from "{collection_name}"')
+    papers = get_collection_with_text(COLLECTION_ID)
+    print(f'\nLoaded {len(papers)} papers from "{collection_name}" (id: {COLLECTION_ID})')
 
     # 3. Report missing PDFs
     missing_pdf = [p['title'] for p in papers.values() if not p['full_text']]
