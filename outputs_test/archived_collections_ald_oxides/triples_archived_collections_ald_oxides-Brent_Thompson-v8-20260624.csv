@@ -1,0 +1,18 @@
+subject,predicate,predicate_norm,object,subject_id,object_id,confidence,source_paper
+Applied Physics Letters,publication date,,1063,,,0.329,Excellent c-Si surface passivation by low-temperature atomic layer deposited titanium oxide
+Applied Physics Letters,has part,mds:hasPart,1.1063/1.1116/1-2-3,,,0.329,Excellent c-Si surface passivation by low-temperature atomic layer deposited titanium oxide
+Solar Energy Research Institute of Singapore,country,,Singapore,,,0.864,Excellent c-Si surface passivation by low-temperature atomic layer deposited titanium oxide
+silicon oxide,has part,mds:hasPart,silicon,,,0.879,Excellent c-Si surface passivation by low-temperature atomic layer deposited titanium oxide
+silicon nitride,has part,mds:hasPart,silicon,,,0.787,Excellent c-Si surface passivation by low-temperature atomic layer deposited titanium oxide
+silicon wa-fer,subclass of,mds:subClassOf,solar cell,,,0.715,Excellent c-Si surface passivation by low-temperature atomic layer deposited titanium oxide
+Sunale,subclass of,mds:subClassOf,silicon,,,0.758,Excellent c-Si surface passivation by low-temperature atomic layer deposited titanium oxide
+sulfuric acid,subject has role,,oxidant,,,0.819,Excellent c-Si surface passivation by low-temperature atomic layer deposited titanium oxide
+Rutherford backscatter-製 spectrometry,uses,,X-ray diffraction,,,0.769,Excellent c-Si surface passivation by low-temperature atomic layer deposited titanium oxide
+Tandetron accelerator,uses,,Rutherford backscatter,,,0.788,Excellent c-Si surface passivation by low-temperature atomic layer deposited titanium oxide
+APCVD,subclass of,mds:subClassOf,solar cell,,,0.712,Excellent c-Si surface passivation by low-temperature atomic layer deposited titanium oxide
+anatase phase,subclass of,mds:subClassOf,crystalline phase,,,0.911,Excellent c-Si surface passivation by low-temperature atomic layer deposited titanium oxide
+TiO,has part,mds:hasPart,Cl,https://cwrusdle.bitbucket.io/mds/concept/atomic_layer_deposition,,0.787,Excellent c-Si surface passivation by low-temperature atomic layer deposited titanium oxide
+Reuse of AIP content,subclass of,mds:subClassOf,copyrighted,,,0.695,Excellent c-Si surface passivation by low-temperature atomic layer deposited titanium oxide
+National Research Foundation,country,,Singapore,,,0.91,Excellent c-Si surface passivation by low-temperature atomic layer deposited titanium oxide
+EUPVSEC,country,,Spain,,,0.927,Excellent c-Si surface passivation by low-temperature atomic layer deposited titanium oxide
+EUPVSEC,country,,UK,,,0.855,Excellent c-Si surface passivation by low-temperature atomic layer deposited titanium oxide

@@ -1,0 +1,9 @@
+concept,iri,label,definition,domain,subdomain,study_stage
+compound semiconductors,https://cwrusdle.bitbucket.io/mds/Compound,Compound,A compound is a substance formed by the chemical bonding of two or more elements. [IUPAC],Chem,Chem-Rxn; Chem-Form,Sample; Formulation
+dielectric materials,https://cwrusdle.bitbucket.io/mds/Materials,Materials,Materials involved in sample's production or that are part of the sample.,,,
+electrical properties of materials,https://cwrusdle.bitbucket.io/mds/Materials,Materials,Materials involved in sample's production or that are part of the sample.,,,
+intrinsic defects in materials,https://cwrusdle.bitbucket.io/mds/Materials,Materials,Materials involved in sample's production or that are part of the sample.,,,
+layer deposition,https://cwrusdle.bitbucket.io/mds/ThermalAtomicLayerDeposition,Thermal Atomic Layer Deposition,"A thin film deposition technique that uses sequential, self-limiting surface reactions to deposit materials one atomic layer at a time using thermal activation.",Manufacture,MatProc,Materials Processing
+materials science,https://cwrusdle.bitbucket.io/mds/Materials,Materials,Materials involved in sample's production or that are part of the sample.,,,
+metal-oxide-semiconductor (mos) capacitor devices,http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C637,metal,,Chem,Chem-Rxn,Sample
+semiconductor devices,https://cwrusdle.bitbucket.io/mds/Semiconductor,Semiconductor,A Material with Electronic Band Gap between 0.5 eV and 3.0 eV,,,

@@ -1,0 +1,1249 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+  },
+  "@graph": [
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/generic/Achieving_High-Efficiency_in_Tunnelling_Oxide_Passivated_Contact_Solar_Cells_via_an_Extra_Secondary_Laser-Enhanced_Conta",
+      "@type": [
+        "mds:ResearchPublication",
+        "mds:SchemaRecord"
+      ],
+      "schema:identifier": "10.1002/pip.70096",
+      "mds:hasDomain": "cell_efficiencies",
+      "mds:derivedFrom": "schema_cell_efficiencies-Brent_Thompson-v8-20260624.csv",
+      "schema:name": "Achieving High-Efficiency in Tunnelling Oxide Passivated Contact Solar Cells via an Extra Secondary Laser-Enhanced Contact Optimization",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1002/pip.70096"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/AcidEtching": {
+        "mds:value": "acid etching (Figure S7a)",
+        "mds:quote": "Cell-2 was further subjected to the acid etching (Figure S7a)"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/ChemicalComposition": {
+        "mds:value": "O",
+        "mds:quote": "However, after ultrasonic treatment, all typical signals disappeared (Figure  3c). It could be speculated that the chemical composition of the pyramid included the element Ag and O."
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/Conductivity": {
+        "mds:value": "2.516 mΩ·cm<sup>2</sup>",
+        "mds:quote": "champion Cell-1-L exhibits the lowest contact resistivity (ρ<sub>c</sub>) of 2.516 mΩ·cm<sup>2</sup>,"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/Dopant": {
+        "mds:value": "p- + emitter",
+        "mds:quote": "establishing and enhancing ohmic contact between the silver electrodes and the low- doped  p+ emitters"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/Efficiency": {
+        "mds:value": "26.69%",
+        "mds:quote": "Consequently, this optimized strategy endows the champion cell achieving a PCE of 26.69%"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/ElectricalPerformance": {
+        "mds:value": "Electrical parament: (a) PCE, (b) Voc, (c) Jsc of Cell- 2 and Cell- 2- L.",
+        "mds:quote": "Figure S6. Electrical parament: (a) PCE, (b) Voc, (c) Jsc of Cell- 2 and Cell- 2- L."
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/EnergyConsumption": {
+        "mds:value": "34 W",
+        "mds:quote": "Finally, LECO was performed (DR Laser, China) using a 1064 nm laser at 34 W,"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/EtchingMethod": {
+        "mds:value": "HNO3 and HF",
+        "mds:quote": "Acid etching was employed to enable direct observation of the microstructure and morphology of the interface between the Ag grid and the silicon wafer."
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/FiringCondition": {
+        "mds:value": "a moderate increase in peak firing temperature (30°C)",
+        "mds:quote": "Consequently, a moderate increase in peak firing temperature was beneficial for J<sub>sc</sub> due to enhanced Ag diffusion,"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/FiringTemperature": {
+        "mds:value": "770°C and 800°C",
+        "mds:quote": "these samples were designated as Cell-  1 and Cell-  2, corresponding to peak firing temperatures of 770°C and 800°C, respectively."
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/MaterialProperty": {
+        "mds:value": "Elemental distribution along the dashed line in the FIB- prepared cross- section (~500 nm) Cell- 1- L after HNO3 and 1 min HF treatment, along with schematic illustration of the FIB sampling process.",
+        "mds:quote": "Figure S3: Elemental distribution along the dashed line in the FIB- prepared cross- section (~500 nm) Cell- 1- L after HNO3 and 1 min HF treatment, along with schematic illustration of the FIB sampling process."
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/MicroscopicAnalysis": {
+        "mds:value": "The circular markers represent the identified pits used for quantitative statistical analysis.",
+        "mds:quote": "Figure S1: (a) Corresponding feature-recognized images of Figure 1d–i. The circular markers represent the identified pits used for quantitative statistical analysis."
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/PassivationLayer": {
+        "mds:value": "Tunnel Oxide Passivating Contact Solar Cells With Ultra- High Sheet Resistance Emitters,",
+        "mds:quote": "Mechanisms and Strategies for Laser- Enhanced Contact Optimization in Tunnel Oxide Passivating Contact Solar Cells With Ultra-  High Sheet Resistance Emitters,"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/PhotovoltaicEfficiency": {
+        "mds:value": "26.69%",
+        "mds:quote": "the champion Cell-1-LL displayed an outstanding PCE of 26.69%"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/PyramidStructure": {
+        "mds:value": "TEM image of the Ag–Si interface in a pyramid- largely- intact area of Cell- 1- L.",
+        "mds:quote": "Figure S4: TEM image of theAg–Si interface in a pyramid- largely- intact area of Cell-  1- L."
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/ResistivityMeasurement": {
+        "mds:value": "9.480 and 8.731 mΩ·cm<sup>2</sup>",
+        "mds:quote": "of champion Cell-1-LL and champion Cell-2-L, respectively."
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/SolarCellCharacteristics": {
+        "mds:value": "26.69%",
+        "mds:quote": "the champion Cell-1-LL displayed an outstanding PCE of 26.69%"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/SubstrateMaterial": {
+        "mds:value": "Si",
+        "mds:quote": "the distribution of Ag in Cell-  1 appeared uniform, and N and O displayed a similar trend"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/SurfaceRoughness": {
+        "mds:value": "The circular markers represent the identified pits used for quantitative statistical analysis.",
+        "mds:quote": "Figure S1: (a) Corresponding feature-recognized images of Figure 1d–i. The circular markers represent the identified pits used for quantitative statistical analysis."
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/TemperatureImpact": {
+        "mds:value": "Tg",
+        "mds:quote": "could facilitate further promote localized damage of the pyramids. Interestingly, within some of the larger pits"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/TransmissionElectronMicroscopy": {
+        "mds:value": "Figure 5g illustrates the potential evolution of metallization and device performance enhancement mechanisms of TOPCon solar cells."
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/VoltageOutput": {
+        "mds:value": "(a) PCE, (b) Voc, (c) Jsc of Cell- 2 and Cell- 2- L.",
+        "mds:quote": "Figure S6. Electrical parament: (a) PCE, (b) Voc, (c) Jsc of Cell- 2 and Cell- 2- L."
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "metallization technique",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "laser-enhanced contact optimization (LECO) technology",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "interface morphology",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "emitter interface contact morphology and its evolutionary mechanisms",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "aggregation mechanism",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "formation of dense Ag–Si contacts with minimized metal-induced recombination",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "firing condition",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "fast firing in a conveyor belt furnace",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "aggregation process",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "Ag precipitation and diffusion",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "substrate material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "commercial n-type Czochralski (Cz) silicon wafers",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar cell characteristic",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "photoelectric conversion efficiency (PCE)",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "photovoltaic cell type",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "tunnelling oxide passivated contact (TOPCon) solar cells",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "processing temperature",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "peak firing temperatures of 770°C and 800°C",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "laser technology",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "DR Laser, China (using a 1064 nm laser)",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "efficiency improvement",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "PV performance",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar cell",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "Cell-1",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar cell performance",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "champion Cell-  LL, its PCE value and related results",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "ag nanoparticles",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "Ag/Ag nanoparticles/SiN x layer/Si substrate",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "leco treatment",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "LECO process/secondary LECO treatment",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "current density",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "dark saturation current density, J0,metal",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "ag silicon contact",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "Ag–Si contact points (including Ag–Si alloy)",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "passivation technology",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "interface passivation on the p+ emitter",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "passivation coating",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "SiNx:H film",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "structural damage",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "damage to the SiN x layer",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "optical property",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "reflection coating",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "sample handling",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Sample"
+          },
+          "mds:paperTerm": "screen-printing machine and furnace",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "sample preparation",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Sample"
+          },
+          "mds:paperTerm": "rinsing using deionized water to remove reaction residues",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "laser treatment",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "LECO (Local Energy Conversion Optical)",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "silver particle precipitation",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Economics"
+          },
+          "mds:paperTerm": "the silver particles randomly precipitated on the pyramid surface [29]",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "pyramid shape evolution",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "the pyramid of Cell-1-L exhibited distinct features, a pronounced Ag peak on the tip of the pyramid was detected after HF treatment.",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "firing temperature",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "fast firing process/LCO treatment/higher peak firing temperature",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "pyramid structure",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "pyramids/ pyramid- shaped structures/pyramid-like features",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "passivation layer",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "SiNx passivation/PETI passivation repair/glass phase interaction",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "electrical performance",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "I-V measurements/PCE/Voc/Jsc/FF/device performance/effective carrier transport/local conduction/superior contact pathway",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "device performance metrics",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "PCE/Jsc/Voc/FF/I-V measurements/devices with high Ag concentration",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "metallic paste",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "Ag paste",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "interfacial quality",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "contact formation, metallization",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "voltage output",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "Voc of Champion Cells -  LL and Cell-2-L",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "photovoltaic cells",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "Solar cells",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "photovoltaic performance",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "photovoltaic parameters",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "photovoltaic_efficiency",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "PCE (Photocurrent Conversion Efficiency)",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar_panel_characterization",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Characterization"
+          },
+          "mds:paperTerm": ",Photovoltaic performance of Cell-1-LL and Cell-2-L in comparison to other TOPCon solar cells reported in the literature",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "contact resistivity",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "specific contact resistivity",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "annealing process",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "localized annealing process",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar cell material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "Czochralski (Cz) silicon wafers",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "metallization paste",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "custom Bi-B-Ag system front-side Ag paste",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "voltage measurement",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "fill factor (FF)",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "material composition",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "Aluminum oxide (Al2O3) and aluminum oxide (SiOx) film",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "microscopic analysis",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "ultrasonic cleaner (40 ± 2 kHz, 480 W) for ultrasonic treatment",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "temperature profile",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "thermal distribution across the interface and consequently increased surface roughness",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "sin x layer",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "SiN x/SiNx",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "tem analysis",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "high-angle annular dark-field (HAADF)/STEM element mapping/Si TEM specimen",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "peak firing temperature",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "-30°C reduction in peak firing temperature",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar cell structure",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "TOPCON solar cells",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "temperature impact",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "-30°C peak firing temperature reduction",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "laser-enhanced contact optimization (leco)",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "LECO",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "contact_resistance",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "Contact resistance of Cell-1-L, Cell-1-LL and Cell-2-L (S8)",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "etching method",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "acid etching",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "glass transition temperature",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "Tg",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "chemical composition",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "a pronounced Ag peak, which further reveals the segregation and precipitation of Ag as a potential CFC",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "silver segregation",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Economics"
+          },
+          "mds:paperTerm": "the segregation and precipitation of Ag as a potential CFC.",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "sem analysis",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "cross-sectional SEM/SEM images/Figure 4/Figure S3/Figure S4",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "focusing ion beam milling",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "FIB preparation/Ga ion milling/beam current density",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "ultrasonic treatment",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "sonication/HNO3/HF treatment",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "resistivity measurement",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "contact resistivity  (ρc",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "topcon solar cells",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "TOPCon Cells",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "laser_technology",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "Laser-Enhanced Contact Optimization With Laser Induced Sintering (LIS)",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "firing_process",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": ":Firing Process on Electrical Properties and Efficiency of n-TOPCon Solar Cells",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "topcon_cell_design",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "n-TOPCon Solar Cells (Cell-1 LL and Cell-2 L)",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "etching process",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "acid etching, HF treatment",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "pyramid tip damage",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "obvious damage could be observed on the tips of certain pyramids, which were more susceptible to HF attack than others",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "pyramid surface modification",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Characterization"
+          },
+          "mds:paperTerm": "localization reactions between the glass phase and SiNx, and the structural evolution of the textured surface during firing and LECO processes.",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "surface roughness",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Characterization"
+          },
+          "mds:paperTerm": "p pits/p pit area/enlarged SiN x layer/damage pyramid features",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "acid etching process",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "acid etching/ HNO3 HF/HF etching",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "fill factor",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "pseudo fill factor (pFF)",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "energy consumption",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Economics"
+          },
+          "mds:paperTerm": "~3%-5% energy saving by LECO method",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "crystalline silicon solar cells",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "Crystalline Silicon Solar Cells",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "electrochemical oxidation",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "Oxidation",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar_cell",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "Tunnel Oxide Passivating Contact Solar Cells With Ultra-High Sheet Resistance Emitters",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "emitter_contact",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "Contact Optimization in Ultra-High Sheet Resistance Emitters",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "transmission_electron_microscopy",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Characterization"
+          },
+          "mds:paperTerm": "TEM image of the Ag-Si interface in a pyramid largely intact area of Cell-1-L",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "acidity_etchant",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "(HNO3 + 6 min HF) Acid-Etching Treatment on Cell-2 after",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/generic/ITO-less_silicon_heterojunction_solar_cells_based_on_nanocrystalline_silicon_carrier_collectors",
+      "@type": [
+        "mds:ResearchPublication",
+        "mds:SchemaRecord"
+      ],
+      "schema:identifier": "10.1016/j.solmat.2025.113422",
+      "mds:hasDomain": "cell_efficiencies",
+      "mds:derivedFrom": "schema_cell_efficiencies-Brent_Thompson-v8-20260624.csv",
+      "schema:name": "ITO-less silicon heterojunction solar cells based on nanocrystalline silicon carrier collectors",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1016/j.solmat.2025.113422"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/Efficiency": {
+        "mds:value": "21.28",
+        "mds:quote": "These findings contribute to advancing the industrial-scale implementation of SHJ solar cells."
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/EnergyConsumption": {
+        "mds:value": "75",
+        "mds:quote": "These findings contribute to advancing the industrial-scale implementation of SHJ solar cells."
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/PhotovoltaicEfficiency": {
+        "mds:value": "21.28"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/SubstrateMaterial": {
+        "mds:value": "silicon thin-film substrate",
+        "mds:quote": "the impact of the silicon thin-film substrate on the growth mechanism of the ITO films and contact resistance was analyzed."
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "material_property",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "ITO films with varying thickness",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "growth_mechanism",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "the growth mechanism of the ITO films",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "contact_resistance",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "contact resistance was analyzed",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "dopant_element",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "n-type nanocrystalline silicon (n-nc-Si:H)",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "anti_reflection_layer",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "LiFx anti-reflection layer",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "efficiency_metric",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "photoelectric conversion efficiency (PCE) of 21.28 ?",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "industrial_scale_impact",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "industrial-scale implementation of SHJ solar cells",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "film_thickness_variation_effect",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "varying thickness ITO films with",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "cell_structure_configuration",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "ITO-less SHJ cells",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "material_depletion_consequence",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "limited by the scarcity of indium-based TCO materials",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "thin_film_substrate",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Sample"
+          },
+          "mds:paperTerm": "silicon thin-film substrate",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "consumption_rate",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Economics"
+          },
+          "mds:paperTerm": "ITO consumption by 75 %",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "scarcity_factor",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "the scarcity of indium-based TCO materials",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "conductive_oxide_material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "Transparent Conductive Oxide (TCO) materials",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "photovoltaic_efficiency_category",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "series resistance of ITO-less SHJ cells",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "substrate_quality_effect",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Sample"
+          },
+          "mds:paperTerm": "high crystallinity, the series resistance",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "photovoltaic_cell",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "silicon heterojunction (SHJ) solar cells",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "high_temperature_effect",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "no mention",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "plasmaetching_method",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "no mention",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "laser_ablation_effect",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "no mention",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    }
+  ]
+}

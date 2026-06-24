@@ -1,0 +1,128 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+  },
+  "@id": "https://cwrusdle.bitbucket.io/mds/generic/Excellent_c-Si_surface_passivation_by_low-temperature_atomic_layer_deposited_titanium_oxide",
+  "@type": [
+    "mds:ResearchPublication",
+    "mds:SchemaRecord"
+  ],
+  "schema:identifier": "10.1063/1.4885096",
+  "mds:hasDomain": "-archived_collections-_>_ald_oxides",
+  "mds:derivedFrom": "schema_archived_collections_ald_oxides-Brent_Thompson-v8-20260624.csv",
+  "schema:name": "Excellent c-Si surface passivation by low-temperature atomic layer deposited titanium oxide",
+  "owl:sameAs": {
+    "@id": "https://doi.org/10.1063/1.4885096"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/OpticalProperties": {
+    "mds:value": "ideal optical properties /C24 2.4 and a relatively low absorption in the visible range",
+    "mds:quote": "Titanium oxide (TiO2) is another interesting dielectric ﬁlm for solar cell applications as it has ideal optical properties (refractive index of /C24 2.4 and a relatively low absorption in the visible range)"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/RecombinationVelocity": {
+    "mds:value": "down to 2.8 cm/s and 8.3 cm/s, respectively",
+    "mds:quote": "Ultralow effective surface recombination velocities down to 2.8 cm/s and 8.3 cm/s, respectively, are achieved on n-type and p-type ﬂoat-zone c-Si wafers."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/PassivationAcceleration": {
+    "mds:value": "- post-deposition anneal and subsequent light soaking treatment",
+    "mds:quote": "The surface passivation provided by the ALD TiOxﬁlms is active by a post-deposition anneal and subsequent light soaking treatment."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/RefractiveIndex": {
+    "mds:value": "2.4",
+    "mds:quote": "Titanium oxide (TiO2) is another interesting dielectric ﬁlm for solar cell applications as it has ideal optical properties (\\u2026 refractive index of /C24 2.4 and /C24 1.65 at a wavelength of 632.8 nm)"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/SurfacePassivation": {
+    "mds:value": "excellent level",
+    "mds:quote": "The surface passivation provided by the ALD TiOxﬁlms is active by a post-deposition anneal and subsequent light soaking treatment."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/TitaniumOxide": {
+    "mds:value": "thermally deposited",
+    "mds:quote": "In this work, we demonstrate that thermal atomic layer deposited (ALD) titanium oxide (TiOx)ﬁlms are able to provide a—up to now unprecedented—level of surface passivation."
+  },
+  "mds:hasConcept": [
+    {
+      "mds:canonicalTerm": "surface passivation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Characterization"
+      },
+      "mds:paperTerm": "TiOx films are able to provide a—up to now unprecedented—level of surface passivation on undiffused low-resistivity crystalline silicon (c-Si).",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "atomic layer deposition",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+      },
+      "mds:paperTerm": "thermal atomic layer deposited ALD TiOx\\uf80m s",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "optical properties",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "TiO2 has ideal optical properties (refractive index of //24 2.4 and a relatively low absorption in the visible range) to be used as ARC for encapsulated silicon wafer solar cells.",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "titanium oxide",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+      },
+      "mds:paperTerm": "titanium oxide (TiO2) is another interesting dielectric film for solar cell applications as it has ideal optical properties.",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "passivation velocity",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "ultralow effective surface recombination velocities down to 2.8 cm/s and 8.3 cm/s, respectively",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "recombination velocity",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "surface recombination velocities typically well above e 150 cm/s",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "refractive index",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "TiO2 has an optimal refractive index of //24 2.4 in the visible range for glass encapsulated solar cells",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    }
+  ]
+}

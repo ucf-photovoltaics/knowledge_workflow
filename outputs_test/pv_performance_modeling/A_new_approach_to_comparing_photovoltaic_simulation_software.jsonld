@@ -1,0 +1,695 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+  },
+  "@id": "https://cwrusdle.bitbucket.io/mds/generic/A_new_approach_to_comparing_photovoltaic_simulation_software",
+  "@type": [
+    "mds:ResearchPublication",
+    "mds:SchemaRecord"
+  ],
+  "schema:identifier": "10.1080/15567036.2023.2215196",
+  "mds:hasDomain": "pv_performance_modeling",
+  "mds:derivedFrom": "schema_pv_performance_modeling-Brent_Thompson-v8-20260624.csv",
+  "schema:name": "A new approach to comparing photovoltaic simulation software",
+  "owl:sameAs": {
+    "@id": "https://doi.org/10.1080/15567036.2023.2215196"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Absorber": {
+    "mds:value": "photovoltaic cell"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Albedo": {
+    "mds:value": "diffusive radiation"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Algorithm": {
+    "mds:value": "system advisor model (SAM)",
+    "mds:quote": "System Advisor Model - SAM, 2023. Golden, CO: National Renewable Energy Laboratory."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Architecture": {
+    "mds:value": "microchip and memory_bank design"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Assurance": {
+    "mds:value": "performance warranty & insurance",
+    "mds:quote": "+ insurance policies. Robledo et al., 2019. Inventory of PV Performance Modeling Software."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Benchmarking": {
+    "mds:value": "pvwatts and system advisor model (SAM)",
+    "mds:quote": "The comparison was made between data from a real system, a simplified version of the system built with Pvsyst software , and another version where performance ratio from different commercial tools was used, in this case PV-SOL and other sources to assess the accuracy of each of these tools. Robledo et al., 2019."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/ByPass": {
+    "mds:value": "circuitry"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Cable": {
+    "mds:value": "pv_cable & interconnects",
+    "mds:quote": "+ cable size and number were specified to avoid overheating. Malvoni et al., 2017."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Calibration": {
+    "mds:value": "solar radiation & temperature measurements"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Capacity": {
+    "mds:value": "installed MW & grid_connection capacity",
+    "mds:quote": "+ grid connection allowed system to reach 70% of its installed capacity . Malvoni et al., 2017."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Carrier": {
+    "mds:value": "electricity market operator  - Terna (Italy) or similar entities in other regions"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Cell": {
+    "mds:value": "photovoltaic cell or absorber",
+    "mds:quote": "The comparison between different photovoltaic systems and technologies, like crystalline silicon-based cells, presented in Monteiro et al. ,2018."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Chamber": {
+    "mds:value": "module chamber or enclosure"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Climate": {
+    "mds:value": "hot & dry, warm & humid or mixed climates",
+    "mds:quote": "+ monitoring of climate conditions such as temperature and humidity allowed the determination which technologies should be used. Wijeratne et al., 2019."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/ClimateZone": {
+    "mds:value": "zones with diverse climates"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/ClosedCircuit": {
+    "mds:value": "electrical circuit in closed-loop operation",
+    "mds:quote": "+ the monitoring system would provide real-time data to facilitate maintenance; in addition, it will detect faults and potential failures. Milosavljevic et al., 2022."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Coatings": {
+    "mds:value": "anti-reflection layers on top of solar cells"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Comparison": {
+    "mds:value": "performance, installation & system design in different climates",
+    "mds:quote": "+ Monteiro et al., (2018) evaluate which PV technology (monocrystalline silicon or polycrystalline silicon-based) could be more effective to install in the Mediterranean climate."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Condition": {
+    "mds:value": "performance and failure conditions of solar cells & whole pv systems under diverse environmental loads"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Connection": {
+    "mds:value": "electric grid, internet or monitoring system",
+    "mds:quote": "+ performance data from PV*SOL and another software tool, System Advisor Model (SAM) could be used for remote monitoring. Additionally, PVWatts  was a good approximation of an idealized simulation when actual performance ratio is unknown , Robledo et al.(2019). The Pvsyst monitoring module also integrated with third-party sensors."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Conservation": {
+    "mds:value": "energy conservation by using renewable power generation"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Context": {
+    "mds:value": "solar radiation and local conditions (wind, rain, temperature etc.)",
+    "mds:quote": "+ the PV technology of choice should be evaluated in the specific context where it is installed. Kazem et al., 2022."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Conversion": {
+    "mds:value": "of mechanical to electrical energy using PV systems"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Cost": {
+    "mds:value": "installation and maintenance & performance ratio",
+    "mds:quote": "+ cost and performance were factors to take into account , for example, with the use of anti-reflection coatings or a by-pass diode on both sides: the system performed better in terms of the energy yield. Tina et al., 2021"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Damage": {
+    "mds:value": "to solar cells from environmental stressors"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Data": {
+    "mds:value": "performance and failure data obtained from remote monitoring systems",
+    "mds:quote": "+ Robledo et al., 2019 used real performance ratio for benchmarking of several tools. Malvoni et al., (2017)."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Design": {
+    "mds:value": "solar panel design & layout for optimal energy-yield",
+    "mds:quote": "+ PV*SOL software tool offers different layouts and designs to optimize the system's installed capacity. Robledo et al., (2019)  In another study, authors applied pvwatts calculator and it was concluded that PV*SOL output matches the expected one . Viana et al. ,2020."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Diode": {
+    "mds:value": "by-pass diodes to improve performance under shaded conditions",
+    "mds:quote": "+ by-pass diodes (BBD) allowed better system performance in cases when partial shading occurred, leading to an increase of between 1 -10%. Tina et al., 2021."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Discharge": {
+    "mds:value": "battery discharge or storage capacity"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Efficiency": {
+    "mds:value": "energy conversion efficiency & fill_factor",
+    "mds:quote": "+ performance ratio, the ratio of the electrical energy produced to the maximum possible under the given environmental conditions. In addition, different technologies such as bifacial photovoltaic cells can increase the electricity generation and thus fill factor. Malvoni et al., (2017)"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Electricity": {
+    "mds:value": "primary energy form generated by solar pv system"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Emitter": {
+    "mds:value": "solar PV emitter"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Energy": {
+    "mds:value": "renewable electricity generation and supply",
+    "mds:quote": "+ the amount of renewable energy in the electrical grid. Wijeratne et al., (2019)"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Environment": {
+    "mds:value": "local climatic conditions"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Error": {
+    "mds:value": "calculation error, inaccurate estimation or data discrepancy",
+    "mds:quote": "+ due to discrepancies between real and simulated performance an acceptable level of system performance should be allowed if a tool is used for planning and design as per Robledo et al.,2019."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Evaluation": {
+    "mds:value": "performance monitoring of PV-systems"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Exertion": {
+    "mds:value": "human exertion or manual intervention via monitoring system",
+    "mds:quote": "+ remote monitoring will reduce the need for on-site intervention as well enabling quick troubleshooting and maintenance. Vodermayer et al., 2008"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Failure": {
+    "mds:value": "failure of the solar cells, pv system, infrastructure or any component",
+    "mds:quote": "+ failure detection and fault-tolerant design enabled better performance ratio of up to 98% . Tina et al. (2021)"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/FillFactor": {
+    "mds:value": "output / input energy ratio & efficiency limit",
+    "mds:quote": "+ monitoring the fill factor will allow for identifying potential issues with the performance of photovoltaic generators Malvoni et al., 2017."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Gauge": {
+    "mds:value": "monitoring tools, instruments & sensors and/or gauges to detect stressors on solar cells"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Grid": {
+    "mds:value": "electric grid connection",
+    "mds:quote": "+ system integration with an inverter allowed for connecting the PV installation to the nearby micro-grid . Malvoni et al., (2017)."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Heterojunction": {
+    "mds:value": "structure of photovoltaic cells (inorganic semiconductor layer on a metal surface, etc.)",
+    "mds:quote": "+ hetero junction solar cell design led to efficiency enhancements under certain conditions. Sauer and Hansen , p.1056."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Infrared": {
+    "mds:value": "radiation temperature data from infrared detectors"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Infrastructure": {
+    "mds:value": "support infrastructure e.g structural mounting, PV system foundation, grid connector and/or any other required materials",
+    "mds:quote": "+ infrastructure costs accounted for about 20.7% of the total investment . Wijeratne et al., (2019)"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/InputOutput": {
+    "mds:value": "system input/output operation & algorithm data processing"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Insurance": {
+    "mds:value": "performance warranty, liability insurance or similar",
+    "mds:quote": "+ the need for insurance and performance guarantees was discussed in Robledo et al. 2019."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Integration": {
+    "mds:value": "pv_system_design into the overall building architecture"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Output": {
+    "mds:value": "electrical energy generated and supplied into the grid",
+    "mds:quote": "+ Robledo et al., (2019) concluded that monitoring tools provide accurate power output performance ratio  in addition to other parameters."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Panel": {
+    "mds:value": "performance characteristics of solar Photovoltaic panels"
+  },
+  "mds:hasConcept": [
+    {
+      "mds:canonicalTerm": "simulation tool",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "photovoltaic simulation tools",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "energy estimation method",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "PV SOL and PVsyst",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "operation period",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "5-year operation period",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "energy production estimation metric",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "nRMSE",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "performance comparison technique",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "cross-validation analysis",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "solar panel system size",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "31 kWp grid-connected PV system",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "climate classification system",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "Köppen-Geiger climate classification",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "installation location",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "Faculty of Electrical Engineering, Mechanical Engineering, and Naval Architecture in Split, Croatia",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "evaluation period",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "complete period under study",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "geographical location",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "European locations",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "performance difference indicator",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "+/−10 ‰",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "radiation sensor",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "plane-of-array radiation",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "climate zone",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "hot and dry climates",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "energy yield prediction accuracy metric",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "% Difference in Estimated Energy",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "solar radiation value",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "monthly values",
+      "mds:relevance": {
+        "@value": 0.4,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "photovoltaic system measurement",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "measured data from the real PV system",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "validation benchmark",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "prediction accuracy for a 5-year operation period of 31 kWp grid-connected PV system",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "error analysis metric",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "nRMSE less than 3.2% for the complete period under study",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "photovoltaic system installation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "31 kWp grid-connected PV system installed on the Faculty of Electrical Engineering, Mechanical Engineering, and Naval Architecture in Split, Croatia",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "data comparison method",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "cross-validation analysis along with a comparison",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "pv system installation location",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "Faculty of Electrical Engineering, Mechanical Engineering, and Naval Architecture in Split, Croatia",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "photovoltaic tool comparison",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "so-called cross-validation analysis",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "radiation estimation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "plane-of-array radiation",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "statistics of variation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "statistics of variation between simulation results are presented",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "precision estimation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "difference in monthly values between simulation tools for most locations remains within ±10%",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "benchmark comparison",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "comparing PV*SOL and PVsyst",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "data validation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "comparison with measurement was presented",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "data analysis metric",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "statistics of variation between simulation results are presented",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "photovoltaic simulation toolset comparison",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "PV*SOL and PVsyst",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "study duration",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "5-year operation period of 31 kWp grid-connected PV system",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "simulation accuracy",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "geographical and climate dependence of simulation accuracy",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "energy yield variation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "difference in estimated energy is smaller",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "performance evaluation metric",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "annual yield",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "industry standard software",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "PV professionals using PV*SOL and PVsyst",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "yearly yield comparison",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "accurately predicted annual and monthly yield",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "system performance metric",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "annual and monthly yield",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "error analysis tool",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "nRMSE",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "location grouping",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "five groups according to Köppen-Geiger climate classification",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "seasonal comparison",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "both seasonal and variations",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "month wise comparison",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "monthly values between simulation tools",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "climate zone categorization",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "according to Köppen-Geiger climate classification",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "climate class comparison",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "locations with different climates",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "simulation result variation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "variation between locations with different climates",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "grid connected pv system size",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "31 kWp grid-connected PV system",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "pv system climate conditions",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "hot and dry climates",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    }
+  ]
+}

@@ -1,0 +1,448 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+  },
+  "@id": "https://cwrusdle.bitbucket.io/mds/generic/Solar_photovoltaic_system_modeling_and_performance_prediction",
+  "@type": [
+    "mds:ResearchPublication",
+    "mds:SchemaRecord"
+  ],
+  "schema:identifier": "10.1016/j.rser.2014.04.057",
+  "mds:hasDomain": "pv_performance_modeling",
+  "mds:derivedFrom": "schema_pv_performance_modeling-Brent_Thompson-v8-20260624.csv",
+  "schema:name": "Solar photovoltaic system modeling and performance prediction",
+  "owl:sameAs": {
+    "@id": "https://doi.org/10.1016/j.rser.2014.04.057"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Algorithm": {
+    "mds:value": "combination technique integrated an algebraic simultaneous calculation of the parameters at standard test conditions (STC) with an analytical determination of the parameters under real operating conditions",
+    "mds:quote": "The well-known five-parameter model was selected for the present study, and solved using a novel combination technique which integrated an algebraic simultaneous  ..."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Benchmarking": {
+    "mds:value": "comparing with other models",
+    "mds:quote": "... In addition, the simulation performance of the model was compared with other models,"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Cell": {
+    "mds:value": "PV cells",
+    "mds:quote": "...The entire set of experimental field test I–V curves of the PV module..."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Climate": {
+    "mds:value": "Hong Kong climate zone",
+    "mds:quote": "Thus, the operating performance of a standalone PV system located on a remote island in Hong Kong has been further evaluated..."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/ClimateZone": {
+    "mds:value": "Hong Kong",
+    "mds:quote": "...the operating performance of a standalone PV system located on a remote island in Hong Kong has been further evaluated with the aid of this model."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Comparison": {
+    "mds:value": "benchmarked against experimental field test I–V curves",
+    "mds:quote": "...The results show that the predictions agree very well with the PV plant field collected data."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Condition": {
+    "mds:value": "standard test conditions (◇ STC), real operating conditions, outdoor conditions",
+    "mds:quote": "In addition, the simulation performance of the model was compared with other models, and further validated by outdoor tests,"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Data": {
+    "mds:value": "... the field collected data, test I–V curves of the PV module",
+    "mds:quote": "The results show that the predictions agree very well with the PV plant field collected data."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Design": {
+    "mds:value": "PV system design",
+    "mds:quote": "It is found that the PV array power output is restricted by the status of the battery bank. This research demonstrates that ..."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Electricity": {
+    "mds:value": "PV system power output, electricity generation",
+    "mds:quote": "...the results show that the predictions agree very well with the PV plant field collected data..."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Energy": {
+    "mds:value": "Photovoltaic (PV) system energy production",
+    "mds:quote": "...This research demonstrates that the PV simulation model developed during the study is simple, but very helpful to PV system engineers..."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Evaluation": {
+    "mds:value": "... evaluating the operating performance of a standalone PV system in Hong Kong climate zone",
+    "mds:quote": "...the results show that the predictions agree very well with the PV plant field collected data..."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Integration": {
+    "mds:value": "...integration of the five- parameter model with novel combination technique",
+    "mds:quote": "...The well-known five-parameter model was selected for the present study, and solved using a novel combination technique ..."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Location": {
+    "mds:value": "...remote island in Hong Kong",
+    "mds:quote": "...the operating performance of a standalone PV system located on a remote island in Hong Kong has been further evaluated..."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/MathematicalModel": {
+    "mds:value": "simulation model, photovoltaic (PV) system power generation and prediction model",
+    "mds:quote": "...In this paper, a simulation model for modeling PV system power generation  ..."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Module": {
+    "mds:value": "PV module",
+    "mds:quote": "...The entire set of experimental field test I–V curves of the PV module  ..."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/NumericSimulation": {
+    "mds:value": "... numeric simulation performance",
+    "mds:quote": "... In addition, the simulation performance of the model was compared with other models, ..."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Output": {
+    "mds:value": "predicted PV system power output, actual PV system power output",
+    "mds:quote": "...The results show that the predictions agree very well with the PV plant field collected data."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Panel": {
+    "mds:value": "PV array",
+    "mds:quote": "...It is found that the PV array power output is restricted by the status of the battery bank."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Performance": {
+    "mds:value": "simulated, validated PV system performance",
+    "mds:quote": "In addition, the simulation performance of the model was compared with other models,"
+  },
+  "mds:hasConcept": [
+    {
+      "mds:canonicalTerm": "model type",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "five-parameter model",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "model prediction accuracy",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "agree very well with the PV plant field collected data",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "photovoltaic simulator",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "simulation model",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "parameter determination method",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "algebraic simultaneous calculation",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "validation metric",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "fits well the entire set of experimental field test I–V curves",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "system performance analysis",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "operating performance of a standalone PV system",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "prediction application",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "understand I–V curves and predict PV system power production under outdoor conditions",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "research application domain",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "PV system engineers",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "evaluation metric",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "predict PV system power production under outdoor conditions",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "operating condition",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "standard test conditions (STC)",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "energy storage constraint",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "status of the battery bank",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "performance prediction method",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "algebraic simultaneous calculation of the parameters at STC",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "literature review",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "comprehensive literature review",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "field testing",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Reliability"
+      },
+      "mds:paperTerm": "outdoor tests",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "accuracy assessment metric",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "-viable to understand",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "power generation prediction",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "performance prediction",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "photovoltaic system simulation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "predict the PV system power output under real conditions",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "system performance improvement method",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "this research demonstrates that the PV simulation model developed during the study is simple, but very helpful to PV system engineers",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "simulation model",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "five-parameter model",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "algebraic simultaneous calculation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "algebraic simultaneous calculation of the parameters at standard test conditions (STC)",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "validity evaluation method",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "further validated by outdoor tests",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "outdoor condition simulation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Reliability"
+      },
+      "mds:paperTerm": "PV plant field collected data",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "photovoltaic device",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "PV devices",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "analytical determination method",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "analytical determination of the parameters under real operating conditions",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "experimental data set",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "I–V curves of the PV module",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "field performance evaluation method",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "operating performance of a standalone PV system located on a remote island in Hong Kong has been further evaluated",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "literature review",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "comprehensive literature review",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "simulation performance comparison",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "_performance of the model was compared with other models",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "battery bank status impact",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "the status of the battery bank restricted the PV array power output",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "parameter determination method",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "determination methods",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "parameter extraction technique",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "characteristic points",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    }
+  ]
+}

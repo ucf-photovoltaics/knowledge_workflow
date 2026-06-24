@@ -14,6 +14,7 @@ nothing is overwritten that was already set.
 """
 from __future__ import annotations
 
+import os
 import re
 from difflib import SequenceMatcher
 
@@ -22,6 +23,11 @@ from kw.config import MDS_NS, MERGE_SIM_THRESHOLD
 
 _st_model = None
 _st_tried = False
+
+# Link a triple endpoint to a concept ONLY when the triple itself is confident
+# and the endpoint matches a concept with high similarity (both 'very confident').
+LINK_MIN_CONFIDENCE = float(os.getenv('REBEL_LINK_MIN_CONFIDENCE', '0.9'))
+LINK_SIM_THRESHOLD  = float(os.getenv('REBEL_LINK_SIM_THRESHOLD', '0.9'))
 
 
 def _slug(text: str) -> str:
@@ -44,7 +50,13 @@ def _try_load_st():
     _st_tried = True
     try:
         from sentence_transformers import SentenceTransformer
-        _st_model = SentenceTransformer('all-MiniLM-L6-v2')
+        try:
+            import torch
+            _dev = 'cuda' if torch.cuda.is_available() else 'cpu'
+        except Exception:
+            _dev = 'cpu'
+        _st_model = SentenceTransformer('all-MiniLM-L6-v2', device=_dev)
+        print(f'  [merge] embeddings on {_dev}')
     except Exception:
         _st_model = None
     return _st_model
@@ -87,19 +99,33 @@ def _best_match(text: str, concepts: list[str], threshold: float) -> tuple[str |
     return None, round(best_score, 3)
 
 
-def resolve(triples: list[Triple], concepts: list[str],
-            ns: str = MDS_NS, threshold: float | None = None) -> list[Triple]:
-    """Set subject_id/object_id on each triple where an endpoint matches a concept."""
-    th = MERGE_SIM_THRESHOLD if threshold is None else threshold
+def resolve(triples: list[Triple], concepts: list[str], ns: str = MDS_NS,
+            threshold: float | None = None, min_confidence: float | None = None) -> list[Triple]:
+    """Link a triple endpoint to a concept (subject_id/object_id) ONLY when both are
+    confident: the triple's extraction confidence >= min_confidence AND the endpoint
+    matches a concept with similarity >= threshold. Low-confidence triples are left
+    standalone (ids stay empty) rather than force-joined to the concept graph."""
+    th = LINK_SIM_THRESHOLD if threshold is None else threshold
+    mc = LINK_MIN_CONFIDENCE if min_confidence is None else min_confidence
+    linked = skipped = 0
     for t in triples:
+        try:
+            conf = float(getattr(t.provenance, 'confidence', 1.0))
+        except (TypeError, ValueError):
+            conf = 1.0
+        if conf < mc:                                   # not confident enough -> standalone
+            skipped += 1
+            continue
         if not t.subject_id:
-            m, _ = _best_match(t.subject, concepts, th)
-            if m:
-                t.subject_id = concept_iri(m, ns)
+            m, sc = _best_match(t.subject, concepts, th)
+            if m and sc >= th:
+                t.subject_id = concept_iri(m, ns); linked += 1
         if not t.object_id:
-            m, _ = _best_match(t.object, concepts, th)
-            if m:
-                t.object_id = concept_iri(m, ns)
+            m, sc = _best_match(t.object, concepts, th)
+            if m and sc >= th:
+                t.object_id = concept_iri(m, ns); linked += 1
+    print(f'  [merge] confident links: {linked} endpoint(s); '
+          f'{skipped}/{len(triples)} triple(s) below confidence {mc} left standalone')
     return triples
 
 

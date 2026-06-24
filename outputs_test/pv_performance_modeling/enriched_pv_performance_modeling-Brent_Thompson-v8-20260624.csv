@@ -1,0 +1,71 @@
+concept,mds:studyStage,mds:supplyChainLevel
+absorber,mds:sample,mds:subcomponent
+albedo,,
+algorithm,"mds:data processing, mds:modeling",
+architecture,"mds:result, mds:modeling",mds:subsystem
+assurance,,
+benchmarking,,
+by-pass,mds:sample,mds:component
+cable,,mds:system
+calibration,"mds:data processing, mds:tool",
+capacity,mds:result,mds:system
+carrier,,mds:materials
+cell,mds:sample,"mds:subcomponent, mds:component"
+chamber,mds:tool,
+climate,,
+climate_zone,,
+closed-circuit,mds:materials processing,mds:subcomponent
+coatings,"mds:materials processing, mds:sample","mds:component, mds:assembly"
+comparison,,
+condition,,
+connection,"mds:tool, mds:recipe",
+conservation,,
+context,mds:data,
+conversion,mds:materials processing,
+cost,,
+damage,mds:analysis,mds:subcomponent
+data,"mds:result, mds:data processing, mds:tool",
+design,"mds:recipe, mds:modeling, mds:analysis",mds:component
+diode,,"mds:subsystem, mds:component, mds:assembly"
+discharge,mds:synthesis,"mds:materials, mds:subcomponent"
+efficiency,"mds:result, mds:analysis",mds:system
+electricity,,
+emitter,mds:sample,mds:subcomponent
+energy,,
+environment,,
+error,,
+evaluation,,
+exertion,,
+failure,,
+fill_factor,mds:result,
+gauge,mds:tool,
+grid,,
+heterojunction,mds:materials processing,mds:subcomponent
+infrared,,
+infrastructure,,
+input_output,"mds:result, mds:data processing",
+insurance,,
+integration,"mds:modeling, mds:analysis, mds:result",mds:system
+insulation,,
+interconnect,"mds:synthesis, mds:materials processing",mds:subcomponent
+irradiance,"mds:recipe, mds:sample",
+lifetime,mds:analysis,
+location,,
+maintenance,,
+mathematical_model,mds:modeling,
+measurement,"mds:data processing, mds:tool",
+memory_bank,,
+microchip,,mds:component
+module,,mds:subsystem
+net,,
+nonlinearity,mds:analysis,
+numeric_simulation,mds:modeling,
+osmotic_pressure,mds:data,
+output,mds:data,
+panel,,mds:subsystem
+parameter,mds:recipe,
+performance,"mds:result, mds:analysis",mds:component
+profile,mds:data processing,
+proportional_control,,
+pv_system_design,mds:recipe,mds:system
+pyroelectric_material,mds:materials processing,mds:materials
