@@ -6,5 +6,13 @@ __pycache__/
 .claude
 CLAUDE.md
 uv.lock
-.gitignore
 .python-version
+
+# generated data (P9 — keep out of VCS)
+outputs/
+schemas/
+graphdb/
+lora_adapters/
+
+# superseded code, kept for reference only
+_deprecated/

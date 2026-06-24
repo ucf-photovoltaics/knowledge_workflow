@@ -1,0 +1,70 @@
+{
+  "@context": {
+    "mds": "https://cwrusdle.bitbucket.io/mds/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00000",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "tunnel oxide passivated contact — subclass of — solar cell",
+      "mds:subject": "tunnel oxide passivated contact",
+      "mds:predicate": "subclass of",
+      "mds:object": "solar cell",
+      "mds:tool": "rebel",
+      "prov:wasDerivedFrom": "Accelerated damp-heat testing at the cell-level of bifacial silicon HJT, PERC and TOPCon solar cells using sodium chloride"
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00001",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "IEEE JOURNAL OF PHOTOVOLTAICS — publisher — IEEE",
+      "mds:subject": "IEEE JOURNAL OF PHOTOVOLTAICS",
+      "mds:predicate": "publisher",
+      "mds:object": "IEEE",
+      "mds:tool": "rebel",
+      "prov:wasDerivedFrom": "Nanometer-Scale Measurement of Grid Finger Electrical Conduction Pathways to Detect Series Resistance Degradation of Utility-Scale Silicon Solar Cells"
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00002",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "IEEE JOURNAL OF PHOTOVOLTAICS — publisher — IEEE",
+      "mds:subject": "IEEE JOURNAL OF PHOTOVOLTAICS",
+      "mds:predicate": "publisher",
+      "mds:object": "IEEE",
+      "mds:tool": "rebel",
+      "prov:wasDerivedFrom": "Characterization of Field-Exposed Photovoltaic Modules Featuring Signs of Contact Degradation"
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00003",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "Japanese Journal of Physics — country — Japan",
+      "mds:subject": "Japanese Journal of Physics",
+      "mds:predicate": "country",
+      "mds:object": "Japan",
+      "mds:tool": "rebel",
+      "prov:wasDerivedFrom": "Corrosion mechanism analysis of the front-side metallization of a crystalline silicon PV module by a high-temperature and high-humidity test"
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00004",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "NAMICS Corporation — located in the administrative territorial entity — Niigata",
+      "mds:subject": "NAMICS Corporation",
+      "mds:predicate": "located in the administrative territorial entity",
+      "mds:object": "Niigata",
+      "mds:tool": "rebel",
+      "prov:wasDerivedFrom": "Corrosion mechanism analysis of the front-side metallization of a crystalline silicon PV module by a high-temperature and high-humidity test"
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00005",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "PHOTOVOLTAICS — publisher — IEEE",
+      "mds:subject": "PHOTOVOLTAICS",
+      "mds:predicate": "publisher",
+      "mds:object": "IEEE",
+      "mds:tool": "rebel",
+      "prov:wasDerivedFrom": "Differences in Printed Contacts Lead to Susceptibility of Silicon Cells to Series Resistance Degradation"
+    }
+  ]
+}

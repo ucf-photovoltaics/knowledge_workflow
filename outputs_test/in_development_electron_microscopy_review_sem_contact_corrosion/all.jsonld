@@ -1,0 +1,801 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "mds": "https://cwrusdle.bitbucket.io/mds/",
+    "electron": "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/"
+  },
+  "@graph": [
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/",
+        "electron": "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/Accelerated_damp-heat_testing_at_the_cell-level_of_bifacial_silicon_HJT__PERC_and_TOPCon_solar_cells_using_sodium_chlori",
+      "@type": [
+        "mds:ResearchPublication",
+        "electron:SchemaRecord"
+      ],
+      "schema:identifier": "10.1016/j.solmat.2023.112554",
+      "mds:hasDomain": "-in_development-_>_electron_microscopy_review_>_sem-contact-corrosion",
+      "mds:derivedFrom": "schema_in_development_electron_microscopy_review_sem_contact_corrosion-Brent_Thompson-v8-20260623.csv",
+      "schema:name": "Accelerated damp-heat testing at the cell-level of bifacial silicon HJT, PERC and TOPCon solar cells using sodium chloride",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1016/j.solmat.2023.112554"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasMaterialInterface": {
+        "mds:value": "silicon interface",
+        "mds:quote": "This corrosion leads to increased porosity, detachment of the contact from the silicon interface,"
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "contact material degradation",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "corrosion of the metal contact",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "passivation layer",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "tunnel oxide passivated contact (TOPCon)",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "ion penetration",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "high amount of Na+ and Cl− ions penetrating the metal contact",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar cell efficiency measurement",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "maximum power (Pmax)",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar cell architecture",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "HJT (heterojunction)",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "degradation mechanisms",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Reliability"
+          },
+          "mds:paperTerm": "increase in Rs",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar cell reliability",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "potential failures that could occur in the field",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "interface detachment",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "detachment of the contact from the silicon interface",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "contaminant sources",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "solar glass, human fingerprints, soldering flux, rainwater, soil/dust, and seawater",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "reciprocal density measurement",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "damp heat (DH) testing",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "contact material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "metal contact",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "absorber material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "silicon",
+          "mds:relevance": {
+            "@value": 0.4,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "porosity increase",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "increased porosity",
+          "mds:relevance": {
+            "@value": 0.4,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "corrosion resistance test method",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "method presented in this work",
+          "mds:relevance": {
+            "@value": 0.4,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "degradation types",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Reliability"
+          },
+          "mds:paperTerm": "rel (relative)",
+          "mds:relevance": {
+            "@value": 0.3,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/",
+        "electron": "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/Nanometer-Scale_Measurement_of_Grid_Finger_Electrical_Conduction_Pathways_to_Detect_Series_Resistance_Degradation_of_Uti",
+      "@type": [
+        "mds:ResearchPublication",
+        "electron:SchemaRecord"
+      ],
+      "schema:identifier": "10.1109/JPHOTOV.2022.3206546",
+      "mds:hasDomain": "-in_development-_>_electron_microscopy_review_>_sem-contact-corrosion",
+      "mds:derivedFrom": "schema_in_development_electron_microscopy_review_sem_contact_corrosion-Brent_Thompson-v8-20260623.csv",
+      "schema:name": "Nanometer-Scale Measurement of Grid Finger Electrical Conduction Pathways to Detect Series Resistance Degradation of Utility-Scale Silicon Solar Cells",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1109/JPHOTOV.2022.3206546"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasDegradationMechanisms": {
+        "mds:value": "acetic acid corrosion",
+        "mds:quote": "A Kraft et al., “Investigation of acetic acid corrosion impact on printed solar cell contacts,” IEEE J. Photovolt., vol. 5, no. 3, pp. 736–743, May 2015, doi: 10.1109/JPHOTOV .2015.2395146."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasContactMaterialDegradation": {
+        "mds:value": "Ag contacts on crystalline Si solar cells",
+        "mds:quote": "Z. G. Li et al., “Microstructural comparison of silicon solar cells’ front-side Ag contact and the evolution of current conduction mechanisms,” J. Appl. Phys., vol. 110, no. 7, Oct. 2011, Art. no. 074304, doi:10.1063/1.3642956."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasCorrosionResistanceTestMethod": {
+        "mds:value": "pressure-cooker testing of photovoltaic cells",
+        "mds:quote": "Y. Ino, S. Asao, K. Shirasawa, and H. Takato, “Investigation of degradation mode spreading interconnectors by pressure-cooker testing of photo-voltaic cells,” IEEE J. Photovolt., vol. 10, no. 1, pp. 188–196, Jan. 2020, doi: 10.1109/JPHOTOV .2019.2950079."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasMultiscaleCharacterizationApproach": {
+        "mds:value": "case studies of contact and interconnect degradation",
+        "mds:quote": "N. Iqbal et al., “Multiscale characterization of photovoltaic modules— Case studies of contact and interconnect degradation,” IEEE J. Photovolt., vol. 12, no. 1, pp. 62–72, Jan. 2022, doi: 10.1109/JPHOTOV .2021.3124751."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasLocalResistanceImagingTechnique": {
+        "mds:value": "scanning spreading resistance microscopy (SSRM)",
+        "mds:quote": "C. Ballif, D. M. Huljiáćic, G. Willeke, and A. Hessler-Wyser, “Silver thick-film contacts on highly doped n-type silicon emitters: Structural and electronic properties of the interface,” Appl. Phys. Lett., vol. 82, no. 12, pp. 1878–1880, Mar. 2003, doi: 10.1063/1.1562338."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasMetallizationArchitecture": {
+        "mds:value": "printed Ag contacts on crystalline Si solar cells",
+        "mds:quote": "C.-H. Lin, S.-Y. Tsai, S.-P. Hsu, and M.-H. Hsieh, “Investigation of Ag-bulk/glassy-phase/Si heterostructures of printed Ag contacts on crystalline Si solar cells,” Sol. Energy Mater . Sol. Cells, vol. 92, no. 9, pp. 1011–1015, Sep. 2008, doi: 10.1016/j.solmat.2008.02.032."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasResistiveBarrierThicknessMeasurement": {
+        "mds:value": "∞1 µm",
+        "mds:quote": "The degraded cell shows both a morphological and chemical difference in the screen-printed grid finger compared to the unaffected cell, which likely caused the different degradation susceptibilities during the long-term field service [7]."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasDiagnosticMethod": {
+        "mds:value": "scanning spreading resistance microscopy (SSRM) and spectroscopy for routine and quantitative two-dimensional carrier profiling",
+        "mds:quote": "P. Eyben, et al., “Scanning spreading resistance microscopy and spectroscopy for routine and quantitative two-dimensional carrier profiling,” J. V ac. Sci. Technol. B, Microelectronics Nanometer Struct. Pro-cess., Meas., Phenomena , vol. 20, no. 1, pp. 471–478, Jan. 2002, doi: 10.1116/1.1424280."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasDegradationRootCauseIdentificationMethod": {
+        "mds:value": "high vacuum scanning spreading resistance microscopy nanocontact on silicon",
+        "mds:quote": "P. Eyben et al., “Analysis and modeling of the high vacuum scanning spreading resistance microscopy nanocontact on silicon,”J. V ac. Sci. Technol. B, vol. 28, no. 2, pp. 401–406, Mar. 2010, doi: 10.1116/1.3273895."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasHighResolutionSpatialCharacterization": {
+        "mds:value": "ssrm spectroscopy for routine and quantitative two-dimensional carrier profiling"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasContaminantSources": {
+        "mds:value": "air and humidity during storage or transport of PV modules from the manufacturer to the end user",
+        "mds:quote": "[...], the degradation process can be enhanced by air and humidity during storage or transport of PV modules from the manufacturer to the end user [...]"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasWeatherExposure": {
+        "mds:value": "temperature, sunlight, and humidity in the operating environment"
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "series resistance",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "Rs",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "cluster formation mechanism",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "Ag particles aggregate into bulk Ag",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "resistive barrier thickness measurement",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "a resistive belt, with a thickness of ∼1 μm",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "interface material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "Ag/Si interface",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "resistive feature morphology",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "belts at the Ag/Si interface",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "electrical contact degradation mechanism",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Reliability"
+          },
+          "mds:paperTerm": "the number of point or small-area electrical contacts decreased substantially",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "metallization architecture",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "c-Si front metallization",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "degradation root cause identification method",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "demonstrating the root cause of Rs degradation",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "degradation mechanism characterization technique",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Characterization"
+          },
+          "mds:paperTerm": "unravel unambiguously the degradation mechanism and",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "local resistance imaging technique",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "Scanning spreading resistance microscopy",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "high-resolution spatial characterization",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Characterization"
+          },
+          "mds:paperTerm": "nanometer scale spatial resolution",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "multiscale characterization approach",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Characterization"
+          },
+          "mds:paperTerm": "example of the multiscale characterization approach for understanding degradation in field-weathered PV module",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "structural change",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "a structural change",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/",
+        "electron": "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/Characterization_of_Field-Exposed_Photovoltaic_Modules_Featuring_Signs_of_Contact_Degradation",
+      "@type": [
+        "mds:ResearchPublication",
+        "electron:SchemaRecord"
+      ],
+      "schema:identifier": "10.1109/JPHOTOV.2025.3531052",
+      "mds:hasDomain": "-in_development-_>_electron_microscopy_review_>_sem-contact-corrosion",
+      "mds:derivedFrom": "schema_in_development_electron_microscopy_review_sem_contact_corrosion-Brent_Thompson-v8-20260623.csv",
+      "schema:name": "Characterization of Field-Exposed Photovoltaic Modules Featuring Signs of Contact Degradation",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1109/JPHOTOV.2025.3531052"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasMaterialInterface": {
+        "mds:value": "the performance of the photovoltaic module greatly depends on the functionality of this material interface"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasContactMaterialDegradation": {
+        "mds:value": "screen-printed contacts may undergo severe degradation under high temperature–high humidity environmental stress"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasInterfaceDetachment": {
+        "mds:value": "interfacial delamination of the top layer from the substrate has been observed for some commercial samples"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasIonPenetration": {
+        "mds:value": "during HTHT, sodium ions, which are present in acetic acid as a contaminant source, penetrate through the metallization and reach the busbars at higher temperatures"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasCorrosionResistanceTestMethod": {
+        "mds:value": "In this study, we used an exposure to acetic acid vapor under hygrothermal conditions with two different levels of temperature and time for inducing degradation in silicon photovoltaic cells."
+      },
+      "https://cwrusdle.bitbucket.io/mds/material/PassivationLayer": {
+        "mds:value": "The passivation of the emitter surface using a phosphosilicate glass (PSG) is used to reduce the recombination loss at grain boundaries and enhance lifetime"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasMultiscaleCharacterizationApproach": {
+        "mds:value": "Here, we use multiscale characterization (from individual grains to full modules) to uncover degradation mechanisms and quantify the effects of acetic acid on silicon photovoltaic cells."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasLocalResistanceImagingTechnique": {
+        "mds:value": "A series local resistance imaging technique has been developed to measure the resistivity at the contact–emitter interface, which is indicative of potential degradation"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasReciprocalDensityMeasurement": {
+        "mds:value": "+ Reciprocal density measurement of ultrasonic reflectors, which correlates with voiding within metallization layers (Figure 4(a))"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasMetallizationArchitecture": {
+        "mds:value": "For Si-based PV cells, the most common metallization architectures involve screen-printed busbars and fingers."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasResistiveBarrierThicknessMeasurement": {
+        "mds:value": "However, local resistive barriers, such as those forming around soldering balls, may influence module performance. To diagnose potential hotspots, a non-destructive method of measuring resistive barrier thickness is presented"
+      },
+      "https://cwrusdle.bitbucket.io/mds/measurement/SeriesResistance": {
+        "mds:value": "This loss can be explained by the increased series resistance due to degrading metallization"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasDiagnosticMethod": {
+        "mds:value": "High Resolution Spatial Characterisation (HRSC) and Infrared Lock-In Thermography (ILIT)"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasDegradationRootCauseIdentificationMethod": {
+        "mds:value": "The degradation can be identified by combining several diagnostic methods including multiscale characterization of photovoltaic modules"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasStructuralChange": {
+        "mds:value": "In this work, HTHT was performed to assess the stability of silicon modules under a temperature range of 90°C and relative humidity (RH) of 85%."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasAnalysisProcedure": {
+        "mds:value": "/The present paper provides a review of several degradation mechanisms and analysis procedures"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasHighResolutionSpatialCharacterization": {
+        "mds:value": "Here, we use multiscale characterization to uncover degradation mechanisms and quantify the effects of acetic acid on silicon photovoltaic cells."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasContaminantSources": {
+        "mds:value": "During HTHT sodium ions present in acetic acid vapor penetrate though metallization at higher temperatures."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasWeatherExposure": {
+        "mds:value": "Degradation of solar modules that are exposed to weather conditions such as humidity and temperature, can severely reduce their performance over time."
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "pv module",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "photovoltaic (PV) modules",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "device age",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "14 years of exposure",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "analysis procedure",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "cross-sectional scanning electron microscopy (SEM)",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "corrosion type",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Reliability"
+          },
+          "mds:paperTerm": "acetic-acid-based corrosion",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "diagnostic method",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "electroluminescence imaging",
+          "mds:relevance": {
+            "@value": 0.95,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "silicon material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "multicrystalline silicon",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "back surface field coating",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "aluminum back surface field systems",
+          "mds:relevance": {
+            "@value": 0.85,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "characterization technique",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Characterization"
+          },
+          "mds:paperTerm": "Suns-V OC measurements",
+          "mds:relevance": {
+            "@value": 0.85,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "weather exposure",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Reliability"
+          },
+          "mds:paperTerm": "hot and humid climate",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "imaging technique",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Characterization"
+          },
+          "mds:paperTerm": "infrared imaging",
+          "mds:relevance": {
+            "@value": 0.75,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "material interface",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "silver/silicon interface",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/",
+        "electron": "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/10.35848_1347-4065_ab8274",
+      "@type": [
+        "mds:ResearchPublication",
+        "electron:SchemaRecord"
+      ],
+      "schema:identifier": "10.35848/1347-4065/ab8274",
+      "mds:hasDomain": "-in_development-_>_electron_microscopy_review_>_sem-contact-corrosion",
+      "mds:derivedFrom": "schema_in_development_electron_microscopy_review_sem_contact_corrosion-Brent_Thompson-v8-20260623.csv",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.35848/1347-4065/ab8274"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasMaterialInterface": {
+        "mds:value": "interface between the metallization and the Si wafer.",
+        "mds:quote": "The interface between the metallization and the Si wafer plays a critical role in solar cell efficiency."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasDegradationMechanisms": {
+        "mds:value": "glass corrosion",
+        "mds:quote": "glass corrosion is considered to be one of the primary degradation mechanisms for this specific module type"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasContactMaterialDegradation": {
+        "mds:value": "Pb was eluted from the glass layer and diffused into a region under the NiSn contact.",
+        "mds:quote": "PbO content decreased in this region, indicating Pb had diffused out of the NiP layer during sintering or subsequent heat treatments"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasInterfaceDetachment": {
+        "mds:value": "The interface between the aluminum metallization and the EVA was completely detached."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasIonPenetration": {
+        "mds:value": "there are ion penetrated at the Si wafer side of the metallized surface, which significantly influences the solar cell output.",
+        "mds:quote": "As shown by the secondary electron SEM images in Figs."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasCorrosionResistanceTestMethod": {
+        "mds:value": "Material Characterization Center’s Nuclear Waste Materials Handbook (1981).",
+        "mds:quote": "According to Material Characterization Center’s Nuclear Waste Materials Handbook,"
+      },
+      "https://cwrusdle.bitbucket.io/mds/material/PassivationLayer": {
+        "mds:value": "There were regions with a thin passivation layer.",
+        "mds:quote": "The surfaces of the EVA film and PVF films were relatively smooth, as shown in Figs."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasLocalResistanceImagingTechnique": {
+        "mds:value": "there are a set of contact pads on the opposite side of the Si wafer that serve to provide for electrical communication with external test equipment."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasMetallizationArchitecture": {
+        "mds:value": "aluminum metallization using the SnP alloy on the Si wafer side.",
+        "mds:quote": "the solar cell under discussion is one that employs metallization architectures based upon a tin-based solder, commonly designated as Sn, which provides for direct inter-facial contact between the tin and aluminum"
+      },
+      "https://cwrusdle.bitbucket.io/mds/measurement/SeriesResistance": {
+        "mds:value": "high resistivity at these regions.",
+        "mds:quote": "The surfaces of the EVA film and PVF films were relatively smooth, as shown in Figs."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasDiagnosticMethod": {
+        "mds:value": "analysis by SEM, EDX, secondary mass spectroscopy, and I2-C (using an optical interference microscope), respectively.",
+        "mds:quote": "Secondary electron SEM images were obtained using a scanning electron microscope in order to determine the structural details of"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasDegradationRootCauseIdentificationMethod": {
+        "mds:value": "Material Characterization Center’s Nuclear Waste Materials Handbook,",
+        "mds:quote": "According to Material Characterization Center’s Nuclear Waste Materials Handbook,"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasStructuralChange": {
+        "mds:value": "the regions where lead (Pb) was eluted and had diffused into a region under the NiSn contact on the Si wafer side."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasAnalysisProcedure": {
+        "mds:value": "SEM and EDX analyses were made of the surfaces that underwent severe degradation during thermal cycling tests,",
+        "mds:quote": "Analysis methods used for this study include SEM inspection"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasHighResolutionSpatialCharacterization": {
+        "mds:value": "regions with high Pb content were observed through cross-sectional views using an optical microscope."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasContaminantSources": {
+        "mds:value": "acetic acid generated from EVA, as well as the Ni component of the contact layer are considered to be contaminants.",
+        "mds:quote": "In conclusion,"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasWeatherExposure": {
+        "mds:value": "'weathering' tests were conducted on an example sample using a solar simulator equipped with an optical interference microscope, which enabled the observation of changes in its surface morphology."
+      }
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/",
+        "electron": "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/10.1109_JPHOTOV.2022.3150727",
+      "@type": [
+        "mds:ResearchPublication",
+        "electron:SchemaRecord"
+      ],
+      "schema:identifier": "10.1109/JPHOTOV.2022.3150727",
+      "mds:hasDomain": "-in_development-_>_electron_microscopy_review_>_sem-contact-corrosion",
+      "mds:derivedFrom": "schema_in_development_electron_microscopy_review_sem_contact_corrosion-Brent_Thompson-v8-20260623.csv",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1109/JPHOTOV.2022.3150727"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasMaterialInterface": {
+        "mds:value": "metallization architecture (front-side metallization)",
+        "mds:quote": "front-side ag metallization"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasDegradationMechanisms": {
+        "mds:value": "corrosion mechanism analysis, ion penetration into the material interface, structural change, resistive barrier thickness measurement",
+        "mds:quote": "Corrosion of the front-side metallization during a high-temperature and high-humidity test. [1], A corrosion mechanism analysis (Fig. 1) revealed that the primary mode of degradation involves ion penetration leading to a degradation root cause identified as ion penetration into the material interface"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasContactMaterialDegradation": {
+        "mds:value": "corrosion mechanism, contact degradation after 18 years in a hot–humid climate",
+        "mds:quote": "The degradation is due to corrosion and degradation of solar cells and solder joints."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasInterfaceDetachment": {
+        "mds:value": "material interface separation",
+        "mds:quote": "This work identifies several degradation mechanisms including front-side ag metalllization (a) and material interface detatchment"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasIonPenetration": {
+        "mds:value": "ion penetration, ion penetrated into the material interface",
+        "mds:quote": "A corrosion mechanism analysis revealed that the primary mode of degradation involves ion penetration leading to a degradation root cause identified as ion penetration into the material interface."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasCorrosionResistanceTestMethod": {
+        "mds:value": "high-temperature and high-humidity test, pressure-cooker testing, damp heat stress"
+      },
+      "https://cwrusdle.bitbucket.io/mds/material/PassivationLayer": {
+        "mds:value": "passivation of silicon surfaces"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasMultiscaleCharacterizationApproach": {
+        "mds:value": "multiscale characterization: a multiscale analysis procedure that identifies the degradation mechanisms at nanoscale (interface, metallization), microscale and macroscale.",
+        "mds:quote": "Multiscale characterization is used to analyze PV modules."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasLocalResistanceImagingTechnique": {
+        "mds:value": "Electrical contact resistance of the metallized contacts evaluated through local resistance imaging"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasMetallizationArchitecture": {
+        "mds:value": "front-side ag metallization"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasResistiveBarrierThicknessMeasurement": {
+        "mds:value": "degradation root cause identified as resistive barrier thickness changes (Fig. 1).",
+        "mds:quote": "This work identifies several degradation mechanisms at the interface, metallizations and structural changes"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasDegradationRootCauseIdentificationMethod": {
+        "mds:value": "identification of degradation root causes based on a corrosion mechanism analysis.",
+        "mds:quote": "A corrosion mechanism analysis... identifies several degradation mechanisms including front-side ag metallization."
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasStructuralChange": {
+        "mds:value": "structure changes detected in the multiscale characterization approach",
+        "mds:quote": "a multiscale analysis procedure that identifies the degradation mechanisms and structure"
+      },
+      "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasAnalysisProcedure": {
+        "mds:value": "multiscale characterization of photovoltaics modules, diagnostic method based on electrical contact resistance, reciporical density measurement...",
+        "mds:quote": "A multiscale analysis procedure identified the degradation mechanisms as corrosion mechanism analysis."
+      }
+    }
+  ]
+}

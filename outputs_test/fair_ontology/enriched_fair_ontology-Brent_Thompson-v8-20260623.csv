@@ -1,0 +1,40 @@
+concept,mds:studyStage,mds:supplyChainLevel
+open circuit voltage,,
+dimensionality reduction,mds:analysis,
+data provider,mds:tool,
+ontological framework,,
+quality dimensions,"mds:result, mds:analysis",
+materials characterisation,mds:sample,mds:subcomponent
+taxonomy standardization,,
+paradigm shift,mds:modeling,
+data publishing,mds:tool,
+ontology development,,
+linked data,,
+vague concept,mds:analysis,
+microbiome analysis,mds:data processing,
+metadata standardization,,
+research contribution,mds:result,mds:component
+data quality measurement,mds:analysis,
+quality ranking system,,
+taxonomic level,,mds:assembly
+interoperability facilitation,,
+domain-specific vocabulary,,
+vocabulary reuse indicator,mds:tool,
+translational goal,,
+gene expression,,
+personalized medicine,"mds:result, mds:analysis","mds:component, mds:subsystem, mds:system"
+microbial diversity,mds:data processing,mds:materials
+metagenome analysis,"mds:result, mds:analysis, mds:modeling, mds:data processing","mds:subcomponent, mds:assembly"
+metadata availability,mds:tool,
+linked data guideline,,
+methodology harmonization,"mds:modeling, mds:analysis",
+metrics,mds:result,
+ontological formalization,,
+data classification,mds:data processing,
+microbiome characterization,"mds:result, mds:analysis",
+taxonomy property,,
+dimension analysis,mds:modeling,
+materials modelling domain,"mds:result, mds:analysis, mds:modeling","mds:component, mds:assembly"
+information architecture,,
+corpus stability analysis,mds:data processing,
+quality assessment,"mds:result, mds:tool",

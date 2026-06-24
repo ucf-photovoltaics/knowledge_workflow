@@ -1,0 +1,77 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "mds": "https://cwrusdle.bitbucket.io/mds/",
+    "electron": "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/"
+  },
+  "@id": "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/10.1109_JPHOTOV.2022.3150727",
+  "@type": [
+    "mds:ResearchPublication",
+    "electron:SchemaRecord"
+  ],
+  "schema:identifier": "10.1109/JPHOTOV.2022.3150727",
+  "mds:hasDomain": "-in_development-_>_electron_microscopy_review_>_sem-contact-corrosion",
+  "mds:derivedFrom": "schema_in_development_electron_microscopy_review_sem_contact_corrosion-Brent_Thompson-v8-20260623.csv",
+  "owl:sameAs": {
+    "@id": "https://doi.org/10.1109/JPHOTOV.2022.3150727"
+  },
+  "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasMaterialInterface": {
+    "mds:value": "metallization architecture (front-side metallization)",
+    "mds:quote": "front-side ag metallization"
+  },
+  "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasDegradationMechanisms": {
+    "mds:value": "corrosion mechanism analysis, ion penetration into the material interface, structural change, resistive barrier thickness measurement",
+    "mds:quote": "Corrosion of the front-side metallization during a high-temperature and high-humidity test. [1], A corrosion mechanism analysis (Fig. 1) revealed that the primary mode of degradation involves ion penetration leading to a degradation root cause identified as ion penetration into the material interface"
+  },
+  "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasContactMaterialDegradation": {
+    "mds:value": "corrosion mechanism, contact degradation after 18 years in a hot–humid climate",
+    "mds:quote": "The degradation is due to corrosion and degradation of solar cells and solder joints."
+  },
+  "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasInterfaceDetachment": {
+    "mds:value": "material interface separation",
+    "mds:quote": "This work identifies several degradation mechanisms including front-side ag metalllization (a) and material interface detatchment"
+  },
+  "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasIonPenetration": {
+    "mds:value": "ion penetration, ion penetrated into the material interface",
+    "mds:quote": "A corrosion mechanism analysis revealed that the primary mode of degradation involves ion penetration leading to a degradation root cause identified as ion penetration into the material interface."
+  },
+  "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasCorrosionResistanceTestMethod": {
+    "mds:value": "high-temperature and high-humidity test, pressure-cooker testing, damp heat stress"
+  },
+  "https://cwrusdle.bitbucket.io/mds/material/PassivationLayer": {
+    "mds:value": "passivation of silicon surfaces"
+  },
+  "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasMultiscaleCharacterizationApproach": {
+    "mds:value": "multiscale characterization: a multiscale analysis procedure that identifies the degradation mechanisms at nanoscale (interface, metallization), microscale and macroscale.",
+    "mds:quote": "Multiscale characterization is used to analyze PV modules."
+  },
+  "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasLocalResistanceImagingTechnique": {
+    "mds:value": "Electrical contact resistance of the metallized contacts evaluated through local resistance imaging"
+  },
+  "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasMetallizationArchitecture": {
+    "mds:value": "front-side ag metallization"
+  },
+  "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasResistiveBarrierThicknessMeasurement": {
+    "mds:value": "degradation root cause identified as resistive barrier thickness changes (Fig. 1).",
+    "mds:quote": "This work identifies several degradation mechanisms at the interface, metallizations and structural changes"
+  },
+  "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasDegradationRootCauseIdentificationMethod": {
+    "mds:value": "identification of degradation root causes based on a corrosion mechanism analysis.",
+    "mds:quote": "A corrosion mechanism analysis... identifies several degradation mechanisms including front-side ag metallization."
+  },
+  "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasStructuralChange": {
+    "mds:value": "structure changes detected in the multiscale characterization approach",
+    "mds:quote": "a multiscale analysis procedure that identifies the degradation mechanisms and structure"
+  },
+  "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasAnalysisProcedure": {
+    "mds:value": "multiscale characterization of photovoltaics modules, diagnostic method based on electrical contact resistance, reciporical density measurement...",
+    "mds:quote": "A multiscale analysis procedure identified the degradation mechanisms as corrosion mechanism analysis."
+  }
+}

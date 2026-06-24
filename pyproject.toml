@@ -24,4 +24,6 @@ dependencies = [
     "shiny>=1.0.0",
     "spyder-kernels==3.1",
     "fastmcp>=3.2.4",
+    "torch>=2.10.0",
+    "transformers>=5.3.0",
 ]
