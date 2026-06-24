@@ -83,8 +83,29 @@ domain. REBEL output is reconciled, not blindly unioned:
 - Namespace is resolved per domain (e.g. `…/mds/characterization/electronmicroscopy/`).
 
 Output: `outputs/<slug>/<slug>_onto.ttl`.
-**Gate** (`kw/validate.py`): parses the TTL, computes alignment % to BFO/CCO/MDS, and
-(stubs for) reasoner consistency + OOPS! pitfalls. A run reports PASS/CHECK.
+
+**Validation gate** (`kw/validate.py`) — a registry of checks, each **required** or
+**advisory**. The gate PASSES only when every required check passes; strict semantics
+mean a required check that errors or cannot run counts as not-pass.
+
+- **Required (block the MDS-Onto upload):**
+  - `ontocheck` — the CWRU SDLE [OntoCheck](https://pypi.org/project/OntoCheck/) suite.
+    Gate metrics: `duplicateLabels`==0, `missingDomainRange` (0 missing domain & range),
+    `mdsDesignCheck` coverage ≥ `MDS_DESIGN_TARGET` (0.90), `humanLicense`==1,
+    `isolatedElements`==0, and definition coverage ≥ `DEFINITION_COVERAGE_TARGET` (0.90).
+    All other OntoCheck metrics run as advisory.
+  - `oops` — OOPS! scan; fails on any critical pitfall.
+- **Advisory (reported, never block):** `alignment` % to BFO/CCO/MDS/PMD, `reasoner`
+  (opt-in), `shacl` (opt-in), and the non-gate OntoCheck metrics.
+
+Every run writes a detailed **`validation_report.md`** (+ `.json`) into the output
+folder: a PASS/FAIL banner, whether the upload is allowed, and per-check / per-metric
+findings. The MDS-Onto upload in Step 5/portal runs **only** when the gate passes; the
+run otherwise finishes normally and produces all local artifacts.
+
+Which checks are required is configurable via `REQUIRED_CHECKS` (default
+`ontocheck,oops`). The next planned required check is **TTL-PAWIKAN** — it slots in as
+another registry entry.
 
 ## Step 5 — JSON-LD (the GraphDB repo)  *after the ontology*
 `kw/ontology.py` emits one JSON-LD document per paper (typed `mds:ResearchPublication`,
@@ -132,6 +153,7 @@ Output: `outputs/<slug>/graph.html` + `graph_report.md`; one appended row in `ev
 | `enriched_<…>.csv` | concepts + MDS tags |
 | `diagram_<…>.drawio` | cemento concept map |
 | `graph.html`, `graph_report.md` | Step 7 interactive graph + report |
+| `validation_report.md`, `validation_report.json` | Step 4 gate verdict + per-check findings |
 | `<slug>.log` | per-run log (stdout + log records) |
 | `lora_adapters/run-<…>/` | LoRA dataset + manifest (+ adapter when trained) |
 

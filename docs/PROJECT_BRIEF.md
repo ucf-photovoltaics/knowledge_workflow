@@ -29,8 +29,8 @@ Supporting contributions:
 - `src/agents/`: extractor, normalizer, schema_builder, tagger, orchestrator
 - `src/tools/`: zotero_client, csv_writer, drawio_builder
 - Flow: Zotero collection → concepts CSV + draw.io diagram
-- `gaas_onto.ttl`: example output (GaAs PV), real `bfo:`/`pmd:`/`mds:`/`qudt:` namespaces
-- `mds_onto.json`: draw.io shape library (Cemento), not an ontology file
+- `data/examples/gaas_onto.ttl`: example output (GaAs PV), real `bfo:`/`pmd:`/`mds:`/`qudt:` namespaces
+- `data/mds_onto.json`: draw.io shape library (Cemento), not an ontology file
 
 ## The delta (this project)
 1. **OWL / JSON-LD emitter** — turn schema_builder output into `{domain}_onto.ttl`

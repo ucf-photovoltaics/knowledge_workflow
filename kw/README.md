@@ -35,7 +35,7 @@ python -m kw run -c <collection_id> --no-diagram --no-lora # ontology/JSON-LD on
 | `mdsonto.py` | ground concepts to MDS-Onto IRIs + optional OntoPortal submission | 3, 4 |
 | `tagger.py` | MDS grounding tags (studyStage / supplyChainLevel) | 5b |
 | `ontology.py` | OWL 2 TTL builder + JSON-LD emitter (harvested) | 4, 5 |
-| `validate.py` | reasoner / OOPS! / alignment gate | 4 |
+| `validate.py` | validation gate: OntoCheck + OOPS! (required), alignment/reasoner/SHACL (advisory); writes `validation_report.md`/`.json` | 4 |
 | `lora.py` | terminal LoRA fine-tune on final ontology terms | 6 |
 | `drawio.py` | cemento concept-map diagram (emitted by default; `--no-diagram` to skip) | 5b |
 | `visualize.py` | interactive graph HTML + benchmark row (`--no-visual` to skip) | 7 |

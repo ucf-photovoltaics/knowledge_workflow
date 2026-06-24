@@ -81,7 +81,7 @@ One responsibility per module.
 | `mdsonto.py` | Ground concepts to real MDS-Onto terms (OntoPortal API) + optional submission | 3, 4 |
 | `tagger.py` | MDS `studyStage` + `supplyChainLevel` grounding tags | 5b |
 | `ontology.py` | OWL 2 TTL builder + JSON-LD emitter | 4, 5 |
-| `validate.py` | Reasoner / OOPS! / alignment gate (degrades gracefully) | 4 |
+| `validate.py` | Validation gate: OntoCheck + OOPS! (required) + alignment/reasoner/SHACL (advisory); writes `validation_report.md`/`.json` | 4 |
 | `drawio.py` | cemento concept-map diagram with embedded palette pages | 5b |
 | `lora.py` | LoRA fine-tune on final ontology terms (dataset-only if no GPU) | 6 |
 | `visualize.py` | Interactive knowledge-graph HTML + benchmark row | 7 |
@@ -126,10 +126,13 @@ OntoPortal API (active only when configured).
 `ontology.process_schema_file()` builds an OWL 2 / MDS-Onto-compliant Turtle ontology
 (`mds:Concept` and subclasses; each schema column a property IRI; per-domain namespace),
 then emits one JSON-LD document per paper plus a combined `all.jsonld`. The validation
-gate `validate.evaluate()` parses the TTL, computes BFO/CCO/MDS alignment, and (when
-enabled) runs the reasoner / OOPS! / SHACL, reporting **PASS** or **CHECK**. When
-`SUBMIT_TO_PORTAL` is set and validation passes, `mdsonto.submit_to_portal()` uploads
-the ontology.
+gate `validate.evaluate()` runs a registry of checks — **required**: OntoCheck (CWRU
+SDLE metric suite) and OOPS!; **advisory**: BFO/CCO/MDS alignment, reasoner, SHACL — and
+writes `validation_report.md`/`.json`. The gate passes only when every required check
+passes (strict: a required check that can't run counts as not-pass). `SUBMIT_TO_PORTAL`
+uploads via `mdsonto.submit_to_portal()` **only** when the gate passes; otherwise the run
+still finishes and the upload is blocked with a report pointer. The required set is
+configurable (`REQUIRED_CHECKS`); TTL-PAWIKAN is the next planned required check.
 
 ### Step 5b — Diagram
 `tagger.tag_concepts()` adds MDS `studyStage` + `supplyChainLevel` (single-source
@@ -196,6 +199,7 @@ outputs/<slug>/
 ├── rebel_triples.jsonld, triples_<…>.csv  # REBEL relations
 ├── diagram_<…>.drawio        # cemento concept map
 ├── graph.html, graph_report.md  # Step 7 visual + report
+├── validation_report.md, validation_report.json  # Step 4 gate verdict + findings
 └── <slug>.log                # per-run log (stdout + log records)
 ```
 

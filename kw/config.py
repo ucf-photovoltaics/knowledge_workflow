@@ -62,8 +62,8 @@ MAX_CONCEPTS        = int(os.getenv('MAX_CONCEPTS',          '100'))     # 0 = n
 CONCEPT_SOURCE      = os.getenv('CONCEPT_SOURCE', 'full-text').lower()
 INTRO_MAX_CHARS     = int(os.getenv('INTRO_MAX_CHARS',       '18000'))   # cap on sliced intro length
 
-MDS_ONTO_LIBRARY          = os.getenv('MDS_ONTO_LIBRARY',          'mds_onto.json')
-CEMENTO_TEMPLATES_LIBRARY = os.getenv('CEMENTO_TEMPLATES_LIBRARY', 'cemento-templates.xml')
+MDS_ONTO_LIBRARY          = os.getenv('MDS_ONTO_LIBRARY',          os.path.join('data', 'mds_onto.json'))
+CEMENTO_TEMPLATES_LIBRARY = os.getenv('CEMENTO_TEMPLATES_LIBRARY', os.path.join('data', 'cemento-templates.xml'))
 
 OUTPUTS_DIR = os.getenv('OUTPUTS_DIR', 'outputs')
 SCHEMAS_DIR = os.getenv('SCHEMAS_DIR', 'schemas')
@@ -91,13 +91,40 @@ CHUNK_OVERLAP   = int(os.getenv('CHUNK_OVERLAP', '2500'))
 # parallel requests, e.g. Ollama with OLLAMA_NUM_PARALLEL>=2). 1 = sequential.
 MINE_WORKERS    = int(os.getenv('MINE_WORKERS', '2'))
 
-# Validation gate switches (T1.1/T1.2/T1.3). All off by default, degrade gracefully.
+# Validation gate switches (T1.1/T1.2/T1.3). Reasoner/SHACL off by default,
+# degrade gracefully. OOPS! is ON because it is a REQUIRED gate check (see below).
 RUN_REASONER   = os.getenv('RUN_REASONER', 'false').lower() == 'true'
-RUN_OOPS       = os.getenv('RUN_OOPS',     'false').lower() == 'true'
+RUN_OOPS       = os.getenv('RUN_OOPS',     'true').lower() == 'true'
 RUN_SHACL      = os.getenv('RUN_SHACL',    'false').lower() == 'true'
 OOPS_ENDPOINT  = os.getenv('OOPS_ENDPOINT', 'https://oops.linkeddata.es/rest')
 SHACL_SHAPES   = os.getenv('SHACL_SHAPES',
                            os.path.join(os.path.dirname(__file__), 'shapes', 'mds_shapes.ttl'))
+
+# ---------------------------------------------------------------------------
+# Validation gate (Step 4): which checks must PASS before the MDS-Onto upload.
+# ---------------------------------------------------------------------------
+# REQUIRED checks block the OntoPortal upload when they do not pass. Strict
+# semantics: a required check that errors / cannot run counts as NOT pass.
+# Advisory checks are always reported but never block. Comma-separated names;
+# known: ontocheck, oops, alignment, reasoner, shacl.
+REQUIRED_CHECKS = {c.strip().lower() for c in
+                   os.getenv('REQUIRED_CHECKS', 'ontocheck,oops').split(',') if c.strip()}
+
+# --- OntoCheck (CWRU SDLE) — required benchmark ---------------------------
+RUN_ONTOCHECK = os.getenv('RUN_ONTOCHECK', 'true').lower() != 'false'
+# Metrics whose result must pass for the ontocheck gate to pass. Each has a
+# pass rule applied in validate.py. Coverage-style metrics use the targets below.
+ONTOCHECK_GATE_METRICS = {m.strip() for m in os.getenv(
+    'ONTOCHECK_GATE_METRICS',
+    'duplicateLabels,missingDomainRange,mdsDesignCheck,humanLicense,'
+    'isolatedElements,definitionCoverage').split(',') if m.strip()}
+# Coverage thresholds (fraction 0-1 of classes that must comply).
+MDS_DESIGN_TARGET          = float(os.getenv('MDS_DESIGN_TARGET',          '0.90'))
+DEFINITION_COVERAGE_TARGET = float(os.getenv('DEFINITION_COVERAGE_TARGET', '0.90'))
+# Run the remaining (non-gate) metrics for the report. Network metrics
+# (externalLinks/rdfDump/sparqlEndpoint) are advisory and only run when allowed.
+ONTOCHECK_RUN_ADVISORY = os.getenv('ONTOCHECK_RUN_ADVISORY', 'true').lower() != 'false'
+ONTOCHECK_NETWORK      = os.getenv('ONTOCHECK_NETWORK', 'false').lower() == 'true'
 
 # OntoPortal submission (opt-in). Uses MDSONTO_PORTAL + MDSONTO_API_KEY from mdsonto.py.
 SUBMIT_TO_PORTAL         = os.getenv('SUBMIT_TO_PORTAL', 'true').lower() == 'true'

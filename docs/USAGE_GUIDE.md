@@ -87,6 +87,7 @@ A run prints each step and finishes with the output paths.
 | `rebel_triples.jsonld` + `triples_<…>.csv` | REBEL relations (as stated in text) → **GraphDB** |
 | `diagram_<…>.drawio` | concept map → **draw.io / cemento** |
 | `concepts_<…>.csv`, `schema_<…>.csv`, `enriched_<…>.csv` | intermediate data |
+| `validation_report.md` + `.json` | validation gate verdict + per-check findings |
 | `lora_adapters/run-<…>/` | LoRA dataset (`lora_dataset.jsonl`) + adapter + manifest |
 
 The whole `outputs/<slug>/` folder is the GraphDB-ready repo.
@@ -183,7 +184,18 @@ See `env.example.txt` for the copy-paste template.
 | `MERGE_REBEL` / `MERGE_SIM_THRESHOLD` | true / 0.70 | REBEL↔concept entity resolution |
 | `GROUND_BFO` | false | add BFO upper-ontology parents (off = leaner domain graph) |
 | `CONCEPT_CLASSES` / `DEFINE_CONCEPTS` / `RELATE_CONCEPTS` | true | promote concepts to classes / add skos definitions / infer relations |
-| `RUN_REASONER` / `RUN_OOPS` / `RUN_SHACL` | false | enable the corresponding validation checks |
+| `RUN_REASONER` / `RUN_SHACL` | false | enable these (advisory) validation checks |
+| `RUN_OOPS` | true | OOPS! scan (a required gate check by default) |
+
+**Validation gate (Step 4)**
+| Var | Default | Meaning |
+|-----|---------|---------|
+| `REQUIRED_CHECKS` | ontocheck,oops | checks that must PASS before the MDS-Onto upload (strict: can't-run = fail) |
+| `RUN_ONTOCHECK` | true | run the OntoCheck suite |
+| `ONTOCHECK_GATE_METRICS` | duplicateLabels,missingDomainRange,mdsDesignCheck,humanLicense,isolatedElements,definitionCoverage | OntoCheck metrics that must pass for its gate |
+| `MDS_DESIGN_TARGET` / `DEFINITION_COVERAGE_TARGET` | 0.90 / 0.90 | coverage thresholds (fraction of classes) |
+| `ONTOCHECK_RUN_ADVISORY` | true | also run the non-gate OntoCheck metrics for the report |
+| `ONTOCHECK_NETWORK` | false | include network metrics (externalLinks/rdfDump/sparqlEndpoint) |
 
 **Outputs, visuals & submission**
 | Var | Default | Meaning |
@@ -192,7 +204,7 @@ See `env.example.txt` for the copy-paste template.
 | `LOG_TO_FILE` | true | write a per-collection run log |
 | `EMIT_VISUAL` / `VISUAL_WITH_VALUES` | true / true | Step 7 graph (`--no-visual` to skip) |
 | `BENCHMARK_CSV` | eval/graph_benchmark.csv | cumulative one-row-per-run benchmark log |
-| `MDS_ONTO_LIBRARY` / `CEMENTO_TEMPLATES_LIBRARY` | mds_onto.json / cemento-templates.xml | draw.io palettes |
+| `MDS_ONTO_LIBRARY` / `CEMENTO_TEMPLATES_LIBRARY` | data/mds_onto.json / data/cemento-templates.xml | draw.io palettes |
 | `SUBMIT_TO_PORTAL` | true | upload the ontology to OntoPortal after validation passes (needs `MDSONTO_PORTAL`/`MDSONTO_API_KEY`) |
 | `PORTAL_ONTOLOGY_ACRONYM` / `_NAME` / `_CONTACT_NAME` / `_CONTACT_EMAIL` | — | OntoPortal submission metadata |
 | `REBEL_MODEL` / `REBEL_REVISION` | Babelscape/rebel-large / main | REBEL model + pin |

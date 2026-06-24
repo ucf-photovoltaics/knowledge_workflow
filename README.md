@@ -4,9 +4,24 @@ Turn a curated Zotero library of scientific papers into **two deliverables** in 
 command: a **GraphDB-ready ontology repo** (OWL 2 TTL + JSON-LD instances) and a
 **cemento draw.io concept map** — grounded in MDS-Onto / CCO / BFO.
 
+## ⚡ Quick start
+
 ```bash
-python -m kw run -c <collection_id>
+# 1. one-time setup (installs uv + deps, creates .env)
+./setup.sh            # macOS / Linux
+#  .\setup.ps1        # Windows PowerShell
+
+# 2. add your Zotero key + LLM endpoint to the new .env file
+
+# 3. run it
+python -m kw --list-collections          # find a collection id
+python -m kw run -c <collection_id>       # → outputs/<slug>/
 ```
+
+Need the optional REBEL + LoRA features? `./setup.sh --full` (or `.\setup.ps1 -Full`).
+Everything else below is detail.
+
+---
 
 ## What it does
 
@@ -98,7 +113,11 @@ Push the folder and import `all.jsonld` + the TTL into a GraphDB repository
 ## Repository layout
 
 ```
+setup.sh / setup.ps1   one-shot environment setup (macOS-Linux / Windows)
+env.example.txt        copy to .env and fill in
 kw/              the pipeline package (see kw/README.md for the module map)
+data/            static input assets (mds_onto.json, cemento-templates.xml)
+  examples/        sample/reference files (gaas_onto.ttl, collections.example.txt)
 scripts/         publish.py (GraphDB load), reproduce.py
 eval/            benchmark + ablation harness (run_all.py, spot_check.py, …)
 shiny/           explorer.py — Shiny UI for browsing extractions
@@ -106,6 +125,7 @@ queries/         saved SPARQL queries
 docs/            ARCHITECTURE, PROCESS, USAGE_GUIDE, PROJECT_BRIEF, PROJECT_INSTRUCTIONS
 knowledge_base/  point-in-time analysis that drove the current refactor
 _deprecated/     superseded scripts/packages, kept for reference (gitignored)
+outputs/         generated run artifacts (gitignored)
 ```
 
 ## Documentation
