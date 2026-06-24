@@ -68,8 +68,11 @@ uv run python -m kw run -c <collection_id>
 # SUPERVISED — provide your own concept list (skips Step 1)
 uv run python -m kw run -c <collection_id> --concepts schemas/<domain>.csv
 
-# only the GraphDB repo (skip diagram + LoRA)
-uv run python -m kw run -c <collection_id> --no-diagram --no-lora
+# only the GraphDB repo (skip diagram, LoRA, and the Step 7 visual)
+uv run python -m kw run -c <collection_id> --no-diagram --no-lora --no-visual
+
+# tuning dials (override config defaults)
+uv run python -m kw run -c <id> --limit 20 --top-n 15 --min-relevance 0.4 --max-concepts 50
 ```
 
 A run prints each step and finishes with the output paths.
@@ -120,7 +123,7 @@ Or manually in the GraphDB Workbench:
 | Extraction validation/schema errors | model lacks tool calling — use a tool-capable Llama or `FORCE_TOOL_CHOICE=false`; lower `TOP_N_PER_PAPER` |
 | "papers without PDF text" warnings | those PDFs are scanned/locked; the run falls back to abstracts |
 | `[rebel] unavailable …` | expected if `transformers`/`torch` aren't installed; REBEL is optional |
-| `[lora] manifest written …` | LoRA training is a stub — it records terms; wire real PEFT where marked `TODO` |
+| `[lora] … status: dataset-only` | expected without `peft`/`torch`+GPU — LoRA writes the dataset + manifest and skips training; install the deps to train an adapter |
 | validation shows `CHECK` not `PASS` | low BFO/CCO/MDS alignment or unsatisfiable classes — inspect the TTL |
 | empty/odd ontology | a 7B model produced weak concepts — try supervised mode with a curated list |
 
@@ -145,20 +148,53 @@ uv pip install peft datasets accelerate    # LoRA training (Step 6); GPU strongl
   domain term recall (wire-in point: `kw/extract.py` agents).
 
 ## 8. Environment variable reference
+Defaults below match `kw/config.py`. Precedence: env vars > `.env` > code defaults.
+See `env.example.txt` for the copy-paste template.
+
+**Access**
 | Var | Default | Meaning |
 |-----|---------|---------|
 | `ZOTERO_LIBRARY_ID` / `_TYPE` / `_API_KEY` | 2189702 / group / — | Zotero access |
-| `COLLECTION_ID` | VWMCLGL5 | default collection if `-c` omitted |
-| `LLM_BASE_URL` | anthropic | OpenAI-compatible endpoint |
-| `LLM_API_KEY` | — | provider key (any string for local) |
+| `COLLECTION_ID` | 5NLP8DAI | default collection if `-c` omitted |
+| `LLM_BASE_URL` | https://api.anthropic.com/v1 | OpenAI-compatible endpoint |
+| `LLM_API_KEY` | — | provider key (falls back to `OPENAI_API_KEY`/`ANTHROPIC_API_KEY`) |
 | `LLM_MODEL` | claude-sonnet-4-6 | model name |
+| `LLM_OUTPUT_MODE` | tool | structured-output mode: `tool` \| `native` \| `prompted` |
 | `FORCE_TOOL_CHOICE` | true | set false for models without forced tool choice |
-| `TOP_N_PER_PAPER` | 25 | concepts per abstract (Step 1) |
+
+**Concept / mining dials** (also CLI flags)
+| Var | Default | Meaning |
+|-----|---------|---------|
+| `TOP_N_PER_PAPER` | 40 | concepts extracted per paper (Step 1; `--top-n`) |
+| `MIN_RELEVANCE` | 0.5 | drop concepts below this score (`--min-relevance`) |
+| `MAX_CONCEPTS` | 100 | cap on normalized ontology size, 0 = uncapped (`--max-concepts`) |
+| `CONCEPT_SOURCE` | full-text | Step 1 source: `abstract` \| `abstract+intro` \| `full-text` |
 | `FULL_TEXT_MAX_CHARS` | 80000 | full-text window for mining (Step 2) |
+| `CHUNK_FULL_TEXT` / `CHUNK_SIZE` / `CHUNK_OVERLAP` | true / 15000 / 2500 | long-text mining via chunking |
+| `MINE_WORKERS` | 2 | parallel mining workers (needs a parallel-capable backend) |
 | `BATCH_SIZE` | 40 | concepts per tagging call |
-| `RATE_LIMIT_DELAY` | 0.5 | seconds between LLM calls |
+| `RATE_LIMIT_DELAY` | 0.2 | seconds between LLM calls |
+
+**Resilience & ontology shape**
+| Var | Default | Meaning |
+|-----|---------|---------|
+| `LLM_MAX_RETRIES` / `LLM_BACKOFF` | 3 / 2.0 | LLM retry count + backoff factor |
+| `USE_CHECKPOINT` | true | checkpoint mining per paper (re-runs skip done papers) |
+| `MERGE_REBEL` / `MERGE_SIM_THRESHOLD` | true / 0.70 | REBEL↔concept entity resolution |
+| `GROUND_BFO` | false | add BFO upper-ontology parents (off = leaner domain graph) |
+| `CONCEPT_CLASSES` / `DEFINE_CONCEPTS` / `RELATE_CONCEPTS` | true | promote concepts to classes / add skos definitions / infer relations |
+| `RUN_REASONER` / `RUN_OOPS` / `RUN_SHACL` | false | enable the corresponding validation checks |
+
+**Outputs, visuals & submission**
+| Var | Default | Meaning |
+|-----|---------|---------|
 | `OUTPUTS_DIR` / `SCHEMAS_DIR` | outputs / schemas | output locations |
+| `LOG_TO_FILE` | true | write a per-collection run log |
+| `EMIT_VISUAL` / `VISUAL_WITH_VALUES` | true / true | Step 7 graph (`--no-visual` to skip) |
+| `BENCHMARK_CSV` | eval/graph_benchmark.csv | cumulative one-row-per-run benchmark log |
 | `MDS_ONTO_LIBRARY` / `CEMENTO_TEMPLATES_LIBRARY` | mds_onto.json / cemento-templates.xml | draw.io palettes |
+| `SUBMIT_TO_PORTAL` | true | upload the ontology to OntoPortal after validation passes (needs `MDSONTO_PORTAL`/`MDSONTO_API_KEY`) |
+| `PORTAL_ONTOLOGY_ACRONYM` / `_NAME` / `_CONTACT_NAME` / `_CONTACT_EMAIL` | — | OntoPortal submission metadata |
 | `REBEL_MODEL` / `REBEL_REVISION` | Babelscape/rebel-large / main | REBEL model + pin |
 | `LORA_BASE_MODEL` | meta-llama/Llama-3.1-8B | base model the adapter trains on |
-| `LORA_ADAPTER_DIR` / `LORA_EPOCHS` | lora_adapters / 3 | adapter output dir + training epochs |
+| `LORA_ADAPTER_PATH` | — | adapter loaded by the extractor to improve recall |

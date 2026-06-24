@@ -6,7 +6,7 @@ old `src/` package, the V5/V6 monoliths, and the standalone `graphdb_connector.p
 
 ## The flow (see ../knowledge_base/08_pipeline_spec.md)
 ```
-INPUT(mode) → CONCEPTS → MINE(LLM + REBEL) → CONSOLIDATE → ONTOLOGY → JSON-LD → DIAGRAM → LoRA
+INPUT(mode) → CONCEPTS → MINE(LLM + REBEL) → CONSOLIDATE → ONTOLOGY → JSON-LD → DIAGRAM → LoRA → VISUAL
 ```
 Invariants enforced in `pipeline.py`: JSON-LD, the diagram, and LoRA run only *after*
 the ontology. Every run produces **both** deliverables — a GraphDB-ready repo
@@ -23,20 +23,29 @@ python -m kw run -c <collection_id> --no-diagram --no-lora # ontology/JSON-LD on
 ## Modules (one responsibility each)
 | File | Role | Pipeline step |
 |------|------|---------------|
-| `config.py` | config + canonical namespace registry (fixes P5) | — |
+| `config.py` | config + canonical namespace registry; builds the shared model (fixes P5) | — |
 | `models.py` | all Pydantic data contracts (incl. Triple, Provenance) | — |
 | `taxonomy.py` | MDS study-stage / supply-chain lists — single source (fixes P1) | — |
+| `llm.py` | thin LLM helper (retry/backoff around the shared model) | 1, 2, 4 |
 | `zotero.py` | corpus source (papers + PDF text) | 0 |
 | `extract.py` | concepts + normalize + full-text mining (LLM) | 1, 2 |
 | `rebel.py` | REBEL triples, run with the LLM (no-op if model absent) | 2 |
-| `tagger.py` | MDS grounding tags | 4 |
+| `relations.py` | normalize REBEL predicates → MDS relation vocab | 3 |
+| `merge.py` | entity resolution (REBEL triples ↔ concepts) | 3 |
+| `mdsonto.py` | ground concepts to MDS-Onto IRIs + optional OntoPortal submission | 3, 4 |
+| `tagger.py` | MDS grounding tags (studyStage / supplyChainLevel) | 5b |
 | `ontology.py` | OWL 2 TTL builder + JSON-LD emitter (harvested) | 4, 5 |
 | `validate.py` | reasoner / OOPS! / alignment gate | 4 |
 | `lora.py` | terminal LoRA fine-tune on final ontology terms | 6 |
 | `drawio.py` | cemento concept-map diagram (emitted by default; `--no-diagram` to skip) | 5b |
+| `visualize.py` | interactive graph HTML + benchmark row (`--no-visual` to skip) | 7 |
+| `graphview.py` | graph layout/render helpers used by `visualize.py` | 7 |
 | `store.py` | CSV I/O + filenames (readable slugs, single version tag) | — |
+| `batch.py` | run the pipeline over a queue of collections | — |
 | `pipeline.py` | the ordered runner | all |
 | `__main__.py` | CLI | — |
+| `sources/` | alternate corpus sources (e.g. `patents.py`) | 0 |
+| `gephi.py` | standalone Gephi/GEXF export (utility, not wired into the pipeline) | — |
 
 ## Notes
 - Targets current `pydantic-ai` (uses `output_type` / `.output`; the older `result_type`

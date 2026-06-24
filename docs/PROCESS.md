@@ -27,7 +27,11 @@ Zotero collection
                                    │  JSON-LD   │       │   DIAGRAM   │       │   LoRA     │
                                    │  Step 5    │       │  Step 5b    │       │  Step 6    │
                                    │ GraphDB    │       │ cemento     │       │ fine-tune  │
-                                   └────────────┘       └─────────────┘       └────────────┘
+                                   └─────┬──────┘       └─────────────┘       └────────────┘
+                                         ▼
+                                   ┌────────────┐
+                                   │  VISUAL    │  Step 7  (interactive graph + benchmark)
+                                   └────────────┘
 ```
 
 **Ordering invariants** (enforced in `kw/pipeline.py`): JSON-LD, the diagram, and the
@@ -62,8 +66,14 @@ Output: `outputs/<slug>/schema_<…>.csv` (wide format: domain, doi, one column 
 
 ## Step 3 — Consolidate
 The normalized concept set + mined values define the **final ontology terms** for the
-domain. (Entity resolution between REBEL triples and concepts is the place to deepen
-this — see the stub in `rebel.merge`-style logic / `knowledge_base`.)
+domain. REBEL output is reconciled, not blindly unioned:
+- `kw/relations.py` maps REBEL predicates onto the MDS relation vocabulary
+  (`relations.normalize_triples`) and reports coverage.
+- `kw/merge.py` performs entity resolution (`merge.resolve`, gated by `MERGE_REBEL`,
+  similarity threshold `MERGE_SIM_THRESHOLD`) so a thing named in prose and in a
+  relation becomes one node.
+- `kw/mdsonto.py` grounds concepts to real MDS-Onto IRIs via the OntoPortal API
+  (`mdsonto.resolve_concepts`); active only when configured.
 
 ## Step 4 — Ontology (OWL 2 TTL)  →  validation gate
 `kw/ontology.py` builds an OWL 2 / MDS-Onto-compliant Turtle ontology:
@@ -102,6 +112,15 @@ improve. Updates once per finished ontology. Training is **guarded**: with
 
 Output: `lora_adapters/run-<…>/lora_dataset.jsonl` + `lora_manifest.json` (+ adapter when trained).
 
+## Step 7 — Visual + benchmark  *last; never breaks the run*
+`kw/visualize.py` (helped by `kw/graphview.py`) reads `all.jsonld` and renders an
+interactive `graph.html` knowledge-graph view (+ `graph_report.md`), then appends a
+one-row summary of the run to the cumulative `eval/graph_benchmark.csv`. Skipped with
+`--no-visual` or `EMIT_VISUAL=false`, and wrapped in try/except so a visualization error
+can never fail an otherwise-complete run.
+
+Output: `outputs/<slug>/graph.html` + `graph_report.md`; one appended row in `eval/graph_benchmark.csv`.
+
 ## What a run produces (in `outputs/<slug>/`)
 | File | Purpose |
 |------|---------|
@@ -112,6 +131,8 @@ Output: `lora_adapters/run-<…>/lora_dataset.jsonl` + `lora_manifest.json` (+ a
 | `rebel_triples.jsonld`, `triples_<…>.csv` | REBEL relations, as stated in text (GraphDB import) |
 | `enriched_<…>.csv` | concepts + MDS tags |
 | `diagram_<…>.drawio` | cemento concept map |
+| `graph.html`, `graph_report.md` | Step 7 interactive graph + report |
+| `<slug>.log` | per-run log (stdout + log records) |
 | `lora_adapters/run-<…>/` | LoRA dataset + manifest (+ adapter when trained) |
 
 All files share one version tag (`v8`) and a readable slug. REBEL triples are written

@@ -1,6 +1,12 @@
 # Project Brief — Automated Knowledge Extraction → Committee-Ready Ontologies
 
-*Generated from a scoping interview. Extends the existing v5 knowledge-workflow.*
+*Generated from a scoping interview. Extends the (then) v5 knowledge-workflow.*
+
+> **Status (current).** The delta described below has been built: it now lives in the
+> `kw/` package as one ordered pipeline (`python -m kw run -c <collection_id>`). The
+> "what exists today (v5)" section is the historical starting point — the old `src/`
+> agents now live under `_deprecated/`. For the current design see
+> [ARCHITECTURE.md](ARCHITECTURE.md) and [PROCESS.md](PROCESS.md).
 
 ## One line
 Extend v5 so that each run over a curated set of domain papers emits a
