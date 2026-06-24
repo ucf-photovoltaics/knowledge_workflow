@@ -24,7 +24,7 @@ repo root. Both are addressed below. No pipeline logic was changed.
 | `__main__.py` (repo root) | Byte-for-byte duplicate of `kw/__main__.py`; the package is run via `python -m kw`. |
 | `shiny/_explorer_test.py` | Byte-for-byte duplicate of `shiny/explorer.py`. |
 | `auto_ps.txt` | Scratch Windows batch one-liner with collection keys. |
-| `run_test.py`, `mdsonto_test.py`, `rebel_test.py` | Root-level smoke scripts (removed at your request). |
+| `run_test.py`, `mdsonto_test.py`, `rebel_test.py` | Root-level smoke scripts (removed at your request). _Note: `run_test.py` was later restored as a one-paper smoke test._ |
 | all `__pycache__/` (outside `.venv`/`.git`) | Regenerated build artifacts. |
 
 ### Code tidying (no behavior change)

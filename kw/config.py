@@ -126,6 +126,13 @@ DEFINITION_COVERAGE_TARGET = float(os.getenv('DEFINITION_COVERAGE_TARGET', '0.90
 ONTOCHECK_RUN_ADVISORY = os.getenv('ONTOCHECK_RUN_ADVISORY', 'true').lower() != 'false'
 ONTOCHECK_NETWORK      = os.getenv('ONTOCHECK_NETWORK', 'false').lower() == 'true'
 
+# Provenance: ORCID stamped as dcterms:creator on every emitted entry (§7.1).
+# Empty -> the triple is skipped. Set to your ORCID (e.g. 0000-0002-1234-5678).
+CREATOR_ORCID = os.getenv('CREATOR_ORCID', '')
+# Which canonical-property selection passes are active (kw/mds_props.py).
+# 'deterministic' = Pass 1 only; 'hybrid' = + shortlisted-LLM fallback for the tail.
+PROPERTY_SELECTION = os.getenv('PROPERTY_SELECTION', 'hybrid').lower()
+
 # OntoPortal submission (opt-in). Uses MDSONTO_PORTAL + MDSONTO_API_KEY from mdsonto.py.
 SUBMIT_TO_PORTAL         = os.getenv('SUBMIT_TO_PORTAL', 'true').lower() == 'true'
 PORTAL_ONTOLOGY_ACRONYM  = os.getenv('PORTAL_ONTOLOGY_ACRONYM', '')

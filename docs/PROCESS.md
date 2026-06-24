@@ -134,11 +134,12 @@ improve. Updates once per finished ontology. Training is **guarded**: with
 Output: `lora_adapters/run-<…>/lora_dataset.jsonl` + `lora_manifest.json` (+ adapter when trained).
 
 ## Step 7 — Visual + benchmark  *last; never breaks the run*
-`kw/visualize.py` (helped by `kw/graphview.py`) reads `all.jsonld` and renders an
-interactive `graph.html` knowledge-graph view (+ `graph_report.md`), then appends a
-one-row summary of the run to the cumulative `eval/graph_benchmark.csv`. Skipped with
-`--no-visual` or `EMIT_VISUAL=false`, and wrapped in try/except so a visualization error
-can never fail an otherwise-complete run.
+`kw/visualize.py` reads `all.jsonld` and renders an interactive `graph.html`
+knowledge-graph view (+ `graph_report.md`), then appends a one-row summary of the run to
+the cumulative `eval/graph_benchmark.csv`. Skipped with `--no-visual` or
+`EMIT_VISUAL=false`, and wrapped in try/except so a visualization error can never fail an
+otherwise-complete run. (The richer merged graph in `kw/graphview.py` — used by the
+shiny explorer and `kw/gephi.py` — is a separate, standalone view, not part of the run.)
 
 Output: `outputs/<slug>/graph.html` + `graph_report.md`; one appended row in `eval/graph_benchmark.csv`.
 

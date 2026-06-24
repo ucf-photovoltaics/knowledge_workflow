@@ -66,7 +66,8 @@ uv run python -m kw --list-collections
 uv run python -m kw run -c <collection_id>
 
 # SUPERVISED — provide your own concept list (skips Step 1)
-uv run python -m kw run -c <collection_id> --concepts schemas/<domain>.csv
+# any CSV with a 'concept' or 'canonical' column (or a single-column list)
+uv run python -m kw run -c <collection_id> --concepts list.csv
 
 # only the GraphDB repo (skip diagram, LoRA, and the Step 7 visual)
 uv run python -m kw run -c <collection_id> --no-diagram --no-lora --no-visual
@@ -96,12 +97,15 @@ The whole `outputs/<slug>/` folder is the GraphDB-ready repo.
 
 ## 5. Push the repo + import into GraphDB sandbox
 ```bash
-# commit + push the artifacts, then load into GraphDB (gated on validation passing)
+# commit + push the artifacts (publish.py refuses to push unless the gate passes)
 export GRAPHDB_URL=http://localhost:7200
 export GRAPHDB_REPO=your_sandbox_repo
 uv run python scripts/publish.py outputs/<slug>/<slug>_onto.ttl outputs/<slug>/all.jsonld
 ```
-Or manually in the GraphDB Workbench:
+`publish.py` runs the validation gate, commits + pushes the artifacts to git, and then
+calls `graphdb_load()` — which is currently a **stub** (it prints the target endpoint
+rather than POSTing). Until you wire it to your sandbox, do the GraphDB import manually
+in the Workbench:
 1. Create/select a repository (your sandbox).
 2. **Import → RDF → Upload RDF files** → choose `all.jsonld` (format: JSON-LD) → Import.
    (Or **Import → Get RDF data from a URL** → paste the raw GitHub URL of `all.jsonld`.)

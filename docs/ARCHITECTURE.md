@@ -85,7 +85,7 @@ One responsibility per module.
 | `drawio.py` | cemento concept-map diagram with embedded palette pages | 5b |
 | `lora.py` | LoRA fine-tune on final ontology terms (dataset-only if no GPU) | 6 |
 | `visualize.py` | Interactive knowledge-graph HTML + benchmark row | 7 |
-| `graphview.py` | Graph layout/rendering helpers used by `visualize.py` | 7 |
+| `graphview.py` | Merged provenance-rich graph + interactive viewer (imports from `visualize`; powers the shiny explorer & `gephi.py`) | — |
 | `store.py` | CSV I/O, filename + slug conventions (single version tag) | — |
 | `batch.py` | Run the pipeline over a queue of collections (`collections.example.txt`) | — |
 | `pipeline.py` | The ordered runner — enforces step ordering and timing | all |
@@ -212,9 +212,13 @@ outputs/<slug>/
   skips already-processed papers.
 - **Logging:** each run tees stdout + log records to `outputs/<slug>/<slug>.log` and
   prints per-step timing.
-- **Graceful degradation:** REBEL, LoRA training, the reasoner/OOPS!/SHACL checks, and
-  the Step 7 visual are all optional and degrade to no-ops if their deps are absent, so
-  the pipeline runs end-to-end from a minimal install.
+- **Graceful degradation:** REBEL, LoRA training, the *advisory* checks (reasoner, SHACL),
+  and the Step 7 visual are all optional and degrade to no-ops if their deps are absent,
+  so the pipeline runs end-to-end from a minimal install.
+- **Gate exception:** the *required* checks (OntoCheck, OOPS!) do **not** silently no-op —
+  if a required check can't run, the gate fails and the MDS-Onto upload is blocked (the
+  run still finishes locally and writes the report). Make a check advisory by removing it
+  from `REQUIRED_CHECKS`.
 
 ## Related documentation
 

@@ -30,7 +30,7 @@ Zotero collection
    → concepts (LLM)          discover + normalize a domain concept list
    → mine (LLM + REBEL)      per-paper values + quotes, and S-P-O triples
    → consolidate             normalize relations, resolve entities, ground to MDS-Onto
-   → ontology (OWL 2 TTL)    + validation gate (alignment / reasoner / OOPS!)
+   → ontology (OWL 2 TTL)    + validation gate (OntoCheck + OOPS! required; alignment/reasoner advisory)
    → JSON-LD                 per-paper + combined all.jsonld (the GraphDB repo)
    → diagram (cemento)       concept map with embedded palettes
    → LoRA                    fine-tune on the run's final ontology terms
@@ -38,9 +38,12 @@ Zotero collection
 ```
 
 Every run writes a self-contained `outputs/<slug>/` folder that is the GraphDB-ready
-repo. REBEL, LoRA training, the reasoner/OOPS!/SHACL checks, and the visual step are all
+repo. REBEL, LoRA training, the reasoner/SHACL checks, and the visual step are all
 optional and degrade to no-ops if their dependencies aren't installed, so the pipeline
-runs end-to-end from a minimal install.
+runs end-to-end from a minimal install. The **validation gate** (Step 4) is the
+exception: its required checks (OntoCheck + OOPS!) must pass before the ontology is
+uploaded to MDS-Onto — a required check that can't run blocks the upload, but the run
+still finishes and writes all local artifacts plus a `validation_report.md`.
 
 ## Install
 
@@ -105,10 +108,13 @@ python -m kw.batch --all                  # every collection in the library
 | `diagram_<…>.drawio` | concept map → draw.io / cemento |
 | `concepts_<…>.csv`, `schema_<…>.csv`, `enriched_<…>.csv` | intermediate data |
 | `graph.html`, `graph_report.md` | interactive graph + report |
+| `validation_report.md` + `.json` | Step 4 gate verdict + per-check findings |
 | `<slug>.log` | per-run log |
 
-Push the folder and import `all.jsonld` + the TTL into a GraphDB repository
-(`scripts/publish.py` automates this once validation passes).
+Push the folder and import `all.jsonld` + the TTL into a GraphDB repository.
+`scripts/publish.py` gates on validation and pushes the artifacts to git; its GraphDB
+REST load is a stub to wire to your own sandbox, so import via the GraphDB Workbench
+for now (see [docs/USAGE_GUIDE.md](docs/USAGE_GUIDE.md)).
 
 ## Repository layout
 

@@ -1,17 +1,27 @@
 # Knowledge Base — knowledge_workflow
 
+> **Historical snapshot.** These documents are the point-in-time analysis (pre-refactor)
+> that motivated and planned the move to the current `kw/` package. They describe the
+> *old* `src/` + `graphdb_connector.py` + V1–V6 world, not the shipped system. They are
+> kept as a record of the design reasoning. For how the project works **today**, read
+> [../README.md](../README.md), [../docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md), and
+> [../docs/PROCESS.md](../docs/PROCESS.md).
+
 A recursive synthesis of all material in this repository, written to support a
 clean, modular rebuild. Read in order, or jump to what you need.
 
 | Doc | Purpose |
 |-----|---------|
 | [01_inventory.md](01_inventory.md) | Every file and folder, what it is, keep/retire |
-| [02_current_architecture.md](02_current_architecture.md) | How the system actually works today (two pipelines + a stranded OWL emitter) |
+| [02_current_architecture.md](02_current_architecture.md) | How the system worked then (two pipelines + a stranded OWL emitter) |
 | [03_components.md](03_components.md) | Module-by-module responsibilities and interfaces |
 | [04_data_models_and_ontologies.md](04_data_models_and_ontologies.md) | Pydantic contracts, CSV shapes, ontology grounding, namespaces |
-| [05_lessons_learned.md](05_lessons_learned.md) | What hurts today — the case for the refactor |
-| [06_target_architecture.md](06_target_architecture.md) | Proposed modular package + migration map |
+| [05_lessons_learned.md](05_lessons_learned.md) | What hurt then — the case for the refactor |
+| [06_target_architecture.md](06_target_architecture.md) | Proposed modular package + migration map (now realized as `kw/`) |
 | [07_glossary.md](07_glossary.md) | Domain and project terms |
+| [08_pipeline_spec.md](08_pipeline_spec.md) | The ordered-pipeline spec the `kw/` package implements |
+| [09_problems_and_dedup.md](09_problems_and_dedup.md) | Catalogued problems (P1–P9) + dedup plan |
+| [10_implementation_plan.md](10_implementation_plan.md) | Task-by-task implementation plan (T-numbers referenced in the code) |
 
 ## The one-paragraph summary
 
