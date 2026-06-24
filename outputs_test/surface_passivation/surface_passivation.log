@@ -1,0 +1,165 @@
+[log] run log -> outputs_test\surface_passivation\surface_passivation.log
+03:34:09 INFO run start: collection 'Surface Passivation' (YD29ZWIM) | model llama3.1:8b-instruct-q4_K_M
+
+[unsupervised] collection "Surface Passivation" (YD29ZWIM) | model llama3.1:8b-instruct-q4_K_M
+[dials] top_n=40 min_relevance=0.5 max_concepts=100 limit=1
+[gpu] NVIDIA GeForce RTX 5070 Ti Laptop GPU | torch 2.11.0+cu128 | VRAM 8.9/11.9 GB free | rebel_device=cuda
+03:34:11 INFO HTTP Request: GET https://api.zotero.org/groups/2189702/collections/YD29ZWIM/items?format=json&limit=100&locale=en-US "HTTP/1.1 200 OK"
+03:34:13 INFO HTTP Request: GET https://api.zotero.org/groups/2189702/collections/YD29ZWIM/items?limit=100&start=100&locale=en-US "HTTP/1.1 200 OK"
+03:34:14 INFO HTTP Request: GET https://api.zotero.org/groups/2189702/collections/YD29ZWIM/items?limit=100&start=200&locale=en-US "HTTP/1.1 200 OK"
+03:34:18 INFO HTTP Request: GET https://api.zotero.org/groups/2189702/collections/YD29ZWIM/items?limit=100&start=300&locale=en-US "HTTP/1.1 200 OK"
+03:34:19 INFO HTTP Request: GET https://api.zotero.org/groups/2189702/collections/YD29ZWIM/items?limit=100&start=400&locale=en-US "HTTP/1.1 200 OK"
+03:34:19 INFO HTTP Request: GET https://api.zotero.org/groups/2189702/items/5F8SB8HQ/children?format=json&limit=100&locale=en-US "HTTP/1.1 200 OK"
+03:34:19 INFO HTTP Request: GET https://api.zotero.org/groups/2189702/items/AZV5V5E4/file?locale=en-US "HTTP/1.1 302 Found"
+03:34:20 INFO HTTP Request: GET https://zoterofilestorage.s3.us-east-1.amazonaws.com/1455a1c2807c2e9c04fff0b9182dd25a?response-content-type=application%2Fpdf&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGYaCXVzLWVhc3QtMSJHMEUCIB4JFbSUoLoeeVUUITtQFjeXcpYnt0S8Uo3GTikC5fOBAiEAkbdd16M9ktJsJpx0Cpo6UbePx1xu62q6fXuTXIvqrPcqsQUILxAAGgwyOTY5ODE1MTcyMDEiDG7%2F5e4FXusqbK4B6SqOBQMLEeWO9RgSzCGOcHS%2FNOx%2FcUnsgZ7igmRaot7efeUqvgsC%2F1SLY2eYAmnQqB9q4W1a%2BmvZzUtvunZX4FeDC6aSE24GaEgBPu9sCCPFUIv1OvT6ZCSr3D3bTV6dDLw36M%2BCCCll90RxSYUxBVFDADnWe6%2Fft5vWEM6rLD2JhXomOCqpcxJshtnx4%2FWzYWa%2F2xER%2FNYvdObFVrDz7LtuDR9GGHJaKrH4FBeC7ZhpVKjr%2Ff18Y%2FuXKUbbgafx%2B4szV9HaFzykcMPrzK8dV840erOKOCDp1GHI8UDuYHkoUHBPqVt%2F64C3nGD7DahdeE6GEH5XNP20sq8rYKqJUb9nHrTwlwGXcKvlM69PVwcbpxnbLbnDNPfNPqQ%2Fqg9YP1Osiq3Q0HGp7H7719u5OudVxH%2FzDpkuPg5s2VlvJ%2BCsgHSYwhh1mYMKrYk%2BFXeXQDlzt%2Fgiu6R%2FbIwTVBjkg1mHQEfv1rmx40vogrem95nzWm%2BJcekKT7ufHG4BIGqWSaSxlAm44hPJzHvd%2B4qbE7aIpz%2BPqYYhrtlb2raHT1%2FhIf0ks0kcmxBjXtwnrLYx27xLiIgLELNhEFltfavqDW6OA2LKygXDgWZcX8vgBh3TMmnn%2FwaDCEhCWyZrrqvENHeBo%2Fh0CPK9gpqoQY5SrW%2FbGx%2BHbA%2FsyHZYiMJPeHx2Ieh%2ByWwI%2F0hmSN7JaqH7ASfaqS5ILwZs769WBWzfDBgsHt6di1UEPIDtO0sRP0YnwlQ8kgNN1Ld0scEpxEOumanhQXaQ5wtwzFkBwxcxi4yOP6pS3x26vEzbp%2BIktv%2FjIDSfR2Pr5unyOkenUpYVzK9O1BLDsedJAzU4tbm6YGsME3bLYvShZrgwqZtHzUzv6jCw3%2B3RBjqxAab2MGqLat4a2qp2osx4k1pIrj6D0xH3wyBDDu%2BYgg6Cy319CtN2d9iYpvPV8gvvcUyvCV99d%2BgB4MPme5UwtNI0RYNwk1HdUVoDqKbwcS6dLdEsq7utuHnETXyvCVlLnzig%2Bc9vyfiS7ih35b5B8iRI1rZ7r1i82OuEcE4nV72vzE5pJosYZWYfAbHnmE67%2Bg14X33SZaGJCJVK6WjfQKKvUWUrcIohnC5v5dyjnLGzFw%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAUKJL2KOI4CMXBQNW%2F20260624%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260624T073420Z&X-Amz-SignedHeaders=host&X-Amz-Expires=60&X-Amz-Signature=65f6fe630120f0ac9182d4142fa9e4b809c35ddd20892dbcbb8a357ec989eaea "HTTP/1.1 200 OK"
+Loaded 1 papers. (limited to 1)
+03:34:21 INFO step input         13.1s
+[concepts] Step 1: extracting from abstracts...
+03:34:21 INFO Retrying request to /chat/completions in 0.468482 seconds
+03:34:25 INFO HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+  [domain] inferred: Materials Science
+  [concepts] source=full-text, top_n=40
+  [1/1] Concepts: Brief Review of Surface Passivation on III-V Semiconductor
+      [concepts] full-text: 68256 chars in 7 chunk(s)
+03:34:25 INFO Retrying request to /chat/completions in 0.497877 seconds
+03:34:39 INFO HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+03:34:39 INFO Retrying request to /chat/completions in 0.420347 seconds
+03:34:52 INFO HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+03:34:52 INFO Retrying request to /chat/completions in 0.382947 seconds
+03:35:03 INFO HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+03:35:03 INFO Retrying request to /chat/completions in 0.470622 seconds
+03:35:14 INFO HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+03:35:14 INFO Retrying request to /chat/completions in 0.477312 seconds
+03:35:24 INFO HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+03:35:24 INFO Retrying request to /chat/completions in 0.424144 seconds
+03:35:27 INFO HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+03:35:28 INFO HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+03:35:28 INFO Retrying request to /chat/completions in 0.440787 seconds
+03:35:43 INFO HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+  [concepts] relevance>=0.5: kept 87, dropped 22
+03:35:43 INFO Retrying request to /chat/completions in 0.389146 seconds
+03:35:48 INFO HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+[concepts] normalized to 33
+03:35:48 INFO step concepts      87.0s
+[mine] Step 2: full-text mining (LLM) + REBEL triples...
+  [1/1] Mining: Brief Review of Surface Passivation on III-V Semiconductor
+03:35:48 INFO Retrying request to /chat/completions in 0.377413 seconds
+03:36:02 INFO HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+03:36:02 INFO Retrying request to /chat/completions in 0.456282 seconds
+03:36:32 INFO HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+03:36:32 INFO Retrying request to /chat/completions in 0.476350 seconds
+03:36:46 INFO HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+03:36:46 INFO Retrying request to /chat/completions in 0.497783 seconds
+03:36:54 INFO HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+03:36:54 INFO Retrying request to /chat/completions in 0.497722 seconds
+03:36:59 INFO HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+03:36:59 INFO Retrying request to /chat/completions in 0.489020 seconds
+03:37:04 INFO HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+03:37:04 INFO Retrying request to /chat/completions in 0.465881 seconds
+03:37:09 INFO HTTP Request: POST http://localhost:11434/v1/chat/completions "HTTP/1.1 200 OK"
+03:37:09 INFO step mine.llm      81.6s
+03:37:09 INFO HTTP Request: HEAD https://huggingface.co/Babelscape/rebel-large/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+03:37:09 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Babelscape/rebel-large/44eb6cb4585df284ce6c4d6a7013f83fe473c052/config.json "HTTP/1.1 200 OK"
+03:37:09 INFO HTTP Request: HEAD https://huggingface.co/Babelscape/rebel-large/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+03:37:09 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Babelscape/rebel-large/44eb6cb4585df284ce6c4d6a7013f83fe473c052/tokenizer_config.json "HTTP/1.1 200 OK"
+03:37:10 INFO HTTP Request: HEAD https://huggingface.co/Babelscape/rebel-large/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+03:37:10 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Babelscape/rebel-large/44eb6cb4585df284ce6c4d6a7013f83fe473c052/tokenizer_config.json "HTTP/1.1 200 OK"
+03:37:10 INFO HTTP Request: GET https://huggingface.co/api/models/Babelscape/rebel-large/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+03:37:10 INFO HTTP Request: GET https://huggingface.co/api/models/Babelscape/rebel-large/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+03:37:10 INFO HTTP Request: HEAD https://huggingface.co/Babelscape/rebel-large/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+03:37:10 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Babelscape/rebel-large/44eb6cb4585df284ce6c4d6a7013f83fe473c052/config.json "HTTP/1.1 200 OK"
+03:37:11 INFO HTTP Request: HEAD https://huggingface.co/Babelscape/rebel-large/resolve/main/generation_config.json "HTTP/1.1 404 Not Found"
+03:37:11 INFO HTTP Request: HEAD https://huggingface.co/Babelscape/rebel-large/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+03:37:11 INFO HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Babelscape/rebel-large/44eb6cb4585df284ce6c4d6a7013f83fe473c052/config.json "HTTP/1.1 200 OK"
+  [rebel] model loaded on cuda
+  [rebel] full-text: scanned 68256 chars in 49 chunk(s) across 1 paper(s) -> 40 triples
+03:37:25 INFO step mine.rebel    16.3s
+  [merge] confident links: 0 endpoint(s); 40/40 triple(s) below confidence 0.9 left standalone
+[mine] 1 schema rows, 40 REBEL triples (rel-vocab 0.825, resolved 0.0)
+03:37:25 INFO step mine.consolidate     0.0s
+[mine] REBEL triples -> outputs_test\surface_passivation\rebel_triples.jsonld
+03:37:25 INFO step mine.persist     0.0s
+[ground] MDS-Onto: matched 8/33 concepts
+03:37:42 INFO step mine.ground    16.5s
+[ontology] Step 4: OWL 2 TTL, then Step 5: JSON-LD (GraphDB repo)...
+  [ontology] REBEL links: 0 added (conf>=0.9, exact match), 33 left standalone
+  Ontology → outputs_test\surface_passivation\surface_passivation_onto.ttl
+  Combined -> outputs_test\surface_passivation\all.jsonld
+03:37:42 INFO step ontology       0.1s
+[validate] PASS - alignment 0.984, 127 classes
+[portal] submission failed (non-fatal): 422 Client Error: Unprocessable Entity for url: https://www.mdsonto-portal.com:8443/ontologies
+03:37:43 INFO step validate       0.9s
+03:37:43 INFO step diagram        0.0s
+03:37:43 INFO step lora           0.0s
+[visual] Step 7: interactive graph + benchmark...
+[visual] graph -> outputs_test\surface_passivation\graph.html  (1 papers, 87 concepts, 35.6% generic-class)
+[visual] benchmark row appended -> eval\graph_benchmark.csv
+03:37:43 INFO step visual         0.1s
+03:37:43 INFO step TOTAL        215.4s
+
+Done - GraphDB repo + diagram in outputs_test\surface_passivation
+[log] run log -> outputs_test\surface_passivation\surface_passivation.log
+03:39:20 INFO run start: collection 'Surface Passivation' (YD29ZWIM) | model llama3.1:8b-instruct-q4_K_M
+
+[unsupervised] collection "Surface Passivation" (YD29ZWIM) | model llama3.1:8b-instruct-q4_K_M
+[dials] top_n=40 min_relevance=0.5 max_concepts=100 limit=1
+[gpu] NVIDIA GeForce RTX 5070 Ti Laptop GPU | torch 2.11.0+cu128 | VRAM 4.2/11.9 GB free | rebel_device=cuda
+[log] run log -> outputs_test\surface_passivation\surface_passivation.log
+03:39:30 INFO run start: collection 'Surface Passivation' (YD29ZWIM) | model llama3.1:8b-instruct-q8_0
+
+[unsupervised] collection "Surface Passivation" (YD29ZWIM) | model llama3.1:8b-instruct-q8_0
+[dials] top_n=40 min_relevance=0.5 max_concepts=100 limit=1
+[gpu] NVIDIA GeForce RTX 5070 Ti Laptop GPU | torch 2.11.0+cu128 | VRAM 10.8/11.9 GB free | rebel_device=cuda
+Loaded 1 papers. (limited to 1)
+03:39:45 INFO step input         17.1s
+[concepts] Step 1: extracting from abstracts...
+  [domain] inferred: Energy and Electronics (key categories: semiconductors, compound materials, surface passivation, electronic devices, optoelectronics, microelectronics, characterization methods)
+  [concepts] source=full-text, top_n=40
+  [1/1] Concepts: Brief Review of Surface Passivation on III-V Semiconductor
+      [concepts] full-text: 68256 chars in 7 chunk(s)
+03:39:54 INFO Retrying request to /chat/completions in 0.392489 seconds
+03:40:09 INFO Retrying request to /chat/completions in 0.461987 seconds
+03:40:25 INFO Retrying request to /chat/completions in 0.464060 seconds
+03:40:38 INFO Retrying request to /chat/completions in 0.390315 seconds
+03:40:55 INFO Retrying request to /chat/completions in 0.497197 seconds
+03:41:10 INFO Retrying request to /chat/completions in 0.382369 seconds
+03:41:15 INFO Retrying request to /chat/completions in 0.407576 seconds
+  [concepts] relevance>=0.5: kept 102, dropped 16
+03:41:33 INFO Retrying request to /chat/completions in 0.460478 seconds
+[concepts] normalized to 18
+03:41:37 INFO step concepts     111.5s
+[mine] Step 2: full-text mining (LLM) + REBEL triples...
+  [1/1] Mining: Brief Review of Surface Passivation on III-V Semiconductor
+03:41:37 INFO Retrying request to /chat/completions in 0.386375 seconds
+03:41:55 INFO Retrying request to /chat/completions in 0.482183 seconds
+03:42:05 INFO Retrying request to /chat/completions in 0.461155 seconds
+03:42:22 INFO Retrying request to /chat/completions in 0.449533 seconds
+03:42:37 INFO Retrying request to /chat/completions in 0.451328 seconds
+03:42:50 INFO step mine.llm      73.6s
+03:42:55 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  [rebel] model loaded on cuda
+  [rebel] full-text: scanned 68256 chars in 49 chunk(s) across 1 paper(s) -> 40 triples
+03:43:10 INFO step mine.rebel    19.4s
+  [merge] confident links: 0 endpoint(s); 40/40 triple(s) below confidence 0.9 left standalone
+[mine] 1 schema rows, 40 REBEL triples (rel-vocab 0.825, resolved 0.0)
+03:43:10 INFO step mine.consolidate     0.0s
+[mine] REBEL triples -> outputs_test\surface_passivation\rebel_triples.jsonld
+03:43:10 INFO step mine.persist     0.0s
+03:43:16 INFO step mine.ground     6.4s
+[ontology] Step 4: OWL 2 TTL, then Step 5: JSON-LD (GraphDB repo)...
+  [ontology] REBEL links: 0 added (conf>=0.9, exact match), 33 left standalone
+  Ontology → outputs_test\surface_passivation\surface_passivation_onto.ttl
+  Combined -> outputs_test\surface_passivation\all.jsonld
+03:43:16 INFO step ontology       0.1s
+[validate] PASS - alignment 0.984, 122 classes
+[portal] submission failed (non-fatal): 422 Client Error: Unprocessable Entity for url: https://www.mdsonto-portal.com:8443/ontologies
+03:43:18 INFO step validate       2.0s
+03:43:18 INFO step diagram        0.0s
+03:43:18 INFO step lora           0.0s
+[visual] Step 7: interactive graph + benchmark...
+[visual] graph -> outputs_test\surface_passivation\graph.html  (1 papers, 102 concepts, 39.2% generic-class)
+[visual] benchmark row appended -> eval\graph_benchmark.csv
+03:43:19 INFO step visual         0.3s
+03:43:19 INFO step TOTAL        230.4s
+
+Done - GraphDB repo + diagram in outputs_test\surface_passivation

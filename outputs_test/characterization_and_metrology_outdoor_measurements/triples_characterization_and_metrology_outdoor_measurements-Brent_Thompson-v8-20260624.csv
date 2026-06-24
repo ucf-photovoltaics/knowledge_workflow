@@ -1,0 +1,91 @@
+subject,predicate,predicate_norm,object,subject_id,object_id,confidence,source_paper
+Huazhong University of Science and Technology,country,,China,,,0.877,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+Infrared Thermography,use,,condition monitoring,,,0.829,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+Thermal,uses,,infrared,,,0.686,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+photovoltaic,subclass of,mds:subClassOf,renewable energy,,,0.849,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+line-to-line,subclass of,mds:subClassOf,faults,,,0.783,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+Boltzmann gas constant,instance of,mds:subClassOf,Electroluminescence,,,0.862,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+IRTG,has part,mds:hasPart,PV,,,0.655,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+IRTG,instance of,mds:subClassOf,NDTT,,,0.728,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+VOSviewer,part of,mds:partOf,Scopus,,,0.885,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+IR,subclass of,mds:subClassOf,electromagnetic waves,,,0.787,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+visible light,instance of,mds:subClassOf,electromagnetic,,,0.818,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+apparent temperature,subclass of,mds:subClassOf,temperature,,,0.734,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+passive,opposite of,,active IRTG,,,0.818,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+NDTT,use,,Real-time imaging,,,0.8,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+noise,subclass of,mds:subClassOf,defects,,,0.772,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+IRTG,subclass of,mds:subClassOf,photometric,,,0.673,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+PV-IRTG,facet of,,PV,,,0.782,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+halogen lamp,subclass of,mds:subClassOf,halogen-lamp,,,0.774,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+PV,has part,mds:hasPart,PV cell,,,0.608,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+(reference),is a list of,mds:subClassOf,PV faults,,,0.619,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+resistive solar bond,part of,mds:partOf,PV cell,,,0.841,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+CdTe,subclass of,mds:subClassOf,Scanning Electron Microscopy,,,0.799,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+PV module,connects with,,inverter,,,0.711,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+convolutional neural network,facet of,,machine learning,,https://cwrusdle.bitbucket.io/mds/concept/machine_learning,0.908,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+IRTG,use,,Photovoltaic,,,0.738,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+National Supercomputing,located in the administrative territorial entity,mds:partOf,Tianjin,,,0.931,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+ASNT,located in the administrative territorial entity,mds:partOf,"Columbus, Ohio",,,0.882,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+2011 3rd International Youth Conference on Energetics,organizer,,IEEE,,,0.804,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+National,located in the administrative territorial entity,mds:partOf,CO,,,0.855,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+38th IEEE Photovoltaic Specialists Conference,organizer,,IEEE,,,0.86,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+2020,point in time,,2020,,,0.759,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+Berkeley Lab,country,,United States,,,0.887,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+Photovoltaic plant,studied by,,thermography,,,0.763,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+NREL,country,,United States,,,0.814,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+Non-destructive evaluation,subclass of,mds:subClassOf,thermography,,,0.77,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+Infrared Phys.,subclass of,mds:subClassOf,thermography,,,0.716,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+ASNT,located in the administrative territorial entity,mds:partOf,Columbus,,,0.823,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+2006 IEEE 4th World Conference on Photovoltaic Energy Conference,point in time,,2006,,,0.941,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+Si,use,,photovoltaic,,,0.653,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+31st European Photovoltaic Solar Energy,point in time,,2015,,,0.906,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+IEEE,field of work,,thermography,,,0.799,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+2008 Summer Olympics,point in time,,2008,,,0.69,Infrared thermography-based condition monitoring of solar photovoltaic systems: A mini review of recent advances
+Energy Conversion and Management,publisher,,Elsevier Ltd.,,,0.85,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+convolutional neural network,use,,recognition,,,0.868,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+solar cells,use,,electric energy,,,0.829,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+hot spots,subclass of,mds:subClassOf,defect,,,0.753,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+infrared,subclass of,mds:subClassOf,thermal,,,0.715,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+MATLAB,influenced by,,CNN architecture,,,0.831,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+Keras,use,,TensorFlow,,,0.746,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+CNN,use,,defect detection,,,0.791,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+CNN,subclass of,mds:subClassOf,UAV,,,0.789,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+Mavic 2,subclass of,mds:subClassOf,Enterprise,,,0.787,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+Image stitching,subclass of,mds:subClassOf,image processing,,,0.862,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+2,followed by,,3,,,0.624,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+SIFT,instance of,mds:subClassOf,algorithm,,,0.71,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+DOG pyramid,instance of,mds:subClassOf,Convolution integration,,,0.791,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+extreme point,part of,mds:partOf,Hessian Matrix,,,0.879,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+snail trail,subclass of,mds:subClassOf,cell defect,,,0.688,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+COVID-19 pandemic,point in time,,2020,,,0.791,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+α,facet of,,normal distribution,,,0.778,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+Positives,opposite of,,Negative,,,0.715,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+α,part of,mds:partOf,H,,,0.788,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+edge contour,subclass of,mds:subClassOf,edge,,,0.606,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+convolution,part of,mds:partOf,convolution kernel,,,0.8,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+Image feature point matching,facet of,,convolution kernel,,,0.763,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+CNN training,facet of,,neural network,,,0.81,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+GPU,opposite of,,CPU,,,0.902,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+RGB,subclass of,mds:subClassOf,image processing,,,0.684,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+HSV,subclass of,mds:subClassOf,RGB,,,0.839,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+PV module image defect identification,instance of,mds:subClassOf,defect identification and classification system,,,0.745,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+XYZ,instance of,mds:subClassOf,color space,,,0.695,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+PV module defect classification,facet of,,atrophy,,,0.619,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+RGB image,subclass of,mds:subClassOf,thermal image,,,0.601,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+PV plant defect information pattern,facet of,,PV,,,0.719,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+invertebrate,subclass of,mds:subClassOf,plant,,,0.61,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+Luminance texture Segmentation,subclass of,mds:subClassOf,image stitching,,,0.721,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+VGG16,use,,deep learning,,,0.798,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+(2020),facet of,,PV,,,0.614,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+SIFT,use,,Image stitching,,,0.668,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+RGB,instance of,mds:subClassOf,color space,,,0.769,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+Declaration of Competing Interest,facet of,,professional relationships,,,0.713,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+This study,author,,Espinosa et al.,,,0.766,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+JARIE,publisher,,IEEE,,,0.655,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+IEEE J Photovolt,publication date,,2014,,,0.816,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+Infrared imaging of photovoltaic modules,subclass of,mds:subClassOf,thermographic,,,0.811,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+Conf Rec IEEE Photovolt Spec Conf 2016,point in time,,2016,,,0.825,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+Deep learning,subclass of,mds:subClassOf,machine learning,,,0.787,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+Geneva,country,,Switzerland,,,0.873,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+NN: Tricks,publication date,,2012,,,0.683,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"
+Eng Appl,inception,,2001,,,0.561,"Automatic detection, classification and localization of defects in large photovoltaic plants using unmanned aerial vehicles (UAV) based infrared (IR) and RGB imaging"

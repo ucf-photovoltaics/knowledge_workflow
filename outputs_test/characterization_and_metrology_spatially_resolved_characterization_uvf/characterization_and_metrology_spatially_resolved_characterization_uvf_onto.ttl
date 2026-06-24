@@ -1,0 +1,3307 @@
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix schema:  <https://schema.org/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix mds:     <https://cwrusdle.bitbucket.io/mds/> .
+@prefix generic:     <https://cwrusdle.bitbucket.io/mds/generic/> .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ontology>
+    a owl:Ontology ;
+    rdfs:label "characterization and metrology spatially resolved characterization uvf Ontology"@en ;
+    dcterms:description "OWL 2 ontology generated from MDS-Onto v5 NLP pipeline outputs for the characterization_and_metrology_>_spatially-resolved_characterization_>_uvf domain."@en ;
+    dcterms:created "2026-06-24"^^xsd:date ;
+    dcterms:creator "MDS-Onto v5 NLP Pipeline" ;
+    owl:imports <https://cwrusdle.bitbucket.io/mds/> ;
+    .
+
+# ── MDS-Onto top-level classes ───────────────────────────
+
+<https://cwrusdle.bitbucket.io/mds/Measurement>
+    a owl:Class ;
+    rdfs:label "Measurement"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Material>
+    a owl:Class ;
+    rdfs:label "Material"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Process>
+    a owl:Class ;
+    rdfs:label "Process"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Device>
+    a owl:Class ;
+    rdfs:label "Device"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Characterization>
+    a owl:Class ;
+    rdfs:label "Characterization"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Reliability>
+    a owl:Class ;
+    rdfs:label "Reliability"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Sample>
+    a owl:Class ;
+    rdfs:label "Sample"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Economics>
+    a owl:Class ;
+    rdfs:label "Economics"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/ResearchPublication>
+    a owl:Class ;
+    rdfs:label "ResearchPublication"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Concept>
+    a owl:Class ;
+    rdfs:label "Concept"@en ;
+    .
+
+# ── Domain record class ──────────────────────────────────────
+
+<https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord>
+    a owl:Class ;
+    rdfs:label "CharacterizationAndMetrologySpatiallyResolvedCharacterizationUvf Schema Record"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/ResearchPublication> ;
+    skos:definition "Structured record extracted from a research publication in the characterization_and_metrology_>_spatially-resolved_characterization_>_uvf domain."@en ;
+    .
+
+# ── Extracted concept properties ─────────────────────────
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasBacksheet>
+    a owl:DatatypeProperty ;
+    rdfs:label "backsheet"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Backsheet> ;
+    skos:definition "Outermost layer for a solar panel, protecting it from harsh, varying environmental conditions over panel lifetimes."@en ;
+    skos:exactMatch <https://cwrusdle.bitbucket.io/mds/Backsheet> ;
+    skos:example "the backsheet are not photobleached."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasBillOfMaterials>
+    a owl:DatatypeProperty ;
+    rdfs:label "bill_of_materials"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "bill of materials of a PV module"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasBusBar>
+    a owl:DatatypeProperty ;
+    rdfs:label "bus_bar"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "the bus bar."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasCameraSystem>
+    a owl:DatatypeProperty ;
+    rdfs:label "camera_system"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "LED arrays, which were kept between 20 and 25 °C during the measurements."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasCrack>
+    a owl:DatatypeProperty ;
+    rdfs:label "crack"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "cell cracks and form a fluorescent line directly above the cell crack."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasCrystallineSiliconPhotovoltaics>
+    a owl:DatatypeProperty ;
+    rdfs:label "crystalline_silicon_photovoltaics"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "aged crystalline silicon photovoltaic modules."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDamageType>
+    a owl:DatatypeProperty ;
+    rdfs:label "damage_type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "crack"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDataAnalysisProcedure>
+    a owl:DatatypeProperty ;
+    rdfs:label "data_analysis_procedure"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "dark field correction"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDataAnalysisProcess>
+    a owl:DatatypeProperty ;
+    rdfs:label ">#> data analysis process"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <http://purl.obolibrary.org/obo/BFO_0000015> ;
+    skos:definition "(Elucidation) p is a process means p is an occurrent that has some temporal proper part and for some time t, p has some material entity as participant"@en ;
+    skos:exactMatch <http://purl.obolibrary.org/obo/BFO_0000015> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDefectDetectionMethod>
+    a owl:DatatypeProperty ;
+    rdfs:label "defect_detection_method"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "electrical detection of gap formation"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDefectDetectionMethods>
+    a owl:DatatypeProperty ;
+    rdfs:label ">#> defect detection methods"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Defect> ;
+    skos:definition "An Immaterial Entity that disrupts the continuity of unit cell repetition in a solid substance.; (Elucidation) A Defect is conceptualized to be some region (or a discontinuous aggregate of regions) in a material in direct contact with a crystal, that contains or lacks material entities in a way that disrupts the repeating patterns of a perfect crystal."@en ;
+    skos:exactMatch <https://cwrusdle.bitbucket.io/mds/Defect> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDefectType>
+    a owl:DatatypeProperty ;
+    rdfs:label "defect_type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "gap formation"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDegradationMechanism>
+    a owl:DatatypeProperty ;
+    rdfs:label "degradation_mechanism"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Reliability> ;
+    skos:example "potential-induced degradation"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasEncapsulant>
+    a owl:DatatypeProperty ;
+    rdfs:label "encapsulant"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Encapsulant> ;
+    skos:definition "Adhesive material used to hold front sheet and back sheet together. Eg., EVA, POE, etc."@en ;
+    skos:exactMatch <https://cwrusdle.bitbucket.io/mds/Encapsulant> ;
+    skos:example "crosslinked encapsulation material, encapsulants"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasEnvironmentalCondition>
+    a owl:DatatypeProperty ;
+    rdfs:label "environmental_condition"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "moderate climate conditions"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasEquipment>
+    a owl:DatatypeProperty ;
+    rdfs:label "equipment"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Equipment> ;
+    skos:definition "Equipment used for a particular process/ task. In photovoltaics equiptment includes solar simulators, inverters, and imaging tools"@en ;
+    skos:exactMatch <https://cwrusdle.bitbucket.io/mds/Equipment> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasExcitationSource>
+    a owl:DatatypeProperty ;
+    rdfs:label "excitation_source"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "UV light source"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasExposureDevice>
+    a owl:DatatypeProperty ;
+    rdfs:label "exposure_device"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasFieldSetup>
+    a owl:DatatypeProperty ;
+    rdfs:label "field_setup"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Reliability> ;
+    skos:example "manual setup"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasFlorophore>
+    a owl:DatatypeProperty ;
+    rdfs:label "florophore"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasHumidity>
+    a owl:DatatypeProperty ;
+    rdfs:label "humidity"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Humidity> ;
+    skos:definition "A Quality that inheres in an environment depending on the quantity of water vapor in the environment."@en ;
+    skos:exactMatch <https://cwrusdle.bitbucket.io/mds/Humidity> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasImagingTechnique>
+    a owl:DatatypeProperty ;
+    rdfs:label "imaging_technique"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    skos:example "ultraviolet fluorescence (UVF) imaging"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasImagingTechniques>
+    a owl:DatatypeProperty ;
+    rdfs:label ">#> imaging techniques"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasInspectionMethod>
+    a owl:DatatypeProperty ;
+    rdfs:label "inspection_method"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasInspectionSolutions>
+    a owl:DatatypeProperty ;
+    rdfs:label "inspection_solutions"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "fluorescence-based methods for photovoltaic inspection"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasInterconnectorRibbon>
+    a owl:DatatypeProperty ;
+    rdfs:label "interconnector_ribbon"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasIrradiationDose>
+    a owl:DatatypeProperty ;
+    rdfs:label "irradiation_dose"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "UV dose."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasLaminationProcess>
+    a owl:DatatypeProperty ;
+    rdfs:label "lamination_process"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "too quick lamination process"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasLightSources>
+    a owl:DatatypeProperty ;
+    rdfs:label "light_sources"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasLockInIrImaging>
+    a owl:DatatypeProperty ;
+    rdfs:label "lock_in_ir_imaging"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    skos:example "lock-in IR image"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasModuleDesign>
+    a owl:DatatypeProperty ;
+    rdfs:label "module_design"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasModuleInspection>
+    a owl:DatatypeProperty ;
+    rdfs:label "module_inspection"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "UVF images of a PV module with UV A absorbing EV A"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasModuleManufacturing>
+    a owl:DatatypeProperty ;
+    rdfs:label "module_manufacturing"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasModuleProperty>
+    a owl:DatatypeProperty ;
+    rdfs:label "module_property"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMolecularTransformation>
+    a owl:DatatypeProperty ;
+    rdfs:label "molecular_transformation"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "fluorescence effect"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasOxygenPermeation>
+    a owl:DatatypeProperty ;
+    rdfs:label "oxygen_permeation"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPhotobleachingRate>
+    a owl:DatatypeProperty ;
+    rdfs:label "photobleaching_rate"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "rapid initial photobleaching"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPhotovoltaicModule>
+    a owl:DatatypeProperty ;
+    rdfs:label "photovoltaic_module"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "PV modules"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPhotovoltaicModules>
+    a owl:DatatypeProperty ;
+    rdfs:label ">#> photovoltaic modules"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPhysicalProperty>
+    a owl:DatatypeProperty ;
+    rdfs:label "physical_property"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "ultraviolet radiation of wavelengths between 180 nm and 400 nm"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPolymerEncapsulant>
+    a owl:DatatypeProperty ;
+    rdfs:label "polymer_encapsulant"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "polymeric encapsulant and permeable backsheet"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPorousFingerMetallization>
+    a owl:DatatypeProperty ;
+    rdfs:label "porous_finger_metallization"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "partly porous finger metallisation"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasProcessControl>
+    a owl:DatatypeProperty ;
+    rdfs:label "process_control"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "hygrothermal conditions"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasQualityAssessmentProcedure>
+    a owl:DatatypeProperty ;
+    rdfs:label "quality_assessment_procedure"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "Assessment tool for photovoltaic modules."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasQualityAssessmentProcedures>
+    a owl:DatatypeProperty ;
+    rdfs:label ">#> quality assessment procedures"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <http://purl.obolibrary.org/obo/BFO_0000019> ;
+    skos:definition "(Elucidation) A quality is a specifically dependent continuant that, in contrast to roles and dispositions, does not require any further process in order to be realized"@en ;
+    skos:exactMatch <http://purl.obolibrary.org/obo/BFO_0000019> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasRadiationDeviceType>
+    a owl:DatatypeProperty ;
+    rdfs:label "radiation_device_type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "ultraviolet (UV) radiation source"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasRadiationInducedDamage>
+    a owl:DatatypeProperty ;
+    rdfs:label "radiation_induced_damage"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "radiation-induced degradation in photovoltaic modules"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasRearEncapsulant>
+    a owl:DatatypeProperty ;
+    rdfs:label "rear_encapsulant"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSamplePreparationProcess>
+    a owl:DatatypeProperty ;
+    rdfs:label "sample_preparation_process"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSensor>
+    a owl:DatatypeProperty ;
+    rdfs:label "sensor"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Sensor> ;
+    skos:definition "The instrument on the satellite that collects the data."@en ;
+    skos:exactMatch <https://cwrusdle.bitbucket.io/mds/Sensor> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSnailTracks>
+    a owl:DatatypeProperty ;
+    rdfs:label "snail_tracks"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSolarCell>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar_cell"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasTemperatureDistribution>
+    a owl:DatatypeProperty ;
+    rdfs:label "temperature_distribution"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "current temperature distribution"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasThermalDegradation>
+    a owl:DatatypeProperty ;
+    rdfs:label "thermal_degradation"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Reliability> ;
+    skos:example "thermally degraded, already brownish PV encapsulation material"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasUltravioletFluorescenceSpectroscopy>
+    a owl:DatatypeProperty ;
+    rdfs:label "ultraviolet_fluorescence_spectroscopy"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "UVF-spectroscopic measurements"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasUvAbsorbers>
+    a owl:DatatypeProperty ;
+    rdfs:label "uv_absorbers"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasVisualAssessmentTechnique>
+    a owl:DatatypeProperty ;
+    rdfs:label "visual_assessment_technique"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "EL-IR thermography inspection technique"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasWaferBasedModuleManufacturing>
+    a owl:DatatypeProperty ;
+    rdfs:label "wafer_based_module_manufacturing"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "cell metallization,"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasWaferBasedModules>
+    a owl:DatatypeProperty ;
+    rdfs:label ">#> wafer-based modules"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Wafer> ;
+    skos:definition "Wafer-related characteristics of the solar cell."@en ;
+    skos:exactMatch <https://cwrusdle.bitbucket.io/mds/Wafer> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasWaterContent>
+    a owl:DatatypeProperty ;
+    rdfs:label "water_content"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMethod>
+    a owl:DatatypeProperty ;
+    rdfs:label "method"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "UVF imaging for manual inspection"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasProcess>
+    a owl:DatatypeProperty ;
+    rdfs:label "process"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "photobleaching under sun exposure"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDeviceStructure>
+    a owl:DatatypeProperty ;
+    rdfs:label "device/structure"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "UV spectrum source setup"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasUvInducedFluorescence>
+    a owl:DatatypeProperty ;
+    rdfs:label "uv-induced fluorescence"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "ultra violet fluorescence (UVF)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasUvAbsorbingEncapsulants>
+    a owl:DatatypeProperty ;
+    rdfs:label "uv-absorbing encapsulants"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "UV A absorbing encapsulants, conventional UV-absorbing EV A (3M 9100)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSolarModuleFeature>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar_module_feature"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "UVF pattern"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMaterialProperty>
+    a owl:DatatypeProperty ;
+    rdfs:label "material_property"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "UVF intensity"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasTemperatureDependence>
+    a owl:DatatypeProperty ;
+    rdfs:label "temperature_dependence"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "solar irradiation and temperature"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasCellCrackDetection>
+    a owl:DatatypeProperty ;
+    rdfs:label "cell_crack_detection"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "in-field detection of cell cracks in PV modules"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasEncapsulationFailure>
+    a owl:DatatypeProperty ;
+    rdfs:label "encapsulation_failure"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "corrosion of the silver finger grid"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasNearIrFluorescence>
+    a owl:DatatypeProperty ;
+    rdfs:label "near_ir_fluorescence"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "near IR spectrum"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasHailDamageInspection>
+    a owl:DatatypeProperty ;
+    rdfs:label "hail_damage_inspection"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "analysis of the impact of a hailstorm on the cell crack pattern"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasElectroluminescenceImage>
+    a owl:DatatypeProperty ;
+    rdfs:label "electroluminescence_image"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "EL images"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMeasurementProperty>
+    a owl:DatatypeProperty ;
+    rdfs:label "measurement_property"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "UVF conversion efficiency"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasFrontEncapsulant>
+    a owl:DatatypeProperty ;
+    rdfs:label "front encapsulant"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "front encapsulant, front glass and the solar cell beneath the lamination material"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasCellCracks>
+    a owl:DatatypeProperty ;
+    rdfs:label "cell cracks"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "cell cracks seen in the EL image were also visible in the UVF image"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasUvTransparentEncapsulants>
+    a owl:DatatypeProperty ;
+    rdfs:label "uv-transparent encapsulants"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "UV A transparent EV A, UV A trasparent PO"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasModuleStructure>
+    a owl:DatatypeProperty ;
+    rdfs:label "module_structure"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "encapsulant"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMaterialComposition>
+    a owl:DatatypeProperty ;
+    rdfs:label "material_composition"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "EV A (encapsulant material)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasModuleDamageFeature>
+    a owl:DatatypeProperty ;
+    rdfs:label "module_damage_feature"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "photobleaching effect"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasTemperatureHistory>
+    a owl:DatatypeProperty ;
+    rdfs:label "temperature_history"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "temperature evolution during solar exposure."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDefectVisualization>
+    a owl:DatatypeProperty ;
+    rdfs:label "defect_visualization"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "visualizing defects in photovoltaic modules."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasQualityCharacterization>
+    a owl:DatatypeProperty ;
+    rdfs:label "quality_characterization"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    skos:example "characterize cell quality,"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasOxygenContent>
+    a owl:DatatypeProperty ;
+    rdfs:label "oxygen_content"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "oxygen content incorporated during the production process"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasHumidityDose>
+    a owl:DatatypeProperty ;
+    rdfs:label "humidity_dose"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "high humidity and temperature"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasCrackDetection>
+    a owl:DatatypeProperty ;
+    rdfs:label "crack_detection"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "cell cracks"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasExposureTime>
+    a owl:DatatypeProperty ;
+    rdfs:label "exposure_time"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Reliability> ;
+    skos:example "exposure time"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasModuleManufacturingProcess>
+    a owl:DatatypeProperty ;
+    rdfs:label "module_manufacturing_process"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "Wafer-Based Module Manufacturing"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasModuleBrickMaterialProperty>
+    a owl:DatatypeProperty ;
+    rdfs:label "module_brick_material_property"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "UV A transparent EVA"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMethodCaveat>
+    a owl:DatatypeProperty ;
+    rdfs:label "method/caveat"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "environmental condition requirement"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasModuleManufacturingProcessComponent>
+    a owl:DatatypeProperty ;
+    rdfs:label "module_manufacturing_process/component"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "encapsulant polymer material"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasModuleBrickComponent>
+    a owl:DatatypeProperty ;
+    rdfs:label "module_brick_component"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "cell-cracked PV module backsheet layers material degradation rate assessment via fluorescence imaging"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMaterialComponentType>
+    a owl:DatatypeProperty ;
+    rdfs:label "material/component_type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "PV module adhesive component"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasWaferMaterial>
+    a owl:DatatypeProperty ;
+    rdfs:label "wafer_material"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "c-Si PV cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasModuleLayer>
+    a owl:DatatypeProperty ;
+    rdfs:label "module_layer"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "leakage path-induced degradation in defects (LeTID)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMaterial>
+    a owl:DatatypeProperty ;
+    rdfs:label "material"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "tin oxide (refining agent)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasUvInducedChemicalReactions>
+    a owl:DatatypeProperty ;
+    rdfs:label "uv-induced chemical reactions"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "interaction (e.g., energy transfer, collision, and reaction) with the activated and fluorescing sites of the polymer"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasEncapsulantQuality>
+    a owl:DatatypeProperty ;
+    rdfs:label "encapsulant quality"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "encapsulant quality, and the presence of impurities, cross linker decomposition products"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasBacksheetType>
+    a owl:DatatypeProperty ;
+    rdfs:label "backsheet type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "backsheet around the cell"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMaterialCharacteristic>
+    a owl:DatatypeProperty ;
+    rdfs:label "material_characteristic"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "UV absorbing material"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasModuleFeature>
+    a owl:DatatypeProperty ;
+    rdfs:label "module_feature"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "string fixing tape"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasModuleStructureComponent>
+    a owl:DatatypeProperty ;
+    rdfs:label "module_structure_component"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "rear side of the module"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasModuleTemperature>
+    a owl:DatatypeProperty ;
+    rdfs:label "module_temperature"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "PV module temperature."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasEncapsulationMaterialProperties>
+    a owl:DatatypeProperty ;
+    rdfs:label "encapsulation_material_properties"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "an encapsulant with a cut off wavelength of 322 nm"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasInfraredImaging>
+    a owl:DatatypeProperty ;
+    rdfs:label "infrared_imaging"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    skos:example "IR image taken under ca. 800 W/m²"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasExcitationWavelength>
+    a owl:DatatypeProperty ;
+    rdfs:label "excitation_wavelength"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "excitation within the visible red spectrum"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasHotSpotDetection>
+    a owl:DatatypeProperty ;
+    rdfs:label "hot_spot_detection"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "hot spots"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDroneSystem>
+    a owl:DatatypeProperty ;
+    rdfs:label "drone_system"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "drone"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDetectionLimit>
+    a owl:DatatypeProperty ;
+    rdfs:label "detection_limit"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "100 kWh of radiation dose"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasLightSourceCharacteristics>
+    a owl:DatatypeProperty ;
+    rdfs:label "light_source_characteristics"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "UV A LED"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMeasuredProperty>
+    a owl:DatatypeProperty ;
+    rdfs:label "measured_property"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "UVF signal intensity"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasLightSourceProperty>
+    a owl:DatatypeProperty ;
+    rdfs:label "light_source_property"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "UV LED chips"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMaterialPropertyType>
+    a owl:DatatypeProperty ;
+    rdfs:label "material/property_type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "fluorophores"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasModuleManufacturingComponent>
+    a owl:DatatypeProperty ;
+    rdfs:label "module_manufacturing_component"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "PV module backsheet"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasExposureDeviceType>
+    a owl:DatatypeProperty ;
+    rdfs:label "exposure_device_type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "UV lamp"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasModulePropertyPatternType>
+    a owl:DatatypeProperty ;
+    rdfs:label "module_property/pattern_type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "“hot spot” pattern UVF"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasInsuranceFinancialAspect>
+    a owl:DatatypeProperty ;
+    rdfs:label "insurance/financial_aspect"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "cost assessment of module failures"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasCrystallineMaterialPropertyRelationType>
+    a owl:DatatypeProperty ;
+    rdfs:label "crystalline_material_property/relation_type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "cell cracks in multicrystalline wafer relation to hotspot problems"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDeviceSensorType>
+    a owl:DatatypeProperty ;
+    rdfs:label "device/sensor_type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "tripod-mounted UV-F imaging camera system"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMeasurementTechnique>
+    a owl:DatatypeProperty ;
+    rdfs:label "measurement_technique"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "luminescence detection"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSolarCellManufacturing>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar_cell_manufacturing"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "wafer-based PV module manufacturing"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasInspectionSafetyGuideline>
+    a owl:DatatypeProperty ;
+    rdfs:label "inspection_safety_guideline"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "ICNIRP guidelines"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPhotoinjectionProcess>
+    a owl:DatatypeProperty ;
+    rdfs:label "photoinjection_process"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "fluence-Effekt in der Photolumineszenz"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSolarPanelInspectionTechnique>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar_panel_inspection_technique"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "fluorescence-based inspection techniques for defect detection"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasFluorophore>
+    a owl:DatatypeProperty ;
+    rdfs:label "fluorophore"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "fluorescent groups, fluorescent products"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPvCellComponent>
+    a owl:DatatypeProperty ;
+    rdfs:label "pv_cell_component"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "cell finger metallization"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSolarModulePart>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar_module_part"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "cell interconnect ribbon"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasBacksheetFeature>
+    a owl:DatatypeProperty ;
+    rdfs:label "backsheet_feature"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "non-brittle backsheet"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSolarCellInterconnectRibbon>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar_cell_interconnect_ribbon"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "cell interconnect ribbon."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDefectSource>
+    a owl:DatatypeProperty ;
+    rdfs:label "defect_source"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "Physical interaction between a diffusion process and the finger metallization."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasTemperatureRange>
+    a owl:DatatypeProperty ;
+    rdfs:label "temperature_range"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "module temperature range."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasFluorophoreGeneration>
+    a owl:DatatypeProperty ;
+    rdfs:label "fluorophore_generation"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "generation of fluorophores"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMeasurementSetup>
+    a owl:DatatypeProperty ;
+    rdfs:label "measurement_setup"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "UVF inspection set-up"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasInVitroTestingMethod>
+    a owl:DatatypeProperty ;
+    rdfs:label "in_vitro_testing_method"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "in-field detection method"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSamplePreparationProcedure>
+    a owl:DatatypeProperty ;
+    rdfs:label "sample_preparation_procedure"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Sample> ;
+    skos:example "hood with adjustable size and UV LEDs inside"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasObjectOfStudy>
+    a owl:DatatypeProperty ;
+    rdfs:label "object_of_study"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "PV module parts including cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDeviceStructureType>
+    a owl:DatatypeProperty ;
+    rdfs:label "device/structure_type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "drone-based setup"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasInspectionDeviceType>
+    a owl:DatatypeProperty ;
+    rdfs:label "inspection/device_type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "handheld UV source"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDeviceComponentType>
+    a owl:DatatypeProperty ;
+    rdfs:label "device/component_type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "drone tripods mountings"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasExposureDeviceComponent>
+    a owl:DatatypeProperty ;
+    rdfs:label "exposure_device_component"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "drone-mounted UV LED array"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasEquipmentMethodComponent>
+    a owl:DatatypeProperty ;
+    rdfs:label "equipment/method_component"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "imaging system design with dark field correction"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSolarCellLayer>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar_cell_layer"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "backend and front-end of solar cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasManufacturingContaminationSource>
+    a owl:DatatypeProperty ;
+    rdfs:label "manufacturing_contamination_source"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "acid vapour source (acetic acid)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasChemicalMaterialInteraction>
+    a owl:DatatypeProperty ;
+    rdfs:label "chemical_material_interaction"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "material interaction between ethylene-vinyl actetate (EVA) and acetic acid"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSolarCellCharacterisationMethod>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar_cell_characterisation_method"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "measurement of leakage current"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasRadiationProtectionStandards>
+    a owl:DatatypeProperty ;
+    rdfs:label "radiation_protection_standards"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "'ICNIRP guidelines on exposure to UV radiation'"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDefectCharacterisationMethod>
+    a owl:DatatypeProperty ;
+    rdfs:label "defect_characterisation_method"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "fluorescence imaging techniques for defect characterisation"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasProductionLossCause>
+    a owl:DatatypeProperty ;
+    rdfs:label "production_loss_cause"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "back sheet materials degradation impact on solar modules performance"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasCorrosionProcess>
+    a owl:DatatypeProperty ;
+    rdfs:label "corrosion_process"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "acid vapour induced corrosion in PV cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPolymerDegradation>
+    a owl:DatatypeProperty ;
+    rdfs:label "polymer degradation"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Reliability> ;
+    skos:example "degradation products"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasFluxes>
+    a owl:DatatypeProperty ;
+    rdfs:label "fluxes"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "flux used for the interconnection process of the solar cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDiffusionBarrier>
+    a owl:DatatypeProperty ;
+    rdfs:label "diffusion barrier"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "diffusion barriers lead to an accumulation"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasManufacturingProcedure>
+    a owl:DatatypeProperty ;
+    rdfs:label "manufacturing_procedure"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "lamination process"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasResidueType>
+    a owl:DatatypeProperty ;
+    rdfs:label "residue_type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "label residue"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSolarCellIssue>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar_cell_issue"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "bus bar damage"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDefectDetection>
+    a owl:DatatypeProperty ;
+    rdfs:label "defect_detection"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "Photobleaching along the cell interconnect ribbon."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasModuleDesignVariations>
+    a owl:DatatypeProperty ;
+    rdfs:label "module_design_variations"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "bill of materials (BOM)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasFluorescenceEmptySignalIntensity>
+    a owl:DatatypeProperty ;
+    rdfs:label "fluorescence_empty_signal_intensity"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "ﬂuorescence intensity of hot cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasCrystallineMaterialProperty>
+    a owl:DatatypeProperty ;
+    rdfs:label "crystalline_material_property"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "cracks"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSensorDeviceType>
+    a owl:DatatypeProperty ;
+    rdfs:label "sensor/device_type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "drone-mounted UV source"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSafetyEquipmentType>
+    a owl:DatatypeProperty ;
+    rdfs:label "safety/equipment_type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "hood-based UVF system"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMeasuredPropertyChangeRate>
+    a owl:DatatypeProperty ;
+    rdfs:label "measured_property/change_rate"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "degradation rate"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDeviceSpeedProperty>
+    a owl:DatatypeProperty ;
+    rdfs:label "device/speed_property"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "drone flight speed"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDeviceSafetyEquipmentType>
+    a owl:DatatypeProperty ;
+    rdfs:label "device/safety_equipment_type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "tripod for handheld UV source"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasEquipmentSafetyEquipmentType>
+    a owl:DatatypeProperty ;
+    rdfs:label "equipment/safety_equipment_type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "protective eye-wear safety gear for inspection personnel"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasEnvironmentalConditionTemperatureChangeRate>
+    a owl:DatatypeProperty ;
+    rdfs:label "environmental_condition/temperature_change_rate"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "winter temperature change rate"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasEnvironmentalConditionHumidityRate>
+    a owl:DatatypeProperty ;
+    rdfs:label "environmental_condition/humidity_rate"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "annual transition humidities in summer/winter cycle rates"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMaterialComponentPropertyType>
+    a owl:DatatypeProperty ;
+    rdfs:label "material/component_property_type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "UV absorber material component in polymer EVA encapsulant"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasQualityControlProcedure>
+    a owl:DatatypeProperty ;
+    rdfs:label "quality_control_procedure"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "procedures for quality assessment and control"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSolarCellContamination>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar_cell_contamination"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "hygrothermal induced contamination in PV cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasRadiationMeasurementTechnique>
+    a owl:DatatypeProperty ;
+    rdfs:label "radiation_measurement_technique"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "'radiation-induced photoluminescence measurements '"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasManufacturingMethodology>
+    a owl:DatatypeProperty ;
+    rdfs:label "manufacturing_methodology"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "photovoltaic module manufacturing methods and technology"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDefectInducedPerformanceLoss>
+    a owl:DatatypeProperty ;
+    rdfs:label "defect_induced_performance_loss"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "'degradation in PV modules '"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSolarCellDegradationMechanism>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar_cell_degradation_mechanism"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "solar cell degradation processes"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasInspecionDeviceStructure>
+    a owl:DatatypeProperty ;
+    rdfs:label "inspecion_device_structure"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "PV cell structure"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasRadiationRelatedDefects>
+    a owl:DatatypeProperty ;
+    rdfs:label "radiation_related_defects"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "'detrimental impact of electromagnetic radiation exposure on PV modules '"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasQualityRiskFactors>
+    a owl:DatatypeProperty ;
+    rdfs:label "quality_risk_factors"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "photovoltaic module failure risks and quality challenges"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasRadiatioCharacterizationMethodology>
+    a owl:DatatypeProperty ;
+    rdfs:label "radiatio_characterization_methodology"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "'photoluminescence measurements methodology'"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPhotobleaching>
+    a owl:DatatypeProperty ;
+    rdfs:label "photobleaching"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "bleaching needs irradiation besides oxygen (photobleaching)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMaterialExchange>
+    a owl:DatatypeProperty ;
+    rdfs:label "material exchange"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "material exchange because of concentration differences"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasOpticalProperty>
+    a owl:DatatypeProperty ;
+    rdfs:label "optical_property"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "transmission loss"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasManufacturingTool>
+    a owl:DatatypeProperty ;
+    rdfs:label "manufacturing_tool"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "printing process"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPvModuleIssue>
+    a owl:DatatypeProperty ;
+    rdfs:label "pv_module_issue"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "heat up effect (thermography)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasManufacturingIssueType>
+    a owl:DatatypeProperty ;
+    rdfs:label "manufacturing_issue_type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "lamination residue"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasNonDestructiveTestingTechnique>
+    a owl:DatatypeProperty ;
+    rdfs:label "non_destructive_testing_technique"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Reliability> ;
+    skos:example "UVF imaging"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasRadiantFluxMeasurement>
+    a owl:DatatypeProperty ;
+    rdfs:label "radiant_flux_measurement"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "radiant flux at low electrical power requirements"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDroneSpecification>
+    a owl:DatatypeProperty ;
+    rdfs:label "drone_specification"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "comparatively low weight drone"@en ;
+    .
+
+# -- Concept classes (domain taxonomy) --------------------
+
+<https://cwrusdle.bitbucket.io/mds/generic/Builtenv>
+    a owl:Class ;
+    rdfs:label "BuiltEnv"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ExposureCharact>
+    a owl:Class ;
+    rdfs:label "Exposure; Charact"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/GeoCharact>
+    a owl:Class ;
+    rdfs:label "Geo; Charact"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PvModule>
+    a owl:Class ;
+    rdfs:label "PV-Module"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/generic/Builtenv> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ElecSirAccelerated>
+    a owl:Class ;
+    rdfs:label "Elec-SIR; Accelerated"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/generic/ExposureCharact> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/RasterMaterialLpbf>
+    a owl:Class ;
+    rdfs:label "Raster; Material-LPBF"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/generic/GeoCharact> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MaterialPyrom>
+    a owl:Class ;
+    rdfs:label "Material-Pyrom"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/generic/GeoCharact> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PvCell>
+    a owl:Class ;
+    rdfs:label "PV-Cell"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/generic/Builtenv> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Backsheet>
+    a owl:Class ;
+    rdfs:label "backsheet"@en ;
+    skos:prefLabel "backsheet"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/generic/PvModule> ;
+    skos:definition "Outermost layer for a solar panel, protecting it from harsh, varying environmental conditions over panel lifetimes."@en ;
+    skos:exactMatch <https://cwrusdle.bitbucket.io/mds/Backsheet> ;
+    skos:example "the backsheet are not photobleached."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/BillOfMaterials>
+    a owl:Class ;
+    rdfs:label "bill_of_materials"@en ;
+    skos:prefLabel "bill_of_materials"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "bill of materials of a PV module"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/BusBar>
+    a owl:Class ;
+    rdfs:label "bus_bar"@en ;
+    skos:prefLabel "bus_bar"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "the bus bar."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/CameraSystem>
+    a owl:Class ;
+    rdfs:label "camera_system"@en ;
+    skos:prefLabel "camera_system"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "LED arrays, which were kept between 20 and 25 °C during the measurements."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Crack>
+    a owl:Class ;
+    rdfs:label "crack"@en ;
+    skos:prefLabel "crack"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "cell cracks and form a fluorescent line directly above the cell crack."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/CrystallineSiliconPhotovoltaics>
+    a owl:Class ;
+    rdfs:label "crystalline_silicon_photovoltaics"@en ;
+    skos:prefLabel "crystalline_silicon_photovoltaics"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "aged crystalline silicon photovoltaic modules."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DamageType>
+    a owl:Class ;
+    rdfs:label "damage_type"@en ;
+    skos:prefLabel "damage_type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "crack"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DataAnalysisProcedure>
+    a owl:Class ;
+    rdfs:label "data_analysis_procedure"@en ;
+    skos:prefLabel "data_analysis_procedure"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "dark field correction"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DataAnalysisProcess>
+    a owl:Class ;
+    rdfs:label ">#> data analysis process"@en ;
+    skos:prefLabel ">#> data analysis process"@en ;
+    rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000015> ;
+    skos:definition "(Elucidation) p is a process means p is an occurrent that has some temporal proper part and for some time t, p has some material entity as participant"@en ;
+    skos:exactMatch <http://purl.obolibrary.org/obo/BFO_0000015> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DefectDetectionMethod>
+    a owl:Class ;
+    rdfs:label "defect_detection_method"@en ;
+    skos:prefLabel "defect_detection_method"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "electrical detection of gap formation"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DefectDetectionMethods>
+    a owl:Class ;
+    rdfs:label ">#> defect detection methods"@en ;
+    skos:prefLabel ">#> defect detection methods"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Defect> ;
+    skos:definition "An Immaterial Entity that disrupts the continuity of unit cell repetition in a solid substance.; (Elucidation) A Defect is conceptualized to be some region (or a discontinuous aggregate of regions) in a material in direct contact with a crystal, that contains or lacks material entities in a way that disrupts the repeating patterns of a perfect crystal."@en ;
+    skos:exactMatch <https://cwrusdle.bitbucket.io/mds/Defect> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DefectType>
+    a owl:Class ;
+    rdfs:label "defect_type"@en ;
+    skos:prefLabel "defect_type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "gap formation"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DegradationMechanism>
+    a owl:Class ;
+    rdfs:label "degradation_mechanism"@en ;
+    skos:prefLabel "degradation_mechanism"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Reliability> ;
+    skos:example "potential-induced degradation"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Encapsulant>
+    a owl:Class ;
+    rdfs:label "encapsulant"@en ;
+    skos:prefLabel "encapsulant"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/generic/PvModule> ;
+    skos:definition "Adhesive material used to hold front sheet and back sheet together. Eg., EVA, POE, etc."@en ;
+    skos:exactMatch <https://cwrusdle.bitbucket.io/mds/Encapsulant> ;
+    skos:example "crosslinked encapsulation material, encapsulants"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/EnvironmentalCondition>
+    a owl:Class ;
+    rdfs:label "environmental_condition"@en ;
+    skos:prefLabel "environmental_condition"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "moderate climate conditions"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Equipment>
+    a owl:Class ;
+    rdfs:label "equipment"@en ;
+    skos:prefLabel "equipment"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Equipment> ;
+    skos:definition "Equipment used for a particular process/ task. In photovoltaics equiptment includes solar simulators, inverters, and imaging tools"@en ;
+    skos:exactMatch <https://cwrusdle.bitbucket.io/mds/Equipment> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ExcitationSource>
+    a owl:Class ;
+    rdfs:label "excitation_source"@en ;
+    skos:prefLabel "excitation_source"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "UV light source"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ExposureDevice>
+    a owl:Class ;
+    rdfs:label "exposure_device"@en ;
+    skos:prefLabel "exposure_device"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/FieldSetup>
+    a owl:Class ;
+    rdfs:label "field_setup"@en ;
+    skos:prefLabel "field_setup"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Reliability> ;
+    skos:example "manual setup"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Florophore>
+    a owl:Class ;
+    rdfs:label "florophore"@en ;
+    skos:prefLabel "florophore"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Humidity>
+    a owl:Class ;
+    rdfs:label "humidity"@en ;
+    skos:prefLabel "humidity"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/generic/ElecSirAccelerated> ;
+    skos:definition "A Quality that inheres in an environment depending on the quantity of water vapor in the environment."@en ;
+    skos:exactMatch <https://cwrusdle.bitbucket.io/mds/Humidity> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ImagingTechnique>
+    a owl:Class ;
+    rdfs:label "imaging_technique"@en ;
+    skos:prefLabel "imaging_technique"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    skos:example "ultraviolet fluorescence (UVF) imaging"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ImagingTechniques>
+    a owl:Class ;
+    rdfs:label ">#> imaging techniques"@en ;
+    skos:prefLabel ">#> imaging techniques"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/InspectionMethod>
+    a owl:Class ;
+    rdfs:label "inspection_method"@en ;
+    skos:prefLabel "inspection_method"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/InspectionSolutions>
+    a owl:Class ;
+    rdfs:label "inspection_solutions"@en ;
+    skos:prefLabel "inspection_solutions"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "fluorescence-based methods for photovoltaic inspection"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/InterconnectorRibbon>
+    a owl:Class ;
+    rdfs:label "interconnector_ribbon"@en ;
+    skos:prefLabel "interconnector_ribbon"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/IrradiationDose>
+    a owl:Class ;
+    rdfs:label "irradiation_dose"@en ;
+    skos:prefLabel "irradiation_dose"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "UV dose."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/LaminationProcess>
+    a owl:Class ;
+    rdfs:label "lamination_process"@en ;
+    skos:prefLabel "lamination_process"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "too quick lamination process"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/LightSources>
+    a owl:Class ;
+    rdfs:label "light_sources"@en ;
+    skos:prefLabel "light_sources"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/LockInIrImaging>
+    a owl:Class ;
+    rdfs:label "lock_in_ir_imaging"@en ;
+    skos:prefLabel "lock_in_ir_imaging"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    skos:example "lock-in IR image"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ModuleDesign>
+    a owl:Class ;
+    rdfs:label "module_design"@en ;
+    skos:prefLabel "module_design"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ModuleInspection>
+    a owl:Class ;
+    rdfs:label "module_inspection"@en ;
+    skos:prefLabel "module_inspection"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "UVF images of a PV module with UV A absorbing EV A"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ModuleManufacturing>
+    a owl:Class ;
+    rdfs:label "module_manufacturing"@en ;
+    skos:prefLabel "module_manufacturing"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ModuleProperty>
+    a owl:Class ;
+    rdfs:label "module_property"@en ;
+    skos:prefLabel "module_property"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MolecularTransformation>
+    a owl:Class ;
+    rdfs:label "molecular_transformation"@en ;
+    skos:prefLabel "molecular_transformation"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "fluorescence effect"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/OxygenPermeation>
+    a owl:Class ;
+    rdfs:label "oxygen_permeation"@en ;
+    skos:prefLabel "oxygen_permeation"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PhotobleachingRate>
+    a owl:Class ;
+    rdfs:label "photobleaching_rate"@en ;
+    skos:prefLabel "photobleaching_rate"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "rapid initial photobleaching"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PhotovoltaicModule>
+    a owl:Class ;
+    rdfs:label "photovoltaic_module"@en ;
+    skos:prefLabel "photovoltaic_module"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "PV modules"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PhotovoltaicModules>
+    a owl:Class ;
+    rdfs:label ">#> photovoltaic modules"@en ;
+    skos:prefLabel ">#> photovoltaic modules"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PhysicalProperty>
+    a owl:Class ;
+    rdfs:label "physical_property"@en ;
+    skos:prefLabel "physical_property"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "ultraviolet radiation of wavelengths between 180 nm and 400 nm"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PolymerEncapsulant>
+    a owl:Class ;
+    rdfs:label "polymer_encapsulant"@en ;
+    skos:prefLabel "polymer_encapsulant"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "polymeric encapsulant and permeable backsheet"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PorousFingerMetallization>
+    a owl:Class ;
+    rdfs:label "porous_finger_metallization"@en ;
+    skos:prefLabel "porous_finger_metallization"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "partly porous finger metallisation"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ProcessControl>
+    a owl:Class ;
+    rdfs:label "process_control"@en ;
+    skos:prefLabel "process_control"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "hygrothermal conditions"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/QualityAssessmentProcedure>
+    a owl:Class ;
+    rdfs:label "quality_assessment_procedure"@en ;
+    skos:prefLabel "quality_assessment_procedure"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "Assessment tool for photovoltaic modules."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/QualityAssessmentProcedures>
+    a owl:Class ;
+    rdfs:label ">#> quality assessment procedures"@en ;
+    skos:prefLabel ">#> quality assessment procedures"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/generic/RasterMaterialLpbf> ;
+    skos:definition "(Elucidation) A quality is a specifically dependent continuant that, in contrast to roles and dispositions, does not require any further process in order to be realized"@en ;
+    skos:exactMatch <http://purl.obolibrary.org/obo/BFO_0000019> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/RadiationDeviceType>
+    a owl:Class ;
+    rdfs:label "radiation_device_type"@en ;
+    skos:prefLabel "radiation_device_type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "ultraviolet (UV) radiation source"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/RadiationInducedDamage>
+    a owl:Class ;
+    rdfs:label "radiation_induced_damage"@en ;
+    skos:prefLabel "radiation_induced_damage"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "radiation-induced degradation in photovoltaic modules"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/RearEncapsulant>
+    a owl:Class ;
+    rdfs:label "rear_encapsulant"@en ;
+    skos:prefLabel "rear_encapsulant"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SamplePreparationProcess>
+    a owl:Class ;
+    rdfs:label "sample_preparation_process"@en ;
+    skos:prefLabel "sample_preparation_process"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Sensor>
+    a owl:Class ;
+    rdfs:label "sensor"@en ;
+    skos:prefLabel "sensor"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/generic/MaterialPyrom> ;
+    skos:definition "The instrument on the satellite that collects the data."@en ;
+    skos:exactMatch <https://cwrusdle.bitbucket.io/mds/Sensor> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SnailTracks>
+    a owl:Class ;
+    rdfs:label "snail_tracks"@en ;
+    skos:prefLabel "snail_tracks"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SolarCell>
+    a owl:Class ;
+    rdfs:label "solar_cell"@en ;
+    skos:prefLabel "solar_cell"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/TemperatureDistribution>
+    a owl:Class ;
+    rdfs:label "temperature_distribution"@en ;
+    skos:prefLabel "temperature_distribution"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "current temperature distribution"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ThermalDegradation>
+    a owl:Class ;
+    rdfs:label "thermal_degradation"@en ;
+    skos:prefLabel "thermal_degradation"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Reliability> ;
+    skos:example "thermally degraded, already brownish PV encapsulation material"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/UltravioletFluorescenceSpectroscopy>
+    a owl:Class ;
+    rdfs:label "ultraviolet_fluorescence_spectroscopy"@en ;
+    skos:prefLabel "ultraviolet_fluorescence_spectroscopy"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "UVF-spectroscopic measurements"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/UvAbsorbers>
+    a owl:Class ;
+    rdfs:label "uv_absorbers"@en ;
+    skos:prefLabel "uv_absorbers"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/VisualAssessmentTechnique>
+    a owl:Class ;
+    rdfs:label "visual_assessment_technique"@en ;
+    skos:prefLabel "visual_assessment_technique"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "EL-IR thermography inspection technique"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/WaferBasedModuleManufacturing>
+    a owl:Class ;
+    rdfs:label "wafer_based_module_manufacturing"@en ;
+    skos:prefLabel "wafer_based_module_manufacturing"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "cell metallization,"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/WaferBasedModules>
+    a owl:Class ;
+    rdfs:label ">#> wafer-based modules"@en ;
+    skos:prefLabel ">#> wafer-based modules"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/generic/PvCell> ;
+    skos:definition "Wafer-related characteristics of the solar cell."@en ;
+    skos:exactMatch <https://cwrusdle.bitbucket.io/mds/Wafer> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/WaterContent>
+    a owl:Class ;
+    rdfs:label "water_content"@en ;
+    skos:prefLabel "water_content"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Method>
+    a owl:Class ;
+    rdfs:label "method"@en ;
+    skos:prefLabel "method"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "UVF imaging for manual inspection"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Process>
+    a owl:Class ;
+    rdfs:label "process"@en ;
+    skos:prefLabel "process"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "photobleaching under sun exposure"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DeviceStructure>
+    a owl:Class ;
+    rdfs:label "device/structure"@en ;
+    skos:prefLabel "device/structure"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "UV spectrum source setup"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/UvInducedFluorescence>
+    a owl:Class ;
+    rdfs:label "uv-induced fluorescence"@en ;
+    skos:prefLabel "uv-induced fluorescence"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "ultra violet fluorescence (UVF)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/UvAbsorbingEncapsulants>
+    a owl:Class ;
+    rdfs:label "uv-absorbing encapsulants"@en ;
+    skos:prefLabel "uv-absorbing encapsulants"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "UV A absorbing encapsulants, conventional UV-absorbing EV A (3M 9100)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SolarModuleFeature>
+    a owl:Class ;
+    rdfs:label "solar_module_feature"@en ;
+    skos:prefLabel "solar_module_feature"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "UVF pattern"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MaterialProperty>
+    a owl:Class ;
+    rdfs:label "material_property"@en ;
+    skos:prefLabel "material_property"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "UVF intensity"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/TemperatureDependence>
+    a owl:Class ;
+    rdfs:label "temperature_dependence"@en ;
+    skos:prefLabel "temperature_dependence"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "solar irradiation and temperature"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/CellCrackDetection>
+    a owl:Class ;
+    rdfs:label "cell_crack_detection"@en ;
+    skos:prefLabel "cell_crack_detection"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "in-field detection of cell cracks in PV modules"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/EncapsulationFailure>
+    a owl:Class ;
+    rdfs:label "encapsulation_failure"@en ;
+    skos:prefLabel "encapsulation_failure"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "corrosion of the silver finger grid"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/NearIrFluorescence>
+    a owl:Class ;
+    rdfs:label "near_ir_fluorescence"@en ;
+    skos:prefLabel "near_ir_fluorescence"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "near IR spectrum"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/HailDamageInspection>
+    a owl:Class ;
+    rdfs:label "hail_damage_inspection"@en ;
+    skos:prefLabel "hail_damage_inspection"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "analysis of the impact of a hailstorm on the cell crack pattern"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ElectroluminescenceImage>
+    a owl:Class ;
+    rdfs:label "electroluminescence_image"@en ;
+    skos:prefLabel "electroluminescence_image"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "EL images"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MeasurementProperty>
+    a owl:Class ;
+    rdfs:label "measurement_property"@en ;
+    skos:prefLabel "measurement_property"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "UVF conversion efficiency"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/FrontEncapsulant>
+    a owl:Class ;
+    rdfs:label "front encapsulant"@en ;
+    skos:prefLabel "front encapsulant"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "front encapsulant, front glass and the solar cell beneath the lamination material"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/CellCracks>
+    a owl:Class ;
+    rdfs:label "cell cracks"@en ;
+    skos:prefLabel "cell cracks"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "cell cracks seen in the EL image were also visible in the UVF image"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/UvTransparentEncapsulants>
+    a owl:Class ;
+    rdfs:label "uv-transparent encapsulants"@en ;
+    skos:prefLabel "uv-transparent encapsulants"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "UV A transparent EV A, UV A trasparent PO"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ModuleStructure>
+    a owl:Class ;
+    rdfs:label "module_structure"@en ;
+    skos:prefLabel "module_structure"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "encapsulant"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MaterialComposition>
+    a owl:Class ;
+    rdfs:label "material_composition"@en ;
+    skos:prefLabel "material_composition"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "EV A (encapsulant material)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ModuleDamageFeature>
+    a owl:Class ;
+    rdfs:label "module_damage_feature"@en ;
+    skos:prefLabel "module_damage_feature"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "photobleaching effect"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/TemperatureHistory>
+    a owl:Class ;
+    rdfs:label "temperature_history"@en ;
+    skos:prefLabel "temperature_history"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "temperature evolution during solar exposure."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DefectVisualization>
+    a owl:Class ;
+    rdfs:label "defect_visualization"@en ;
+    skos:prefLabel "defect_visualization"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "visualizing defects in photovoltaic modules."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/QualityCharacterization>
+    a owl:Class ;
+    rdfs:label "quality_characterization"@en ;
+    skos:prefLabel "quality_characterization"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    skos:example "characterize cell quality,"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/OxygenContent>
+    a owl:Class ;
+    rdfs:label "oxygen_content"@en ;
+    skos:prefLabel "oxygen_content"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "oxygen content incorporated during the production process"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/HumidityDose>
+    a owl:Class ;
+    rdfs:label "humidity_dose"@en ;
+    skos:prefLabel "humidity_dose"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "high humidity and temperature"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/CrackDetection>
+    a owl:Class ;
+    rdfs:label "crack_detection"@en ;
+    skos:prefLabel "crack_detection"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "cell cracks"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ExposureTime>
+    a owl:Class ;
+    rdfs:label "exposure_time"@en ;
+    skos:prefLabel "exposure_time"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Reliability> ;
+    skos:example "exposure time"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ModuleManufacturingProcess>
+    a owl:Class ;
+    rdfs:label "module_manufacturing_process"@en ;
+    skos:prefLabel "module_manufacturing_process"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "Wafer-Based Module Manufacturing"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ModuleBrickMaterialProperty>
+    a owl:Class ;
+    rdfs:label "module_brick_material_property"@en ;
+    skos:prefLabel "module_brick_material_property"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "UV A transparent EVA"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MethodCaveat>
+    a owl:Class ;
+    rdfs:label "method/caveat"@en ;
+    skos:prefLabel "method/caveat"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "environmental condition requirement"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ModuleManufacturingProcessComponent>
+    a owl:Class ;
+    rdfs:label "module_manufacturing_process/component"@en ;
+    skos:prefLabel "module_manufacturing_process/component"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "encapsulant polymer material"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ModuleBrickComponent>
+    a owl:Class ;
+    rdfs:label "module_brick_component"@en ;
+    skos:prefLabel "module_brick_component"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "cell-cracked PV module backsheet layers material degradation rate assessment via fluorescence imaging"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MaterialComponentType>
+    a owl:Class ;
+    rdfs:label "material/component_type"@en ;
+    skos:prefLabel "material/component_type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "PV module adhesive component"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/WaferMaterial>
+    a owl:Class ;
+    rdfs:label "wafer_material"@en ;
+    skos:prefLabel "wafer_material"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "c-Si PV cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ModuleLayer>
+    a owl:Class ;
+    rdfs:label "module_layer"@en ;
+    skos:prefLabel "module_layer"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "leakage path-induced degradation in defects (LeTID)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Material>
+    a owl:Class ;
+    rdfs:label "material"@en ;
+    skos:prefLabel "material"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "tin oxide (refining agent)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/UvInducedChemicalReactions>
+    a owl:Class ;
+    rdfs:label "uv-induced chemical reactions"@en ;
+    skos:prefLabel "uv-induced chemical reactions"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "interaction (e.g., energy transfer, collision, and reaction) with the activated and fluorescing sites of the polymer"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/EncapsulantQuality>
+    a owl:Class ;
+    rdfs:label "encapsulant quality"@en ;
+    skos:prefLabel "encapsulant quality"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "encapsulant quality, and the presence of impurities, cross linker decomposition products"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/BacksheetType>
+    a owl:Class ;
+    rdfs:label "backsheet type"@en ;
+    skos:prefLabel "backsheet type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "backsheet around the cell"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MaterialCharacteristic>
+    a owl:Class ;
+    rdfs:label "material_characteristic"@en ;
+    skos:prefLabel "material_characteristic"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "UV absorbing material"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ModuleFeature>
+    a owl:Class ;
+    rdfs:label "module_feature"@en ;
+    skos:prefLabel "module_feature"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "string fixing tape"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ModuleStructureComponent>
+    a owl:Class ;
+    rdfs:label "module_structure_component"@en ;
+    skos:prefLabel "module_structure_component"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "rear side of the module"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ModuleTemperature>
+    a owl:Class ;
+    rdfs:label "module_temperature"@en ;
+    skos:prefLabel "module_temperature"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "PV module temperature."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/EncapsulationMaterialProperties>
+    a owl:Class ;
+    rdfs:label "encapsulation_material_properties"@en ;
+    skos:prefLabel "encapsulation_material_properties"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "an encapsulant with a cut off wavelength of 322 nm"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/InfraredImaging>
+    a owl:Class ;
+    rdfs:label "infrared_imaging"@en ;
+    skos:prefLabel "infrared_imaging"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    skos:example "IR image taken under ca. 800 W/m²"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ExcitationWavelength>
+    a owl:Class ;
+    rdfs:label "excitation_wavelength"@en ;
+    skos:prefLabel "excitation_wavelength"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "excitation within the visible red spectrum"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/HotSpotDetection>
+    a owl:Class ;
+    rdfs:label "hot_spot_detection"@en ;
+    skos:prefLabel "hot_spot_detection"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "hot spots"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DroneSystem>
+    a owl:Class ;
+    rdfs:label "drone_system"@en ;
+    skos:prefLabel "drone_system"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "drone"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DetectionLimit>
+    a owl:Class ;
+    rdfs:label "detection_limit"@en ;
+    skos:prefLabel "detection_limit"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "100 kWh of radiation dose"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/LightSourceCharacteristics>
+    a owl:Class ;
+    rdfs:label "light_source_characteristics"@en ;
+    skos:prefLabel "light_source_characteristics"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "UV A LED"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MeasuredProperty>
+    a owl:Class ;
+    rdfs:label "measured_property"@en ;
+    skos:prefLabel "measured_property"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "UVF signal intensity"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/LightSourceProperty>
+    a owl:Class ;
+    rdfs:label "light_source_property"@en ;
+    skos:prefLabel "light_source_property"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "UV LED chips"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MaterialPropertyType>
+    a owl:Class ;
+    rdfs:label "material/property_type"@en ;
+    skos:prefLabel "material/property_type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "fluorophores"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ModuleManufacturingComponent>
+    a owl:Class ;
+    rdfs:label "module_manufacturing_component"@en ;
+    skos:prefLabel "module_manufacturing_component"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "PV module backsheet"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ExposureDeviceType>
+    a owl:Class ;
+    rdfs:label "exposure_device_type"@en ;
+    skos:prefLabel "exposure_device_type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "UV lamp"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ModulePropertyPatternType>
+    a owl:Class ;
+    rdfs:label "module_property/pattern_type"@en ;
+    skos:prefLabel "module_property/pattern_type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "“hot spot” pattern UVF"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/InsuranceFinancialAspect>
+    a owl:Class ;
+    rdfs:label "insurance/financial_aspect"@en ;
+    skos:prefLabel "insurance/financial_aspect"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "cost assessment of module failures"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/CrystallineMaterialPropertyRelationType>
+    a owl:Class ;
+    rdfs:label "crystalline_material_property/relation_type"@en ;
+    skos:prefLabel "crystalline_material_property/relation_type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "cell cracks in multicrystalline wafer relation to hotspot problems"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DeviceSensorType>
+    a owl:Class ;
+    rdfs:label "device/sensor_type"@en ;
+    skos:prefLabel "device/sensor_type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "tripod-mounted UV-F imaging camera system"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MeasurementTechnique>
+    a owl:Class ;
+    rdfs:label "measurement_technique"@en ;
+    skos:prefLabel "measurement_technique"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "luminescence detection"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SolarCellManufacturing>
+    a owl:Class ;
+    rdfs:label "solar_cell_manufacturing"@en ;
+    skos:prefLabel "solar_cell_manufacturing"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "wafer-based PV module manufacturing"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/InspectionSafetyGuideline>
+    a owl:Class ;
+    rdfs:label "inspection_safety_guideline"@en ;
+    skos:prefLabel "inspection_safety_guideline"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "ICNIRP guidelines"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PhotoinjectionProcess>
+    a owl:Class ;
+    rdfs:label "photoinjection_process"@en ;
+    skos:prefLabel "photoinjection_process"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "fluence-Effekt in der Photolumineszenz"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SolarPanelInspectionTechnique>
+    a owl:Class ;
+    rdfs:label "solar_panel_inspection_technique"@en ;
+    skos:prefLabel "solar_panel_inspection_technique"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "fluorescence-based inspection techniques for defect detection"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Fluorophore>
+    a owl:Class ;
+    rdfs:label "fluorophore"@en ;
+    skos:prefLabel "fluorophore"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "fluorescent groups, fluorescent products"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PvCellComponent>
+    a owl:Class ;
+    rdfs:label "pv_cell_component"@en ;
+    skos:prefLabel "pv_cell_component"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "cell finger metallization"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SolarModulePart>
+    a owl:Class ;
+    rdfs:label "solar_module_part"@en ;
+    skos:prefLabel "solar_module_part"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "cell interconnect ribbon"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/BacksheetFeature>
+    a owl:Class ;
+    rdfs:label "backsheet_feature"@en ;
+    skos:prefLabel "backsheet_feature"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "non-brittle backsheet"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SolarCellInterconnectRibbon>
+    a owl:Class ;
+    rdfs:label "solar_cell_interconnect_ribbon"@en ;
+    skos:prefLabel "solar_cell_interconnect_ribbon"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "cell interconnect ribbon."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DefectSource>
+    a owl:Class ;
+    rdfs:label "defect_source"@en ;
+    skos:prefLabel "defect_source"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "Physical interaction between a diffusion process and the finger metallization."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/TemperatureRange>
+    a owl:Class ;
+    rdfs:label "temperature_range"@en ;
+    skos:prefLabel "temperature_range"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "module temperature range."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/FluorophoreGeneration>
+    a owl:Class ;
+    rdfs:label "fluorophore_generation"@en ;
+    skos:prefLabel "fluorophore_generation"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "generation of fluorophores"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MeasurementSetup>
+    a owl:Class ;
+    rdfs:label "measurement_setup"@en ;
+    skos:prefLabel "measurement_setup"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "UVF inspection set-up"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/InVitroTestingMethod>
+    a owl:Class ;
+    rdfs:label "in_vitro_testing_method"@en ;
+    skos:prefLabel "in_vitro_testing_method"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "in-field detection method"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SamplePreparationProcedure>
+    a owl:Class ;
+    rdfs:label "sample_preparation_procedure"@en ;
+    skos:prefLabel "sample_preparation_procedure"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Sample> ;
+    skos:example "hood with adjustable size and UV LEDs inside"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ObjectOfStudy>
+    a owl:Class ;
+    rdfs:label "object_of_study"@en ;
+    skos:prefLabel "object_of_study"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "PV module parts including cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DeviceStructureType>
+    a owl:Class ;
+    rdfs:label "device/structure_type"@en ;
+    skos:prefLabel "device/structure_type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "drone-based setup"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/InspectionDeviceType>
+    a owl:Class ;
+    rdfs:label "inspection/device_type"@en ;
+    skos:prefLabel "inspection/device_type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "handheld UV source"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DeviceComponentType>
+    a owl:Class ;
+    rdfs:label "device/component_type"@en ;
+    skos:prefLabel "device/component_type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "drone tripods mountings"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ExposureDeviceComponent>
+    a owl:Class ;
+    rdfs:label "exposure_device_component"@en ;
+    skos:prefLabel "exposure_device_component"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "drone-mounted UV LED array"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/EquipmentMethodComponent>
+    a owl:Class ;
+    rdfs:label "equipment/method_component"@en ;
+    skos:prefLabel "equipment/method_component"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "imaging system design with dark field correction"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SolarCellLayer>
+    a owl:Class ;
+    rdfs:label "solar_cell_layer"@en ;
+    skos:prefLabel "solar_cell_layer"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "backend and front-end of solar cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ManufacturingContaminationSource>
+    a owl:Class ;
+    rdfs:label "manufacturing_contamination_source"@en ;
+    skos:prefLabel "manufacturing_contamination_source"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "acid vapour source (acetic acid)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ChemicalMaterialInteraction>
+    a owl:Class ;
+    rdfs:label "chemical_material_interaction"@en ;
+    skos:prefLabel "chemical_material_interaction"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "material interaction between ethylene-vinyl actetate (EVA) and acetic acid"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SolarCellCharacterisationMethod>
+    a owl:Class ;
+    rdfs:label "solar_cell_characterisation_method"@en ;
+    skos:prefLabel "solar_cell_characterisation_method"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "measurement of leakage current"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/RadiationProtectionStandards>
+    a owl:Class ;
+    rdfs:label "radiation_protection_standards"@en ;
+    skos:prefLabel "radiation_protection_standards"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "'ICNIRP guidelines on exposure to UV radiation'"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DefectCharacterisationMethod>
+    a owl:Class ;
+    rdfs:label "defect_characterisation_method"@en ;
+    skos:prefLabel "defect_characterisation_method"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "fluorescence imaging techniques for defect characterisation"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ProductionLossCause>
+    a owl:Class ;
+    rdfs:label "production_loss_cause"@en ;
+    skos:prefLabel "production_loss_cause"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "back sheet materials degradation impact on solar modules performance"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/CorrosionProcess>
+    a owl:Class ;
+    rdfs:label "corrosion_process"@en ;
+    skos:prefLabel "corrosion_process"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "acid vapour induced corrosion in PV cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PolymerDegradation>
+    a owl:Class ;
+    rdfs:label "polymer degradation"@en ;
+    skos:prefLabel "polymer degradation"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Reliability> ;
+    skos:example "degradation products"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Fluxes>
+    a owl:Class ;
+    rdfs:label "fluxes"@en ;
+    skos:prefLabel "fluxes"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "flux used for the interconnection process of the solar cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DiffusionBarrier>
+    a owl:Class ;
+    rdfs:label "diffusion barrier"@en ;
+    skos:prefLabel "diffusion barrier"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "diffusion barriers lead to an accumulation"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ManufacturingProcedure>
+    a owl:Class ;
+    rdfs:label "manufacturing_procedure"@en ;
+    skos:prefLabel "manufacturing_procedure"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "lamination process"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ResidueType>
+    a owl:Class ;
+    rdfs:label "residue_type"@en ;
+    skos:prefLabel "residue_type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "label residue"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SolarCellIssue>
+    a owl:Class ;
+    rdfs:label "solar_cell_issue"@en ;
+    skos:prefLabel "solar_cell_issue"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "bus bar damage"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DefectDetection>
+    a owl:Class ;
+    rdfs:label "defect_detection"@en ;
+    skos:prefLabel "defect_detection"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "Photobleaching along the cell interconnect ribbon."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ModuleDesignVariations>
+    a owl:Class ;
+    rdfs:label "module_design_variations"@en ;
+    skos:prefLabel "module_design_variations"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "bill of materials (BOM)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/FluorescenceEmptySignalIntensity>
+    a owl:Class ;
+    rdfs:label "fluorescence_empty_signal_intensity"@en ;
+    skos:prefLabel "fluorescence_empty_signal_intensity"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "ﬂuorescence intensity of hot cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/CrystallineMaterialProperty>
+    a owl:Class ;
+    rdfs:label "crystalline_material_property"@en ;
+    skos:prefLabel "crystalline_material_property"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "cracks"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SensorDeviceType>
+    a owl:Class ;
+    rdfs:label "sensor/device_type"@en ;
+    skos:prefLabel "sensor/device_type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "drone-mounted UV source"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SafetyEquipmentType>
+    a owl:Class ;
+    rdfs:label "safety/equipment_type"@en ;
+    skos:prefLabel "safety/equipment_type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "hood-based UVF system"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MeasuredPropertyChangeRate>
+    a owl:Class ;
+    rdfs:label "measured_property/change_rate"@en ;
+    skos:prefLabel "measured_property/change_rate"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "degradation rate"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DeviceSpeedProperty>
+    a owl:Class ;
+    rdfs:label "device/speed_property"@en ;
+    skos:prefLabel "device/speed_property"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "drone flight speed"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DeviceSafetyEquipmentType>
+    a owl:Class ;
+    rdfs:label "device/safety_equipment_type"@en ;
+    skos:prefLabel "device/safety_equipment_type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "tripod for handheld UV source"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/EquipmentSafetyEquipmentType>
+    a owl:Class ;
+    rdfs:label "equipment/safety_equipment_type"@en ;
+    skos:prefLabel "equipment/safety_equipment_type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "protective eye-wear safety gear for inspection personnel"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/EnvironmentalConditionTemperatureChangeRate>
+    a owl:Class ;
+    rdfs:label "environmental_condition/temperature_change_rate"@en ;
+    skos:prefLabel "environmental_condition/temperature_change_rate"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "winter temperature change rate"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/EnvironmentalConditionHumidityRate>
+    a owl:Class ;
+    rdfs:label "environmental_condition/humidity_rate"@en ;
+    skos:prefLabel "environmental_condition/humidity_rate"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "annual transition humidities in summer/winter cycle rates"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MaterialComponentPropertyType>
+    a owl:Class ;
+    rdfs:label "material/component_property_type"@en ;
+    skos:prefLabel "material/component_property_type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "UV absorber material component in polymer EVA encapsulant"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/QualityControlProcedure>
+    a owl:Class ;
+    rdfs:label "quality_control_procedure"@en ;
+    skos:prefLabel "quality_control_procedure"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "procedures for quality assessment and control"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SolarCellContamination>
+    a owl:Class ;
+    rdfs:label "solar_cell_contamination"@en ;
+    skos:prefLabel "solar_cell_contamination"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "hygrothermal induced contamination in PV cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/RadiationMeasurementTechnique>
+    a owl:Class ;
+    rdfs:label "radiation_measurement_technique"@en ;
+    skos:prefLabel "radiation_measurement_technique"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "'radiation-induced photoluminescence measurements '"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ManufacturingMethodology>
+    a owl:Class ;
+    rdfs:label "manufacturing_methodology"@en ;
+    skos:prefLabel "manufacturing_methodology"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "photovoltaic module manufacturing methods and technology"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DefectInducedPerformanceLoss>
+    a owl:Class ;
+    rdfs:label "defect_induced_performance_loss"@en ;
+    skos:prefLabel "defect_induced_performance_loss"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "'degradation in PV modules '"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SolarCellDegradationMechanism>
+    a owl:Class ;
+    rdfs:label "solar_cell_degradation_mechanism"@en ;
+    skos:prefLabel "solar_cell_degradation_mechanism"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "solar cell degradation processes"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/InspecionDeviceStructure>
+    a owl:Class ;
+    rdfs:label "inspecion_device_structure"@en ;
+    skos:prefLabel "inspecion_device_structure"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "PV cell structure"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/RadiationRelatedDefects>
+    a owl:Class ;
+    rdfs:label "radiation_related_defects"@en ;
+    skos:prefLabel "radiation_related_defects"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "'detrimental impact of electromagnetic radiation exposure on PV modules '"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/QualityRiskFactors>
+    a owl:Class ;
+    rdfs:label "quality_risk_factors"@en ;
+    skos:prefLabel "quality_risk_factors"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "photovoltaic module failure risks and quality challenges"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/RadiatioCharacterizationMethodology>
+    a owl:Class ;
+    rdfs:label "radiatio_characterization_methodology"@en ;
+    skos:prefLabel "radiatio_characterization_methodology"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "'photoluminescence measurements methodology'"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Photobleaching>
+    a owl:Class ;
+    rdfs:label "photobleaching"@en ;
+    skos:prefLabel "photobleaching"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "bleaching needs irradiation besides oxygen (photobleaching)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MaterialExchange>
+    a owl:Class ;
+    rdfs:label "material exchange"@en ;
+    skos:prefLabel "material exchange"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "material exchange because of concentration differences"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/OpticalProperty>
+    a owl:Class ;
+    rdfs:label "optical_property"@en ;
+    skos:prefLabel "optical_property"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "transmission loss"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ManufacturingTool>
+    a owl:Class ;
+    rdfs:label "manufacturing_tool"@en ;
+    skos:prefLabel "manufacturing_tool"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "printing process"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PvModuleIssue>
+    a owl:Class ;
+    rdfs:label "pv_module_issue"@en ;
+    skos:prefLabel "pv_module_issue"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "heat up effect (thermography)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ManufacturingIssueType>
+    a owl:Class ;
+    rdfs:label "manufacturing_issue_type"@en ;
+    skos:prefLabel "manufacturing_issue_type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "lamination residue"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/NonDestructiveTestingTechnique>
+    a owl:Class ;
+    rdfs:label "non_destructive_testing_technique"@en ;
+    skos:prefLabel "non_destructive_testing_technique"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Reliability> ;
+    skos:example "UVF imaging"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/RadiantFluxMeasurement>
+    a owl:Class ;
+    rdfs:label "radiant_flux_measurement"@en ;
+    skos:prefLabel "radiant_flux_measurement"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "radiant flux at low electrical power requirements"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DroneSpecification>
+    a owl:Class ;
+    rdfs:label "drone_specification"@en ;
+    skos:prefLabel "drone_specification"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "comparatively low weight drone"@en ;
+    .

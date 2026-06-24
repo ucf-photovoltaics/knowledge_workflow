@@ -34,6 +34,23 @@ from typing import Any
 
 import pandas as pd
 
+from kw.taxonomy import normalize_stages
+
+
+def _atomic_write_json(obj: Any, path: str) -> None:
+    """Write JSON to *path* atomically.
+
+    Serialises to a sibling ``*.tmp`` file, fsyncs, then os.replace()s it into
+    place. A crash mid-write leaves only the throwaway temp file, never a
+    half-written / truncated target — the cause of the corrupt all.jsonld files.
+    """
+    tmp = f"{path}.tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(obj, f, indent=2, ensure_ascii=False)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, path)
+
 # ---------------------------------------------------------------------------
 # NAMESPACE CONFIGURATION
 # ---------------------------------------------------------------------------
@@ -54,6 +71,8 @@ DEFAULT_NS = "https://cwrusdle.bitbucket.io/mds/generic/"
 
 # BFO grounding is opt-in (off by default) so the domain graph stays focused.
 GROUND_BFO = os.getenv('GROUND_BFO', 'false').lower() == 'true'
+# Promote each concept to an owl:Class under its branch/subdomain (domain taxonomy).
+CONCEPT_CLASSES = os.getenv('CONCEPT_CLASSES', 'true').lower() != 'false'
 
 # ---------------------------------------------------------------------------
 # EXPLICIT PROPERTY MAP  (column label → full IRI)
@@ -190,7 +209,6 @@ _CLASS_RULES: list[tuple[tuple[str, ...], str]] = [
 ]
 
 _MDS_CLASSES: dict[str, str] = {
-    "mds:Concept":             MDS_BASE + "Concept",
     "mds:Measurement":         MDS_BASE + "Measurement",
     "mds:Material":            MDS_BASE + "Material",
     "mds:Process":             MDS_BASE + "Process",
@@ -200,6 +218,8 @@ _MDS_CLASSES: dict[str, str] = {
     "mds:Sample":              MDS_BASE + "Sample",
     "mds:Economics":           MDS_BASE + "Economics",
     "mds:ResearchPublication": MDS_BASE + "ResearchPublication",
+    "mds:Concept":             MDS_BASE + "Concept",
+
 }
 
 _CLASS_PARENTS: dict[str, str] = {
@@ -220,13 +240,14 @@ _CLASS_PARENTS: dict[str, str] = {
 # a BFO process; a measured property is a BFO quality; everything is a BFO entity.
 _BFO_BASE = "http://purl.obolibrary.org/obo/"
 _CLASS_UPPER_PARENTS: dict[str, str] = {
-    "mds:Concept":          _BFO_BASE + "BFO_0000001",  # entity
+    "mds:Sample":           _BFO_BASE + "BFO_0000040",  # material entity
     "mds:Material":         _BFO_BASE + "BFO_0000040",  # material entity
     "mds:Device":           _BFO_BASE + "BFO_0000040",  # material entity
-    "mds:Sample":           _BFO_BASE + "BFO_0000040",  # material entity
     "mds:Process":          _BFO_BASE + "BFO_0000015",  # process
     "mds:Characterization": _BFO_BASE + "BFO_0000015",  # process
     "mds:Measurement":      _BFO_BASE + "BFO_0000019",  # quality
+    "mds:Concept":          _BFO_BASE + "BFO_0000001",  # entity
+
 }
 
 # ---------------------------------------------------------------------------
@@ -237,8 +258,31 @@ def to_camel(label: str) -> str:
     return "".join(w.capitalize() for w in re.sub(r"[^a-z0-9 ]", " ", label.lower()).split())
 
 
+def _ttl_lit(value) -> str:
+    """Escape a value for safe use inside a Turtle "..." string literal.
+
+    Turtle literals must escape backslash and double-quote, plus the control
+    characters newline/CR/tab. Without this, data-derived values that contain
+    quotes (e.g. leaked JSON fragments in extracted examples) produce invalid
+    Turtle and break the ontology parse.
+    """
+    s = str(value)
+    s = s.replace("\\", "\\\\").replace('"', '\\"')
+    s = s.replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\\t")
+    return s
+
+
 def safe_slug(text: str) -> str:
     return re.sub(r"[^a-zA-Z0-9._-]", "_", text).strip("_")[:120]
+
+
+# Prefix labels that map to fixed namespaces and must NEVER be reused by a
+# domain namespace — otherwise `@prefix mds:` gets redefined to the generic ns
+# in both the TTL and the JSON-LD @context, corrupting every mds: term and
+# leaving OntoPortal with no usable ontology.
+_RESERVED_PREFIXES = frozenset({
+    "rdf", "rdfs", "owl", "xsd", "skos", "schema", "prov", "qudt", "dcterms", "mds",
+})
 
 
 def resolve_ns(domain_value: str) -> tuple[str, str]:
@@ -246,8 +290,11 @@ def resolve_ns(domain_value: str) -> tuple[str, str]:
     for key, ns in DOMAIN_NS_MAP.items():
         if key in slug:
             label = ns.rstrip("/").split("/")[-1][:8].lower()
+            if label in _RESERVED_PREFIXES:        # don't clobber a fixed prefix
+                label = "dom"
             return label, ns
-    return "mds", DEFAULT_NS
+    # Generic fallback keeps its OWN prefix so mds: stays bound to MDS_BASE.
+    return "generic", DEFAULT_NS
 
 
 def prop_iri(column: str, ns: str, ttl_map: dict[str, str]) -> str:
@@ -320,6 +367,40 @@ def _classify_concept(label: str) -> str:
     return "mds:Concept"
 
 
+def _load_mds_matches(schema_dir) -> dict:
+    """Per-concept MDS-Onto portal matches from mdsonto_*.csv: {concept_lower: {iri,...}}.
+
+    This is the persisted result of querying the live MDS-Onto via the portal/MCP
+    tool (kw.mdsonto.resolve_concepts). Empty when grounding was off / unreachable.
+    """
+    out: dict = {}
+    for mf in Path(schema_dir).glob("mdsonto_*.csv"):
+        try:
+            df_m = pd.read_csv(mf, dtype=str).fillna("")
+            for _, row in df_m.iterrows():
+                key = str(row.get("concept", "")).strip().lower()
+                if key:
+                    out[key] = {k: str(row.get(k, "")).strip()
+                                for k in ("iri", "definition", "domain", "subdomain", "study_stage")}
+        except Exception:
+            pass
+    return out
+
+
+def _class_iri_for(concept: str, mds_matches: dict | None = None) -> str:
+    """MDS class IRI for a concept, inferred from the ontology itself.
+
+    Prefers the live portal match (the real MDS-Onto/CCO class resolved for THIS
+    concept by querying the domains); falls back to the local keyword heuristic
+    only when grounding is off or the concept has no confident match.
+    """
+    if mds_matches:
+        m = mds_matches.get(concept.strip().lower())
+        if m and m.get("iri"):
+            return m["iri"]
+    return _MDS_CLASSES.get(_classify_concept(concept), MDS_BASE + "Concept")
+
+
 def build_collection_ontology(
     schema_path: str,
     outdir: str,
@@ -361,6 +442,20 @@ def build_collection_ontology(
         except Exception:
             pass
 
+    # MDS-Onto matches (real IRI + definition + domain/subdomain) from mdsonto_*.csv
+    mds_matches: dict[str, dict] = {}
+    for mf in schema_dir.glob("mdsonto_*.csv"):
+        try:
+            df_m = pd.read_csv(mf, dtype=str).fillna("")
+            for _, row in df_m.iterrows():
+                key = str(row.get("concept", "")).strip().lower()
+                if key:
+                    mds_matches[key] = {k: str(row.get(k, "")).strip()
+                                        for k in ("iri", "definition", "domain",
+                                                  "subdomain", "study_stage")}
+        except Exception:
+            pass
+
     # Union of schema columns + canonical concept terms
     all_concepts: list[str] = list(dict.fromkeys(
         concept_cols + [c for c in canonical_terms if c not in concept_cols]
@@ -392,7 +487,7 @@ def build_collection_ontology(
         f"<{onto_iri}>",
         "    a owl:Ontology ;",
         f'    rdfs:label "{readable} Ontology"@en ;',
-        f'    dcterms:description "OWL 2 ontology generated from MDS-Onto v5 NLP pipeline outputs for the {domain_val or readable} domain."@en ;',
+        f'    dcterms:description "OWL 2 ontology generated from MDS-Onto v5 NLP pipeline outputs for the {_ttl_lit(domain_val or readable)} domain."@en ;',
         f'    dcterms:created "{today}"^^xsd:date ;',
         '    dcterms:creator "MDS-Onto v5 NLP Pipeline" ;',
         f'    owl:imports <{MDS_BASE}> ;',
@@ -426,7 +521,7 @@ def build_collection_ontology(
         "    a owl:Class ;",
         f'    rdfs:label "{domain_label} Schema Record"@en ;',
         f"    rdfs:subClassOf <{_MDS_CLASSES['mds:ResearchPublication']}> ;",
-        f'    skos:definition "Structured record extracted from a research publication in the {domain_val or domain_label} domain."@en ;',
+        f'    skos:definition "Structured record extracted from a research publication in the {_ttl_lit(domain_val or domain_label)} domain."@en ;',
         "    .",
         "",
     ]
@@ -436,7 +531,6 @@ def build_collection_ontology(
     lines.append("")
     seen: set[str] = set()
     for concept in all_concepts:
-        mds_class    = _classify_concept(concept)
         col_lower    = concept.strip().lower()
         if col_lower in PROPERTY_MAP:
             p_iri = PROPERTY_MAP[col_lower]
@@ -447,20 +541,140 @@ def build_collection_ontology(
             continue
         seen.add(p_iri)
 
-        range_iri = _MDS_CLASSES.get(mds_class, MDS_BASE + "Concept")
+        range_iri = _class_iri_for(concept, mds_matches)
         examples  = canonical_terms.get(concept, [])[:5]
 
         lines.append(f"<{p_iri}>")
         lines.append("    a owl:DatatypeProperty ;")
-        lines.append(f'    rdfs:label "{concept}"@en ;')
+        lines.append(f'    rdfs:label "{_ttl_lit(concept)}"@en ;')
         lines.append(f"    rdfs:domain <{domain_class_iri}> ;")
         lines.append("    rdfs:range xsd:string ;")
         lines.append(f"    skos:broader <{range_iri}> ;")
+        _m = mds_matches.get(concept.strip().lower())
+        if _m and _m.get("definition"):
+            lines.append(f'    skos:definition "{_ttl_lit(_m["definition"])}"@en ;')
+        if _m and _m.get("iri"):
+            lines.append(f"    skos:exactMatch <{_m['iri']}> ;")
         if examples:
-            ex_str = " ,\n        ".join(f'"{e}"@en' for e in examples)
+            ex_str = " ,\n        ".join(f'"{_ttl_lit(e)}"@en' for e in examples)
             lines.append(f"    skos:example {ex_str} ;")
         lines.append("    .")
         lines.append("")
+
+    # --- Concept classes + domain/subdomain hierarchy (grounded in MDS-Onto) ---
+    if CONCEPT_CLASSES:
+        lines.append("# -- Concept classes (domain taxonomy) --------------------")
+        lines.append("")
+
+        def _cls_iri(c):
+            return domain_ns + to_camel(c)
+
+        domain_roots = {}
+        subdomain_roots = {}
+        for c in all_concepts:
+            m = mds_matches.get(c.strip().lower())
+            if not m:
+                continue
+            dom = m.get("domain", "").strip()
+            sub = m.get("subdomain", "").strip()
+            if dom:
+                domain_roots.setdefault(dom, domain_ns + to_camel(dom))
+            if sub:
+                subdomain_roots.setdefault(sub, (domain_ns + to_camel(sub),
+                                                 domain_ns + to_camel(dom) if dom else MDS_BASE + "Concept"))
+
+        for dom, iri in domain_roots.items():
+            lines += [f"<{iri}>", "    a owl:Class ;", f'    rdfs:label "{_ttl_lit(dom)}"@en ;',
+                      f"    rdfs:subClassOf <{MDS_BASE}Concept> ;", "    .", ""]
+        for sub, (iri, parent) in subdomain_roots.items():
+            lines += [f"<{iri}>", "    a owl:Class ;", f'    rdfs:label "{_ttl_lit(sub)}"@en ;',
+                      f"    rdfs:subClassOf <{parent}> ;", "    .", ""]
+
+        seen_cls = set()
+        for concept in all_concepts:
+            ci = _cls_iri(concept)
+            if ci in seen_cls:
+                continue
+            seen_cls.add(ci)
+            m = mds_matches.get(concept.strip().lower())
+            if m and m.get("subdomain"):
+                parent_iri = domain_ns + to_camel(m["subdomain"])
+            elif m and m.get("domain"):
+                parent_iri = domain_ns + to_camel(m["domain"])
+            else:
+                parent_iri = _class_iri_for(concept, mds_matches)
+            lines.append(f"<{ci}>")
+            lines.append("    a owl:Class ;")
+            lines.append(f'    rdfs:label "{_ttl_lit(concept)}"@en ;')
+            lines.append(f'    skos:prefLabel "{_ttl_lit(concept)}"@en ;')
+            lines.append(f"    rdfs:subClassOf <{parent_iri}> ;")
+            if m and m.get("definition"):
+                lines.append(f'    skos:definition "{_ttl_lit(m["definition"])}"@en ;')
+            if m and m.get("iri"):
+                lines.append(f"    skos:exactMatch <{m['iri']}> ;")
+            ex = canonical_terms.get(concept, [])[:5]
+            if ex:
+                ex_str = " ,\n        ".join(f'"{_ttl_lit(e)}"@en' for e in ex)
+                lines.append(f"    skos:example {ex_str} ;")
+            lines.append("    .")
+            lines.append("")
+
+        # Concept-to-concept relations from REBEL triples (owl:Restriction axioms)
+        label_lookup = {c.strip().lower(): _cls_iri(c) for c in all_concepts}
+
+        def _match(text):
+            # Confident concept link only: EXACT label match (no loose substring),
+            # so noisy REBEL endpoints are not force-joined to concepts.
+            return label_lookup.get((text or "").strip().lower(), "")
+
+        # Only weave a REBEL triple into the concept graph when BOTH the triple is
+        # confident AND both endpoints map exactly to a concept. Everything else
+        # stays standalone in triples_*.csv / rebel_triples.jsonld (not joined).
+        min_conf = float(os.getenv("REBEL_LINK_MIN_CONFIDENCE", "0.9"))
+        used_props = {}
+        axioms = []
+        kept = dropped = 0
+        for tf in schema_dir.glob("triples_*.csv"):
+            try:
+                dft = pd.read_csv(tf, dtype=str).fillna("")
+                for _, r in dft.iterrows():
+                    pn = str(r.get("predicate_norm", "")).strip()
+                    if not pn:
+                        continue
+                    try:
+                        conf = float(r.get("confidence", "") or 0)
+                    except ValueError:
+                        conf = 0.0
+                    if conf < min_conf:                 # low-confidence triple -> standalone
+                        dropped += 1
+                        continue
+                    s_iri = _match(r.get("subject", ""))
+                    o_iri = _match(r.get("object", ""))
+                    if not (s_iri and o_iri) or s_iri == o_iri:
+                        dropped += 1
+                        continue
+                    p_local = pn.split(":", 1)[1] if ":" in pn else pn
+                    p_iri = MDS_BASE + p_local
+                    used_props[p_iri] = p_local
+                    axioms.append((s_iri, p_iri, o_iri))
+                    kept += 1
+            except Exception:
+                pass
+        if kept or dropped:
+            print(f"  [ontology] REBEL links: {kept} added (conf>={min_conf}, exact match), "
+                  f"{dropped} left standalone")
+
+        if axioms:
+            lines.append("# -- Object properties + concept relations (from REBEL) ---")
+            lines.append("")
+            for p_iri, p_local in sorted(used_props.items()):
+                lines += [f"<{p_iri}>", "    a owl:ObjectProperty ;",
+                          f'    rdfs:label "{p_local}"@en ;', "    .", ""]
+            for s_iri, p_iri, o_iri in dict.fromkeys(axioms):
+                lines.append(f"<{s_iri}> rdfs:subClassOf "
+                             f"[ a owl:Restriction ; owl:onProperty <{p_iri}> ; "
+                             f"owl:someValuesFrom <{o_iri}> ] .")
+            lines.append("")
 
     ttl_content  = "\n".join(lines)
     ttl_filename = col_slug + "_onto.ttl"
@@ -480,6 +694,8 @@ def row_to_jsonld(
     source_file: str,
     title_map: dict[str, str] | None = None,
     concepts_map: dict[str, list[dict[str, str]]] | None = None,
+    mds_matches: dict | None = None,
+    stage_map: dict[str, list[str]] | None = None,
 ) -> dict[str, Any]:
     """Convert one schema CSV row to a JSON-LD document.
 
@@ -528,6 +744,9 @@ def row_to_jsonld(
             entry["mds:value"] = value
         if quote:
             entry["mds:quote"] = quote
+        stages = (stage_map or {}).get(col.strip().lower(), [])
+        if stages:
+            entry["mds:studyStage"] = stages
         if entry:
             doc[iri] = entry
 
@@ -543,8 +762,7 @@ def row_to_jsonld(
             relevance  = cr.get("relevance",  "").strip()
             if not canonical:
                 continue
-            mds_class  = _classify_concept(canonical)
-            class_iri  = _MDS_CLASSES.get(mds_class, MDS_BASE + "Concept")
+            class_iri  = _class_iri_for(canonical, mds_matches)
             node: dict[str, Any] = {
                 "mds:canonicalTerm": canonical,
                 "skos:broader":      {"@id": class_iri},
@@ -628,6 +846,24 @@ def process_schema_file(
         except Exception:
             pass
 
+    # concept (schema column name) → [canonical study stages]
+    # Sourced from enriched_*.csv so the JSON-LD triples carry the study-stage
+    # grounding that previously only lived in the diagram CSV.
+    stage_map: dict[str, list[str]] = {}
+    for ef in Path(schema_path).parent.glob("enriched_*.csv"):
+        try:
+            edf = pd.read_csv(ef, dtype=str).fillna("")
+            if "concept" in edf.columns and "mds:studyStage" in edf.columns:
+                for _, er in edf.iterrows():
+                    key = str(er.get("concept", "")).strip().lower()
+                    if key:
+                        stage_map[key] = normalize_stages(er.get("mds:studyStage", ""))
+        except Exception:
+            pass
+
+    # Per-concept MDS-Onto portal matches (drives concept->class assignment).
+    mds_matches = _load_mds_matches(Path(schema_path).parent)
+
     # 1. Build ontology TTL first
     active_ttl_map = dict(ttl_map)
     if not dry_run:
@@ -640,7 +876,7 @@ def process_schema_file(
                 outdir=outdir,
                 domain_val=domain_val_for_onto or None,
             )
-            print(f"  Ontology → {onto_path}")
+            print(f"  Ontology -> {onto_path}")
             active_ttl_map = load_ttl_property_map(onto_path)
         except Exception as exc:
             print(f"  [warn] Ontology build failed: {exc}")
@@ -648,7 +884,8 @@ def process_schema_file(
     # 2. Per-paper JSON-LD
     all_docs: list[dict[str, Any]] = []
     for i, (_, row) in enumerate(df.iterrows()):
-        doc         = row_to_jsonld(row, columns, active_ttl_map, schema_path, title_map, concepts_map)
+        doc         = row_to_jsonld(row, columns, active_ttl_map, schema_path, title_map,
+                                    concepts_map, mds_matches, stage_map)
         doi_val     = str(row.get("doi", "")).strip()
         paper_title = title_map.get(doi_val, "")
         fname       = (
@@ -662,8 +899,7 @@ def process_schema_file(
             print(json.dumps(doc, indent=2, ensure_ascii=False))
         else:
             out_path = os.path.join(col_outdir, f"{fname}.jsonld")
-            with open(out_path, "w", encoding="utf-8") as f:
-                json.dump(doc, f, indent=2, ensure_ascii=False)
+            _atomic_write_json(doc, out_path)
             if verbose:
                 print(f"  Wrote: {out_path}")
 
@@ -677,8 +913,7 @@ def process_schema_file(
         print(json.dumps(combined, indent=2, ensure_ascii=False))
     else:
         combined_path = os.path.join(col_outdir, "all.jsonld")
-        with open(combined_path, "w", encoding="utf-8") as f:
-            json.dump(combined, f, indent=2, ensure_ascii=False)
+        _atomic_write_json(combined, combined_path)
         print(f"  Combined -> {combined_path}")
 
     return len(all_docs)

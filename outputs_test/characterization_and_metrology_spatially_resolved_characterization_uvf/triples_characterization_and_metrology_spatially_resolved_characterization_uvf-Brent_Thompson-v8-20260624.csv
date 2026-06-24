@@ -1,0 +1,56 @@
+subject,predicate,predicate_norm,object,subject_id,object_id,confidence,source_paper
+PHOTOVOLTAICS,publisher,,IEEE,,,0.788,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+Austrian Institute of Technology GmbH,country,,Austria,,,0.882,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+Austrian Institute of Technology,located in the administrative territorial entity,mds:partOf,Vienna,,,0.88,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+luminescence,subclass of,mds:subClassOf,electromagnetic radiation,,,0.896,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+bandwidth limited light emitting diode,uses,,UV,,,0.777,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+LED,subclass of,mds:subClassOf,photovoltaics,,,0.743,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+front glass,part of,mds:partOf,PV module,,,0.716,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+UVF of the Encapsulation in front of a Solar Cell,facet of,,UV,,,0.829,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+photobleaching,uses,,UV,,,0.797,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+water vapor,has part,mds:hasPart,oxygen,,https://cwrusdle.bitbucket.io/mds/concept/oxygen_permeation,0.924,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+photobleaching,uses,,UVF,,,0.74,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+abietin,subject has role,,solvent,,,0.887,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+illumined,facet of,,UV,,,0.541,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+encapsulated,subclass of,mds:subClassOf,encapsulant,,,0.672,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+IPv6,followed by,,IPv7,,,0.684,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+polyester,has part,mds:hasPart,oxygen,,,0.771,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+Al-foil,subclass of,mds:subClassOf,polymeric,,,0.732,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+ﬂuorescent,uses,,UV,,,0.634,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+PV,subclass of,mds:subClassOf,solar cell,,,0.643,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+GPUs,developer,,Nvidia,,,0.521,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+PV module,subclass of,mds:subClassOf,solar cell,,,0.74,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+ﬁnger,subclass of,mds:subClassOf,paste,,,0.649,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+temperature,facet of,,temperature,,,0.56,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+temperature,part of,mds:partOf,temperature range,,,0.629,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+cooling,subclass of,mds:subClassOf,temperature,,,0.719,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+LED,has part,mds:hasPart,Charge,,,0.658,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+Infrared image,facet of,,UV,,,0.659,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+Hamelin,country,,Germany,,,0.985,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+fall,followed by,,winter,,,0.811,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+ﬂuorescing,subclass of,mds:subClassOf,photobleaching,,,0.757,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+IEC 61215-2 Standard,main subject,,damp heat,,,0.704,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+PV module,subclass of,mds:subClassOf,solar cells,,,0.687,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+400 nm excitation light,subclass of,mds:subClassOf,UVF,,,0.769,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+EVA,part of,mds:partOf,IR spectrum,,,0.541,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+apothecary,part of,mds:partOf,manufacturer,,,0.574,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+Elon Musk,employer,,Tesla Motors,,,0.69,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+PHOTOVOLTAIC MODULES,subclass of,mds:subClassOf,photovoltaics,,,0.675,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+PET,has part,mds:hasPart,Al,,,0.631,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+UV LED,uses,,UV,,,0.624,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+horizon,part of,mds:partOf,sky,,,0.651,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+drone,has part,mds:hasPart,remote controls,,,0.808,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+UV lamp,subclass of,mds:subClassOf,excitation light source,,,0.804,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+6,length,,9,,,0.633,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+photokeratitis,location,,retina,,,0.822,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+eye,part of,mds:partOf,skin,,,0.702,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+glasses,part of,mds:partOf,eye,,,0.631,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+apothecary,subclass of,mds:subClassOf,medical,,,0.572,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+2017,point in time,,2018,,,0.699,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+Eur. Weathering Symp,country,,Austria,,,0.903,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+Humboldt,country,,Germany,,,0.889,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+26th IEEE Photovolt,point in time,,2017,,,0.88,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+IEEE 39th Photovolt,point in time,,2018,,,0.885,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+7th World Conf.,point in time,,2008,,,0.834,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+Kloster Banz,country,,USA,,,0.822,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules
+IEEE,field of work,,Photovoltaics,,,0.849,Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic Modules

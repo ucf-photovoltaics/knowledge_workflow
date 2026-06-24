@@ -21,10 +21,10 @@ load_dotenv()
 # ---------------------------------------------------------------------------
 # Zotero
 # ---------------------------------------------------------------------------
-ZOTERO_LIBRARY_ID   = os.getenv('ZOTERO_LIBRARY_ID',   '37619')
+ZOTERO_LIBRARY_ID   = os.getenv('ZOTERO_LIBRARY_ID',   '2189702')
 ZOTERO_LIBRARY_TYPE = os.getenv('ZOTERO_LIBRARY_TYPE', 'group')
 ZOTERO_API_KEY      = os.getenv('ZOTERO_API_KEY',      '')
-COLLECTION_ID       = os.getenv('COLLECTION_ID',       'H53V9EYD')
+COLLECTION_ID       = os.getenv('COLLECTION_ID',       '5NLP8DAI')
 
 # ---------------------------------------------------------------------------
 # LLM provider — any OpenAI-compatible endpoint
@@ -51,16 +51,30 @@ def output_spec(output_type):
 # ---------------------------------------------------------------------------
 # Pipeline parameters
 # ---------------------------------------------------------------------------
-RATE_LIMIT_DELAY    = float(os.getenv('RATE_LIMIT_DELAY',    '0.5'))
-TOP_N_PER_PAPER     = int(os.getenv('TOP_N_PER_PAPER',       '25'))
+RATE_LIMIT_DELAY    = float(os.getenv('RATE_LIMIT_DELAY',    '0.2'))
+TOP_N_PER_PAPER     = int(os.getenv('TOP_N_PER_PAPER',       '40'))
 FULL_TEXT_MAX_CHARS = int(os.getenv('FULL_TEXT_MAX_CHARS',   '80000'))
 BATCH_SIZE          = int(os.getenv('BATCH_SIZE',            '40'))
+# Concept extraction dials (also exposed as CLI flags --top-n/--min-relevance/--max-concepts).
+MIN_RELEVANCE       = float(os.getenv('MIN_RELEVANCE',        '0.5'))  # drop concepts below this score
+MAX_CONCEPTS        = int(os.getenv('MAX_CONCEPTS',          '100'))     # 0 = no hard cap (normalizer targets 30-80)
+# Step 1 concept source: 'abstract' | 'abstract+intro' | 'full-text' (chunks whole paper).
+CONCEPT_SOURCE      = os.getenv('CONCEPT_SOURCE', 'full-text').lower()
+INTRO_MAX_CHARS     = int(os.getenv('INTRO_MAX_CHARS',       '18000'))   # cap on sliced intro length
 
 MDS_ONTO_LIBRARY          = os.getenv('MDS_ONTO_LIBRARY',          'mds_onto.json')
 CEMENTO_TEMPLATES_LIBRARY = os.getenv('CEMENTO_TEMPLATES_LIBRARY', 'cemento-templates.xml')
 
 OUTPUTS_DIR = os.getenv('OUTPUTS_DIR', 'outputs')
 SCHEMAS_DIR = os.getenv('SCHEMAS_DIR', 'schemas')
+
+# ---------------------------------------------------------------------------
+# Visualization + benchmarking (runs at the end of the pipeline)
+# ---------------------------------------------------------------------------
+EMIT_VISUAL        = os.getenv('EMIT_VISUAL', 'true').lower() != 'false'
+VISUAL_WITH_VALUES = os.getenv('VISUAL_WITH_VALUES', 'true').lower() == 'true'
+# Cumulative one-row-per-run benchmark log (sits next to eval/metrics.csv).
+BENCHMARK_CSV      = os.getenv('BENCHMARK_CSV', os.path.join('eval', 'graph_benchmark.csv'))
 
 # ---------------------------------------------------------------------------
 # Resilience (T4.2) + checkpointing (T4.1)
@@ -70,9 +84,12 @@ LLM_BACKOFF     = float(os.getenv('LLM_BACKOFF',   '2.0'))
 USE_CHECKPOINT  = os.getenv('USE_CHECKPOINT', 'true').lower() != 'false'
 
 # Long-text mining via chunking (T3.3). Off by default = legacy truncation.
-CHUNK_FULL_TEXT = os.getenv('CHUNK_FULL_TEXT', 'false').lower() == 'true'
-CHUNK_SIZE      = int(os.getenv('CHUNK_SIZE',    '24000'))
-CHUNK_OVERLAP   = int(os.getenv('CHUNK_OVERLAP', '1000'))
+CHUNK_FULL_TEXT = os.getenv('CHUNK_FULL_TEXT', 'true').lower() == 'true'
+CHUNK_SIZE      = int(os.getenv('CHUNK_SIZE',    '15000'))
+CHUNK_OVERLAP   = int(os.getenv('CHUNK_OVERLAP', '2500'))
+# Mining concurrency: >1 mines papers in parallel (needs a backend that serves
+# parallel requests, e.g. Ollama with OLLAMA_NUM_PARALLEL>=2). 1 = sequential.
+MINE_WORKERS    = int(os.getenv('MINE_WORKERS', '2'))
 
 # Validation gate switches (T1.1/T1.2/T1.3). All off by default, degrade gracefully.
 RUN_REASONER   = os.getenv('RUN_REASONER', 'false').lower() == 'true'
@@ -82,9 +99,16 @@ OOPS_ENDPOINT  = os.getenv('OOPS_ENDPOINT', 'https://oops.linkeddata.es/rest')
 SHACL_SHAPES   = os.getenv('SHACL_SHAPES',
                            os.path.join(os.path.dirname(__file__), 'shapes', 'mds_shapes.ttl'))
 
+# OntoPortal submission (opt-in). Uses MDSONTO_PORTAL + MDSONTO_API_KEY from mdsonto.py.
+SUBMIT_TO_PORTAL         = os.getenv('SUBMIT_TO_PORTAL', 'true').lower() == 'true'
+PORTAL_ONTOLOGY_ACRONYM  = os.getenv('PORTAL_ONTOLOGY_ACRONYM', '')
+PORTAL_ONTOLOGY_NAME     = os.getenv('PORTAL_ONTOLOGY_NAME', '')
+PORTAL_CONTACT_NAME      = os.getenv('PORTAL_CONTACT_NAME', '')
+PORTAL_CONTACT_EMAIL     = os.getenv('PORTAL_CONTACT_EMAIL', '')
+
 # Entity resolution / merge (T3.1) + LoRA adapter hook (T1.5)
 MERGE_REBEL       = os.getenv('MERGE_REBEL', 'true').lower() != 'false'
-MERGE_SIM_THRESHOLD = float(os.getenv('MERGE_SIM_THRESHOLD', '0.82'))
+MERGE_SIM_THRESHOLD = float(os.getenv('MERGE_SIM_THRESHOLD', '0.70'))
 LORA_ADAPTER_PATH = os.getenv('LORA_ADAPTER_PATH', '')
 
 # ---------------------------------------------------------------------------
@@ -112,6 +136,7 @@ NS = {
     'skos': 'http://www.w3.org/2004/02/skos/core#',
 }
 MDS_NS = NS['mds']
+load_dotenv()
 
 
 def _make_model():

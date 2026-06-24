@@ -21,10 +21,47 @@ from kw.config import MDS_NS
 
 REBEL_MODEL    = os.getenv('REBEL_MODEL', 'Babelscape/rebel-large')
 REBEL_REVISION = os.getenv('REBEL_REVISION', 'main')   # TODO: pin to a commit hash
+# REBEL coverage: scan the whole paper in 512-token windows (True) instead of
+# only the first ~512 tokens. Chunk size is in characters (~512 REBEL tokens).
+REBEL_FULL_TEXT     = os.getenv('REBEL_FULL_TEXT', 'true').lower() != 'false'
+REBEL_CHUNK_CHARS   = int(os.getenv('REBEL_CHUNK_CHARS',   '1600'))   # ~512 tokens/window
+REBEL_CHUNK_OVERLAP = int(os.getenv('REBEL_CHUNK_OVERLAP', '200'))    # carry across boundaries
+REBEL_MAX_CHARS     = int(os.getenv('REBEL_MAX_CHARS',     '0'))      # 0 = whole paper
 # Default CPU: stable PyTorch lacks sm_120 kernels for Blackwell (RTX 50-series),
 # so 'cuda' will only work with a CUDA 12.8+/13.x nightly build. Failures here are
 # caught in _load() and the stage degrades to a no-op.
-REBEL_DEVICE   = os.getenv('REBEL_DEVICE', 'cpu')
+def _auto_device() -> str:
+    """'cuda' when a working CUDA torch is present, else 'cpu'. Env REBEL_DEVICE overrides."""
+    forced = os.getenv('REBEL_DEVICE')
+    if forced:
+        return forced
+    try:
+        import torch
+        return 'cuda' if torch.cuda.is_available() else 'cpu'
+    except Exception:
+        return 'cpu'
+
+
+REBEL_DEVICE   = _auto_device()
+
+
+def gpu_banner() -> str:
+    """One-line GPU/VRAM summary for run startup (safe on CPU-only / no torch)."""
+    try:
+        import torch
+        if not torch.cuda.is_available():
+            import sys as _sys
+            cvd = os.environ.get('CUDA_VISIBLE_DEVICES')
+            extra = f' | CUDA_VISIBLE_DEVICES={cvd!r}' if cvd is not None else ''
+            return (f'[gpu] CUDA not available -> CPU | torch {torch.__version__} | '
+                    f'py {_sys.executable}{extra}')
+        i = torch.cuda.current_device()
+        free, total = torch.cuda.mem_get_info(i)
+        gb = 1024 ** 3
+        return (f'[gpu] {torch.cuda.get_device_name(i)} | torch {torch.__version__} | '
+                f'VRAM {free/gb:.1f}/{total/gb:.1f} GB free | rebel_device={REBEL_DEVICE}')
+    except Exception as exc:
+        return f'[gpu] status unavailable ({exc}) -> CPU'
 
 _tok = None
 _model = None
@@ -32,14 +69,23 @@ _model = None
 
 def _load() -> bool:
     """Load REBEL once onto REBEL_DEVICE. Returns False (and warns) on failure."""
-    global _tok, _model
+    global _tok, _model, REBEL_DEVICE
     if _model is not None:
         return True
     try:
         from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
         _tok   = AutoTokenizer.from_pretrained(REBEL_MODEL, revision=REBEL_REVISION)
         _model = AutoModelForSeq2SeqLM.from_pretrained(REBEL_MODEL, revision=REBEL_REVISION)
-        _model.to(REBEL_DEVICE)
+        try:
+            _model.to(REBEL_DEVICE)
+        except Exception as dev_exc:
+            if REBEL_DEVICE != 'cpu':
+                print(f'  [rebel] {REBEL_DEVICE} unavailable ({dev_exc}); falling back to CPU.')
+                REBEL_DEVICE = 'cpu'
+                _model.to('cpu')
+            else:
+                raise
+        print(f'  [rebel] model loaded on {REBEL_DEVICE}')
         return True
     except Exception as exc:
         print(f'  [rebel] unavailable ({exc}); skipping triple extraction.')
@@ -115,12 +161,50 @@ def extract_triplets(text: str, source_paper: str = '',
     ]
 
 
-def extract_corpus(papers: dict, max_chars: int = 4000) -> list[Triple]:
-    """Step 2 (REBEL half): triples across the corpus. Safe no-op if REBEL missing."""
+def _char_chunks(text: str, size: int, overlap: int) -> list[str]:
+    """Overlapping character windows covering the whole text."""
+    if size <= 0 or len(text) <= size:
+        return [text] if text else []
+    step = max(1, size - overlap)
+    return [text[i:i + size] for i in range(0, len(text), step)]
+
+
+def extract_corpus(papers: dict) -> list[Triple]:
+    """Step 2 (REBEL half): triples across the corpus.
+
+    With REBEL_FULL_TEXT (default) each paper's full text is scanned in
+    overlapping 512-token windows and triples are de-duplicated across chunks,
+    so REBEL covers the entire paper rather than just its first ~512 tokens.
+    Safe no-op if REBEL is unavailable.
+    """
     out: list[Triple] = []
+    n_papers = n_chunks = n_chars = 0
     for paper in papers.values():
-        text = (paper.get('full_text') or paper.get('abstract') or '')[:max_chars]
-        out.extend(extract_triplets(text, source_paper=paper.get('title', '')))
+        text = paper.get('full_text') or paper.get('abstract') or ''
+        if REBEL_MAX_CHARS:
+            text = text[:REBEL_MAX_CHARS]
+        if not text:
+            continue
+        n_papers += 1
+        n_chars += len(text)
+        title = paper.get('title', '')
+        if REBEL_FULL_TEXT:
+            windows = _char_chunks(text, REBEL_CHUNK_CHARS, REBEL_CHUNK_OVERLAP)
+        else:
+            windows = [text[:4000]]
+        seen: set[tuple] = set()
+        for chunk in windows:
+            n_chunks += 1
+            for t in extract_triplets(chunk, source_paper=title):
+                key = (t.subject.lower().strip(),
+                       t.predicate.lower().strip(),
+                       t.object.lower().strip())
+                if key not in seen:
+                    seen.add(key)
+                    out.append(t)
+    mode = 'full-text' if REBEL_FULL_TEXT else 'head-only'
+    print(f'  [rebel] {mode}: scanned {n_chars} chars in {n_chunks} chunk(s) '
+          f'across {n_papers} paper(s) -> {len(out)} triples')
     return out
 
 
@@ -163,6 +247,10 @@ def save_triples(triples: list[Triple], out_dir: str, prefix: str, ns: str = MDS
             node['mds:objectConcept'] = {'@id': t.object_id}
         graph.append(node)
     jsonld_path = os.path.join(out_dir, 'rebel_triples.jsonld')
-    with open(jsonld_path, 'w', encoding='utf-8') as f:
+    _tmp = f'{jsonld_path}.tmp'
+    with open(_tmp, 'w', encoding='utf-8') as f:
         json.dump({'@context': ctx, '@graph': graph}, f, indent=2, ensure_ascii=False)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(_tmp, jsonld_path)
     return {'csv': csv_path, 'jsonld': jsonld_path, 'count': len(triples)}

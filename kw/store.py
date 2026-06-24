@@ -20,6 +20,22 @@ def collection_slug(collection_name: str) -> str:
     return s or 'collection'
 
 
+# Characters Windows forbids in filenames, plus control chars.
+_ILLEGAL_FS = re.compile(r'[<>:"/\\|?*\x00-\x1f]')
+
+
+def safe_filename(name: str, default: str = 'file') -> str:
+    """Filesystem-safe filename component (Windows-safe).
+
+    Strips the characters Windows rejects (< > : " / \\ | ? *) and control
+    chars, collapses whitespace to '_', and trims trailing dots/spaces. Use this
+    for any file named after free text such as a collection name.
+    """
+    s = _ILLEGAL_FS.sub(' ', str(name))
+    s = re.sub(r'\s+', '_', s.strip()).strip('._')
+    return s or default
+
+
 def make_filename(collection_name: str, username: str = 'Brent_Thompson',
                   version: int = VERSION) -> str:
     date = datetime.now().strftime('%Y%m%d')

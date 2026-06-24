@@ -1,0 +1,40 @@
+concept,mds:studyStage,mds:supplyChainLevel
+absorber material,mds:sample,mds:materials
+anti-reflection technique,,
+bandgap energy,"mds:result, mds:analysis",mds:materials
+carrier lifetime,"mds:result, mds:analysis",mds:materials
+cell efficiency,"mds:result, mds:analysis",mds:component
+colloidal quantum dot,mds:synthesis,mds:materials
+cost estimation,,"mds:assembly, mds:subsystem, mds:system"
+efficiency enhancement strategy,,
+energy loss mechanisms,"mds:result, mds:analysis",
+front surface feature,mds:sample,mds:subcomponent
+heterojunction material class,,mds:materials
+high-efficiency,"mds:analysis, mds:modeling",
+ideal efficiency,"mds:result, mds:analysis",
+incident power density,"mds:recipe, mds:data processing",
+irradiance capture method,"mds:tool, mds:data processing",
+junction engineering strategy,,
+layer interaction,"mds:sample, mds:materials processing",mds:subcomponent
+loss mechanism,"mds:result, mds:analysis",
+material costs,,"mds:materials, mds:subcomponent"
+market sector,,mds:system
+optical design optimization,mds:materials processing,
+optimization target,,
+passivation current density,mds:result,mds:subcomponent
+perovskite material,"mds:synthesis, mds:formulation",mds:materials
+photocurrent,"mds:result, mds:data",mds:component
+photovoltaic technology,mds:analysis,
+power conversion efficiency,mds:result,mds:subsystem
+power output,,
+prediction accuracy,mds:modeling,
+production process optimization,mds:materials processing,mds:assembly
+research challenge,,
+short circuit current,mds:result,
+silicon material processing,mds:synthesis,mds:materials
+simulation method,mds:modeling,
+spectral efficiency,,
+substrate material,mds:sample,mds:subcomponent
+tandem cell architecture,mds:result,
+technology strategy roadmap,,
+two terminal arrangement,mds:formulation,mds:subcomponent

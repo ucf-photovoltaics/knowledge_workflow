@@ -1,0 +1,130 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+  },
+  "@id": "https://cwrusdle.bitbucket.io/mds/generic/10.1007_s41870-023-01677-x",
+  "@type": [
+    "mds:ResearchPublication",
+    "mds:SchemaRecord"
+  ],
+  "schema:identifier": "10.1007/s41870-023-01677-x",
+  "mds:hasDomain": "pv_performance_modeling",
+  "mds:derivedFrom": "schema_pv_performance_modeling-Brent_Thompson-v8-20260624.csv",
+  "owl:sameAs": {
+    "@id": "https://doi.org/10.1007/s41870-023-01677-x"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Absorber": {
+    "mds:value": "-0.15"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Albedo": {
+    "mds:value": "-0.26"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Algorithm": {
+    "mds:value": "In order to develop solar tracking systems with optimized design, algorithms are typically used."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/ByPass": {
+    "mds:value": "The bypass diode is connected in parallel with each solar cell."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Cable": {
+    "mds:value": "10 AWG stranded, Cu wire",
+    "mds:quote": "(Note: These are the cable specifications used for the experiment)."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Capacity": {
+    "mds:value": "4 kWp"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Cell": {
+    "mds:value": "E. Solar PV cells have a typical efficiency in the range of 15%% to 20%%",
+    "mds:quote": "A PV module is made up of multiple solar photovoltaic (PV) cells."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/ClimateZone": {
+    "mds:value": "hot and warm temperatures",
+    "mds:quote": "The climate of the area being studied ranges from hot to warm throughout the year."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Comparison": {
+    "mds:value": "This paper aims at comparing PVSyst with PV*SOL PRO."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Connection": {
+    "mds:value": "The wires should be connected to a DC-DC converter."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Context": {
+    "mds:value": "for each climate region",
+    "mds:quote": "It is essential to evaluate and analyze the performance of solar PV power plants for different climatic regions, as discussed above."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Data": {
+    "mds:value": "2 kWp, 3.8 km2, 1°-16°, -5°C-41°C",
+    "mds:quote": "The data collected from PVSyst was used for comparison with PV*SOL PRO."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Diode": {
+    "mds:value": "' The bypass diode is connected in parallel with each solar cell.', 'In addition to the photovoltaic (PV) modules, a bypass diode was installed for each module.",
+    "mds:quote": "The by-pass diodes are used as a protective feature."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Efficiency": {
+    "mds:value": "the PV efficiency of the panel can vary between 15% to 20% depending on the temperature",
+    "mds:quote": "'A PV module is made up of multiple solar photovoltaic (PV) cells. Solar PV cells have a typical efficiency in the range of 15%% to 20%%.'"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Electricity": {
+    "mds:value": "Solar electricity can be generated and utilized for the community using solar power."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Energy": {
+    "mds:value": "the energy required by an electronic device can vary from 2.25 W to 2.35 W.",
+    "mds:quote": "'A PV module is made up of multiple solar photovoltaic (PV) cells.'"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Error": {
+    "mds:value": "In the data analysis, we considered a margin of error as ± 1.96"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Evaluation": {
+    "mds:value": "The main goal is to evaluate and analyze various factors associated with the performance."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/FillFactor": {
+    "mds:value": "1.05",
+    "mds:quote": "The PV modules were tested for an optimal fill factor of 1.05."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Heterojunction": {
+    "mds:value": "Si-based Solar-PV cells have a typical efficiency in the range of 15%% to 20%.",
+    "mds:quote": "'A PV module is made up of multiple solar photovoltaic (PV) cells. Solar PV cells have a typical efficiency in the range of 15%% to 20%%'"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Interconnect": {
+    "mds:value": "anode-interconnect-cathode",
+    "mds:quote": "' The PV modules were connected in series to form the chain using a copper wire of 10 AWG stranded Cu.'"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Irradiance": {
+    "mds:value": "1 kW/ m2, 2000 W/m2, 2 m s-1",
+    "mds:quote": "'The power rating for each panel can vary from 400 to 600W, and the solar irradiance ranged from as little as 800 W/m2 to around 1800 W/m2 in our case.'"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/MathematicalModel": {
+    "mds:value": "PVSyst simulation tool to compare the power output.",
+    "mds:quote": "'The PVSyst and PV*SOL PRO software models were used with a sample location in Singapore.'"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Module": {
+    "mds:value": "4kWp, 9 m x 10 m",
+    "mds:quote": "'The area of this PV array is approximately 1800 m^2, but the actual size can range from 100×80 m to much larger sites.'"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/OsmoticPressure": {
+    "mds:value": "0.4 Pa",
+    "mds:quote": "'Osmotically driven flows in porous media exhibit a significant deviation from the linear behavior of Navier-Stokes equations'"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Output": {
+    "mds:value": "average Power output=1 W/m2 with ± 1.96 standard deviation.",
+    "mds:quote": "We have also included the uncertainty margin and error bar."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Parameter": {
+    "mds:value": "a PV system's parameters were estimated using the PVSyst software.",
+    "mds:quote": "'The 4kWp PV panel has a solar irradiance of about 2000 W/m2 and an operating temperature up to 41°C.'"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Performance": {
+    "mds:value": "3.1 percent, with accuracy ±8 (5%), ± 10 (10%) and ±15 (15%) in each zone respectively.",
+    "mds:quote": "The accuracy of the software was analyzed by comparing PVSyst and PV*SOL PRO simulations at three different climate zones."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/PvSystemDesign": {
+    "mds:value": "-0.22",
+    "mds:quote": "'The system configuration adopted in this study to evaluate the impact of thermal conditions is based on a PV panel area of 90 m2.'"
+  }
+}
