@@ -163,7 +163,7 @@ def _resolve(name: str, kind: str, threshold: float) -> dict | None:
     return None
 
 
-def resolve_attribute_property(name: str, threshold: float = 0.62) -> dict | None:
+def resolve_attribute_property(name: str, threshold: float = 0.82) -> dict | None:
     """Best canonical property (object OR data) for a concept/attribute name.
     Attributes like 'open circuit voltage' map to mds:hasVoltage (an object
     property under MDS-Onto's BFO quality pattern), so both kinds are searched."""

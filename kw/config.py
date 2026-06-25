@@ -24,7 +24,7 @@ load_dotenv()
 ZOTERO_LIBRARY_ID   = os.getenv('ZOTERO_LIBRARY_ID',   '2189702')
 ZOTERO_LIBRARY_TYPE = os.getenv('ZOTERO_LIBRARY_TYPE', 'group')
 ZOTERO_API_KEY      = os.getenv('ZOTERO_API_KEY',      '')
-COLLECTION_ID       = os.getenv('COLLECTION_ID',       '5NLP8DAI')
+COLLECTION_ID       = os.getenv('COLLECTION_ID',       'J32A2C85')
 
 # ---------------------------------------------------------------------------
 # LLM provider — any OpenAI-compatible endpoint
@@ -129,6 +129,7 @@ ONTOCHECK_NETWORK      = os.getenv('ONTOCHECK_NETWORK', 'false').lower() == 'tru
 # Provenance: ORCID stamped as dcterms:creator on every emitted entry (§7.1).
 # Empty -> the triple is skipped. Set to your ORCID (e.g. 0000-0002-1234-5678).
 CREATOR_ORCID = os.getenv('CREATOR_ORCID', '')
+CREATOR_NAME  = os.getenv('CREATOR_NAME', '')
 # Which canonical-property selection passes are active (kw/mds_props.py).
 # 'deterministic' = Pass 1 only; 'hybrid' = + shortlisted-LLM fallback for the tail.
 PROPERTY_SELECTION = os.getenv('PROPERTY_SELECTION', 'hybrid').lower()

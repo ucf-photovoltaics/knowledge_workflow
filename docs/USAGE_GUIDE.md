@@ -89,6 +89,7 @@ A run prints each step and finishes with the output paths.
 | `diagram_<…>.drawio` | concept map → **draw.io / cemento** |
 | `concepts_<…>.csv`, `schema_<…>.csv`, `enriched_<…>.csv` | intermediate data |
 | `validation_report.md` + `.json` | validation gate verdict + per-check findings |
+| `ontocheck_scores.csv` + `ontocheck.log` | OntoCheck's native per-metric scores + detailed log |
 | `lora_adapters/run-<…>/` | LoRA dataset (`lora_dataset.jsonl`) + adapter + manifest |
 
 The whole `outputs/<slug>/` folder is the GraphDB-ready repo.

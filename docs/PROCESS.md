@@ -155,6 +155,7 @@ Output: `outputs/<slug>/graph.html` + `graph_report.md`; one appended row in `ev
 | `diagram_<…>.drawio` | cemento concept map |
 | `graph.html`, `graph_report.md` | Step 7 interactive graph + report |
 | `validation_report.md`, `validation_report.json` | Step 4 gate verdict + per-check findings |
+| `ontocheck_scores.csv`, `ontocheck.log` | OntoCheck's own per-metric scores + detailed log |
 | `<slug>.log` | per-run log (stdout + log records) |
 | `lora_adapters/run-<…>/` | LoRA dataset + manifest (+ adapter when trained) |
 

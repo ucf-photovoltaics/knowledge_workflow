@@ -28,6 +28,7 @@ from __future__ import annotations
 import io
 import os
 import json
+import logging
 import contextlib
 from datetime import datetime
 
@@ -379,12 +380,59 @@ def _render_md(report: dict, collection: str | None) -> str:
                       '| Metric | Score | Status |', '|---|---|---|']
             for m, r in sorted(adv.items()):
                 lines.append(f'| {m} | {r.get("score")} | {r.get("status")} |')
+    if report.get('ontocheck_csv'):
+        lines += ['', '---', '',
+                  f"OntoCheck native report: `{os.path.basename(report['ontocheck_csv'])}` "
+                  f"(per-metric scores) + `{os.path.basename(report['ontocheck_log'])}` "
+                  "(detailed log)."]
     return '\n'.join(lines) + '\n'
 
 
+def write_ontocheck_native(ttl_path: str, out_dir: str) -> dict | None:
+    """Also emit OntoCheck's OWN report next to ours: ontocheck_scores.csv (one row
+    per metric) + ontocheck.log (detailed per-metric output), via the package's
+    run_ontology_assessment. Root logging handlers are detached/restored around the
+    call so OntoCheck's logging writes to its file and never disturbs the pipeline's.
+    Honours ONTOCHECK_NETWORK (skips the live-endpoint metrics unless enabled)."""
+    if not (RUN_ONTOCHECK and ttl_path):
+        return None
+    try:
+        from ontocheck.run_assessment import run_ontology_assessment, METRIC_DISPATCHER
+    except Exception as exc:                                   # noqa: BLE001
+        print(f'  [validate] OntoCheck native report skipped ({type(exc).__name__})')
+        return None
+    metrics = [m for m in METRIC_DISPATCHER if m != 'searchClass']
+    if not ONTOCHECK_NETWORK:
+        metrics = [m for m in metrics if m not in _ONTOCHECK_NETWORK_METRICS]
+    csv_path = os.path.join(out_dir, 'ontocheck_scores.csv')
+    log_path = os.path.join(out_dir, 'ontocheck.log')
+    root = logging.getLogger()
+    saved, saved_level = root.handlers[:], root.level
+    root.handlers = []                       # let OntoCheck's basicConfig own the file
+    try:
+        run_ontology_assessment(ttl_path, metrics,
+                                output_log_file=log_path, output_csv_file=csv_path)
+    except Exception as exc:                                   # noqa: BLE001
+        print(f'  [validate] OntoCheck native report failed ({type(exc).__name__}): {exc}')
+        return None
+    finally:
+        for h in root.handlers[:]:
+            try:
+                h.close()
+            except Exception:
+                pass
+        root.handlers, root.level = saved, saved_level          # restore pipeline logging
+    return {'csv': csv_path, 'log': log_path}
+
+
 def write_report(report: dict, out_dir: str, collection: str | None = None) -> dict:
-    """Write validation_report.md + .json into out_dir; record paths on report."""
+    """Write validation_report.md + .json into out_dir (plus OntoCheck's native
+    ontocheck_scores.csv + ontocheck.log); record paths on report."""
     os.makedirs(out_dir, exist_ok=True)
+    native = write_ontocheck_native(report.get('file'), out_dir)
+    if native:
+        report['ontocheck_csv'] = native['csv']
+        report['ontocheck_log'] = native['log']
     md_path = os.path.join(out_dir, 'validation_report.md')
     json_path = os.path.join(out_dir, 'validation_report.json')
     with open(md_path, 'w', encoding='utf-8') as fh:

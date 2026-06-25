@@ -39,6 +39,7 @@ from kw import mds_props
 
 # Provenance / property-selection (read via env to keep this module import-light).
 CREATOR_ORCID = os.getenv('CREATOR_ORCID', '')
+CREATOR_NAME = os.getenv('CREATOR_NAME', '')
 PROPERTY_SELECTION = os.getenv('PROPERTY_SELECTION', 'hybrid').lower()
 
 
@@ -62,17 +63,23 @@ def _atomic_write_json(obj: Any, path: str) -> None:
 
 MDS_BASE = "https://cwrusdle.bitbucket.io/mds/"
 
+# Keyword -> domain namespace. Roots are the SIX canonical MDS domains
+# (Expo/Manufact/Charact/BuildEnv/Geo/Chem) + a subdomain, so IRIs stay aligned
+# with the mds:hasDomain value. Unmatched collections fall back to the canonical
+# domain namespace (never 'generic') via resolve_ns().
 DOMAIN_NS_MAP: dict[str, str] = {
-    "copper":     "https://cwrusdle.bitbucket.io/mds/manufacturing/coppermetallization/",
-    "metalliz":   "https://cwrusdle.bitbucket.io/mds/manufacturing/coppermetallization/",
-    "electron":   "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/",
-    "sem":        "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/",
-    "solar":      "https://cwrusdle.bitbucket.io/mds/energy/solarcell/",
-    "perovskite": "https://cwrusdle.bitbucket.io/mds/energy/solarcell/",
-    "gaas":       "https://cwrusdle.bitbucket.io/mds/semiconductors/gaas/",
+    "copper":      "https://cwrusdle.bitbucket.io/mds/manufact/coppermetallization/",
+    "metalliz":    "https://cwrusdle.bitbucket.io/mds/manufact/coppermetallization/",
+    "electron":    "https://cwrusdle.bitbucket.io/mds/charact/electronmicroscopy/",
+    "sem":         "https://cwrusdle.bitbucket.io/mds/charact/electronmicroscopy/",
+    "solar":       "https://cwrusdle.bitbucket.io/mds/buildenv/photovoltaics/",
+    "perovskite":  "https://cwrusdle.bitbucket.io/mds/buildenv/photovoltaics/",
+    "polysilicon": "https://cwrusdle.bitbucket.io/mds/buildenv/photovoltaics/",
+    "silicon":     "https://cwrusdle.bitbucket.io/mds/buildenv/photovoltaics/",
+    "gaas":        "https://cwrusdle.bitbucket.io/mds/buildenv/gaas/",
 }
 
-DEFAULT_NS = "https://cwrusdle.bitbucket.io/mds/generic/"
+DEFAULT_NS = "https://cwrusdle.bitbucket.io/mds/buildenv/"
 
 # BFO grounding is opt-in (off by default) so the domain graph stays focused.
 GROUND_BFO = os.getenv('GROUND_BFO', 'false').lower() == 'true'
@@ -294,12 +301,14 @@ def resolve_ns(domain_value: str) -> tuple[str, str]:
     slug = domain_value.lower()
     for key, ns in DOMAIN_NS_MAP.items():
         if key in slug:
-            label = ns.rstrip("/").split("/")[-1][:8].lower()
+            label = ns.rstrip("/").split("/")[-1][:12].lower()
             if label in _RESERVED_PREFIXES:        # don't clobber a fixed prefix
                 label = "dom"
             return label, ns
-    # Generic fallback keeps its OWN prefix so mds: stays bound to MDS_BASE.
-    return "generic", DEFAULT_NS
+    # Fallback: the canonical MDS domain namespace (never 'generic'), so the IRIs
+    # stay consistent with mds:hasDomain. e.g. polysilicon -> .../mds/buildenv/.
+    dom = _canon_domain(domain_value).lower()
+    return dom, MDS_BASE + dom + "/"
 
 
 def prop_iri(column: str, ns: str, ttl_map: dict[str, str]) -> str:
@@ -433,7 +442,8 @@ _DOMAIN_KEYWORDS: tuple = (
     ("Expo",     ("exposure", "weather", "degrad", "damp heat", "aging", "uv ",
                   "corrosion", "reliability")),
     ("BuildEnv", ("solar", "photovolt", "pv", "perovskite", "gaas", "semiconductor",
-                  "energy", "module", "cell", "building", "built env")),
+                  "silicon", "polysilicon", "wafer", "energy", "module", "cell",
+                  "building", "built env")),
 )
 
 # 12 canonical study stages (Getting Started §3) as IRI local names.
@@ -596,9 +606,23 @@ def _canonical_property(name: str, domain_hint: str = "") -> str | None:
     return _CANON_CACHE[key]
 
 
+def _creator_lines(name: str = "", orcid: str = "") -> list[str]:
+    """dcterms:creator triples: the creator's name (literal) and ORCID (as an IRI
+    when it's a URL, else a literal). Either/both may be empty."""
+    out: list[str] = []
+    if name:
+        out.append(f'    dcterms:creator "{_ttl_lit(name)}" ;')
+    if orcid:
+        if orcid.startswith("http"):
+            out.append(f'    dcterms:creator <{orcid}> ;')
+        else:
+            out.append(f'    dcterms:creator "{_ttl_lit(orcid)}" ;')
+    return out
+
+
 def _provenance_lines(creator: str = "") -> list[str]:
-    """dcterms:creator (ORCID) annotation when configured. Empty -> nothing."""
-    return [f'    dcterms:creator "{_ttl_lit(creator)}" ;'] if creator else []
+    """Per-entry dcterms:creator (ORCID) annotation when configured. Empty -> none."""
+    return _creator_lines(orcid=creator)
 
 
 _QUDT_HAS_UNIT = "http://qudt.org/schema/qudt/hasUnit"
@@ -708,9 +732,10 @@ def build_collection_ontology(
         f"<{onto_iri}>",
         "    a owl:Ontology ;",
         f'    rdfs:label "{readable} Ontology"@en ;',
-        f'    dcterms:description "OWL 2 ontology generated from MDS-Onto v5 NLP pipeline outputs for the {_ttl_lit(domain_val or readable)} domain."@en ;',
+        f'    dcterms:description "OWL 2 ontology generated from MDS-Onto Knowledge Workflow {_ttl_lit(domain_val or readable)} domain."@en ;',
         f'    dcterms:created "{today}"^^xsd:date ;',
-        '    dcterms:creator "MDS-Onto v5 NLP Pipeline" ;',
+        *_creator_lines(CREATOR_NAME, CREATOR_ORCID),
+        '    dcterms:creator "Knowledge Worldflow - Brent Thompson" ;',
         '    dcterms:license "Creative Commons Attribution 4.0 International (CC BY 4.0)"@en ;',
         f'    owl:imports <{MDS_BASE}> ;',
         "    .",
@@ -837,6 +862,13 @@ def build_collection_ontology(
                 continue
             seen_cls.add(ci)
             c_lower = concept.strip().lower()
+            # A concept that IS an MDS branch/top-level class (e.g. literally
+            # "material"/"process"/"device") must not be re-minted as a separate
+            # class — that produces a duplicate rdfs:label vs mds:Material etc.
+            # (OntoCheck duplicateLabels). It is already represented by the branch
+            # class; its attribute property still links to it via skos:broader.
+            if c_lower in {k.split(':', 1)[-1].lower() for k in _MDS_CLASSES}:
+                continue
             m = mds_matches.get(c_lower)
             if m and m.get("subdomain"):
                 parent_iri = domain_ns + to_camel(m["subdomain"])
