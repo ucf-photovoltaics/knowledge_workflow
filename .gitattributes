@@ -1,0 +1,20 @@
+# Normalise line endings. Without this, files written by different tools land in
+# the tree with CRLF while their committed blobs are LF, and every one of them
+# shows as fully modified in `git status` with an identical-content diff.
+# `git add --renormalize .` once after adding this file clears the backlog.
+
+* text=auto eol=lf
+
+# PowerShell is happier with CRLF, and these files are run natively on Windows.
+*.ps1  text eol=crlf
+*.cmd  text eol=crlf
+*.bat  text eol=crlf
+
+# Never touch these.
+*.png  binary
+*.pdf  binary
+*.pptx binary
+*.docx binary
+*.xlsx binary
+*.zip  binary
+*.vdi  binary
