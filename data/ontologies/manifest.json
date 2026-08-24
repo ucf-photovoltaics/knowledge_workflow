@@ -1,0 +1,29 @@
+{
+  "ontologies": [
+    {
+      "name": "MDS-Onto",
+      "version": "0.3.1.31",
+      "file": "mds-onto-0.3.1.31.ttl",
+      "source": "C:/Users/brent/dev/cwrusdle.bitbucket.io/files/MDS_Onto-v0.3.1.31.ttl"
+    },
+    {
+      "name": "Common Core Ontologies",
+      "version": "develop snapshot 2026-08-24",
+      "file": "cco-merged.ttl",
+      "source": "https://github.com/CommonCoreOntology/CommonCoreOntologies/blob/develop/src/cco-merged/CommonCoreOntologiesMerged.ttl"
+    },
+    {
+      "name": "QUDT",
+      "version": "3.5.0",
+      "file": "qudt-3.5.0.ttl",
+      "source": "https://qudt.org/3.5.0/qudt-all"
+    },
+    {
+      "name": "IOF Core",
+      "version": "master snapshot 2026-08-24",
+      "file": "iof-core.ttl",
+      "local_import": "iof-core.owl",
+      "source": "https://github.com/iofoundry/ontology/blob/master/core/Core.rdf"
+    }
+  ]
+}
