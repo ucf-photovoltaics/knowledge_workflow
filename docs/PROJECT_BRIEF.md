@@ -1,12 +1,6 @@
 # Project Brief — Automated Knowledge Extraction → Committee-Ready Ontologies
 
-*Generated from a scoping interview. Extends the (then) v5 knowledge-workflow.*
-
-> **Status (current).** The delta described below has been built: it now lives in the
-> `kw/` package as one ordered pipeline (`python -m kw run -c <collection_id>`). The
-> "what exists today (v5)" section is the historical starting point — the old `src/`
-> agents now live under `_deprecated/`. For the current design see
-> [ARCHITECTURE.md](ARCHITECTURE.md) and [PROCESS.md](PROCESS.md).
+*Generated from a scoping interview. Extends the existing v5 knowledge-workflow.*
 
 ## One line
 Extend v5 so that each run over a curated set of domain papers emits a
@@ -29,8 +23,8 @@ Supporting contributions:
 - `src/agents/`: extractor, normalizer, schema_builder, tagger, orchestrator
 - `src/tools/`: zotero_client, csv_writer, drawio_builder
 - Flow: Zotero collection → concepts CSV + draw.io diagram
-- `data/examples/gaas_onto.ttl`: example output (GaAs PV), real `bfo:`/`pmd:`/`mds:`/`qudt:` namespaces
-- `data/mds_onto.json`: draw.io shape library (Cemento), not an ontology file
+- `gaas_onto.ttl`: example output (GaAs PV), real `bfo:`/`pmd:`/`mds:`/`qudt:` namespaces
+- `mds_onto.json`: draw.io shape library (Cemento), not an ontology file
 
 ## The delta (this project)
 1. **OWL / JSON-LD emitter** — turn schema_builder output into `{domain}_onto.ttl`

@@ -1934,18 +1934,15 @@ dependencies = [
     { name = "keybert" },
     { name = "matplotlib" },
     { name = "networkx" },
-    { name = "ontocheck" },
     { name = "openai" },
     { name = "pandas" },
     { name = "plotly" },
     { name = "pydantic" },
     { name = "pydantic-ai" },
     { name = "pypdf" },
-    { name = "pyspellchecker" },
     { name = "python-dotenv" },
     { name = "pyvis" },
     { name = "pyzotero" },
-    { name = "rdflib" },
     { name = "requests" },
     { name = "scikit-learn" },
     { name = "shiny" },
@@ -1966,18 +1963,15 @@ requires-dist = [
     { name = "keybert", specifier = ">=0.9.0" },
     { name = "matplotlib", specifier = ">=3.10.8" },
     { name = "networkx", specifier = ">=3.0" },
-    { name = "ontocheck", specifier = ">=0.0.8" },
     { name = "openai", specifier = ">=1.0.0" },
     { name = "pandas", specifier = ">=3.0.1" },
     { name = "plotly", specifier = ">=6.8.0" },
     { name = "pydantic", specifier = ">=2.0.0" },
     { name = "pydantic-ai", specifier = ">=0.0.36" },
     { name = "pypdf", specifier = ">=6.7.5" },
-    { name = "pyspellchecker", specifier = ">=0.8" },
     { name = "python-dotenv", specifier = ">=1.2.2" },
     { name = "pyvis", specifier = ">=0.3.2" },
     { name = "pyzotero", specifier = ">=1.10.0" },
-    { name = "rdflib", specifier = ">=7.0" },
     { name = "requests", specifier = ">=2.32.5" },
     { name = "scikit-learn", specifier = ">=1.8.0" },
     { name = "shiny", specifier = ">=1.0.0" },
@@ -2717,20 +2711,6 @@ source = { registry = "https://pypi.org/simple" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/10/c0/1b303feea90d296f6176f32a2a70b5ef230f9bdeb3a72bddb0dc922dc137/nvidia_nvtx_cu12-12.8.90-py3-none-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:d7ad891da111ebafbf7e015d34879f7112832fc239ff0d7d776b6cb685274615", size = 91161, upload-time = "2025-03-07T01:42:23.922Z" },
     { url = "https://files.pythonhosted.org/packages/a2/eb/86626c1bbc2edb86323022371c39aa48df6fd8b0a1647bc274577f72e90b/nvidia_nvtx_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:5b17e2001cc0d751a5bc2c6ec6d26ad95913324a4adb86788c944f8ce9ba441f", size = 89954, upload-time = "2025-03-07T01:42:44.131Z" },
-]
-
-[[package]]
-name = "ontocheck"
-version = "0.0.8.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "networkx" },
-    { name = "rdflib" },
-    { name = "requests" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/62/f6/1035172abae72ec2f634f80defc2394bb87c40ae13c4df7bebd26efeccc6/ontocheck-0.0.8.0.tar.gz", hash = "sha256:4a8255249562056771428beb0f485751d236900e2077d2e6c0c91b38cca2f825", size = 43191, upload-time = "2026-06-16T22:29:32.351Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/4d/3e/4bdb24e6f805c08eee754fd59f67609071ef794c3581685c8ac639c19b03/ontocheck-0.0.8.0-py3-none-any.whl", hash = "sha256:14427ea8710652c964b56ed37f1c48378b9b76ed3cb32e0140308bec754bbc07", size = 57598, upload-time = "2026-06-16T22:29:31.192Z" },
 ]
 
 [[package]]
@@ -3857,15 +3837,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/e8/52/d87eba7cb129b81563019d1679026e7a112ef76855d6159d24754dbd2a51/pyperclip-1.11.0.tar.gz", hash = "sha256:244035963e4428530d9e3a6101a1ef97209c6825edab1567beac148ccc1db1b6", size = 12185, upload-time = "2025-09-26T14:40:37.245Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/df/80/fc9d01d5ed37ba4c42ca2b55b4339ae6e200b456be3a1aaddf4a9fa99b8c/pyperclip-1.11.0-py3-none-any.whl", hash = "sha256:299403e9ff44581cb9ba2ffeed69c7aa96a008622ad0c46cb575ca75b5b84273", size = 11063, upload-time = "2025-09-26T14:40:36.069Z" },
-]
-
-[[package]]
-name = "pyspellchecker"
-version = "0.9.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/b9/70/58443d052adb868fee9fafb26553d482f2cc4d7c5ed5bb46846a7ce62a01/pyspellchecker-0.9.0.tar.gz", hash = "sha256:eb1a594161c84a4e67df7db1c269a3392a645bd50e4c82e1298892db0cdb0965", size = 7239784, upload-time = "2026-03-07T17:14:53.219Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/11/70/df4b8816f5e1aa8b46fbc2b1d104d8f5bc13ec92fb69310b35bc56ea7260/pyspellchecker-0.9.0-py3-none-any.whl", hash = "sha256:97eaed776e0854f69aafb723f6962b403099e50c9a1d9c05525c819f4b0f5d54", size = 7237077, upload-time = "2026-03-07T17:14:51.444Z" },
 ]
 
 [[package]]

@@ -12,11 +12,8 @@ Pure-Python, dependency-free: an exact-phrase lookup plus a keyword fallback.
 from __future__ import annotations
 
 from kw.models import Triple
-from kw.config import MDS_NS
-from kw import mds_props
 
-# Legacy fallback vocabulary (used only if the canonical MDS-Onto registry has no
-# match). Controlled mds: object-property phrases. Extend as your domains require.
+# Controlled mds: object-property vocabulary. Extend as your domains require.
 RELATION_VOCAB: dict[str, str] = {
     'mds:partOf':           ['part of', 'located in', 'within', 'belongs to', 'component of'],
     'mds:hasPart':          ['contains', 'has part', 'includes', 'comprises'],
@@ -40,23 +37,16 @@ _PHRASE_INDEX: list[tuple[str, str]] = sorted(
 
 
 def normalize_predicate(predicate: str) -> str:
-    """Return the canonical MDS-Onto object-property IRI for a free-text predicate,
-    or '' if unmapped. Resolves against the full MDS-Onto property registry
-    (kw/mds_props.py) first so every relationship is one of the defined properties;
-    falls back to the legacy phrase map (expanded to a full mds: IRI)."""
-    p = (predicate or '').strip()
+    """Return the mds: curie for a free-text predicate, or '' if unmapped."""
+    p = (predicate or '').strip().lower()
     if not p:
         return ''
-    r = mds_props.resolve_object_property(p)
-    if r:
-        return r['iri']
-    pl = p.lower()
     for phrase, curie in _PHRASE_INDEX:          # exact, then substring
-        if pl == phrase:
-            return MDS_NS + curie.split(':', 1)[-1]
+        if p == phrase:
+            return curie
     for phrase, curie in _PHRASE_INDEX:
-        if phrase in pl:
-            return MDS_NS + curie.split(':', 1)[-1]
+        if phrase in p:
+            return curie
     return ''
 
 

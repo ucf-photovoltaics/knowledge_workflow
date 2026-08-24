@@ -30,9 +30,6 @@ dependencies = [
     "pyvis>=0.3.2",
     "plotly>=6.8.0",
     "shinywidgets>=0.8.1",
-    "rdflib>=7.0",
-    "ontocheck>=0.0.8",
-    "pyspellchecker>=0.8",   # required at import time by ontocheck.helpers
 ]
 
 # Pull torch from the CUDA 12.8 wheel index (sm_120 kernels for RTX 50-series /

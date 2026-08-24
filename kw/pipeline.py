@@ -18,9 +18,13 @@ import time
 import logging
 import pandas as pd
 
-from kw import config, zotero, extract, rebel, store, tagger      # preprocessing
-from kw import drawio, ontology, lora, relations, merge, mdsonto  # ontology engineering
-from kw import validate  # package-qualified (avoids the PyPI 'validate' name collision)
+# Make this package dir win over any same-named site-packages module (e.g. the
+# PyPI 'validate' package) when modules are imported bare for standalone/Spyder runs.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import config, zotero, extract, rebel, store, tagger # Preprocessing 
+import drawio, ontology, lora, relations, merge, mdsonto # Ontology Engineering
+from kw import validate  # package module, not the PyPI 'validate' collision (cache-proof)
 
 # Basic logging: configure the root logger once (safe no-op if the host app
 # already configured it, e.g. Spyder). Timestamps make the per-step timing readable.
@@ -273,43 +277,26 @@ def run(collection_id: str,
         timer.mark('ontology')
 
         # --- validation gate ---------------------------------------------------
-        # Runs every check (required + advisory), writes a detailed per-run
-        # report, and decides whether the MDS-Onto upload is allowed. The run
-        # always continues to produce local artifacts; only the upload is gated.
         report = None
         if ttl_path:
             report = validate.evaluate(ttl_path)
-            validate.write_report(report, out_dir, collection=collection_name)
-            verdict = 'PASS' if report['gate_passed'] else 'FAIL'
-            for c in report['checks']:
-                print(f'  [validate] {c["name"]:<10} {c["severity"]:<8} '
-                      f'{c["status"]:<5} {c["summary"]}')
-            print(f'[validate] gate {verdict} '
-                  f'(required: {", ".join(report["required_checks"]) or "none"}) '
-                  f'-> report {report.get("report_md")}')
-            if report['required_failed']:
-                print(f'[validate] required checks failing: '
-                      f'{", ".join(report["required_failed"])}')
+            print(f'[validate] {"PASS" if report["passed"] else "CHECK"} - '
+                  f'alignment {report["alignment_ratio"]}, {report["classes"]} classes')
 
-        # --- OntoPortal submission (runs ONLY after the gate passes) -----------
-        if ttl_path and report and config.SUBMIT_TO_PORTAL:
-            if not report['gate_passed']:
-                print('[portal] upload BLOCKED — validation gate failed '
-                      f'({", ".join(report["required_failed"])}). '
-                      'See validation_report.md; fix and re-run.')
-            else:
-                acronym = config.PORTAL_ONTOLOGY_ACRONYM or _portal_acronym(slug)
-                # Succinct, portal-safe name from the inferred domain (falls back to collection).
-                name = config.PORTAL_ONTOLOGY_NAME or _safe_portal_name(domain_hint or collection_name)
-                try:
-                    sub = mdsonto.submit_to_portal(
-                        ttl_path, acronym, name,
-                        contact_name=config.PORTAL_CONTACT_NAME,
-                        contact_email=config.PORTAL_CONTACT_EMAIL,
-                    )
-                    print(f'[portal] submitted -> {sub.get("submission_url")}')
-                except Exception as exc:
-                    print(f'[portal] submission failed (non-fatal): {exc}')
+        # --- OntoPortal submission (opt-in, runs only after validation passes) ---
+        if ttl_path and report and report.get('passed') and config.SUBMIT_TO_PORTAL:
+            acronym = config.PORTAL_ONTOLOGY_ACRONYM or _portal_acronym(slug)
+            # Succinct, portal-safe name from the inferred domain (falls back to collection).
+            name    = config.PORTAL_ONTOLOGY_NAME or _safe_portal_name(domain_hint or collection_name)
+            try:
+                sub = mdsonto.submit_to_portal(
+                    ttl_path, acronym, name,
+                    contact_name=config.PORTAL_CONTACT_NAME,
+                    contact_email=config.PORTAL_CONTACT_EMAIL,
+                )
+                print(f'[portal] submitted -> {sub.get("submission_url")}')
+            except Exception as exc:
+                print(f'[portal] submission failed (non-fatal): {exc}')
         timer.mark('validate')
 
         # --- Step 5b: DIAGRAM (cemento draw.io) --------------------------------

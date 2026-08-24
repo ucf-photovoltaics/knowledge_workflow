@@ -26,8 +26,8 @@ _st_tried = False
 
 # Link a triple endpoint to a concept ONLY when the triple itself is confident
 # and the endpoint matches a concept with high similarity (both 'very confident').
-LINK_MIN_CONFIDENCE = float(os.getenv('REBEL_LINK_MIN_CONFIDENCE', '0.8'))
-LINK_SIM_THRESHOLD  = float(os.getenv('REBEL_LINK_SIM_THRESHOLD', '0.85'))
+LINK_MIN_CONFIDENCE = float(os.getenv('REBEL_LINK_MIN_CONFIDENCE', '0.9'))
+LINK_SIM_THRESHOLD  = float(os.getenv('REBEL_LINK_SIM_THRESHOLD', '0.9'))
 
 
 def _slug(text: str) -> str:

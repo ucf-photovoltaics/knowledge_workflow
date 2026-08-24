@@ -4,16 +4,12 @@ Use these as the project's operating instructions (e.g., Claude project instruct
 or a CONTRIBUTING-style guide for the pipeline). Goal: every run turns curated domain
 papers into a committee-ready OWL 2 ontology + JSON-LD, grounded in MDS-Onto/CCO/BFO.
 
-> The contract below is implemented in the `kw/` package. Where it refers to "existing
-> agents", those are now the `kw/extract.py`, `kw/tagger.py`, `kw/ontology.py`, and
-> `kw/pipeline.py` modules. See [ARCHITECTURE.md](ARCHITECTURE.md) for the module map.
-
 ## Pipeline contract
 1. **Ingest.** Pull the Zotero collection. Use **abstracts** to sketch scope and pick
    salient papers; use **full text** for extraction.
 2. **Extract in parallel.**
-   - LLM agents (`kw/extract.py`: discovery, normalization, schema mining; `kw/tagger.py`)
-     produce concepts, terms, and the schema.
+   - LLM agents (existing extractor/normalizer/schema_builder/tagger) produce concepts,
+     terms, and the schema.
    - **REBEL** runs alongside and emits flat S-P-O triples *as stated in the paper*.
 3. **Merge by entity resolution.** Reconcile REBEL triples with LLM concepts so a thing
    named in prose and in a relation becomes **one node / one URI**. Never blind-union.

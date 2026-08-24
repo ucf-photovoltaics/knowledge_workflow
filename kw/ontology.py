@@ -35,12 +35,6 @@ from typing import Any
 import pandas as pd
 
 from kw.taxonomy import normalize_stages
-from kw import mds_props
-
-# Provenance / property-selection (read via env to keep this module import-light).
-CREATOR_ORCID = os.getenv('CREATOR_ORCID', '')
-CREATOR_NAME = os.getenv('CREATOR_NAME', '')
-PROPERTY_SELECTION = os.getenv('PROPERTY_SELECTION', 'hybrid').lower()
 
 
 def _atomic_write_json(obj: Any, path: str) -> None:
@@ -63,23 +57,17 @@ def _atomic_write_json(obj: Any, path: str) -> None:
 
 MDS_BASE = "https://cwrusdle.bitbucket.io/mds/"
 
-# Keyword -> domain namespace. Roots are the SIX canonical MDS domains
-# (Expo/Manufact/Charact/BuildEnv/Geo/Chem) + a subdomain, so IRIs stay aligned
-# with the mds:hasDomain value. Unmatched collections fall back to the canonical
-# domain namespace (never 'generic') via resolve_ns().
 DOMAIN_NS_MAP: dict[str, str] = {
-    "copper":      "https://cwrusdle.bitbucket.io/mds/manufact/coppermetallization/",
-    "metalliz":    "https://cwrusdle.bitbucket.io/mds/manufact/coppermetallization/",
-    "electron":    "https://cwrusdle.bitbucket.io/mds/charact/electronmicroscopy/",
-    "sem":         "https://cwrusdle.bitbucket.io/mds/charact/electronmicroscopy/",
-    "solar":       "https://cwrusdle.bitbucket.io/mds/buildenv/photovoltaics/",
-    "perovskite":  "https://cwrusdle.bitbucket.io/mds/buildenv/photovoltaics/",
-    "polysilicon": "https://cwrusdle.bitbucket.io/mds/buildenv/photovoltaics/",
-    "silicon":     "https://cwrusdle.bitbucket.io/mds/buildenv/photovoltaics/",
-    "gaas":        "https://cwrusdle.bitbucket.io/mds/buildenv/gaas/",
+    "copper":     "https://cwrusdle.bitbucket.io/mds/manufacturing/coppermetallization/",
+    "metalliz":   "https://cwrusdle.bitbucket.io/mds/manufacturing/coppermetallization/",
+    "electron":   "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/",
+    "sem":        "https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/",
+    "solar":      "https://cwrusdle.bitbucket.io/mds/energy/solarcell/",
+    "perovskite": "https://cwrusdle.bitbucket.io/mds/energy/solarcell/",
+    "gaas":       "https://cwrusdle.bitbucket.io/mds/semiconductors/gaas/",
 }
 
-DEFAULT_NS = "https://cwrusdle.bitbucket.io/mds/buildenv/"
+DEFAULT_NS = "https://cwrusdle.bitbucket.io/mds/generic/"
 
 # BFO grounding is opt-in (off by default) so the domain graph stays focused.
 GROUND_BFO = os.getenv('GROUND_BFO', 'false').lower() == 'true'
@@ -301,14 +289,12 @@ def resolve_ns(domain_value: str) -> tuple[str, str]:
     slug = domain_value.lower()
     for key, ns in DOMAIN_NS_MAP.items():
         if key in slug:
-            label = ns.rstrip("/").split("/")[-1][:12].lower()
+            label = ns.rstrip("/").split("/")[-1][:8].lower()
             if label in _RESERVED_PREFIXES:        # don't clobber a fixed prefix
                 label = "dom"
             return label, ns
-    # Fallback: the canonical MDS domain namespace (never 'generic'), so the IRIs
-    # stay consistent with mds:hasDomain. e.g. polysilicon -> .../mds/buildenv/.
-    dom = _canon_domain(domain_value).lower()
-    return dom, MDS_BASE + dom + "/"
+    # Generic fallback keeps its OWN prefix so mds: stays bound to MDS_BASE.
+    return "generic", DEFAULT_NS
 
 
 def prop_iri(column: str, ns: str, ttl_map: dict[str, str]) -> str:
@@ -415,231 +401,6 @@ def _class_iri_for(concept: str, mds_matches: dict | None = None) -> str:
     return _MDS_CLASSES.get(_classify_concept(concept), MDS_BASE + "Concept")
 
 
-# ---------------------------------------------------------------------------
-# MDS design metadata (hasDomain / hasSubDomain / hasStudyStage) + definitions
-# ---------------------------------------------------------------------------
-# Emit one skos:definition per concept (OntoCheck definitionCoverage). One batched
-# LLM pass; falls back to a template when disabled/unavailable.
-DEFINE_CONCEPTS = os.getenv('DEFINE_CONCEPTS', 'true').lower() != 'false'
-
-# --- MDS-Onto canonical vocabulary (Getting Started §2, §3, §7.2) -----------
-# Six canonical domains. hasDomain points to one of these mds: classes (defined
-# in the imported MDS-Onto, owl:imports MDS_BASE).
-_MDS_DOMAINS = ("Expo", "Manufact", "Charact", "BuildEnv", "Geo", "Chem")
-# Default domain for an unrecognised collection (this corpus is PV-centric -> BuildEnv).
-DEFAULT_MDS_DOMAIN = os.getenv("DEFAULT_MDS_DOMAIN", "BuildEnv")
-if DEFAULT_MDS_DOMAIN not in _MDS_DOMAINS:
-    DEFAULT_MDS_DOMAIN = "BuildEnv"
-
-# Collection-keyword -> canonical domain (first match wins; order = specificity).
-_DOMAIN_KEYWORDS: tuple = (
-    ("Manufact", ("manufactur", "metalliz", "copper", "plating", "screen print",
-                  "fabricat", "printing")),
-    ("Charact",  ("charact", "microscop", "electron", "sem", "tem", "spectroscop",
-                  "imaging", "metrology", "ftir", "optical")),
-    ("Geo",      ("geo", "outage", "grid", "satellite", "spatial", "weather map")),
-    ("Chem",     ("chem", "polymer", "pmma", "molecul", "reaction", "acrylic")),
-    ("Expo",     ("exposure", "weather", "degrad", "damp heat", "aging", "uv ",
-                  "corrosion", "reliability")),
-    ("BuildEnv", ("solar", "photovolt", "pv", "perovskite", "gaas", "semiconductor",
-                  "silicon", "polysilicon", "wafer", "energy", "module", "cell",
-                  "building", "built env")),
-)
-
-# 12 canonical study stages (Getting Started §3) as IRI local names.
-# Keyword -> stage (first match wins; specific instrument/processing before result).
-_STAGE_KEYWORDS: tuple = (
-    ("DataProcessing", ("data processing", "normalization", "calibration",
-                        "segmentation", "filtering", "preprocessing", "peak fitting")),
-    ("Tool", ("microscop", "spectroscop", "tem", "sem", "xrd", "afm", "instrument",
-              "detector", "colorimeter", "indenter", "metrology", "tool")),
-    ("Recipe", ("recipe", "setting", "temperature", "atmosphere", "duration", "dosage",
-                "scan rate", "parameter")),
-    ("MaterialsProcessing", ("deposition", "anneal", "etch", "sputter", "cvd", "ald",
-                             "sinter", "fabricat", "lamination", "texturing", "passivation",
-                             "coating", "processing", "growth", "curing", "plating",
-                             "printing", "metallization", "method")),
-    ("Synthesis", ("synthesis", "epitax", "crystal grow", "polymeriz")),
-    ("Formulation", ("formulation", "precursor", "ink", "paste", "slurry", "mixing",
-                     "composition")),
-    ("Modeling", ("model", "simulation", "dft", "netsem", "drift-diffusion")),
-    ("Analysis", ("analysis", "correlation", "statistic", "evaluation", "comparison")),
-    ("Sample", ("sample", "wafer", "substrate", "film", "specimen", "layer", "absorber",
-                "cell", "electrode", "junction", "material", "device", "module")),
-    ("Result", ("result", "efficiency", "voltage", "current", "performance", "yield",
-                "fill factor", "resistance", "mobility", "lifetime", "bandgap",
-                "band gap", "output", "measurement", "loss", "index", "modulus",
-                "hardness", "cost")),
-    ("Data", ("data", "dataset", "signal", "spectrum", "image")),
-)
-
-# Representative study stage per MDS branch (top-level / branch classes).
-_BRANCH_STAGE: dict[str, str] = {
-    "mds:Measurement": "Result", "mds:Material": "Sample",
-    "mds:Process": "MaterialsProcessing", "mds:Device": "Sample",
-    "mds:Characterization": "Tool", "mds:Reliability": "Result",
-    "mds:Sample": "Sample", "mds:Economics": "Result",
-    "mds:Concept": "Result", "mds:ResearchPublication": "ResultsAndMetadata",
-}
-
-
-def _canon_domain(text: str) -> str:
-    """Map a collection name/domain string to one of the six canonical MDS domains."""
-    t = (text or "").lower()
-    for dom, kws in _DOMAIN_KEYWORDS:
-        if any(k in t for k in kws):
-            return dom
-    return DEFAULT_MDS_DOMAIN
-
-
-def _stage_for(text: str) -> str:
-    """Local keyword-based study-stage fallback -> one of the 12 canonical stages.
-    Defaults to 'Result' (most extracted concepts are reported results)."""
-    t = (text or "").lower()
-    for stage, kws in _STAGE_KEYWORDS:
-        if any(k in t for k in kws):
-            return stage
-    return "Result"
-
-
-def _ns_domain_subdomain(domain_ns: str) -> tuple[str, str]:
-    """(domain, subdomain) from a namespace path:
-    .../mds/energy/solarcell/ -> ('energy', 'solarcell')."""
-    parts = [p for p in domain_ns.split("/mds/", 1)[-1].split("/") if p]
-    dom = parts[0] if parts else "generic"
-    sub = parts[1] if len(parts) > 1 else ""
-    return dom, sub
-
-
-def _design_lines(domain_local: str, sub: str, stage_local: str) -> list[str]:
-    """Mandatory MDS triples (Getting Started §7.2): mds:hasDomain + mds:hasStudyStage
-    as mds: IRIs (canonical domain/stage classes from the imported MDS-Onto), plus an
-    optional mds:hasSubDomain literal for the domain-specific subdomain."""
-    out = [f"    mds:hasDomain mds:{domain_local} ;"]
-    if sub:
-        out.append(f'    mds:hasSubDomain "{_ttl_lit(sub)}"@en ;')
-    out.append(f"    mds:hasStudyStage mds:{stage_local} ;")
-    return out
-
-
-def _altlabel_lines(label: str, examples: list[str] | None = None) -> list[str]:
-    """Mandatory MDS triple (Getting Started §7.2): at least one skos:altLabel.
-    Uses paper-specific terms as alternatives; falls back to a Title/lower variant
-    so every term carries an altLabel (also satisfies OntoCheck altLabelCheck)."""
-    lab = (label or "").strip()
-    alts = [e.strip() for e in (examples or [])
-            if e and e.strip() and e.strip().lower() != lab.lower()]
-    if not alts:
-        cand = lab.title() if lab.title() != lab else lab.lower()
-        if cand == lab:
-            cand = f"{lab} term"
-        alts = [cand]
-    seen, lines = set(), []
-    for a in alts[:5]:
-        if a.lower() in seen:
-            continue
-        seen.add(a.lower())
-        lines.append(f'    skos:altLabel "{_ttl_lit(a)}"@en ;')
-    return lines
-
-
-def _template_definition(label: str, domain: str) -> str:
-    d = (domain or "materials science").strip()
-    return f"{label}: a concept in the {d} domain, identified from the source literature."
-
-
-def _generate_definitions(concepts: list[str], domain_hint: str = "") -> dict[str, str]:
-    """One batched LLM pass returning {concept_lower: definition}. Gated by
-    DEFINE_CONCEPTS; returns {} (callers fall back to templates) on any failure so
-    the build never depends on the LLM being reachable."""
-    if not DEFINE_CONCEPTS or not concepts:
-        return {}
-    try:
-        from pydantic import BaseModel, Field
-        from pydantic_ai import Agent
-        from kw import llm
-        from kw.config import pydantic_model, output_spec
-
-        class _Def(BaseModel):
-            concept: str
-            definition: str = Field(description="one concise factual sentence (<=25 words)")
-
-        class _Defs(BaseModel):
-            items: list[_Def]
-
-        agent = Agent(
-            pydantic_model, output_type=output_spec(_Defs), retries=2,
-            system_prompt=("You write concise, factual one-sentence ontology definitions "
-                           "for scientific concepts in the domain: "
-                           f"{domain_hint or 'materials science'}. Do not restate the term."),
-        )
-        prompt = ("Define each concept in one concise sentence (<=25 words). Return every "
-                  "concept exactly once.\nConcepts:\n- " + "\n- ".join(concepts))
-        res = llm.run_sync(agent, prompt)
-        out: dict[str, str] = {}
-        for it in res.output.items:
-            c = (it.concept or "").strip().lower()
-            d = (it.definition or "").strip()
-            if c and d:
-                out[c] = d
-        return out
-    except Exception as exc:                                   # noqa: BLE001
-        print(f"  [ontology] definition LLM pass skipped ({type(exc).__name__}); using templates")
-        return {}
-
-
-_CANON_CACHE: dict = {}
-
-
-def _canonical_property(name: str, domain_hint: str = "") -> str | None:
-    """Resolve a concept attribute to a canonical MDS-Onto property IRI.
-    Pass 1 deterministic; Pass 2 shortlisted-LLM fallback when PROPERTY_SELECTION
-    is 'hybrid'. Cached so the property and class loops don't pay twice (and the
-    Pass-2 LLM call fires at most once per concept). Returns IRI or None (mint)."""
-    key = ((name or "").strip().lower(), domain_hint)
-    if key in _CANON_CACHE:
-        return _CANON_CACHE[key]
-    r = mds_props.resolve_attribute_property(name)
-    if not r and PROPERTY_SELECTION == "hybrid":
-        r = mds_props.llm_choose(name, "attr", domain_hint=domain_hint)
-    _CANON_CACHE[key] = r["iri"] if r else None
-    return _CANON_CACHE[key]
-
-
-def _creator_lines(name: str = "", orcid: str = "") -> list[str]:
-    """dcterms:creator triples: the creator's name (literal) and ORCID (as an IRI
-    when it's a URL, else a literal). Either/both may be empty."""
-    out: list[str] = []
-    if name:
-        out.append(f'    dcterms:creator "{_ttl_lit(name)}" ;')
-    if orcid:
-        if orcid.startswith("http"):
-            out.append(f'    dcterms:creator <{orcid}> ;')
-        else:
-            out.append(f'    dcterms:creator "{_ttl_lit(orcid)}" ;')
-    return out
-
-
-def _provenance_lines(creator: str = "") -> list[str]:
-    """Per-entry dcterms:creator (ORCID) annotation when configured. Empty -> none."""
-    return _creator_lines(orcid=creator)
-
-
-_QUDT_HAS_UNIT = "http://qudt.org/schema/qudt/hasUnit"
-_UNIT_RE = re.compile(
-    r'(?<![A-Za-z])(%|wt%|at%|mV|kV|V|mA/cm2|mA/cm\^2|mA|µA|uA|A|kΩ|Ω|ohm|meV|eV|nm|µm|um|mm|cm|'
-    r'°C|K|kWh|kW|mW|W|ppm|ppb|min|hrs|hr|h|s)(?![A-Za-z])')
-
-
-def _detect_unit(values) -> str:
-    """Best-effort unit token from example values (e.g. '22.1 %' -> '%'). '' if none."""
-    for v in values or []:
-        m = _UNIT_RE.search(str(v))
-        if m:
-            return m.group(1)
-    return ""
-
-
 def build_collection_ontology(
     schema_path: str,
     outdir: str,
@@ -700,12 +461,6 @@ def build_collection_ontology(
         concept_cols + [c for c in canonical_terms if c not in concept_cols]
     ))
 
-    # Canonical MDS domain for this collection (Getting Started §2) + namespace-derived
-    # subdomain fallback, plus a batched LLM definition pass (template fallback).
-    fb_dom, fb_sub = _ns_domain_subdomain(domain_ns)
-    domain_local = _canon_domain(domain_val or fb_dom or col_slug)
-    definitions = _generate_definitions(all_concepts, domain_val)
-
     onto_iri = domain_ns.rstrip("/") + "/ontology"
     today    = datetime.date.today().isoformat()
 
@@ -732,11 +487,9 @@ def build_collection_ontology(
         f"<{onto_iri}>",
         "    a owl:Ontology ;",
         f'    rdfs:label "{readable} Ontology"@en ;',
-        f'    dcterms:description "OWL 2 ontology generated from MDS-Onto Knowledge Workflow {_ttl_lit(domain_val or readable)} domain."@en ;',
+        f'    dcterms:description "OWL 2 ontology generated from MDS-Onto v5 NLP pipeline outputs for the {_ttl_lit(domain_val or readable)} domain."@en ;',
         f'    dcterms:created "{today}"^^xsd:date ;',
-        *_creator_lines(CREATOR_NAME, CREATOR_ORCID),
-        '    dcterms:creator "Knowledge Worldflow - Brent Thompson" ;',
-        '    dcterms:license "Creative Commons Attribution 4.0 International (CC BY 4.0)"@en ;',
+        '    dcterms:creator "MDS-Onto v5 NLP Pipeline" ;',
         f'    owl:imports <{MDS_BASE}> ;',
         "    .",
         "",
@@ -748,14 +501,9 @@ def build_collection_ontology(
     for curie, iri in _MDS_CLASSES.items():
         parent = _CLASS_PARENTS.get(curie)
         upper  = _CLASS_UPPER_PARENTS.get(curie)
-        cname  = curie.split(":")[-1]
         lines.append(f"<{iri}>")
         lines.append("    a owl:Class ;")
-        lines.append(f'    rdfs:label "{cname}"@en ;')
-        lines += _altlabel_lines(cname)
-        lines.append(f'    skos:definition "{_ttl_lit(cname)}: an MDS-Onto top-level category '
-                     f'for {_ttl_lit(domain_local)} concepts."@en ;')
-        lines += _design_lines(domain_local, cname, _BRANCH_STAGE.get(curie, "Result"))
+        lines.append(f'    rdfs:label "{curie.split(":")[-1]}"@en ;')
         if parent:
             lines.append(f"    rdfs:subClassOf <{_MDS_CLASSES[parent]}> ;")
         if upper and GROUND_BFO:
@@ -772,10 +520,8 @@ def build_collection_ontology(
         f"<{domain_class_iri}>",
         "    a owl:Class ;",
         f'    rdfs:label "{domain_label} Schema Record"@en ;',
-        f'    skos:altLabel "{_ttl_lit(domain_label)} Record"@en ;',
         f"    rdfs:subClassOf <{_MDS_CLASSES['mds:ResearchPublication']}> ;",
         f'    skos:definition "Structured record extracted from a research publication in the {_ttl_lit(domain_val or domain_label)} domain."@en ;',
-        *_design_lines(domain_local, fb_sub, "ResultsAndMetadata"),
         "    .",
         "",
     ]
@@ -800,20 +546,15 @@ def build_collection_ontology(
 
         lines.append(f"<{p_iri}>")
         lines.append("    a owl:DatatypeProperty ;")
-        # Distinct from the concept CLASS label (IO8 duplicateLabels compares
-        # rdfs:label case-insensitively across classes + properties).
-        lines.append(f'    rdfs:label "has {_ttl_lit(concept)}"@en ;')
+        lines.append(f'    rdfs:label "{_ttl_lit(concept)}"@en ;')
         lines.append(f"    rdfs:domain <{domain_class_iri}> ;")
         lines.append("    rdfs:range xsd:string ;")
         lines.append(f"    skos:broader <{range_iri}> ;")
         _m = mds_matches.get(concept.strip().lower())
         if _m and _m.get("definition"):
             lines.append(f'    skos:definition "{_ttl_lit(_m["definition"])}"@en ;')
-        # Map this attribute to the canonical MDS-Onto property (object or data).
-        # Every relationship/attribute thus resolves to a defined MDS property.
-        _canon = _canonical_property(concept, domain_val)
-        if _canon:
-            lines.append(f"    skos:exactMatch <{_canon}> ;")
+        if _m and _m.get("iri"):
+            lines.append(f"    skos:exactMatch <{_m['iri']}> ;")
         if examples:
             ex_str = " ,\n        ".join(f'"{_ttl_lit(e)}"@en' for e in examples)
             lines.append(f"    skos:example {ex_str} ;")
@@ -844,15 +585,9 @@ def build_collection_ontology(
 
         for dom, iri in domain_roots.items():
             lines += [f"<{iri}>", "    a owl:Class ;", f'    rdfs:label "{_ttl_lit(dom)}"@en ;',
-                      *_altlabel_lines(dom),
-                      f'    skos:definition "{_ttl_lit(dom)}: an MDS-Onto domain grouping related concepts."@en ;',
-                      *_design_lines(_canon_domain(dom), "", _stage_for(dom)),
                       f"    rdfs:subClassOf <{MDS_BASE}Concept> ;", "    .", ""]
         for sub, (iri, parent) in subdomain_roots.items():
             lines += [f"<{iri}>", "    a owl:Class ;", f'    rdfs:label "{_ttl_lit(sub)}"@en ;',
-                      *_altlabel_lines(sub),
-                      f'    skos:definition "{_ttl_lit(sub)}: an MDS-Onto subdomain within the {_ttl_lit(domain_local)} domain."@en ;',
-                      *_design_lines(domain_local, sub, _stage_for(sub)),
                       f"    rdfs:subClassOf <{parent}> ;", "    .", ""]
 
         seen_cls = set()
@@ -861,51 +596,20 @@ def build_collection_ontology(
             if ci in seen_cls:
                 continue
             seen_cls.add(ci)
-            c_lower = concept.strip().lower()
-            # A concept that IS an MDS branch/top-level class (e.g. literally
-            # "material"/"process"/"device") must not be re-minted as a separate
-            # class — that produces a duplicate rdfs:label vs mds:Material etc.
-            # (OntoCheck duplicateLabels). It is already represented by the branch
-            # class; its attribute property still links to it via skos:broader.
-            if c_lower in {k.split(':', 1)[-1].lower() for k in _MDS_CLASSES}:
-                continue
-            m = mds_matches.get(c_lower)
+            m = mds_matches.get(concept.strip().lower())
             if m and m.get("subdomain"):
                 parent_iri = domain_ns + to_camel(m["subdomain"])
             elif m and m.get("domain"):
                 parent_iri = domain_ns + to_camel(m["domain"])
             else:
                 parent_iri = _class_iri_for(concept, mds_matches)
-            branch_iri = _MDS_CLASSES[_classify_concept(concept)]
             lines.append(f"<{ci}>")
             lines.append("    a owl:Class ;")
             lines.append(f'    rdfs:label "{_ttl_lit(concept)}"@en ;')
             lines.append(f'    skos:prefLabel "{_ttl_lit(concept)}"@en ;')
-            # Mandatory skos:altLabel (§7.2): paper-specific terms as alternatives.
-            lines += _altlabel_lines(concept, canonical_terms.get(concept, []))
             lines.append(f"    rdfs:subClassOf <{parent_iri}> ;")
-            # Guarantee a link to an in-file MDS branch class. OntoCheck's
-            # isolatedElements treats a class as connected only when its subClassOf
-            # target is another class declared in this file (a portal IRI is not).
-            if branch_iri != parent_iri:
-                lines.append(f"    rdfs:subClassOf <{branch_iri}> ;")
-            # skos:definition: portal match -> LLM batch -> template (always present,
-            # so definitionCoverage clears its threshold).
-            definition = ((m or {}).get("definition") or definitions.get(c_lower)
-                          or _template_definition(concept, domain_local))
-            lines.append(f'    skos:definition "{_ttl_lit(definition)}"@en ;')
-            # Mandatory MDS triples (§7.2): hasDomain + hasStudyStage as mds: IRIs,
-            # plus subdomain (portal value or namespace fallback).
-            lines += _design_lines(domain_local, (m or {}).get("subdomain") or fb_sub,
-                                   _stage_for(concept))
-            # Extra annotations (Getting Started §7.2: as many as the data supports).
-            lines.append(f"    skos:broader <{branch_iri}> ;")
-            lines += _provenance_lines(CREATOR_ORCID)
-            lines.append(f'    skos:scopeNote "Extracted from the {_ttl_lit(domain_local)} '
-                         f'corpus ({_ttl_lit(readable)})."@en ;')
-            _u = _detect_unit(canonical_terms.get(concept, []))
-            if _u:
-                lines.append(f'    <{_QUDT_HAS_UNIT}> "{_ttl_lit(_u)}"@en ;')
+            if m and m.get("definition"):
+                lines.append(f'    skos:definition "{_ttl_lit(m["definition"])}"@en ;')
             if m and m.get("iri"):
                 lines.append(f"    skos:exactMatch <{m['iri']}> ;")
             ex = canonical_terms.get(concept, [])[:5]
@@ -949,10 +653,8 @@ def build_collection_ontology(
                     if not (s_iri and o_iri) or s_iri == o_iri:
                         dropped += 1
                         continue
-                    # pn is now a canonical MDS-Onto object-property IRI
-                    # (relations.normalize_predicate resolves the controlled vocab).
-                    p_iri = pn if pn.startswith("http") else MDS_BASE + pn.split(":", 1)[-1]
-                    p_local = re.split(r"[#/]", p_iri.rstrip("#/"))[-1]
+                    p_local = pn.split(":", 1)[1] if ":" in pn else pn
+                    p_iri = MDS_BASE + p_local
                     used_props[p_iri] = p_local
                     axioms.append((s_iri, p_iri, o_iri))
                     kept += 1

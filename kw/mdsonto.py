@@ -22,17 +22,6 @@ import os
 import json
 import datetime as _dt
 
-# Load .env so the standalone CLI (`python -m kw.mdsonto ...`) sees the same
-# config as a full pipeline run. (config.py also loads it, but the CLI may run
-# without importing config.) Must happen before the os.getenv() calls below.
-try:
-    from dotenv import load_dotenv
-    # Explicit project-root path: auto-discovery is unreliable under `python -m`.
-    load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env'))
-    load_dotenv()                       # also honour a .env in the current directory
-except Exception:
-    pass
-
 PORTAL_BASE = os.getenv('MDSONTO_PORTAL', 'https://www.mdsonto-portal.com:8443')
 API_KEY     = os.getenv('MDSONTO_API_KEY', '3d3c6d70-4de1-4770-95f7-76e0bd59ef87')
 ACRONYM     = os.getenv('MDSONTO_ACRONYM', 'MDS-ONTO')
@@ -183,7 +172,6 @@ def _normalize_acronym(acronym: str) -> str:
     a = re.sub(r'[^A-Za-z0-9_-]', '', str(acronym or '')).strip('-_').upper()
     if a and a[0].isdigit():
         a = 'O' + a
-    a = a[:16].rstrip('-_')          # portal hard limit: acronym must be <= 16 chars
     return a or 'MDS_ONTO'
 
 
@@ -224,8 +212,7 @@ def fetch_contract(acronym: str = '', timeout: int = 60) -> dict:
 
 def submit_to_portal(ttl_path: str, acronym: str, name: str,
                      contact_name: str = '', contact_email: str = '',
-                     admin_user: str = '', description: str = '',
-                     timeout: int = 120) -> dict:
+                     admin_user: str = '', timeout: int = 120) -> dict:
     """Upload a TTL ontology file to the OntoPortal instance as a new submission.
 
     Ensures the ontology entry exists (creating it with administeredBy if needed),
@@ -300,30 +287,11 @@ def submit_to_portal(ttl_path: str, acronym: str, name: str,
 
     # 2. POST the TTL file as a new submission (file + OWL + contact required).
     sub_url = f'{PORTAL_BASE}/ontologies/{canonical}/submissions'
-    # OntoPortal's submission `contact` is an array of {name,email} objects. In
-    # multipart form-data a bare 'contact'=email string can't coerce to that and
-    # yields {"contact":{"existence":"`` value cannot be nil"}} (HTTP 400). Send it
-    # with Rails-style bracket notation so it parses as the same array the ontology
-    # create payload used.
-    # OntoPortal's submission `contact` is an ARRAY of {name,email}. Encode it with
-    # EMPTY-bracket Rack notation (contact[][name] + contact[][email]) so the two
-    # consecutive sub-keys merge into one array element -> [{name,email}]. Indexed
-    # brackets (contact[0][...]) instead make a "0"-keyed HASH, which the model
-    # rejects with a 500; a bare 'contact'=email string 400s ("value cannot be nil").
-    desc = (description or
-            f"{name}: domain ontology generated from curated literature by the "
-            "MDS-Onto knowledge-extraction pipeline.")
     data = {'acronym': canonical,            # submission must name its ontology
             'ontology': canonical,
             'hasOntologyLanguage': 'OWL',
-            'hasOntologySyntax': 'http://www.w3.org/ns/formats/Turtle',
             'released': _dt.date.today().isoformat(),
-            'description': desc,
-            'status': 'beta',
-            'version': _dt.date.today().isoformat(),
-            'hasLicense': 'https://creativecommons.org/licenses/by/4.0/',
-            'contact[][name]':  contact[0]['name'],
-            'contact[][email]': contact[0]['email']}
+            'contact': contact_email}
     with open(ttl_path, 'rb') as fh:
         resp = requests.post(
             sub_url,
@@ -354,84 +322,14 @@ def write_csv(matches: dict[str, dict], path: str) -> str:
     return path
 
 
-def list_ontologies(timeout: int = 60) -> list[dict]:
-    """List every ontology on the portal: [{acronym, name, administeredBy}]."""
-    import requests
-    headers = {'Authorization': f'apikey token={API_KEY}'}
-    r = requests.get(f'{PORTAL_BASE}/ontologies', headers=headers,
-                     params={'display': 'acronym,name,administeredBy'}, timeout=timeout)
-    r.raise_for_status()
-    data = r.json() if r.content else []
-    return [{'acronym': o.get('acronym'), 'name': o.get('name'),
-             'administeredBy': o.get('administeredBy', [])} for o in data]
-
-
-def delete_from_portal(acronym: str, timeout: int = 60) -> dict:
-    """Delete an ontology (and its submissions) from the portal. DESTRUCTIVE and
-    permanent — requires admin rights on that ontology. Returns status info."""
-    import requests
-    acr = _normalize_acronym(acronym)
-    headers = {'Authorization': f'apikey token={API_KEY}'}
-    r = requests.delete(f'{PORTAL_BASE}/ontologies/{acr}', headers=headers, timeout=timeout)
-    return {'acronym': acr, 'status': r.status_code,
-            'ok': r.status_code in (200, 204),
-            'body': '' if r.ok else r.text[:400]}
-
-
 # ---------------------------------------------------------------------------
-# CLI: portal admin + diagnostics
-#   python -m kw.mdsonto contract [ACRONYM]        inspect ontology + latest submission
-#   python -m kw.mdsonto list                       list all ontologies on the portal
-#   python -m kw.mdsonto delete <ACRONYM> [--yes]   delete an ontology (confirms unless --yes)
-#   python -m kw.mdsonto submit <ACRONYM> <ttl> [Name]   (re)submit a TTL to an ontology
+# CLI: inspect the portal contract  (python -m kw.mdsonto contract [ACRONYM])
 # ---------------------------------------------------------------------------
 if __name__ == '__main__':
     import sys
-    args = sys.argv[1:]
-    cmd = args[0] if args else 'contract'
-
+    cmd = sys.argv[1] if len(sys.argv) > 1 else 'contract'
     if cmd == 'contract':
-        acr = args[1] if len(args) > 1 else ''
+        acr = sys.argv[2] if len(sys.argv) > 2 else ''
         print(json.dumps(fetch_contract(acr), indent=2, ensure_ascii=False))
-
-    elif cmd == 'list':
-        try:
-            rows = list_ontologies()
-        except Exception as exc:                               # noqa: BLE001
-            print(f"list failed: {exc}"); sys.exit(1)
-        print(f"{len(rows)} ontolog(ies) on {PORTAL_BASE}:")
-        for o in sorted(rows, key=lambda x: (x['acronym'] or '').lower()):
-            admin = ','.join(o.get('administeredBy') or [])
-            print(f"  {o['acronym']:24s} {o.get('name','') or '':40s} admin={admin}")
-
-    elif cmd == 'delete':
-        if len(args) < 2:
-            print("usage: python -m kw.mdsonto delete <ACRONYM> [--yes]"); sys.exit(1)
-        acr = args[1]
-        if '--yes' not in args:
-            ans = input(f"Permanently delete '{acr}' from {PORTAL_BASE}? "
-                        f"Re-type the acronym to confirm: ").strip()
-            if ans not in (acr, _normalize_acronym(acr)):
-                print("aborted (acronym mismatch)."); sys.exit(1)
-        try:
-            print(json.dumps(delete_from_portal(acr), indent=2))
-        except Exception as exc:                               # noqa: BLE001
-            print(f"delete failed: {exc}"); sys.exit(1)
-
-    elif cmd == 'submit':
-        if len(args) < 3:
-            print("usage: python -m kw.mdsonto submit <ACRONYM> <ontology.ttl> [Name]"); sys.exit(1)
-        acr, ttl = args[1], args[2]
-        name = args[3] if len(args) > 3 else acr
-        try:
-            res = submit_to_portal(ttl, acr, name,
-                                   contact_name=os.getenv('PORTAL_CONTACT_NAME', ''),
-                                   contact_email=os.getenv('PORTAL_CONTACT_EMAIL', ''),
-                                   admin_user=PORTAL_ADMIN_USER)
-            print(json.dumps(res, indent=2))
-        except Exception as exc:                               # noqa: BLE001
-            print(f"submit failed: {exc}"); sys.exit(1)
-
     else:
-        print("usage: python -m kw.mdsonto {contract [ACR] | list | "
-              "delete <ACR> [--yes] | submit <ACR> <ttl> [Name]}")
+        print("usage: python -m kw.mdsonto contract [ACRONYM]")

@@ -10,7 +10,6 @@ uv.lock
 
 # generated data (P9 — keep out of VCS)
 outputs/
-outputs_test/
 schemas/
 graphdb/
 lora_adapters/
