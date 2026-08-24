@@ -2,6 +2,12 @@
 __pycache__/
 *.py[cod]
 .mdsonto_cache.json
-data/
-runs/
-
+data/*
+!data/input/
+!data/input/.gitkeep
+!data/ontologies/
+!data/ontologies/.gitkeep
+!data/results/
+!data/results/.gitkeep
+runs/*
+!runs/.gitkeep
