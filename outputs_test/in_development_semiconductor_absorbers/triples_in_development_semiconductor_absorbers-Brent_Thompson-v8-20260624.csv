@@ -1,2 +1,0 @@
-subject,predicate,predicate_norm,object,subject_id,object_id,confidence,source_paper
-semiconductor,subclass of,mds:subClassOf,semiconductor film,,,0.759,Advances in wide-bandgap III-V solar cells
