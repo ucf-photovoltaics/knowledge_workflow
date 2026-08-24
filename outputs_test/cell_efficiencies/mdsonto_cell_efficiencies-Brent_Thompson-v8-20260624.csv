@@ -1,3 +1,0 @@
-concept,iri,label,definition,domain,subdomain,study_stage
-annealing,https://cwrusdle.bitbucket.io/mds/Annealing,Annealing,"A heat treatment process that involves heating a material to a specific temperature, holding it at that temperature, and then cooling it at a controlled rate to alter its physical and sometimes chemical properties, typically to reduce hardness, improve ductility, and relieve internal stresses.",Manufacture,MatProc,Materials Processing
-efficiency,https://cwrusdle.bitbucket.io/mds/CellEfficiency,CellEfficiency,The cell efficiency measured by a current voltage process.,Charact,Elec,Result

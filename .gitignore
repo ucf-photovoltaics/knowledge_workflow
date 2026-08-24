@@ -1,18 +1,7 @@
-.env
-__pycache__/
-*.pyc
-*.pyo
 .venv/
-.claude
-CLAUDE.md
-uv.lock
-.python-version
+__pycache__/
+*.py[cod]
+.mdsonto_cache.json
+data/
+runs/
 
-# generated data (P9 — keep out of VCS)
-outputs/
-schemas/
-graphdb/
-lora_adapters/
-
-# superseded code, kept for reference only
-_deprecated/
