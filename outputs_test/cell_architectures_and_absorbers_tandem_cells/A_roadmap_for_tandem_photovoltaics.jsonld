@@ -1,0 +1,137 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+  },
+  "@id": "https://cwrusdle.bitbucket.io/mds/generic/A_roadmap_for_tandem_photovoltaics",
+  "@type": [
+    "mds:ResearchPublication",
+    "mds:SchemaRecord"
+  ],
+  "schema:identifier": "10.1016/j.joule.2024.01.017",
+  "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+  "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+  "schema:name": "A roadmap for tandem photovoltaics",
+  "owl:sameAs": {
+    "@id": "https://doi.org/10.1016/j.joule.2024.01.017"
+  },
+  "mds:hasConcept": [
+    {
+      "mds:canonicalTerm": "research coordination goal",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "spur researchers and manufacturers to work together",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "research status",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "roadmaps of many PV manufacturers",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "development timeline component",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "general timeline of activities",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "solar cell type",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "tandem solar cell",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "technology pairing direction",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "multiple PV technology pairings and architectures",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "product development requirement",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "design, reliability, and scaling components",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "power output",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "leap in power conversion efficiency",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "materials development goal",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+      },
+      "mds:paperTerm": "continued growth in installed photovoltaic (PV) capacity",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "deployment goal",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "mass deployment",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "challenge type",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "many fronts",
+      "mds:relevance": {
+        "@value": 0.4,
+        "@type": "xsd:decimal"
+      }
+    }
+  ]
+}

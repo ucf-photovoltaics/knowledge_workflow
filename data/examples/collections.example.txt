@@ -1,0 +1,10 @@
+# kw.batch collection queue — one collection per line.
+# Each line is a Zotero collection KEY (e.g. K7LGYHKZ) or its NAME.
+# Blank lines and text after '#' are ignored.
+#
+# Find keys/names with:  python -m kw --list-collections
+#
+# Examples:
+# K7LGYHKZ
+# Semiconductor Absorbers
+# -In Development- > Semiconductor Absorbers

@@ -1,0 +1,1869 @@
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix schema:  <https://schema.org/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix mds:     <https://cwrusdle.bitbucket.io/mds/> .
+@prefix mds:     <https://cwrusdle.bitbucket.io/mds/generic/> .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ontology>
+    a owl:Ontology ;
+    rdfs:label "cell efficiencies Ontology"@en ;
+    dcterms:description "OWL 2 ontology generated from MDS-Onto v5 NLP pipeline outputs for the cell_efficiencies domain."@en ;
+    dcterms:created "2026-06-24"^^xsd:date ;
+    dcterms:creator "MDS-Onto v5 NLP Pipeline" ;
+    owl:imports <https://cwrusdle.bitbucket.io/mds/> ;
+    .
+
+# ── MDS-Onto top-level classes ───────────────────────────
+
+<https://cwrusdle.bitbucket.io/mds/Concept>
+    a owl:Class ;
+    rdfs:label "Concept"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Measurement>
+    a owl:Class ;
+    rdfs:label "Measurement"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Material>
+    a owl:Class ;
+    rdfs:label "Material"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Process>
+    a owl:Class ;
+    rdfs:label "Process"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Device>
+    a owl:Class ;
+    rdfs:label "Device"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Characterization>
+    a owl:Class ;
+    rdfs:label "Characterization"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Reliability>
+    a owl:Class ;
+    rdfs:label "Reliability"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Sample>
+    a owl:Class ;
+    rdfs:label "Sample"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Economics>
+    a owl:Class ;
+    rdfs:label "Economics"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/ResearchPublication>
+    a owl:Class ;
+    rdfs:label "ResearchPublication"@en ;
+    .
+
+# ── Domain record class ──────────────────────────────────────
+
+<https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord>
+    a owl:Class ;
+    rdfs:label "CellEfficiencies Schema Record"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/ResearchPublication> ;
+    skos:definition "Structured record extracted from a research publication in the cell_efficiencies domain."@en ;
+    .
+
+# ── Extracted concept properties ─────────────────────────
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasAcidEtching>
+    a owl:DatatypeProperty ;
+    rdfs:label "acid_etching"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasAggregationProcess>
+    a owl:DatatypeProperty ;
+    rdfs:label "aggregation_process"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasAnnealing>
+    a owl:DatatypeProperty ;
+    rdfs:label "annealing"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:definition "A heat treatment process that involves heating a material to a specific temperature, holding it at that temperature, and then cooling it at a controlled rate to alter its physical and sometimes chemical properties, typically to reduce hardness, improve ductility, and relieve internal stresses."@en ;
+    skos:exactMatch <https://cwrusdle.bitbucket.io/mds/Annealing> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasChemicalComposition>
+    a owl:DatatypeProperty ;
+    rdfs:label "chemical_composition"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasConductivity>
+    a owl:DatatypeProperty ;
+    rdfs:label "conductivity"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDopant>
+    a owl:DatatypeProperty ;
+    rdfs:label "dopant"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasEfficiency>
+    a owl:DatatypeProperty ;
+    rdfs:label "efficiency"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:definition "The cell efficiency measured by a current voltage process."@en ;
+    skos:exactMatch <https://cwrusdle.bitbucket.io/mds/CellEfficiency> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasElectricalPerformance>
+    a owl:DatatypeProperty ;
+    rdfs:label "electrical_performance"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasEnergyConsumption>
+    a owl:DatatypeProperty ;
+    rdfs:label "energy_consumption"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Economics> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasEtchingMethod>
+    a owl:DatatypeProperty ;
+    rdfs:label "etching_method"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasFiringCondition>
+    a owl:DatatypeProperty ;
+    rdfs:label "firing_condition"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasFiringTemperature>
+    a owl:DatatypeProperty ;
+    rdfs:label "firing_temperature"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasGlassTransitionTemperatur>
+    a owl:DatatypeProperty ;
+    rdfs:label "glass_transition_temperatur"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasGrowthMechanism>
+    a owl:DatatypeProperty ;
+    rdfs:label "growth_mechanism"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "the growth mechanism of the ITO films"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasInterfaceQuality>
+    a owl:DatatypeProperty ;
+    rdfs:label "interface_quality"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasLaserTechnology>
+    a owl:DatatypeProperty ;
+    rdfs:label "laser_technology)"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMaterialDepletion>
+    a owl:DatatypeProperty ;
+    rdfs:label "material_depletion"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMaterialProperty>
+    a owl:DatatypeProperty ;
+    rdfs:label "material_property"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "ITO films with varying thickness"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMetallicPaste>
+    a owl:DatatypeProperty ;
+    rdfs:label "metallic_paste"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMicroscopicAnalysis>
+    a owl:DatatypeProperty ;
+    rdfs:label "microscopic_analysis"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasOpticalProperty>
+    a owl:DatatypeProperty ;
+    rdfs:label "optical_property"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPassivationLayer>
+    a owl:DatatypeProperty ;
+    rdfs:label "passivation_layer"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPhotovoltaicCells>
+    a owl:DatatypeProperty ;
+    rdfs:label "photovoltaic_cells"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPhotovoltaicEfficiency>
+    a owl:DatatypeProperty ;
+    rdfs:label "photovoltaic_efficiency"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "PCE (Photocurrent Conversion Efficiency)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPyramidStructure>
+    a owl:DatatypeProperty ;
+    rdfs:label "pyramid_structure"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasResistivityMeasurement>
+    a owl:DatatypeProperty ;
+    rdfs:label "resistivity_measurement"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSolarCellCharacteristics>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar_cell_characteristics"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSolarPanelCharaterization>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar_panel_charaterization"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSubstrateMaterial>
+    a owl:DatatypeProperty ;
+    rdfs:label "substrate_material"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSurfaceRoughness>
+    a owl:DatatypeProperty ;
+    rdfs:label "surface_roughness"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasTemperatureImpact>
+    a owl:DatatypeProperty ;
+    rdfs:label "temperature_impact"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasTransmissionElectronMicroscopy>
+    a owl:DatatypeProperty ;
+    rdfs:label "transmission_electron_microscopy"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    skos:example "TEM image of the Ag-Si interface in a pyramid largely intact area of Cell-1-L"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasUltrasonicTreatment>
+    a owl:DatatypeProperty ;
+    rdfs:label "ultrasonic_treatment"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasVoltageOutput>
+    a owl:DatatypeProperty ;
+    rdfs:label "voltage_output"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMetallizationTechnique>
+    a owl:DatatypeProperty ;
+    rdfs:label "metallization technique"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "laser-enhanced contact optimization (LECO) technology"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasInterfaceMorphology>
+    a owl:DatatypeProperty ;
+    rdfs:label "interface morphology"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "emitter interface contact morphology and its evolutionary mechanisms"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasAggregationMechanism>
+    a owl:DatatypeProperty ;
+    rdfs:label "aggregation mechanism"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "formation of dense Ag–Si contacts with minimized metal-induced recombination"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/sample/SubstrateMaterial>
+    a owl:DatatypeProperty ;
+    rdfs:label "substrate material"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "commercial n-type Czochralski (Cz) silicon wafers"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSolarCellCharacteristic>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar cell characteristic"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "photoelectric conversion efficiency (PCE)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPhotovoltaicCellType>
+    a owl:DatatypeProperty ;
+    rdfs:label "photovoltaic cell type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "tunnelling oxide passivated contact (TOPCon) solar cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasProcessingTemperature>
+    a owl:DatatypeProperty ;
+    rdfs:label "processing temperature"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "peak firing temperatures of 770°C and 800°C"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasEfficiencyImprovement>
+    a owl:DatatypeProperty ;
+    rdfs:label "efficiency improvement"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "PV performance"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSolarCell>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar cell"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "Cell-1"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSolarCellPerformance>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar cell performance"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "champion Cell-  LL, its PCE value and related results"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasAgNanoparticles>
+    a owl:DatatypeProperty ;
+    rdfs:label "ag nanoparticles"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "Ag/Ag nanoparticles/SiN x layer/Si substrate"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasLecoTreatment>
+    a owl:DatatypeProperty ;
+    rdfs:label "leco treatment"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "LECO process/secondary LECO treatment"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasCurrentDensity>
+    a owl:DatatypeProperty ;
+    rdfs:label "current density"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "dark saturation current density, J0,metal"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasAgSiliconContact>
+    a owl:DatatypeProperty ;
+    rdfs:label "ag silicon contact"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "Ag–Si contact points (including Ag–Si alloy)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPassivationTechnology>
+    a owl:DatatypeProperty ;
+    rdfs:label "passivation technology"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "interface passivation on the p+ emitter"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPassivationCoating>
+    a owl:DatatypeProperty ;
+    rdfs:label "passivation coating"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "SiNx:H film"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasStructuralDamage>
+    a owl:DatatypeProperty ;
+    rdfs:label "structural damage"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "damage to the SiN x layer"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSampleHandling>
+    a owl:DatatypeProperty ;
+    rdfs:label "sample handling"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Sample> ;
+    skos:example "screen-printing machine and furnace"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSamplePreparation>
+    a owl:DatatypeProperty ;
+    rdfs:label "sample preparation"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Sample> ;
+    skos:example "rinsing using deionized water to remove reaction residues"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasLaserTreatment>
+    a owl:DatatypeProperty ;
+    rdfs:label "laser treatment"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "LECO (Local Energy Conversion Optical)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSilverParticlePrecipitation>
+    a owl:DatatypeProperty ;
+    rdfs:label "silver particle precipitation"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Economics> ;
+    skos:example "the silver particles randomly precipitated on the pyramid surface [29]"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPyramidShapeEvolution>
+    a owl:DatatypeProperty ;
+    rdfs:label "pyramid shape evolution"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "the pyramid of Cell-1-L exhibited distinct features, a pronounced Ag peak on the tip of the pyramid was detected after HF treatment."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/material/PassivationLayer>
+    a owl:DatatypeProperty ;
+    rdfs:label "passivation layer"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "SiNx passivation/PETI passivation repair/glass phase interaction"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDevicePerformanceMetrics>
+    a owl:DatatypeProperty ;
+    rdfs:label "device performance metrics"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "PCE/Jsc/Voc/FF/I-V measurements/devices with high Ag concentration"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasInterfacialQuality>
+    a owl:DatatypeProperty ;
+    rdfs:label "interfacial quality"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "contact formation, metallization"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPhotovoltaicPerformance>
+    a owl:DatatypeProperty ;
+    rdfs:label "photovoltaic performance"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "photovoltaic parameters"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSolarPanelCharacterization>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar_panel_characterization"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    skos:example ",Photovoltaic performance of Cell-1-LL and Cell-2-L in comparison to other TOPCon solar cells reported in the literature"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/measurement/ContactResistivity>
+    a owl:DatatypeProperty ;
+    rdfs:label "contact resistivity"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "specific contact resistivity"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasAnnealingProcess>
+    a owl:DatatypeProperty ;
+    rdfs:label "annealing process"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "localized annealing process"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSolarCellMaterial>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar cell material"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "Czochralski (Cz) silicon wafers"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMetallizationPaste>
+    a owl:DatatypeProperty ;
+    rdfs:label "metallization paste"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "custom Bi-B-Ag system front-side Ag paste"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasVoltageMeasurement>
+    a owl:DatatypeProperty ;
+    rdfs:label "voltage measurement"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "fill factor (FF)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMaterialComposition>
+    a owl:DatatypeProperty ;
+    rdfs:label "material composition"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "Aluminum oxide (Al2O3) and aluminum oxide (SiOx) film"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasTemperatureProfile>
+    a owl:DatatypeProperty ;
+    rdfs:label "temperature profile"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "thermal distribution across the interface and consequently increased surface roughness"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSinXLayer>
+    a owl:DatatypeProperty ;
+    rdfs:label "sin x layer"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "SiN x/SiNx"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasTemAnalysis>
+    a owl:DatatypeProperty ;
+    rdfs:label "tem analysis"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "high-angle annular dark-field (HAADF)/STEM element mapping/Si TEM specimen"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPeakFiringTemperature>
+    a owl:DatatypeProperty ;
+    rdfs:label "peak firing temperature"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "-30°C reduction in peak firing temperature"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSolarCellStructure>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar cell structure"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "TOPCON solar cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasLaserEnhancedContactOptimizationLeco>
+    a owl:DatatypeProperty ;
+    rdfs:label "laser-enhanced contact optimization (leco)"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "LECO"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasContactResistance>
+    a owl:DatatypeProperty ;
+    rdfs:label "contact_resistance"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "Contact resistance of Cell-1-L, Cell-1-LL and Cell-2-L (S8)"@en ,
+        "contact resistance was analyzed"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasGlassTransitionTemperature>
+    a owl:DatatypeProperty ;
+    rdfs:label "glass transition temperature"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "Tg"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSilverSegregation>
+    a owl:DatatypeProperty ;
+    rdfs:label "silver segregation"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Economics> ;
+    skos:example "the segregation and precipitation of Ag as a potential CFC."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSemAnalysis>
+    a owl:DatatypeProperty ;
+    rdfs:label "sem analysis"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "cross-sectional SEM/SEM images/Figure 4/Figure S3/Figure S4"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasFocusingIonBeamMilling>
+    a owl:DatatypeProperty ;
+    rdfs:label "focusing ion beam milling"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "FIB preparation/Ga ion milling/beam current density"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasTopconSolarCells>
+    a owl:DatatypeProperty ;
+    rdfs:label "topcon solar cells"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "TOPCon Cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasFiringProcess>
+    a owl:DatatypeProperty ;
+    rdfs:label "firing_process"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example ":Firing Process on Electrical Properties and Efficiency of n-TOPCon Solar Cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasTopconCellDesign>
+    a owl:DatatypeProperty ;
+    rdfs:label "topcon_cell_design"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "n-TOPCon Solar Cells (Cell-1 LL and Cell-2 L)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasEtchingProcess>
+    a owl:DatatypeProperty ;
+    rdfs:label "etching process"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "acid etching, HF treatment"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPyramidTipDamage>
+    a owl:DatatypeProperty ;
+    rdfs:label "pyramid tip damage"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "obvious damage could be observed on the tips of certain pyramids, which were more susceptible to HF attack than others"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPyramidSurfaceModification>
+    a owl:DatatypeProperty ;
+    rdfs:label "pyramid surface modification"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    skos:example "localization reactions between the glass phase and SiNx, and the structural evolution of the textured surface during firing and LECO processes."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasAcidEtchingProcess>
+    a owl:DatatypeProperty ;
+    rdfs:label "acid etching process"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "acid etching/ HNO3 HF/HF etching"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/measurement/FillFactor>
+    a owl:DatatypeProperty ;
+    rdfs:label "fill factor"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "pseudo fill factor (pFF)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasCrystallineSiliconSolarCells>
+    a owl:DatatypeProperty ;
+    rdfs:label "crystalline silicon solar cells"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "Crystalline Silicon Solar Cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasElectrochemicalOxidation>
+    a owl:DatatypeProperty ;
+    rdfs:label "electrochemical oxidation"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "Oxidation"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasEmitterContact>
+    a owl:DatatypeProperty ;
+    rdfs:label "emitter_contact"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "Contact Optimization in Ultra-High Sheet Resistance Emitters"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasAcidityEtchant>
+    a owl:DatatypeProperty ;
+    rdfs:label "acidity_etchant"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "(HNO3 + 6 min HF) Acid-Etching Treatment on Cell-2 after"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasDopantElement>
+    a owl:DatatypeProperty ;
+    rdfs:label "dopant_element"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "n-type nanocrystalline silicon (n-nc-Si:H)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasAntiReflectionLayer>
+    a owl:DatatypeProperty ;
+    rdfs:label "anti_reflection_layer"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "LiFx anti-reflection layer"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasEfficiencyMetric>
+    a owl:DatatypeProperty ;
+    rdfs:label "efficiency_metric"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "photoelectric conversion efficiency (PCE) of 21.28 ?"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasIndustrialScaleImpact>
+    a owl:DatatypeProperty ;
+    rdfs:label "industrial_scale_impact"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "industrial-scale implementation of SHJ solar cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasFilmThicknessVariationEffect>
+    a owl:DatatypeProperty ;
+    rdfs:label "film_thickness_variation_effect"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "varying thickness ITO films with"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasCellStructureConfiguration>
+    a owl:DatatypeProperty ;
+    rdfs:label "cell_structure_configuration"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "ITO-less SHJ cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasMaterialDepletionConsequence>
+    a owl:DatatypeProperty ;
+    rdfs:label "material_depletion_consequence"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "limited by the scarcity of indium-based TCO materials"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasThinFilmSubstrate>
+    a owl:DatatypeProperty ;
+    rdfs:label "thin_film_substrate"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Sample> ;
+    skos:example "silicon thin-film substrate"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasConsumptionRate>
+    a owl:DatatypeProperty ;
+    rdfs:label "consumption_rate"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Economics> ;
+    skos:example "ITO consumption by 75 %"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasScarcityFactor>
+    a owl:DatatypeProperty ;
+    rdfs:label "scarcity_factor"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "the scarcity of indium-based TCO materials"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasConductiveOxideMaterial>
+    a owl:DatatypeProperty ;
+    rdfs:label "conductive_oxide_material"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "Transparent Conductive Oxide (TCO) materials"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPhotovoltaicEfficiencyCategory>
+    a owl:DatatypeProperty ;
+    rdfs:label "photovoltaic_efficiency_category"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "series resistance of ITO-less SHJ cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasSubstrateQualityEffect>
+    a owl:DatatypeProperty ;
+    rdfs:label "substrate_quality_effect"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Sample> ;
+    skos:example "high crystallinity, the series resistance"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPhotovoltaicCell>
+    a owl:DatatypeProperty ;
+    rdfs:label "photovoltaic_cell"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "silicon heterojunction (SHJ) solar cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasHighTemperatureEffect>
+    a owl:DatatypeProperty ;
+    rdfs:label "high_temperature_effect"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "no mention"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasPlasmaetchingMethod>
+    a owl:DatatypeProperty ;
+    rdfs:label "plasmaetching_method"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "no mention"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/hasLaserAblationEffect>
+    a owl:DatatypeProperty ;
+    rdfs:label "laser_ablation_effect"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/generic/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "no mention"@en ;
+    .
+
+# -- Concept classes (domain taxonomy) --------------------
+
+<https://cwrusdle.bitbucket.io/mds/generic/Manufacture>
+    a owl:Class ;
+    rdfs:label "Manufacture"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Charact>
+    a owl:Class ;
+    rdfs:label "Charact"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Matproc>
+    a owl:Class ;
+    rdfs:label "MatProc"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/generic/Manufacture> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Elec>
+    a owl:Class ;
+    rdfs:label "Elec"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/generic/Charact> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/AcidEtching>
+    a owl:Class ;
+    rdfs:label "acid_etching"@en ;
+    skos:prefLabel "acid_etching"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/AggregationProcess>
+    a owl:Class ;
+    rdfs:label "aggregation_process"@en ;
+    skos:prefLabel "aggregation_process"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Annealing>
+    a owl:Class ;
+    rdfs:label "annealing"@en ;
+    skos:prefLabel "annealing"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/generic/Matproc> ;
+    skos:definition "A heat treatment process that involves heating a material to a specific temperature, holding it at that temperature, and then cooling it at a controlled rate to alter its physical and sometimes chemical properties, typically to reduce hardness, improve ductility, and relieve internal stresses."@en ;
+    skos:exactMatch <https://cwrusdle.bitbucket.io/mds/Annealing> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ChemicalComposition>
+    a owl:Class ;
+    rdfs:label "chemical_composition"@en ;
+    skos:prefLabel "chemical_composition"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Conductivity>
+    a owl:Class ;
+    rdfs:label "conductivity"@en ;
+    skos:prefLabel "conductivity"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Dopant>
+    a owl:Class ;
+    rdfs:label "dopant"@en ;
+    skos:prefLabel "dopant"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/Efficiency>
+    a owl:Class ;
+    rdfs:label "efficiency"@en ;
+    skos:prefLabel "efficiency"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/generic/Elec> ;
+    skos:definition "The cell efficiency measured by a current voltage process."@en ;
+    skos:exactMatch <https://cwrusdle.bitbucket.io/mds/CellEfficiency> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ElectricalPerformance>
+    a owl:Class ;
+    rdfs:label "electrical_performance"@en ;
+    skos:prefLabel "electrical_performance"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/EnergyConsumption>
+    a owl:Class ;
+    rdfs:label "energy_consumption"@en ;
+    skos:prefLabel "energy_consumption"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Economics> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/EtchingMethod>
+    a owl:Class ;
+    rdfs:label "etching_method"@en ;
+    skos:prefLabel "etching_method"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/FiringCondition>
+    a owl:Class ;
+    rdfs:label "firing_condition"@en ;
+    skos:prefLabel "firing_condition"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/FiringTemperature>
+    a owl:Class ;
+    rdfs:label "firing_temperature"@en ;
+    skos:prefLabel "firing_temperature"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/GlassTransitionTemperatur>
+    a owl:Class ;
+    rdfs:label "glass_transition_temperatur"@en ;
+    skos:prefLabel "glass_transition_temperatur"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/GrowthMechanism>
+    a owl:Class ;
+    rdfs:label "growth_mechanism"@en ;
+    skos:prefLabel "growth_mechanism"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "the growth mechanism of the ITO films"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/InterfaceQuality>
+    a owl:Class ;
+    rdfs:label "interface_quality"@en ;
+    skos:prefLabel "interface_quality"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/LaserTechnology>
+    a owl:Class ;
+    rdfs:label "laser_technology)"@en ;
+    skos:prefLabel "laser_technology)"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MaterialDepletion>
+    a owl:Class ;
+    rdfs:label "material_depletion"@en ;
+    skos:prefLabel "material_depletion"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MaterialProperty>
+    a owl:Class ;
+    rdfs:label "material_property"@en ;
+    skos:prefLabel "material_property"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "ITO films with varying thickness"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MetallicPaste>
+    a owl:Class ;
+    rdfs:label "metallic_paste"@en ;
+    skos:prefLabel "metallic_paste"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MicroscopicAnalysis>
+    a owl:Class ;
+    rdfs:label "microscopic_analysis"@en ;
+    skos:prefLabel "microscopic_analysis"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/OpticalProperty>
+    a owl:Class ;
+    rdfs:label "optical_property"@en ;
+    skos:prefLabel "optical_property"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PassivationLayer>
+    a owl:Class ;
+    rdfs:label "passivation_layer"@en ;
+    skos:prefLabel "passivation_layer"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PhotovoltaicCells>
+    a owl:Class ;
+    rdfs:label "photovoltaic_cells"@en ;
+    skos:prefLabel "photovoltaic_cells"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PhotovoltaicEfficiency>
+    a owl:Class ;
+    rdfs:label "photovoltaic_efficiency"@en ;
+    skos:prefLabel "photovoltaic_efficiency"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "PCE (Photocurrent Conversion Efficiency)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PyramidStructure>
+    a owl:Class ;
+    rdfs:label "pyramid_structure"@en ;
+    skos:prefLabel "pyramid_structure"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ResistivityMeasurement>
+    a owl:Class ;
+    rdfs:label "resistivity_measurement"@en ;
+    skos:prefLabel "resistivity_measurement"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SolarCellCharacteristics>
+    a owl:Class ;
+    rdfs:label "solar_cell_characteristics"@en ;
+    skos:prefLabel "solar_cell_characteristics"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SolarPanelCharaterization>
+    a owl:Class ;
+    rdfs:label "solar_panel_charaterization"@en ;
+    skos:prefLabel "solar_panel_charaterization"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SubstrateMaterial>
+    a owl:Class ;
+    rdfs:label "substrate_material"@en ;
+    skos:prefLabel "substrate_material"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SurfaceRoughness>
+    a owl:Class ;
+    rdfs:label "surface_roughness"@en ;
+    skos:prefLabel "surface_roughness"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/TemperatureImpact>
+    a owl:Class ;
+    rdfs:label "temperature_impact"@en ;
+    skos:prefLabel "temperature_impact"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/TransmissionElectronMicroscopy>
+    a owl:Class ;
+    rdfs:label "transmission_electron_microscopy"@en ;
+    skos:prefLabel "transmission_electron_microscopy"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    skos:example "TEM image of the Ag-Si interface in a pyramid largely intact area of Cell-1-L"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/UltrasonicTreatment>
+    a owl:Class ;
+    rdfs:label "ultrasonic_treatment"@en ;
+    skos:prefLabel "ultrasonic_treatment"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/VoltageOutput>
+    a owl:Class ;
+    rdfs:label "voltage_output"@en ;
+    skos:prefLabel "voltage_output"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MetallizationTechnique>
+    a owl:Class ;
+    rdfs:label "metallization technique"@en ;
+    skos:prefLabel "metallization technique"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "laser-enhanced contact optimization (LECO) technology"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/InterfaceMorphology>
+    a owl:Class ;
+    rdfs:label "interface morphology"@en ;
+    skos:prefLabel "interface morphology"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "emitter interface contact morphology and its evolutionary mechanisms"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/AggregationMechanism>
+    a owl:Class ;
+    rdfs:label "aggregation mechanism"@en ;
+    skos:prefLabel "aggregation mechanism"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "formation of dense Ag–Si contacts with minimized metal-induced recombination"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SolarCellCharacteristic>
+    a owl:Class ;
+    rdfs:label "solar cell characteristic"@en ;
+    skos:prefLabel "solar cell characteristic"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "photoelectric conversion efficiency (PCE)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PhotovoltaicCellType>
+    a owl:Class ;
+    rdfs:label "photovoltaic cell type"@en ;
+    skos:prefLabel "photovoltaic cell type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "tunnelling oxide passivated contact (TOPCon) solar cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ProcessingTemperature>
+    a owl:Class ;
+    rdfs:label "processing temperature"@en ;
+    skos:prefLabel "processing temperature"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "peak firing temperatures of 770°C and 800°C"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/EfficiencyImprovement>
+    a owl:Class ;
+    rdfs:label "efficiency improvement"@en ;
+    skos:prefLabel "efficiency improvement"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "PV performance"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SolarCell>
+    a owl:Class ;
+    rdfs:label "solar cell"@en ;
+    skos:prefLabel "solar cell"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "Cell-1"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SolarCellPerformance>
+    a owl:Class ;
+    rdfs:label "solar cell performance"@en ;
+    skos:prefLabel "solar cell performance"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "champion Cell-  LL, its PCE value and related results"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/AgNanoparticles>
+    a owl:Class ;
+    rdfs:label "ag nanoparticles"@en ;
+    skos:prefLabel "ag nanoparticles"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "Ag/Ag nanoparticles/SiN x layer/Si substrate"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/LecoTreatment>
+    a owl:Class ;
+    rdfs:label "leco treatment"@en ;
+    skos:prefLabel "leco treatment"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "LECO process/secondary LECO treatment"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/CurrentDensity>
+    a owl:Class ;
+    rdfs:label "current density"@en ;
+    skos:prefLabel "current density"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "dark saturation current density, J0,metal"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/AgSiliconContact>
+    a owl:Class ;
+    rdfs:label "ag silicon contact"@en ;
+    skos:prefLabel "ag silicon contact"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "Ag–Si contact points (including Ag–Si alloy)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PassivationTechnology>
+    a owl:Class ;
+    rdfs:label "passivation technology"@en ;
+    skos:prefLabel "passivation technology"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "interface passivation on the p+ emitter"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PassivationCoating>
+    a owl:Class ;
+    rdfs:label "passivation coating"@en ;
+    skos:prefLabel "passivation coating"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "SiNx:H film"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/StructuralDamage>
+    a owl:Class ;
+    rdfs:label "structural damage"@en ;
+    skos:prefLabel "structural damage"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "damage to the SiN x layer"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SampleHandling>
+    a owl:Class ;
+    rdfs:label "sample handling"@en ;
+    skos:prefLabel "sample handling"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Sample> ;
+    skos:example "screen-printing machine and furnace"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SamplePreparation>
+    a owl:Class ;
+    rdfs:label "sample preparation"@en ;
+    skos:prefLabel "sample preparation"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Sample> ;
+    skos:example "rinsing using deionized water to remove reaction residues"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/LaserTreatment>
+    a owl:Class ;
+    rdfs:label "laser treatment"@en ;
+    skos:prefLabel "laser treatment"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "LECO (Local Energy Conversion Optical)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SilverParticlePrecipitation>
+    a owl:Class ;
+    rdfs:label "silver particle precipitation"@en ;
+    skos:prefLabel "silver particle precipitation"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Economics> ;
+    skos:example "the silver particles randomly precipitated on the pyramid surface [29]"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PyramidShapeEvolution>
+    a owl:Class ;
+    rdfs:label "pyramid shape evolution"@en ;
+    skos:prefLabel "pyramid shape evolution"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "the pyramid of Cell-1-L exhibited distinct features, a pronounced Ag peak on the tip of the pyramid was detected after HF treatment."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DevicePerformanceMetrics>
+    a owl:Class ;
+    rdfs:label "device performance metrics"@en ;
+    skos:prefLabel "device performance metrics"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "PCE/Jsc/Voc/FF/I-V measurements/devices with high Ag concentration"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/InterfacialQuality>
+    a owl:Class ;
+    rdfs:label "interfacial quality"@en ;
+    skos:prefLabel "interfacial quality"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "contact formation, metallization"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PhotovoltaicPerformance>
+    a owl:Class ;
+    rdfs:label "photovoltaic performance"@en ;
+    skos:prefLabel "photovoltaic performance"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "photovoltaic parameters"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SolarPanelCharacterization>
+    a owl:Class ;
+    rdfs:label "solar_panel_characterization"@en ;
+    skos:prefLabel "solar_panel_characterization"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    skos:example ",Photovoltaic performance of Cell-1-LL and Cell-2-L in comparison to other TOPCon solar cells reported in the literature"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ContactResistivity>
+    a owl:Class ;
+    rdfs:label "contact resistivity"@en ;
+    skos:prefLabel "contact resistivity"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "specific contact resistivity"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/AnnealingProcess>
+    a owl:Class ;
+    rdfs:label "annealing process"@en ;
+    skos:prefLabel "annealing process"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "localized annealing process"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SolarCellMaterial>
+    a owl:Class ;
+    rdfs:label "solar cell material"@en ;
+    skos:prefLabel "solar cell material"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "Czochralski (Cz) silicon wafers"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MetallizationPaste>
+    a owl:Class ;
+    rdfs:label "metallization paste"@en ;
+    skos:prefLabel "metallization paste"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "custom Bi-B-Ag system front-side Ag paste"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/VoltageMeasurement>
+    a owl:Class ;
+    rdfs:label "voltage measurement"@en ;
+    skos:prefLabel "voltage measurement"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "fill factor (FF)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MaterialComposition>
+    a owl:Class ;
+    rdfs:label "material composition"@en ;
+    skos:prefLabel "material composition"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "Aluminum oxide (Al2O3) and aluminum oxide (SiOx) film"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/TemperatureProfile>
+    a owl:Class ;
+    rdfs:label "temperature profile"@en ;
+    skos:prefLabel "temperature profile"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "thermal distribution across the interface and consequently increased surface roughness"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SinXLayer>
+    a owl:Class ;
+    rdfs:label "sin x layer"@en ;
+    skos:prefLabel "sin x layer"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "SiN x/SiNx"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/TemAnalysis>
+    a owl:Class ;
+    rdfs:label "tem analysis"@en ;
+    skos:prefLabel "tem analysis"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "high-angle annular dark-field (HAADF)/STEM element mapping/Si TEM specimen"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PeakFiringTemperature>
+    a owl:Class ;
+    rdfs:label "peak firing temperature"@en ;
+    skos:prefLabel "peak firing temperature"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "-30°C reduction in peak firing temperature"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SolarCellStructure>
+    a owl:Class ;
+    rdfs:label "solar cell structure"@en ;
+    skos:prefLabel "solar cell structure"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "TOPCON solar cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/LaserEnhancedContactOptimizationLeco>
+    a owl:Class ;
+    rdfs:label "laser-enhanced contact optimization (leco)"@en ;
+    skos:prefLabel "laser-enhanced contact optimization (leco)"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "LECO"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ContactResistance>
+    a owl:Class ;
+    rdfs:label "contact_resistance"@en ;
+    skos:prefLabel "contact_resistance"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "Contact resistance of Cell-1-L, Cell-1-LL and Cell-2-L (S8)"@en ,
+        "contact resistance was analyzed"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/GlassTransitionTemperature>
+    a owl:Class ;
+    rdfs:label "glass transition temperature"@en ;
+    skos:prefLabel "glass transition temperature"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "Tg"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SilverSegregation>
+    a owl:Class ;
+    rdfs:label "silver segregation"@en ;
+    skos:prefLabel "silver segregation"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Economics> ;
+    skos:example "the segregation and precipitation of Ag as a potential CFC."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SemAnalysis>
+    a owl:Class ;
+    rdfs:label "sem analysis"@en ;
+    skos:prefLabel "sem analysis"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "cross-sectional SEM/SEM images/Figure 4/Figure S3/Figure S4"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/FocusingIonBeamMilling>
+    a owl:Class ;
+    rdfs:label "focusing ion beam milling"@en ;
+    skos:prefLabel "focusing ion beam milling"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "FIB preparation/Ga ion milling/beam current density"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/TopconSolarCells>
+    a owl:Class ;
+    rdfs:label "topcon solar cells"@en ;
+    skos:prefLabel "topcon solar cells"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "TOPCon Cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/FiringProcess>
+    a owl:Class ;
+    rdfs:label "firing_process"@en ;
+    skos:prefLabel "firing_process"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example ":Firing Process on Electrical Properties and Efficiency of n-TOPCon Solar Cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/TopconCellDesign>
+    a owl:Class ;
+    rdfs:label "topcon_cell_design"@en ;
+    skos:prefLabel "topcon_cell_design"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "n-TOPCon Solar Cells (Cell-1 LL and Cell-2 L)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/EtchingProcess>
+    a owl:Class ;
+    rdfs:label "etching process"@en ;
+    skos:prefLabel "etching process"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "acid etching, HF treatment"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PyramidTipDamage>
+    a owl:Class ;
+    rdfs:label "pyramid tip damage"@en ;
+    skos:prefLabel "pyramid tip damage"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "obvious damage could be observed on the tips of certain pyramids, which were more susceptible to HF attack than others"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PyramidSurfaceModification>
+    a owl:Class ;
+    rdfs:label "pyramid surface modification"@en ;
+    skos:prefLabel "pyramid surface modification"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    skos:example "localization reactions between the glass phase and SiNx, and the structural evolution of the textured surface during firing and LECO processes."@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/AcidEtchingProcess>
+    a owl:Class ;
+    rdfs:label "acid etching process"@en ;
+    skos:prefLabel "acid etching process"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "acid etching/ HNO3 HF/HF etching"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/FillFactor>
+    a owl:Class ;
+    rdfs:label "fill factor"@en ;
+    skos:prefLabel "fill factor"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "pseudo fill factor (pFF)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/CrystallineSiliconSolarCells>
+    a owl:Class ;
+    rdfs:label "crystalline silicon solar cells"@en ;
+    skos:prefLabel "crystalline silicon solar cells"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "Crystalline Silicon Solar Cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ElectrochemicalOxidation>
+    a owl:Class ;
+    rdfs:label "electrochemical oxidation"@en ;
+    skos:prefLabel "electrochemical oxidation"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "Oxidation"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/EmitterContact>
+    a owl:Class ;
+    rdfs:label "emitter_contact"@en ;
+    skos:prefLabel "emitter_contact"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "Contact Optimization in Ultra-High Sheet Resistance Emitters"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/AcidityEtchant>
+    a owl:Class ;
+    rdfs:label "acidity_etchant"@en ;
+    skos:prefLabel "acidity_etchant"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "(HNO3 + 6 min HF) Acid-Etching Treatment on Cell-2 after"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/DopantElement>
+    a owl:Class ;
+    rdfs:label "dopant_element"@en ;
+    skos:prefLabel "dopant_element"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "n-type nanocrystalline silicon (n-nc-Si:H)"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/AntiReflectionLayer>
+    a owl:Class ;
+    rdfs:label "anti_reflection_layer"@en ;
+    skos:prefLabel "anti_reflection_layer"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "LiFx anti-reflection layer"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/EfficiencyMetric>
+    a owl:Class ;
+    rdfs:label "efficiency_metric"@en ;
+    skos:prefLabel "efficiency_metric"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "photoelectric conversion efficiency (PCE) of 21.28 ?"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/IndustrialScaleImpact>
+    a owl:Class ;
+    rdfs:label "industrial_scale_impact"@en ;
+    skos:prefLabel "industrial_scale_impact"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "industrial-scale implementation of SHJ solar cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/FilmThicknessVariationEffect>
+    a owl:Class ;
+    rdfs:label "film_thickness_variation_effect"@en ;
+    skos:prefLabel "film_thickness_variation_effect"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "varying thickness ITO films with"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/CellStructureConfiguration>
+    a owl:Class ;
+    rdfs:label "cell_structure_configuration"@en ;
+    skos:prefLabel "cell_structure_configuration"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "ITO-less SHJ cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/MaterialDepletionConsequence>
+    a owl:Class ;
+    rdfs:label "material_depletion_consequence"@en ;
+    skos:prefLabel "material_depletion_consequence"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "limited by the scarcity of indium-based TCO materials"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ThinFilmSubstrate>
+    a owl:Class ;
+    rdfs:label "thin_film_substrate"@en ;
+    skos:prefLabel "thin_film_substrate"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Sample> ;
+    skos:example "silicon thin-film substrate"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ConsumptionRate>
+    a owl:Class ;
+    rdfs:label "consumption_rate"@en ;
+    skos:prefLabel "consumption_rate"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Economics> ;
+    skos:example "ITO consumption by 75 %"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ScarcityFactor>
+    a owl:Class ;
+    rdfs:label "scarcity_factor"@en ;
+    skos:prefLabel "scarcity_factor"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "the scarcity of indium-based TCO materials"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/ConductiveOxideMaterial>
+    a owl:Class ;
+    rdfs:label "conductive_oxide_material"@en ;
+    skos:prefLabel "conductive_oxide_material"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "Transparent Conductive Oxide (TCO) materials"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PhotovoltaicEfficiencyCategory>
+    a owl:Class ;
+    rdfs:label "photovoltaic_efficiency_category"@en ;
+    skos:prefLabel "photovoltaic_efficiency_category"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "series resistance of ITO-less SHJ cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/SubstrateQualityEffect>
+    a owl:Class ;
+    rdfs:label "substrate_quality_effect"@en ;
+    skos:prefLabel "substrate_quality_effect"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Sample> ;
+    skos:example "high crystallinity, the series resistance"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PhotovoltaicCell>
+    a owl:Class ;
+    rdfs:label "photovoltaic_cell"@en ;
+    skos:prefLabel "photovoltaic_cell"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "silicon heterojunction (SHJ) solar cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/HighTemperatureEffect>
+    a owl:Class ;
+    rdfs:label "high_temperature_effect"@en ;
+    skos:prefLabel "high_temperature_effect"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "no mention"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/PlasmaetchingMethod>
+    a owl:Class ;
+    rdfs:label "plasmaetching_method"@en ;
+    skos:prefLabel "plasmaetching_method"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "no mention"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/generic/LaserAblationEffect>
+    a owl:Class ;
+    rdfs:label "laser_ablation_effect"@en ;
+    skos:prefLabel "laser_ablation_effect"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Process> ;
+    skos:example "no mention"@en ;
+    .

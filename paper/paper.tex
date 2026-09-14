@@ -1,0 +1,460 @@
+% Kweave — formatted for SAGE Publications (sagej class)
+\documentclass[Afour,sageh,times]{sagej}
+
+\usepackage[utf8]{inputenc}
+\usepackage{moreverb,url}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[colorlinks,bookmarksopen,bookmarksnumbered,citecolor=red,urlcolor=red]{hyperref}
+
+\def\volumeyear{2026}
+
+% "Suggested citations" note used at the end of each section (author scaffolding;
+% remove before final submission).
+\newcommand{\readingnote}[1]{%
+  \par\smallskip\noindent\colorbox{gray!12}{%
+  \parbox{\dimexpr\linewidth-2\fboxsep}{\footnotesize\textbf{Suggested citations.} #1}}\par}
+
+\begin{document}
+
+\runninghead{Thompson}
+
+\title{\textsc{Kweave}: knowledge workflow --- embeddings, automation, and visual exploration}
+
+\author{Brent Thompson\affilnum{1}}
+
+\affiliation{\affilnum{1}Thompson Solutions Company, USA}
+
+\corrauth{Brent Thompson, Thompson Solutions Company.}
+
+\email{thompsonsolutionscompany@gmail.com}
+
+\begin{abstract}
+Decades of curated scientific literature encode domain knowledge that is expensive to
+formalize: building an ontology and defining its relationships remains a slow, expert-driven
+process that goes well beyond named-entity recognition. We present \textsc{Kweave}
+(Knowledge Workflow: Embeddings, Automation, and Visual Exploration), an automated, multi-agent
+workflow that turns a curated literature corpus into a standards-compliant knowledge graph.
+An orchestrating large language model (LLM) coordinates specialist agents and reproducible
+tools that, in one ordered pipeline, discover a shared concept vocabulary from abstracts,
+mine each full-text paper for values and exact relational triples, and emit an OWL~2 ontology
+with JSON-LD instances interoperable with the Basic Formal Ontology (BFO), the Common Core
+Ontologies (CCO), and MDS-Onto. Relation extraction combines an LLM with the REBEL model so
+that causal and relational facts are recorded as stated; a LoRA fine-tuning step closes a
+learning loop on each finished ontology. Every run produces two deliverables---a GraphDB-ready
+repository and a cemento-compatible draw.io diagram---and is gated by structural validation
+(reasoner consistency, ontology-pitfall scanning, and upper-ontology alignment). We describe
+the system, its evolution across six pipeline generations into a single modular package, and an
+evaluation methodology grounded in reproducibility and explainability.
+\end{abstract}
+
+\keywords{ontology learning, knowledge graph construction, large language models,
+neurosymbolic systems, relation extraction, materials data science, MDS-Onto, BFO, CCO,
+provenance, ontology validation, LoRA fine-tuning}
+
+\maketitle
+
+\section{Introduction}
+General-purpose language models capture some of the connections latent in published research,
+but the majority of their learned representations are of uneven quality for any specific domain,
+and they do not by themselves yield an explicit, editable ontology. Knowledge graphs make such
+structure explicit, queryable, and reusable~\cite{hogan2021kg,pan2024unifying}. The bottleneck
+that motivates this work is the long and labor-intensive process of \emph{ontology creation and
+relationship definition}---the step beyond entity recognition and subject coverage that today
+requires trained ontologists and coordinated community effort~\cite{smith2007obo}.
+
+The setting that grounds this work is materials data science, where a research group accumulates,
+over years, a curated reference library of papers and would like that library to become a queryable,
+standards-aligned knowledge base rather than a static reading list. Our corpus is a Zotero group
+library organized into per-topic collections; runs to date span gallium-arsenide and
+cadmium-telluride (CdTe/CdSeTe) photovoltaics, perovskite solar cells, transmission-electron-microscopy
+studies of semiconductors, copper metallization, and electron-microscopy analysis of contact
+corrosion---the photovoltaics and materials-durability topics typical of a solar-energy materials
+group. Each collection is heterogeneous in vocabulary: the same physical quantity (open-circuit
+voltage, contact resistivity, sintering temperature) appears under many surface forms across papers,
+which is precisely the normalization problem an ontology is meant to solve.
+
+We address this with \textsc{Kweave}, an \emph{agentic} workflow: LLMs are given tools and run in
+a coordinated loop to produce a reproducible and explainable knowledge graph. The system runs in two
+modes from the same code path---\emph{unsupervised}, in which the concept vocabulary is discovered
+automatically from the corpus's abstracts, and \emph{supervised}, in which a curated concept list is
+supplied and the discovery stage is skipped---so a group can bootstrap a new domain or reuse a
+hand-tuned schema with a single flag. Our contributions are:
+\begin{enumerate}[itemsep=2pt,topsep=2pt]
+  \item A single ordered, multi-provider pipeline that converts a curated Zotero corpus into an
+        OWL~2 ontology and JSON-LD instances, supporting both unsupervised (auto-discovered
+        concepts) and supervised (provided concept list) modes.
+  \item A dual extraction stage in which an LLM mines per-concept values while REBEL extracts
+        exact subject--predicate--object triples in parallel, capturing relational facts as stated.
+  \item Standards grounding to BFO/CCO/MDS-Onto with a mandatory validation gate
+        (reasoner consistency, OOPS!\ pitfalls, and alignment coverage).
+  \item A LoRA learning loop that fine-tunes on each finished ontology's terms so later runs
+        improve on new material.
+  \item Two ready-to-use deliverables per run: a GraphDB import repository and a cemento draw.io
+        diagram.
+\end{enumerate}
+\readingnote{Cite a general knowledge-graph reference (Hogan et al., \emph{Knowledge Graphs},
+ACM Computing Surveys 2021) and an LLM$+$KG roadmap (Pan et al., IEEE TKDE 2024) to frame the
+problem; cite the OBO Foundry (Smith et al., \emph{Nature Biotechnology} 2007) for the cost of
+manual, coordinated ontology engineering.}
+
+\section{Background and Related Work}
+\textbf{Foundational ontologies.} The Basic Formal Ontology (BFO) is a top-level ontology adopted
+as ISO/IEC~21838-2~\cite{bfo}; the Common Core Ontologies (CCO) extend it at the mid level with
+reusable classes for information, artifacts, and processes; and MDS-Onto---the Materials Data Science
+ontology maintained by the Case Western Solar Durability and Lifetime Extension (SDLE) center---supplies
+the domain vocabulary, published under the canonical namespace
+\texttt{https://cwrusdle.bitbucket.io/mds/}. Materials-specific upper resources such as the
+Platform MaterialDigital (PMD) core ontology and the QUDT vocabulary for quantities and units occupy
+the same grounding layer. Anchoring generated classes in these shared resources is what makes the
+output interoperable and reusable rather than a private schema, following the design discipline
+established by the OBO Foundry~\cite{smith2007obo}; it is also the ``semantic grounding'' requirement
+that distinguishes a trustworthy materials knowledge graph from a free-text extraction dump.
+
+\textbf{Automated knowledge extraction in materials science.} Turning unstructured scientific text
+into structured, machine-actionable data---synthesis recipes, process parameters, device metrics, and
+the relationships among them---is a long-standing goal that NLP and, more recently, LLMs have made
+tractable. Classical ontology-learning systems such as Text2Onto established the task before the neural
+era; transformer keyphrase methods (e.g.\ KeyBERT) and, now, instruction-tuned LLMs have raised both
+recall and the fidelity of the extracted structure. \textsc{Kweave} sits in this line but targets the
+harder end of it: not only \emph{which} concepts a corpus discusses, but their values, their exact
+stated relations, and an editable OWL~2 ontology that ties them to an upper-level standard.
+
+\textbf{LLM-based knowledge-graph construction.} Recent surveys map a fast-moving space of
+LLM-driven extraction and fusion methods~\cite{kgsurvey,llmonto,pan2024unifying}. NeOn-GPT is the
+closest prior pipeline, translating natural-language descriptions into Turtle ontologies, and its
+reported limits---LLMs lacking the procedural and reasoning rigor for full ontology
+construction---directly motivate our tool-augmented, validated design~\cite{neongpt}. Related
+extraction-from-text systems include schema-driven prompting approaches such as
+SPIRES/OntoGPT~\cite{caufield2024ontogpt}, which likewise constrain an LLM to a target schema. Our
+response to the rigor gap is architectural: the LLM never emits the ontology unchecked, because a
+structural validation gate (reasoner consistency, pitfall scanning, and upper-ontology alignment)
+stands between generation and publication.
+
+\textbf{Neurosymbolic agents, relation extraction, and verification.} \textsc{Kweave} is a
+neurosymbolic system in the literal sense: a neural extraction layer (the LLM plus REBEL) feeds a
+symbolic layer (an OWL~2 ontology with a description-logic reasoner and shape checks). REBEL casts
+relation extraction as sequence generation, emitting triplets end-to-end~\cite{rebel}; we use it as a
+reproducible, separately-versioned tool alongside the LLM so that relational and causal facts are
+captured as stated in the text rather than paraphrased. The orchestration follows the conversational,
+tool-using paradigm of AutoGen~\cite{autogen}, building on reasoning-and-acting and self-tooling
+methods such as ReAct~\cite{yao2023react} and Toolformer~\cite{schick2023toolformer}, with the LLM as
+planner and the neural models as callable components. Where many agentic systems treat the model's
+output as authoritative, we attach provenance to every assertion and gate publication on verification,
+which is the guardrail an autonomous literature-to-KG assistant needs to be trusted in a research
+workflow.
+\readingnote{Ontologies: add CCO and an MDS-Onto/SDLE reference for your group's vocabulary.
+Ontology learning: Text2Onto (Cimiano \& V\"olker, 2005) and OntoGPT/SPIRES (Caufield et al.,
+\emph{Bioinformatics} 2024). Agents/tool use: ReAct (Yao et al., 2023), Toolformer (Schick et al.,
+2023), and a recent multi-agent survey to complement AutoGen.}
+
+\section{System Architecture}
+The workflow is a single linear pipeline with two hard ordering invariants: JSON-LD instances and
+the LoRA fine-tune run \emph{only after} the ontology is built. The LLM acts as orchestrator and
+reasoner; the neural models (REBEL, the fine-tuned extractor) are versioned, seeded, logged tools.
+Table~\ref{tab:stages} summarizes the stages.
+
+\begin{table*}[h]
+\small\sf\centering
+\caption{The ordered \textsc{Kweave} pipeline. Steps 5, 5b, and 6 execute only after Step~4.\label{tab:stages}}
+\begin{tabular}{@{}llp{8.6cm}@{}}
+\toprule
+\textbf{Step} & \textbf{Name} & \textbf{Function} \\
+\midrule
+0 & Input        & Fetch papers + PDF text from Zotero; choose supervised/unsupervised mode \\
+1 & Concepts     & Extract concepts from abstracts; normalize to a shared 30--80 term list \\
+2 & Mine         & Per paper: LLM extracts value+quote per concept; REBEL extracts triples \\
+3 & Consolidate  & Reconcile concepts and triples into the final ontology terms \\
+4 & Ontology     & Build OWL~2 TTL grounded in MDS/CCO/BFO; \emph{validation gate} \\
+5 & JSON-LD      & Emit per-paper and combined JSON-LD instances (GraphDB repo) \\
+5b& Diagram      & Tag concepts (study stage / supply chain); build cemento draw.io \\
+6 & LoRA         & Fine-tune adapter on the final ontology terms (terminal step) \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\noindent
+\textbf{Provider-agnostic agents.} Each agent is configured against any OpenAI-compatible
+endpoint, so the same code runs on a hosted frontier model (the default is \texttt{claude-sonnet-4-6})
+or a local 7--8B-parameter Llama~\cite{touvron2023llama} served through an OpenAI-compatible shim,
+with only an environment variable changed. Structured outputs are obtained through typed result
+schemas rather than free-text parsing: three extraction agents declare Pydantic return types---an
+extractor that emits per-abstract concepts as \texttt{(canonical label, paper term, relevance)}
+triples, a normalizer that collapses the corpus's raw labels into a deduplicated set of 30--80
+ontology-ready terms, and a miner that returns, for each concept, the paper's exact value and the
+single supporting sentence. The tool/function schema is generated from these types, so the model is
+constrained to well-formed output. For grounding, a \emph{fixed-choice} taxonomy is enforced at the
+type level (the study-stage and supply-chain tags are constrained \texttt{Literal} enumerations),
+which is what makes the smaller local models usable for tagging.
+
+\textbf{Tunable parameters.} A handful of pinned knobs make runs reproducible and tractable:
+concept extraction keeps the top 25 concepts per abstract; full-text mining truncates each paper to
+80{,}000 characters; tagging batches 40 concepts per request; and a 0.5\,s inter-call delay respects
+provider rate limits. Tool choice can be forced on so that every structured call returns through the
+typed schema. Because processing is serial and seeded, two runs over the same corpus with the same
+model produce the same artifacts.
+
+\textbf{Grounding and class assignment.} The emitter places every domain class beneath one of eight
+MDS-Onto branches---Measurement, Material, Process, Device, Characterization, Reliability, Sample, and
+Economics---all subclassing a common \texttt{mds:Concept}, with Reliability modeled as a subclass of
+Characterization. A keyword-rule classifier assigns each discovered concept to its branch, and each
+concept becomes an OWL \texttt{DatatypeProperty} on a domain \texttt{SchemaRecord} class (itself a
+subclass of \texttt{mds:ResearchPublication}), carrying an \texttt{rdfs:label}, a \texttt{skos:broader}
+link to its branch, and up to five \texttt{skos:example} values drawn from the actual paper terms. A
+central namespace registry fixes one canonical MDS IRI (the slash form) and routes each domain to its
+own sub-namespace---for example solar cells, GaAs, electron microscopy, and copper metallization each
+resolve under their MDS sub-path---so IRIs join cleanly across runs.
+
+\textbf{Relation extraction as a versioned tool.} REBEL (\texttt{Babelscape/rebel-large}) is invoked
+during mining with beam search and the model's canonical special-token decoding to recover flat
+subject--predicate--object triples; its model name and revision are pinned for reproducibility, and the
+stage degrades to a safe no-op if the dependency or weights are unavailable, so the rest of the pipeline
+still completes. Extracted triples are persisted into the GraphDB repository as both CSV and JSON-LD.
+
+\textbf{Explainability and reproducibility.} Model versions and seeds are pinned; each assertion
+carries a provenance record---source paper, text span, tool, model and version, seed, and
+confidence---modeled on the W3C PROV vocabulary~\cite{provo}; REBEL triples are exported with a
+\texttt{prov:wasDerivedFrom} link to their source paper, and per-paper JSON-LD instances retain an
+\texttt{owl:sameAs} link to the article DOI. The validation gate must pass before the repository is
+published.
+\readingnote{Structured output: cite the tool/function-calling mechanism you rely on (e.g.\
+constrained/grammar-based decoding) and the PydanticAI/Instructor libraries. Provenance: PROV-O
+(W3C Recommendation, 2013). Local models: LLaMA (Touvron et al., 2023).}
+
+\section{Implementation and Evolution}
+\textsc{Kweave} is implemented as a single modular Python package (\texttt{kw}) exposing one ordered
+runner, with one module per responsibility---\texttt{zotero} (input), \texttt{extract} and
+\texttt{rebel} (mining), \texttt{taxonomy} and \texttt{tagger} (grounding vocabulary), \texttt{ontology}
+(OWL~2 / JSON-LD emission), \texttt{validate} (the gate), \texttt{drawio} (diagram), \texttt{lora}
+(learning loop), with \texttt{config}, \texttt{models}, \texttt{store}, and \texttt{pipeline} holding
+the namespace registry, the typed data contract, serialization, and the runner respectively. This flat
+layout is the deliberate consolidation of an earlier sprawl of overlapping scripts: the design rule was
+\emph{one owner per step, no unnecessary complexity}. Papers and full text are retrieved through the
+Zotero API (group library, per-collection); the ontology and JSON-LD are produced by a Turtle/JSON-LD
+emitter that classifies concepts into the eight MDS branches above; output conforms to
+OWL~2~\cite{owl2} and JSON-LD, and structural constraints can be expressed in SHACL~\cite{shacl}.
+Between stages, a wide-format schema CSV (one row per paper, one column per concept, each cell packing
+the extracted value with its supporting quote) serves as the on-disk handoff the emitter consumes.
+
+\textbf{Grounding tags and the diagram.} As part of grounding, each concept is tagged with an MDS-Onto
+\emph{study stage}---one of twelve values spanning the experimental lifecycle (synthesis, formulation,
+materials processing, sample, tool, recipe, data, data processing, result, analysis, modeling, and
+results-and-metadata)---and one or more of six \emph{supply-chain levels} (materials, subcomponent,
+component, assembly, subsystem, system). These taxonomies live in a single source module so the tagger
+and the diagram can never diverge. The optional draw.io deliverable lays the tagged concepts out as
+colour-coded swimlanes by study stage, with a central workspace for an ontologist to drag and connect
+nodes, and embeds the MDS-Onto and Cemento shape libraries as palette pages so the generated map is
+immediately editable in the cemento ontology-drawing tool.
+
+\textbf{The learning loop.} After a domain ontology is finalized, a Low-Rank Adaptation
+(LoRA)~\cite{hu2021lora} adapter is fine-tuned on the run's final ontology terms and mined
+text$\rightarrow$value pairs; quantized variants such as QLoRA~\cite{dettmers2023qlora} make this
+feasible on modest hardware. The supervised dataset pairs each paper's text with the JSON object of its
+extracted concept values, plus a vocabulary example that teaches the canonical term set itself; training
+uses a small-rank adapter (rank~16, applied to the attention query and value projections) over a few
+epochs. The step degrades gracefully---absent a GPU or the training dependencies it still writes the
+dataset and a manifest, so the pipeline always completes and training can be resumed later. The intent
+is that successive runs reuse prior ontologies to ingest new material more accurately.
+
+The current design is the consolidation of six pipeline generations
+(Table~\ref{tab:history}). Early versions explored classical NLP and transformer keyword
+extraction; mid versions introduced structured LLM extraction and two-stage discovery with
+full-text mining; later versions added provider independence and concept enrichment. The work
+described here unifies these---together with a previously separate ontology/JSON-LD emitter and a
+draw.io generator---into one deduplicated pipeline with a single data contract and a validation
+gate.
+
+\begin{table}[h]
+\small\sf\centering
+\caption{Evolution of the pipeline into \textsc{Kweave}.\label{tab:history}}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Gen.} & \textbf{Method} & \textbf{Key advance} \\
+\midrule
+V1 & spaCy + TF-IDF        & offline concept counts (baseline) \\
+V2 & KeyBERT               & semantic keyphrases \\
+V3 & LLM structured        & per-paper typed extraction \\
+V4 & Two-stage + full text & concept discovery + source quotes \\
+V5 & Provider-agnostic     & any OpenAI-compatible model \\
+V6 & Enrichment            & MDS tagging + concept-map diagrams \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{This work} (\textsc{Kweave}): unified modular package;} \\
+\multicolumn{3}{@{}l}{OWL~2/JSON-LD + diagram; REBEL + LoRA; validation.} \\
+\bottomrule
+\end{tabular}
+\end{table}
+\readingnote{Standards: OWL~2 (W3C, 2012), JSON-LD (W3C, 2020), SHACL (W3C, 2017). Tooling:
+ROBOT (Jackson et al., 2019) for reasoning/reporting; the GraphDB and Zotero documentation as
+software references. Fine-tuning: LoRA (Hu et al., 2021), QLoRA (Dettmers et al., 2023), and an
+instruction-tuning reference (e.g.\ Wei et al., FLAN, 2022).}
+
+\section{Evaluation}
+Because manually constructing a reference ontology for every domain is impractical---and the cost
+and difficulty of manual ontology engineering is well established in the literature---we evaluate
+the \emph{generated artifact} with structural metrics rather than a human study:
+\begin{itemize}[itemsep=2pt,topsep=2pt]
+  \item \textbf{Logical consistency}: the OWL~2 ontology passes a DL reasoner (e.g.\ HermiT or
+        ELK, invoked via ROBOT) with no unsatisfiable classes. The reasoner and pitfall checks are
+        exposed behind a stable interface in the validation module so that the external tools can be
+        wired in without changing the pipeline.
+  \item \textbf{Modeling quality}: an ontology-pitfall scan (OOPS!~\cite{oops2014}) reports no
+        critical pitfalls.
+  \item \textbf{Interoperability}: the alignment ratio---the fraction of declared classes that
+        subclass a recognized upper or mid-level parent (BFO, CCO, MDS-Onto, or PMD). The gate
+        requires this ratio to meet a fixed threshold (0.80) in addition to passing the reasoner and
+        pitfall checks; a run that fails is not published.
+\end{itemize}
+This artifact-centric protocol is itself the verification guardrail the system needs to be trusted as
+an autonomous extractor: the ontology is published only if it is logically consistent, free of critical
+modeling pitfalls, and demonstrably grounded in a shared standard. On a hand-built reference produced by
+an earlier run (a gallium-arsenide photovoltaics ontology), all seven declared classes aligned to an
+upper parent (alignment ratio 1.0), indicating the grounding step behaves as intended. The pipeline has
+been exercised across the photovoltaics and materials-durability domains in the corpus---GaAs and CdTe
+solar cells, perovskites, TEM semiconductor studies, copper metallization, and electron-microscopy
+contact corrosion---and a full multi-domain evaluation, including runs driven by a local 7--8B model, is
+in progress. Reproducibility is supported by pinned model and seed values and by the provenance attached
+to every assertion.
+\readingnote{Ontology evaluation: OOPS! (Poveda-Vill\'on et al., 2014) and a general ontology
+evaluation reference (e.g.\ Vrande\v{c}i\'c, 2009; or OntoMetrics). Reasoners: HermiT (Glimm et al.,
+2014) and ELK (Kazakov et al., 2014). If you add a human-quality study later, cite an
+inter-annotator agreement methodology.}
+
+\section{Discussion and Limitations}
+The architecture deliberately favors simplicity: a linear pipeline with one owner per step, no
+speculative agent loop. This is a considered position---an earlier incarnation of the project had
+fragmented into several entry points with duplicated tagging and emission logic and no shared data
+contract, and the consolidation into one ordered runner with a single typed contract is what made an
+end-to-end, validated run possible at all. The same discipline shapes how the neural tools are used:
+REBEL and the reasoner are optional, separately-versioned components that degrade to safe no-ops when
+absent, so a run never fails because an extra model is missing, at the cost of those signals being
+unavailable in that run.
+
+Open challenges remain. (i)~Strict structured output from small local models is not always reliable;
+we mitigate it with type-constrained schemas and conservative concept counts, but a local-model run can
+still under-fill the schema relative to a frontier model. (ii)~Entity resolution at the merge step is
+deliberately shallow: REBEL triples and LLM concepts are persisted side by side, and collapsing the
+same real-world entity named differently in each stream into a single node is future work rather than a
+solved problem. (iii)~The supervision available to the LoRA loop is modest---it seeds from the run's own
+ontology terms and mined pairs plus prior runs---so the compounding-improvement claim is a design
+hypothesis we have built the machinery to test, not yet a measured result. (iv)~On engineering
+robustness, processing is serial (on the order of several minutes for tens of papers in the mining
+stage) and lacks per-paper checkpointing and retry/backoff, so a mid-run provider error currently
+restarts the run; this is the most immediate hardening target. Finally, structural validation
+establishes internal soundness---consistency, modeling hygiene, and grounding---but not domain
+correctness; whether a class genuinely captures the materials concept it names still benefits from
+expert review, and the editable draw.io diagram exists precisely to make that review fast.
+\readingnote{Entity resolution/linking: a neural entity-linking reference (e.g.\ Wu et al., BLINK,
+2020). Reliability of LLM output: a survey on hallucination/factuality in LLMs. Small-model
+structured output: constrained-decoding references.}
+
+\section{Conclusion and Future Work}
+We described \textsc{Kweave}, an automated, neurosymbolic workflow that converts a curated literature
+corpus into a validated, standards-grounded knowledge graph and an editable diagram, with relational
+facts captured by REBEL and a per-ontology LoRA learning loop. By pairing a neural extraction layer with
+a symbolic ontology, attaching provenance to every assertion, and gating publication on a structural
+verification step, the system aims at the kind of trustworthy, literature-to-knowledge-graph assistant
+that semantic materials science needs: one that a research group can point at a Zotero collection and
+trust to produce an interoperable, inspectable artifact rather than an unverified extraction.
+
+Future work proceeds along three lines. On \emph{trust and verification}, we will wire the reasoner,
+OOPS!, and SHACL checks fully into the gate and report alignment, consistency, and pitfall metrics
+across every domain in the corpus, complemented by expert review of a sampled subset. On
+\emph{extraction quality}, we will deepen entity resolution at the merge step so that REBEL relations
+and LLM concepts collapse onto shared URIs, and add BFO/CCO parents wherever MDS-Onto lacks one. On
+\emph{the learning loop}, we will use the trained LoRA adapter directly inside the extraction agents so
+that each finished ontology measurably improves the next run, turning the per-ontology fine-tune from a
+terminal step into a compounding one. Hardening the runner with per-paper checkpointing and
+retry/backoff rounds out the path from research prototype to a dependable autonomous assistant.
+
+\begin{acks}
+The author thanks the Case Western SDLE research community for the MDS-Onto vocabulary and the
+curated photovoltaics and materials-durability literature that motivated this work.
+\end{acks}
+
+\begin{dci}
+The author declares that there is no conflict of interest.
+\end{dci}
+
+\begin{funding}
+The author received no financial support for the research, authorship, and/or publication of this
+article.
+\end{funding}
+
+\begin{thebibliography}{99}
+
+\bibitem[Arp et al.(2015)]{bfo}
+Arp R, Smith B and Spear AD (2015) \textit{Building Ontologies with Basic Formal Ontology}.
+Cambridge, MA: MIT Press.
+
+\bibitem[Caufield et al.(2024)]{caufield2024ontogpt}
+Caufield JH et al. (2024) Structured prompt interrogation and recursive extraction of semantics
+(SPIRES). \textit{Bioinformatics} 40(3).
+
+\bibitem[Dettmers et al.(2023)]{dettmers2023qlora}
+Dettmers T et al. (2023) QLoRA: Efficient finetuning of quantized LLMs. In: \textit{Advances in
+Neural Information Processing Systems (NeurIPS)}.
+
+\bibitem[Fathallah et al.(2024)]{neongpt}
+Fathallah N, Das A, De Giorgis S, Poltronieri A, Haase P and Kovriguina L (2024) NeOn-GPT: A large
+language model-powered pipeline for ontology learning. In: \textit{ESWC 2024 Satellite Events}.
+Springer, pp.\ 36--50.
+
+\bibitem[Hogan et al.(2021)]{hogan2021kg}
+Hogan A et al. (2021) Knowledge graphs. \textit{ACM Computing Surveys} 54(4): 1--37.
+
+\bibitem[Hu et al.(2022)]{hu2021lora}
+Hu EJ et al. (2022) LoRA: Low-rank adaptation of large language models. In: \textit{International
+Conference on Learning Representations (ICLR)}. arXiv:2106.09685.
+
+\bibitem[Huguet Cabot and Navigli(2021)]{rebel}
+Huguet Cabot PL and Navigli R (2021) REBEL: Relation extraction by end-to-end language generation.
+In: \textit{Findings of the ACL: EMNLP 2021}, pp.\ 2370--2381.
+
+\bibitem[Knublauch and Kontokostas(2017)]{shacl}
+Knublauch H and Kontokostas D (2017) \textit{Shapes Constraint Language (SHACL)}. W3C Recommendation.
+
+\bibitem[LLM-KG Survey(2025)]{kgsurvey}
+LLM-empowered knowledge graph construction: A survey (2025). arXiv:2510.20345.
+
+\bibitem[LLM Ontology Engineering Review(2025)]{llmonto}
+Large language models for ontology engineering: A systematic literature review (2025).
+\textit{Semantic Web Journal}.
+
+\bibitem[Pan et al.(2024)]{pan2024unifying}
+Pan S et al. (2024) Unifying large language models and knowledge graphs: A roadmap. \textit{IEEE
+Transactions on Knowledge and Data Engineering}.
+
+\bibitem[Poveda-Villal\'on et al.(2014)]{oops2014}
+Poveda-Villal\'on M, G\'omez-P\'erez A and Su\'arez-Figueroa MC (2014) OOPS! (OntOlogy Pitfall
+Scanner!). \textit{International Journal on Semantic Web and Information Systems} 10(2): 7--34.
+
+\bibitem[Schick et al.(2023)]{schick2023toolformer}
+Schick T et al. (2023) Toolformer: Language models can teach themselves to use tools. arXiv:2302.04761.
+
+\bibitem[Smith et al.(2007)]{smith2007obo}
+Smith B et al. (2007) The OBO Foundry: Coordinated evolution of ontologies to support biomedical
+data integration. \textit{Nature Biotechnology} 25: 1251--1255.
+
+\bibitem[Touvron et al.(2023)]{touvron2023llama}
+Touvron H et al. (2023) LLaMA: Open and efficient foundation language models. arXiv:2302.13971.
+
+\bibitem[W3C OWL Working Group(2012)]{owl2}
+W3C OWL Working Group (2012) \textit{OWL~2 Web Ontology Language Document Overview}, 2nd edn.
+W3C Recommendation.
+
+\bibitem[World Wide Web Consortium(2013)]{provo}
+World Wide Web Consortium (2013) \textit{PROV-O: The PROV Ontology}. W3C Recommendation.
+
+\bibitem[Wu et al.(2023)]{autogen}
+Wu Q et al. (2023) AutoGen: Enabling next-gen LLM applications via multi-agent conversation
+framework. arXiv:2308.08155.
+
+\bibitem[Yao et al.(2023)]{yao2023react}
+Yao S et al. (2023) ReAct: Synergizing reasoning and acting in language models. In:
+\textit{International Conference on Learning Representations (ICLR)}.
+
+\end{thebibliography}
+
+\end{document}

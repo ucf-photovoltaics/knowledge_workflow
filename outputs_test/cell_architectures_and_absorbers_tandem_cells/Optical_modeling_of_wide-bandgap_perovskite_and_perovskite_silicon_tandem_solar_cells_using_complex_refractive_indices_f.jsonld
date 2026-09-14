@@ -1,0 +1,228 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+  },
+  "@id": "https://cwrusdle.bitbucket.io/mds/generic/Optical_modeling_of_wide-bandgap_perovskite_and_perovskite_silicon_tandem_solar_cells_using_complex_refractive_indices_f",
+  "@type": [
+    "mds:ResearchPublication",
+    "mds:SchemaRecord"
+  ],
+  "schema:identifier": "10.1364/OE.26.027441",
+  "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+  "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+  "schema:name": "Optical modeling of wide-bandgap perovskite and perovskite/silicon tandem solar cells using complex refractive indices for arbitrary-bandgap perovskite absorbers",
+  "owl:sameAs": {
+    "@id": "https://doi.org/10.1364/OE.26.027441"
+  },
+  "https://cwrusdle.bitbucket.io/mds/material/AbsorberMaterial": {
+    "mds:value": "the most common perovskite absorber for solar cells, methylammonium lead triiodide"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/BandgapEnergy": {
+    "mds:value": "between 1.56 and 1.68 eV"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/EnergyLossMechanisms": {
+    "mds:value": "reflection and parasitic absorption in the front ITO layer and electron contact"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/HeterojunctionMaterialClass": {
+    "mds:value": "perovskite/CIGS, perovskite/silicon tandems"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/LossMechanism": {
+    "mds:value": "reflection and parasitic absorption in the front ITO layer and electron contact"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/PerovskiteMaterial": {
+    "mds:value": "wide-bandgap, cesium-formamidinium-based perovskites"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Photocurrent": {
+    "mds:value": "<0.3 mA/cm2"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/PowerOutput": {
+    "mds:value": "nearly 20 mA/cm2"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/PredictionAccuracy": {
+    "mds:value": "<0.3 mA/cm2"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/ShortCircuitCurrent": {
+    "mds:value": "less than 0.3 mA/cm2"
+  },
+  "https://cwrusdle.bitbucket.io/mds/device/TandemCellArchitecture": {
+    "mds:value": "perovskite/perovskite, perovskite/CIGS, and perovskite/silicon tandems"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/TwoTerminalArrangement": {
+    "mds:value": "a textured two-terminal perovskite/silicon tandem solar cell"
+  },
+  "mds:hasConcept": [
+    {
+      "mds:canonicalTerm": "absorber material",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+      },
+      "mds:paperTerm": "cesium-formamidinium-based perovskites",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "loss mechanism",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "reflection and parasitic absorption",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "tandem solar cell",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "perovskite/silicon tandem solar cell",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "material property mapping",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+      },
+      "mds:paperTerm": "map the short-circuit current density of a textured two-terminal perovskite/silicon tandem solar cell",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "absorber material",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+      },
+      "mds:paperTerm": "perovskite absorber",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "absorber material precursor",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+      },
+      "mds:paperTerm": "methylammonium lead triiodide",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "solar cell design",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "nearly 20 mA/cm2 matched current density",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "optical loss",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "optical losses",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "bandgap energy",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "arbitrary wide-bandgap perovskite bandgap",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "top cell material",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+      },
+      "mds:paperTerm": "wide-bandgap perovskites",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "simulation method",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "simulated quantum efficiency and reflectance spectra",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "semiconductor layer",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+      },
+      "mds:paperTerm": "front ITO layer",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "optical model",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "comprehensive optical modeling",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "contact material",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+      },
+      "mds:paperTerm": "electron contact",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "measurement method",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "ellipsometry and spectrophotometry",
+      "mds:relevance": {
+        "@value": 0.4,
+        "@type": "xsd:decimal"
+      }
+    }
+  ]
+}

@@ -1,0 +1,722 @@
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix schema:  <https://schema.org/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix mds:     <https://cwrusdle.bitbucket.io/mds/> .
+@prefix electron:     <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/> .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/ontology>
+    a owl:Ontology ;
+    rdfs:label "in development semiconductor absorbers Ontology"@en ;
+    dcterms:description "OWL 2 ontology generated from MDS-Onto v5 NLP pipeline outputs for the -in_development-_>_semiconductor_absorbers domain."@en ;
+    dcterms:created "2026-06-24"^^xsd:date ;
+    dcterms:creator "MDS-Onto v5 NLP Pipeline" ;
+    owl:imports <https://cwrusdle.bitbucket.io/mds/> ;
+    .
+
+# ── MDS-Onto top-level classes ───────────────────────────
+
+<https://cwrusdle.bitbucket.io/mds/Concept>
+    a owl:Class ;
+    rdfs:label "Concept"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Measurement>
+    a owl:Class ;
+    rdfs:label "Measurement"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Material>
+    a owl:Class ;
+    rdfs:label "Material"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Process>
+    a owl:Class ;
+    rdfs:label "Process"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Device>
+    a owl:Class ;
+    rdfs:label "Device"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Characterization>
+    a owl:Class ;
+    rdfs:label "Characterization"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Reliability>
+    a owl:Class ;
+    rdfs:label "Reliability"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Characterization> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Sample>
+    a owl:Class ;
+    rdfs:label "Sample"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/Economics>
+    a owl:Class ;
+    rdfs:label "Economics"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/ResearchPublication>
+    a owl:Class ;
+    rdfs:label "ResearchPublication"@en ;
+    .
+
+# ── Domain record class ──────────────────────────────────────
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord>
+    a owl:Class ;
+    rdfs:label "InDevelopmentSemiconductorAbsorbers Schema Record"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/ResearchPublication> ;
+    skos:definition "Structured record extracted from a research publication in the -in_development-_>_semiconductor_absorbers domain."@en ;
+    .
+
+# ── Extracted concept properties ─────────────────────────
+
+<https://cwrusdle.bitbucket.io/mds/material/AbsorberMaterial>
+    a owl:DatatypeProperty ;
+    rdfs:label "absorber material"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasBandgapEnergyRange>
+    a owl:DatatypeProperty ;
+    rdfs:label "bandgap energy range"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasDeviceEfficiency>
+    a owl:DatatypeProperty ;
+    rdfs:label "device efficiency"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasHeterojunctionBarrier>
+    a owl:DatatypeProperty ;
+    rdfs:label "heterojunction barrier"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasJunctionSpacing>
+    a owl:DatatypeProperty ;
+    rdfs:label "junction spacing"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasMaterialsChallenges>
+    a owl:DatatypeProperty ;
+    rdfs:label "materials challenges"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasPhotocurrent>
+    a owl:DatatypeProperty ;
+    rdfs:label "photocurrent"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasSolarCellArchitecture>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar cell architecture"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasSolarSpectrumUtilization>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar spectrum utilization"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "broad solar spectrum into bins where each subcell efficiently collects a narrow range of photon energies"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasEfficiency>
+    a owl:DatatypeProperty ;
+    rdfs:label "efficiency"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "high efficiencies approaching 40% under standard conditions"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasSubcellConfiguration>
+    a owl:DatatypeProperty ;
+    rdfs:label "subcell configuration"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "four or more junctions to partition the solar spectrum"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasAbsorberMaterialClass>
+    a owl:DatatypeProperty ;
+    rdfs:label "absorber material class"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "III-V absorbers"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasBandgapEnergyRanges>
+    a owl:DatatypeProperty ;
+    rdfs:label "bandgap energy ranges"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "-&gt;2.2 eV top subcells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasJuctionType>
+    a owl:DatatypeProperty ;
+    rdfs:label "juction type"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "multi-junction solar cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasAbsorberMaterialBandgap>
+    a owl:DatatypeProperty ;
+    rdfs:label "absorber material bandgap"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "wide-bandgap (1.7–2.2 eV) absorbers"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasMaterialsCompatibilityChallenges>
+    a owl:DatatypeProperty ;
+    rdfs:label "materials compatibility challenges"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "high aluminum content, lattice mismatch"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasDefectSensitivity>
+    a owl:DatatypeProperty ;
+    rdfs:label "defect sensitivity"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "sensitivity of phosphides to defects such as vacancies and oxygen"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasEnergyRangeUtilization>
+    a owl:DatatypeProperty ;
+    rdfs:label "energy range utilization"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "visible photons into electrons"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasJunctionSpacingAndConfiguration>
+    a owl:DatatypeProperty ;
+    rdfs:label "junction spacing and configuration"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "interconnected in series"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasPhotocurrentVoltageRelationship>
+    a owl:DatatypeProperty ;
+    rdfs:label "photocurrent voltage relationship"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "wider bandgap junction produces both the highest voltage and highest power in the stack"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasMaterialsChallengesAtWideBandgap>
+    a owl:DatatypeProperty ;
+    rdfs:label "materials challenges at wide bandgap"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "high aluminum content, lattice mismatch, lack of heterojunction barriers, and the sensitivity to defects"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasSolarCellStructure>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar cell structure"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "6+ junction solar cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasAbsorberMaterialClassForHybridTandems>
+    a owl:DatatypeProperty ;
+    rdfs:label "absorber material class for hybrid tandems"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "~1.7 eV for the top subcell of III-V/Si hybrid tandem"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasBandgapVoltageRelationship>
+    a owl:DatatypeProperty ;
+    rdfs:label "bandgap voltage relationship"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "delivering them at high voltage"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/sample/SubstrateMaterial>
+    a owl:DatatypeProperty ;
+    rdfs:label "substrate material"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "wide-bandgap III-V solar cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasDeviceArchitectureComplexity>
+    a owl:DatatypeProperty ;
+    rdfs:label "device architecture complexity"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "6+ junction stack"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasPhotocurrentGenerationMechanism>
+    a owl:DatatypeProperty ;
+    rdfs:label "photocurrent generation mechanism"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "converting visible photons into electrons"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasSubstrateMaterialProperties>
+    a owl:DatatypeProperty ;
+    rdfs:label "substrate material properties"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "phosphides"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasSemiconductorMaterialClassification>
+    a owl:DatatypeProperty ;
+    rdfs:label "semiconductor material classification"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "III-V materials"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasDeviceEfficiencyVsVoltageTradeoff>
+    a owl:DatatypeProperty ;
+    rdfs:label "device efficiency vs voltage tradeoff"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "highest power in the stack"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasDefectSensititivyAndTolerance>
+    a owl:DatatypeProperty ;
+    rdfs:label "defect sensititivy and tolerance"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "sensitivity of phosphides to defects such as vacancies and oxygen"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasHeterojunctionBarriers>
+    a owl:DatatypeProperty ;
+    rdfs:label "heterojunction barriers"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "lack of heterojunction barriers"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasSubstrateSemiconductorLatticeMismatch>
+    a owl:DatatypeProperty ;
+    rdfs:label "substrate-semiconductor lattice mismatch"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "lattice mismatch, lack of heterojunction barriers"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasDefectToleranceMaterialClass>
+    a owl:DatatypeProperty ;
+    rdfs:label "defect tolerance material class"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "materials challenges in the stack"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasPhotocurrentVoltageRelationshipUnderConcentratedSunlight>
+    a owl:DatatypeProperty ;
+    rdfs:label "photocurrent-voltage relationship under concentrated sunlight"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "&gt;50% under concentrated sunlight"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasOpportunitiesForImprovementResearchAreas>
+    a owl:DatatypeProperty ;
+    rdfs:label "opportunities for improvement/research areas"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "future directions and recommendations to overcome remaining materials and device challenges"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasHeterojunctionBarrierRequirements>
+    a owl:DatatypeProperty ;
+    rdfs:label "heterojunction barrier requirements"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "lack of heterojunction barriers"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/hasSolarCellHistoryReview>
+    a owl:DatatypeProperty ;
+    rdfs:label "solar cell history review"@en ;
+    rdfs:domain <https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SchemaRecord> ;
+    rdfs:range xsd:string ;
+    skos:broader <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "review the history, current status, and opportunities"@en ;
+    .
+
+# -- Concept classes (domain taxonomy) --------------------
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/AbsorberMaterial>
+    a owl:Class ;
+    rdfs:label "absorber material"@en ;
+    skos:prefLabel "absorber material"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/BandgapEnergyRange>
+    a owl:Class ;
+    rdfs:label "bandgap energy range"@en ;
+    skos:prefLabel "bandgap energy range"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/DeviceEfficiency>
+    a owl:Class ;
+    rdfs:label "device efficiency"@en ;
+    skos:prefLabel "device efficiency"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/HeterojunctionBarrier>
+    a owl:Class ;
+    rdfs:label "heterojunction barrier"@en ;
+    skos:prefLabel "heterojunction barrier"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/JunctionSpacing>
+    a owl:Class ;
+    rdfs:label "junction spacing"@en ;
+    skos:prefLabel "junction spacing"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/MaterialsChallenges>
+    a owl:Class ;
+    rdfs:label "materials challenges"@en ;
+    skos:prefLabel "materials challenges"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/Photocurrent>
+    a owl:Class ;
+    rdfs:label "photocurrent"@en ;
+    skos:prefLabel "photocurrent"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SolarCellArchitecture>
+    a owl:Class ;
+    rdfs:label "solar cell architecture"@en ;
+    skos:prefLabel "solar cell architecture"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SolarSpectrumUtilization>
+    a owl:Class ;
+    rdfs:label "solar spectrum utilization"@en ;
+    skos:prefLabel "solar spectrum utilization"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "broad solar spectrum into bins where each subcell efficiently collects a narrow range of photon energies"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/Efficiency>
+    a owl:Class ;
+    rdfs:label "efficiency"@en ;
+    skos:prefLabel "efficiency"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "high efficiencies approaching 40% under standard conditions"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SubcellConfiguration>
+    a owl:Class ;
+    rdfs:label "subcell configuration"@en ;
+    skos:prefLabel "subcell configuration"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "four or more junctions to partition the solar spectrum"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/AbsorberMaterialClass>
+    a owl:Class ;
+    rdfs:label "absorber material class"@en ;
+    skos:prefLabel "absorber material class"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "III-V absorbers"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/BandgapEnergyRanges>
+    a owl:Class ;
+    rdfs:label "bandgap energy ranges"@en ;
+    skos:prefLabel "bandgap energy ranges"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "-&gt;2.2 eV top subcells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/JuctionType>
+    a owl:Class ;
+    rdfs:label "juction type"@en ;
+    skos:prefLabel "juction type"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "multi-junction solar cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/AbsorberMaterialBandgap>
+    a owl:Class ;
+    rdfs:label "absorber material bandgap"@en ;
+    skos:prefLabel "absorber material bandgap"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "wide-bandgap (1.7–2.2 eV) absorbers"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/MaterialsCompatibilityChallenges>
+    a owl:Class ;
+    rdfs:label "materials compatibility challenges"@en ;
+    skos:prefLabel "materials compatibility challenges"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "high aluminum content, lattice mismatch"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/DefectSensitivity>
+    a owl:Class ;
+    rdfs:label "defect sensitivity"@en ;
+    skos:prefLabel "defect sensitivity"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "sensitivity of phosphides to defects such as vacancies and oxygen"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/EnergyRangeUtilization>
+    a owl:Class ;
+    rdfs:label "energy range utilization"@en ;
+    skos:prefLabel "energy range utilization"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "visible photons into electrons"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/JunctionSpacingAndConfiguration>
+    a owl:Class ;
+    rdfs:label "junction spacing and configuration"@en ;
+    skos:prefLabel "junction spacing and configuration"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "interconnected in series"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/PhotocurrentVoltageRelationship>
+    a owl:Class ;
+    rdfs:label "photocurrent voltage relationship"@en ;
+    skos:prefLabel "photocurrent voltage relationship"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "wider bandgap junction produces both the highest voltage and highest power in the stack"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/MaterialsChallengesAtWideBandgap>
+    a owl:Class ;
+    rdfs:label "materials challenges at wide bandgap"@en ;
+    skos:prefLabel "materials challenges at wide bandgap"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "high aluminum content, lattice mismatch, lack of heterojunction barriers, and the sensitivity to defects"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SolarCellStructure>
+    a owl:Class ;
+    rdfs:label "solar cell structure"@en ;
+    skos:prefLabel "solar cell structure"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "6+ junction solar cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/AbsorberMaterialClassForHybridTandems>
+    a owl:Class ;
+    rdfs:label "absorber material class for hybrid tandems"@en ;
+    skos:prefLabel "absorber material class for hybrid tandems"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "~1.7 eV for the top subcell of III-V/Si hybrid tandem"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/BandgapVoltageRelationship>
+    a owl:Class ;
+    rdfs:label "bandgap voltage relationship"@en ;
+    skos:prefLabel "bandgap voltage relationship"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "delivering them at high voltage"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SubstrateMaterial>
+    a owl:Class ;
+    rdfs:label "substrate material"@en ;
+    skos:prefLabel "substrate material"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "wide-bandgap III-V solar cells"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/DeviceArchitectureComplexity>
+    a owl:Class ;
+    rdfs:label "device architecture complexity"@en ;
+    skos:prefLabel "device architecture complexity"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "6+ junction stack"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/PhotocurrentGenerationMechanism>
+    a owl:Class ;
+    rdfs:label "photocurrent generation mechanism"@en ;
+    skos:prefLabel "photocurrent generation mechanism"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "converting visible photons into electrons"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SubstrateMaterialProperties>
+    a owl:Class ;
+    rdfs:label "substrate material properties"@en ;
+    skos:prefLabel "substrate material properties"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "phosphides"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SemiconductorMaterialClassification>
+    a owl:Class ;
+    rdfs:label "semiconductor material classification"@en ;
+    skos:prefLabel "semiconductor material classification"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "III-V materials"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/DeviceEfficiencyVsVoltageTradeoff>
+    a owl:Class ;
+    rdfs:label "device efficiency vs voltage tradeoff"@en ;
+    skos:prefLabel "device efficiency vs voltage tradeoff"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "highest power in the stack"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/DefectSensititivyAndTolerance>
+    a owl:Class ;
+    rdfs:label "defect sensititivy and tolerance"@en ;
+    skos:prefLabel "defect sensititivy and tolerance"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "sensitivity of phosphides to defects such as vacancies and oxygen"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/HeterojunctionBarriers>
+    a owl:Class ;
+    rdfs:label "heterojunction barriers"@en ;
+    skos:prefLabel "heterojunction barriers"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "lack of heterojunction barriers"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SubstrateSemiconductorLatticeMismatch>
+    a owl:Class ;
+    rdfs:label "substrate-semiconductor lattice mismatch"@en ;
+    skos:prefLabel "substrate-semiconductor lattice mismatch"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "lattice mismatch, lack of heterojunction barriers"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/DefectToleranceMaterialClass>
+    a owl:Class ;
+    rdfs:label "defect tolerance material class"@en ;
+    skos:prefLabel "defect tolerance material class"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "materials challenges in the stack"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/PhotocurrentVoltageRelationshipUnderConcentratedSunlight>
+    a owl:Class ;
+    rdfs:label "photocurrent-voltage relationship under concentrated sunlight"@en ;
+    skos:prefLabel "photocurrent-voltage relationship under concentrated sunlight"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Measurement> ;
+    skos:example "&gt;50% under concentrated sunlight"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/OpportunitiesForImprovementResearchAreas>
+    a owl:Class ;
+    rdfs:label "opportunities for improvement/research areas"@en ;
+    skos:prefLabel "opportunities for improvement/research areas"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Concept> ;
+    skos:example "future directions and recommendations to overcome remaining materials and device challenges"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/HeterojunctionBarrierRequirements>
+    a owl:Class ;
+    rdfs:label "heterojunction barrier requirements"@en ;
+    skos:prefLabel "heterojunction barrier requirements"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Material> ;
+    skos:example "lack of heterojunction barriers"@en ;
+    .
+
+<https://cwrusdle.bitbucket.io/mds/characterization/electronmicroscopy/SolarCellHistoryReview>
+    a owl:Class ;
+    rdfs:label "solar cell history review"@en ;
+    skos:prefLabel "solar cell history review"@en ;
+    rdfs:subClassOf <https://cwrusdle.bitbucket.io/mds/Device> ;
+    skos:example "review the history, current status, and opportunities"@en ;
+    .

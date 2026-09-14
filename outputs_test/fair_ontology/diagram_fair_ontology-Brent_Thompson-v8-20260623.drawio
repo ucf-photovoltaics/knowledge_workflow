@@ -1,0 +1,1533 @@
+<mxfile host="knowledge_workflow_v7" version="1.0">
+  <diagram name="FAIR-Ontology" id="kw-v7">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1832" pageHeight="1200" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="centre-blank" value="&lt;font style=&quot;font-size:16px;color:#bbbbbb;&quot;&gt;&amp;#8592; Drag concepts here &amp;#8594;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fafafa;strokeColor=#cccccc;strokeWidth=2;dashed=1;dashPattern=10 6;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="649" y="230" width="534" height="400" as="geometry"/>
+        </mxCell>
+        <mxCell id="grp-sample" value="mds:sample" style="swimlane;startSize=36;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fontStyle=1;rounded=1;arcSize=3;" vertex="1" parent="1">
+          <mxGeometry x="824" y="60" width="184" height="115" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-2" value="&lt;b&gt;materials characterisation&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:9px;color:#555555;&quot;&gt;mds:subcomponent&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#d6b656;strokeWidth=1.5;" vertex="1" parent="grp-sample">
+          <mxGeometry x="12" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="grp-tool" value="mds:tool" style="swimlane;startSize=36;fillColor=#dae8fc;strokeColor=#3e7fc1;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fontStyle=1;rounded=1;arcSize=3;" vertex="1" parent="1">
+          <mxGeometry x="60" y="230" width="534" height="185" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-3" value="&lt;b&gt;data provider&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#3e7fc1;strokeWidth=1.5;" vertex="1" parent="grp-tool">
+          <mxGeometry x="12" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-4" value="&lt;b&gt;data publishing&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#3e7fc1;strokeWidth=1.5;" vertex="1" parent="grp-tool">
+          <mxGeometry x="187" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-5" value="&lt;b&gt;vocabulary reuse indicator&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#3e7fc1;strokeWidth=1.5;" vertex="1" parent="grp-tool">
+          <mxGeometry x="362" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-6" value="&lt;b&gt;metadata availability&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#3e7fc1;strokeWidth=1.5;" vertex="1" parent="grp-tool">
+          <mxGeometry x="12" y="118" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="grp-data_processing" value="mds:data processing" style="swimlane;startSize=36;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fontStyle=1;rounded=1;arcSize=3;" vertex="1" parent="1">
+          <mxGeometry x="1238" y="230" width="534" height="185" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-7" value="&lt;b&gt;microbiome analysis&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#b85450;strokeWidth=1.5;" vertex="1" parent="grp-data_processing">
+          <mxGeometry x="12" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-8" value="&lt;b&gt;microbial diversity&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:9px;color:#555555;&quot;&gt;mds:materials&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#b85450;strokeWidth=1.5;" vertex="1" parent="grp-data_processing">
+          <mxGeometry x="187" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-9" value="&lt;b&gt;data classification&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#b85450;strokeWidth=1.5;" vertex="1" parent="grp-data_processing">
+          <mxGeometry x="362" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-10" value="&lt;b&gt;corpus stability analysis&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#b85450;strokeWidth=1.5;" vertex="1" parent="grp-data_processing">
+          <mxGeometry x="12" y="118" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="grp-result" value="mds:result" style="swimlane;startSize=36;fillColor=#d9ead3;strokeColor=#38761d;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fontStyle=1;rounded=1;arcSize=3;" vertex="1" parent="1">
+          <mxGeometry x="60" y="685" width="534" height="255" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-11" value="&lt;b&gt;quality dimensions&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#38761d;strokeWidth=1.5;" vertex="1" parent="grp-result">
+          <mxGeometry x="12" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-12" value="&lt;b&gt;research contribution&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:9px;color:#555555;&quot;&gt;mds:component&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#38761d;strokeWidth=1.5;" vertex="1" parent="grp-result">
+          <mxGeometry x="187" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-13" value="&lt;b&gt;personalized medicine&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:9px;color:#555555;&quot;&gt;mds:component, mds:subsystem, mds:system&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#38761d;strokeWidth=1.5;" vertex="1" parent="grp-result">
+          <mxGeometry x="362" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-14" value="&lt;b&gt;metagenome analysis&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:9px;color:#555555;&quot;&gt;mds:subcomponent, mds:assembly&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#38761d;strokeWidth=1.5;" vertex="1" parent="grp-result">
+          <mxGeometry x="12" y="118" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-15" value="&lt;b&gt;metrics&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#38761d;strokeWidth=1.5;" vertex="1" parent="grp-result">
+          <mxGeometry x="187" y="118" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-16" value="&lt;b&gt;microbiome characterization&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#38761d;strokeWidth=1.5;" vertex="1" parent="grp-result">
+          <mxGeometry x="362" y="118" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-17" value="&lt;b&gt;materials modelling domain&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:9px;color:#555555;&quot;&gt;mds:component, mds:assembly&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#38761d;strokeWidth=1.5;" vertex="1" parent="grp-result">
+          <mxGeometry x="12" y="188" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-18" value="&lt;b&gt;quality assessment&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#38761d;strokeWidth=1.5;" vertex="1" parent="grp-result">
+          <mxGeometry x="187" y="188" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="grp-analysis" value="mds:analysis" style="swimlane;startSize=36;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fontStyle=1;rounded=1;arcSize=3;" vertex="1" parent="1">
+          <mxGeometry x="649" y="685" width="534" height="115" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-19" value="&lt;b&gt;dimensionality reduction&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#9673a6;strokeWidth=1.5;" vertex="1" parent="grp-analysis">
+          <mxGeometry x="12" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-20" value="&lt;b&gt;vague concept&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#9673a6;strokeWidth=1.5;" vertex="1" parent="grp-analysis">
+          <mxGeometry x="187" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-21" value="&lt;b&gt;data quality measurement&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#9673a6;strokeWidth=1.5;" vertex="1" parent="grp-analysis">
+          <mxGeometry x="362" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="grp-modeling" value="mds:modeling" style="swimlane;startSize=36;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fontStyle=1;rounded=1;arcSize=3;" vertex="1" parent="1">
+          <mxGeometry x="1238" y="685" width="534" height="115" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-22" value="&lt;b&gt;paradigm shift&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#d79b00;strokeWidth=1.5;" vertex="1" parent="grp-modeling">
+          <mxGeometry x="12" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-23" value="&lt;b&gt;methodology harmonization&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#d79b00;strokeWidth=1.5;" vertex="1" parent="grp-modeling">
+          <mxGeometry x="187" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-24" value="&lt;b&gt;dimension analysis&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#d79b00;strokeWidth=1.5;" vertex="1" parent="grp-modeling">
+          <mxGeometry x="362" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="grp-unclassified" value="mds:unclassified" style="swimlane;startSize=36;fillColor=#f5f5f5;strokeColor=#888888;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fontStyle=1;rounded=1;arcSize=3;" vertex="1" parent="1">
+          <mxGeometry x="60" y="995" width="884" height="325" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-25" value="&lt;b&gt;open circuit voltage&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#888888;strokeWidth=1.5;" vertex="1" parent="grp-unclassified">
+          <mxGeometry x="12" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-26" value="&lt;b&gt;ontological framework&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#888888;strokeWidth=1.5;" vertex="1" parent="grp-unclassified">
+          <mxGeometry x="187" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-27" value="&lt;b&gt;taxonomy standardization&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#888888;strokeWidth=1.5;" vertex="1" parent="grp-unclassified">
+          <mxGeometry x="362" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-28" value="&lt;b&gt;ontology development&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#888888;strokeWidth=1.5;" vertex="1" parent="grp-unclassified">
+          <mxGeometry x="537" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-29" value="&lt;b&gt;linked data&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#888888;strokeWidth=1.5;" vertex="1" parent="grp-unclassified">
+          <mxGeometry x="712" y="48" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-30" value="&lt;b&gt;metadata standardization&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#888888;strokeWidth=1.5;" vertex="1" parent="grp-unclassified">
+          <mxGeometry x="12" y="118" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-31" value="&lt;b&gt;quality ranking system&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#888888;strokeWidth=1.5;" vertex="1" parent="grp-unclassified">
+          <mxGeometry x="187" y="118" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-32" value="&lt;b&gt;taxonomic level&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:9px;color:#555555;&quot;&gt;mds:assembly&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#888888;strokeWidth=1.5;" vertex="1" parent="grp-unclassified">
+          <mxGeometry x="362" y="118" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-33" value="&lt;b&gt;interoperability facilitation&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#888888;strokeWidth=1.5;" vertex="1" parent="grp-unclassified">
+          <mxGeometry x="537" y="118" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-34" value="&lt;b&gt;domain-specific vocabulary&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#888888;strokeWidth=1.5;" vertex="1" parent="grp-unclassified">
+          <mxGeometry x="712" y="118" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-35" value="&lt;b&gt;translational goal&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#888888;strokeWidth=1.5;" vertex="1" parent="grp-unclassified">
+          <mxGeometry x="12" y="188" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-36" value="&lt;b&gt;gene expression&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#888888;strokeWidth=1.5;" vertex="1" parent="grp-unclassified">
+          <mxGeometry x="187" y="188" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-37" value="&lt;b&gt;linked data guideline&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#888888;strokeWidth=1.5;" vertex="1" parent="grp-unclassified">
+          <mxGeometry x="362" y="188" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-38" value="&lt;b&gt;ontological formalization&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#888888;strokeWidth=1.5;" vertex="1" parent="grp-unclassified">
+          <mxGeometry x="537" y="188" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-39" value="&lt;b&gt;taxonomy property&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#888888;strokeWidth=1.5;" vertex="1" parent="grp-unclassified">
+          <mxGeometry x="712" y="188" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="concept-40" value="&lt;b&gt;information architecture&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=10;labelBackgroundColor=none;resizable=1;fillColor=#ffffff;strokeColor=#888888;strokeWidth=1.5;" vertex="1" parent="grp-unclassified">
+          <mxGeometry x="12" y="258" width="160" height="55" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="MDS-Onto Library" id="lib-mds-onto">
+    <mxGraphModel pageWidth="1240" pageHeight="1780" background="#ffffff" grid="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="lib-mds-onto-2" value="synthesis" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f4cccc;strokeColor=#cc0000;" vertex="1" parent="1">
+          <mxGeometry width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-mds-onto-3" value="formulation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce5cd;strokeColor=#e06c00;" vertex="1" parent="1">
+          <mxGeometry width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-mds-onto-4" value="materials processing" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ead1dc;strokeColor=#a64d79;" vertex="1" parent="1">
+          <mxGeometry width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-mds-onto-5" value="sample" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-mds-onto-6" value="tool" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#3e7fc1;" vertex="1" parent="1">
+          <mxGeometry width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-mds-onto-7" value="recipe" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-mds-onto-8" value="data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#cfe2f3;strokeColor=#4a86e8;" vertex="1" parent="1">
+          <mxGeometry width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-mds-onto-9" value="data processing" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-mds-onto-10" value="result" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d9ead3;strokeColor=#38761d;" vertex="1" parent="1">
+          <mxGeometry width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-mds-onto-11" value="analysis" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-mds-onto-12" value="modeling" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-mds-onto-13" value="results and metadata" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d0e0e3;strokeColor=#006eaf;" vertex="1" parent="1">
+          <mxGeometry width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-mds-onto-14" value="materials" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-mds-onto-15" value="subcomponent" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-mds-onto-16" value="component" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-mds-onto-17" value="assembly" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-mds-onto-18" value="subsystem" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-mds-onto-19" value="system" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry width="120" height="60" as="geometry"/>
+        </mxCell>
+        <UserObject label="mds:DirectlyPrecedes" link="https://cwrusdle.bitbucket.io/mds/DirectlyPrecedes" id="lib-mds-onto-20">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="290.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="290.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:Formulates" link="https://cwrusdle.bitbucket.io/mds/Formulates" id="lib-mds-onto-21">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="290.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="290.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:Instrument" link="https://cwrusdle.bitbucket.io/mds/Instrument" id="lib-mds-onto-22">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="290.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="290.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:acquiredOn" link="https://cwrusdle.bitbucket.io/mds/acquiredOn" id="lib-mds-onto-23">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="290.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="290.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:containsBand" link="https://cwrusdle.bitbucket.io/mds/containsBand" id="lib-mds-onto-24">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="290.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="290.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:containsGeospatialProperty" link="https://cwrusdle.bitbucket.io/mds/containsGeospatialProperty" id="lib-mds-onto-25">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="290.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="290.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:containsSensor" link="https://cwrusdle.bitbucket.io/mds/containsSensor" id="lib-mds-onto-26">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="350.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="350.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:deliversCoolant" link="https://cwrusdle.bitbucket.io/mds/deliversCoolant" id="lib-mds-onto-27">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="350.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="350.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:generatedBySatellite" link="https://cwrusdle.bitbucket.io/mds/generatedBySatellite" id="lib-mds-onto-28">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="350.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="350.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:generatedBySensor" link="https://cwrusdle.bitbucket.io/mds/generatedBySensor" id="lib-mds-onto-29">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="350.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="350.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasAdhesive" link="https://cwrusdle.bitbucket.io/mds/hasAdhesive" id="lib-mds-onto-30">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="350.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="350.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasAmbientTemperature" link="https://cwrusdle.bitbucket.io/mds/hasAmbientTemperature" id="lib-mds-onto-31">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="350.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="350.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasArchitecture" link="https://cwrusdle.bitbucket.io/mds/hasArchitecture" id="lib-mds-onto-32">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="410.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="410.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasBackSideEncapsulant" link="https://cwrusdle.bitbucket.io/mds/hasBackSideEncapsulant" id="lib-mds-onto-33">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="410.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="410.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasBandDescription" link="https://cwrusdle.bitbucket.io/mds/hasBandDescription" id="lib-mds-onto-44">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="410.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="410.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasBatchNumber" link="https://cwrusdle.bitbucket.io/mds/hasBatchNumber" id="lib-mds-onto-45">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="410.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="410.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasBuildJobName" link="https://cwrusdle.bitbucket.io/mds/hasBuildJobName" id="lib-mds-onto-46">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="410.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="410.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasCentroid" link="https://cwrusdle.bitbucket.io/mds/hasCentroid" id="lib-mds-onto-47">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="470.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="470.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasClimateZone" link="https://cwrusdle.bitbucket.io/mds/hasClimateZone" id="lib-mds-onto-48">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="470.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="470.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasCoating" link="https://cwrusdle.bitbucket.io/mds/hasCoating" id="lib-mds-onto-49">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="470.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="470.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasDepth" link="https://cwrusdle.bitbucket.io/mds/hasDepth" id="lib-mds-onto-50">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="470.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="470.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasDirection" link="https://cwrusdle.bitbucket.io/mds/hasDirection" id="lib-mds-onto-51">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="470.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="470.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasEastNeighbor" link="https://cwrusdle.bitbucket.io/mds/hasEastNeighbor" id="lib-mds-onto-52">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="470.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="470.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasElectronicBandGap" link="https://cwrusdle.bitbucket.io/mds/hasElectronicBandGap" id="lib-mds-onto-53">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="530.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="530.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasElectronicProperty" link="https://cwrusdle.bitbucket.io/mds/hasElectronicProperty" id="lib-mds-onto-54">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="530.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="530.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasElevation" link="https://cwrusdle.bitbucket.io/mds/hasElevation" id="lib-mds-onto-55">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="530.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="530.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasEndedOn" link="https://cwrusdle.bitbucket.io/mds/hasEndedOn" id="lib-mds-onto-56">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="530.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="530.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasExposureStep" link="https://cwrusdle.bitbucket.io/mds/hasExposureStep" id="lib-mds-onto-57">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="530.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="530.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasExposureTime" link="https://cwrusdle.bitbucket.io/mds/hasExposureTime" id="lib-mds-onto-58">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="530.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="530.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasFileFormat" link="https://cwrusdle.bitbucket.io/mds/hasFileFormat" id="lib-mds-onto-59">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="590.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="590.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasFlux" link="https://cwrusdle.bitbucket.io/mds/hasFlux" id="lib-mds-onto-60">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="590.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="590.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasFrontGlass" link="https://cwrusdle.bitbucket.io/mds/hasFrontGlass" id="lib-mds-onto-61">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="590.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="590.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasFrontSideEncapsulant" link="https://cwrusdle.bitbucket.io/mds/hasFrontSideEncapsulant" id="lib-mds-onto-62">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="590.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="590.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasGapDistance" link="https://cwrusdle.bitbucket.io/mds/hasGapDistance" id="lib-mds-onto-63">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="590.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="590.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasGeometryType" link="https://cwrusdle.bitbucket.io/mds/hasGeometryType" id="lib-mds-onto-64">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="590.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="590.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasGeospatialBoundingBox" link="https://cwrusdle.bitbucket.io/mds/hasGeospatialBoundingBox" id="lib-mds-onto-65">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="650.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="650.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasHatchDistance" link="https://cwrusdle.bitbucket.io/mds/hasHatchDistance" id="lib-mds-onto-66">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="650.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="650.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasHeight" link="https://cwrusdle.bitbucket.io/mds/hasHeight" id="lib-mds-onto-67">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="650.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="650.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasIdentifier" link="https://cwrusdle.bitbucket.io/mds/hasIdentifier" id="lib-mds-onto-68">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="650.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="650.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasIndex" link="https://cwrusdle.bitbucket.io/mds/hasIndex" id="lib-mds-onto-69">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="650.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="650.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasInstrumentStatus" link="https://cwrusdle.bitbucket.io/mds/hasInstrumentStatus" id="lib-mds-onto-70">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="650.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="650.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasInverter" link="https://cwrusdle.bitbucket.io/mds/hasInverter" id="lib-mds-onto-71">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="710.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="710.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasLaserPower" link="https://cwrusdle.bitbucket.io/mds/hasLaserPower" id="lib-mds-onto-72">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="710.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="710.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasLat" link="https://cwrusdle.bitbucket.io/mds/hasLat" id="lib-mds-onto-73">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="710.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="710.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasLicense" link="https://cwrusdle.bitbucket.io/mds/hasLicense" id="lib-mds-onto-74">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="710.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="710.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasLong" link="https://cwrusdle.bitbucket.io/mds/hasLong" id="lib-mds-onto-75">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="710.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="710.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasManufacturingMethod" link="https://cwrusdle.bitbucket.io/mds/hasManufacturingMethod" id="lib-mds-onto-76">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="710.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="710.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasMaterialComposition" link="https://cwrusdle.bitbucket.io/mds/hasMaterialComposition" id="lib-mds-onto-77">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="770.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="770.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasMaterialProperty" link="https://cwrusdle.bitbucket.io/mds/hasMaterialProperty" id="lib-mds-onto-78">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="770.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="770.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasMatrix" link="https://cwrusdle.bitbucket.io/mds/hasMatrix" id="lib-mds-onto-79">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="770.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="770.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasMission" link="https://cwrusdle.bitbucket.io/mds/hasMission" id="lib-mds-onto-80">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="770.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="770.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasName" link="https://cwrusdle.bitbucket.io/mds/hasName" id="lib-mds-onto-81">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="770.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="770.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasNorthNeighbor" link="https://cwrusdle.bitbucket.io/mds/hasNorthNeighbor" id="lib-mds-onto-82">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="770.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="770.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasNortheastNeighbor" link="https://cwrusdle.bitbucket.io/mds/hasNortheastNeighbor" id="lib-mds-onto-83">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="830.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="830.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasNorthwestNeighbor" link="https://cwrusdle.bitbucket.io/mds/hasNorthwestNeighbor" id="lib-mds-onto-84">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="830.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="830.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasNumberPerString" link="https://cwrusdle.bitbucket.io/mds/hasNumberPerString" id="lib-mds-onto-85">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="830.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="830.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasOperationalStatus" link="https://cwrusdle.bitbucket.io/mds/hasOperationalStatus" id="lib-mds-onto-86">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="830.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="830.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasOrbitalType" link="https://cwrusdle.bitbucket.io/mds/hasOrbitalType" id="lib-mds-onto-87">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="830.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="830.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasOrientation" link="https://cwrusdle.bitbucket.io/mds/hasOrientation" id="lib-mds-onto-88">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="830.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="830.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasOwner" link="https://cwrusdle.bitbucket.io/mds/hasOwner" id="lib-mds-onto-89">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="890.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="890.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasPart" link="https://cwrusdle.bitbucket.io/mds/hasPart" id="lib-mds-onto-90">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="890.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="890.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasPhase" link="https://cwrusdle.bitbucket.io/mds/hasPhase" id="lib-mds-onto-91">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="890.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="890.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasPixelInformation" link="https://cwrusdle.bitbucket.io/mds/hasPixelInformation" id="lib-mds-onto-92">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="890.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="890.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasPointDistance" link="https://cwrusdle.bitbucket.io/mds/hasPointDistance" id="lib-mds-onto-93">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="890.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="890.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasPreparedSurface" link="https://cwrusdle.bitbucket.io/mds/hasPreparedSurface" id="lib-mds-onto-94">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="890.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="890.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasProcessingParameter" link="https://cwrusdle.bitbucket.io/mds/hasProcessingParameter" id="lib-mds-onto-95">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="950.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="950.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasProductModel" link="https://cwrusdle.bitbucket.io/mds/hasProductModel" id="lib-mds-onto-96">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="950.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="950.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasReinforcement" link="https://cwrusdle.bitbucket.io/mds/hasReinforcement" id="lib-mds-onto-97">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="950.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="950.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasSatelliteAltitude" link="https://cwrusdle.bitbucket.io/mds/hasSatelliteAltitude" id="lib-mds-onto-98">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="950.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="950.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasSiteID" link="https://cwrusdle.bitbucket.io/mds/hasSiteID" id="lib-mds-onto-99">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="950.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="950.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasSouthNeighbor" link="https://cwrusdle.bitbucket.io/mds/hasSouthNeighbor" id="lib-mds-onto-100">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="950.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="950.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasSoutheastNeighbor" link="https://cwrusdle.bitbucket.io/mds/hasSoutheastNeighbor" id="lib-mds-onto-101">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="1010.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="1010.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasSouthwestNeighbor" link="https://cwrusdle.bitbucket.io/mds/hasSouthwestNeighbor" id="lib-mds-onto-102">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="1010.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="1010.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasSpaceGroup" link="https://cwrusdle.bitbucket.io/mds/hasSpaceGroup" id="lib-mds-onto-103">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="1010.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="1010.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasSpatialResolution" link="https://cwrusdle.bitbucket.io/mds/hasSpatialResolution" id="lib-mds-onto-104">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="1010.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="1010.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasSpectralResolution" link="https://cwrusdle.bitbucket.io/mds/hasSpectralResolution" id="lib-mds-onto-105">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="1010.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="1010.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasStorageCondition" link="https://cwrusdle.bitbucket.io/mds/hasStorageCondition" id="lib-mds-onto-106">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="1010.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="1010.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasStructuralQuality" link="https://cwrusdle.bitbucket.io/mds/hasStructuralQuality" id="lib-mds-onto-107">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="1070.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="1070.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasTemperatureCoefficient" link="https://cwrusdle.bitbucket.io/mds/hasTemperatureCoefficient" id="lib-mds-onto-108">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="1070.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="1070.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasTemporalResolution" link="https://cwrusdle.bitbucket.io/mds/hasTemporalResolution" id="lib-mds-onto-109">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="1070.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="1070.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasThickness" link="https://cwrusdle.bitbucket.io/mds/hasThickness" id="lib-mds-onto-110">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="1070.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="1070.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasTimeInterval" link="https://cwrusdle.bitbucket.io/mds/hasTimeInterval" id="lib-mds-onto-111">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="1070.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="1070.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasVoltage" link="https://cwrusdle.bitbucket.io/mds/hasVoltage" id="lib-mds-onto-112">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="1070.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="1070.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasWavelengthRange" link="https://cwrusdle.bitbucket.io/mds/hasWavelengthRange" id="lib-mds-onto-113">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="1130.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="1130.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasWeight" link="https://cwrusdle.bitbucket.io/mds/hasWeight" id="lib-mds-onto-114">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="1130.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="1130.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasWestNeighbor" link="https://cwrusdle.bitbucket.io/mds/hasWestNeighbor" id="lib-mds-onto-115">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="1130.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="1130.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasWidth" link="https://cwrusdle.bitbucket.io/mds/hasWidth" id="lib-mds-onto-116">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="1130.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="1130.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:hasWindSpeed" link="https://cwrusdle.bitbucket.io/mds/hasWindSpeed" id="lib-mds-onto-117">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="1130.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="1130.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:holds" link="https://cwrusdle.bitbucket.io/mds/holds" id="lib-mds-onto-118">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="1130.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="1130.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:isComponentOf" link="https://cwrusdle.bitbucket.io/mds/isComponentOf" id="lib-mds-onto-119">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="1190.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="1190.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:isExposed" link="https://cwrusdle.bitbucket.io/mds/isExposed" id="lib-mds-onto-120">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="1190.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="1190.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:isLocatedAt" link="https://cwrusdle.bitbucket.io/mds/isLocatedAt" id="lib-mds-onto-121">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="1190.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="1190.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:isProcessStepOf" link="https://cwrusdle.bitbucket.io/mds/isProcessStepOf" id="lib-mds-onto-122">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="1190.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="1190.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:isQualityCheckOf" link="https://cwrusdle.bitbucket.io/mds/isQualityCheckOf" id="lib-mds-onto-123">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="1190.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="1190.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:launchedFrom" link="https://cwrusdle.bitbucket.io/mds/launchedFrom" id="lib-mds-onto-124">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="1190.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="1190.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:launchedOn" link="https://cwrusdle.bitbucket.io/mds/launchedOn" id="lib-mds-onto-125">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="1250.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="1250.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:mountedOn" link="https://cwrusdle.bitbucket.io/mds/mountedOn" id="lib-mds-onto-126">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="1250.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="1250.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:occupiesSpatialRegion" link="https://cwrusdle.bitbucket.io/mds/occupiesSpatialRegion" id="lib-mds-onto-127">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="1250.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="1250.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:ownedByAgency" link="https://cwrusdle.bitbucket.io/mds/ownedByAgency" id="lib-mds-onto-128">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="1250.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="1250.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:processedUsing" link="https://cwrusdle.bitbucket.io/mds/processedUsing" id="lib-mds-onto-129">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="1250.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="1250.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:producedBy" link="https://cwrusdle.bitbucket.io/mds/producedBy" id="lib-mds-onto-130">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="1250.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="1250.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:undergoesProcessing" link="https://cwrusdle.bitbucket.io/mds/undergoesProcessing" id="lib-mds-onto-131">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="1310.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="1310.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:usesEquipment" link="https://cwrusdle.bitbucket.io/mds/usesEquipment" id="lib-mds-onto-132">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="1310.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="1310.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:usesLicense" link="https://cwrusdle.bitbucket.io/mds/usesLicense" id="lib-mds-onto-133">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="1310.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="1310.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:usesMedia" link="https://cwrusdle.bitbucket.io/mds/usesMedia" id="lib-mds-onto-134">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="1310.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="1310.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:usesRecipe" link="https://cwrusdle.bitbucket.io/mds/usesRecipe" id="lib-mds-onto-135">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="1310.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="1310.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:usesSpatialReferenceSystem" link="https://cwrusdle.bitbucket.io/mds/usesSpatialReferenceSystem" id="lib-mds-onto-136">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="1310.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="1310.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="mds:usesTool" link="https://cwrusdle.bitbucket.io/mds/usesTool" id="lib-mds-onto-137">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="1370.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="1370.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="bfo:has realization" link="http://purl.obolibrary.org/obo/BFO_0000054" id="lib-mds-onto-138">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="1370.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="1370.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="bfo:realizes" link="http://purl.obolibrary.org/obo/BFO_0000055" id="lib-mds-onto-139">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="1370.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="1370.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="bfo:participates in" link="http://purl.obolibrary.org/obo/BFO_0000056" id="lib-mds-onto-140">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="1370.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="1370.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="bfo:has participant" link="http://purl.obolibrary.org/obo/BFO_0000057" id="lib-mds-onto-141">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="1370.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="1370.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="bfo:preceded by" link="http://purl.obolibrary.org/obo/BFO_0000062" id="lib-mds-onto-142">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="1370.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="1370.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="bfo:precedes" link="http://purl.obolibrary.org/obo/BFO_0000063" id="lib-mds-onto-143">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="1430.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="1430.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="bfo:generically depends on" link="http://purl.obolibrary.org/obo/BFO_0000084" id="lib-mds-onto-144">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="1430.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="1430.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="bfo:has member part" link="http://purl.obolibrary.org/obo/BFO_0000115" id="lib-mds-onto-145">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="1430.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="1430.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="bfo:has occurent part" link="http://purl.obolibrary.org/obo/BFO_0000117" id="lib-mds-onto-146">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="1430.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="1430.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="bfo:has temporal part" link="http://purl.obolibrary.org/obo/BFO_0000121" id="lib-mds-onto-147">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="1430.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="1430.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="bfo:member part of" link="http://purl.obolibrary.org/obo/BFO_0000129" id="lib-mds-onto-148">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="1430.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="1430.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="bfo:temporal part of" link="http://purl.obolibrary.org/obo/BFO_0000139" id="lib-mds-onto-149">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="1490.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="1490.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="bfo:located in" link="http://purl.obolibrary.org/obo/BFO_0000171" id="lib-mds-onto-150">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="1490.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="1490.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="bfo:environs" link="http://purl.obolibrary.org/obo/BFO_0000183" id="lib-mds-onto-151">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="1490.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="1490.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="bfo:bearer of" link="http://purl.obolibrary.org/obo/BFO_0000196" id="lib-mds-onto-152">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="1490.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="1490.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="bfo:inheres in" link="http://purl.obolibrary.org/obo/BFO_0000197" id="lib-mds-onto-153">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="1490.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="1490.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="bfo:occupies temporal region" link="http://purl.obolibrary.org/obo/BFO_0000199" id="lib-mds-onto-154">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="1490.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="1490.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="bfo:occupies spatial region" link="http://purl.obolibrary.org/obo/BFO_0000210" id="lib-mds-onto-155">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="1550.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="1550.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:has input" link="http://www.ontologyrepository.com/CommonCoreOntologies/has_input" id="lib-mds-onto-156">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="1550.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="1550.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:has output" link="http://www.ontologyrepository.com/CommonCoreOntologies/has_output" id="lib-mds-onto-157">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="1550.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="1550.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:is input of" link="http://www.ontologyrepository.com/CommonCoreOntologies/is_input_of" id="lib-mds-onto-158">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="1550.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="1550.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:is made of" link="http://www.ontologyrepository.com/CommonCoreOntologies/is_made_of" id="lib-mds-onto-159">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="1550.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="1550.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:has process part" link="https://www.commoncoreontologies.org/ont00001777" id="lib-mds-onto-160">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="1550.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="1550.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:agent in" link="https://www.commoncoreontologies.org/ont00001787" id="lib-mds-onto-161">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="1610.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="1610.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:is subject of" link="https://www.commoncoreontologies.org/ont00001801" id="lib-mds-onto-162">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="1610.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="1610.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:is cause of" link="https://www.commoncoreontologies.org/ont00001803" id="lib-mds-onto-163">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="1610.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="1610.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:is about" link="https://www.commoncoreontologies.org/ont00001808" id="lib-mds-onto-164">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="1610.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="1610.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:is output of" link="https://www.commoncoreontologies.org/ont00001816" id="lib-mds-onto-165">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="1610.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="1610.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:caused by" link="https://www.commoncoreontologies.org/ont00001819" id="lib-mds-onto-166">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="1610.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="1610.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:has agent" link="https://www.commoncoreontologies.org/ont00001833" id="lib-mds-onto-167">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="1670.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="1670.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:affects" link="https://www.commoncoreontologies.org/ont00001834" id="lib-mds-onto-168">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="1670.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="1670.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:aggregate bearer of" link="https://www.commoncoreontologies.org/ont00001836" id="lib-mds-onto-169">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="1670.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="1670.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:is part of process" link="https://www.commoncoreontologies.org/ont00001857" id="lib-mds-onto-170">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="1670.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="1670.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:is material of" link="https://www.commoncoreontologies.org/ont00001861" id="lib-mds-onto-171">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="830.0" y="1670.0" as="sourcePoint"/>
+              <mxPoint x="1010.0" y="1670.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:uses measurement unit" link="https://www.commoncoreontologies.org/ont00001863" id="lib-mds-onto-172">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="1030.0" y="1670.0" as="sourcePoint"/>
+              <mxPoint x="1210.0" y="1670.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:is temporal region of" link="https://www.commoncoreontologies.org/ont00001874" id="lib-mds-onto-173">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="30.0" y="1730.0" as="sourcePoint"/>
+              <mxPoint x="210.0" y="1730.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:designated by" link="https://www.commoncoreontologies.org/ont00001879" id="lib-mds-onto-174">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="230.0" y="1730.0" as="sourcePoint"/>
+              <mxPoint x="410.0" y="1730.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:condition described by" link="https://www.commoncoreontologies.org/ont00001884" id="lib-mds-onto-175">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="430.0" y="1730.0" as="sourcePoint"/>
+              <mxPoint x="610.0" y="1730.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="cco:is site of" link="https://www.commoncoreontologies.org/ont00001845" id="lib-mds-onto-176">
+          <mxCell style="endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;" edge="1" parent="1">
+            <mxGeometry width="180" height="40" relative="1" as="geometry">
+              <mxPoint x="630.0" y="1730.0" as="sourcePoint"/>
+              <mxPoint x="810.0" y="1730.0" as="targetPoint"/>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Cemento Templates" id="lib-cemento">
+    <mxGraphModel pageWidth="920" pageHeight="930" background="#ffffff" grid="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="lib-cemento-2" edge="1" parent="1" source="lib-cemento-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="lib-cemento-3" value="rdfs:subClassOf">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="cco:SuperClassName" vertex="1">
+          <mxGeometry height="60" width="120" y="40.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-4" edge="1" parent="1" source="lib-cemento-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="lib-cemento-7" value="skos:definition">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-5" edge="1" parent="1" source="lib-cemento-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="lib-cemento-8" value="rdf:type">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="mds:ClassName" vertex="1">
+          <mxGeometry height="60" width="120" y="180.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&quot;Def&quot;" vertex="1">
+          <mxGeometry height="60" width="120" y="320.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-8" parent="1" style="ellipse;whiteSpace=wrap;html=1;rounded=1;" value="owl:Class" vertex="1">
+          <mxGeometry height="80" width="80" x="190.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-9" edge="1" parent="1" source="lib-cemento-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="lib-cemento-10" value="rdf:type">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="owl:DatatypeProperty" vertex="1">
+          <mxGeometry height="60" width="120" x="540.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-11" edge="1" parent="1" source="lib-cemento-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="lib-cemento-15" value="skos:definition">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="790.0" y="160.0" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lib-cemento-12" edge="1" parent="1" source="lib-cemento-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="lib-cemento-16" value="rdfs:domain">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-13" edge="1" parent="1" source="lib-cemento-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="lib-cemento-17" value="rdfs:range">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="mds:hasX" vertex="1">
+          <mxGeometry height="60" width="120" x="540.0" y="170.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-15" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&quot;Def&quot;" vertex="1">
+          <mxGeometry height="60" width="120" x="730.0" y="100.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-16" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="mds:Object" vertex="1">
+          <mxGeometry height="60" width="120" y="320.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="xsd:" vertex="1">
+          <mxGeometry height="60" width="120" x="630.0" y="320.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-18" edge="1" parent="1" source="lib-cemento-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="lib-cemento-19" value="rdf:type">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-19" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="owl:ObjectProperty" vertex="1">
+          <mxGeometry height="60" width="120" x="120.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-20" edge="1" parent="1" source="lib-cemento-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="lib-cemento-24" value="skos:definition">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370.0" y="530.0" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lib-cemento-21" edge="1" parent="1" source="lib-cemento-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="lib-cemento-25" value="rdfs:domain">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-22" edge="1" parent="1" source="lib-cemento-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="lib-cemento-26" value="rdfs:range">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-23" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="mds:hasX" vertex="1">
+          <mxGeometry height="60" width="120" x="120.0" y="540.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-24" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&quot;Def&quot;" vertex="1">
+          <mxGeometry height="60" width="120" x="310.0" y="470.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-25" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="mds:Object" vertex="1">
+          <mxGeometry height="60" width="120" y="690.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-26" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="mds:Object2" vertex="1">
+          <mxGeometry height="60" width="120" x="210.0" y="690.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-27" edge="1" parent="1" source="lib-cemento-38" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="lib-cemento-34" value="rdf:type">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-28" edge="1" parent="1" source="lib-cemento-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="lib-cemento-29" value="rdfs:subClassOf">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-29" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="cco:SuperClassName" vertex="1">
+          <mxGeometry height="60" width="120" y="560.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-30" edge="1" parent="1" source="lib-cemento-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="lib-cemento-33" value="skos:definition">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-31" edge="1" parent="1" source="lib-cemento-32" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="lib-cemento-34" value="rdf:type">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-32" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="mds:ClassName" vertex="1">
+          <mxGeometry height="60" width="120" y="700.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-33" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&quot;Def&quot;" vertex="1">
+          <mxGeometry height="60" width="120" y="840.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-34" parent="1" style="ellipse;whiteSpace=wrap;html=1;rounded=1;" value="owl:Class" vertex="1">
+          <mxGeometry height="80" width="80" x="630.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-35" edge="1" parent="1" source="lib-cemento-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="lib-cemento-36" value="rdfs:subClassOf">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-36" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="cco:SuperClassName" vertex="1">
+          <mxGeometry height="60" width="120" x="610.0" y="560.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-37" edge="1" parent="1" source="lib-cemento-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="lib-cemento-39" value="skos:definition">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-38" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="mds:ClassName" vertex="1">
+          <mxGeometry height="60" width="120" x="610.0" y="700.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-39" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&quot;Def&quot;" vertex="1">
+          <mxGeometry height="60" width="120" x="610.0" y="840.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-40" edge="1" parent="1" source="lib-cemento-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="lib-cemento-41" value="rdfs:subClassOf">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-41" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="cco:SuperClassName" vertex="1">
+          <mxGeometry height="60" width="120" x="770.0" y="560.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-42" edge="1" parent="1" source="lib-cemento-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="lib-cemento-45" value="skos:definition">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-43" edge="1" parent="1" source="lib-cemento-44" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="lib-cemento-34" value="rdf:type">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-44" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="mds:ClassName" vertex="1">
+          <mxGeometry height="60" width="120" x="770.0" y="700.0" as="geometry"/>
+        </mxCell>
+        <mxCell id="lib-cemento-45" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&quot;Def&quot;" vertex="1">
+          <mxGeometry height="60" width="120" x="770.0" y="840.0" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

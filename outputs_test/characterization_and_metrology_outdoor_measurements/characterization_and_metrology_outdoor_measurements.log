@@ -1,0 +1,68 @@
+[log] run log -> outputs_test\characterization_and_metrology_outdoor_measurements\characterization_and_metrology_outdoor_measurements.log
+04:14:19 INFO run start: collection 'Characterization and Metrology > Outdoor Measurements' (QQ8X36SH) | model llama3.1:8b-instruct-q8_0
+
+[unsupervised] collection "Characterization and Metrology > Outdoor Measurements" (QQ8X36SH) | model llama3.1:8b-instruct-q8_0
+[dials] top_n=40 min_relevance=0.5 max_concepts=100 limit=2
+[gpu] NVIDIA GeForce RTX 5070 Ti Laptop GPU | torch 2.11.0+cu128 | VRAM 10.8/11.9 GB free | rebel_device=cuda
+Loaded 2 papers. (limited to 2)
+04:14:28 INFO step input         12.2s
+[concepts] Step 1: extracting from abstracts...
+  [domain] inferred: Renewable Energy Systems Maintenance
+  [concepts] source=full-text, top_n=40
+  [1/2] Concepts: Infrared thermography-based condition monitoring of solar photovoltaic
+      [concepts] full-text: 60238 chars in 7 chunk(s)
+04:14:35 INFO Retrying request to /chat/completions in 0.414755 seconds
+04:14:57 INFO Retrying request to /chat/completions in 0.462398 seconds
+04:15:27 INFO Retrying request to /chat/completions in 0.480623 seconds
+04:15:56 INFO Retrying request to /chat/completions in 0.497692 seconds
+04:16:16 INFO Retrying request to /chat/completions in 0.423725 seconds
+04:16:26 INFO Retrying request to /chat/completions in 0.451686 seconds
+04:16:47 INFO Retrying request to /chat/completions in 0.381851 seconds
+  [2/2] Concepts: Automatic detection, classification and localization of defects in lar
+      [concepts] full-text: 78786 chars in 8 chunk(s)
+04:16:58 INFO Retrying request to /chat/completions in 0.457000 seconds
+04:17:21 INFO Retrying request to /chat/completions in 0.386251 seconds
+04:17:35 INFO Retrying request to /chat/completions in 0.375978 seconds
+04:17:48 INFO Retrying request to /chat/completions in 0.452556 seconds
+04:18:04 INFO Retrying request to /chat/completions in 0.413075 seconds
+04:18:19 INFO Retrying request to /chat/completions in 0.422625 seconds
+04:18:39 INFO Retrying request to /chat/completions in 0.412324 seconds
+04:18:56 INFO Retrying request to /chat/completions in 0.475463 seconds
+  [concepts] relevance>=0.5: kept 277, dropped 26
+04:19:05 INFO Retrying request to /chat/completions in 0.445391 seconds
+[concepts] normalized to 29
+04:19:10 INFO step concepts     282.4s
+[mine] Step 2: full-text mining (LLM) + REBEL triples...
+  [mine] parallel: 2 workers over 2 papers (needs OLLAMA_NUM_PARALLEL>=2 to actually overlap)
+  [1/2] Mining: Infrared thermography-based condition monitoring of solar photovoltaic
+  [2/2] Mining: Automatic detection, classification and localization of defects in lar
+04:19:11 INFO Retrying request to /chat/completions in 0.397889 seconds
+04:21:48 INFO step mine.llm     157.6s
+04:21:52 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  [rebel] model loaded on cuda
+  [rebel] full-text: scanned 139460 chars in 101 chunk(s) across 2 paper(s) -> 90 triples
+04:22:15 INFO step mine.rebel    27.2s
+  [merge] confident links: 1 endpoint(s); 85/90 triple(s) below confidence 0.9 left standalone
+[mine] 2 schema rows, 90 REBEL triples (rel-vocab 0.489, resolved 0.006)
+04:22:16 INFO step mine.consolidate     0.9s
+[mine] REBEL triples -> outputs_test\characterization_and_metrology_outdoor_measurements\rebel_triples.jsonld
+04:22:16 INFO step mine.persist     0.0s
+[ground] MDS-Onto: matched 11/29 concepts
+04:22:29 INFO step mine.ground    12.3s
+[ontology] Step 4: OWL 2 TTL, then Step 5: JSON-LD (GraphDB repo)...
+  [ontology] REBEL links: 0 added (conf>=0.9, exact match), 44 left standalone
+  Ontology → outputs_test\characterization_and_metrology_outdoor_measurements\characterization_and_metrology_outdoor_measurements_onto.ttl
+  Combined -> outputs_test\characterization_and_metrology_outdoor_measurements\all.jsonld
+04:22:29 INFO step ontology       0.1s
+[validate] PASS - alignment 0.993, 275 classes
+[portal] submission failed (non-fatal): 422 Client Error: Unprocessable Entity for url: https://www.mdsonto-portal.com:8443/ontologies | portal said: {"errors":[{"name":{"safe_text_256":"Attribute `name` with the value `Characterization and Metrology > Outdoor Measurements` must be safe text (no control or invisible Unicode characters, newlines, or disallowed punctuation) and must not exceed 256 characters"}}],"status":422}
+04:22:30 INFO step validate       0.9s
+04:22:30 INFO step diagram        0.0s
+04:22:30 INFO step lora           0.0s
+[visual] Step 7: interactive graph + benchmark...
+[visual] graph -> outputs_test\characterization_and_metrology_outdoor_measurements\graph.html  (2 papers, 271 concepts, 63.8% generic-class)
+[visual] benchmark row appended -> eval\graph_benchmark.csv
+04:22:30 INFO step visual         0.4s
+04:22:30 INFO step TOTAL        494.0s
+
+Done - GraphDB repo + diagram in outputs_test\characterization_and_metrology_outdoor_measurements

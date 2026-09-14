@@ -1,0 +1,192 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+  },
+  "@id": "https://cwrusdle.bitbucket.io/mds/generic/A_comparison_of_theoretical_efficiencies_of_multi-junction_concentrator_solar_cells",
+  "@type": [
+    "mds:ResearchPublication",
+    "mds:SchemaRecord"
+  ],
+  "schema:identifier": "10.1002/pip.830",
+  "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+  "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+  "schema:name": "A comparison of theoretical efficiencies of multi-junction concentrator solar cells",
+  "owl:sameAs": {
+    "@id": "https://doi.org/10.1002/pip.830"
+  },
+  "mds:hasConcept": [
+    {
+      "mds:canonicalTerm": "calculation approach",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "detailed balance approach",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "solar cell efficiency",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "efficiencies",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "theoretical upper bound",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "upper bound",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "efficiency limit",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "#50% efficiencies",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "junction number",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "multi-junction",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "experimental record",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "historical experimental champion efficiencies",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "concentration factor",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "concentration",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "model type",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "one-dimensional-transport model",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "prediction accuracy",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "predict efficiencies",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "reference spectrum",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "spectral conditions",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "material parameter",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+      },
+      "mds:paperTerm": "material parameters",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "comparison basis",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "side-by-side comparison",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "irradiance level",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "irradiance conditions",
+      "mds:relevance": {
+        "@value": 0.4,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "device design feature",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "device structure",
+      "mds:relevance": {
+        "@value": 0.4,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "solar cell type",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "concentrator",
+      "mds:relevance": {
+        "@value": 0.4,
+        "@type": "xsd:decimal"
+      }
+    }
+  ]
+}

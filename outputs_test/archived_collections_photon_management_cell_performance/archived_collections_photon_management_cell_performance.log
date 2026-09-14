@@ -1,0 +1,93 @@
+[log] run log -> outputs_test\archived_collections_photon_management_cell_performance\archived_collections_photon_management_cell_performance.log
+05:45:11 INFO run start: collection '-Archived Collections- > Photon Management > Cell Performance' (9W9Q8GWK) | model llama3.1:8b-instruct-q8_0
+
+[unsupervised] collection "-Archived Collections- > Photon Management > Cell Performance" (9W9Q8GWK) | model llama3.1:8b-instruct-q8_0
+[dials] top_n=40 min_relevance=0.5 max_concepts=100 limit=1
+[gpu] NVIDIA GeForce RTX 5070 Ti Laptop GPU | torch 2.11.0+cu128 | VRAM 10.8/11.9 GB free | rebel_device=cuda
+Loaded 1 papers. (limited to 1)
+05:45:16 INFO step input          7.9s
+[concepts] Step 1: extracting from abstracts...
+  [domain] inferred: Photovoltaics Research
+  [concepts] source=full-text, top_n=40
+  [1/1] Concepts: The Passivated Emitter and Rear Cell (PERC): From conception to mass p
+      [concepts] full-text: 46333 chars in 5 chunk(s)
+  [concepts] relevance>=0.5: kept 86, dropped 1
+[concepts] normalized to 49
+05:46:54 INFO step concepts      98.6s
+[mine] Step 2: full-text mining (LLM) + REBEL triples...
+  [1/1] Mining: The Passivated Emitter and Rear Cell (PERC): From conception to mass p
+05:49:36 INFO step mine.llm     162.1s
+05:49:41 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  [rebel] model loaded on cuda
+  [rebel] full-text: scanned 46333 chars in 34 chunk(s) across 1 paper(s) -> 34 triples
+05:49:52 INFO step mine.rebel    15.1s
+  [merge] confident links: 0 endpoint(s); 32/34 triple(s) below confidence 0.9 left standalone
+[mine] 1 schema rows, 34 REBEL triples (rel-vocab 0.676, resolved 0.0)
+05:49:52 INFO step mine.consolidate     0.9s
+[mine] REBEL triples -> outputs_test\archived_collections_photon_management_cell_performance\rebel_triples.jsonld
+05:49:52 INFO step mine.persist     0.0s
+[ground] MDS-Onto: matched 19/49 concepts
+05:50:18 INFO step mine.ground    25.6s
+[ontology] Step 4: OWL 2 TTL, then Step 5: JSON-LD (GraphDB repo)...
+  [ontology] REBEL links: 0 added (conf>=0.9, exact match), 23 left standalone
+  Ontology → outputs_test\archived_collections_photon_management_cell_performance\archived_collections_photon_management_cell_performance_onto.ttl
+  Combined -> outputs_test\archived_collections_photon_management_cell_performance\all.jsonld
+05:50:18 INFO step ontology       0.1s
+[validate] PASS - alignment 0.983, 120 classes
+[portal] submission failed (non-fatal): 422 Client Error: Unprocessable Entity for url: https://www.mdsonto-portal.com:8443/ontologies/acpmcp_onto/submissions | portal said: {"errors":["You must provide a valid `acronym` to create a new submission"],"status":422}
+05:50:20 INFO step validate       1.7s
+05:50:20 INFO step diagram        0.0s
+05:50:20 INFO step lora           0.0s
+[visual] Step 7: interactive graph + benchmark...
+[visual] skipped (non-fatal): [Errno 13] Permission denied: 'eval\\graph_benchmark.csv'
+05:50:20 INFO step visual         0.3s
+05:50:20 INFO step TOTAL        312.3s
+
+Done - GraphDB repo + diagram in outputs_test\archived_collections_photon_management_cell_performance
+[log] run log -> outputs_test\archived_collections_photon_management_cell_performance\archived_collections_photon_management_cell_performance.log
+11:11:35 INFO run start: collection '-Archived Collections- > Photon Management > Cell Performance' (9W9Q8GWK) | model llama3.1:8b-instruct-q8_0
+
+[unsupervised] collection "-Archived Collections- > Photon Management > Cell Performance" (9W9Q8GWK) | model llama3.1:8b-instruct-q8_0
+[dials] top_n=40 min_relevance=0.5 max_concepts=100 limit=1
+[gpu] NVIDIA GeForce RTX 5070 Ti Laptop GPU | torch 2.11.0+cu128 | VRAM 10.8/11.9 GB free | rebel_device=cuda
+Loaded 1 papers. (limited to 1)
+11:11:46 INFO step input         15.1s
+[concepts] Step 1: extracting from abstracts...
+  [domain] inferred: Renewable Energy - Solar Power
+  [concepts] source=full-text, top_n=40
+  [1/1] Concepts: The Passivated Emitter and Rear Cell (PERC): From conception to mass p
+      [concepts] full-text: 46333 chars in 5 chunk(s)
+  [concepts] relevance>=0.5: kept 58, dropped 32
+[concepts] normalized to 37
+11:13:34 INFO step concepts     108.0s
+[mine] Step 2: full-text mining (LLM) + REBEL triples...
+  [1/1] Mining: The Passivated Emitter and Rear Cell (PERC): From conception to mass p
+11:15:23 INFO step mine.llm     109.0s
+11:15:33 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  [rebel] model loaded on cuda
+  [rebel] full-text: scanned 46333 chars in 34 chunk(s) across 1 paper(s) -> 34 triples
+11:15:56 INFO step mine.rebel    32.5s
+  [merge] confident links: 0 endpoint(s); 32/34 triple(s) below confidence 0.9 left standalone
+[mine] 1 schema rows, 34 REBEL triples (rel-vocab 0.676, resolved 0.0)
+11:15:58 INFO step mine.consolidate     1.9s
+[mine] REBEL triples -> outputs_test\archived_collections_photon_management_cell_performance\rebel_triples.jsonld
+11:15:58 INFO step mine.persist     0.0s
+[ground] MDS-Onto: matched 3/37 concepts
+11:16:19 INFO step mine.ground    21.8s
+[ontology] Step 4: OWL 2 TTL, then Step 5: JSON-LD (GraphDB repo)...
+  [ontology] REBEL links: 0 added (conf>=0.9, exact match), 23 left standalone
+  Ontology -> outputs_test\archived_collections_photon_management_cell_performance\archived_collections_photon_management_cell_performance_onto.ttl
+  Combined -> outputs_test\archived_collections_photon_management_cell_performance\all.jsonld
+11:16:20 INFO step ontology       0.3s
+[validate] PASS - alignment 0.976, 82 classes
+[portal] submission failed (non-fatal): 400 Client Error: Bad Request for url: https://www.mdsonto-portal.com:8443/ontologies/ACPMCP_ONTO/submissions | portal said: {"errors":[{"contact":{"existence":"`` value cannot be nil"}}],"status":400}
+11:16:23 INFO step validate       3.4s
+11:16:23 INFO step diagram        0.0s
+11:16:23 INFO step lora           0.0s
+[visual] Step 7: interactive graph + benchmark...
+[visual] graph -> outputs_test\archived_collections_photon_management_cell_performance\graph.html  (1 papers, 58 concepts, 20.7% generic-class)
+[visual] benchmark row appended -> eval\graph_benchmark.csv
+11:16:24 INFO step visual         0.9s
+11:16:24 INFO step TOTAL        292.8s
+
+Done - GraphDB repo + diagram in outputs_test\archived_collections_photon_management_cell_performance

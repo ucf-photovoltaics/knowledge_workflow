@@ -1,0 +1,46 @@
+[log] run log -> outputs_test\characterization_and_metrology_spatially_resolved_characterization_uvf\characterization_and_metrology_spatially_resolved_characterization_uvf.log
+05:22:01 INFO run start: collection 'Characterization and Metrology > Spatially-Resolved Characterization > UVF' (3BP2G79C) | model llama3.1:8b-instruct-q8_0
+
+[unsupervised] collection "Characterization and Metrology > Spatially-Resolved Characterization > UVF" (3BP2G79C) | model llama3.1:8b-instruct-q8_0
+[dials] top_n=40 min_relevance=0.5 max_concepts=100 limit=1
+[gpu] NVIDIA GeForce RTX 5070 Ti Laptop GPU | torch 2.11.0+cu128 | VRAM 10.8/11.9 GB free | rebel_device=cuda
+Loaded 1 papers. (limited to 1)
+05:22:09 INFO step input         11.0s
+[concepts] Step 1: extracting from abstracts...
+  [domain] inferred: Photovoltaic Module Science and Inspection (key categories: Imaging_Techniques, Defect_Detection_Methods, Crystalline_Silicon_Photovoltaics, Wafer_Based_Module_Manufacturing, Quality_Assessment_Procedures)
+  [concepts] source=full-text, top_n=40
+  [1/1] Concepts: Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic M
+      [concepts] full-text: 81465 chars in 9 chunk(s)
+  [concepts] relevance>=0.5: kept 172, dropped 6
+[concepts] normalized to 60
+05:25:06 INFO step concepts     176.8s
+[mine] Step 2: full-text mining (LLM) + REBEL triples...
+  [1/1] Mining: Review: Ultraviolet Fluorescence as Assessment Tool for Photovoltaic M
+05:28:00 INFO step mine.llm     174.1s
+05:28:18 WARNING Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  [rebel] model loaded on cuda
+  [rebel] full-text: scanned 81465 chars in 59 chunk(s) across 1 paper(s) -> 55 triples
+05:28:32 INFO step mine.rebel    32.4s
+  [merge] confident links: 1 endpoint(s); 52/55 triple(s) below confidence 0.9 left standalone
+[mine] 1 schema rows, 55 REBEL triples (rel-vocab 0.491, resolved 0.009)
+05:28:34 INFO step mine.consolidate     1.6s
+[mine] REBEL triples -> outputs_test\characterization_and_metrology_spatially_resolved_characterization_uvf\rebel_triples.jsonld
+05:28:34 INFO step mine.persist     0.0s
+[ground] MDS-Onto: matched 9/60 concepts
+05:29:06 INFO step mine.ground    32.2s
+[ontology] Step 4: OWL 2 TTL, then Step 5: JSON-LD (GraphDB repo)...
+  [ontology] REBEL links: 0 added (conf>=0.9, exact match), 27 left standalone
+  Ontology → outputs_test\characterization_and_metrology_spatially_resolved_characterization_uvf\characterization_and_metrology_spatially_resolved_characterization_uvf_onto.ttl
+  Combined -> outputs_test\characterization_and_metrology_spatially_resolved_characterization_uvf\all.jsonld
+05:29:06 INFO step ontology       0.1s
+[validate] PASS - alignment 0.99, 206 classes
+[portal] submission failed (non-fatal): 422 Client Error: Unprocessable Entity for url: https://www.mdsonto-portal.com:8443/ontologies/cmsrcu_onto/submissions | portal said: {"errors":["You must provide a valid `acronym` to create a new submission"],"status":422}
+05:29:08 INFO step validate       2.1s
+05:29:08 INFO step diagram        0.0s
+05:29:08 INFO step lora           0.0s
+[visual] Step 7: interactive graph + benchmark...
+[visual] skipped (non-fatal): [Errno 13] Permission denied: 'eval\\graph_benchmark.csv'
+05:29:09 INFO step visual         0.3s
+05:29:09 INFO step TOTAL        430.5s
+
+Done - GraphDB repo + diagram in outputs_test\characterization_and_metrology_spatially_resolved_characterization_uvf

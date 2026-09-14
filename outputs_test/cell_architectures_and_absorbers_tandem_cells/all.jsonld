@@ -1,0 +1,2755 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+  },
+  "@graph": [
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/generic/A_roadmap_for_tandem_photovoltaics",
+      "@type": [
+        "mds:ResearchPublication",
+        "mds:SchemaRecord"
+      ],
+      "schema:identifier": "10.1016/j.joule.2024.01.017",
+      "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+      "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+      "schema:name": "A roadmap for tandem photovoltaics",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1016/j.joule.2024.01.017"
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "research coordination goal",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "spur researchers and manufacturers to work together",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "research status",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "roadmaps of many PV manufacturers",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "development timeline component",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "general timeline of activities",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar cell type",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "tandem solar cell",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "technology pairing direction",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "multiple PV technology pairings and architectures",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "product development requirement",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "design, reliability, and scaling components",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "power output",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "leap in power conversion efficiency",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "materials development goal",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "continued growth in installed photovoltaic (PV) capacity",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "deployment goal",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "mass deployment",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "challenge type",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "many fronts",
+          "mds:relevance": {
+            "@value": 0.4,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/generic/Quantifying_the_rear_side_contribution_in_bifacial_tandem-photovoltaic_devices",
+      "@type": [
+        "mds:ResearchPublication",
+        "mds:SchemaRecord"
+      ],
+      "schema:identifier": "10.1039/D4EL00027G",
+      "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+      "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+      "schema:name": "Quantifying the rear side contribution in bifacial tandem-photovoltaic devices",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1039/D4EL00027G"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/IrradianceCaptureMethod": {
+        "mds:value": "the perovskite/crystalline silicon heterojunction as bifacial PV devices with high irradiance capture methods"
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "tandem device",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "bifacial perovskite on silicon tandem device",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar cell measurement",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "*outdoor measurements*",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "photovoltaic performance optimization",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "*optimization approaches for bifacial tandem devices are proposed*",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "absorber material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "perovskite",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "short circuit current",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "*sigma SC*",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "parameterization",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "*the parameters to describe the spectral characteristics of bifacial tandem devices*",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "tandem configuration",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "*bifacial tandem architecture*",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "standardized measurement procedure",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "*a standardized measurement procedure for such devices* (novel approach)",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "irradiance limit",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "rear side irradiance limit (RIL)",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "two terminal arrangement",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "*Two-terminal tandem device* (implicitly mentioned)",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "optical enhancement",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "*bifaciality*",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "irradiance capture method",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "*to increase the power output of photovoltaic devices by capturing a higher portion of the available irradiance*",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "power gain factor",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "*sigma P MPP*",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "spectral characteristic",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "*to propose new parameters* (no specific term)",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "single junction device",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "IEC TS 60904-1-2",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/generic/The_race_for_the_best_silicon_bottom_cell__Efficiency_and_cost_evaluation_of_perovskite_silicon_tandem_solar_cells",
+      "@type": [
+        "mds:ResearchPublication",
+        "mds:SchemaRecord"
+      ],
+      "schema:identifier": "10.1002/pip.3372",
+      "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+      "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+      "schema:name": "The race for the best silicon bottom cell: Efficiency and cost evaluation of perovskite–silicon tandem solar cells",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1002/pip.3372"
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "cost reduction metric",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Economics"
+          },
+          "mds:paperTerm": "levelized cost of electricity",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "silicon bottom cell technology",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "SHJ (Silicon Heterojunction)",
+          "mds:relevance": {
+            "@value": 0.85,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar panel metric",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "all-in module cost per watt peak",
+          "mds:relevance": {
+            "@value": 0.85,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "tandem solar cell efficiency",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "research cell efficiency",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "all-in-cell cost estimation",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "all-in cell costs per piece",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "pv market requirement",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Economics"
+          },
+          "mds:paperTerm": "cost reduction and resource efficiency",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar cell type",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "perovskite–silicon tandem solar cells",
+          "mds:relevance": {
+            "@value": 0.75,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "tandem solar cell type comparison",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "best silicon bottom cell technologies",
+          "mds:relevance": {
+            "@value": 0.75,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "material technology",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "PERC, TOPCon",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "tandem solar cell architecture",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "interconnection concepts",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "silicon material processing",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "SHJ technology combined with PERC, TOPCon",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "mass production challenge",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "industrial mass production",
+          "mds:relevance": {
+            "@value": 0.65,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "silicon material property",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "long-term stability",
+          "mds:relevance": {
+            "@value": 0.65,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "simulation method",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "experimentally validated simulation model",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "device upscaling challenge",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "upscaling",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/generic/Selecting_tandem_partners_for_silicon_solar_cells",
+      "@type": [
+        "mds:ResearchPublication",
+        "mds:SchemaRecord"
+      ],
+      "schema:identifier": "10.1038/nenergy.2016.137",
+      "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+      "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+      "schema:name": "Selecting tandem partners for silicon solar cells",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1038/nenergy.2016.137"
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "spectral efficiency",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "their efficiency resolved by wavelength",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "power conversion efficiency",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "power conversion efficiency of the cells",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "tandem structure",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "silicon tandem solar cells",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "top cell partner",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "top cell partners",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "cell selection metric",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "their spectral efficiency",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "material combination guideline",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "should be selected on the basis of their spectral efficiency",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "absorber material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "silicon/silicon nitride (Si/SiN) pairs",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "wavelength scale performance",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "resolved by wavelength",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar energy production system",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "tandem solar cells",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "efficiency enhancement strategy",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "<empty>",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "junction engineering strategy",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "<empty>",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "device architecture",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "<empty>",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "photovoltaic technology optimization",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "<empty>",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "optical material property",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "<empty>",
+          "mds:relevance": {
+            "@value": 0.4,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "technology strategy roadmap",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "<empty>",
+          "mds:relevance": {
+            "@value": 0.4,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/generic/A_bottom_up_cost_analysis_of_silicon_perovskite_tandem_photovoltaics",
+      "@type": [
+        "mds:ResearchPublication",
+        "mds:SchemaRecord"
+      ],
+      "schema:identifier": "10.1002/pip.3354",
+      "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+      "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+      "schema:name": "A bottom‐up cost analysis of silicon–perovskite tandem photovoltaics",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1002/pip.3354"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/HeterojunctionMaterialClass": {
+        "mds:value": "silicon – perovskite tandem cell architecture with heterojunction interface"
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "tandem structure",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "silicon-perovskite tandem (SPT) cell efficiency",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "efficiency improvement strategies",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "improve the efficiency of PV modules",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "cost modelling",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Economics"
+          },
+          "mds:paperTerm": "cost modelling is becoming important in analysing the commercial attractiveness of this approach",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "material costs",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "cost barriers",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "hole transport material costs",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "(2,20,7,70-tetrakis[N,N-di(4-methoxyphenyl)amino]-9,90spirobifluorene [SPIRO]",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "efficiency target",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "25% efficiency",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "production process optimization",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "assumed idealised production processes",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "cost reduction strategies",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Economics"
+          },
+          "mds:paperTerm": "solved cost issues in the perovskite cell",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "low-cost deposition processes",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "improved perovskite deposition process",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "device architecture",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "homojunction and heterojunction bottom silicon cells",
+          "mds:relevance": {
+            "@value": 0.4,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "low-cost materials",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "lower cost homojunction cells with p-type wafers",
+          "mds:relevance": {
+            "@value": 0.4,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "cost-benefit analysis",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Economics"
+          },
+          "mds:paperTerm": "levelised cost of electricity (LCOE)",
+          "mds:relevance": {
+            "@value": 0.4,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "modeling approach",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "bottom-up cost and uncertainty model",
+          "mds:relevance": {
+            "@value": 0.3,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "manufacturing waste costs",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Economics"
+          },
+          "mds:paperTerm": "high wastage rate of spin coating",
+          "mds:relevance": {
+            "@value": 0.3,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "production sequence optimization",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "projected likely cost of $1.50/cell for an improved low-cost production sequence",
+          "mds:relevance": {
+            "@value": 0.3,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/generic/Monolithic_Perovskite_Si_Tandem_Solar_Cells__Pathways_to_Over_30__Efficiency",
+      "@type": [
+        "mds:ResearchPublication",
+        "mds:SchemaRecord"
+      ],
+      "schema:identifier": "10.1002/aenm.201902840",
+      "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+      "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+      "schema:name": "Monolithic Perovskite/Si Tandem Solar Cells: Pathways to Over 30% Efficiency",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1002/aenm.201902840"
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "carrier lifetime",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "bulk lifetime exceeds 4 ms",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "current density",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "tandem current densities (≈20 mAcm−2 with front-side texture)",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "performance metric",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "efficiency potential",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "electrical model",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "electrical modeling on the Si-subcell under filtered light in a tandem configuration",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "passivation current density",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "saturation current densities below 10 fA cm−2",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "device efficiency enhancement",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "increasing the Si subcell efficiency by 1% absolute",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "device structure",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "tandem configuration",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "interface quality",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "surface passivation quality",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "passivation method",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "polycrystalline-Si/SiOx passivating contacts",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "optical loss mechanism",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "aided by optical simulations of optical losses",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "modeling tool",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "state-of-the-art modeling tools",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "tandem design choice",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "Si subcell choices comparisons",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "absorber material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "perovskite/Si tandem system",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "substrate material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "Si substrate",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "material interaction",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "interconnection design strategies",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/generic/Enhanced_optical_path_and_electron_diffusion_length_enable_high-efficiency_perovskite_tandems",
+      "@type": [
+        "mds:ResearchPublication",
+        "mds:SchemaRecord"
+      ],
+      "schema:identifier": "10.1038/s41467-020-15077-3",
+      "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+      "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+      "schema:name": "Enhanced optical path and electron diffusion length enable high-efficiency perovskite tandems",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1038/s41467-020-15077-3"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/CarrierLifetime": {
+        "mds:value": "5 μs",
+        "mds:quote": "A carrier lifetime of only approximately 5 microseconds is observed"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/HighEfficiency": {
+        "mds:value": ">23%",
+        "mds:quote": "High efficiency (>23%) tandem solar cells with perovskites and silicon absorbers have been reported in the literature."
+      },
+      "https://cwrusdle.bitbucket.io/mds/measurement/PowerConversionEfficiency": {
+        "mds:value": "17.8%",
+        "mds:quote": "A world record for a solution-processed perovskite/silicon tandem with a record power conversion efficiency of 17.8%."
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "carrier collection",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "carrier collection in the perovskite layer",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "efficiency enhancement",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "largely enhance the efficiency",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "photovoltaic cell",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "tandem solar cells",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "tandem device",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "tandem cells",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "perovskite material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "metal-halide perovskite",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "layer interaction",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "when combined with colloidal quantum dot or silicon layers",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "silicon material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "silicon layers",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "colloidal quantum dot",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "colloidal quantum dot or silicon layers",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "research challenge",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "making a high efficiency device is not trivial",
+          "mds:relevance": {
+            "@value": 0.4,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar technology",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:relevance": {
+            "@value": 0.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "photovoltaic application",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:relevance": {
+            "@value": 0.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "high-efficiency",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:relevance": {
+            "@value": 0.0,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/generic/Textured_interfaces_in_monolithic_perovskite_silicon_tandem_solar_cells__advanced_light_management_for_improved_efficien",
+      "@type": [
+        "mds:ResearchPublication",
+        "mds:SchemaRecord"
+      ],
+      "schema:identifier": "10.1039/C8EE02469C",
+      "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+      "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+      "schema:name": "Textured interfaces in monolithic perovskite/silicon tandem solar cells: advanced light management for improved efficiency and energy yield",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1039/C8EE02469C"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/AntiReflectionTechnique": {
+        "mds:value": "inhibiting optical interference at air/surface interfaces with a smooth surface morphology, e. g., nanotexturing and quantum dot-based coatings with an average particle size that depends on the wavelength of light"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/CarrierLifetime": {
+        "mds:value": "inverted planar heterojunction perovskite solar cells with >400 μs carrier lifetime at high injection levels"
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "device efficiency",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "power conversion efficiency (PCE)",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "optical design and optimization",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "numerical simulation and theoretical PCE optimization at interfaces",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "device performance",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "23.4% to 25.5%, predicted optimal: 32.5%",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "energy yield",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "performance metrics of different designs under diffuse conditions",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "substitution material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "textured silicon wafer and LM foil on front-side",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "texture position",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "both-side textures on silicon wafer and position with respect to the perovskite cell",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "absorber material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "perovskite top cell material (1.66 eV bandgap)",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "optical structure",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "light management foil (LM foil)",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "optimal bandgap",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "1.66 eV bandgap for best device performance",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "anti-reflection technique",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "LM foil vs flat AR coating (textured, non-textured comparison)",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "location-specific yield",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "true weather data for three locations and diffuse illumination",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "illumination conditions",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "perpendicular illumination",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "heterojunction properties",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "silicon-heterojunction of perovskite/silicon configuration",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "application and deployment",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "BIPV (Building Integrated Photovoltaics) applications",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar cell manufacturing process",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "solution processing, wafer preparation and device fabrication",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/generic/Optical_modeling_of_wide-bandgap_perovskite_and_perovskite_silicon_tandem_solar_cells_using_complex_refractive_indices_f",
+      "@type": [
+        "mds:ResearchPublication",
+        "mds:SchemaRecord"
+      ],
+      "schema:identifier": "10.1364/OE.26.027441",
+      "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+      "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+      "schema:name": "Optical modeling of wide-bandgap perovskite and perovskite/silicon tandem solar cells using complex refractive indices for arbitrary-bandgap perovskite absorbers",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1364/OE.26.027441"
+      },
+      "https://cwrusdle.bitbucket.io/mds/material/AbsorberMaterial": {
+        "mds:value": "the most common perovskite absorber for solar cells, methylammonium lead triiodide"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/BandgapEnergy": {
+        "mds:value": "between 1.56 and 1.68 eV"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/EnergyLossMechanisms": {
+        "mds:value": "reflection and parasitic absorption in the front ITO layer and electron contact"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/HeterojunctionMaterialClass": {
+        "mds:value": "perovskite/CIGS, perovskite/silicon tandems"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/LossMechanism": {
+        "mds:value": "reflection and parasitic absorption in the front ITO layer and electron contact"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/PerovskiteMaterial": {
+        "mds:value": "wide-bandgap, cesium-formamidinium-based perovskites"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/Photocurrent": {
+        "mds:value": "<0.3 mA/cm2"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/PowerOutput": {
+        "mds:value": "nearly 20 mA/cm2"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/PredictionAccuracy": {
+        "mds:value": "<0.3 mA/cm2"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/ShortCircuitCurrent": {
+        "mds:value": "less than 0.3 mA/cm2"
+      },
+      "https://cwrusdle.bitbucket.io/mds/device/TandemCellArchitecture": {
+        "mds:value": "perovskite/perovskite, perovskite/CIGS, and perovskite/silicon tandems"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/TwoTerminalArrangement": {
+        "mds:value": "a textured two-terminal perovskite/silicon tandem solar cell"
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "absorber material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "cesium-formamidinium-based perovskites",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "loss mechanism",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "reflection and parasitic absorption",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "tandem solar cell",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "perovskite/silicon tandem solar cell",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "material property mapping",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "map the short-circuit current density of a textured two-terminal perovskite/silicon tandem solar cell",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "absorber material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "perovskite absorber",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "absorber material precursor",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "methylammonium lead triiodide",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar cell design",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "nearly 20 mA/cm2 matched current density",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "optical loss",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "optical losses",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "bandgap energy",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "arbitrary wide-bandgap perovskite bandgap",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "top cell material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "wide-bandgap perovskites",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "simulation method",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "simulated quantum efficiency and reflectance spectra",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "semiconductor layer",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "front ITO layer",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "optical model",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "comprehensive optical modeling",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "contact material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "electron contact",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "measurement method",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "ellipsometry and spectrophotometry",
+          "mds:relevance": {
+            "@value": 0.4,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/generic/Opportunities_and_challenges_for_tandem_solar_cells_using_metal_halide_perovskite_semiconductors",
+      "@type": [
+        "mds:ResearchPublication",
+        "mds:SchemaRecord"
+      ],
+      "schema:identifier": "10.1038/s41560-018-0190-4",
+      "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+      "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+      "schema:name": "Opportunities and challenges for tandem solar cells using metal halide perovskite semiconductors",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1038/s41560-018-0190-4"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/BandgapEnergy": {
+        "mds:value": "*wide bandgap range*",
+        "mds:quote": "Perovskites, with their wide bandgap range, are good partners for both commercial and novel photovoltaic technologies in multijunction solar cells."
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/CellEfficiency": {
+        "mds:value": "*efficiency*"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/HeterojunctionMaterialClass": {
+        "mds:value": "*perovskite-based tandems*",
+        "mds:quote": "Here, McGehee and co-workers review recent material and device developments and highlight future challenges and opportunities for perovskite-based tandems."
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/IrradianceCaptureMethod": {
+        "mds:value": "*solar cells*",
+        "mds:quote": "Perovskites, with their wide bandgap range, are good partners for both commercial and novel photovoltaic technologies in multijunction solar cells."
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/MaterialCosts": {
+        "mds:value": "*costs*"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/OptimizationTarget": {
+        "mds:value": "*perovskite-based tandems*",
+        "mds:quote": "Here, McGehee and co-workers review recent material and device developments and highlight future challenges and opportunities for perovskite-based tandems."
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/PerovskiteMaterial": {
+        "mds:value": "*perovskites*",
+        "mds:quote": "Perovskites, with their wide bandgap range, are good partners for both commercial and novel photovoltaic technologies in multijunction solar cells."
+      },
+      "https://cwrusdle.bitbucket.io/mds/device/PhotovoltaicTechnology": {
+        "mds:value": "*photovoltaic technologies*",
+        "mds:quote": "Perovskites, with their wide bandgap range, are good partners for both commercial and novel photovoltaic technologies in multijunction solar cells."
+      },
+      "https://cwrusdle.bitbucket.io/mds/measurement/PowerConversionEfficiency": {
+        "mds:value": "*efficiency*"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/ResearchChallenge": {
+        "mds:value": "*future challenges and opportunities*",
+        "mds:quote": "Here, McGehee and co-workers review recent material and device developments and highlight future challenges and opportunities for perovskite-based tandems."
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/SiliconMaterialProcessing": {
+        "mds:value": "*multijunction*",
+        "mds:quote": "Perovskites, with their wide bandgap range, are good partners for both commercial and novel photovoltaic technologies in multijunction solar cells. Here, McGehee and co-workers review recent material and device developments"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/SpectralEfficiency": {
+        "mds:value": "*efficiency*"
+      },
+      "https://cwrusdle.bitbucket.io/mds/sample/SubstrateMaterial": {
+        "mds:value": "*tandems*",
+        "mds:quote": "Here, McGehee and co-workers review recent material and device developments and highlight future challenges and opportunities for perovskite-based tandems."
+      },
+      "https://cwrusdle.bitbucket.io/mds/device/TandemCellArchitecture": {
+        "mds:value": "*tandems*",
+        "mds:quote": "Here, McGehee and co-workers review recent material and device developments and highlight future challenges and opportunities for perovskite-based tandems."
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/TwoTerminalArrangement": {
+        "mds:value": "*solar cells*"
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "solar cell type",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "multijunction solar cells",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "heterojunction material class",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "perovskites",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "material type",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "perovskite-based",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "device component architecture",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "tandems",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "challenge/ opportunity classification",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "future challenges and opportunities",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "photovoltaic technology",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "commercial and novel photovoltaic technologies",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "electron bandgap range",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "wide bandgap range",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "application scope",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "commercial",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "scientific organization type",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "McGehee and co-workers",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "novelty degree",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "novel",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "research methodology",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "review",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "bandgap size range category",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "wide",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/generic/Perovskite_c-Si_tandem_solar_cells_with_realistic_inverted_architecture__Achieving_high_efficiency_by_optical_optimizati",
+      "@type": [
+        "mds:ResearchPublication",
+        "mds:SchemaRecord"
+      ],
+      "schema:identifier": "10.1002/pip.3037",
+      "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+      "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+      "schema:name": "Perovskite/c-Si tandem solar cells with realistic inverted architecture: Achieving high efficiency by optical optimization",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1002/pip.3037"
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "optimization strategy",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "detailed optimization for achieving high efficiency",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "tandem cell architecture",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "perovskite/c-Si monolithic tandem solar cells",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar cell type",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "perovskite/c-Si monolithic TSCs",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "absorber material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "perovskite",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "device performance metric",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "external quantum efficiency",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "efficiency metric (overall)",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "tandem cell efficiency",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "performance metric unit",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "% efficient device performance, absolute number",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "computational method",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "finite difference time domain and light path analysis",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "device configuration",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "improved configuration of perovskite/c-Si monolithic TSCs",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "device structure",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "inverted architecture",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "device efficiency limit",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "efficiency limits",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "photocurrent",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "current losses",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "optimization target",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "+high efficiency",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "model complexity",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "realistic solar cell parameters",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "front surface feature",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Characterization"
+          },
+          "mds:paperTerm": "pyramids structure in front surface",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/generic/10.1016_j.solmat.2015.05.043",
+      "@type": [
+        "mds:ResearchPublication",
+        "mds:SchemaRecord"
+      ],
+      "schema:identifier": "10.1016/j.solmat.2015.05.043",
+      "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+      "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1016/j.solmat.2015.05.043"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/ColloidalQuantumDot": {
+        "mds:value": "[32,40]}"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/PerovskiteMaterial": {
+        "mds:value": "[33,34]}"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/Photocurrent": {
+        "mds:value": "[36]"
+      }
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/generic/A_comparison_of_theoretical_efficiencies_of_multi-junction_concentrator_solar_cells",
+      "@type": [
+        "mds:ResearchPublication",
+        "mds:SchemaRecord"
+      ],
+      "schema:identifier": "10.1002/pip.830",
+      "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+      "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+      "schema:name": "A comparison of theoretical efficiencies of multi-junction concentrator solar cells",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1002/pip.830"
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "calculation approach",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "detailed balance approach",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar cell efficiency",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "efficiencies",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "theoretical upper bound",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "upper bound",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "efficiency limit",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "#50% efficiencies",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "junction number",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "multi-junction",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "experimental record",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "historical experimental champion efficiencies",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "concentration factor",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "concentration",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "model type",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "one-dimensional-transport model",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "prediction accuracy",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "predict efficiencies",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "reference spectrum",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "spectral conditions",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "material parameter",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "material parameters",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "comparison basis",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "side-by-side comparison",
+          "mds:relevance": {
+            "@value": 0.5,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "irradiance level",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "irradiance conditions",
+          "mds:relevance": {
+            "@value": 0.4,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "device design feature",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "device structure",
+          "mds:relevance": {
+            "@value": 0.4,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar cell type",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "concentrator",
+          "mds:relevance": {
+            "@value": 0.4,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/generic/Detailed_balance_limit_of_the_efficiency_of_tandem_solar_cells",
+      "@type": [
+        "mds:ResearchPublication",
+        "mds:SchemaRecord"
+      ],
+      "schema:identifier": "10.1088/0022-3727/13/5/018",
+      "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+      "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+      "schema:name": "Detailed balance limit of the efficiency of tandem solar cells",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1088/0022-3727/13/5/018"
+      },
+      "https://cwrusdle.bitbucket.io/mds/device/PhotovoltaicTechnology": {
+        "mds:value": "spectral efficiency",
+        "mds:quote": "[17] The development of photovoltaic technology will heavily depend on its spectral efficiency-"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/ProductionProcessOptimization": {
+        "mds:value": "perovskite material",
+        "mds:quote": "-A promising solution to this problem would be perovskite nano-cubes."
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "illumination-induced loss",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "efficiency",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "conversion percentage",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "illumination source",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "solar irradiance & electroluminescence",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "'ideal' efficiency",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "model limit/performance bound",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "illumination level",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "unconcentrated sunlight/concentrated sunlight",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "tandem structure",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "tandem cell set/stacks",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "number of cells",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "single cell, tandem structure, stack",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "solar cell performance",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "single solar cell/ tandem structure performance",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "incident power density",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "highest possible light concentration",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "'energy loss' mechanisms",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "detailed balance limit",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "'stack' configuration",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "tandem stack with infinite number of cells",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "'optimal' tandem design",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "tandem system ideal performance bound",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/generic/Techno-economic_viability_of_silicon-based_tandem_photovoltaic_modules_in_the_United_States",
+      "@type": [
+        "mds:ResearchPublication",
+        "mds:SchemaRecord"
+      ],
+      "schema:identifier": "10.1038/s41560-018-0201-5",
+      "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+      "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+      "schema:name": "Techno-economic viability of silicon-based tandem photovoltaic modules in the United States",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1038/s41560-018-0201-5"
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "tandem configuration",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "tandem photovoltaic module",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "efficiency limit",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "theoretical efficiency limit of silicon photovoltaics",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "photovoltaic material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "silicon photovoltaics",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "performance benchmark",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+          },
+          "mds:paperTerm": "efficiencies",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "efficiency model",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "model for tandem module efficiency and cost",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "device configuration",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "bottom cell",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "market sector",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Economics"
+          },
+          "mds:paperTerm": "different tandem markets",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "component cost",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Economics"
+          },
+          "mds:paperTerm": "costs",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/generic/Fully_textured_monolithic_perovskite_silicon_tandem_solar_cells_with_25.2__power_conversion_efficiency",
+      "@type": [
+        "mds:ResearchPublication",
+        "mds:SchemaRecord"
+      ],
+      "schema:identifier": "10.1038/s41563-018-0115-4",
+      "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+      "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+      "schema:name": "Fully textured monolithic perovskite/silicon tandem solar cells with 25.2% power conversion efficiency",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1038/s41563-018-0115-4"
+      },
+      "mds:hasConcept": [
+        {
+          "mds:canonicalTerm": "solar cell structure",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "tandem silicon/perovskite solar cells",
+          "mds:relevance": {
+            "@value": 1.0,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "optical design",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+          },
+          "mds:paperTerm": "improved optical design",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "layer uniformity",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "uniform layers",
+          "mds:relevance": {
+            "@value": 0.9,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "absorber material",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+          },
+          "mds:paperTerm": "metal halide perovskite",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "fabrication method",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+          },
+          "mds:paperTerm": "optimized two-step deposition process",
+          "mds:relevance": {
+            "@value": 0.8,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "efficiency metric",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+          },
+          "mds:paperTerm": "efficiency",
+          "mds:relevance": {
+            "@value": 0.7,
+            "@type": "xsd:decimal"
+          }
+        },
+        {
+          "mds:canonicalTerm": "substrate",
+          "skos:broader": {
+            "@id": "https://cwrusdle.bitbucket.io/mds/Sample"
+          },
+          "mds:paperTerm": "textured silicon layer",
+          "mds:relevance": {
+            "@value": 0.6,
+            "@type": "xsd:decimal"
+          }
+        }
+      ]
+    },
+    {
+      "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "qudt": "http://qudt.org/schema/qudt/",
+        "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+      },
+      "@id": "https://cwrusdle.bitbucket.io/mds/generic/10.1016_j.solmat.2014.09.042",
+      "@type": [
+        "mds:ResearchPublication",
+        "mds:SchemaRecord"
+      ],
+      "schema:identifier": "10.1016/j.solmat.2014.09.042",
+      "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+      "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+      "owl:sameAs": {
+        "@id": "https://doi.org/10.1016/j.solmat.2014.09.042"
+      },
+      "https://cwrusdle.bitbucket.io/mds/generic/AntiReflectionTechnique": {
+        "mds:value": "These thin ﬁlms can be used as an anti-reflection coating to minimize losses of short wavelength light in thin ﬁlm SiPV devices."
+      }
+    }
+  ]
+}

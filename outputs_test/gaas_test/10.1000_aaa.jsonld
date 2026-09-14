@@ -1,0 +1,49 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "mds": "https://cwrusdle.bitbucket.io/mds/",
+    "gaas": "https://cwrusdle.bitbucket.io/mds/semiconductors/gaas/"
+  },
+  "@id": "https://cwrusdle.bitbucket.io/mds/semiconductors/gaas/10.1000_aaa",
+  "@type": [
+    "mds:ResearchPublication",
+    "gaas:SchemaRecord"
+  ],
+  "schema:identifier": "10.1000/aaa",
+  "mds:hasDomain": "gaas",
+  "mds:derivedFrom": "schema_gaas.csv",
+  "owl:sameAs": {
+    "@id": "https://doi.org/10.1000/aaa"
+  },
+  "https://cwrusdle.bitbucket.io/mds/measurement/PowerConversionEfficiency": {
+    "mds:value": "22.1%",
+    "mds:quote": "PCE of 22.1% measured"
+  },
+  "https://cwrusdle.bitbucket.io/mds/material/AbsorberMaterial": {
+    "mds:value": "GaAs",
+    "mds:quote": "GaAs absorber"
+  },
+  "https://cwrusdle.bitbucket.io/mds/process/DepositionMethod": {
+    "mds:value": "MOCVD",
+    "mds:quote": "grown by MOCVD"
+  },
+  "https://cwrusdle.bitbucket.io/mds/characterization/DegradationMechanism": {
+    "mds:value": "oxidation",
+    "mds:quote": "contact oxidation observed"
+  },
+  "https://cwrusdle.bitbucket.io/mds/economics/MaterialCost": {
+    "mds:value": "low",
+    "mds:quote": "low silver cost"
+  },
+  "https://cwrusdle.bitbucket.io/mds/sample/WaferThickness": {
+    "mds:value": "180 um",
+    "mds:quote": "180 micron wafer"
+  }
+}

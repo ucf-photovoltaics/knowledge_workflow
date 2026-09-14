@@ -1,0 +1,262 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+  },
+  "@id": "https://cwrusdle.bitbucket.io/mds/generic/ITO-less_silicon_heterojunction_solar_cells_based_on_nanocrystalline_silicon_carrier_collectors",
+  "@type": [
+    "mds:ResearchPublication",
+    "mds:SchemaRecord"
+  ],
+  "schema:identifier": "10.1016/j.solmat.2025.113422",
+  "mds:hasDomain": "cell_efficiencies",
+  "mds:derivedFrom": "schema_cell_efficiencies-Brent_Thompson-v8-20260624.csv",
+  "schema:name": "ITO-less silicon heterojunction solar cells based on nanocrystalline silicon carrier collectors",
+  "owl:sameAs": {
+    "@id": "https://doi.org/10.1016/j.solmat.2025.113422"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Efficiency": {
+    "mds:value": "21.28",
+    "mds:quote": "These findings contribute to advancing the industrial-scale implementation of SHJ solar cells."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/EnergyConsumption": {
+    "mds:value": "75",
+    "mds:quote": "These findings contribute to advancing the industrial-scale implementation of SHJ solar cells."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/PhotovoltaicEfficiency": {
+    "mds:value": "21.28"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/SubstrateMaterial": {
+    "mds:value": "silicon thin-film substrate",
+    "mds:quote": "the impact of the silicon thin-film substrate on the growth mechanism of the ITO films and contact resistance was analyzed."
+  },
+  "mds:hasConcept": [
+    {
+      "mds:canonicalTerm": "material_property",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+      },
+      "mds:paperTerm": "ITO films with varying thickness",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "growth_mechanism",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "the growth mechanism of the ITO films",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "contact_resistance",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "contact resistance was analyzed",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "dopant_element",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "n-type nanocrystalline silicon (n-nc-Si:H)",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "anti_reflection_layer",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+      },
+      "mds:paperTerm": "LiFx anti-reflection layer",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "efficiency_metric",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "photoelectric conversion efficiency (PCE) of 21.28 ?",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "industrial_scale_impact",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "industrial-scale implementation of SHJ solar cells",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "film_thickness_variation_effect",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "varying thickness ITO films with",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "cell_structure_configuration",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "ITO-less SHJ cells",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "material_depletion_consequence",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+      },
+      "mds:paperTerm": "limited by the scarcity of indium-based TCO materials",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "thin_film_substrate",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Sample"
+      },
+      "mds:paperTerm": "silicon thin-film substrate",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "consumption_rate",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Economics"
+      },
+      "mds:paperTerm": "ITO consumption by 75 %",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "scarcity_factor",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "the scarcity of indium-based TCO materials",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "conductive_oxide_material",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+      },
+      "mds:paperTerm": "Transparent Conductive Oxide (TCO) materials",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "photovoltaic_efficiency_category",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "series resistance of ITO-less SHJ cells",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "substrate_quality_effect",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Sample"
+      },
+      "mds:paperTerm": "high crystallinity, the series resistance",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "photovoltaic_cell",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "silicon heterojunction (SHJ) solar cells",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "high_temperature_effect",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "no mention",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "plasmaetching_method",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "no mention",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "laser_ablation_effect",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "no mention",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    }
+  ]
+}

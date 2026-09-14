@@ -1,0 +1,107 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./paper.tex
+LaTeX2e <2021-11-15> patch level 1
+L3 programming layer <2022-01-21>
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size11.clo))
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/ifvtex.sty
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/enumitem/enumitem.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+(/usr/share/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty))
+(/usr/share/texlive/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/pdfescape/pdfescape.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hycolor/hycolor.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/auxhook/auxhook.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref-langpatches.def)
+(/usr/share/texlive/texmf-dist/tex/generic/intcalc/intcalc.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/etexcmds/etexcmds.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def)
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
+(/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/base/atbegshi-ltx.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/usr/share/texlive/texmf-dist/tex/latex/base/atveryend-ltx.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+(/usr/share/texlive/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def)
+(./paper.aux)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty))
+(./paper.out) (./paper.out)
+(/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd) [1{/var/lib/texmf/font
+s/map/pdftex/updmap/pdftex.map}]
+Underfull \hbox (badness 10000) in paragraph at lines 119--120
+[]\T1/cmr/m/n/10 Build OWL 2 TTL grounded in
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[2]
+Overfull \hbox (7.95985pt too wide) in paragraph at lines 152--157
+[]\T1/cmr/bx/n/10.95 The learn-ing loop. \T1/cmr/m/n/10.95 Af-ter a do-main on-
+tol-ogy is fi-nal-ized, a Low-Rank Adap-ta-tion (LoRA) [[]]
+
+Overfull \hbox (30.96674pt too wide) in paragraph at lines 169--184
+ [][] 
+[3] [4]
+Underfull \hbox (badness 2035) in paragraph at lines 259--261
+[]\T1/cmr/m/n/10.95 Hugo Tou-vron et al. LLaMA: Open and Ef-fi-cient Foun-da-ti
+on Lan-guage Mod-els.
+[5] (./paper.aux) )
+(see the transcript file for additional information) </sessions/laughing-exciti
+ng-einstein/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.600pk> 
+</sessions/laughing-exciting-einstein/.texlive2021/texmf-var/fonts/pk/ljfour/jk
+nappen/ec/ecti1000.600pk> </sessions/laughing-exciting-einstein/.texlive2021/te
+xmf-var/fonts/pk/ljfour/jknappen/ec/ectt1095.600pk> </sessions/laughing-excitin
+g-einstein/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1095.600pk> <
+/sessions/laughing-exciting-einstein/.texlive2021/texmf-var/fonts/pk/ljfour/jkn
+appen/ec/ecti0900.600pk> </sessions/laughing-exciting-einstein/.texlive2021/tex
+mf-var/fonts/pk/ljfour/jknappen/ec/ecrm0900.600pk> </sessions/laughing-exciting
+-einstein/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx0900.600pk> </
+sessions/laughing-exciting-einstein/.texlive2021/texmf-var/fonts/pk/ljfour/jkna
+ppen/ec/eccc1095.600pk> </sessions/laughing-exciting-einstein/.texlive2021/texm
+f-var/fonts/pk/ljfour/jknappen/ec/ecti1095.600pk> </sessions/laughing-exciting-
+einstein/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1095.600pk> </s
+essions/laughing-exciting-einstein/.texlive2021/texmf-var/fonts/pk/ljfour/jknap
+pen/ec/ecbx1440.600pk> </sessions/laughing-exciting-einstein/.texlive2021/texmf
+-var/fonts/pk/ljfour/jknappen/ec/eccc1000.600pk> </sessions/laughing-exciting-e
+instein/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.600pk> </se
+ssions/laughing-exciting-einstein/.texlive2021/texmf-var/fonts/pk/ljfour/jknapp
+en/ec/ectt1000.600pk> </sessions/laughing-exciting-einstein/.texlive2021/texmf-
+var/fonts/pk/ljfour/jknappen/ec/ecrm1000.600pk> </sessions/laughing-exciting-ei
+nstein/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </ses
+sions/laughing-exciting-einstein/.texlive2021/texmf-var/fonts/pk/ljfour/jknappe
+n/ec/ecxc1728.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy1
+0.pfb>
+Output written on paper.pdf (5 pages, 183837 bytes).
+Transcript written on paper.log.

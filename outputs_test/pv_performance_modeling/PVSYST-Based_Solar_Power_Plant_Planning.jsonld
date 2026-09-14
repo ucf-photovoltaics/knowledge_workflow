@@ -1,0 +1,495 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+  },
+  "@id": "https://cwrusdle.bitbucket.io/mds/generic/PVSYST-Based_Solar_Power_Plant_Planning",
+  "@type": [
+    "mds:ResearchPublication",
+    "mds:SchemaRecord"
+  ],
+  "schema:identifier": "10.31963/intek.v9i1.3789",
+  "mds:hasDomain": "pv_performance_modeling",
+  "mds:derivedFrom": "schema_pv_performance_modeling-Brent_Thompson-v8-20260624.csv",
+  "schema:name": "PVSYST-Based Solar Power Plant Planning",
+  "owl:sameAs": {
+    "@id": "https://doi.org/10.31963/intek.v9i1.3789"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Architecture": {
+    "mds:value": "standalone system",
+    "mds:quote": "In this SPP can produce 227,122 kWh of electrical energy per year and the energy used by consumers is 164,713 kWh per year. The solar module is placed at an inclination of 70 and an azimuth point of 00."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Capacity": {
+    "mds:value": "227,122 kWh per year",
+    "mds:quote": "In this SPP can produce 227,122 kWh of electrical energy per year and the energy used by consumers is 164,713 kWh per year."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Cell": {
+    "mds:value": "polycrystalline type model CS3W-410P-HE",
+    "mds:quote": "In this plan using the PVSyst software according to the proposed load requires an average energy of 482 kWh/day, so the panel module used is the polycrystalline type model CS3W-410P-HE manufacturer Canadian Solar Inc"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Cost": {
+    "mds:value": "IDR 7,307,867,620.",
+    "mds:quote": "The cost of this PLTS system is shown in Figure 7. In accordance with the price of these components, it can be estimated that the initial investment in this study is IDR 7,307,867,620."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Design": {
+    "mds:value": "this design is a lead acid type with a 12 -CS-11PS model manufactured from Rolls.",
+    "mds:quote": "The battery required for this design is a lead acid type with a 12 -CS-11PS model manufactured from Rolls."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Irradiance": {
+    "mds:value": "irradiance losses are 0.72 kWh/kWp per day.",
+    "mds:quote": "Solar panel energy losses are 0.72 kWh/kWp per day."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Module": {
+    "mds:value": "The solar module is placed at an inclination of 70 and an azimuth point of 00.  2 modules in series and 211 modules in parallel.",
+    "mds:quote": "In this SPP can produce 227,122 kWh of electrical energy per year and the energy used by consumers is 164,713 kWh per year. The solar module is placed at an inclination of 70 and an azimuth point of 00."
+  },
+  "mds:hasConcept": [
+    {
+      "mds:canonicalTerm": "system capacity",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "227,122 kWh per year",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "system configuration",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "2 modules in series and 211 modules in parallel",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "solar panel model",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "CS3W-410P-HE",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "load requirements",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "proposed load requires an average energy of 482 kWh/day",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "battery technology",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "lead acid type with a 12-CS-11PS model",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "component selection",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "where each panel unit used has a nominal power of 410 WP requires 422 modules",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "panel type",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "polycrystalline type model CS3W-410P-HE",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "controller type",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "MPPT converter",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "battery count",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "of which 3 batteries are installed in series and 64 batteries are installed in parallel",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "electrical energy",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "electrical energy generated",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "generator technology",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "PVSyst software which can plan an off-grid SPP system",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "system operation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "PVSyst software for data analysis of the PV mini-grid system",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "technology type",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "Grid connected, standalone systems, pumping systems, MPPT converter",
+      "mds:relevance": {
+        "@value": 0.3,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "solar power plant",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "PVSyst-based solar power plant",
+      "mds:relevance": {
+        "@value": 0.2,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "software tool",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "PVSyst software package",
+      "mds:relevance": {
+        "@value": 0.2,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "solar_generator",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "polycrystalline type model CS3W-410P-HE solar panel module",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "energy_generation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "electricity generated to meet the electricity needs of the Campus 2 Auditorium Building",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "photovoltaic_system",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "PV mini-grid system",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "nominal_power",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "nominal power of 410 WP",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "system_sizing",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "sizing of the PV mini-grid system",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "system_simulation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "PVSyst software",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "energy_output",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "227,122 kWh per year of electricity produced",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "component_selection",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "polycrystalline type model CS3W-410P-HE manufacturer Canadian Solar Inc",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "solar_panel_type",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "polycrystalline type model CS3W-410P-HE solar panel module",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "power_plant_design",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "PVSyst-based solar power plant design",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "battery_system",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "lead acid battery type with a 12-CS-11PS model manufactured from Rolls",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "grid_connection_status",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "off-grid SPP system",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "system_configuration",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "use of 2 modules in series and 211 modules in parallel for the solar panel unit",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "battery_capacity",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "195 batteries of which 3 batteries are installed in series and 64 batteries are installed in parallel",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "technology_type",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "MPPT converter technology",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "battery_type",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "lead acid type with a 12-CS-11PS model manufactured from Rolls",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "system_load",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "proposed load requires an average energy of 482 kWh/day",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "solar_panel_configuration",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "use of 2 modules in series and 211 modules in parallel for the solar panel unit",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "energy_requirements",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "electricity needs of the Campus 2 Auditorium Building",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "inverter_technology",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "MPPT converter, FLEXmax 80-36V controller",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "efficiency_requirements",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "proposed load requires an average energy of 482 kWh/day",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "controller_requirements",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "50 units with the FLEXmax 80-36V model manufactured from Outback",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "software_utility",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "database from a wide and diverse range of meteorological data sources",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "panel_power_rating",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "nominal power of 410 WP, and manufacturer: Canadian Solar Inc",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "controller_model",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "50 units with the FLEXmax 80-36V model manufactured from Outback",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    }
+  ]
+}

@@ -1,0 +1,998 @@
+<mxlibrary>[
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;mxCell id=\"2\" value=\"synthesis\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#f4cccc;strokeColor=#cc0000;\" vertex=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"120\" height=\"60\" as=\"geometry\"/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 120,
+    "h": 60,
+    "title": "Stage: synthesis"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;mxCell id=\"2\" value=\"formulation\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#fce5cd;strokeColor=#e06c00;\" vertex=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"120\" height=\"60\" as=\"geometry\"/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 120,
+    "h": 60,
+    "title": "Stage: formulation"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;mxCell id=\"2\" value=\"materials processing\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#ead1dc;strokeColor=#a64d79;\" vertex=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"120\" height=\"60\" as=\"geometry\"/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 120,
+    "h": 60,
+    "title": "Stage: materials processing"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;mxCell id=\"2\" value=\"sample\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;\" vertex=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"120\" height=\"60\" as=\"geometry\"/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 120,
+    "h": 60,
+    "title": "Stage: sample"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;mxCell id=\"2\" value=\"tool\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#3e7fc1;\" vertex=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"120\" height=\"60\" as=\"geometry\"/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 120,
+    "h": 60,
+    "title": "Stage: tool"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;mxCell id=\"2\" value=\"recipe\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;\" vertex=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"120\" height=\"60\" as=\"geometry\"/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 120,
+    "h": 60,
+    "title": "Stage: recipe"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;mxCell id=\"2\" value=\"data\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#cfe2f3;strokeColor=#4a86e8;\" vertex=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"120\" height=\"60\" as=\"geometry\"/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 120,
+    "h": 60,
+    "title": "Stage: data"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;mxCell id=\"2\" value=\"data processing\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;\" vertex=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"120\" height=\"60\" as=\"geometry\"/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 120,
+    "h": 60,
+    "title": "Stage: data processing"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;mxCell id=\"2\" value=\"result\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#d9ead3;strokeColor=#38761d;\" vertex=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"120\" height=\"60\" as=\"geometry\"/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 120,
+    "h": 60,
+    "title": "Stage: result"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;mxCell id=\"2\" value=\"analysis\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;\" vertex=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"120\" height=\"60\" as=\"geometry\"/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 120,
+    "h": 60,
+    "title": "Stage: analysis"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;mxCell id=\"2\" value=\"modeling\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;\" vertex=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"120\" height=\"60\" as=\"geometry\"/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 120,
+    "h": 60,
+    "title": "Stage: modeling"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;mxCell id=\"2\" value=\"results and metadata\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#d0e0e3;strokeColor=#006eaf;\" vertex=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"120\" height=\"60\" as=\"geometry\"/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 120,
+    "h": 60,
+    "title": "Stage: results and metadata"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;mxCell id=\"2\" value=\"materials\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f5f5f5;strokeColor=#666666;\" vertex=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"120\" height=\"60\" as=\"geometry\"/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 120,
+    "h": 60,
+    "title": "SC: materials"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;mxCell id=\"2\" value=\"subcomponent\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f5f5f5;strokeColor=#666666;\" vertex=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"120\" height=\"60\" as=\"geometry\"/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 120,
+    "h": 60,
+    "title": "SC: subcomponent"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;mxCell id=\"2\" value=\"component\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f5f5f5;strokeColor=#666666;\" vertex=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"120\" height=\"60\" as=\"geometry\"/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 120,
+    "h": 60,
+    "title": "SC: component"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;mxCell id=\"2\" value=\"assembly\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f5f5f5;strokeColor=#666666;\" vertex=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"120\" height=\"60\" as=\"geometry\"/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 120,
+    "h": 60,
+    "title": "SC: assembly"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;mxCell id=\"2\" value=\"subsystem\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f5f5f5;strokeColor=#666666;\" vertex=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"120\" height=\"60\" as=\"geometry\"/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 120,
+    "h": 60,
+    "title": "SC: subsystem"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;mxCell id=\"2\" value=\"system\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f5f5f5;strokeColor=#666666;\" vertex=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"120\" height=\"60\" as=\"geometry\"/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 120,
+    "h": 60,
+    "title": "SC: system"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:DirectlyPrecedes\" link=\"https://cwrusdle.bitbucket.io/mds/DirectlyPrecedes\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:DirectlyPrecedes"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:Formulates\" link=\"https://cwrusdle.bitbucket.io/mds/Formulates\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:Formulates"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:Instrument\" link=\"https://cwrusdle.bitbucket.io/mds/Instrument\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:Instrument"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:acquiredOn\" link=\"https://cwrusdle.bitbucket.io/mds/acquiredOn\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:acquiredOn"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:containsBand\" link=\"https://cwrusdle.bitbucket.io/mds/containsBand\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:containsBand"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:containsGeospatialProperty\" link=\"https://cwrusdle.bitbucket.io/mds/containsGeospatialProperty\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:containsGeospatialProperty"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:containsSensor\" link=\"https://cwrusdle.bitbucket.io/mds/containsSensor\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:containsSensor"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:deliversCoolant\" link=\"https://cwrusdle.bitbucket.io/mds/deliversCoolant\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:deliversCoolant"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:generatedBySatellite\" link=\"https://cwrusdle.bitbucket.io/mds/generatedBySatellite\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:generatedBySatellite"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:generatedBySensor\" link=\"https://cwrusdle.bitbucket.io/mds/generatedBySensor\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:generatedBySensor"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasAdhesive\" link=\"https://cwrusdle.bitbucket.io/mds/hasAdhesive\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasAdhesive"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasAmbientTemperature\" link=\"https://cwrusdle.bitbucket.io/mds/hasAmbientTemperature\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasAmbientTemperature"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasArchitecture\" link=\"https://cwrusdle.bitbucket.io/mds/hasArchitecture\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasArchitecture"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasBackSideEncapsulant\" link=\"https://cwrusdle.bitbucket.io/mds/hasBackSideEncapsulant\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasBackSideEncapsulant"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasBacksheetLayer\" link=\"https://cwrusdle.bitbucket.io/mds/hasBacksheetLayer\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasBacksheetLayer"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasBandDescription\" link=\"https://cwrusdle.bitbucket.io/mds/hasBandDescription\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasBandDescription"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasBatchNumber\" link=\"https://cwrusdle.bitbucket.io/mds/hasBatchNumber\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasBatchNumber"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasBuildJobName\" link=\"https://cwrusdle.bitbucket.io/mds/hasBuildJobName\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasBuildJobName"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasCentroid\" link=\"https://cwrusdle.bitbucket.io/mds/hasCentroid\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasCentroid"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasClimateZone\" link=\"https://cwrusdle.bitbucket.io/mds/hasClimateZone\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasClimateZone"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasCoating\" link=\"https://cwrusdle.bitbucket.io/mds/hasCoating\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasCoating"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasDepth\" link=\"https://cwrusdle.bitbucket.io/mds/hasDepth\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasDepth"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasDirection\" link=\"https://cwrusdle.bitbucket.io/mds/hasDirection\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasDirection"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasEastNeighbor\" link=\"https://cwrusdle.bitbucket.io/mds/hasEastNeighbor\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasEastNeighbor"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasElectronicBandGap\" link=\"https://cwrusdle.bitbucket.io/mds/hasElectronicBandGap\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasElectronicBandGap"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasElectronicProperty\" link=\"https://cwrusdle.bitbucket.io/mds/hasElectronicProperty\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasElectronicProperty"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasElevation\" link=\"https://cwrusdle.bitbucket.io/mds/hasElevation\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasElevation"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasEndedOn\" link=\"https://cwrusdle.bitbucket.io/mds/hasEndedOn\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasEndedOn"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasExposureStep\" link=\"https://cwrusdle.bitbucket.io/mds/hasExposureStep\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasExposureStep"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasExposureTime\" link=\"https://cwrusdle.bitbucket.io/mds/hasExposureTime\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasExposureTime"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasFileFormat\" link=\"https://cwrusdle.bitbucket.io/mds/hasFileFormat\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasFileFormat"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasFlux\" link=\"https://cwrusdle.bitbucket.io/mds/hasFlux\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasFlux"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasFrontGlass\" link=\"https://cwrusdle.bitbucket.io/mds/hasFrontGlass\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasFrontGlass"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasFrontSideEncapsulant\" link=\"https://cwrusdle.bitbucket.io/mds/hasFrontSideEncapsulant\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasFrontSideEncapsulant"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasGapDistance\" link=\"https://cwrusdle.bitbucket.io/mds/hasGapDistance\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasGapDistance"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasGeometryType\" link=\"https://cwrusdle.bitbucket.io/mds/hasGeometryType\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasGeometryType"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasGeospatialBoundingBox\" link=\"https://cwrusdle.bitbucket.io/mds/hasGeospatialBoundingBox\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasGeospatialBoundingBox"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasHatchDistance\" link=\"https://cwrusdle.bitbucket.io/mds/hasHatchDistance\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasHatchDistance"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasHeight\" link=\"https://cwrusdle.bitbucket.io/mds/hasHeight\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasHeight"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasIdentifier\" link=\"https://cwrusdle.bitbucket.io/mds/hasIdentifier\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasIdentifier"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasIndex\" link=\"https://cwrusdle.bitbucket.io/mds/hasIndex\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasIndex"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasInstrumentStatus\" link=\"https://cwrusdle.bitbucket.io/mds/hasInstrumentStatus\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasInstrumentStatus"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasInverter\" link=\"https://cwrusdle.bitbucket.io/mds/hasInverter\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasInverter"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasLaserPower\" link=\"https://cwrusdle.bitbucket.io/mds/hasLaserPower\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasLaserPower"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasLat\" link=\"https://cwrusdle.bitbucket.io/mds/hasLat\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasLat"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasLicense\" link=\"https://cwrusdle.bitbucket.io/mds/hasLicense\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasLicense"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasLong\" link=\"https://cwrusdle.bitbucket.io/mds/hasLong\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasLong"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasManufacturingMethod\" link=\"https://cwrusdle.bitbucket.io/mds/hasManufacturingMethod\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasManufacturingMethod"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasMaterialComposition\" link=\"https://cwrusdle.bitbucket.io/mds/hasMaterialComposition\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasMaterialComposition"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasMaterialProperty\" link=\"https://cwrusdle.bitbucket.io/mds/hasMaterialProperty\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasMaterialProperty"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasMatrix\" link=\"https://cwrusdle.bitbucket.io/mds/hasMatrix\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasMatrix"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasMission\" link=\"https://cwrusdle.bitbucket.io/mds/hasMission\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasMission"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasName\" link=\"https://cwrusdle.bitbucket.io/mds/hasName\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasName"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasNorthNeighbor\" link=\"https://cwrusdle.bitbucket.io/mds/hasNorthNeighbor\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasNorthNeighbor"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasNortheastNeighbor\" link=\"https://cwrusdle.bitbucket.io/mds/hasNortheastNeighbor\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasNortheastNeighbor"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasNorthwestNeighbor\" link=\"https://cwrusdle.bitbucket.io/mds/hasNorthwestNeighbor\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasNorthwestNeighbor"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasNumberPerString\" link=\"https://cwrusdle.bitbucket.io/mds/hasNumberPerString\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasNumberPerString"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasOperationalStatus\" link=\"https://cwrusdle.bitbucket.io/mds/hasOperationalStatus\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasOperationalStatus"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasOrbitalType\" link=\"https://cwrusdle.bitbucket.io/mds/hasOrbitalType\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasOrbitalType"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasOrientation\" link=\"https://cwrusdle.bitbucket.io/mds/hasOrientation\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasOrientation"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasOwner\" link=\"https://cwrusdle.bitbucket.io/mds/hasOwner\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasOwner"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasPart\" link=\"https://cwrusdle.bitbucket.io/mds/hasPart\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasPart"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasPhase\" link=\"https://cwrusdle.bitbucket.io/mds/hasPhase\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasPhase"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasPixelInformation\" link=\"https://cwrusdle.bitbucket.io/mds/hasPixelInformation\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasPixelInformation"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasPointDistance\" link=\"https://cwrusdle.bitbucket.io/mds/hasPointDistance\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasPointDistance"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasPreparedSurface\" link=\"https://cwrusdle.bitbucket.io/mds/hasPreparedSurface\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasPreparedSurface"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasProcessingParameter\" link=\"https://cwrusdle.bitbucket.io/mds/hasProcessingParameter\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasProcessingParameter"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasProductModel\" link=\"https://cwrusdle.bitbucket.io/mds/hasProductModel\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasProductModel"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasReinforcement\" link=\"https://cwrusdle.bitbucket.io/mds/hasReinforcement\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasReinforcement"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasSatelliteAltitude\" link=\"https://cwrusdle.bitbucket.io/mds/hasSatelliteAltitude\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasSatelliteAltitude"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasSiteID\" link=\"https://cwrusdle.bitbucket.io/mds/hasSiteID\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasSiteID"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasSouthNeighbor\" link=\"https://cwrusdle.bitbucket.io/mds/hasSouthNeighbor\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasSouthNeighbor"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasSoutheastNeighbor\" link=\"https://cwrusdle.bitbucket.io/mds/hasSoutheastNeighbor\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasSoutheastNeighbor"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasSouthwestNeighbor\" link=\"https://cwrusdle.bitbucket.io/mds/hasSouthwestNeighbor\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasSouthwestNeighbor"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasSpaceGroup\" link=\"https://cwrusdle.bitbucket.io/mds/hasSpaceGroup\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasSpaceGroup"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasSpatialResolution\" link=\"https://cwrusdle.bitbucket.io/mds/hasSpatialResolution\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasSpatialResolution"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasSpectralResolution\" link=\"https://cwrusdle.bitbucket.io/mds/hasSpectralResolution\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasSpectralResolution"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasStorageCondition\" link=\"https://cwrusdle.bitbucket.io/mds/hasStorageCondition\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasStorageCondition"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasStructuralQuality\" link=\"https://cwrusdle.bitbucket.io/mds/hasStructuralQuality\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasStructuralQuality"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasTemperatureCoefficient\" link=\"https://cwrusdle.bitbucket.io/mds/hasTemperatureCoefficient\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasTemperatureCoefficient"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasTemporalResolution\" link=\"https://cwrusdle.bitbucket.io/mds/hasTemporalResolution\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasTemporalResolution"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasThickness\" link=\"https://cwrusdle.bitbucket.io/mds/hasThickness\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasThickness"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasTimeInterval\" link=\"https://cwrusdle.bitbucket.io/mds/hasTimeInterval\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasTimeInterval"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasVoltage\" link=\"https://cwrusdle.bitbucket.io/mds/hasVoltage\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasVoltage"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasWavelengthRange\" link=\"https://cwrusdle.bitbucket.io/mds/hasWavelengthRange\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasWavelengthRange"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasWeight\" link=\"https://cwrusdle.bitbucket.io/mds/hasWeight\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasWeight"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasWestNeighbor\" link=\"https://cwrusdle.bitbucket.io/mds/hasWestNeighbor\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasWestNeighbor"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasWidth\" link=\"https://cwrusdle.bitbucket.io/mds/hasWidth\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasWidth"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:hasWindSpeed\" link=\"https://cwrusdle.bitbucket.io/mds/hasWindSpeed\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:hasWindSpeed"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:holds\" link=\"https://cwrusdle.bitbucket.io/mds/holds\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:holds"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:isComponentOf\" link=\"https://cwrusdle.bitbucket.io/mds/isComponentOf\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:isComponentOf"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:isExposed\" link=\"https://cwrusdle.bitbucket.io/mds/isExposed\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:isExposed"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:isLocatedAt\" link=\"https://cwrusdle.bitbucket.io/mds/isLocatedAt\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:isLocatedAt"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:isProcessStepOf\" link=\"https://cwrusdle.bitbucket.io/mds/isProcessStepOf\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:isProcessStepOf"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:isQualityCheckOf\" link=\"https://cwrusdle.bitbucket.io/mds/isQualityCheckOf\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:isQualityCheckOf"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:launchedFrom\" link=\"https://cwrusdle.bitbucket.io/mds/launchedFrom\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:launchedFrom"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:launchedOn\" link=\"https://cwrusdle.bitbucket.io/mds/launchedOn\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:launchedOn"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:mountedOn\" link=\"https://cwrusdle.bitbucket.io/mds/mountedOn\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:mountedOn"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:occupiesSpatialRegion\" link=\"https://cwrusdle.bitbucket.io/mds/occupiesSpatialRegion\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:occupiesSpatialRegion"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:ownedByAgency\" link=\"https://cwrusdle.bitbucket.io/mds/ownedByAgency\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:ownedByAgency"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:processedUsing\" link=\"https://cwrusdle.bitbucket.io/mds/processedUsing\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:processedUsing"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:producedBy\" link=\"https://cwrusdle.bitbucket.io/mds/producedBy\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:producedBy"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:undergoesProcessing\" link=\"https://cwrusdle.bitbucket.io/mds/undergoesProcessing\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:undergoesProcessing"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:usesEquipment\" link=\"https://cwrusdle.bitbucket.io/mds/usesEquipment\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:usesEquipment"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:usesLicense\" link=\"https://cwrusdle.bitbucket.io/mds/usesLicense\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:usesLicense"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:usesMedia\" link=\"https://cwrusdle.bitbucket.io/mds/usesMedia\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:usesMedia"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:usesRecipe\" link=\"https://cwrusdle.bitbucket.io/mds/usesRecipe\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:usesRecipe"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:usesSpatialReferenceSystem\" link=\"https://cwrusdle.bitbucket.io/mds/usesSpatialReferenceSystem\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:usesSpatialReferenceSystem"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"mds:usesTool\" link=\"https://cwrusdle.bitbucket.io/mds/usesTool\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "MDS: mds:usesTool"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"bfo:has realization\" link=\"http://purl.obolibrary.org/obo/BFO_0000054\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "BFO: bfo:has realization"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"bfo:realizes\" link=\"http://purl.obolibrary.org/obo/BFO_0000055\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "BFO: bfo:realizes"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"bfo:participates in\" link=\"http://purl.obolibrary.org/obo/BFO_0000056\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "BFO: bfo:participates in"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"bfo:has participant\" link=\"http://purl.obolibrary.org/obo/BFO_0000057\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "BFO: bfo:has participant"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"bfo:preceded by\" link=\"http://purl.obolibrary.org/obo/BFO_0000062\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "BFO: bfo:preceded by"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"bfo:precedes\" link=\"http://purl.obolibrary.org/obo/BFO_0000063\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "BFO: bfo:precedes"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"bfo:generically depends on\" link=\"http://purl.obolibrary.org/obo/BFO_0000084\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "BFO: bfo:generically depends on"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"bfo:has member part\" link=\"http://purl.obolibrary.org/obo/BFO_0000115\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "BFO: bfo:has member part"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"bfo:has occurent part\" link=\"http://purl.obolibrary.org/obo/BFO_0000117\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "BFO: bfo:has occurent part"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"bfo:has temporal part\" link=\"http://purl.obolibrary.org/obo/BFO_0000121\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "BFO: bfo:has temporal part"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"bfo:member part of\" link=\"http://purl.obolibrary.org/obo/BFO_0000129\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "BFO: bfo:member part of"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"bfo:temporal part of\" link=\"http://purl.obolibrary.org/obo/BFO_0000139\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "BFO: bfo:temporal part of"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"bfo:located in\" link=\"http://purl.obolibrary.org/obo/BFO_0000171\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "BFO: bfo:located in"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"bfo:environs\" link=\"http://purl.obolibrary.org/obo/BFO_0000183\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "BFO: bfo:environs"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"bfo:bearer of\" link=\"http://purl.obolibrary.org/obo/BFO_0000196\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "BFO: bfo:bearer of"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"bfo:inheres in\" link=\"http://purl.obolibrary.org/obo/BFO_0000197\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "BFO: bfo:inheres in"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"bfo:occupies temporal region\" link=\"http://purl.obolibrary.org/obo/BFO_0000199\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "BFO: bfo:occupies temporal region"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"bfo:occupies spatial region\" link=\"http://purl.obolibrary.org/obo/BFO_0000210\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "BFO: bfo:occupies spatial region"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:has input\" link=\"http://www.ontologyrepository.com/CommonCoreOntologies/has_input\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:has input"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:has output\" link=\"http://www.ontologyrepository.com/CommonCoreOntologies/has_output\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:has output"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:is input of\" link=\"http://www.ontologyrepository.com/CommonCoreOntologies/is_input_of\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:is input of"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:is made of\" link=\"http://www.ontologyrepository.com/CommonCoreOntologies/is_made_of\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:is made of"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:has process part\" link=\"https://www.commoncoreontologies.org/ont00001777\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:has process part"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:agent in\" link=\"https://www.commoncoreontologies.org/ont00001787\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:agent in"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:is subject of\" link=\"https://www.commoncoreontologies.org/ont00001801\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:is subject of"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:is cause of\" link=\"https://www.commoncoreontologies.org/ont00001803\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:is cause of"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:is about\" link=\"https://www.commoncoreontologies.org/ont00001808\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:is about"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:is output of\" link=\"https://www.commoncoreontologies.org/ont00001816\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:is output of"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:caused by\" link=\"https://www.commoncoreontologies.org/ont00001819\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:caused by"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:has agent\" link=\"https://www.commoncoreontologies.org/ont00001833\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:has agent"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:affects\" link=\"https://www.commoncoreontologies.org/ont00001834\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:affects"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:aggregate bearer of\" link=\"https://www.commoncoreontologies.org/ont00001836\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:aggregate bearer of"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:is part of process\" link=\"https://www.commoncoreontologies.org/ont00001857\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:is part of process"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:is material of\" link=\"https://www.commoncoreontologies.org/ont00001861\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:is material of"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:uses measurement unit\" link=\"https://www.commoncoreontologies.org/ont00001863\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:uses measurement unit"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:is temporal region of\" link=\"https://www.commoncoreontologies.org/ont00001874\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:is temporal region of"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:designated by\" link=\"https://www.commoncoreontologies.org/ont00001879\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:designated by"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:condition described by\" link=\"https://www.commoncoreontologies.org/ont00001884\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:condition described by"
+  },
+  {
+    "xml": "&lt;mxGraphModel&gt;&lt;root&gt;&lt;mxCell id=\"0\"/&gt;&lt;mxCell id=\"1\" parent=\"0\"/&gt;&lt;UserObject label=\"cco:is site of\" link=\"https://www.commoncoreontologies.org/ont00001845\" id=\"2\"&gt;&lt;mxCell style=\"endArrow=classic;html=1;rounded=0;labelBackgroundColor=#ffffff;fontSize=12;fontFamily=Helvetica;\" edge=\"1\" parent=\"1\"&gt;&lt;mxGeometry width=\"180\" height=\"40\" relative=\"1\" as=\"geometry\"&gt;&lt;mxPoint x=\"0\" y=\"20\" as=\"sourcePoint\"/&gt;&lt;mxPoint x=\"180\" y=\"20\" as=\"targetPoint\"/&gt;&lt;/mxGeometry&gt;&lt;/mxCell&gt;&lt;/UserObject&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;",
+    "w": 180,
+    "h": 40,
+    "title": "CCO: cco:is site of"
+  }
+]</mxlibrary>

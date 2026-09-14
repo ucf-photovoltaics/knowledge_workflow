@@ -1,0 +1,543 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+  },
+  "@id": "https://cwrusdle.bitbucket.io/mds/generic/International_collaboration_framework_for_the_calculation_of_performance_loss_rates__Data_quality__benchmarks__and_trend",
+  "@type": [
+    "mds:ResearchPublication",
+    "mds:SchemaRecord"
+  ],
+  "schema:identifier": "10.1002/pip.3397",
+  "mds:hasDomain": "pv_performance_modeling",
+  "mds:derivedFrom": "schema_pv_performance_modeling-Brent_Thompson-v8-20260624.csv",
+  "schema:name": "International collaboration framework for the calculation of performance loss rates: Data quality, benchmarks, and trends (towards a uniform methodology)",
+  "owl:sameAs": {
+    "@id": "https://doi.org/10.1002/pip.3397"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Albedo": {
+    "mds:value": "0"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Algorithm": {
+    "mds:value": "PLR"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Architecture": {
+    "mds:value": "*",
+    "mds:quote": "Other architectures that include bypass diodes"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Benchmarking": {
+    "mds:value": "−5.11%/a-7.45%/a"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Cable": {
+    "mds:value": "PV cable",
+    "mds:quote": "The performance of each PV module is influenced by the PV cables and is evaluated in this paper, based on the degradation analysis of the electrical parameters (e.g. temperature dependent I−Vs-curves)"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Capacity": {
+    "mds:value": "*",
+    "mds:quote": "1st generation: The capacity will be in the range of \t 20-30 MWe for smaller pilot facilities, up to several hundred MWe for commercial powerplants."
+  },
+  "mds:hasConcept": [
+    {
+      "mds:canonicalTerm": "statistical method",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "statistical modeling methods",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "calculation output",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "the performance loss rate value",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "performance metric",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "performance ratio or power based metrics",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "calculation methodology",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "the participants' preferred methodologies",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "interdependence relationship",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "(selection of the calculation steps filter/metric/statistical method is highly dependent on one another)",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "dataset format",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "high-quality power and irradiance datasets",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "uncertainty type",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "(i) their deviation from the average value; ... uncertainty",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "research methodology",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "(iv) application of a statistical modeling method",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "confidence level",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "standard error, and confidence intervals",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "result quality attribute",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "high-quality datasets; reliable performance loss rate calculations",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "data filtering step",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "input data cleaning and grading; data filtering",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "evaluation method",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "benchmarking activities",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "benchmarking objective",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "to define capabilities and uncertainties of all the various methods",
+      "mds:relevance": {
+        "@value": 0.4,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "collaboration framework",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "IEA PVPS Task 13 group",
+      "mds:relevance": {
+        "@value": 0.4,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "system characteristics",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "? (implied but not explicitly stated)",
+      "mds:relevance": {
+        "@value": 0.1,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "data filtering",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "data filtering",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "performance loss rate",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "performance loss rate value",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "method evaluation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "combination of data filtering, metrics (performance ratio or power based), and statistical modeling methods are benchmarked",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "performance metric",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "performance ratio or power based",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "modelling method",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "statistical modeling method",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "benchmarking activities",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "benchmarking activities",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "uncertainty",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "standard error, and confidence intervals",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "power plant data",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "commercial and research photovoltaic (PV) power plants",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "error calculation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "uncertainty, standard error, and confidence intervals",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "data analysis",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "calculation of performance loss rates",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "confidence interval calculation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "confidence intervals",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "power plant operation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "performance, operation, and reliability from several leading R&D centers",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "uncertainty analysis",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "uncertainty, standard error, and confidence intervals",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "solar energy reliability analysis",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Reliability"
+      },
+      "mds:paperTerm": "performance, operation, and reliability from several leading R&D centers",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "data cleaning",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "input data cleaning and grading",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "climate zone",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "various climatic zones",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "reliability",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Reliability"
+      },
+      "mds:paperTerm": "performance, operation, and reliability from several leading R&D centers",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "r&d collaboration",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "experts who focus on photovoltaic performance, operation, and reliability from several leading R&D centers",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "weather data",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "various climatic zones",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "data grading",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "input data cleaning and grading",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "error margin calculation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "standard error and confidence intervals",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "calculations steps",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "performance metric selection, corrections, and aggregation",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "methodology",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "preferred methodologies",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "photovoltaic system",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "individual system using their preferred methodologies",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "solar energy efficiency analysis",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "deviation from the average value and uncertainty, standard error",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "system assessment",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "individual system using their preferred methodologies",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "benchmark parameters",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "their deviation from the average value",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "data sharing",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "several high-quality power and irradiance datasets have been shared",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "irradiance data",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "several high-quality power and irradiance datasets have been shared",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "solar energy data",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "power and irradiance datasets have been shared",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    }
+  ]
+}

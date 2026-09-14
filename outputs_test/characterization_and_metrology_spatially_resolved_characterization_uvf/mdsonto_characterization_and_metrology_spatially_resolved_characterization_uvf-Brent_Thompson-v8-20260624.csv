@@ -1,0 +1,10 @@
+concept,iri,label,definition,domain,subdomain,study_stage
+backsheet,https://cwrusdle.bitbucket.io/mds/Backsheet,Backsheet,"Outermost layer for a solar panel, protecting it from harsh, varying environmental conditions over panel lifetimes.",BuiltEnv,PV-Module,Sample
+>#> data analysis process,http://purl.obolibrary.org/obo/BFO_0000015,process,"(Elucidation) p is a process means p is an occurrent that has some temporal proper part and for some time t, p has some material entity as participant",,,
+>#> defect detection methods,https://cwrusdle.bitbucket.io/mds/Defect,Defect,"An Immaterial Entity that disrupts the continuity of unit cell repetition in a solid substance.; (Elucidation) A Defect is conceptualized to be some region (or a discontinuous aggregate of regions) in a material in direct contact with a crystal, that contains or lacks material entities in a way that disrupts the repeating patterns of a perfect crystal.",,,
+encapsulant,https://cwrusdle.bitbucket.io/mds/Encapsulant,Encapsulant,"Adhesive material used to hold front sheet and back sheet together. Eg., EVA, POE, etc.",BuiltEnv,PV-Module,Sample; Formulation
+equipment,https://cwrusdle.bitbucket.io/mds/Equipment,Equipment,"Equipment used for a particular process/ task. In photovoltaics equiptment includes solar simulators, inverters, and imaging tools",,,Tool
+humidity,https://cwrusdle.bitbucket.io/mds/Humidity,Humidity,A Quality that inheres in an environment depending on the quantity of water vapor in the environment.,Exposure; Charact,Elec-SIR; Accelerated,Synthesis; Result; Materials Processing
+>#> quality assessment procedures,http://purl.obolibrary.org/obo/BFO_0000019,quality,"(Elucidation) A quality is a specifically dependent continuant that, in contrast to roles and dispositions, does not require any further process in order to be realized",Geo; Charact,Raster; Material-LPBF,Sample
+sensor,https://cwrusdle.bitbucket.io/mds/Sensor,Sensor,The instrument on the satellite that collects the data.,Geo; Charact,Material-Pyrom,Tool
+>#> wafer-based modules,https://cwrusdle.bitbucket.io/mds/Wafer,Wafer,Wafer-related characteristics of the solar cell.,BuiltEnv,PV-Cell,Sample

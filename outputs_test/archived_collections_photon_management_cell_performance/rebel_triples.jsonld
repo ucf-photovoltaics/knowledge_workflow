@@ -1,0 +1,555 @@
+{
+  "@context": {
+    "mds": "https://cwrusdle.bitbucket.io/mds/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00000",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "School of Photovoltaic and Renewable Energy Engineering - part of - University of New South Wales",
+      "mds:subject": "School of Photovoltaic and Renewable Energy Engineering",
+      "mds:predicate": "part of",
+      "mds:object": "University of New South Wales",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.924,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:partOf"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00001",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "passivation - subclass of - dielectric",
+      "mds:subject": "passivation",
+      "mds:predicate": "subclass of",
+      "mds:object": "dielectric",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.706,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:subClassOf"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00002",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "PERC cell - instance of - solar cell",
+      "mds:subject": "PERC cell",
+      "mds:predicate": "instance of",
+      "mds:object": "solar cell",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.744,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:subClassOf"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00003",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "Schottky diode - subclass of - photolithography",
+      "mds:subject": "Schottky diode",
+      "mds:predicate": "subclass of",
+      "mds:object": "photolithography",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.802,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:subClassOf"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00004",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "MINP - subclass of - Metal/Oxide/Semiconductor",
+      "mds:subject": "MINP",
+      "mds:predicate": "subclass of",
+      "mds:object": "Metal/Oxide/Semiconductor",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.849,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:subClassOf"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00005",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "PESC solar cell - instance of - MINP cell",
+      "mds:subject": "PESC solar cell",
+      "mds:predicate": "instance of",
+      "mds:object": "MINP cell",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.787,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:subClassOf"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00006",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "MINP - subclass of - photovoltaic module",
+      "mds:subject": "MINP",
+      "mds:predicate": "subclass of",
+      "mds:object": "photovoltaic module",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.834,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:subClassOf"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00007",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "solar cell - subclass of - photovoltaic module",
+      "mds:subject": "solar cell",
+      "mds:predicate": "subclass of",
+      "mds:object": "photovoltaic module",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.87,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:subClassOf"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00008",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "PERC - subclass of - solar cell",
+      "mds:subject": "PERC",
+      "mds:predicate": "subclass of",
+      "mds:object": "solar cell",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.696,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:subClassOf"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00009",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "solar car - subclass of - automobile",
+      "mds:subject": "solar car",
+      "mds:predicate": "subclass of",
+      "mds:object": "automobile",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.706,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:subClassOf"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00010",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "photolithography - uses - laser",
+      "mds:subject": "photolithography",
+      "mds:predicate": "uses",
+      "mds:object": "laser",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.638,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production"
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00011",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "Solar World Challenge - country - Australia",
+      "mds:subject": "Solar World Challenge",
+      "mds:predicate": "country",
+      "mds:object": "Australia",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.891,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production"
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00012",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "CIGS - has part - Silicon",
+      "mds:subject": "CIGS",
+      "mds:predicate": "has part",
+      "mds:object": "Silicon",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.706,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:hasPart"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00013",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "Global Sunrise - headquarters location - Taipei",
+      "mds:subject": "Global Sunrise",
+      "mds:predicate": "headquarters location",
+      "mds:object": "Taipei",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.717,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production"
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00014",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "a-Si - has part - silicon",
+      "mds:subject": "a-Si",
+      "mds:predicate": "has part",
+      "mds:object": "silicon",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.701,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:hasPart"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00015",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "echnology by 2020 - point in time - 2020",
+      "mds:subject": "echnology by 2020",
+      "mds:predicate": "point in time",
+      "mds:object": "2020",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.761,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production"
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00016",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "aluminium oxide - has part - silicon",
+      "mds:subject": "aluminium oxide",
+      "mds:predicate": "has part",
+      "mds:object": "silicon",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.782,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:hasPart"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00017",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "Al-BSF - has part - silicon",
+      "mds:subject": "Al-BSF",
+      "mds:predicate": "has part",
+      "mds:object": "silicon",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.833,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:hasPart"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00018",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "Al-BSF - subclass of - PERC",
+      "mds:subject": "Al-BSF",
+      "mds:predicate": "subclass of",
+      "mds:object": "PERC",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.442,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:subClassOf"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00019",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "PerC - has part - Al-SBF",
+      "mds:subject": "PerC",
+      "mds:predicate": "has part",
+      "mds:object": "Al-SBF",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.442,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:hasPart"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00020",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "PERC - has part - resistive losses",
+      "mds:subject": "PERC",
+      "mds:predicate": "has part",
+      "mds:object": "resistive losses",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.628,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:hasPart"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00021",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "PERC cell - subclass of - heterogeneous",
+      "mds:subject": "PERC cell",
+      "mds:predicate": "subclass of",
+      "mds:object": "heterogeneous",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.584,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:subClassOf"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00022",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "PERC - subclass of - semiconductor",
+      "mds:subject": "PERC",
+      "mds:predicate": "subclass of",
+      "mds:object": "semiconductor",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.785,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:subClassOf"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00023",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "In - instance of - dopant",
+      "mds:subject": "In",
+      "mds:predicate": "instance of",
+      "mds:object": "dopant",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.771,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:subClassOf"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00024",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "multicrystalline - subclass of - silicon",
+      "mds:subject": "multicrystalline",
+      "mds:predicate": "subclass of",
+      "mds:object": "silicon",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.812,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:subClassOf"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00025",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "Australian Centre for Advanced Photovoltaics - inception - 1984",
+      "mds:subject": "Australian Centre for Advanced Photovoltaics",
+      "mds:predicate": "inception",
+      "mds:object": "1984",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.88,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production"
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00026",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "6th IEEE Photovoltaic Specialists Conference - point in time - 1967",
+      "mds:subject": "6th IEEE Photovoltaic Specialists Conference",
+      "mds:predicate": "point in time",
+      "mds:object": "1967",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.948,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production"
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00027",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "High ef ﬁciency - subclass of - photovoltaic cell",
+      "mds:subject": "High ef ﬁciency",
+      "mds:predicate": "subclass of",
+      "mds:object": "photovoltaic cell",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.765,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:subClassOf"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00028",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "COVID-19 pandemic - point in time - 2020",
+      "mds:subject": "COVID-19 pandemic",
+      "mds:predicate": "point in time",
+      "mds:object": "2020",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.813,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production"
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00029",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "28th European Photovoltaic Solar Energy Conference and Exhibition - point in time - 2012",
+      "mds:subject": "28th European Photovoltaic Solar Energy Conference and Exhibition",
+      "mds:predicate": "point in time",
+      "mds:object": "2012",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.892,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production"
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00030",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "42nd IEEE Photovoltaic Solar Energy Conference - location - Valencia",
+      "mds:subject": "42nd IEEE Photovoltaic Solar Energy Conference",
+      "mds:predicate": "location",
+      "mds:object": "Valencia",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production"
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00031",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "PERC - subclass of - silicon",
+      "mds:subject": "PERC",
+      "mds:predicate": "subclass of",
+      "mds:object": "silicon",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.856,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production",
+      "mds:relation": {
+        "@id": "mds:subClassOf"
+      }
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00032",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "P. Min - father - B. Hu",
+      "mds:subject": "P. Min",
+      "mds:predicate": "father",
+      "mds:object": "B. Hu",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.46,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production"
+    },
+    {
+      "@id": "https://cwrusdle.bitbucket.io/mds/relation/00033",
+      "@type": "mds:ExtractedRelation",
+      "rdfs:label": "A.aic Specialists Conference - point in time - 2015",
+      "mds:subject": "A.aic Specialists Conference",
+      "mds:predicate": "point in time",
+      "mds:object": "2015",
+      "mds:tool": "rebel",
+      "mds:confidence": {
+        "@value": 0.823,
+        "@type": "xsd:decimal"
+      },
+      "prov:wasDerivedFrom": "The Passivated Emitter and Rear Cell (PERC): From conception to mass production"
+    }
+  ]
+}

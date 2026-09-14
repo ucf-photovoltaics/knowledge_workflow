@@ -1,0 +1,3016 @@
+{
+  "object": [
+    {
+      "label": "acquired On",
+      "iri": "https://cwrusdle.bitbucket.io/mds/acquiredOn",
+      "curie": "mds:acquiredOn",
+      "local": "acquiredOn",
+      "tokens": [],
+      "phrase": ""
+    },
+    {
+      "label": "affects",
+      "iri": "https://www.commoncoreontologies.org/ont00001834",
+      "curie": "cco:ont00001834",
+      "local": "ont00001834",
+      "tokens": [
+        "affects",
+        "ont00001834"
+      ],
+      "phrase": "affects"
+    },
+    {
+      "label": "agent in",
+      "iri": "https://www.commoncoreontologies.org/ont00001787",
+      "curie": "cco:ont00001787",
+      "local": "ont00001787",
+      "tokens": [
+        "agent",
+        "ont00001787"
+      ],
+      "phrase": "agent"
+    },
+    {
+      "label": "aggregate bearer of",
+      "iri": "https://www.commoncoreontologies.org/ont00001836",
+      "curie": "cco:ont00001836",
+      "local": "ont00001836",
+      "tokens": [
+        "aggregate",
+        "bearer",
+        "ont00001836"
+      ],
+      "phrase": "aggregate bearer"
+    },
+    {
+      "label": "bearer of",
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000196",
+      "curie": "bfo:0000196",
+      "local": "BFO_0000196",
+      "tokens": [
+        "0000196",
+        "bearer",
+        "bfo"
+      ],
+      "phrase": "bearer"
+    },
+    {
+      "label": "caused by",
+      "iri": "https://www.commoncoreontologies.org/ont00001819",
+      "curie": "cco:ont00001819",
+      "local": "ont00001819",
+      "tokens": [
+        "caused",
+        "ont00001819"
+      ],
+      "phrase": "caused"
+    },
+    {
+      "label": "condition described by",
+      "iri": "https://www.commoncoreontologies.org/ont00001884",
+      "curie": "cco:ont00001884",
+      "local": "ont00001884",
+      "tokens": [
+        "condition",
+        "described",
+        "ont00001884"
+      ],
+      "phrase": "condition described"
+    },
+    {
+      "label": "contains Band",
+      "iri": "https://cwrusdle.bitbucket.io/mds/containsBand",
+      "curie": "mds:containsBand",
+      "local": "containsBand",
+      "tokens": [
+        "band"
+      ],
+      "phrase": "band"
+    },
+    {
+      "label": "contains Geospatia Property",
+      "iri": "https://cwrusdle.bitbucket.io/mds/containsGeospatiaProperty",
+      "curie": "mds:containsGeospatiaProperty",
+      "local": "containsGeospatiaProperty",
+      "tokens": [
+        "geospatia",
+        "property"
+      ],
+      "phrase": "geospatia property"
+    },
+    {
+      "label": "contains Geospatial Property",
+      "iri": "https://cwrusdle.bitbucket.io/mds/containsGeospatialProperty",
+      "curie": "mds:containsGeospatialProperty",
+      "local": "containsGeospatialProperty",
+      "tokens": [
+        "geospatial",
+        "property"
+      ],
+      "phrase": "geospatial property"
+    },
+    {
+      "label": "contains Sensor",
+      "iri": "https://cwrusdle.bitbucket.io/mds/containsSensor",
+      "curie": "mds:containsSensor",
+      "local": "containsSensor",
+      "tokens": [
+        "sensor"
+      ],
+      "phrase": "sensor"
+    },
+    {
+      "label": "delivers Coolant",
+      "iri": "https://cwrusdle.bitbucket.io/mds/deliversCoolant",
+      "curie": "mds:deliversCoolant",
+      "local": "deliversCoolant",
+      "tokens": [
+        "coolant"
+      ],
+      "phrase": "coolant"
+    },
+    {
+      "label": "described by",
+      "iri": "https://www.commoncoreontologies.org/ont00001917",
+      "curie": "cco:ont00001917",
+      "local": "ont00001917",
+      "tokens": [
+        "described",
+        "ont00001917"
+      ],
+      "phrase": "described"
+    },
+    {
+      "label": "describes",
+      "iri": "https://www.commoncoreontologies.org/ont00001982",
+      "curie": "cco:ont00001982",
+      "local": "ont00001982",
+      "tokens": [
+        "describes",
+        "ont00001982"
+      ],
+      "phrase": "describes"
+    },
+    {
+      "label": "describes condition",
+      "iri": "https://www.commoncoreontologies.org/ont00001980",
+      "curie": "cco:ont00001980",
+      "local": "ont00001980",
+      "tokens": [
+        "condition",
+        "describes",
+        "ont00001980"
+      ],
+      "phrase": "describes condition"
+    },
+    {
+      "label": "designated by",
+      "iri": "https://www.commoncoreontologies.org/ont00001879",
+      "curie": "cco:ont00001879",
+      "local": "ont00001879",
+      "tokens": [
+        "designated",
+        "ont00001879"
+      ],
+      "phrase": "designated"
+    },
+    {
+      "label": "designates",
+      "iri": "https://www.commoncoreontologies.org/ont00001916",
+      "curie": "cco:ont00001916",
+      "local": "ont00001916",
+      "tokens": [
+        "designates",
+        "ont00001916"
+      ],
+      "phrase": "designates"
+    },
+    {
+      "label": "Directly precedes",
+      "iri": "https://cwrusdle.bitbucket.io/mds/DirectlyPrecedes",
+      "curie": "mds:DirectlyPrecedes",
+      "local": "DirectlyPrecedes",
+      "tokens": [
+        "directly",
+        "precedes"
+      ],
+      "phrase": "directly precedes"
+    },
+    {
+      "label": "environs",
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000183",
+      "curie": "bfo:0000183",
+      "local": "BFO_0000183",
+      "tokens": [
+        "0000183",
+        "bfo",
+        "environs"
+      ],
+      "phrase": "environs"
+    },
+    {
+      "label": "Formulates",
+      "iri": "https://cwrusdle.bitbucket.io/mds/Formulates",
+      "curie": "mds:Formulates",
+      "local": "Formulates",
+      "tokens": [
+        "formulates"
+      ],
+      "phrase": "formulates"
+    },
+    {
+      "label": "generated By Satellite",
+      "iri": "https://cwrusdle.bitbucket.io/mds/generatedBySatellite",
+      "curie": "mds:generatedBySatellite",
+      "local": "generatedBySatellite",
+      "tokens": [
+        "satellite"
+      ],
+      "phrase": "satellite"
+    },
+    {
+      "label": "generated By Sensor",
+      "iri": "https://cwrusdle.bitbucket.io/mds/generatedBySensor",
+      "curie": "mds:generatedBySensor",
+      "local": "generatedBySensor",
+      "tokens": [
+        "sensor"
+      ],
+      "phrase": "sensor"
+    },
+    {
+      "label": "generically depends on",
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000084",
+      "curie": "bfo:0000084",
+      "local": "BFO_0000084",
+      "tokens": [
+        "0000084",
+        "bfo",
+        "depends",
+        "generically"
+      ],
+      "phrase": "generically depends"
+    },
+    {
+      "label": "has Adhesive",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasAdhesive",
+      "curie": "mds:hasAdhesive",
+      "local": "hasAdhesive",
+      "tokens": [
+        "adhesive"
+      ],
+      "phrase": "adhesive"
+    },
+    {
+      "label": "has agent",
+      "iri": "https://www.commoncoreontologies.org/ont00001833",
+      "curie": "cco:ont00001833",
+      "local": "ont00001833",
+      "tokens": [
+        "agent",
+        "ont00001833"
+      ],
+      "phrase": "agent"
+    },
+    {
+      "label": "has Ambient Temperature",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasAmbientTemperature",
+      "curie": "mds:hasAmbientTemperature",
+      "local": "hasAmbientTemperature",
+      "tokens": [
+        "ambient",
+        "temperature"
+      ],
+      "phrase": "ambient temperature"
+    },
+    {
+      "label": "has Architecture",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasArchitecture",
+      "curie": "mds:hasArchitecture",
+      "local": "hasArchitecture",
+      "tokens": [
+        "architecture"
+      ],
+      "phrase": "architecture"
+    },
+    {
+      "label": "has Back Side Encapsulant",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasBackSideEncapsulant",
+      "curie": "mds:hasBackSideEncapsulant",
+      "local": "hasBackSideEncapsulant",
+      "tokens": [
+        "back",
+        "encapsulant",
+        "side"
+      ],
+      "phrase": "back side encapsulant"
+    },
+    {
+      "label": "has Backsheet Layer",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasBacksheetLayer",
+      "curie": "mds:hasBacksheetLayer",
+      "local": "hasBacksheetLayer",
+      "tokens": [
+        "backsheet",
+        "layer"
+      ],
+      "phrase": "backsheet layer"
+    },
+    {
+      "label": "has Band Description",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasBandDescription",
+      "curie": "mds:hasBandDescription",
+      "local": "hasBandDescription",
+      "tokens": [
+        "band",
+        "description"
+      ],
+      "phrase": "band description"
+    },
+    {
+      "label": "has Batch Number",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasBatchNumber",
+      "curie": "mds:hasBatchNumber",
+      "local": "hasBatchNumber",
+      "tokens": [
+        "batch",
+        "number"
+      ],
+      "phrase": "batch number"
+    },
+    {
+      "label": "has Build Job Name",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasBuildJobName",
+      "curie": "mds:hasBuildJobName",
+      "local": "hasBuildJobName",
+      "tokens": [
+        "build",
+        "job",
+        "name"
+      ],
+      "phrase": "build job name"
+    },
+    {
+      "label": "has Centroid",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasCentroid",
+      "curie": "mds:hasCentroid",
+      "local": "hasCentroid",
+      "tokens": [
+        "centroid"
+      ],
+      "phrase": "centroid"
+    },
+    {
+      "label": "has Climate Zone",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasClimateZone",
+      "curie": "mds:hasClimateZone",
+      "local": "hasClimateZone",
+      "tokens": [
+        "climate",
+        "zone"
+      ],
+      "phrase": "climate zone"
+    },
+    {
+      "label": "has Coating",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasCoating",
+      "curie": "mds:hasCoating",
+      "local": "hasCoating",
+      "tokens": [
+        "coating"
+      ],
+      "phrase": "coating"
+    },
+    {
+      "label": "has Depth",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasDepth",
+      "curie": "mds:hasDepth",
+      "local": "hasDepth",
+      "tokens": [
+        "depth"
+      ],
+      "phrase": "depth"
+    },
+    {
+      "label": "has Direction",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasDirection",
+      "curie": "mds:hasDirection",
+      "local": "hasDirection",
+      "tokens": [
+        "direction"
+      ],
+      "phrase": "direction"
+    },
+    {
+      "label": "has East Neighbor",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasEastNeighbor",
+      "curie": "mds:hasEastNeighbor",
+      "local": "hasEastNeighbor",
+      "tokens": [
+        "east",
+        "neighbor"
+      ],
+      "phrase": "east neighbor"
+    },
+    {
+      "label": "has electronic band gap",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasElectronicBandGap",
+      "curie": "mds:hasElectronicBandGap",
+      "local": "hasElectronicBandGap",
+      "tokens": [
+        "band",
+        "electronic",
+        "gap"
+      ],
+      "phrase": "electronic band gap"
+    },
+    {
+      "label": "has electronic property",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasElectronicProperty",
+      "curie": "mds:hasElectronicProperty",
+      "local": "hasElectronicProperty",
+      "tokens": [
+        "electronic",
+        "property"
+      ],
+      "phrase": "electronic property"
+    },
+    {
+      "label": "has Elevation",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasElevation",
+      "curie": "mds:hasElevation",
+      "local": "hasElevation",
+      "tokens": [
+        "elevation"
+      ],
+      "phrase": "elevation"
+    },
+    {
+      "label": "has Ended On",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasEndedOn",
+      "curie": "mds:hasEndedOn",
+      "local": "hasEndedOn",
+      "tokens": [
+        "ended"
+      ],
+      "phrase": "ended"
+    },
+    {
+      "label": "has Energetic Property",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasEnergeticProperty",
+      "curie": "mds:hasEnergeticProperty",
+      "local": "hasEnergeticProperty",
+      "tokens": [
+        "energetic",
+        "property"
+      ],
+      "phrase": "energetic property"
+    },
+    {
+      "label": "has Exposure Time",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasExposureTime",
+      "curie": "mds:hasExposureTime",
+      "local": "hasExposureTime",
+      "tokens": [
+        "exposure",
+        "time"
+      ],
+      "phrase": "exposure time"
+    },
+    {
+      "label": "has File Format",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasFileFormat",
+      "curie": "mds:hasFileFormat",
+      "local": "hasFileFormat",
+      "tokens": [
+        "file",
+        "format"
+      ],
+      "phrase": "file format"
+    },
+    {
+      "label": "has Flux",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasFlux",
+      "curie": "mds:hasFlux",
+      "local": "hasFlux",
+      "tokens": [
+        "flux"
+      ],
+      "phrase": "flux"
+    },
+    {
+      "label": "has Front Glass",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasFrontGlass",
+      "curie": "mds:hasFrontGlass",
+      "local": "hasFrontGlass",
+      "tokens": [
+        "front",
+        "glass"
+      ],
+      "phrase": "front glass"
+    },
+    {
+      "label": "has Front Side Encapsulant",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasFrontSideEncapsulant",
+      "curie": "mds:hasFrontSideEncapsulant",
+      "local": "hasFrontSideEncapsulant",
+      "tokens": [
+        "encapsulant",
+        "front",
+        "side"
+      ],
+      "phrase": "front side encapsulant"
+    },
+    {
+      "label": "has Gap Distance",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasGapDistance",
+      "curie": "mds:hasGapDistance",
+      "local": "hasGapDistance",
+      "tokens": [
+        "distance",
+        "gap"
+      ],
+      "phrase": "gap distance"
+    },
+    {
+      "label": "has Geometry Type",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasGeometryType",
+      "curie": "mds:hasGeometryType",
+      "local": "hasGeometryType",
+      "tokens": [
+        "geometry",
+        "type"
+      ],
+      "phrase": "geometry type"
+    },
+    {
+      "label": "has Geospatial Bounding Box",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasGeospatialBoundingBox",
+      "curie": "mds:hasGeospatialBoundingBox",
+      "local": "hasGeospatialBoundingBox",
+      "tokens": [
+        "bounding",
+        "box",
+        "geospatial"
+      ],
+      "phrase": "geospatial bounding box"
+    },
+    {
+      "label": "has Hatch Distance",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasHatchDistance",
+      "curie": "mds:hasHatchDistance",
+      "local": "hasHatchDistance",
+      "tokens": [
+        "distance",
+        "hatch"
+      ],
+      "phrase": "hatch distance"
+    },
+    {
+      "label": "has Height",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasHeight",
+      "curie": "mds:hasHeight",
+      "local": "hasHeight",
+      "tokens": [
+        "height"
+      ],
+      "phrase": "height"
+    },
+    {
+      "label": "has Identifier",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasIdentifier",
+      "curie": "mds:hasIdentifier",
+      "local": "hasIdentifier",
+      "tokens": [
+        "identifier"
+      ],
+      "phrase": "identifier"
+    },
+    {
+      "label": "has Index",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasIndex",
+      "curie": "mds:hasIndex",
+      "local": "hasIndex",
+      "tokens": [
+        "index"
+      ],
+      "phrase": "index"
+    },
+    {
+      "label": "has input",
+      "iri": "https://www.commoncoreontologies.org/ont00001921",
+      "curie": "cco:ont00001921",
+      "local": "ont00001921",
+      "tokens": [
+        "input",
+        "ont00001921"
+      ],
+      "phrase": "input"
+    },
+    {
+      "label": "has Instrument Status",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasInstrumentStatus",
+      "curie": "mds:hasInstrumentStatus",
+      "local": "hasInstrumentStatus",
+      "tokens": [
+        "instrument",
+        "status"
+      ],
+      "phrase": "instrument status"
+    },
+    {
+      "label": "has Inverter",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasInverter",
+      "curie": "mds:hasInverter",
+      "local": "hasInverter",
+      "tokens": [
+        "inverter"
+      ],
+      "phrase": "inverter"
+    },
+    {
+      "label": "has Laser Power",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasLaserPower",
+      "curie": "mds:hasLaserPower",
+      "local": "hasLaserPower",
+      "tokens": [
+        "laser",
+        "power"
+      ],
+      "phrase": "laser power"
+    },
+    {
+      "label": "has Lat",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasLat",
+      "curie": "mds:hasLat",
+      "local": "hasLat",
+      "tokens": [
+        "lat"
+      ],
+      "phrase": "lat"
+    },
+    {
+      "label": "has License",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasLicense",
+      "curie": "mds:hasLicense",
+      "local": "hasLicense",
+      "tokens": [
+        "license"
+      ],
+      "phrase": "license"
+    },
+    {
+      "label": "has Long",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasLong",
+      "curie": "mds:hasLong",
+      "local": "hasLong",
+      "tokens": [
+        "long"
+      ],
+      "phrase": "long"
+    },
+    {
+      "label": "has Manufacturing Method",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasManufacturingMethod",
+      "curie": "mds:hasManufacturingMethod",
+      "local": "hasManufacturingMethod",
+      "tokens": [
+        "manufacturing",
+        "method"
+      ],
+      "phrase": "manufacturing method"
+    },
+    {
+      "label": "has Material Composition",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasMaterialComposition",
+      "curie": "mds:hasMaterialComposition",
+      "local": "hasMaterialComposition",
+      "tokens": [
+        "composition",
+        "material"
+      ],
+      "phrase": "material composition"
+    },
+    {
+      "label": "has material property",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasMaterialProperty",
+      "curie": "mds:hasMaterialProperty",
+      "local": "hasMaterialProperty",
+      "tokens": [
+        "material",
+        "property"
+      ],
+      "phrase": "material property"
+    },
+    {
+      "label": "has matrix",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasMatrix",
+      "curie": "mds:hasMatrix",
+      "local": "hasMatrix",
+      "tokens": [
+        "matrix"
+      ],
+      "phrase": "matrix"
+    },
+    {
+      "label": "has member part",
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000115",
+      "curie": "bfo:0000115",
+      "local": "BFO_0000115",
+      "tokens": [
+        "0000115",
+        "bfo",
+        "member",
+        "part"
+      ],
+      "phrase": "member part"
+    },
+    {
+      "label": "has Mission",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasMission",
+      "curie": "mds:hasMission",
+      "local": "hasMission",
+      "tokens": [
+        "mission"
+      ],
+      "phrase": "mission"
+    },
+    {
+      "label": "has Name",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasName",
+      "curie": "mds:hasName",
+      "local": "hasName",
+      "tokens": [
+        "name"
+      ],
+      "phrase": "name"
+    },
+    {
+      "label": "has North Neighbor",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasNorthNeighbor",
+      "curie": "mds:hasNorthNeighbor",
+      "local": "hasNorthNeighbor",
+      "tokens": [
+        "neighbor",
+        "north"
+      ],
+      "phrase": "north neighbor"
+    },
+    {
+      "label": "has Northeast Neighbor",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasNortheastNeighbor",
+      "curie": "mds:hasNortheastNeighbor",
+      "local": "hasNortheastNeighbor",
+      "tokens": [
+        "neighbor",
+        "northeast"
+      ],
+      "phrase": "northeast neighbor"
+    },
+    {
+      "label": "has Northwest Neighbor",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasNorthwestNeighbor",
+      "curie": "mds:hasNorthwestNeighbor",
+      "local": "hasNorthwestNeighbor",
+      "tokens": [
+        "neighbor",
+        "northwest"
+      ],
+      "phrase": "northwest neighbor"
+    },
+    {
+      "label": "has Number Per String",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasNumberPerString",
+      "curie": "mds:hasNumberPerString",
+      "local": "hasNumberPerString",
+      "tokens": [
+        "number",
+        "string"
+      ],
+      "phrase": "number string"
+    },
+    {
+      "label": "has object",
+      "iri": "https://www.commoncoreontologies.org/ont00001778",
+      "curie": "cco:ont00001778",
+      "local": "ont00001778",
+      "tokens": [
+        "object",
+        "ont00001778"
+      ],
+      "phrase": "object"
+    },
+    {
+      "label": "has occurent part",
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000117",
+      "curie": "bfo:0000117",
+      "local": "BFO_0000117",
+      "tokens": [
+        "0000117",
+        "bfo",
+        "occurent",
+        "part"
+      ],
+      "phrase": "occurent part"
+    },
+    {
+      "label": "has Operational Status",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasOperationalStatus",
+      "curie": "mds:hasOperationalStatus",
+      "local": "hasOperationalStatus",
+      "tokens": [
+        "operational",
+        "status"
+      ],
+      "phrase": "operational status"
+    },
+    {
+      "label": "has Orbital Type",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasOrbitalType",
+      "curie": "mds:hasOrbitalType",
+      "local": "hasOrbitalType",
+      "tokens": [
+        "orbital",
+        "type"
+      ],
+      "phrase": "orbital type"
+    },
+    {
+      "label": "has Orientation",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasOrientation",
+      "curie": "mds:hasOrientation",
+      "local": "hasOrientation",
+      "tokens": [
+        "orientation"
+      ],
+      "phrase": "orientation"
+    },
+    {
+      "label": "has output",
+      "iri": "https://www.commoncoreontologies.org/ont00001986",
+      "curie": "cco:ont00001986",
+      "local": "ont00001986",
+      "tokens": [
+        "ont00001986",
+        "output"
+      ],
+      "phrase": "output"
+    },
+    {
+      "label": "has Owner",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasOwner",
+      "curie": "mds:hasOwner",
+      "local": "hasOwner",
+      "tokens": [
+        "owner"
+      ],
+      "phrase": "owner"
+    },
+    {
+      "label": "has parent",
+      "iri": "https://www.commoncoreontologies.org/ont00001953",
+      "curie": "cco:ont00001953",
+      "local": "ont00001953",
+      "tokens": [
+        "ont00001953",
+        "parent"
+      ],
+      "phrase": "parent"
+    },
+    {
+      "label": "has part",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasPart",
+      "curie": "mds:hasPart",
+      "local": "hasPart",
+      "tokens": [
+        "part"
+      ],
+      "phrase": "part"
+    },
+    {
+      "label": "has participant",
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000057",
+      "curie": "bfo:0000057",
+      "local": "BFO_0000057",
+      "tokens": [
+        "0000057",
+        "bfo",
+        "participant"
+      ],
+      "phrase": "participant"
+    },
+    {
+      "label": "has phase",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasPhase",
+      "curie": "mds:hasPhase",
+      "local": "hasPhase",
+      "tokens": [
+        "phase"
+      ],
+      "phrase": "phase"
+    },
+    {
+      "label": "has Physical Property",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasPhysicalProperty",
+      "curie": "mds:hasPhysicalProperty",
+      "local": "hasPhysicalProperty",
+      "tokens": [
+        "physical",
+        "property"
+      ],
+      "phrase": "physical property"
+    },
+    {
+      "label": "has Physicochemical Property",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasPhysicochemicalProperty",
+      "curie": "mds:hasPhysicochemicalProperty",
+      "local": "hasPhysicochemicalProperty",
+      "tokens": [
+        "physicochemical",
+        "property"
+      ],
+      "phrase": "physicochemical property"
+    },
+    {
+      "label": "has Pixel Information",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasPixelInformation",
+      "curie": "mds:hasPixelInformation",
+      "local": "hasPixelInformation",
+      "tokens": [
+        "information",
+        "pixel"
+      ],
+      "phrase": "pixel information"
+    },
+    {
+      "label": "has Point Distance",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasPointDistance",
+      "curie": "mds:hasPointDistance",
+      "local": "hasPointDistance",
+      "tokens": [
+        "distance",
+        "point"
+      ],
+      "phrase": "point distance"
+    },
+    {
+      "label": "has Prepared Surface",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasPreparedSurface",
+      "curie": "mds:hasPreparedSurface",
+      "local": "hasPreparedSurface",
+      "tokens": [
+        "prepared",
+        "surface"
+      ],
+      "phrase": "prepared surface"
+    },
+    {
+      "label": "has process part",
+      "iri": "https://www.commoncoreontologies.org/ont00001777",
+      "curie": "cco:ont00001777",
+      "local": "ont00001777",
+      "tokens": [
+        "ont00001777",
+        "part",
+        "process"
+      ],
+      "phrase": "process part"
+    },
+    {
+      "label": "has processing parameter",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasProcessingParameter",
+      "curie": "mds:hasProcessingParameter",
+      "local": "hasProcessingParameter",
+      "tokens": [
+        "parameter",
+        "processing"
+      ],
+      "phrase": "processing parameter"
+    },
+    {
+      "label": "has Product Model",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasProductModel",
+      "curie": "mds:hasProductModel",
+      "local": "hasProductModel",
+      "tokens": [
+        "model",
+        "product"
+      ],
+      "phrase": "product model"
+    },
+    {
+      "label": "has realization",
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000054",
+      "curie": "bfo:0000054",
+      "local": "BFO_0000054",
+      "tokens": [
+        "0000054",
+        "bfo",
+        "realization"
+      ],
+      "phrase": "realization"
+    },
+    {
+      "label": "has reinforcement",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasReinforcement",
+      "curie": "mds:hasReinforcement",
+      "local": "hasReinforcement",
+      "tokens": [
+        "reinforcement"
+      ],
+      "phrase": "reinforcement"
+    },
+    {
+      "label": "has Satellite Altitude",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasSatelliteAltitude",
+      "curie": "mds:hasSatelliteAltitude",
+      "local": "hasSatelliteAltitude",
+      "tokens": [
+        "altitude",
+        "satellite"
+      ],
+      "phrase": "satellite altitude"
+    },
+    {
+      "label": "has Sensitivity",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasSensitivity",
+      "curie": "mds:hasSensitivity",
+      "local": "hasSensitivity",
+      "tokens": [
+        "sensitivity"
+      ],
+      "phrase": "sensitivity"
+    },
+    {
+      "label": "has Site I D",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasSiteID",
+      "curie": "mds:hasSiteID",
+      "local": "hasSiteID",
+      "tokens": [
+        "d",
+        "i",
+        "id",
+        "site"
+      ],
+      "phrase": "site i d"
+    },
+    {
+      "label": "has South Neighbor",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasSouthNeighbor",
+      "curie": "mds:hasSouthNeighbor",
+      "local": "hasSouthNeighbor",
+      "tokens": [
+        "neighbor",
+        "south"
+      ],
+      "phrase": "south neighbor"
+    },
+    {
+      "label": "has Southeast Neighbor",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasSoutheastNeighbor",
+      "curie": "mds:hasSoutheastNeighbor",
+      "local": "hasSoutheastNeighbor",
+      "tokens": [
+        "neighbor",
+        "southeast"
+      ],
+      "phrase": "southeast neighbor"
+    },
+    {
+      "label": "has Southwest Neighbor",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasSouthwestNeighbor",
+      "curie": "mds:hasSouthwestNeighbor",
+      "local": "hasSouthwestNeighbor",
+      "tokens": [
+        "neighbor",
+        "southwest"
+      ],
+      "phrase": "southwest neighbor"
+    },
+    {
+      "label": "has space group",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasSpaceGroup",
+      "curie": "mds:hasSpaceGroup",
+      "local": "hasSpaceGroup",
+      "tokens": [
+        "group",
+        "space"
+      ],
+      "phrase": "space group"
+    },
+    {
+      "label": "has Spatial Resolution",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasSpatialResolution",
+      "curie": "mds:hasSpatialResolution",
+      "local": "hasSpatialResolution",
+      "tokens": [
+        "resolution",
+        "spatial"
+      ],
+      "phrase": "spatial resolution"
+    },
+    {
+      "label": "has Spectral Resolution",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasSpectralResolution",
+      "curie": "mds:hasSpectralResolution",
+      "local": "hasSpectralResolution",
+      "tokens": [
+        "resolution",
+        "spectral"
+      ],
+      "phrase": "spectral resolution"
+    },
+    {
+      "label": "has Storage Condition",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasStorageCondition",
+      "curie": "mds:hasStorageCondition",
+      "local": "hasStorageCondition",
+      "tokens": [
+        "condition",
+        "storage"
+      ],
+      "phrase": "storage condition"
+    },
+    {
+      "label": "has structural quality",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasStructuralQuality",
+      "curie": "mds:hasStructuralQuality",
+      "local": "hasStructuralQuality",
+      "tokens": [
+        "quality",
+        "structural"
+      ],
+      "phrase": "structural quality"
+    },
+    {
+      "label": "has Temperature Coefficient",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasTemperatureCoefficient",
+      "curie": "mds:hasTemperatureCoefficient",
+      "local": "hasTemperatureCoefficient",
+      "tokens": [
+        "coefficient",
+        "temperature"
+      ],
+      "phrase": "temperature coefficient"
+    },
+    {
+      "label": "has temporal part",
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000121",
+      "curie": "bfo:0000121",
+      "local": "BFO_0000121",
+      "tokens": [
+        "0000121",
+        "bfo",
+        "part",
+        "temporal"
+      ],
+      "phrase": "temporal part"
+    },
+    {
+      "label": "has Temporal Resolution",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasTemporalResolution",
+      "curie": "mds:hasTemporalResolution",
+      "local": "hasTemporalResolution",
+      "tokens": [
+        "resolution",
+        "temporal"
+      ],
+      "phrase": "temporal resolution"
+    },
+    {
+      "label": "has Thermodynamic Property",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasThermodynamicProperty",
+      "curie": "mds:hasThermodynamicProperty",
+      "local": "hasThermodynamicProperty",
+      "tokens": [
+        "property",
+        "thermodynamic"
+      ],
+      "phrase": "thermodynamic property"
+    },
+    {
+      "label": "has Time Interval",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasTimeInterval",
+      "curie": "mds:hasTimeInterval",
+      "local": "hasTimeInterval",
+      "tokens": [
+        "interval",
+        "time"
+      ],
+      "phrase": "time interval"
+    },
+    {
+      "label": "has Voltage",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasVoltage",
+      "curie": "mds:hasVoltage",
+      "local": "hasVoltage",
+      "tokens": [
+        "voltage"
+      ],
+      "phrase": "voltage"
+    },
+    {
+      "label": "has Wavelength Range",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasWavelengthRange",
+      "curie": "mds:hasWavelengthRange",
+      "local": "hasWavelengthRange",
+      "tokens": [
+        "range",
+        "wavelength"
+      ],
+      "phrase": "wavelength range"
+    },
+    {
+      "label": "has Weight",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasWeight",
+      "curie": "mds:hasWeight",
+      "local": "hasWeight",
+      "tokens": [
+        "weight"
+      ],
+      "phrase": "weight"
+    },
+    {
+      "label": "has West Neighbor",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasWestNeighbor",
+      "curie": "mds:hasWestNeighbor",
+      "local": "hasWestNeighbor",
+      "tokens": [
+        "neighbor",
+        "west"
+      ],
+      "phrase": "west neighbor"
+    },
+    {
+      "label": "has Width",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasWidth",
+      "curie": "mds:hasWidth",
+      "local": "hasWidth",
+      "tokens": [
+        "width"
+      ],
+      "phrase": "width"
+    },
+    {
+      "label": "has Wind Speed",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasWindSpeed",
+      "curie": "mds:hasWindSpeed",
+      "local": "hasWindSpeed",
+      "tokens": [
+        "speed",
+        "wind"
+      ],
+      "phrase": "wind speed"
+    },
+    {
+      "label": "holds",
+      "iri": "https://cwrusdle.bitbucket.io/mds/holds",
+      "curie": "mds:holds",
+      "local": "holds",
+      "tokens": [
+        "holds"
+      ],
+      "phrase": "holds"
+    },
+    {
+      "label": "inheres in",
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000197",
+      "curie": "bfo:0000197",
+      "local": "BFO_0000197",
+      "tokens": [
+        "0000197",
+        "bfo",
+        "inheres"
+      ],
+      "phrase": "inheres"
+    },
+    {
+      "label": "Instrument",
+      "iri": "https://cwrusdle.bitbucket.io/mds/Instrument",
+      "curie": "mds:Instrument",
+      "local": "Instrument",
+      "tokens": [
+        "instrument"
+      ],
+      "phrase": "instrument"
+    },
+    {
+      "label": "is a measurement of",
+      "iri": "https://www.commoncoreontologies.org/ont00001966",
+      "curie": "cco:ont00001966",
+      "local": "ont00001966",
+      "tokens": [
+        "measurement",
+        "ont00001966"
+      ],
+      "phrase": "measurement"
+    },
+    {
+      "label": "is about",
+      "iri": "https://www.commoncoreontologies.org/ont00001808",
+      "curie": "cco:ont00001808",
+      "local": "ont00001808",
+      "tokens": [
+        "about",
+        "ont00001808"
+      ],
+      "phrase": "about"
+    },
+    {
+      "label": "is cause of",
+      "iri": "https://www.commoncoreontologies.org/ont00001803",
+      "curie": "cco:ont00001803",
+      "local": "ont00001803",
+      "tokens": [
+        "cause",
+        "ont00001803"
+      ],
+      "phrase": "cause"
+    },
+    {
+      "label": "is Component Of",
+      "iri": "https://cwrusdle.bitbucket.io/mds/isComponentOf",
+      "curie": "mds:isComponentOf",
+      "local": "isComponentOf",
+      "tokens": [
+        "component"
+      ],
+      "phrase": "component"
+    },
+    {
+      "label": "is Exposed",
+      "iri": "https://cwrusdle.bitbucket.io/mds/isExposed",
+      "curie": "mds:isExposed",
+      "local": "isExposed",
+      "tokens": [
+        "exposed"
+      ],
+      "phrase": "exposed"
+    },
+    {
+      "label": "is input of",
+      "iri": "https://www.commoncoreontologies.org/ont00001841",
+      "curie": "cco:ont00001841",
+      "local": "ont00001841",
+      "tokens": [
+        "input",
+        "ont00001841"
+      ],
+      "phrase": "input"
+    },
+    {
+      "label": "is Located At",
+      "iri": "https://cwrusdle.bitbucket.io/mds/isLocatedAt",
+      "curie": "mds:isLocatedAt",
+      "local": "isLocatedAt",
+      "tokens": [
+        "located"
+      ],
+      "phrase": "located"
+    },
+    {
+      "label": "is made of",
+      "iri": "https://www.commoncoreontologies.org/ont00001991",
+      "curie": "cco:ont00001991",
+      "local": "ont00001991",
+      "tokens": [
+        "made",
+        "ont00001991"
+      ],
+      "phrase": "made"
+    },
+    {
+      "label": "is material of",
+      "iri": "https://www.commoncoreontologies.org/ont00001861",
+      "curie": "cco:ont00001861",
+      "local": "ont00001861",
+      "tokens": [
+        "material",
+        "ont00001861"
+      ],
+      "phrase": "material"
+    },
+    {
+      "label": "is measured by",
+      "iri": "https://www.commoncoreontologies.org/ont00001904",
+      "curie": "cco:ont00001904",
+      "local": "ont00001904",
+      "tokens": [
+        "measured",
+        "ont00001904"
+      ],
+      "phrase": "measured"
+    },
+    {
+      "label": "is measured by interval",
+      "iri": "https://www.commoncoreontologies.org/ont00001964",
+      "curie": "cco:ont00001964",
+      "local": "ont00001964",
+      "tokens": [
+        "interval",
+        "measured",
+        "ont00001964"
+      ],
+      "phrase": "measured interval"
+    },
+    {
+      "label": "is output of",
+      "iri": "https://www.commoncoreontologies.org/ont00001816",
+      "curie": "cco:ont00001816",
+      "local": "ont00001816",
+      "tokens": [
+        "ont00001816",
+        "output"
+      ],
+      "phrase": "output"
+    },
+    {
+      "label": "is part of process",
+      "iri": "https://www.commoncoreontologies.org/ont00001857",
+      "curie": "cco:ont00001857",
+      "local": "ont00001857",
+      "tokens": [
+        "ont00001857",
+        "part",
+        "process"
+      ],
+      "phrase": "part process"
+    },
+    {
+      "label": "is Process Step Of",
+      "iri": "https://cwrusdle.bitbucket.io/mds/isProcessStepOf",
+      "curie": "mds:isProcessStepOf",
+      "local": "isProcessStepOf",
+      "tokens": [
+        "process",
+        "step"
+      ],
+      "phrase": "process step"
+    },
+    {
+      "label": "is Quality Check Of",
+      "iri": "https://cwrusdle.bitbucket.io/mds/isQualityCheckOf",
+      "curie": "mds:isQualityCheckOf",
+      "local": "isQualityCheckOf",
+      "tokens": [
+        "check",
+        "quality"
+      ],
+      "phrase": "quality check"
+    },
+    {
+      "label": "is site of",
+      "iri": "https://www.commoncoreontologies.org/ont00001845",
+      "curie": "cco:ont00001845",
+      "local": "ont00001845",
+      "tokens": [
+        "ont00001845",
+        "site"
+      ],
+      "phrase": "site"
+    },
+    {
+      "label": "is subject of",
+      "iri": "https://www.commoncoreontologies.org/ont00001801",
+      "curie": "cco:ont00001801",
+      "local": "ont00001801",
+      "tokens": [
+        "ont00001801",
+        "subject"
+      ],
+      "phrase": "subject"
+    },
+    {
+      "label": "is temporal region of",
+      "iri": "https://www.commoncoreontologies.org/ont00001874",
+      "curie": "cco:ont00001874",
+      "local": "ont00001874",
+      "tokens": [
+        "ont00001874",
+        "region",
+        "temporal"
+      ],
+      "phrase": "temporal region"
+    },
+    {
+      "label": "launched From",
+      "iri": "https://cwrusdle.bitbucket.io/mds/launchedFrom",
+      "curie": "mds:launchedFrom",
+      "local": "launchedFrom",
+      "tokens": [],
+      "phrase": ""
+    },
+    {
+      "label": "launched On",
+      "iri": "https://cwrusdle.bitbucket.io/mds/launchedOn",
+      "curie": "mds:launchedOn",
+      "local": "launchedOn",
+      "tokens": [],
+      "phrase": ""
+    },
+    {
+      "label": "located in",
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000171",
+      "curie": "bfo:0000171",
+      "local": "BFO_0000171",
+      "tokens": [
+        "0000171",
+        "bfo",
+        "located"
+      ],
+      "phrase": "located"
+    },
+    {
+      "label": "member part of",
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000129",
+      "curie": "bfo:0000129",
+      "local": "BFO_0000129",
+      "tokens": [
+        "0000129",
+        "bfo",
+        "member",
+        "part"
+      ],
+      "phrase": "member part"
+    },
+    {
+      "label": "mounted On",
+      "iri": "https://cwrusdle.bitbucket.io/mds/mountedOn",
+      "curie": "mds:mountedOn",
+      "local": "mountedOn",
+      "tokens": [],
+      "phrase": ""
+    },
+    {
+      "label": "occupies spatial region",
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000210",
+      "curie": "bfo:0000210",
+      "local": "BFO_0000210",
+      "tokens": [
+        "0000210",
+        "bfo",
+        "occupies",
+        "region",
+        "spatial"
+      ],
+      "phrase": "occupies spatial region"
+    },
+    {
+      "label": "occupies Spatial Region",
+      "iri": "https://cwrusdle.bitbucket.io/mds/occupiesSpatialRegion",
+      "curie": "mds:occupiesSpatialRegion",
+      "local": "occupiesSpatialRegion",
+      "tokens": [
+        "occupies",
+        "region",
+        "spatial"
+      ],
+      "phrase": "occupies spatial region"
+    },
+    {
+      "label": "occupies temporal region",
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000199",
+      "curie": "bfo:0000199",
+      "local": "BFO_0000199",
+      "tokens": [
+        "0000199",
+        "bfo",
+        "occupies",
+        "region",
+        "temporal"
+      ],
+      "phrase": "occupies temporal region"
+    },
+    {
+      "label": "occurs at",
+      "iri": "https://www.commoncoreontologies.org/ont00001918",
+      "curie": "cco:ont00001918",
+      "local": "ont00001918",
+      "tokens": [
+        "occurs",
+        "ont00001918"
+      ],
+      "phrase": "occurs"
+    },
+    {
+      "label": "owned By Agency",
+      "iri": "https://cwrusdle.bitbucket.io/mds/ownedByAgency",
+      "curie": "mds:ownedByAgency",
+      "local": "ownedByAgency",
+      "tokens": [
+        "agency",
+        "owned"
+      ],
+      "phrase": "agency"
+    },
+    {
+      "label": "participates in",
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000056",
+      "curie": "bfo:0000056",
+      "local": "BFO_0000056",
+      "tokens": [
+        "0000056",
+        "bfo",
+        "participates"
+      ],
+      "phrase": "participates"
+    },
+    {
+      "label": "preceded by",
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000062",
+      "curie": "bfo:0000062",
+      "local": "BFO_0000062",
+      "tokens": [
+        "0000062",
+        "bfo",
+        "preceded"
+      ],
+      "phrase": "preceded"
+    },
+    {
+      "label": "precedes",
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000063",
+      "curie": "bfo:0000063",
+      "local": "BFO_0000063",
+      "tokens": [
+        "0000063",
+        "bfo",
+        "precedes"
+      ],
+      "phrase": "precedes"
+    },
+    {
+      "label": "prescribed by",
+      "iri": "https://www.commoncoreontologies.org/ont00001920",
+      "curie": "cco:ont00001920",
+      "local": "ont00001920",
+      "tokens": [
+        "ont00001920",
+        "prescribed"
+      ],
+      "phrase": "prescribed"
+    },
+    {
+      "label": "prescribes",
+      "iri": "https://www.commoncoreontologies.org/ont00001942",
+      "curie": "cco:ont00001942",
+      "local": "ont00001942",
+      "tokens": [
+        "ont00001942",
+        "prescribes"
+      ],
+      "phrase": "prescribes"
+    },
+    {
+      "label": "processed Using",
+      "iri": "https://cwrusdle.bitbucket.io/mds/processedUsing",
+      "curie": "mds:processedUsing",
+      "local": "processedUsing",
+      "tokens": [
+        "using"
+      ],
+      "phrase": "using"
+    },
+    {
+      "label": "produced By",
+      "iri": "https://cwrusdle.bitbucket.io/mds/producedBy",
+      "curie": "mds:producedBy",
+      "local": "producedBy",
+      "tokens": [
+        "produced"
+      ],
+      "phrase": "produced"
+    },
+    {
+      "label": "realizes",
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000055",
+      "curie": "bfo:0000055",
+      "local": "BFO_0000055",
+      "tokens": [
+        "0000055",
+        "bfo",
+        "realizes"
+      ],
+      "phrase": "realizes"
+    },
+    {
+      "label": "represents",
+      "iri": "https://www.commoncoreontologies.org/ont00001938",
+      "curie": "cco:ont00001938",
+      "local": "ont00001938",
+      "tokens": [
+        "ont00001938",
+        "represents"
+      ],
+      "phrase": "represents"
+    },
+    {
+      "label": "temporal part of",
+      "iri": "http://purl.obolibrary.org/obo/BFO_0000139",
+      "curie": "bfo:0000139",
+      "local": "BFO_0000139",
+      "tokens": [
+        "0000139",
+        "bfo",
+        "part",
+        "temporal"
+      ],
+      "phrase": "temporal part"
+    },
+    {
+      "label": "ThermalProperty",
+      "iri": "https://cwrusdle.bitbucket.io/mds/ThermalProperty",
+      "curie": "mds:ThermalProperty",
+      "local": "ThermalProperty",
+      "tokens": [
+        "property",
+        "thermal"
+      ],
+      "phrase": "thermal property"
+    },
+    {
+      "label": "undergoes Processing",
+      "iri": "https://cwrusdle.bitbucket.io/mds/undergoesProcessing",
+      "curie": "mds:undergoesProcessing",
+      "local": "undergoesProcessing",
+      "tokens": [
+        "processing",
+        "undergoes"
+      ],
+      "phrase": "undergoes processing"
+    },
+    {
+      "label": "uses Equipment",
+      "iri": "https://cwrusdle.bitbucket.io/mds/usesEquipment",
+      "curie": "mds:usesEquipment",
+      "local": "usesEquipment",
+      "tokens": [
+        "equipment"
+      ],
+      "phrase": "equipment"
+    },
+    {
+      "label": "uses geospatial coordinate reference system",
+      "iri": "https://www.commoncoreontologies.org/ont00001913",
+      "curie": "cco:ont00001913",
+      "local": "ont00001913",
+      "tokens": [
+        "coordinate",
+        "geospatial",
+        "ont00001913",
+        "reference",
+        "system"
+      ],
+      "phrase": "geospatial coordinate reference system"
+    },
+    {
+      "label": "uses License",
+      "iri": "https://cwrusdle.bitbucket.io/mds/usesLicense",
+      "curie": "mds:usesLicense",
+      "local": "usesLicense",
+      "tokens": [
+        "license"
+      ],
+      "phrase": "license"
+    },
+    {
+      "label": "uses measurement unit",
+      "iri": "https://www.commoncoreontologies.org/ont00001863",
+      "curie": "cco:ont00001863",
+      "local": "ont00001863",
+      "tokens": [
+        "measurement",
+        "ont00001863",
+        "unit"
+      ],
+      "phrase": "measurement unit"
+    },
+    {
+      "label": "uses Media",
+      "iri": "https://cwrusdle.bitbucket.io/mds/usesMedia",
+      "curie": "mds:usesMedia",
+      "local": "usesMedia",
+      "tokens": [
+        "media"
+      ],
+      "phrase": "media"
+    },
+    {
+      "label": "uses Recipe",
+      "iri": "https://cwrusdle.bitbucket.io/mds/usesRecipe",
+      "curie": "mds:usesRecipe",
+      "local": "usesRecipe",
+      "tokens": [
+        "recipe"
+      ],
+      "phrase": "recipe"
+    },
+    {
+      "label": "uses Spatial Reference System",
+      "iri": "https://cwrusdle.bitbucket.io/mds/usesSpatialReferenceSystem",
+      "curie": "mds:usesSpatialReferenceSystem",
+      "local": "usesSpatialReferenceSystem",
+      "tokens": [
+        "reference",
+        "spatial",
+        "system"
+      ],
+      "phrase": "spatial reference system"
+    },
+    {
+      "label": "uses time zone identifier",
+      "iri": "https://www.commoncoreontologies.org/ont00001908",
+      "curie": "cco:ont00001908",
+      "local": "ont00001908",
+      "tokens": [
+        "identifier",
+        "ont00001908",
+        "time",
+        "zone"
+      ],
+      "phrase": "time zone identifier"
+    },
+    {
+      "label": "uses Tool",
+      "iri": "https://cwrusdle.bitbucket.io/mds/usesTool",
+      "curie": "mds:usesTool",
+      "local": "usesTool",
+      "tokens": [
+        "tool"
+      ],
+      "phrase": "tool"
+    }
+  ],
+  "data": [
+    {
+      "label": "addition order",
+      "iri": "https://cwrusdle.bitbucket.io/mds/additionOrder",
+      "curie": "mds:additionOrder",
+      "local": "additionOrder",
+      "tokens": [
+        "addition",
+        "order"
+      ],
+      "phrase": "addition order"
+    },
+    {
+      "label": "chemical patent",
+      "iri": "https://cwrusdle.bitbucket.io/mds/chemicalPatent",
+      "curie": "mds:chemicalPatent",
+      "local": "chemicalPatent",
+      "tokens": [
+        "chemical",
+        "patent"
+      ],
+      "phrase": "chemical patent"
+    },
+    {
+      "label": "contains Band Category",
+      "iri": "https://cwrusdle.bitbucket.io/mds/containsBandCategory",
+      "curie": "mds:containsBandCategory",
+      "local": "containsBandCategory",
+      "tokens": [
+        "band",
+        "category"
+      ],
+      "phrase": "band category"
+    },
+    {
+      "label": "contains Features",
+      "iri": "https://cwrusdle.bitbucket.io/mds/containsFeatures",
+      "curie": "mds:containsFeatures",
+      "local": "containsFeatures",
+      "tokens": [
+        "features"
+      ],
+      "phrase": "features"
+    },
+    {
+      "label": "details",
+      "iri": "https://cwrusdle.bitbucket.io/mds/details",
+      "curie": "mds:details",
+      "local": "details",
+      "tokens": [
+        "details"
+      ],
+      "phrase": "details"
+    },
+    {
+      "label": "forms precipitate",
+      "iri": "https://cwrusdle.bitbucket.io/mds/formsPrecipitate",
+      "curie": "mds:formsPrecipitate",
+      "local": "formsPrecipitate",
+      "tokens": [
+        "forms",
+        "precipitate"
+      ],
+      "phrase": "forms precipitate"
+    },
+    {
+      "label": "has Apogee Altitude",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasApogeeAltitude",
+      "curie": "mds:hasApogeeAltitude",
+      "local": "hasApogeeAltitude",
+      "tokens": [
+        "altitude",
+        "apogee"
+      ],
+      "phrase": "apogee altitude"
+    },
+    {
+      "label": "has Band Category",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasBandCategory",
+      "curie": "mds:hasBandCategory",
+      "local": "hasBandCategory",
+      "tokens": [
+        "band",
+        "category"
+      ],
+      "phrase": "band category"
+    },
+    {
+      "label": "has Band Common Name",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasBandCommonName",
+      "curie": "mds:hasBandCommonName",
+      "local": "hasBandCommonName",
+      "tokens": [
+        "band",
+        "common",
+        "name"
+      ],
+      "phrase": "band common name"
+    },
+    {
+      "label": "has datetime value",
+      "iri": "https://www.commoncoreontologies.org/ont00001767",
+      "curie": "cco:ont00001767",
+      "local": "ont00001767",
+      "tokens": [
+        "datetime",
+        "ont00001767",
+        "value"
+      ],
+      "phrase": "datetime value"
+    },
+    {
+      "label": "has Depth Of Cut Per Pass",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasDepthOfCutPerPass",
+      "curie": "mds:hasDepthOfCutPerPass",
+      "local": "hasDepthOfCutPerPass",
+      "tokens": [
+        "cut",
+        "depth",
+        "pass"
+      ],
+      "phrase": "depth cut pass"
+    },
+    {
+      "label": "has Dimension After Preparation",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasDimensionAfterPreparation",
+      "curie": "mds:hasDimensionAfterPreparation",
+      "local": "hasDimensionAfterPreparation",
+      "tokens": [
+        "after",
+        "dimension",
+        "preparation"
+      ],
+      "phrase": "dimension after preparation"
+    },
+    {
+      "label": "has Dry Electropolishing Operator",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasDryElectropolishingOperator",
+      "curie": "mds:hasDryElectropolishingOperator",
+      "local": "hasDryElectropolishingOperator",
+      "tokens": [
+        "dry",
+        "electropolishing",
+        "operator"
+      ],
+      "phrase": "dry electropolishing operator"
+    },
+    {
+      "label": "has Electropolish Rate Of Mass Change",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasElectropolishRateOfMassChange",
+      "curie": "mds:hasElectropolishRateOfMassChange",
+      "local": "hasElectropolishRateOfMassChange",
+      "tokens": [
+        "change",
+        "electropolish",
+        "mass",
+        "rate"
+      ],
+      "phrase": "electropolish rate mass change"
+    },
+    {
+      "label": "has Electropolish Rate Of Volume Change",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasElectropolishRateOfVolumeChange",
+      "curie": "mds:hasElectropolishRateOfVolumeChange",
+      "local": "hasElectropolishRateOfVolumeChange",
+      "tokens": [
+        "change",
+        "electropolish",
+        "rate",
+        "volume"
+      ],
+      "phrase": "electropolish rate volume change"
+    },
+    {
+      "label": "has File Format",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasFileFormat",
+      "curie": "mds:hasFileFormat",
+      "local": "hasFileFormat",
+      "tokens": [
+        "file",
+        "format"
+      ],
+      "phrase": "file format"
+    },
+    {
+      "label": "has Geohash Precision",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasGeohashPrecision",
+      "curie": "mds:hasGeohashPrecision",
+      "local": "hasGeohashPrecision",
+      "tokens": [
+        "geohash",
+        "precision"
+      ],
+      "phrase": "geohash precision"
+    },
+    {
+      "label": "has Grind Induced Deformation Layer Depth",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasGrindInducedDeformationLayerDepth",
+      "curie": "mds:hasGrindInducedDeformationLayerDepth",
+      "local": "hasGrindInducedDeformationLayerDepth",
+      "tokens": [
+        "deformation",
+        "depth",
+        "grind",
+        "induced",
+        "layer"
+      ],
+      "phrase": "grind induced deformation layer depth"
+    },
+    {
+      "label": "has Grinding Operator",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasGrindingOperator",
+      "curie": "mds:hasGrindingOperator",
+      "local": "hasGrindingOperator",
+      "tokens": [
+        "grinding",
+        "operator"
+      ],
+      "phrase": "grinding operator"
+    },
+    {
+      "label": "has Grinding Wheel Speed",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasGrindingWheelSpeed",
+      "curie": "mds:hasGrindingWheelSpeed",
+      "local": "hasGrindingWheelSpeed",
+      "tokens": [
+        "grinding",
+        "speed",
+        "wheel"
+      ],
+      "phrase": "grinding wheel speed"
+    },
+    {
+      "label": "has latitude value",
+      "iri": "https://www.commoncoreontologies.org/ont00001766",
+      "curie": "cco:ont00001766",
+      "local": "ont00001766",
+      "tokens": [
+        "latitude",
+        "ont00001766",
+        "value"
+      ],
+      "phrase": "latitude value"
+    },
+    {
+      "label": "has longitude value",
+      "iri": "https://www.commoncoreontologies.org/ont00001764",
+      "curie": "cco:ont00001764",
+      "local": "ont00001764",
+      "tokens": [
+        "longitude",
+        "ont00001764",
+        "value"
+      ],
+      "phrase": "longitude value"
+    },
+    {
+      "label": "has Mass After Preparation",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasMassAfterPreparation",
+      "curie": "mds:hasMassAfterPreparation",
+      "local": "hasMassAfterPreparation",
+      "tokens": [
+        "after",
+        "mass",
+        "preparation"
+      ],
+      "phrase": "mass after preparation"
+    },
+    {
+      "label": "has Mass Change",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasMassChange",
+      "curie": "mds:hasMassChange",
+      "local": "hasMassChange",
+      "tokens": [
+        "change",
+        "mass"
+      ],
+      "phrase": "mass change"
+    },
+    {
+      "label": "has Maximum Latitude",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasMaximumLatitude",
+      "curie": "mds:hasMaximumLatitude",
+      "local": "hasMaximumLatitude",
+      "tokens": [
+        "latitude",
+        "maximum"
+      ],
+      "phrase": "maximum latitude"
+    },
+    {
+      "label": "has Maximum Longitude",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasMaximumLongitude",
+      "curie": "mds:hasMaximumLongitude",
+      "local": "hasMaximumLongitude",
+      "tokens": [
+        "longitude",
+        "maximum"
+      ],
+      "phrase": "maximum longitude"
+    },
+    {
+      "label": "has Maximum Wavelength",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasMaximumWavelength",
+      "curie": "mds:hasMaximumWavelength",
+      "local": "hasMaximumWavelength",
+      "tokens": [
+        "maximum",
+        "wavelength"
+      ],
+      "phrase": "maximum wavelength"
+    },
+    {
+      "label": "has Media Relative Humidity",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasMediaRelativeHumidity",
+      "curie": "mds:hasMediaRelativeHumidity",
+      "local": "hasMediaRelativeHumidity",
+      "tokens": [
+        "humidity",
+        "media",
+        "relative"
+      ],
+      "phrase": "media relative humidity"
+    },
+    {
+      "label": "has Minimum Latitude",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasMinimumLatitude",
+      "curie": "mds:hasMinimumLatitude",
+      "local": "hasMinimumLatitude",
+      "tokens": [
+        "latitude",
+        "minimum"
+      ],
+      "phrase": "minimum latitude"
+    },
+    {
+      "label": "has Minimum Longitude",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasMinimumLongitude",
+      "curie": "mds:hasMinimumLongitude",
+      "local": "hasMinimumLongitude",
+      "tokens": [
+        "longitude",
+        "minimum"
+      ],
+      "phrase": "minimum longitude"
+    },
+    {
+      "label": "has Minimum Wavelength",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasMinimumWavelength",
+      "curie": "mds:hasMinimumWavelength",
+      "local": "hasMinimumWavelength",
+      "tokens": [
+        "minimum",
+        "wavelength"
+      ],
+      "phrase": "minimum wavelength"
+    },
+    {
+      "label": "has Motor Speed Setting",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasMotorSpeedSetting",
+      "curie": "mds:hasMotorSpeedSetting",
+      "local": "hasMotorSpeedSetting",
+      "tokens": [
+        "motor",
+        "setting",
+        "speed"
+      ],
+      "phrase": "motor speed setting"
+    },
+    {
+      "label": "has Orbit Altitude",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasOrbitAltitude",
+      "curie": "mds:hasOrbitAltitude",
+      "local": "hasOrbitAltitude",
+      "tokens": [
+        "altitude",
+        "orbit"
+      ],
+      "phrase": "orbit altitude"
+    },
+    {
+      "label": "has Orbital Period",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasOrbitalPeriod",
+      "curie": "mds:hasOrbitalPeriod",
+      "local": "hasOrbitalPeriod",
+      "tokens": [
+        "orbital",
+        "period"
+      ],
+      "phrase": "orbital period"
+    },
+    {
+      "label": "has Perigee Altitude",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasPerigeeAltitude",
+      "curie": "mds:hasPerigeeAltitude",
+      "local": "hasPerigeeAltitude",
+      "tokens": [
+        "altitude",
+        "perigee"
+      ],
+      "phrase": "perigee altitude"
+    },
+    {
+      "label": "has Pixel Height",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasPixelHeight",
+      "curie": "mds:hasPixelHeight",
+      "local": "hasPixelHeight",
+      "tokens": [
+        "height",
+        "pixel"
+      ],
+      "phrase": "pixel height"
+    },
+    {
+      "label": "has Pixel Resolution",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasPixelResolution",
+      "curie": "mds:hasPixelResolution",
+      "local": "hasPixelResolution",
+      "tokens": [
+        "pixel",
+        "resolution"
+      ],
+      "phrase": "pixel resolution"
+    },
+    {
+      "label": "has Pixel Width",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasPixelWidth",
+      "curie": "mds:hasPixelWidth",
+      "local": "hasPixelWidth",
+      "tokens": [
+        "pixel",
+        "width"
+      ],
+      "phrase": "pixel width"
+    },
+    {
+      "label": "has Polishing Duration",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasPolishingDuration",
+      "curie": "mds:hasPolishingDuration",
+      "local": "hasPolishingDuration",
+      "tokens": [
+        "duration",
+        "polishing"
+      ],
+      "phrase": "polishing duration"
+    },
+    {
+      "label": "has Polishing Frequency Mode",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasPolishingFrequencyMode",
+      "curie": "mds:hasPolishingFrequencyMode",
+      "local": "hasPolishingFrequencyMode",
+      "tokens": [
+        "frequency",
+        "mode",
+        "polishing"
+      ],
+      "phrase": "polishing frequency mode"
+    },
+    {
+      "label": "has Polishing Voltage",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasPolishingVoltage",
+      "curie": "mds:hasPolishingVoltage",
+      "local": "hasPolishingVoltage",
+      "tokens": [
+        "polishing",
+        "voltage"
+      ],
+      "phrase": "polishing voltage"
+    },
+    {
+      "label": "has Prepared Date",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasPreparedDate",
+      "curie": "mds:hasPreparedDate",
+      "local": "hasPreparedDate",
+      "tokens": [
+        "date",
+        "prepared"
+      ],
+      "phrase": "prepared date"
+    },
+    {
+      "label": "has Processing Level",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasProcessingLevel",
+      "curie": "mds:hasProcessingLevel",
+      "local": "hasProcessingLevel",
+      "tokens": [
+        "level",
+        "processing"
+      ],
+      "phrase": "processing level"
+    },
+    {
+      "label": "has Processing Quality",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasProcessingQuality",
+      "curie": "mds:hasProcessingQuality",
+      "local": "hasProcessingQuality",
+      "tokens": [
+        "processing",
+        "quality"
+      ],
+      "phrase": "processing quality"
+    },
+    {
+      "label": "has Processing Status",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasProcessingStatus",
+      "curie": "mds:hasProcessingStatus",
+      "local": "hasProcessingStatus",
+      "tokens": [
+        "processing",
+        "status"
+      ],
+      "phrase": "processing status"
+    },
+    {
+      "label": "has Satellite Common Name",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasSatelliteCommonName",
+      "curie": "mds:hasSatelliteCommonName",
+      "local": "hasSatelliteCommonName",
+      "tokens": [
+        "common",
+        "name",
+        "satellite"
+      ],
+      "phrase": "satellite common name"
+    },
+    {
+      "label": "has Satellite Details",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasSatelliteDetails",
+      "curie": "mds:hasSatelliteDetails",
+      "local": "hasSatelliteDetails",
+      "tokens": [
+        "details",
+        "satellite"
+      ],
+      "phrase": "satellite details"
+    },
+    {
+      "label": "has Sensor Common Name",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasSensorCommonName",
+      "curie": "mds:hasSensorCommonName",
+      "local": "hasSensorCommonName",
+      "tokens": [
+        "common",
+        "name",
+        "sensor"
+      ],
+      "phrase": "sensor common name"
+    },
+    {
+      "label": "has Sensor Details",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasSensorDetails",
+      "curie": "mds:hasSensorDetails",
+      "local": "hasSensorDetails",
+      "tokens": [
+        "details",
+        "sensor"
+      ],
+      "phrase": "sensor details"
+    },
+    {
+      "label": "has Swath Width",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasSwathWidth",
+      "curie": "mds:hasSwathWidth",
+      "local": "hasSwathWidth",
+      "tokens": [
+        "swath",
+        "width"
+      ],
+      "phrase": "swath width"
+    },
+    {
+      "label": "has text value",
+      "iri": "https://www.commoncoreontologies.org/ont00001765",
+      "curie": "cco:ont00001765",
+      "local": "ont00001765",
+      "tokens": [
+        "ont00001765",
+        "text",
+        "value"
+      ],
+      "phrase": "text value"
+    },
+    {
+      "label": "has Total Grinding Removal Depth",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasTotalGrindingRemovalDepth",
+      "curie": "mds:hasTotalGrindingRemovalDepth",
+      "local": "hasTotalGrindingRemovalDepth",
+      "tokens": [
+        "depth",
+        "grinding",
+        "removal",
+        "total"
+      ],
+      "phrase": "total grinding removal depth"
+    },
+    {
+      "label": "has Total Surface Removal Depth",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasTotalSurfaceRemovalDepth",
+      "curie": "mds:hasTotalSurfaceRemovalDepth",
+      "local": "hasTotalSurfaceRemovalDepth",
+      "tokens": [
+        "depth",
+        "removal",
+        "surface",
+        "total"
+      ],
+      "phrase": "total surface removal depth"
+    },
+    {
+      "label": "hasCycle",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasCycle",
+      "curie": "mds:hasCycle",
+      "local": "hasCycle",
+      "tokens": [
+        "cycle",
+        "has"
+      ],
+      "phrase": "has cycle"
+    },
+    {
+      "label": "hasTreatment",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasTreatment",
+      "curie": "mds:hasTreatment",
+      "local": "hasTreatment",
+      "tokens": [
+        "has",
+        "treatment"
+      ],
+      "phrase": "has treatment"
+    },
+    {
+      "label": "Height Variation Across Sample Bar",
+      "iri": "https://cwrusdle.bitbucket.io/mds/HeightVariationAcrossSampleBar",
+      "curie": "mds:HeightVariationAcrossSampleBar",
+      "local": "HeightVariationAcrossSampleBar",
+      "tokens": [
+        "across",
+        "bar",
+        "height",
+        "sample",
+        "variation"
+      ],
+      "phrase": "height variation across sample bar"
+    },
+    {
+      "label": "is automated",
+      "iri": "https://cwrusdle.bitbucket.io/mds/isAutomated",
+      "curie": "mds:isAutomated",
+      "local": "isAutomated",
+      "tokens": [
+        "automated"
+      ],
+      "phrase": "automated"
+    },
+    {
+      "label": "is desired product",
+      "iri": "https://cwrusdle.bitbucket.io/mds/isDesiredProduct",
+      "curie": "mds:isDesiredProduct",
+      "local": "isDesiredProduct",
+      "tokens": [
+        "desired",
+        "product"
+      ],
+      "phrase": "desired product"
+    },
+    {
+      "label": "is exothermic",
+      "iri": "https://cwrusdle.bitbucket.io/mds/isExothermic",
+      "curie": "mds:isExothermic",
+      "local": "isExothermic",
+      "tokens": [
+        "exothermic"
+      ],
+      "phrase": "exothermic"
+    },
+    {
+      "label": "is heterogeneous",
+      "iri": "https://cwrusdle.bitbucket.io/mds/isHeterogeneous",
+      "curie": "mds:isHeterogeneous",
+      "local": "isHeterogeneous",
+      "tokens": [
+        "heterogeneous"
+      ],
+      "phrase": "heterogeneous"
+    },
+    {
+      "label": "is limiting",
+      "iri": "https://cwrusdle.bitbucket.io/mds/isLimiting",
+      "curie": "mds:isLimiting",
+      "local": "isLimiting",
+      "tokens": [
+        "limiting"
+      ],
+      "phrase": "limiting"
+    },
+    {
+      "label": "is mapped",
+      "iri": "https://cwrusdle.bitbucket.io/mds/isMapped",
+      "curie": "mds:isMapped",
+      "local": "isMapped",
+      "tokens": [
+        "mapped"
+      ],
+      "phrase": "mapped"
+    },
+    {
+      "label": "is normalized",
+      "iri": "https://cwrusdle.bitbucket.io/mds/isNormalized",
+      "curie": "mds:isNormalized",
+      "local": "isNormalized",
+      "tokens": [
+        "normalized"
+      ],
+      "phrase": "normalized"
+    },
+    {
+      "label": "is of isolated species",
+      "iri": "https://cwrusdle.bitbucket.io/mds/isOfIsolatedSpecies",
+      "curie": "mds:isOfIsolatedSpecies",
+      "local": "isOfIsolatedSpecies",
+      "tokens": [
+        "isolated",
+        "species"
+      ],
+      "phrase": "isolated species"
+    },
+    {
+      "label": "is sensitive to light",
+      "iri": "https://cwrusdle.bitbucket.io/mds/isSensitiveToLight",
+      "curie": "mds:isSensitiveToLight",
+      "local": "isSensitiveToLight",
+      "tokens": [
+        "light",
+        "sensitive"
+      ],
+      "phrase": "sensitive light"
+    },
+    {
+      "label": "is sensitive to moisture",
+      "iri": "https://cwrusdle.bitbucket.io/mds/isSensitiveToMoisture",
+      "curie": "mds:isSensitiveToMoisture",
+      "local": "isSensitiveToMoisture",
+      "tokens": [
+        "moisture",
+        "sensitive"
+      ],
+      "phrase": "sensitive moisture"
+    },
+    {
+      "label": "is sensitive to oxygen",
+      "iri": "https://cwrusdle.bitbucket.io/mds/isSensitiveToOxygen",
+      "curie": "mds:isSensitiveToOxygen",
+      "local": "isSensitiveToOxygen",
+      "tokens": [
+        "oxygen",
+        "sensitive"
+      ],
+      "phrase": "sensitive oxygen"
+    },
+    {
+      "label": "isolated color",
+      "iri": "https://cwrusdle.bitbucket.io/mds/isolatedColor",
+      "curie": "mds:isolatedColor",
+      "local": "isolatedColor",
+      "tokens": [
+        "color",
+        "isolated"
+      ],
+      "phrase": "isolated color"
+    },
+    {
+      "label": "keep phase",
+      "iri": "https://cwrusdle.bitbucket.io/mds/keepPhase",
+      "curie": "mds:keepPhase",
+      "local": "keepPhase",
+      "tokens": [
+        "keep",
+        "phase"
+      ],
+      "phrase": "keep phase"
+    },
+    {
+      "label": "meetsTargetSpecification",
+      "iri": "https://cwrusdle.bitbucket.io/mds/meetsTargetSpecification",
+      "curie": "mds:meetsTargetSpecification",
+      "local": "meetsTargetSpecification",
+      "tokens": [
+        "meets",
+        "specification",
+        "target"
+      ],
+      "phrase": "meets target specification"
+    },
+    {
+      "label": "NumberOfUnits",
+      "iri": "https://cwrusdle.bitbucket.io/mds/NumberOfUnits",
+      "curie": "mds:NumberOfUnits",
+      "local": "NumberOfUnits",
+      "tokens": [
+        "number",
+        "units"
+      ],
+      "phrase": "number units"
+    },
+    {
+      "label": "off gasses",
+      "iri": "https://cwrusdle.bitbucket.io/mds/offGasses",
+      "curie": "mds:offGasses",
+      "local": "offGasses",
+      "tokens": [
+        "gasses",
+        "off"
+      ],
+      "phrase": "off gasses"
+    },
+    {
+      "label": "postCureRequired",
+      "iri": "https://cwrusdle.bitbucket.io/mds/postCureRequired",
+      "curie": "mds:postCureRequired",
+      "local": "postCureRequired",
+      "tokens": [
+        "cure",
+        "post",
+        "required"
+      ],
+      "phrase": "post cure required"
+    },
+    {
+      "label": "procedure details",
+      "iri": "https://cwrusdle.bitbucket.io/mds/procedureDetails",
+      "curie": "mds:procedureDetails",
+      "local": "procedureDetails",
+      "tokens": [
+        "details",
+        "procedure"
+      ],
+      "phrase": "procedure details"
+    },
+    {
+      "label": "publication URL",
+      "iri": "https://cwrusdle.bitbucket.io/mds/publicationURL",
+      "curie": "mds:publicationURL",
+      "local": "publicationURL",
+      "tokens": [
+        "publication",
+        "url"
+      ],
+      "phrase": "publication url"
+    },
+    {
+      "label": "safety notes",
+      "iri": "https://cwrusdle.bitbucket.io/mds/safetyNotes",
+      "curie": "mds:safetyNotes",
+      "local": "safetyNotes",
+      "tokens": [
+        "notes",
+        "safety"
+      ],
+      "phrase": "safety notes"
+    },
+    {
+      "label": "uses authentic standard",
+      "iri": "https://cwrusdle.bitbucket.io/mds/usesAuthenticStandard",
+      "curie": "mds:usesAuthenticStandard",
+      "local": "usesAuthenticStandard",
+      "tokens": [
+        "authentic",
+        "standard"
+      ],
+      "phrase": "authentic standard"
+    },
+    {
+      "label": "uses Compression Method",
+      "iri": "https://cwrusdle.bitbucket.io/mds/usesCompressionMethod",
+      "curie": "mds:usesCompressionMethod",
+      "local": "usesCompressionMethod",
+      "tokens": [
+        "compression",
+        "method"
+      ],
+      "phrase": "compression method"
+    },
+    {
+      "label": "uses Drying Gas",
+      "iri": "https://cwrusdle.bitbucket.io/mds/usesDryingGas",
+      "curie": "mds:usesDryingGas",
+      "local": "usesDryingGas",
+      "tokens": [
+        "drying",
+        "gas"
+      ],
+      "phrase": "drying gas"
+    },
+    {
+      "label": "uses internal standard",
+      "iri": "https://cwrusdle.bitbucket.io/mds/usesInternalStandard",
+      "curie": "mds:usesInternalStandard",
+      "local": "usesInternalStandard",
+      "tokens": [
+        "internal",
+        "standard"
+      ],
+      "phrase": "internal standard"
+    },
+    {
+      "label": "uses Solvent",
+      "iri": "https://cwrusdle.bitbucket.io/mds/usesSolvent",
+      "curie": "mds:usesSolvent",
+      "local": "usesSolvent",
+      "tokens": [
+        "solvent"
+      ],
+      "phrase": "solvent"
+    },
+    {
+      "label": "volume includes solutes",
+      "iri": "https://cwrusdle.bitbucket.io/mds/volumeIncludesSolutes",
+      "curie": "mds:volumeIncludesSolutes",
+      "local": "volumeIncludesSolutes",
+      "tokens": [
+        "includes",
+        "solutes",
+        "volume"
+      ],
+      "phrase": "volume includes solutes"
+    }
+  ],
+  "annotation": [
+    {
+      "label": "alt Label",
+      "iri": "http://www.w3.org/2004/02/skos/core#altLabel",
+      "curie": "skos:altLabel",
+      "local": "altLabel",
+      "tokens": [
+        "alt",
+        "label"
+      ],
+      "phrase": "alt label"
+    },
+    {
+      "label": "applicable Unit",
+      "iri": "http://qudt.org/schema/qudt/applicableUnit",
+      "curie": "qudt:applicableUnit",
+      "local": "applicableUnit",
+      "tokens": [
+        "applicable",
+        "unit"
+      ],
+      "phrase": "applicable unit"
+    },
+    {
+      "label": "broader",
+      "iri": "http://www.w3.org/2004/02/skos/core#broader",
+      "curie": "skos:broader",
+      "local": "broader",
+      "tokens": [
+        "broader"
+      ],
+      "phrase": "broader"
+    },
+    {
+      "label": "close Match",
+      "iri": "http://www.w3.org/2004/02/skos/core#closeMatch",
+      "curie": "skos:closeMatch",
+      "local": "closeMatch",
+      "tokens": [
+        "close",
+        "match"
+      ],
+      "phrase": "close match"
+    },
+    {
+      "label": "creator",
+      "iri": "http://purl.org/dc/terms/creator",
+      "curie": "dcterms:creator",
+      "local": "creator",
+      "tokens": [
+        "creator"
+      ],
+      "phrase": "creator"
+    },
+    {
+      "label": "definition",
+      "iri": "http://www.w3.org/2004/02/skos/core#definition",
+      "curie": "skos:definition",
+      "local": "definition",
+      "tokens": [
+        "definition"
+      ],
+      "phrase": "definition"
+    },
+    {
+      "label": "definition source",
+      "iri": "https://www.commoncoreontologies.org/ont00001754",
+      "curie": "cco:ont00001754",
+      "local": "ont00001754",
+      "tokens": [
+        "definition",
+        "ont00001754",
+        "source"
+      ],
+      "phrase": "definition source"
+    },
+    {
+      "label": "description",
+      "iri": "http://purl.org/dc/terms/description",
+      "curie": "dcterms:description",
+      "local": "description",
+      "tokens": [
+        "description"
+      ],
+      "phrase": "description"
+    },
+    {
+      "label": "editorial Note",
+      "iri": "http://www.w3.org/2004/02/skos/core#editorialNote",
+      "curie": "skos:editorialNote",
+      "local": "editorialNote",
+      "tokens": [
+        "editorial",
+        "note"
+      ],
+      "phrase": "editorial note"
+    },
+    {
+      "label": "exact Match",
+      "iri": "http://www.w3.org/2004/02/skos/core#exactMatch",
+      "curie": "skos:exactMatch",
+      "local": "exactMatch",
+      "tokens": [
+        "exact",
+        "match"
+      ],
+      "phrase": "exact match"
+    },
+    {
+      "label": "example",
+      "iri": "http://www.w3.org/2004/02/skos/core#example",
+      "curie": "skos:example",
+      "local": "example",
+      "tokens": [
+        "example"
+      ],
+      "phrase": "example"
+    },
+    {
+      "label": "has Domain",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasDomain",
+      "curie": "mds:hasDomain",
+      "local": "hasDomain",
+      "tokens": [
+        "domain"
+      ],
+      "phrase": "domain"
+    },
+    {
+      "label": "has Study Stage",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasStudyStage",
+      "curie": "mds:hasStudyStage",
+      "local": "hasStudyStage",
+      "tokens": [
+        "stage",
+        "study"
+      ],
+      "phrase": "study stage"
+    },
+    {
+      "label": "has Sub Domain",
+      "iri": "https://cwrusdle.bitbucket.io/mds/hasSubDomain",
+      "curie": "mds:hasSubDomain",
+      "local": "hasSubDomain",
+      "tokens": [
+        "domain",
+        "sub"
+      ],
+      "phrase": "sub domain"
+    },
+    {
+      "label": "has Unit",
+      "iri": "http://qudt.org/schema/qudt/hasUnit",
+      "curie": "qudt:hasUnit",
+      "local": "hasUnit",
+      "tokens": [
+        "unit"
+      ],
+      "phrase": "unit"
+    },
+    {
+      "label": "IAO 0000112",
+      "iri": "http://purl.obolibrary.org/obo/IAO_0000112",
+      "curie": "iao:0000112",
+      "local": "IAO_0000112",
+      "tokens": [
+        "0000112",
+        "iao"
+      ],
+      "phrase": "iao 0000112"
+    },
+    {
+      "label": "identifier",
+      "iri": "http://purl.org/dc/elements/1.1/identifier",
+      "curie": "dc:identifier",
+      "local": "identifier",
+      "tokens": [
+        "identifier"
+      ],
+      "phrase": "identifier"
+    },
+    {
+      "label": "is curated in ontology",
+      "iri": "https://www.commoncoreontologies.org/ont00001760",
+      "curie": "cco:ont00001760",
+      "local": "ont00001760",
+      "tokens": [
+        "curated",
+        "ont00001760",
+        "ontology"
+      ],
+      "phrase": "curated ontology"
+    },
+    {
+      "label": "license",
+      "iri": "http://purl.org/dc/terms/license",
+      "curie": "dcterms:license",
+      "local": "license",
+      "tokens": [
+        "license"
+      ],
+      "phrase": "license"
+    },
+    {
+      "label": "scope Note",
+      "iri": "http://www.w3.org/2004/02/skos/core#scopeNote",
+      "curie": "skos:scopeNote",
+      "local": "scopeNote",
+      "tokens": [
+        "note",
+        "scope"
+      ],
+      "phrase": "scope note"
+    },
+    {
+      "label": "source",
+      "iri": "http://purl.org/dc/terms/source",
+      "curie": "dcterms:source",
+      "local": "source",
+      "tokens": [
+        "source"
+      ],
+      "phrase": "source"
+    },
+    {
+      "label": "title",
+      "iri": "http://purl.org/dc/terms/title",
+      "curie": "dcterms:title",
+      "local": "title",
+      "tokens": [
+        "title"
+      ],
+      "phrase": "title"
+    },
+    {
+      "label": "value",
+      "iri": "https://cwrusdle.bitbucket.io/mds/value",
+      "curie": "mds:value",
+      "local": "value",
+      "tokens": [
+        "value"
+      ],
+      "phrase": "value"
+    }
+  ]
+}

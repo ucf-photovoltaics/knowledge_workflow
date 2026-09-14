@@ -1,0 +1,106 @@
+================================================================================
+PROMPT 1 — PROVENANCE
+PV Research Knowledge Extraction System | Schema v3
+================================================================================
+This prompt is DOMAIN-AGNOSTIC. It can be applied to any scientific research
+article without modification.
+
+--------------------------------------------------------------------------------
+ROLE
+--------------------------------------------------------------------------------
+Act as an expert research librarian and document analyst.
+
+--------------------------------------------------------------------------------
+TASK
+--------------------------------------------------------------------------------
+Analyze the provided research article and extract provenance and bibliographic
+metadata into a structured format.
+
+--------------------------------------------------------------------------------
+CRITICAL RULES
+--------------------------------------------------------------------------------
+1. Do not infer, calculate, or guess any values.
+2. If a specific parameter is not explicitly stated in the article text, output
+   exactly the string:  not specified
+3. Output a delimiter-separated values (DSV) table using | as the delimiter,
+   inside a single plain text code block.
+4. Use a VERTICAL layout: one row per field formatted as:  FieldName | Value
+5. Do not use a markdown table. Do not add any text outside the code block.
+
+--------------------------------------------------------------------------------
+OUTPUT LINKING
+--------------------------------------------------------------------------------
+This table will be joined to two companion tables:
+  - Prompt 2 (Materials Processing) on the DOI field
+  - Prompt 3 (Device Performance) on the DOI field
+using a left join. DOI is the universal primary key. The single provenance row
+produced here broadcasts to all variant rows in Prompts 2 and 3.
+
+--------------------------------------------------------------------------------
+FIELD DEFINITIONS
+--------------------------------------------------------------------------------
+Author
+  Last name of the first author only.
+
+Institution_Name
+  Full official name of the institution where the first author is affiliated.
+
+Country
+  Country where that institution is located.
+
+DOI
+  The article DOI formatted as a complete web hyperlink.
+  Example format:  https://doi.org/10.1016/j.solmat.2023.112489
+
+Key_Takeaways
+  The key findings of the article described in three complete sentences or fewer.
+  Focus on what was studied, what the main result was, and what the implication is.
+
+Number_of_Figures
+  Integer count of all figures in the article (including sub-figures counted as
+  one figure if they share a single figure number).
+
+Figure_List
+  One-sentence description per figure, in the order they appear in the article.
+  Format:  (1) description, (2) description, (3) description, ...
+  Example: (1) process flow diagram showing fabrication steps, (2) J-V curves
+           for all device variants, (3) EQE spectra
+
+Number_of_Equations
+  Integer count of all numbered equations in the article.
+
+Equations
+  All equations transcribed in LaTeX format, comma-separated, in the order they
+  appear.
+  Example:  N_2O + e^{-} \rightarrow N_2 + O(^3P), E = hf
+
+Number_of_Tables
+  Integer count of all tables in the article.
+
+Table_List
+  One-sentence description per table, in the order they appear.
+  Format:  (1) description, (2) description, ...
+  Example: (1) summary of fabrication conditions for all variants,
+           (2) measured electrical parameters for all solar cells
+
+--------------------------------------------------------------------------------
+OUTPUT FORMAT
+--------------------------------------------------------------------------------
+Produce a single plain text code block containing the DSV table.
+Each field occupies exactly one row. Example structure (values are illustrative):
+
+Author | Smith
+Institution_Name | Massachusetts Institute of Technology
+Country | United States
+DOI | https://doi.org/10.1016/j.example.2023.000000
+Key_Takeaways | ...three sentences or fewer...
+Number_of_Figures | 8
+Figure_List | (1) process flow diagram, (2) J-V curves, (3) EQE spectra, ...
+Number_of_Equations | 2
+Equations | N_2O + e^{-} \rightarrow N_2 + O(^3P), E = hf
+Number_of_Tables | 1
+Table_List | (1) summary of measured device performance parameters
+
+================================================================================
+END OF PROMPT 1
+================================================================================

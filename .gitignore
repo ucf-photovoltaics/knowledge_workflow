@@ -1,13 +1,19 @@
-.venv/
+.env
 __pycache__/
-*.py[cod]
-.mdsonto_cache.json
-data/*
-!data/input/
-!data/input/.gitkeep
-!data/ontologies/
-!data/ontologies/.gitkeep
-!data/results/
-!data/results/.gitkeep
-runs/*
-!runs/.gitkeep
+*.pyc
+*.pyo
+.venv/
+.claude
+CLAUDE.md
+uv.lock
+.python-version
+
+# generated data (P9 — keep out of VCS)
+outputs/
+outputs_test/
+schemas/
+graphdb/
+lora_adapters/
+
+# superseded code, kept for reference only
+_deprecated/

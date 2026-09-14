@@ -1,0 +1,195 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+  },
+  "@id": "https://cwrusdle.bitbucket.io/mds/generic/A_bottom_up_cost_analysis_of_silicon_perovskite_tandem_photovoltaics",
+  "@type": [
+    "mds:ResearchPublication",
+    "mds:SchemaRecord"
+  ],
+  "schema:identifier": "10.1002/pip.3354",
+  "mds:hasDomain": "cell_architectures_and_absorbers_>_tandem_cells",
+  "mds:derivedFrom": "schema_cell_architectures_and_absorbers_tandem_cells-Brent_Thompson-v8-20260623.csv",
+  "schema:name": "A bottom‐up cost analysis of silicon–perovskite tandem photovoltaics",
+  "owl:sameAs": {
+    "@id": "https://doi.org/10.1002/pip.3354"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/HeterojunctionMaterialClass": {
+    "mds:value": "silicon – perovskite tandem cell architecture with heterojunction interface"
+  },
+  "mds:hasConcept": [
+    {
+      "mds:canonicalTerm": "tandem structure",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "silicon-perovskite tandem (SPT) cell efficiency",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "efficiency improvement strategies",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "improve the efficiency of PV modules",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "cost modelling",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Economics"
+      },
+      "mds:paperTerm": "cost modelling is becoming important in analysing the commercial attractiveness of this approach",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "material costs",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+      },
+      "mds:paperTerm": "cost barriers",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "hole transport material costs",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+      },
+      "mds:paperTerm": "(2,20,7,70-tetrakis[N,N-di(4-methoxyphenyl)amino]-9,90spirobifluorene [SPIRO]",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "efficiency target",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "25% efficiency",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "production process optimization",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "assumed idealised production processes",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "cost reduction strategies",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Economics"
+      },
+      "mds:paperTerm": "solved cost issues in the perovskite cell",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "low-cost deposition processes",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "improved perovskite deposition process",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "device architecture",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Device"
+      },
+      "mds:paperTerm": "homojunction and heterojunction bottom silicon cells",
+      "mds:relevance": {
+        "@value": 0.4,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "low-cost materials",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+      },
+      "mds:paperTerm": "lower cost homojunction cells with p-type wafers",
+      "mds:relevance": {
+        "@value": 0.4,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "cost-benefit analysis",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Economics"
+      },
+      "mds:paperTerm": "levelised cost of electricity (LCOE)",
+      "mds:relevance": {
+        "@value": 0.4,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "modeling approach",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "bottom-up cost and uncertainty model",
+      "mds:relevance": {
+        "@value": 0.3,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "manufacturing waste costs",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Economics"
+      },
+      "mds:paperTerm": "high wastage rate of spin coating",
+      "mds:relevance": {
+        "@value": 0.3,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "production sequence optimization",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "projected likely cost of $1.50/cell for an improved low-cost production sequence",
+      "mds:relevance": {
+        "@value": 0.3,
+        "@type": "xsd:decimal"
+      }
+    }
+  ]
+}

@@ -1,0 +1,353 @@
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "mds": "https://cwrusdle.bitbucket.io/mds/generic/"
+  },
+  "@id": "https://cwrusdle.bitbucket.io/mds/generic/Extreme_Weather_and_PV_Performance",
+  "@type": [
+    "mds:ResearchPublication",
+    "mds:SchemaRecord"
+  ],
+  "schema:identifier": "10.1109/JPHOTOV.2023.3304357",
+  "mds:hasDomain": "pv_performance_modeling",
+  "mds:derivedFrom": "schema_pv_performance_modeling-Brent_Thompson-v8-20260624.csv",
+  "schema:name": "Extreme Weather and PV Performance",
+  "owl:sameAs": {
+    "@id": "https://doi.org/10.1109/JPHOTOV.2023.3304357"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Albedo": {
+    "mds:value": "0.25"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Algorithm": {
+    "mds:value": "RdTools v2.1.0 beta.1",
+    "mds:quote": "M. Deceglie et al., “RdTools v2.1.0 beta.1. Computer software,” 2020."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Assurance": {
+    "mds:value": "insurance"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Benchmarking": {
+    "mds:value": "PV system design practices in the industry. Additionally, the evaluation can be part of benchmarking a PV performance,"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Carrier": {
+    "mds:value": "[1]"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Cell": {
+    "mds:value": "[6]",
+    "mds:quote": "C. Buerhop et al., “Evolution of cell cracks in PV -modules under ﬁeld and laboratory conditions,” Prog.\nPhotovolt., vol. 26,\npp. 261–272, 2018."
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Chamber": {
+    "mds:value": "[19]"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/ClimateZone": {
+    "mds:value": "?zone?"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Coatings": {
+    "mds:value": "[15]",
+    "mds:quote": "https://roofonline.com/weights-measures/-"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Connection": {
+    "mds:value": "(input/output connection with a PV system)”, “PV systems were connected to the grid using inverter/monitoring systems, and these systems had communication via Ethernet for data sharing between them.",
+    "mds:quote": "[17] National Renewable Energy Laboratory, Sandia National Laboratory, Sun-Spec Alliance, and the SunShot National Laboratory Multiyear Partnership,”Best Practices for Operation and Maintenance of Photovoltaic and Energy Storage Systems” “National Renewable Energy Laboratory"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Conversion": {
+    "mds:value": "1 m/s^{2}"
+  },
+  "https://cwrusdle.bitbucket.io/mds/generic/Efficiency": {
+    "mds:value": "?_cv?"
+  },
+  "mds:hasConcept": [
+    {
+      "mds:canonicalTerm": "climate hazard",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "extreme weather events",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "loss percentage",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "60% loss",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "vandalism/malpractice",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "hail events caused higher PLR for hail sizes of and above 25 mm",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "weather event strength",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "high wind events above 90 km/h",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "material specification impact",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Material"
+      },
+      "mds:paperTerm": "more stringent hail testing for PV modules is required",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "efficiency loss probability",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "long tail extending to 60% loss",
+      "mds:relevance": {
+        "@value": 1.0,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "weather event type",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "severe weather events",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "efficiency improvement",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "statistically significant increased performance loss rate (PLR)",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "weather event type",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "hail events",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "performance degradation",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Reliability"
+      },
+      "mds:paperTerm": "performance loss rate (PLR)",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "production impact",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "lost production due to outages",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "temperature impact",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "flooding",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "production loss rate",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "annual production",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "structural integrity impact",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "very high snow loads may also cause increased PLRs",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "efficiency impact",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "substantial risk to PV systems",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "renewable energy source",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "photovoltaic (PV)",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "testing standard requirement",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Reliability"
+      },
+      "mds:paperTerm": "stringent hail testing for PV modules",
+      "mds:relevance": {
+        "@value": 0.9,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "weather event",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "severe weather events",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "wind speed threshold",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Process"
+      },
+      "mds:paperTerm": "above 90 km/h",
+      "mds:relevance": {
+        "@value": 0.8,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "production loss rate",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Measurement"
+      },
+      "mds:paperTerm": "performance loss rate (PLR)",
+      "mds:relevance": {
+        "@value": 0.7,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "risk assessment metric",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "% loss",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "hail size criterion",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "25 mm",
+      "mds:relevance": {
+        "@value": 0.6,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "long tail phenomenon",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "extremely long tail extending to 60%",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "snow load magnitude",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "very high snow loads",
+      "mds:relevance": {
+        "@value": 0.5,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "annual production value",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "1% of annual production",
+      "mds:relevance": {
+        "@value": 0.4,
+        "@type": "xsd:decimal"
+      }
+    },
+    {
+      "mds:canonicalTerm": "impact category",
+      "skos:broader": {
+        "@id": "https://cwrusdle.bitbucket.io/mds/Concept"
+      },
+      "mds:paperTerm": "outages",
+      "mds:relevance": {
+        "@value": 0.3,
+        "@type": "xsd:decimal"
+      }
+    }
+  ]
+}
