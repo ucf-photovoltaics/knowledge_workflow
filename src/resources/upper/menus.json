@@ -1,0 +1,240 @@
+{
+  "classes": [
+    "entity",
+    "continuant",
+    "occurrent",
+    "independent continuant",
+    "material entity",
+    "object",
+    "object aggregate",
+    "fiat object part",
+    "immaterial entity",
+    "site",
+    "specifically dependent continuant",
+    "quality",
+    "relational quality",
+    "realizable entity",
+    "disposition",
+    "function",
+    "role",
+    "generically dependent continuant",
+    "process",
+    "process boundary",
+    "process profile",
+    "Material Artifact",
+    "Portion of Material",
+    "Portion of Processed Material",
+    "Facility",
+    "Power Source",
+    "Electrical Power Source",
+    "Solar Panel System",
+    "Power Rectifier",
+    "Power Transformer",
+    "Optical Instrument",
+    "Imaging Instrument",
+    "Recording Device",
+    "Artifact Function",
+    "Electrical Power Production Artifact Function",
+    "Power Inverting Artifact Function",
+    "Measurement Artifact Function",
+    "Electrical Conduction Artifact Function",
+    "Temperature",
+    "Power",
+    "Maximum Power",
+    "Optical Property",
+    "Luminescent Property",
+    "Radiation Absorptivity",
+    "Radiation Reflectivity",
+    "Radiation Emissivity",
+    "Shape Quality",
+    "Size Quality",
+    "Disposition to Interact with Electromagnetic Radiation",
+    "Information Content Entity",
+    "Measurement Information Content Entity",
+    "Ratio Measurement Information Content Entity",
+    "Descriptive Information Content Entity",
+    "Predictive Information Content Entity",
+    "Prescriptive Information Content Entity",
+    "Reliability Measurement Information Content Entity",
+    "Performance Specification",
+    "Quality Specification",
+    "Plan",
+    "Artifact Model",
+    "Database",
+    "Measurement Unit",
+    "Act of Measuring",
+    "Planned Act",
+    "Act of Material Artifact Processing",
+    "Act of Data Transformation",
+    "Natural Process",
+    "Change",
+    "Increase of Quality",
+    "Decrease of Quality",
+    "Gain of Quality",
+    "Loss of Function",
+    "Damaged Stasis",
+    "Electromagnetic Wave Process",
+    "Mechanical Process",
+    "Stage",
+    "Sensing Process"
+  ],
+  "properties": [
+    "BFO:continuant part of",
+    "BFO:has continuant part",
+    "BFO:occurrent part of",
+    "BFO:has occurrent part",
+    "BFO:participates in",
+    "BFO:has participant",
+    "BFO:bearer of",
+    "BFO:inheres in",
+    "BFO:located in",
+    "BFO:has material basis",
+    "BFO:realizes",
+    "BFO:precedes",
+    "BFO:occurs in",
+    "CCO:has input",
+    "CCO:has output",
+    "CCO:is input of",
+    "CCO:is output of",
+    "CCO:is a measurement of",
+    "CCO:is measured by",
+    "CCO:is about",
+    "CCO:uses measurement unit",
+    "CCO:prescribes",
+    "CCO:prescribed by",
+    "CCO:is site of",
+    "RO:part of",
+    "RO:has part",
+    "RO:has component",
+    "RO:composed primarily of",
+    "RO:has quality",
+    "RO:quality of",
+    "RO:characteristic of",
+    "RO:has characteristic",
+    "RO:has disposition",
+    "RO:has function",
+    "RO:has role",
+    "RO:capable of",
+    "RO:has input",
+    "RO:has output",
+    "RO:input of",
+    "RO:output of",
+    "RO:participates in",
+    "RO:has participant",
+    "RO:located in",
+    "RO:location of",
+    "RO:adjacent to",
+    "RO:connected to",
+    "RO:overlaps",
+    "RO:derives from",
+    "RO:transformation of",
+    "RO:immediately precedes",
+    "BFO:has realization",
+    "RO:regulates characteristic",
+    "RO:correlated with"
+  ],
+  "local_properties": {
+    "influences": {
+      "parent": null,
+      "definition": "x influences y: the paper corpus reports that a change in x brings about a change in y.",
+      "close_match": "CCO:affects",
+      "subproperty_of": "RO:causally related to"
+    },
+    "increases": {
+      "parent": "influences",
+      "definition": "x increases y: an increase or presence of x is reported to raise y.",
+      "close_match": "CCO:affects"
+    },
+    "decreases": {
+      "parent": "influences",
+      "definition": "x decreases y: an increase or presence of x is reported to lower y.",
+      "close_match": "CCO:affects"
+    },
+    "causes": {
+      "parent": "influences",
+      "definition": "x causes y: x is reported to bring about y.",
+      "close_match": "CCO:is cause of"
+    },
+    "enables": {
+      "parent": "influences",
+      "definition": "x enables y: x is reported as a precondition for y.",
+      "close_match": "CCO:affects"
+    },
+    "prevents": {
+      "parent": "influences",
+      "definition": "x prevents y: x is reported to stop or suppress y.",
+      "close_match": "CCO:inhibits"
+    }
+  },
+  "causal_polarity": {
+    "increases": "increases",
+    "decreases": "decreases",
+    "causes": "causes",
+    "enables": "enables",
+    "prevents": "prevents",
+    "affects": "influences"
+  },
+  "type_defaults": {
+    "material": "material entity",
+    "device": "Material Artifact",
+    "equipment": "Material Artifact",
+    "process": "process",
+    "phenomenon": "process",
+    "property": "quality",
+    "quantity": "quality",
+    "method": "Plan",
+    "defect": "material entity",
+    "condition": "quality",
+    "information": "Information Content Entity",
+    "parameter": "process profile"
+  },
+  "causal_rules": [
+    {
+      "cause": "process",
+      "effect": "process",
+      "map": {
+        "increases": "RO:causally upstream of, positive effect",
+        "decreases": "RO:causally upstream of, negative effect",
+        "prevents": "RO:causally upstream of, negative effect",
+        "*": "RO:causally upstream of"
+      }
+    },
+    {
+      "cause": "process",
+      "effect": "specifically dependent continuant",
+      "map": {
+        "increases": "RO:positively regulates characteristic",
+        "decreases": "RO:negatively regulates characteristic",
+        "prevents": "RO:negatively regulates characteristic",
+        "*": "RO:regulates characteristic"
+      }
+    },
+    {
+      "cause": "continuant",
+      "effect": "continuant",
+      "map": {
+        "*": "RO:causally influences"
+      }
+    },
+    {
+      "cause": "process",
+      "effect": "process",
+      "map": {
+        "causes": "CCO:is cause of",
+        "prevents": "CCO:inhibits"
+      }
+    },
+    {
+      "cause": "process",
+      "effect": "entity",
+      "map": {
+        "*": "CCO:affects"
+      }
+    }
+  ],
+  "causal_fallback": "RO:causally related to",
+  "_notes": {
+    "properties": "SOURCE:label. BFO = BFO 2020 core, CCO = Common Core Ontologies, RO = OBO Relations Ontology. Shown side by side to the enrichment agent.",
+    "causal_rules": "Every causal edge keeps its local polarity property and also gets, per source, the first rule whose cause/effect BFO category and the property's domain/range fit. causal_fallback (RO) is used when no RO rule fits."
+  }
+}

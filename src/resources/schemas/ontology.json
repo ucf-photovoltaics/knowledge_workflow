@@ -1,0 +1,1 @@
+{"type": "object", "required": ["classes"], "properties": {"classes": {"type": "array", "items": {"type": "object", "required": ["id", "parent"], "properties": {"id": {"type": "string"}, "parent": {"type": "string", "description": "U:<upper label> or k<n>"}, "exclude": {"type": "boolean"}}}}}}

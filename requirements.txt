@@ -1,0 +1,10 @@
+pymupdf
+pyzotero
+openai
+anthropic
+python-dotenv
+tzdata
+requests
+fastmcp
+rdflib
+numpy

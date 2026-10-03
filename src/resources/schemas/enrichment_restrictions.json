@@ -1,0 +1,1 @@
+{"type":"object","required":["classes"],"properties":{"classes":{"type":"array","items":{"type":"object","required":["id","restrictions"],"properties":{"id":{"type":"string"},"restrictions":{"type":"array","items":{"type":"object","required":["p","o"],"properties":{"p":{"type":"string"},"o":{"type":"string"}}}}}}}}}

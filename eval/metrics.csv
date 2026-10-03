@@ -1,2 +1,0 @@
-ontology,classes,aligned_to_upper,alignment_ratio,alignment_pass,reasoner,oops_status,oops_critical,shacl,passed,triples
-outputs_repro/gaas_reference/gaas_reference_onto.ttl,11,10,0.909,True,skipped,skipped,,skipped,True,75

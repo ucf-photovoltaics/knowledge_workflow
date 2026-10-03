@@ -1,0 +1,85 @@
+{
+ "type": "object",
+ "required": [
+  "concepts",
+  "figures"
+ ],
+ "properties": {
+  "concepts": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "label",
+     "type"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "description": "c1, c2, ..."
+     },
+     "label": {
+      "type": "string"
+     },
+     "type": {
+      "enum": [
+       "material",
+       "device",
+       "equipment",
+       "process",
+       "parameter",
+       "phenomenon",
+       "property",
+       "quantity",
+       "method",
+       "defect",
+       "condition",
+       "information"
+      ]
+     },
+     "definition": {
+      "type": "string"
+     },
+     "synonyms": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "figures": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "description": "F<n>"
+      }
+     }
+    }
+   }
+  },
+  "figures": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "concepts"
+    ],
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "concepts": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "shows": {
+      "type": "string"
+     }
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,5 @@
+# Local model for this pipeline: Qwen 3.5 9B (4-bit, ~6-8 GB) with a 32K context baked in,
+# because Ollama's OpenAI-compatible endpoint cannot set num_ctx per request.
+# Build:  ollama create kw-qwen3.5-9b-32k -f src/resources/ollama/Modelfile
+FROM qwen3.5:9b
+PARAMETER num_ctx 32768

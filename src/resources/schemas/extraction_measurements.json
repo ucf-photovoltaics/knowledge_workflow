@@ -1,0 +1,73 @@
+{
+ "type": "object",
+ "required": [
+  "measurements"
+ ],
+ "properties": {
+  "measurements": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "concept",
+     "value"
+    ],
+    "properties": {
+     "concept": {
+      "type": "string",
+      "description": "concept id of the property or parameter"
+     },
+     "value": {
+      "type": "string"
+     },
+     "unit": {
+      "type": "string"
+     },
+     "condition": {
+      "type": "string",
+      "description": "sample, device or condition it applies to"
+     },
+     "evidence": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "new_concepts": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "label",
+     "type"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "description": "n1, n2, ..."
+     },
+     "label": {
+      "type": "string"
+     },
+     "type": {
+      "enum": [
+       "material",
+       "device",
+       "equipment",
+       "process",
+       "parameter",
+       "phenomenon",
+       "property",
+       "quantity",
+       "method",
+       "defect",
+       "condition",
+       "information"
+      ]
+     }
+    }
+   }
+  }
+ }
+}

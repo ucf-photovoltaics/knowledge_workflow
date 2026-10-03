@@ -1,19 +1,13 @@
 .env
-__pycache__/
-*.pyc
-*.pyo
+.env.*
+!.env.example
 .venv/
-.claude
-CLAUDE.md
-uv.lock
-.python-version
-
-# generated data (P9 — keep out of VCS)
-outputs/
-outputs_test/
-schemas/
-graphdb/
-lora_adapters/
-
-# superseded code, kept for reference only
-_deprecated/
+.uv-cache/
+__pycache__/
+*.py[cod]
+outputs/*
+!outputs/.gitkeep
+.claude/
+.codex/
+*.sqlite3
+*.sqlite3-*

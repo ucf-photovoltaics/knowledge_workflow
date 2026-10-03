@@ -1,3 +1,0 @@
-domain,doi,power conversion efficiency,absorber material,deposition method,degradation mechanism,material cost,wafer thickness
-gaas,10.1000/ref-a,28.8% | a record PCE of 28.8% was measured,GaAs | single-crystal GaAs absorber,MOCVD | layers grown by MOCVD,none reported | no degradation observed over test,moderate | epitaxial cost is moderate,2 um | 2 micron active layer
-gaas,10.1000/ref-b,24.1% | conversion efficiency of 24.1%,GaAs | thin-film GaAs,ELO | epitaxial lift-off process,humidity | humidity-driven contact degradation,high | substrate reuse needed to cut cost,1.5 um | 1.5 micron film

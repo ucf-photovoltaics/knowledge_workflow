@@ -1,0 +1,1 @@
+{"type":"object","required":["keep"],"properties":{"keep":{"type":"array","items":{"type":"object","required":["id","candidates"],"properties":{"id":{"type":"string"},"candidates":{"type":"array","items":{"type":"integer"}}}}}}}

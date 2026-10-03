@@ -1,0 +1,6 @@
+# Fine-tuned local model: the GGUF from src/resources/lora/train_local.py (written to outputs/lora/) or the Colab
+# notebook (download it into outputs/lora/), with a 32K context. The FROM line must match its file name.
+# Build, from opus_knowledge_workflow:  ollama create kw-qwen3.5-9b-lora-32k -f src/resources/ollama/Modelfile.lora
+# Use it: in src/config.py  LLM_PROFILE = "ollama-lora"
+FROM ../../../outputs/lora/kw-qwen3.5-9b-lora.Q4_K_M.gguf
+PARAMETER num_ctx 32768

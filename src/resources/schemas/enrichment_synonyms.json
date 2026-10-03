@@ -1,0 +1,1 @@
+{"type":"object","required":["classes"],"properties":{"classes":{"type":"array","items":{"type":"object","required":["id","alt_labels"],"properties":{"id":{"type":"string"},"alt_labels":{"type":"array","items":{"type":"string"}}}}}}}
