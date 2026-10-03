@@ -1,2 +1,0 @@
-"""Kweave knowledge-workflow package."""
-

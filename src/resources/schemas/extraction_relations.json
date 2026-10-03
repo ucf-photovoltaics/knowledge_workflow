@@ -1,0 +1,83 @@
+{
+ "type": "object",
+ "required": [
+  "relations"
+ ],
+ "properties": {
+  "relations": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "s",
+     "p",
+     "o"
+    ],
+    "properties": {
+     "s": {
+      "type": "string"
+     },
+     "p": {
+      "enum": [
+       "is_a",
+       "part_of",
+       "has_part",
+       "made_of",
+       "has_property",
+       "measured_by",
+       "input_of",
+       "output_of",
+       "precedes",
+       "participates_in",
+       "located_in",
+       "used_for",
+       "related_to"
+      ]
+     },
+     "o": {
+      "type": "string"
+     },
+     "evidence": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "new_concepts": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "label",
+     "type"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "description": "n1, n2, ..."
+     },
+     "label": {
+      "type": "string"
+     },
+     "type": {
+      "enum": [
+       "material",
+       "device",
+       "equipment",
+       "process",
+       "parameter",
+       "phenomenon",
+       "property",
+       "quantity",
+       "method",
+       "defect",
+       "condition",
+       "information"
+      ]
+     }
+    }
+   }
+  }
+ }
+}

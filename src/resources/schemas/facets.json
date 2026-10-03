@@ -1,0 +1,1 @@
+{"type": "object", "required": ["tags"], "properties": {"tags": {"type": "array", "items": {"type": "object", "required": ["id", "study_stage", "domain"], "properties": {"id": {"type": "string"}, "study_stage": {"type": "array", "items": {"type": "string"}}, "domain": {"type": "string"}, "subdomain": {"type": "string"}}}}}}

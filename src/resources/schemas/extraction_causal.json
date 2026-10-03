@@ -1,0 +1,79 @@
+{
+ "type": "object",
+ "required": [
+  "causal"
+ ],
+ "properties": {
+  "causal": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "cause",
+     "effect",
+     "polarity"
+    ],
+    "properties": {
+     "cause": {
+      "type": "string"
+     },
+     "effect": {
+      "type": "string"
+     },
+     "polarity": {
+      "enum": [
+       "increases",
+       "decreases",
+       "causes",
+       "enables",
+       "prevents",
+       "affects"
+      ]
+     },
+     "condition": {
+      "type": "string"
+     },
+     "evidence": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "new_concepts": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "label",
+     "type"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "description": "n1, n2, ..."
+     },
+     "label": {
+      "type": "string"
+     },
+     "type": {
+      "enum": [
+       "material",
+       "device",
+       "equipment",
+       "process",
+       "parameter",
+       "phenomenon",
+       "property",
+       "quantity",
+       "method",
+       "defect",
+       "condition",
+       "information"
+      ]
+     }
+    }
+   }
+  }
+ }
+}

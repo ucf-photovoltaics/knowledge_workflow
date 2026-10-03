@@ -1,0 +1,5 @@
+# Base Qwen 3.5 2B with the same 32K context as the LoRA model: the fair baseline for `lora-eval`.
+# Build:  ollama pull qwen3.5:2b
+#         ollama create kw-qwen3.5-2b-32k -f src/resources/ollama/Modelfile.2b
+FROM qwen3.5:2b
+PARAMETER num_ctx 32768

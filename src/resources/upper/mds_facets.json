@@ -1,0 +1,38 @@
+{
+  "_note": "MDS-Onto study stages and MDSDom domains/subdomains. Every generated class and property is tagged with these (mds:hasStudyStage, mds:hasDomain, mds:hasSubDomain).",
+  "annotation_properties": {
+    "study_stage": "https://cwrusdle.bitbucket.io/mds/hasStudyStage",
+    "domain": "https://cwrusdle.bitbucket.io/mds/hasDomain",
+    "subdomain": "https://cwrusdle.bitbucket.io/mds/hasSubDomain"
+  },
+  "study_stages": {
+    "Synthesis": "making the material or device (supported by a Recipe)",
+    "Sample": "the physical specimen, device or material under study (supported by a Tool; fed by subsequent investigation)",
+    "Exposure": "subjecting samples to stressors or environments (weathering, damp heat, UV, field exposure)",
+    "Characterization": "measuring or imaging samples (instruments, techniques, measured signals)",
+    "Data": "raw recorded data (images, spectra, curves, time series)",
+    "Data Processing": "cleaning, transforming or extracting features from data",
+    "Results": "quantities and outcomes obtained (efficiency, Voc, degradation rate)",
+    "Analysis": "interpreting results (statistics, comparisons, loss analysis)",
+    "Modeling": "physical, statistical or ML models and simulations",
+    "Inference": "conclusions and predictions drawn from models or analysis",
+    "Insights": "generalized findings and mechanisms",
+    "Reports": "publications, reports, standards documentation",
+    "Semantic Search": "knowledge organization, ontologies, retrieval"
+  },
+  "domains": {
+    "Chemistry": ["Reactions", "Energetic Materials", "Formulation"],
+    "Geospatial": ["Raster", "Vector", "Satellite", "GeoOutageOnto"],
+    "Built Environment": ["PV-Cell", "PV-Site", "PV-Module"],
+    "Characterization": ["AFM", "Electrical", "FTIR", "UV-Vis", "Fractography", "Interdigitated", "Profilometry", "Pyrometry", "SEM", "XRD", "XPS", "EBSD"],
+    "Materials Processing": ["LPBF"],
+    "Exposure": ["Accelerated", "FieldExposure"],
+    "Modeling": ["netSEM"],
+    "General": []
+  },
+  "type_default_stage": {
+    "material": "Sample", "device": "Sample", "equipment": "Characterization", "process": "Synthesis",
+    "parameter": "Synthesis", "phenomenon": "Exposure", "property": "Results", "quantity": "Results",
+    "method": "Characterization", "defect": "Characterization", "condition": "Exposure", "information": "Data"
+  }
+}

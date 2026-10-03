@@ -1,0 +1,1 @@
+{"type": "object", "required": ["summary", "themes"], "properties": {"summary": {"type": "string"}, "themes": {"type": "array", "items": {"type": "object", "required": ["theme", "concepts"], "properties": {"theme": {"type": "string"}, "concepts": {"type": "array", "items": {"type": "string"}}}}}}}

@@ -1,0 +1,1 @@
+{"type": "object", "required": ["merges"], "properties": {"merges": {"type": "array", "items": {"type": "object", "required": ["ids", "label"], "properties": {"ids": {"type": "array", "items": {"type": "string"}}, "label": {"type": "string"}}}}}}
