@@ -4,6 +4,34 @@ This repository now contains the implementation migrated from `opus_knowledge_wo
 
 The pipeline selects literature from Zotero, extracts concepts and claims, normalizes them, builds and enriches a domain ontology, and exports OWL JSON-LD/Turtle plus an evidence-preserving literature layer. Run reports and the cross-run eval dataset remain local under `outputs/`.
 
+## Workflow
+
+The five CLI stages are `extract`, `normalize`, `ontology`, `enrich`, and `interop`. Ingestion and parsing happen inside extraction; export and structural validation happen inside interoperability. The model labels below apply when using the `gemini` or `gemini-lite` hybrid profile.
+
+```mermaid
+flowchart TD
+    A["1. Ingest: select Zotero papers and obtain PDFs"]
+    B["2. Parse: clean text and collect figure context"]
+    C["3. Extract: concepts, relations, causal claims, measurements — local model"]
+    D["4. Normalize: canonical concepts and reviewed semantic merges — Gemini"]
+    E["5. Ontology: evidence-backed hierarchy and domain-scoped IRIs — Gemini"]
+    F["6. Enrich: definitions, synonyms, and relationship properties — Gemini"]
+    G["7. Interoperate: external mappings and study/domain facets — local model"]
+    H["8. Export and validate: OWL and literature layer — deterministic code"]
+    I["9. Report: ontology summary and cross-run evaluation dataset"]
+    A --> B --> C --> D --> E --> F --> G --> H --> I
+```
+
+1. **Ingest:** Read the selected Zotero collection, rank papers by citation count, choose papers with accessible PDFs, and cache their metadata and files.
+2. **Parse:** Extract PDF text, remove references and repeated headers, split text into processing sections, and collect figure captions and citing sentences. This step uses code rather than a model.
+3. **Extract (`extract`):** Identify concepts, non-causal relations, causal claims, measured values, units, conditions, and figure links. Keep source quotes, check quote overlap against the paper, and cache completed paper extractions.
+4. **Normalize (`normalize`):** Group matching normalized labels, use local embeddings to nominate similar concepts, and ask Gemini to review semantic merges. Aggregate evidence and relations, flag opposite causal polarities, settle type conflicts, and rank concepts by importance.
+5. **Ontology (`ontology`):** Select corpus or BFO/CCO parents using definitions and relationship context. Prioritize verified `is_a` edges when categories agree and cycles are avoided; flag unresolved placements and conflicts. Assign domain-scoped class IRIs with deterministic identity hashes.
+6. **Enrich (`enrich`):** Write evidence-supported definitions, filter synonym candidates, select properties for universal non-causal restrictions, and propose disjoint siblings. Add causal restrictions with provenance, retrieve external mapping candidates, and save review issues and cross-domain correspondence candidates. Conditional literature claims remain available in the separate literature layer.
+7. **Interoperate (`interop`):** Review external term candidates, choose mappings, and assign study-stage and domain facets. Same-label cross-domain candidates are review suggestions and do not automatically assert equivalence.
+8. **Export and validate:** Assemble and serialize the BFO/CCO-aligned OWL ontology as Turtle and JSON-LD. Also export the literature layer containing concepts, claims, conditions, evidence, and reported values. Structural checks cover declarations, hierarchy cycles, BFO connectivity, and JSON-LD round-trip counts; they do not establish semantic accuracy or reasoner consistency.
+9. **Report:** Record per-call and per-paper compute, corpus and ontology summaries, provenance, review flags, and cross-run metrics in `outputs/eval_runs.csv`. Reporting updates throughout the run; the final stage completes the ontology report. New runs carry the workflow revision, and the first run of a revision adds a separate change-event row.
+
 ## Setup and run
 
 ```powershell
