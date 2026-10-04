@@ -72,6 +72,7 @@ def _config() -> dict:
                                    "max_input_chars": config.profile_for(a)["max_input_chars"]} for a in AGENTS},
             "pipeline_tier": config.tier(), "extraction_passes": config.EXTRACTION_PASSES[config.tier("extraction")], "embed_model": config.EMBED["model"],
             "embed_base_url": config.EMBED["base_url"], "mds_ontologies": config.MDS_ONTOLOGIES or "all",
+            "matportal": (config.MATPORTAL["ontologies"] or "all") if config.MATPORTAL["enabled"] else "off",
             "ontology_search": config.ONTOLOGY_SEARCH,
             "workflow_revision": config.WORKFLOW_REVISION, "ontology_iri": config.ONTOLOGY_IRI, "prices_usd_per_m": config.PRICES}
 
@@ -347,6 +348,16 @@ def check(args):
         _require(hits, "no results (portal unreachable or key rejected)")
         return f"{len(known)} ontologies on portal; {len(hits)} hits from {sorted({h['Ontology'] for h in hits})}"
 
+    def matportal_check():
+        if not config.MATPORTAL["enabled"]:
+            return "off (MATPORTAL['enabled'] = False)"
+        _require(config.secret("MATPORTAL_API_KEY"), "MATPORTAL_API_KEY is blank in .env")
+        _, unknown = matportal.check_acronyms(config.MATPORTAL["ontologies"])
+        _require(not unknown, f"unknown acronyms in MATPORTAL['ontologies']: {', '.join(unknown)}")
+        hits = matportal.search("solar cell", ontologies=config.MATPORTAL["ontologies"], max_results=5)
+        _require(hits, "no results (key rejected or portal unreachable)")
+        return f"{len(matportal.list_ontologies())} ontologies on MatPortal; {len(hits)} hits from {sorted({h['Ontology'] for h in hits})}"
+
     def store():
         st = ontostore.status()
         _require(st["built"], "; ".join(st["problems"]))
@@ -356,7 +367,8 @@ def check(args):
 
     failed = 0
     for label, fn in (("keys", keys), ("model", model), ("embeddings", embeddings), ("zotero + citations", corpus),
-                      ("pdf parser", parser), ("mds portal", portal), ("ontology store", store)):
+                      ("pdf parser", parser), ("mds portal", portal), ("matportal", matportal_check),
+                      ("ontology store", store)):
         t0 = time.perf_counter()
         try:
             status, detail = "ok", fn()

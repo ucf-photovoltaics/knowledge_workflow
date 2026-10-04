@@ -109,13 +109,12 @@ DEFAULT_COLLECTION = "default"
 # Keep only the N most-cited papers per collection that have a PDF (OpenAlex cited_by_count). None = all.
 TOP_N_BY_CITATIONS = 50
 
-# ---- MDS-Onto Open Portal (grounding search during enrichment; its hits join the store candidates) ----
-MDS_ONTOLOGIES = "MDS-ONTO,IOF,PMDCO,QUDT"   # portal acronyms searched for candidates; None = all
-CANDIDATES_PER_PORTAL = 5   # results kept per portal search query
-
-# ---- MatPortal (matportal.org; key: MATPORTAL_API_KEY in .env). Only listed by `python -m src.run portal`;
-# enrichment takes its candidates from the ontology store and the MDS-Onto portal.
+# ---- Portal searches during enrichment: MDS-Onto portal (MDS_API_KEY) and MatPortal (MATPORTAL_API_KEY) ----
+# Every ontology each portal hosts is searched (None = no acronym filter). A hit for a term in the ontology store
+# joins the candidates; a hit outside the store is a facet hint only and is counted per ontology in run.json.
+MDS_ONTOLOGIES = None       # or comma-separated portal acronyms, e.g. "MDS-ONTO,IOF,PMDCO,QUDT"
 MATPORTAL = {"enabled": True, "base_url": "https://rest.matportal.org", "ontologies": None}
+CANDIDATES_PER_PORTAL = 10  # results kept per portal search query
 
 # ---- Ontology store (python -m src.run ontologies build|status|search; docs/ontology-store.md) ----
 # Every external term used by placement, enrichment and interop comes from this store: one Oxigraph named graph
@@ -195,11 +194,12 @@ LORA = {
 # ---- Output ontology ----
 ONTOLOGY_IRI = "http://example.org/kw/"
 ONTOLOGY_TITLE = "PV Knowledge Workflow Ontology"
-WORKFLOW_REVISION = "2026-10-04-ontology-store-v1"
+WORKFLOW_REVISION = "2026-10-04-ontology-store-v2"
 WORKFLOW_REVISION_NOTE = ("External terms from a local ontology store (Oxigraph + trigram + embedding search over BFO, "
                           "CCO, RO, QUDT, PMDCO, IOF, MDS-Onto): placement parents (CCO, then BFO; same-name MDS-Onto/PMDCO "
                           "class wins), restriction properties, mapping candidates with 1-2 hop propagation; broader, "
-                          "narrower and related matches; imported definitions and labels; MIREOT imports of every term")
+                          "narrower and related matches; imported definitions and labels; MIREOT imports of every term; "
+                          "v2: MDS-Onto portal and MatPortal searched over all their ontologies")
 # Profiles whose enrichment may write definitions from model knowledge (recorded as definition_source <profile>:<model>).
 MODEL_DEFINITION_PROFILES = ("gemini", "gemini-lite")
 

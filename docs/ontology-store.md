@@ -44,7 +44,7 @@ Fused score = weighted mean of the lexical signal (1 for an exact label, else th
 | Stage | Use |
 |---|---|
 | Ontology | A concept whose label names an MDS-Onto or PMDCO class (any label) goes under that class alone when its ancestors reach BFO (`name_match`). Otherwise parent candidates per concept: CCO first, then BFO classes by label, synonyms, lexical head and embedding (the three nearest always), plus the type default and, on the local tier, the category root; the model chooses. |
-| Enrich | Mapping candidates per class over every ontology, plus MDS-Onto portal hits; one- and two-hop propagation; object-property candidates per extracted relation, filtered by domain and range. |
+| Enrich | Mapping candidates per class over every ontology, plus MDS-Onto portal and MatPortal hits (all their ontologies; terms outside the store are facet hints only); one- and two-hop propagation; object-property candidates per extracted relation, filtered by domain and range. |
 | Interop | Mapping targets must exist in the store and not be deprecated; category checks use store ancestors; matched terms' labels and definitions are imported; every referenced term is copied into the ontology with its ancestor chain. |
 
 ## Limits

@@ -1,6 +1,6 @@
 """Enrichment agent: definitions, synonyms, restrictions, disjointness, local property domain/range, and the
 external candidate terms for interop, all from the ontology store (src/tools/ontostore.py) plus the MDS-Onto
-portal grounding search.
+portal and MatPortal searches.
 
 Causal edges become restrictions deterministically: each keeps its local polarity property and also gets the
 best-fitting RO property and CCO property for the cause/effect BFO categories (resources/upper/menus.json
@@ -17,9 +17,9 @@ from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor
 
 from src.agents.base import Agent, items, key, load_prompt, targets
-from src.config import (AGENT_PROFILES, CACHE, CANDIDATES_PER_PORTAL, LLM_PROFILE, MDS_ONTOLOGIES,
-                        MODEL_DEFINITION_PROFILES, ONTOLOGY_SEARCH, tier)
-from src.tools import lexical, mds_portal, ontostore, retrieval, upper
+from src.config import (AGENT_PROFILES, CACHE, CANDIDATES_PER_PORTAL, LLM_PROFILE, MATPORTAL, MDS_ONTOLOGIES,
+                        MODEL_DEFINITION_PROFILES, ONTOLOGY_SEARCH, secret, tier)
+from src.tools import lexical, matportal, mds_portal, ontostore, retrieval, upper
 from src.tools.owl import label_of, lineage
 from src.tools.progress import log
 
@@ -55,7 +55,7 @@ class EnrichmentAgent(Agent):
             c["definition_status"] = "unreviewed"
             c["restrictions"], c["disjoint_with"] = [], []
 
-        log(f"mapping candidates: ontology store + MDS-Onto portal for {len(live):,} classes")
+        log(f"mapping candidates: ontology store + MDS-Onto portal + MatPortal (all their ontologies) for {len(live):,} classes")
         self._candidates(live)
         log(f"candidates kept for {sum(1 for c in live if c['candidates'])} classes; "
             f"{sum(1 for c in live if any(x['label_match'] for x in c['candidates']))} with a label match; "
@@ -180,24 +180,28 @@ class EnrichmentAgent(Agent):
         """Mapping candidates per class:
         1. the ontology store, over every ontology in it: label, synonyms and lexical head (exact and trigram)
            and the class's embedding (label + first source definition);
-        2. the MDS-Onto portal grounding search with cleaned queries (exact label, full label, general term,
-           spelled-out synonym of an abbreviation); hits join the pool flagged "MDS-Onto portal", with the store's
-           record when the term is in the store;
+        2. the MDS-Onto portal and MatPortal searches over every ontology each portal hosts, with cleaned
+           queries (exact label, full label, general term, spelled-out synonym of an abbreviation); a hit for a
+           term in the store joins the pool with the store's record, flagged with the portal(s) that found it; a
+           hit outside the store is kept only as a facet hint and counted per ontology (portal_only);
         3. ranked label matches first, then fused score; then terms one and two mapping hops away from a
            label-matched or strong candidate, with confidence decaying per hop and the path recorded."""
-        failed = []
+        portals = [("MDS-Onto portal", mds_portal.search, MDS_ONTOLOGIES, "mds")]
+        if MATPORTAL["enabled"] and secret("MATPORTAL_API_KEY"):
+            portals.append(("MatPortal", matportal.search, MATPORTAL["ontologies"], "matportal"))
+        failed = set()
 
-        def fetch(query: str, exact: bool) -> list[dict]:
-            path = CACHE / "mds" / (hashlib.sha256(f"{MDS_ONTOLOGIES}|{exact}|{query}".encode()).hexdigest()[:20] + ".json")
+        def fetch(portal: str, search, onts, folder: str, query: str, exact: bool) -> list[dict]:
+            path = CACHE / folder / (hashlib.sha256(f"{onts}|{exact}|{query}".encode()).hexdigest()[:20] + ".json")
             if path.exists():
                 return json.loads(path.read_text(encoding="utf-8"))
             try:
-                res = mds_portal.search(query, ontologies=MDS_ONTOLOGIES, max_results=CANDIDATES_PER_PORTAL, exact=exact)
+                res = search(query, ontologies=onts, max_results=CANDIDATES_PER_PORTAL, exact=exact)
             except Exception as e:
-                if not failed:
-                    failed.append(e)
+                if portal not in failed:
+                    failed.add(portal)
                     err = re.sub(r"apikey=[^&\s]+", "apikey=***", str(e))
-                    log(f"  MDS-Onto portal: a search failed ({type(e).__name__}: {err}); other searches continue")
+                    log(f"  {portal}: a search failed ({type(e).__name__}: {err}); other searches continue")
                 return []
             if res:  # never cache failures
                 path.parent.mkdir(parents=True, exist_ok=True)
@@ -213,9 +217,9 @@ class EnrichmentAgent(Agent):
                 out += [(lexical.clean_query(a), False) for a in c["alt_labels"] if len(a) > 6][:1]
             return [(q, exact) for q, exact in dict.fromkeys(out) if q.strip()]  # a symbol-only label cleans to ""
 
-        jobs = [(c["id"], q, exact) for c in live for q, exact in queries(c)]
+        jobs = [(c["id"], portal, q, exact) for c in live for portal in portals for q, exact in queries(c)]
         with ThreadPoolExecutor(8) as ex:
-            results = list(ex.map(lambda j: fetch(j[1], j[2]), jobs))
+            results = list(ex.map(lambda j: fetch(*j[1], j[2], j[3]), jobs))
 
         def from_store(t: dict, source: str, **extra) -> dict:
             return {"iri": t["iri"], "label": t["label"], "ontology": t["ontology"], "kind": t["kind"],
@@ -231,21 +235,26 @@ class EnrichmentAgent(Agent):
             qs = [c["label"], *c["alt_labels"][:3], lexical.head_query(c["label"]) or ""]
             for x in ontostore.search(qs, vectors.get(c["id"]), k=k * 2):
                 found[c["id"]][x["iri"]] = {**from_store(x, "store"), **{f: x[f] for f in ("score", "exact", "fuzzy", "cosine", "methods")}}
-        portal_hits = 0
+        hits, off_store = Counter(), Counter()
         lexical_texts = {c["id"]: [c["label"], *c["alt_labels"][:3]] for c in live}
-        for (cid, *_rest), res in zip(jobs, results):
+        for (cid, (portal, *_p), *_rest), res in zip(jobs, results):
             for r in res:
+                hits[portal] += 1
                 mds = {k_: r[f"MDS_{v}"] for k_, v in (("stage", "StudyStage"), ("domain", "Domain"),
                                                       ("subdomain", "SubDomain")) if r.get(f"MDS_{v}") not in (None, "", "N/A")}
-                if r["ID"] in found[cid]:
-                    found[cid][r["ID"]].update(mds=mds, portal="store+MDS-Onto portal")
+                x = found[cid].get(r["ID"])
+                if x:  # already found by the store or the other portal
+                    x["mds"] = x.get("mds") or mds
+                    if portal not in x["portal"]:
+                        x["portal"] += f"+{portal}"
                     continue
                 t = ontostore.term(r["ID"])
-                portal_hits += 1
-                found[cid][r["ID"]] = {**from_store(t, "MDS-Onto portal", mds=mds),
+                if not t:
+                    off_store[f"{portal}: {r['Ontology']}"] += 1
+                found[cid][r["ID"]] = {**from_store(t, portal, mds=mds),
                                        **ontostore.score(t["iri"], lexical_texts[cid], vectors.get(cid))} if t else {
                     "iri": r["ID"], "label": r["Label"], "ontology": r["Ontology"], "kind": "", "labels": [r["Label"]],
-                    "definition": "" if r["Definition"] == "N/A" else r["Definition"], "portal": "MDS-Onto portal",
+                    "definition": "" if r["Definition"] == "N/A" else r["Definition"], "portal": portal,
                     "mds": mds, "score": 0.0, "in_store": False}
         decay, cap, strong = ONTOLOGY_SEARCH["hop_decay"], ONTOLOGY_SEARCH["propagated_per_class"], ONTOLOGY_SEARCH["min_cosine"]
         for c in live:
@@ -279,7 +288,7 @@ class EnrichmentAgent(Agent):
             "by_source": dict(Counter(x["portal"] for c in live for x in c["candidates"])),
             "by_ontology": dict(Counter(x["ontology"] for c in live for x in c["candidates"])),
             "propagated_by_hop": dict(Counter(str(x["hop"]) for c in live for x in c["candidates"] if x.get("hop"))),
-            "portal_hits": portal_hits}
+            "portal_hits": dict(hits), "portal_hits_off_store": dict(off_store.most_common(25))}
 
     @classmethod
     def _causal(cls, by_id: dict, causal: list[dict]):

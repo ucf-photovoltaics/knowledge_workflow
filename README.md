@@ -10,7 +10,7 @@ flowchart TD
     B["2. normalize: corpus vocabulary, reviewed merges, contradictions, importance"]
     S[("ontology store: BFO, CCO, RO, QUDT, PMDCO, IOF, MDS-Onto (Oxigraph + label and embedding index)")]
     C["3. ontology: CCO/BFO placement from store candidates, same-name MDS-Onto/PMDCO classes, paper is-a priority, domain-scoped IRIs"]
-    D["4. enrich: definitions with status, restrictions from store properties, disjointness, mapping candidates (store + MDS-Onto portal)"]
+    D["4. enrich: definitions with status, restrictions from store properties, disjointness, mapping candidates (store + MDS-Onto portal + MatPortal)"]
     E["5. interop: mappings, imported definitions and labels, MDS facets, OWL + literature layer export, validation"]
     F["6. integrate (after all domains): cross-domain mappings in a master ontology"]
     A --> B --> C --> D --> E --> F

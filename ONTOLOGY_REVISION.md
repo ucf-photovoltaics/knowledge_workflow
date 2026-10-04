@@ -1,4 +1,8 @@
-# New-run revision 2026-10-04-ontology-store-v1
+# New-run revision 2026-10-04-ontology-store-v2
+
+Same as v1 below, except enrichment also searches MatPortal, and both portals are searched over every ontology they host (no acronym filter). Portal hits for terms in the store join the candidates; hits outside the store are facet hints only and are counted per ontology (`candidates.portal_hits_off_store` in `run.json`, `portal_hits_*` in `eval_runs.csv`). Runs at v1 and v2 differ only in these candidates.
+
+# Revision 2026-10-04-ontology-store-v1
 
 Build the ontology store first (`python -m src.run ontologies build`), then start a new run or resume an existing one from `ontology` (delete those stages from its `run.json`). Extraction and normalization are unchanged, so cached extractions are reused. Older run folders stay readable by the figures, the literature layer and `integrate`. Plan and decisions: [embedding_plan.md](embedding_plan.md); store: [docs/ontology-store.md](docs/ontology-store.md).
 

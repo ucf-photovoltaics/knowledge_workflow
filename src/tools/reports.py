@@ -305,6 +305,7 @@ def eval_row(run_dir: Path, m: dict) -> dict:
         **_flat("candidates_source", (en.get("candidates") or {}).get("by_source")),
         **_flat("candidates_ontology", (en.get("candidates") or {}).get("by_ontology")),
         **_flat("candidates_hop", (en.get("candidates") or {}).get("propagated_by_hop")),
+        **_flat("portal_hits", (en.get("candidates") or {}).get("portal_hits")),
         **_flat("property_candidates", {k: v for k, v in (en.get("property_candidates") or {}).items() if k != "by_ontology"}),
         **_flat("property_candidates_ontology", (en.get("property_candidates") or {}).get("by_ontology")),
         **_flat("store_version", {n: s.get("version") for n, s in (m.get("ontology_store") or {}).get("sources", {}).items()}),
