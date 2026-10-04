@@ -502,7 +502,9 @@ def fig_compute(out: Out, rows: list[dict]):
 
 def fig_integration(out: Out, outputs: Path, rows_runs: list[dict], revision: str, run_ids):
     ints = [r for r in _csv(outputs / "eval_integrations.csv") if r.get("row_type") == "integration"]
-    if not run_ids:
+    if run_ids:  # only integrations built from the given runs
+        ints = [r for r in ints if set(filter(None, r.get("input_runs", "").split("+"))) <= set(run_ids)]
+    else:
         ints = [r for r in ints if r.get("workflow_revision") == revision]
     ints = [r for r in ints if (outputs / r["run_id"] / "mappings.json").exists()]
     if not ints:

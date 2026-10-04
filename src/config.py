@@ -146,7 +146,7 @@ ONTOLOGY_SEARCH = {
     "weights": {"lexical": 0.5, "cosine": 0.5},  # fused score: lexical = 1 for an exact label, else trigram similarity
     "min_score": 0.35,           # fused score a candidate needs (exact label matches are always kept)
     "min_fuzzy": 0.5,            # trigram similarity that counts as a lexical hit
-    "min_cosine": 0.6,           # embedding cosine that counts as a semantic hit
+    "min_cosine": 0.75,          # embedding cosine that counts as a semantic hit (nomic-embed-text: any two terms ~0.5)
     "candidates_per_class": 8,   # external candidates shown per class (interop)
     "parents_per_class": 8,      # CCO/BFO parent candidates shown per concept (placement)
     "properties_per_relation": 5,  # property candidates shown per extracted relation (restrictions)
