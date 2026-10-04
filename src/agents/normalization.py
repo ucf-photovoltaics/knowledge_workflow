@@ -171,6 +171,15 @@ class NormalizationAgent(Agent):
 
     @staticmethod
     def _canonical(groups: list[dict]) -> tuple[list[dict], dict]:
+        # Groups that end up with the same name are one concept: a label the model gave a merged cluster can equal
+        # the label of a group it did not see (two "boron-doped emitter" concepts stopped a run at placement).
+        named = {}
+        for g in groups:
+            label = g["label"] or Counter(c["label"] for _, c in g["members"]).most_common(1)[0][0]
+            same = named.setdefault(norm_key(label), {"members": [], "label": g["label"]})
+            same["members"] += g["members"]
+            same["label"] = same["label"] or g["label"]
+        groups = list(named.values())
         concepts, cmap = [], {}
         for g in sorted(groups, key=lambda g: -len(g["members"])):
             kid = f"k{len(concepts) + 1}"

@@ -16,7 +16,7 @@ Places each canonical concept under a CCO or BFO class from the ontology store (
    - Is-a cycles are broken (`cycle_break`); children of excluded concepts move up to the nearest kept ancestor.
    - A verified paper `is_a` edge replaces the model's choice when its BFO category agrees and it creates no cycle (`paper_is_a`); competing or conflicting paper parents are flagged.
    - A concept attached directly to an external class moves under its obvious lexical head ("rear AlOx passivation layer" under "passivation layer") when both share type and category (`lexical_head`).
-5. **IRIs.** `<ONTOLOGY_IRI><domain>/class/<Label>_<hash>`, hash of label and type. Stable across reruns of a domain; separate domains never share a class IRI; a duplicate identity stops the run.
+5. **IRIs.** `<ONTOLOGY_IRI><domain>/class/<Label>_<hash>`, hash of label and type. Stable across reruns of a domain; separate domains never share a class IRI. Two concepts with the same label and type (from runs normalized before this check existed) get separate IRIs and the `duplicate_identity` review flag instead of stopping the run.
 
 ## Outputs
 

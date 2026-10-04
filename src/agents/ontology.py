@@ -70,8 +70,11 @@ class OntologyAgent(Agent):
                 entry["parent"], entry["parent_source"] = self._default(c, menu_lc), "type_default"
             identity = c["label"] + "\0" + c["type"]
             name = slug(c["label"]) + "_" + hashlib.sha256(identity.encode("utf-8")).hexdigest()[:16]
-            if name in used:
-                raise ValueError(f"Duplicate concept identity or identifier collision: {c['label']}")
+            if name in used:  # same label and type twice (older normalized runs): keep both, flag, never stop the run
+                name = slug(c["label"]) + "_" + hashlib.sha256((identity + "\0" + c["id"]).encode("utf-8")).hexdigest()[:16]
+                entry["review_flags"] = [*entry.get("review_flags", []), "duplicate_identity"]
+                self.stats["duplicate_identities"] = self.stats.get("duplicate_identities", 0) + 1
+                log(f"duplicate concept identity: {c['label']} ({c['type']}), {c['id']} gets its own IRI and is flagged")
             used.add(name)
             entry["iri"] = base() + quote(domain, safe="") + "/class/" + name
             classes.append(entry)
