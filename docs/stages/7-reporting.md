@@ -21,3 +21,38 @@ Every stage writes what it did, what it cost and what it could not do. `tools/re
 - Row coverage: `<pass>_rows`, `<pass>_rows_recovered`, `<pass>_rows_missing_after_retry`. Missing rows become defaults downstream, so read placement and definition counts together with them.
 - Evidence: `<kind>_evidence_verified_share` and `<kind>_unevidenced_share` per relations, causal and measurements.
 - Compare runs within one revision and one profile. Cached extractions are keyed by model, prompts and extraction code version, so a cache hit was produced by the same extraction setup.
+
+## Figures (`python -m src.figures`)
+
+Writes PDF (for LaTeX), PNG and the plotted numbers as CSV to `outputs/figures/<revision>/`, plus `index.md` listing each figure and its data source. Only runs of one workflow revision and one profile are plotted together (`--revision`, `--profile`, or `--runs ID ...`; `--outputs DIR` for another outputs folder). Per domain, the run with the most papers is used for the single-run figures.
+
+| Stage | Figure | Shows | Data |
+|---|---|---|---|
+| Extract | `concept_growth` | Distinct canonical concepts as papers are added, in citation order, with a 5-95% band over 200 random paper orders | `normalized/concepts.json`, selection order in `run.json` |
+| Extract | `knowledge_growth` | The same for relations and causal claims, and the cumulative count of reported values | `normalized/*.json` |
+| Extract | `scaling_runs` | Separate runs of increasing size (5/10/15...): canonical concepts, classes, share of concepts in 2+ papers | `eval_runs.csv` |
+| Extract | `per_paper_yield` | Concepts, relations, causal claims and values per paper, by domain | `papers/*.json` |
+| Extract | `parsing` | Characters kept against characters in the PDF (references and running headers removed); concepts against sections sent to the model | `papers/*.json` `parse_stats` |
+| Extract | `extraction_checks` | Per paper: quotes re-asked and filled, concepts added by later passes, values not on a property | `extraction_check_*` columns |
+| Extract | `evidence_status` | Verified / unverified / unevidenced share per item type and domain | paper verification counts |
+| Normalize | `normalization` | Occurrences, lexical groups, canonical concepts; look-alike clusters, accepted merges, type conflicts, causal contradictions | `eval_runs.csv` |
+| Normalize | `concept_support` | How many papers each canonical concept appears in | `normalized/concepts.json` |
+| Normalize | `concept_types` | Canonical concepts by type | `normalized/concepts.json` |
+| Normalize | `causal_polarity` | Causal claims by polarity | `normalized/causal.json` |
+| Normalize | `relation_predicates` | Share of each relation predicate per domain (RO/BFO/CCO-grounded and is-a) | `normalized/relations.json` |
+| Ontology | `bfo_categories` | Classes by BFO category | `ontology/classes.json` |
+| Ontology | `hierarchy_depth` | Share of classes at each number of levels up to BFO entity, and at each number of corpus classes above them | `ontology/classes.json`, BFO/CCO ancestors |
+| Ontology | `placement_sources` | Where each class's parent came from | `placement_*` columns |
+| Ontology | `review_flags` | Share of classes flagged for expert review, by reason | `ontology/*.json` review flags |
+| Ontology | `row_coverage` | Rows answered first, recovered by the retry, still missing, per model pass | `<pass>_rows*` columns |
+| Ontology | `layer_vs_ontology` | What the literature layer keeps (all claims, values, is-a links) against the universal axioms the ontology asserts | `ontology/domain_layer_metrics.json`, `ontology/metrics.json` |
+| Enrich | `definitions_status` | Definitions by status as a share of classes, including rows not answered and classes with none | `definitions_*`, `final_classes` |
+| Enrich | `restriction_sources` | Restrictions from causal claims (local, RO, CCO) and relations (extracted predicate, model) | `ontology/enriched.json` |
+| Enrich | `study_stages` | Classes by MDS-Onto study stage | `ontology/facets.json` |
+| Interop | `external_mappings` | Classes by strongest external mapping; remainder unmapped | `ontology/mappings.json` |
+| Interop | `mapping_targets` | External mappings per domain by target ontology | `ontology/mappings.json` |
+| All | `compute_by_stage` | Tokens and wall time per stage and domain (two panels, no shared axis) | `<agent>_*` columns |
+| Integrate | `integration` | Mappings per domain pair, mappings by relation, bridge concepts (across integrations of increasing size when there are several) | `eval_integrations.csv`, `integration-*/` |
+
+A figure whose data is missing (for example row coverage on runs before revision 2026-10-04) is skipped and listed in `index.md`. Colours are fixed per domain and per category, with markers and direct labels as a second cue.
+

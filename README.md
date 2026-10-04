@@ -51,6 +51,9 @@ foreach ($c in $cols) {
 }
 if ($LASTEXITCODE -eq 0) { uv run --with-requirements requirements.txt python -m src.run integrate --collections @cols }
 
+# paper figures from eval_runs.csv, eval_integrations.csv and the run folders -> outputs/figures/<revision>/
+uv run --with-requirements requirements.txt python -m src.figures
+
 # resume a run (skips completed stages); preflight checks
 uv run --with-requirements requirements.txt python -m src.run all --run-id tea-YYYYMMDD-HHMMSS
 uv run --with-requirements requirements.txt python -m src.run check --collection tea
