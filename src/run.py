@@ -2,6 +2,7 @@
 
   python -m src.run collections --library ID   list a group library's collections and keys
   python -m src.run portal                     list MDS-Onto portal and MatPortal ontology acronyms
+  python -m src.run ontologies build|status|search TEXT   local ontology store (Oxigraph + label/embedding index)
   python -m src.run lora-data [--distill RUN_ID ...]   build LoRA training data + Colab upload bundle
   python -m src.run lora-eval --model NAME [--limit N]  score a model on the held-out LoRA test split
   python -m src.run check --collection NAME    preflight: keys, model, embeddings, Zotero PDFs, parser, portal
@@ -34,7 +35,8 @@ from src.agents.normalization import NormalizationAgent
 from src.agents.ontology import OntologyAgent
 from src import config
 from src.config import CACHE, OUTPUTS, ROOT, model_for
-from src.tools import bottomup, citations, integration, llm, matportal, mds_portal, owl, pdf_parse, reports, zotero, ontology_review
+from src.tools import (bottomup, citations, integration, llm, matportal, mds_portal, ontostore, owl, pdf_parse, reports,
+                       zotero, ontology_review)
 from src.tools.ledger import Ledger
 from src.tools.progress import log, set_stage
 
@@ -70,7 +72,7 @@ def _config() -> dict:
                                    "max_input_chars": config.profile_for(a)["max_input_chars"]} for a in AGENTS},
             "pipeline_tier": config.tier(), "extraction_passes": config.EXTRACTION_PASSES[config.tier("extraction")], "embed_model": config.EMBED["model"],
             "embed_base_url": config.EMBED["base_url"], "mds_ontologies": config.MDS_ONTOLOGIES or "all",
-            "matportal": (config.MATPORTAL["ontologies"] or "all") if config.MATPORTAL["enabled"] else "off",
+            "ontology_search": config.ONTOLOGY_SEARCH,
             "workflow_revision": config.WORKFLOW_REVISION, "ontology_iri": config.ONTOLOGY_IRI, "prices_usd_per_m": config.PRICES}
 
 
@@ -119,6 +121,8 @@ class Run:
 
     def record(self, stage: str, stats: dict, seconds: float):
         agent = reports.STAGE_AGENT[stage]
+        if stage in ("ontology", "enrich", "interop"):
+            self.manifest["ontology_store"] = ontostore.summary()
         profile = config.profile_for(agent)
         self.manifest["stages"][stage] = {"completed": _now(), "wall_s": round(seconds, 2), **stats,
                                           "llm_profile": config.AGENT_PROFILES.get(agent, config.LLM_PROFILE),
@@ -221,6 +225,7 @@ def normalize(run: Run, args) -> dict:
 
 
 def ontology(run: Run, args) -> dict:
+    ontostore.require()
     agent = OntologyAgent(run.ledger)
     classes = agent.run(run.read("normalized/concepts.json"), run.read("normalized/relations.json"),
                         run.manifest["collection"]["name"])
@@ -231,11 +236,13 @@ def ontology(run: Run, args) -> dict:
     return {"classes": len(live), "excluded": len(classes) - len(live),
             "local_parent": sum(1 for c in live if c["parent"].startswith("k")),
             "placement": {s: sum(1 for c in live if c["parent_source"] == s)
-                          for s in ("llm", "paper_is_a", "lexical_head", "category_default", "type_default", "cycle_break")},
+                          for s in ("llm", "name_match", "paper_is_a", "lexical_head", "category_default", "type_default",
+                                    "cycle_break")},
             **{k: v for k, v in agent.stats.items() if k != "tier"}, "failed_calls": dict(agent.failures)}
 
 
 def enrich(run: Run, args) -> dict:
+    ontostore.require()
     agent = EnrichmentAgent(run.ledger)
     classes, properties = agent.run(run.read("ontology/classes.json"), run.read("normalized/relations.json"),
                                     run.read("normalized/causal.json"))
@@ -253,6 +260,7 @@ def enrich(run: Run, args) -> dict:
 
 
 def interop(run: Run, args) -> dict:
+    ontostore.require()
     classes = run.read("ontology/enriched.json")
     out = InteroperabilityAgent(run.ledger).run(classes, run.read("ontology/properties.json"), run.papers(), run.id,
                                                 run.manifest["collection"]["name"])
@@ -269,6 +277,7 @@ def interop(run: Run, args) -> dict:
         f"{layer_metrics['relation_links']} relations, {layer_metrics['causal_links']} causal, "
         f"{layer_metrics['reported_values']} reported values")
     run.write("ontology/mappings.json", out["mappings"])
+    run.write("ontology/imported_definitions.json", out["imported_definitions"])
     run.write("ontology/facets.json", out["facets"])
     run.write("ontology/validation.json", out["validation"])
     run.write("ontology/metrics.json", out["metrics"])
@@ -338,21 +347,16 @@ def check(args):
         _require(hits, "no results (portal unreachable or key rejected)")
         return f"{len(known)} ontologies on portal; {len(hits)} hits from {sorted({h['Ontology'] for h in hits})}"
 
-    def matportal_check():
-        if not config.MATPORTAL["enabled"]:
-            return "off (MATPORTAL['enabled'] = False)"
-        _require(config.secret("MATPORTAL_API_KEY"), "MATPORTAL_API_KEY is blank in .env")
-        known = matportal.list_ontologies()
-        _, unknown = matportal.check_acronyms(config.MATPORTAL["ontologies"])
-        _require(not unknown, f"unknown acronyms in MATPORTAL['ontologies']: {', '.join(unknown)}")
-        hits = matportal.search("solar cell", ontologies=config.MATPORTAL["ontologies"], max_results=5)
-        _require(hits, "no results (key rejected or portal unreachable)")
-        return f"{len(known)} ontologies on portal; {len(hits)} hits from {sorted({h['Ontology'] for h in hits})}"
+    def store():
+        st = ontostore.status()
+        _require(st["built"], "; ".join(st["problems"]))
+        _require(not st["problems"], "; ".join(st["problems"]))
+        return (f"{st['terms']:,} terms built {st['built']} ({', '.join(f'{k} {v}' for k, v in st['versions'].items())}); "
+                f"embeddings {st['embed_model'] or 'off'}" + "".join(f"; note: {n}" for n in st["notes"]))
 
     failed = 0
     for label, fn in (("keys", keys), ("model", model), ("embeddings", embeddings), ("zotero + citations", corpus),
-                      ("pdf parser", parser), ("mds portal", portal),
-                      ("matportal", matportal_check)):
+                      ("pdf parser", parser), ("mds portal", portal), ("ontology store", store)):
         t0 = time.perf_counter()
         try:
             status, detail = "ok", fn()
@@ -386,6 +390,24 @@ def portal(args):
         print("\n== MatPortal (MATPORTAL['ontologies']) ==")
         for acronym, name in sorted(matportal.list_ontologies().items()):
             print(f"{acronym:<20} {name}")
+
+
+def ontologies(args):
+    """build: download missing ontology files, load them into Oxigraph, index labels, embed every term.
+    status: is the store current (files, embedding model, newer MDS-Onto submission). search TEXT: try a query."""
+    action = args.action or "status"
+    if action == "build":
+        ontostore.build()
+    elif action == "status":
+        print(json.dumps(ontostore.status(), indent=1))
+    elif action == "search":
+        text = " ".join(args.query)
+        vector = llm.embed([text])[0][0] if config.EMBED["model"] else None
+        for c in ontostore.search([text], vector, k=args.limit or 10):
+            print(f"{c['score']:.2f}  {c['ontology']:<10} {c['kind']:<19} {c['label'][:50]:<50} {c['iri']}"
+                  f"  [{', '.join(c['methods']) or 'fused'}]")
+    else:
+        raise SystemExit("ontologies: build, status or search TEXT")
 
 
 def integrate(args):
@@ -450,7 +472,10 @@ STAGES = {"extract": extract, "normalize": normalize, "ontology": ontology, "enr
 
 def main():
     ap = argparse.ArgumentParser(description="Zotero -> concepts -> BFO/CCO ontology pipeline")
-    ap.add_argument("stage", choices=[*STAGES, "all", "check", "collections", "portal", "lora-data", "lora-eval", "integrate"])
+    ap.add_argument("stage", choices=[*STAGES, "all", "check", "collections", "portal", "lora-data", "lora-eval", "integrate",
+                                      "ontologies"])
+    ap.add_argument("action", nargs="?", help="ontologies: build, status or search")
+    ap.add_argument("query", nargs="*", help="ontologies search: the text to search for")
     ap.add_argument("--collection", default=config.DEFAULT_COLLECTION, choices=list(config.COLLECTIONS),
                     help="named collection from src/config.py COLLECTIONS")
     ap.add_argument("--library", help="group library id (for 'collections')")
@@ -463,7 +488,7 @@ def main():
     ap.add_argument("--outputs", help="integrate: outputs folder holding the runs (default: this checkout's outputs)")
     args = ap.parse_args()
     utilities = {"check": check, "collections": collections, "portal": portal, "lora-data": lora_data, "lora-eval": lora_eval,
-                 "integrate": integrate}
+                 "integrate": integrate, "ontologies": ontologies}
     if args.stage in utilities:
         set_stage(args.stage)
         return utilities[args.stage](args)

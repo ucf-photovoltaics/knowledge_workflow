@@ -9,3 +9,4 @@ fastmcp
 rdflib
 numpy
 matplotlib
+pyoxigraph

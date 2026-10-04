@@ -109,21 +109,58 @@ DEFAULT_COLLECTION = "default"
 # Keep only the N most-cited papers per collection that have a PDF (OpenAlex cited_by_count). None = all.
 TOP_N_BY_CITATIONS = 50
 
-# ---- MDS-Onto Open Portal ----
+# ---- MDS-Onto Open Portal (grounding search during enrichment; its hits join the store candidates) ----
 MDS_ONTOLOGIES = "MDS-ONTO,IOF,PMDCO,QUDT"   # portal acronyms searched for candidates; None = all
-# (BFO and CCO are matched locally from resources/upper, so they are not searched on the portals)
+CANDIDATES_PER_PORTAL = 5   # results kept per portal search query
 
-# ---- MatPortal (matportal.org, materials-science OntoPortal; key: MATPORTAL_API_KEY in .env) ----
-# Searched alongside the MDS-Onto portal for candidate terms. ontologies: comma-separated acronyms; None = all.
+# ---- MatPortal (matportal.org; key: MATPORTAL_API_KEY in .env). Only listed by `python -m src.run portal`;
+# enrichment takes its candidates from the ontology store and the MDS-Onto portal.
 MATPORTAL = {"enabled": True, "base_url": "https://rest.matportal.org", "ontologies": None}
-CANDIDATES_PER_PORTAL = 5   # results kept per portal per search query
 
-# ---- Mapping candidates (enrichment) and mapping checks (interoperability) ----
+# ---- Ontology store (python -m src.run ontologies build|status|search; docs/ontology-store.md) ----
+# Every external term used by placement, enrichment and interop comes from this store: one Oxigraph named graph
+# per ontology, a SQLite label index (FTS5 trigram) and one EMBED vector per term. Files are cached in
+# outputs/cache/ontologies and downloaded only when missing. "home" = IRI prefixes the ontology owns: a term
+# re-declared by another ontology (MDS-Onto re-declares CCO classes) is attributed to its home ontology.
+# "portal" = download the latest submission of that acronym from the MDS-Onto portal (MDS_API_KEY in .env).
+_GH = "https://raw.githubusercontent.com"
+ONTOLOGY_SOURCES = {
+    "BFO": {"url": f"{_GH}/CommonCoreOntology/CommonCoreOntologies/develop/src/cco-imports/bfo-core.ttl",
+            "file": "BFO.ttl", "home": ["http://purl.obolibrary.org/obo/BFO_"]},
+    "CCO": {"url": f"{_GH}/CommonCoreOntology/CommonCoreOntologies/develop/src/cco-iris/CommonCoreOntologiesMerged.ttl",
+            "file": "CCO.ttl", "home": ["https://www.commoncoreontologies.org/"]},
+    "RO": {"url": f"{_GH}/oborel/obo-relations/master/ro.owl", "file": "RO.owl",
+           "home": ["http://purl.obolibrary.org/obo/RO_"]},
+    "QUDT": {"url": f"{_GH}/qudt/qudt-public-repo/main/src/main/rdf/vocab/quantitykinds/VOCAB_QUDT-QUANTITY-KINDS-ALL.ttl",
+             "file": "QUDT.ttl", "home": ["http://qudt.org/vocab/quantitykind/"]},
+    "QUDT-units": {"url": f"{_GH}/qudt/qudt-public-repo/main/src/main/rdf/vocab/unit/VOCAB_QUDT-UNITS-ALL.ttl",
+                   "file": "QUDT-units.ttl", "home": ["http://qudt.org/vocab/unit/"]},
+    "PMDCO": {"url": f"{_GH}/materialdigital/core-ontology/main/pmdco-full.ttl", "file": "PMDCO.ttl",
+              "home": ["https://w3id.org/pmd/co/"]},
+    "IOF": {"url": f"{_GH}/iofoundry/ontology/master/core/Core.rdf", "file": "IOF.owl",
+            "home": ["https://spec.industrialontologies.org/"]},
+    "MDS-Onto": {"portal": "MDS-ONTO", "file": "MDS-Onto-{version}.ttl", "home": ["https://cwrusdle.bitbucket.io/mds/"]},
+}
+ONTOLOGY_STORE = CACHE / "ontology_store"
+ONTOLOGY_SEARCH = {
+    "weights": {"lexical": 0.5, "cosine": 0.5},  # fused score: lexical = 1 for an exact label, else trigram similarity
+    "min_score": 0.35,           # fused score a candidate needs (exact label matches are always kept)
+    "min_fuzzy": 0.5,            # trigram similarity that counts as a lexical hit
+    "min_cosine": 0.6,           # embedding cosine that counts as a semantic hit
+    "candidates_per_class": 8,   # external candidates shown per class (interop)
+    "parents_per_class": 8,      # CCO/BFO parent candidates shown per concept (placement)
+    "properties_per_relation": 5,  # property candidates shown per extracted relation (restrictions)
+    "tie_margin": 0.05,          # store candidates within this fused score are a tie; RELATION_GROUPS breaks it
+    "max_hops": 2,               # mapping propagation from a matched term: its mappings (1), and theirs (2)
+    "hop_decay": 0.8,            # confidence multiplier per hop
+    "propagated_per_class": 6,   # propagated candidates added per class
+    "parent_ontologies": ["CCO", "BFO"],         # placement parents, in order of preference
+    "name_match_ontologies": ["MDS-Onto", "PMDCO"],  # a same-name class here is used as the parent
+}
+
+# ---- Mapping checks (interoperability, integration) ----
 MAPPING = {
-    "candidates_total": 8,       # candidates shown to the model per class, after re-ranking
-    "min_similarity": 0.6,       # embedding cosine a non-exact candidate needs to be kept (EMBED model required)
     "strong_similarity": 0.85,   # label-matched candidate at/above this is auto-mapped as exact if the model skipped it
-    "local_upper_top": 3,        # nearest BFO/CCO classes added as local candidates
 }
 
 # ---- Cross-domain integration (python -m src.run integrate) ----
@@ -158,10 +195,11 @@ LORA = {
 # ---- Output ontology ----
 ONTOLOGY_IRI = "http://example.org/kw/"
 ONTOLOGY_TITLE = "PV Knowledge Workflow Ontology"
-WORKFLOW_REVISION = "2026-10-04-coverage-evidence-ro-v1"
-WORKFLOW_REVISION_NOTE = ("Unanswered rows retried once; draft evidence-based definitions (model-generated on Gemini); "
-                          "measurements split into property and entity; missing quotes re-asked, then flagged unevidenced; "
-                          "RO/BFO/CCO relation predicates with explicit is_a; leaked id labels cleaned")
+WORKFLOW_REVISION = "2026-10-04-ontology-store-v1"
+WORKFLOW_REVISION_NOTE = ("External terms from a local ontology store (Oxigraph + trigram + embedding search over BFO, "
+                          "CCO, RO, QUDT, PMDCO, IOF, MDS-Onto): placement parents (CCO, then BFO; same-name MDS-Onto/PMDCO "
+                          "class wins), restriction properties, mapping candidates with 1-2 hop propagation; broader, "
+                          "narrower and related matches; imported definitions and labels; MIREOT imports of every term")
 # Profiles whose enrichment may write definitions from model knowledge (recorded as definition_source <profile>:<model>).
 MODEL_DEFINITION_PROFILES = ("gemini", "gemini-lite")
 

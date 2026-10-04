@@ -276,7 +276,7 @@ def eval_row(run_dir: Path, m: dict) -> dict:
                                   if k != "row_coverage"}),
         **_coverage(cs.get("row_coverage"), on.get("row_coverage"), en.get("row_coverage"),
                     (stages.get("interop", {}).get("checks") or {}).get("row_coverage")),
-        **_flat("definitions", en.get("definitions_by_status")),
+        **_flat("definitions", om.get("definitions_by_status") or en.get("definitions_by_status")),  # after imports
         "restrictions_from_predicate": en.get("restrictions_from_predicate"),
         **_flat("imported_classes", om.get("imported_classes")), **_flat("object_properties", om.get("object_properties")),
         **_flat("axioms", om.get("axioms")), **_flat("causal_restrictions", om.get("causal_restrictions_by_source")),
@@ -292,7 +292,22 @@ def eval_row(run_dir: Path, m: dict) -> dict:
         **_flat("mappings_to", om.get("mappings", {}).get("by_ontology")),
         "classes_with_portal_candidates": om.get("mappings", {}).get("classes_with_candidates"),
         **_flat("mappings", {k: v for k, v in om.get("mappings", {}).items()
-                             if k not in ("by_relation", "by_ontology", "classes_with_candidates")}),
+                             if k not in ("by_relation", "by_ontology", "classes_with_candidates", "by_predicate",
+                                          "by_method", "by_hop")}),
+        **_flat("mappings_predicate", om.get("mappings", {}).get("by_predicate")),
+        **_flat("mappings_method", om.get("mappings", {}).get("by_method")),
+        **_flat("mappings_hop", om.get("mappings", {}).get("by_hop")),
+        **_flat("labels", om.get("labels")), **_flat("imported_terms", om.get("imported_terms")),
+        # ontology store: what each stage drew from it
+        "ontology_name_matches": on.get("name_matches"), "ontology_parent_candidates_mean": on.get("parent_candidates_mean"),
+        **_flat("parent_candidates", on.get("parent_candidates_by_ontology")),
+        "candidates_mean_per_class": (en.get("candidates") or {}).get("mean_per_class"),
+        **_flat("candidates_source", (en.get("candidates") or {}).get("by_source")),
+        **_flat("candidates_ontology", (en.get("candidates") or {}).get("by_ontology")),
+        **_flat("candidates_hop", (en.get("candidates") or {}).get("propagated_by_hop")),
+        **_flat("property_candidates", {k: v for k, v in (en.get("property_candidates") or {}).items() if k != "by_ontology"}),
+        **_flat("property_candidates_ontology", (en.get("property_candidates") or {}).get("by_ontology")),
+        **_flat("store_version", {n: s.get("version") for n, s in (m.get("ontology_store") or {}).get("sources", {}).items()}),
         "triples": om.get("triples"), "annotation_assertions": om.get("annotation_assertions"),
         "validation_valid": val.get("valid"), "validation_issues": val.get("n_issues"),
         # bottom-up literature layer

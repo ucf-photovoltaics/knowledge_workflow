@@ -1,11 +1,8 @@
-"""Embedding similarity (EMBED model) for re-ranking mapping candidates and finding the nearest BFO/CCO classes.
-
-Vectors are kept in memory for the run; the upper-ontology label vectors are built once per run.
-"""
+"""Embedding vectors (EMBED model) for the texts a stage searches the ontology store with, kept in memory for the run."""
 import numpy as np
 
 from src.config import EMBED
-from src.tools import llm, upper
+from src.tools import llm
 
 _vectors: dict[str, np.ndarray] = {}
 
@@ -28,14 +25,3 @@ def embed(texts: list[str], ledger=None, agent: str = "enrichment") -> np.ndarra
 
 def similarity(a: str, b: str) -> float:
     return float(_vectors[a] @ _vectors[b])
-
-
-def nearest_upper(texts: list[str], k: int, ledger=None) -> list[list[tuple[str, float]]]:
-    """For each text, the k most similar BFO/CCO classes as (IRI, cosine)."""
-    classes = upper.terms()["classes"]
-    iris = list(classes)
-    keys = [f"{classes[i]['label']}: {classes[i]['definition'][:200]}" for i in iris]
-    U = embed(keys, ledger)
-    Q = embed(texts, ledger)
-    sims = Q @ U.T
-    return [[(iris[j], float(row[j])) for j in np.argsort(-row)[:k]] for row in sims]

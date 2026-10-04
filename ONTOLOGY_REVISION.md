@@ -1,4 +1,16 @@
-# New-run revision 2026-10-04-coverage-evidence-ro-v1
+# New-run revision 2026-10-04-ontology-store-v1
+
+Build the ontology store first (`python -m src.run ontologies build`), then start a new run or resume an existing one from `ontology` (delete those stages from its `run.json`). Extraction and normalization are unchanged, so cached extractions are reused. Older run folders stay readable by the figures, the literature layer and `integrate`. Plan and decisions: [embedding_plan.md](embedding_plan.md); store: [docs/ontology-store.md](docs/ontology-store.md).
+
+- Ontology store (`src/tools/ontostore.py`): BFO, CCO, RO, QUDT quantity kinds and units, PMDCO, IOF and the latest MDS-Onto (portal API) in Oxigraph, one named graph each; SQLite term index with an FTS5 trigram label index; one `nomic-embed-text` vector per term; manifest of versions and hashes, recorded in each run's `run.json`.
+- Placement: no fixed class menu in the prompt. A concept that names an MDS-Onto or PMDCO class is placed under it when its ancestors reach BFO (`name_match`); otherwise the model chooses among store candidates (CCO first, then BFO), the type default and the category root.
+- Enrichment: MatPortal and the nearest-BFO/CCO lookup are gone; candidates come from the store (every ontology) and the MDS-Onto portal, with one- and two-hop propagation through mappings. Restriction properties come from the store per relation (domain and range must fit); exact names and `RELATION_GROUPS` tie-breaks need no model call. The paper's predicate phrase stays on every restriction.
+- Interop: relations equivalent, exact, close, broader, narrower, related. OWL axioms only for BFO-aligned classes of a matching category; individuals SKOS only. Targets must be in the store and not deprecated. Definitions of exact or equivalent matches are imported (`imported`) for classes without a paper-supported one; their labels become `skos:altLabel`, acronyms and spelling variants `skos:hiddenLabel`. Every referenced term is imported with its ancestor chain. Mappings carry method, scores, confidence, target ontology, hop count and path.
+- Reporting: new `eval_runs.csv` columns for store use, mappings by predicate, method and hop, labels by origin, imported terms by ontology and store versions; `definitions_<status>` counts after imports.
+
+Tested with a stand-in model and stand-in embeddings (the VM has no Ollama and cannot reach the MDS-Onto portal): store build from the cached files plus MDS-Onto 0.3.1.31, searches on known terms, resume of a copy of `tea-20261003-234327` from `ontology` through `interop` (ontology valid), unit tests. No live model run yet.
+
+# Previous revision 2026-10-04-coverage-evidence-ro-v1
 
 Start a new run to use it; old run folders stay readable by normalization, the literature layer and `integrate`. Extraction prompts changed, so cached extractions are redone.
 

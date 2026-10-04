@@ -404,7 +404,8 @@ def fig_placement(out, rows):
     _domain_shares(out, rows, "placement_sources", "Where each class's parent came from",
                    "eval_runs.csv placement_*", [("llm", "Model choice"), ("paper_is_a", "Paper is-a"),
                                                  ("lexical_head", "Lexical head"), ("category_default", "Category root (no answer)"),
-                                                 ("type_default", "Type default"), ("cycle_break", "Cycle break")], "placement_")
+                                                 ("type_default", "Type default"), ("cycle_break", "Cycle break"),
+                                                 ("name_match", "Same-name MDS-Onto/PMDCO class")], "placement_")
 
 
 def fig_definitions(out, rows):
@@ -447,8 +448,9 @@ def fig_mappings(out: Out, rows: list[dict]):
     runs = largest(rows, "ontology/mappings.json")
     if not runs:
         return out.skip("external_mappings", "no ontology/mappings.json")
-    rank = ["equivalent", "exact", "subclass", "close"]
-    names = {"equivalent": "Equivalent class", "exact": "Exact match", "subclass": "Subclass of", "close": "Close match"}
+    rank = ["equivalent", "exact", "subclass", "broader", "close", "narrower", "related"]
+    names = {"equivalent": "Equivalent class", "exact": "Exact match", "subclass": "Subclass of", "broader": "Broader match",
+             "close": "Close match", "narrower": "Narrower match", "related": "Related match"}
     series = {k: [] for k in rank}
     table = []
     for d, r in runs.items():
@@ -464,11 +466,12 @@ def fig_mappings(out: Out, rows: list[dict]):
         table.append({"domain": d, "run_id": r["run_id"], "classes": classes, **{k: c[k] for k in rank},
                       "unmapped": classes - sum(c.values())})
     fig, ax = plt.subplots(figsize=(7.0, 0.36 * len(runs) + 1.0))
-    stacked_barh(ax, [label(d) for d in runs], [(names[k], SLOTS[i], series[k]) for i, k in enumerate(rank)],
+    used = [k for k in rank if any(series[k])]  # colour stays with the relation's slot
+    stacked_barh(ax, [label(d) for d in runs], [(names[k], SLOTS[rank.index(k)], series[k]) for k in used],
                  share=True, frame=np.ones(len(runs)))
     ax.set_xlabel("Share of classes, by strongest external mapping (empty remainder: unmapped)")
     ax.legend(ncol=4, loc="lower left", bbox_to_anchor=(0, 1.0))
-    out.save(fig, "external_mappings", "Classes mapped to external ontologies (MDS-Onto portal, MatPortal, BFO/CCO), by "
+    out.save(fig, "external_mappings", "Classes mapped to external ontologies (ontology store and MDS-Onto portal), by "
              "strongest mapping", "ontology/mappings.json", table)
 
 

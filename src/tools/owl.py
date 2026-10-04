@@ -7,8 +7,10 @@ import rdflib
 from rdflib import BNode, Literal, Namespace, URIRef
 from rdflib.namespace import DCTERMS, OWL, RDF, RDFS, SKOS, XSD
 
+import re
+
 from src.config import ONTOLOGY_IRI, ONTOLOGY_TITLE
-from src.tools import upper
+from src.tools import lexical, upper
 
 OBO = "http://purl.obolibrary.org/obo/"
 CCO = "https://www.commoncoreontologies.org/"
@@ -24,12 +26,19 @@ ANNOTATIONS = {
     "importanceScore": "importance score", "importanceTier": "importance tier", "paperCount": "paper count",
     "mentionCount": "mention count", "causalRank": "causal rank", "figureReference": "figure reference",
     "support": "supporting paper count", "evidence": "evidence quote", "condition": "stated condition",
-    "portalOntology": "source ontology on the MDS-Onto portal", "polarity": "causal polarity",
-    "definitionStatus": "definition status (supported, draft_evidence, model_generated)",
-    "definitionSource": "definition source (profile:model)",
+    "portalOntology": "source ontology of an external term", "polarity": "causal polarity",
+    "definitionStatus": "definition status (supported, draft_evidence, model_generated, imported)",
+    "definitionSource": "definition source (profile:model, or the IRI of the matched term it was imported from)",
+    "paperPredicate": "predicate phrase stated in the papers",
+    "mappingMethod": "mapping method (model, label_match)", "mappingConfidence": "mapping confidence",
+    "mappingScore": "fused store search score of the mapped term", "mappingHops": "mapping hops from a matched term",
+    "mappingPath": "IRIs a propagated mapping came through", "targetOntology": "ontology of the mapped term",
 }
-MAPPING_PREDICATES = {"equivalent": OWL.equivalentClass, "subclass": RDFS.subClassOf,
-                      "exact": SKOS.exactMatch, "close": SKOS.closeMatch}
+MAPPING_PREDICATES = {"equivalent": OWL.equivalentClass, "subclass": RDFS.subClassOf, "exact": SKOS.exactMatch,
+                      "close": SKOS.closeMatch, "broader": SKOS.broadMatch, "narrower": SKOS.narrowMatch,
+                      "related": SKOS.relatedMatch}
+KIND_TYPES = {"class": OWL.Class, "object property": OWL.ObjectProperty, "datatype property": OWL.DatatypeProperty,
+              "annotation property": OWL.AnnotationProperty, "individual": OWL.NamedIndividual}
 BUILTIN = {str(RDF.type), str(RDFS.label), str(RDFS.comment), str(RDFS.subClassOf), str(RDFS.subPropertyOf),
            str(RDFS.domain), str(RDFS.range), str(RDFS.isDefinedBy), str(RDFS.seeAlso)}
 
@@ -54,6 +63,61 @@ def label_of(ref: str, by_id: dict) -> str:
 
 def bfo_category(cid: str, by_id: dict) -> str:
     return next((BFO_CATEGORIES[a] for a in lineage(cid, by_id) if a in BFO_CATEGORIES), "other")
+
+
+def category_fit(chain: list[str], target: str, same: bool, kind: str = "class") -> bool:
+    """Can a local class (its lineage `chain`) be equivalent to (same=True) or a subclass of (same=False) the
+    external class `target`? Only a BFO-aligned class: equivalence needs the same BFO category, a subclass needs
+    the target's category to be the class's own or one above it."""
+    if kind != "class":
+        return False
+    mine = next((a for a in chain if a in BFO_CATEGORIES), None)
+    theirs = next((a for a in [target, *upper.ancestors(target)] if a in BFO_CATEGORIES), None)
+    if not mine or not theirs:
+        return False
+    return mine == theirs if same else theirs in (mine, *upper.ancestors(mine))
+
+
+def same_as_issues(g: rdflib.Graph) -> list[str]:
+    individuals = set(g.subjects(RDF.type, OWL.NamedIndividual))
+    return [f"owl:sameAs between non-individuals: {s} {o}" for s, o in g.subject_objects(OWL.sameAs)
+            if s not in individuals or o not in individuals]
+
+
+def _hidden(label: str, alt: str) -> bool:
+    """Acronyms and spelling variants go to skos:hiddenLabel: 'PERC', 'Voc', 'c-Si'; 'open circuit voltage' for
+    'open-circuit voltage'."""
+    a = alt.strip()
+    acronym = bool(re.fullmatch(r"[A-Za-z0-9\-]{1,8}", a)) and (sum(ch.isupper() for ch in a) >= 2
+                                                                or (len(a) <= 4 and any(ch.isupper() for ch in a)))
+    return acronym or (a != label and lexical.match_key(a) == lexical.match_key(label))
+
+
+def labels(c: dict, mappings: list[dict]) -> list[tuple]:
+    """(predicate, text, source IRI or None, origin) for a class: its label (rdfs:label and skos:prefLabel),
+    the paper synonyms the model kept, and every label of each exactly or equivalently matched external term."""
+    out, seen = [(SKOS.prefLabel, c["label"], None, "label")], {c["label"].lower()}
+    extra = [(a, None, "paper") for a in c.get("alt_labels", [])]
+    extra += [(a, m["iri"], "external") for m in mappings if m["relation"] in ("exact", "equivalent")
+              for a in m.get("labels") or [m["label"]]]
+    for text, src, origin in extra:
+        if text and text.lower() not in seen:
+            seen.add(text.lower())
+            out.append((SKOS.hiddenLabel if _hidden(c["label"], text) else SKOS.altLabel, text, src, origin))
+    return out
+
+
+def _annotate(g, kw, s, p, o, notes: dict):
+    """An owl:Axiom annotating the triple (s, p, o) with notes {annotation property: value or [values]}."""
+    ax = BNode()
+    g.add((ax, RDF.type, OWL.Axiom))
+    g.add((ax, OWL.annotatedSource, s))
+    g.add((ax, OWL.annotatedProperty, p))
+    g.add((ax, OWL.annotatedTarget, o))
+    for prop, values in notes.items():
+        for v in values if isinstance(values, list) else [values]:
+            if v is not None and v != "":
+                g.add((ax, prop, v if isinstance(v, (URIRef, Literal)) else Literal(v)))
 
 
 def build(classes: list[dict], properties: dict, mappings: list[dict], papers: list[dict], run_id: str,
@@ -83,7 +147,8 @@ def build(classes: list[dict], properties: dict, mappings: list[dict], papers: l
     for name, label in ANNOTATIONS.items():
         g.add((kw[name], RDF.type, OWL.AnnotationProperty))
         g.add((kw[name], RDFS.label, Literal(label, lang="en")))
-    for ap in (SKOS.definition, SKOS.altLabel, SKOS.exactMatch, SKOS.closeMatch,
+    for ap in (SKOS.definition, SKOS.prefLabel, SKOS.altLabel, SKOS.hiddenLabel, SKOS.exactMatch, SKOS.closeMatch,
+               SKOS.broadMatch, SKOS.narrowMatch, SKOS.relatedMatch,
                DCTERMS.source, DCTERMS.title, DCTERMS.created, DCTERMS.description):
         g.add((ap, RDF.type, OWL.AnnotationProperty))
 
@@ -107,6 +172,9 @@ def build(classes: list[dict], properties: dict, mappings: list[dict], papers: l
 
     upper_used = set()
     prop = {}
+    by_class = {}
+    for m in mappings:
+        by_class.setdefault(m["id"], []).append(m)
     for name, p in properties.items():
         P = prop[f"local:{name}"] = kw[name]
         g.add((P, RDF.type, OWL.ObjectProperty))
@@ -139,8 +207,10 @@ def build(classes: list[dict], properties: dict, mappings: list[dict], papers: l
                 g.add((C, kw.definitionStatus, Literal(c["definition_status"])))
             if c.get("definition_source"):
                 g.add((C, kw.definitionSource, Literal(c["definition_source"])))
-        for a in c.get("alt_labels", []):
-            g.add((C, SKOS.altLabel, Literal(a, lang="en")))
+        for pred, text, src, _ in labels(c, by_class.get(c["id"], [])):
+            g.add((C, pred, Literal(text, lang="en")))
+            if src:
+                _annotate(g, kw, C, pred, Literal(text, lang="en"), {DCTERMS.source: URIRef(src)})
         g.add((C, RDFS.subClassOf, ref(c["parent"])))
         add_facets(C, c.get("facets"))
         if c["parent"] not in live:
@@ -169,21 +239,10 @@ def build(classes: list[dict], properties: dict, mappings: list[dict], papers: l
             g.add((node, OWL.onProperty, P))
             g.add((node, OWL.someValuesFrom, ref(r["o"])))
             g.add((C, RDFS.subClassOf, node))
-            ax = BNode()  # axiom annotation: provenance of the restriction
-            g.add((ax, RDF.type, OWL.Axiom))
-            g.add((ax, OWL.annotatedSource, C))
-            g.add((ax, OWL.annotatedProperty, RDFS.subClassOf))
-            g.add((ax, OWL.annotatedTarget, node))
-            g.add((ax, kw.support, Literal(r.get("support", 0), datatype=XSD.integer)))
-            if r.get("polarity"):
-                g.add((ax, kw.polarity, Literal(r["polarity"])))
-            for e in r.get("evidence", [])[:1]:
-                g.add((ax, kw.evidence, Literal(e["text"])))
-            for cond in r.get("conditions", []):
-                g.add((ax, kw.condition, Literal(cond)))
-            for k in r.get("papers", []):
-                if k in source:
-                    g.add((ax, DCTERMS.source, source[k]))
+            _annotate(g, kw, C, RDFS.subClassOf, node, {  # provenance: what the papers said
+                kw.support: Literal(r.get("support", 0), datatype=XSD.integer), kw.polarity: r.get("polarity"),
+                kw.paperPredicate: r.get("phrase"), kw.evidence: [e["text"] for e in r.get("evidence", [])[:1]],
+                kw.condition: r.get("conditions", []), DCTERMS.source: [source[k] for k in r.get("papers", []) if k in source]})
         for d in c.get("disjoint_with", []):
             if d in live:
                 g.add((C, OWL.disjointWith, ref(d)))
@@ -191,34 +250,44 @@ def build(classes: list[dict], properties: dict, mappings: list[dict], papers: l
     for m in mappings:
         if m["id"] not in live:
             continue
-        T = URIRef(m["iri"])
-        g.add((URIRef(live[m["id"]]["iri"]), MAPPING_PREDICATES[m["relation"]], T))
-        g.add((T, RDFS.label, Literal(m["label"])))
-        if m.get("definition"):
-            g.add((T, SKOS.definition, Literal(m["definition"])))
+        C, T = URIRef(live[m["id"]]["iri"]), URIRef(m["iri"])
+        notes = {kw.mappingMethod: m.get("method") or m.get("source"), kw.targetOntology: m.get("ontology"),
+                 kw.mappingConfidence: Literal(m["confidence"], datatype=XSD.decimal) if m.get("confidence") is not None else None,
+                 kw.mappingScore: Literal((m.get("scores") or {}).get("score"), datatype=XSD.decimal)
+                 if (m.get("scores") or {}).get("score") is not None else None,
+                 kw.mappingHops: Literal(m["hop"], datatype=XSD.integer) if m.get("hop") else None,
+                 kw.mappingPath: " ".join(m.get("path", [])) if m.get("hop") else None}
+        preds = [MAPPING_PREDICATES[m["relation"]]] + ([RDFS.subClassOf] if m.get("subclass_axiom") else [])
+        for P in preds:
+            g.add((C, P, T))
+            _annotate(g, kw, C, P, T, notes)
         g.add((T, kw.portalOntology, Literal(m["ontology"])))
-        if m["relation"] in ("equivalent", "subclass"):
-            g.add((T, RDF.type, OWL.Class))
+        upper_used.add(m["iri"])
 
-    # MIREOT-style import: every BFO/CCO term used, plus its full ancestor chain.
+    # MIREOT-style import: every external term used (BFO/CCO/RO from bfo_cco.json, anything else from the ontology
+    # store), with its labels, definition, defining ontology and full ancestor chain.
     seen, stack = set(), list(upper_used)
     while stack:
         t = stack.pop()
         if t in seen or not upper.describe(t):
             continue
         seen.add(t)
-        stack += upper.describe(t)["parents"]
-    classes_meta = upper.terms()["classes"]
+        stack += upper.describe(t).get("parents", [])
+    sources = upper.terms()["sources"]
     for t in seen:
         meta, T = upper.describe(t), URIRef(t)
-        is_class = t in classes_meta
-        g.add((T, RDF.type, OWL.Class if is_class else OWL.ObjectProperty))
+        kind = meta.get("kind") or ("class" if t in upper.terms()["classes"] else "object property")
+        g.add((T, RDF.type, KIND_TYPES[kind]))
         g.add((T, RDFS.label, Literal(meta["label"], lang="en")))
         if meta.get("definition"):
             g.add((T, SKOS.definition, Literal(meta["definition"], lang="en")))
-        g.add((T, RDFS.isDefinedBy, URIRef(upper.terms()["sources"][meta["source"]])))
-        for p in meta["parents"]:
-            g.add((T, RDFS.subClassOf if is_class else RDFS.subPropertyOf, URIRef(p)))
+        defined_by = meta.get("defined_by") or sources.get(meta.get("source"), "")
+        if defined_by:
+            g.add((T, RDFS.isDefinedBy, URIRef(defined_by)))
+        if kind != "individual":
+            for p in meta.get("parents", []):
+                if p in seen:  # a parent the store cannot describe is left out rather than left undeclared
+                    g.add((T, RDFS.subClassOf if kind == "class" else RDFS.subPropertyOf, URIRef(p)))
     return g
 
 
@@ -251,9 +320,9 @@ def _depth_to_entity(g, c) -> int | None:
     return None
 
 
-def validate(g: rdflib.Graph, text: str) -> dict:
-    """Structural checks only (no reasoner)."""
-    issues = []
+def validate(g: rdflib.Graph, text: str, extra: list[str] = ()) -> dict:
+    """Structural checks only (no reasoner), plus checks made elsewhere (extra: the interop mapping checks)."""
+    issues = list(extra)
     reparsed = rdflib.Graph().parse(data=text, format="json-ld")
     roundtrip = len(reparsed) == len(g)
     if not roundtrip:
@@ -323,6 +392,14 @@ def metrics(g: rdflib.Graph, classes: list[dict], mappings: list[dict], properti
         return round(sum(1 for c in local if g.value(c, pred) is not None) / n, 3)
 
     mapped = {m["id"] for m in mappings if m["id"] in live}
+    by_class = {}
+    for m in mappings:
+        by_class.setdefault(m["id"], []).append(m)
+    label_counts = Counter(f"{origin}_{str(pred).rsplit('#', 1)[-1]}" for c in live.values()
+                           for pred, _, _, origin in labels(c, by_class.get(c["id"], [])))
+    predicates = Counter(MAPPING_PREDICATES[m["relation"]].n3(g.namespace_manager) for m in mappings if m["id"] in live)
+    predicates.update(RDFS.subClassOf.n3(g.namespace_manager) for m in mappings if m["id"] in live and m.get("subclass_axiom"))
+    imported = Counter((upper.describe(str(t)).get("source") or "other").upper() for t in set(g.subjects(RDFS.isDefinedBy)))
     return {
         "classes": len(local),
         "imported_classes": {"BFO": sum(1 for c in ext if "/obo/BFO_" in str(c)),
@@ -355,11 +432,18 @@ def metrics(g: rdflib.Graph, classes: list[dict], mappings: list[dict], properti
                       "leaves": sum(1 for cid in live if cid not in has_child),
                       "placement": dict(Counter(c.get("parent_source", "llm") for c in live.values()))},
         "bfo_categories": dict(Counter(bfo_category(cid, live) for cid in live).most_common()),
+        "labels": dict(label_counts),
+        "imported_terms": dict(imported),
+        "definitions_by_status": dict(Counter(c.get("definition_status") or "none" for c in live.values())),
         "coverage": {"definition": cover(SKOS.definition), "alt_label": cover(SKOS.altLabel),
+                     "hidden_label": cover(SKOS.hiddenLabel),
                      "source_paper": cover(DCTERMS.source),
                      "figure_reference": cover(URIRef(base() + "figureReference")),
                      "external_mapping": round(len(mapped) / n, 3)},
         "mappings": {"by_relation": dict(Counter(m["relation"] for m in mappings)),
+                     "by_predicate": dict(predicates),
+                     "by_method": dict(Counter(m.get("method") or m.get("source") for m in mappings)),
+                     "by_hop": dict(Counter(str(m.get("hop", 0)) for m in mappings)),
                      "label_matched": sum(1 for m in mappings if m.get("label_match")),
                      "downgraded": sum(1 for m in mappings if "downgraded_from" in m),
                      "added_from_label_match": sum(1 for m in mappings if m.get("source") == "label_match"),

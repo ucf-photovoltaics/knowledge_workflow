@@ -1,6 +1,6 @@
 # Embedding plan: ontology store for enrichment and interop
 
-Status: approved 2026-10-04 with the decisions below; not implemented yet.
+Status: approved 2026-10-04 with the decisions below; implemented on branch `embedding` (revision 2026-10-04-ontology-store-v1). See docs/ontology-store.md.
 
 Goal: the enrichment and interoperability stages take every external term (classes, properties, individuals) from a local ontology store with label, fuzzy and embedding search over BFO, CCO, RO, QUDT, PMDCO, IOF and MDS-Onto, plus the existing MDS-Onto portal grounding call. Prompts carry only a general default vocabulary; concrete terms reach the model only as candidates retrieved for that row. Attach as many labels, equivalences, close, broader and narrower matches as the checks allow.
 

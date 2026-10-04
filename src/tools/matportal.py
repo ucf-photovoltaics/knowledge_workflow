@@ -1,7 +1,8 @@
 """MatPortal (matportal.org, the materials-science OntoPortal) search over its REST API.
 
-Returns records in the same shape as mds_portal.search ({"Label", "ID", "Ontology", "Definition"}) so the
-enrichment agent treats both portals alike. Needs MATPORTAL_API_KEY in .env (from your matportal.org account).
+Returns records in the same shape as mds_portal.search ({"Label", "ID", "Ontology", "Definition"}). Only used by
+`python -m src.run portal` now; enrichment takes candidates from the ontology store and the MDS-Onto portal.
+Needs MATPORTAL_API_KEY in .env (from your matportal.org account).
 """
 from functools import lru_cache
 

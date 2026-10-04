@@ -25,6 +25,8 @@ def paper_parents(classes, relations):
             candidates[r['s']].append(r)
     for cid, edges in candidates.items():
         c = live[cid]
+        if c['parent_source'] == 'name_match':  # a same-name MDS-Onto/PMDCO class wins over a paper is-a
+            continue
         eligible = []
         for r in edges:
             parent = r['o']

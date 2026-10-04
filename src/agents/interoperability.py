@@ -1,21 +1,26 @@
-"""Interoperability agent: commit mappings from classes to external terms (portal and local BFO/CCO candidates),
-then assemble, validate (structurally, no reasoner) and emit the ontology as OWL2 JSON-LD.
+"""Interoperability agent: commit mappings from classes to external terms (ontology store and MDS-Onto portal
+candidates), import definitions of matched terms, then assemble, validate (structurally, no reasoner) and emit the
+ontology as OWL2 JSON-LD and Turtle.
 
-Mapping checks: exact/equivalent are kept only when the labels (or a synonym) actually match - otherwise they are
-downgraded to close; label-matched candidates the model skipped are added when their embedding similarity is
-high. Every mapping carries a confidence (1.0 for a label match, else the embedding similarity)."""
+Mapping checks: every target must be in the ontology store and not deprecated. exact/equivalent are kept only
+when the labels (or a synonym) actually match - otherwise they are downgraded to close. owl:equivalentClass needs
+a BFO-aligned class target in the same BFO category (otherwise skos:exactMatch); broader adds rdfs:subClassOf
+only when the target's category is the class's own or above it (otherwise skos:broadMatch alone). Individuals
+(QUDT quantity kinds and units) get SKOS only. Label-matched candidates the model skipped are added when their
+similarity is high; propagated candidates are only ever asserted by the model. Every mapping carries its method,
+scores, confidence, target ontology, hop count and path."""
 from collections import Counter, defaultdict
 
 from src.agents.base import Agent, compact, items, key, load_prompt, targets
 from src.config import MAPPING, tier
-from src.tools import owl, upper
-from src.tools.owl import label_of
+from src.tools import ontostore, owl, upper
+from src.tools.owl import label_of, lineage
 from src.tools.progress import log
 
 BATCH = 20
 FACET_BATCH = 40
-RELATIONS = {"equivalent", "subclass", "exact", "close"}
-DOWNGRADE = {"equivalent": "exact", "subclass": "close"}
+RELATIONS = {"equivalent", "exact", "close", "broader", "narrower", "related"}
+ALIASES = {"subclass": "broader", "broad": "broader", "narrow": "narrower"}  # earlier answer shapes
 
 
 class InteroperabilityAgent(Agent):
@@ -23,7 +28,7 @@ class InteroperabilityAgent(Agent):
 
     def __init__(self, ledger):
         super().__init__(ledger)
-        self.stats = Counter()
+        self.stats = Counter(dropped_not_in_store=0, dropped_deprecated=0)
 
     def align(self, classes: list[dict]) -> list[dict]:
         by_id = {c["id"]: c for c in classes if not c["excluded"]}
@@ -33,7 +38,8 @@ class InteroperabilityAgent(Agent):
         row = lambda c: {"id": c["id"], "label": c["label"], "parent": label_of(c["parent"], by_id),
                          "def": c.get("definition", "")[:160],
                          "candidates": [[n, x["label"], x["ontology"], x["definition"][:120],
-                                         "=" if x.get("label_match") else x.get("score", "")]
+                                         "=" if x.get("label_match") else x.get("score", ""),
+                                         *([f"via {x['hop']} hop(s)"] if x.get("hop") else [])]
                                         for n, x in enumerate(c["candidates"], 1) if n in shown[c["id"]]]}
         if tier(self.name) == "local":  # pass 1: keep only candidates about the same (or a broader) thing
             n_batches = -(-len(todo) // BATCH)
@@ -59,35 +65,91 @@ class InteroperabilityAgent(Agent):
                 if not c:
                     continue
                 rel = key(m.get("relation"))  # a list or dict here used to crash the stage (unhashable)
-                rel = rel.lower() if rel else None
+                rel = ALIASES.get(rel.lower(), rel.lower()) if rel else None
                 try:
                     n = int(m.get("candidate"))
                 except (TypeError, ValueError):
                     continue
                 if rel not in RELATIONS or n not in shown[c["id"]]:
                     continue
-                cand = c["candidates"][n - 1]
-                chosen = rel
-                if "qudt.org" in cand["iri"]:  # QUDT quantity kinds/units are individuals, not classes
-                    rel = DOWNGRADE.get(rel, rel)
-                if rel in ("exact", "equivalent") and not cand.get("label_match"):
-                    rel = "close"  # meaning claimed identical but the names differ: keep only as a close match
-                if (c["id"], cand["iri"]) not in seen and cand["iri"] != c["iri"]:
-                    seen.add((c["id"], cand["iri"]))
-                    mappings.append({"id": c["id"], "relation": rel, **cand, "source": "model",
-                                     "confidence": 1.0 if cand.get("label_match") else cand.get("score"),
-                                     **({"downgraded_from": chosen} if rel != chosen else {})})
-        for c in todo:  # same name, and similar in meaning, but not chosen by the model
+                if (c["id"], c["candidates"][n - 1]["iri"]) not in seen:
+                    self._commit(c, c["candidates"][n - 1], rel, "model", by_id, mappings, seen)
+        for c in todo:  # same name, and similar in meaning, but not chosen by the model (never propagated ones)
             for cand in c["candidates"]:
-                if cand.get("label_match") and cand.get("score", 0) >= MAPPING["strong_similarity"] \
-                        and (c["id"], cand["iri"]) not in seen:
-                    seen.add((c["id"], cand["iri"]))
-                    mappings.append({"id": c["id"], "relation": "exact", **cand, "source": "label_match",
-                                     "confidence": 1.0})
+                if cand.get("label_match") and not cand.get("hop") and (c["id"], cand["iri"]) not in seen \
+                        and (cand.get("cosine") or cand.get("score") or 0) >= MAPPING["strong_similarity"]:
+                    self._commit(c, cand, "exact", "label_match", by_id, mappings, seen)
         downgraded = sum(1 for m in mappings if "downgraded_from" in m)
-        log(f"mappings: {len(mappings)} ({downgraded} downgraded to close for mismatched names, "
-            f"{sum(1 for m in mappings if m['source'] == 'label_match')} added from label matches)")
+        log(f"mappings: {len(mappings)} ({downgraded} downgraded, "
+            f"{sum(1 for m in mappings if m['method'] == 'label_match')} added from label matches, "
+            f"{sum(1 for m in mappings if m.get('hop'))} through propagated candidates); "
+            f"dropped: {self.stats['dropped_not_in_store']} not in the store, {self.stats['dropped_deprecated']} deprecated")
         return mappings
+
+    def _commit(self, c: dict, cand: dict, rel: str, method: str, by_id: dict, mappings: list, seen: set):
+        """Checks one chosen mapping against the store and BFO categories, then records it."""
+        t = ontostore.term(cand["iri"])
+        if cand["iri"] == c["iri"]:
+            return
+        if t is None:
+            self.stats["dropped_not_in_store"] += 1
+            return
+        if t["deprecated"]:
+            self.stats["dropped_deprecated"] += 1
+            return
+        chosen = rel
+        if rel in ("exact", "equivalent") and not cand.get("label_match"):
+            rel = "close"  # meaning claimed identical but the names differ: keep only as a close match
+        if rel == "equivalent" and not owl.category_fit(lineage(c["id"], by_id), t["iri"], same=True, kind=t["kind"]):
+            rel = "exact"  # not a BFO-aligned class of the same category: SKOS only
+        axiom = rel == "broader" and owl.category_fit(lineage(c["id"], by_id), t["iri"], same=False, kind=t["kind"])
+        seen.add((c["id"], cand["iri"]))
+        mappings.append({"id": c["id"], "relation": rel, "iri": t["iri"], "label": t["label"], "ontology": t["ontology"],
+                         "kind": t["kind"], "definition": t["definition"], "labels": [x["text"] for x in t["labels"]],
+                         "method": method, "source": method, "portal": cand.get("portal"), "mds": cand.get("mds", {}),
+                         "label_match": bool(cand.get("label_match")), "subclass_axiom": axiom,
+                         "scores": {k: cand.get(k) for k in ("score", "fuzzy", "cosine") if cand.get(k) is not None},
+                         "confidence": 1.0 if cand.get("label_match") and not cand.get("hop") else cand.get("score"),
+                         "hop": cand.get("hop", 0), "path": cand.get("path", []), "via": cand.get("via", []),
+                         **({"downgraded_from": chosen} if rel != chosen else {})})
+
+    def import_definitions(self, classes: list[dict], mappings: list[dict]) -> list[dict]:
+        """A class without a paper-supported definition takes the definition of its exact or equivalent match
+        (equivalent first, then confidence), with status imported and the term's IRI as source."""
+        live = {c["id"]: c for c in classes if not c["excluded"]}
+        best = {}
+        for m in sorted(mappings, key=lambda m: (m["relation"] != "equivalent", -(m.get("confidence") or 0))):
+            if m["relation"] in ("exact", "equivalent") and m.get("definition") and m["id"] in live:
+                best.setdefault(m["id"], m)
+        imported = []
+        for cid, m in best.items():
+            c = live[cid]
+            if c.get("definition_status") == "supported":
+                continue
+            imported.append({"id": cid, "iri": c["iri"], "source": m["iri"], "ontology": m["ontology"],
+                             "replaced": {"text": c.get("definition", ""), "status": c.get("definition_status", "")}})
+            c["definition"], c["definition_status"], c["definition_source"] = m["definition"], "imported", m["iri"]
+            c["review_flags"] = [f for f in c.get("review_flags", []) if f != "unsupported_definition"]
+        self.stats["definitions_imported"] = len(imported)
+        log(f"definitions imported from matched terms: {len(imported)}")
+        return imported
+
+    def mapping_issues(self, graph, classes: list[dict], mappings: list[dict]) -> list[str]:
+        """Checks the structural validator cannot make: mapped IRIs exist in the store and are not deprecated;
+        owl:sameAs only between individuals; no subclass or equivalence into another BFO category."""
+        live = {c["id"]: c for c in classes if not c["excluded"]}
+        issues = []
+        for m in mappings:
+            t = ontostore.term(m["iri"])
+            if t is None:
+                issues.append(f"mapped IRI not in the ontology store: {m['iri']}")
+            elif t["deprecated"]:
+                issues.append(f"mapping to a deprecated term: {m['iri']}")
+            elif (m["relation"] == "equivalent" or m.get("subclass_axiom")) and m["id"] in live and not owl.category_fit(
+                    lineage(m["id"], live), m["iri"], same=m["relation"] == "equivalent", kind=t["kind"]):
+                issues.append(f"{m['relation']} axiom into another BFO category: {live[m['id']]['iri']} -> {m['iri']}")
+        issues += owl.same_as_issues(graph)
+        return issues
 
     def tag_facets(self, classes: list[dict], properties: dict, mappings: list[dict]) -> dict:
         """MDS-Onto study stage(s) and MDSDom domain/subdomain for every class and local property.
@@ -99,7 +161,7 @@ class InteroperabilityAgent(Agent):
         live = {c["id"]: c for c in classes if not c["excluded"]}
         hints = defaultdict(set)
         for c in live.values():
-            for x in c.get("candidates", []):
+            for x in c.get("candidates", []) + c.get("portal_only", []):  # portal_only: hits not in the store
                 if x.get("label_match") and x.get("mds"):
                     hints[c["id"]].add(" / ".join(x["mds"].values()))
         for m in mappings:
@@ -152,17 +214,19 @@ class InteroperabilityAgent(Agent):
 
     def run(self, classes: list[dict], properties: dict, papers: list[dict], run_id: str, domain: str) -> dict:
         mappings = self.align(classes)
+        imported = self.import_definitions(classes, mappings)
         facets = self.tag_facets(classes, properties, mappings)
         log(f"mappings committed: {len(mappings)}")
-        log("building OWL2 graph (classes, restrictions, provenance, BFO/CCO/RO imports)")
+        log("building OWL2 graph (classes, labels, restrictions, mappings, provenance, imports from the store)")
         graph = owl.build(classes, properties, mappings, papers, run_id, domain)
         log(f"serializing JSON-LD and Turtle ({len(graph):,} triples)")
         text = owl.serialize(graph)
         turtle = owl.serialize_turtle(graph)
-        log("validating structure (round trip, declarations, BFO connection, cycles, labels)")
-        validation = owl.validate(graph, text)
+        log("validating structure (round trip, declarations, BFO connection, cycles, labels, mapping checks)")
+        validation = owl.validate(graph, text, self.mapping_issues(graph, classes, mappings))
         log("valid" if validation["valid"] else f"{validation['n_issues']} structural issue(s); see ontology/validation.json")
         self.stats.update({f"failed_{k}": v for k, v in self.failures.items()})
         self.stats["row_coverage"] = {k: dict(v) for k, v in self.row_stats.items()}
-        return {"mappings": mappings, "facets": facets, "checks": dict(self.stats), "jsonld": text, "turtle": turtle, "validation": validation,
+        return {"mappings": mappings, "facets": facets, "checks": dict(self.stats), "jsonld": text, "turtle": turtle,
+                "validation": validation, "imported_definitions": imported,
                 "metrics": owl.metrics(graph, classes, mappings, properties)}

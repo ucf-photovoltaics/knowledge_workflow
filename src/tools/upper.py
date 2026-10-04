@@ -1,5 +1,6 @@
-"""BFO 2020 + CCO terms and OBO Relations Ontology (RO) properties, cached in resources/upper/bfo_cco.json,
-plus the curated menus shown to agents."""
+"""BFO 2020 + CCO terms and OBO Relations Ontology (RO) properties, cached in resources/upper/bfo_cco.json, the
+curated menus (category roots, type defaults, causal rules, LoRA tasks), and lookups of any other external term
+through the ontology store (src/tools/ontostore.py)."""
 import json
 from functools import lru_cache
 
@@ -104,18 +105,25 @@ def property_iri(key: str) -> str | None:
 
 
 def ancestors(iri: str) -> list[str]:
-    """All named upper ancestors of an upper class, nearest first."""
-    classes, seen, queue = terms()["classes"], [], list(terms()["classes"].get(iri, {}).get("parents", []))
+    """All named ancestors of an external class or property, nearest first: BFO/CCO from bfo_cco.json, every
+    other ontology (MDS-Onto, PMDCO, IOF, ...) from the ontology store, followed up to BFO."""
+    seen, queue = [], list(describe(iri).get("parents", []))
     while queue:
         p = queue.pop(0)
-        if p not in seen:
+        if p not in seen and p != iri:
             seen.append(p)
-            queue += classes.get(p, {}).get("parents", [])
+            queue += describe(p).get("parents", [])
     return seen
 
 
 def describe(iri: str) -> dict:
-    return terms()["classes"].get(iri) or terms()["properties"].get(iri) or {}
+    """label, definition, source, parents (and domain, range, inverse for properties) of an external term:
+    the curated BFO/CCO/RO cache first, then the ontology store when it is built."""
+    found = terms()["classes"].get(iri) or terms()["properties"].get(iri)
+    if found:
+        return found
+    from src.tools import ontostore
+    return ontostore.term(iri) or {}
 
 
 BFO = "http://purl.obolibrary.org/obo/BFO_"

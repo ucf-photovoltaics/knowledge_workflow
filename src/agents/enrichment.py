@@ -1,11 +1,14 @@
-"""Enrichment agent: definitions, synonyms, restrictions, disjointness, local property domain/range,
-and candidate external terms from the MDS-Onto Open Portal.
+"""Enrichment agent: definitions, synonyms, restrictions, disjointness, local property domain/range, and the
+external candidate terms for interop, all from the ontology store (src/tools/ontostore.py) plus the MDS-Onto
+portal grounding search.
 
 Causal edges become restrictions deterministically: each keeps its local polarity property and also gets the
 best-fitting RO property and CCO property for the cause/effect BFO categories (resources/upper/menus.json
-causal_rules), with RO 'causally related to' as the fallback. The LLM only handles definitions, labels,
-non-causal restrictions (BFO, CCO and RO properties side by side) and disjointness. Every restriction must
-trace back to an extracted relation.
+causal_rules), with RO 'causally related to' as the fallback. Other relations get object-property candidates
+from the store (predicate phrase and quote; domain and range must fit): an exact name match, or a tie that
+upper.RELATION_GROUPS breaks, is used directly; the rest go to the model with their numbered candidates. The
+paper's predicate phrase, quote, support and papers stay on every restriction. Every restriction must trace back
+to an extracted relation.
 """
 import hashlib
 import json
@@ -13,10 +16,10 @@ import re
 from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor
 
-from src.agents.base import Agent, compact, items, key, load_prompt, targets
-from src.config import (AGENT_PROFILES, CACHE, CANDIDATES_PER_PORTAL, EMBED, LLM_PROFILE, MAPPING, MATPORTAL,
-                        MDS_ONTOLOGIES, MODEL_DEFINITION_PROFILES, secret, tier)
-from src.tools import lexical, matportal, mds_portal, retrieval, upper
+from src.agents.base import Agent, items, key, load_prompt, targets
+from src.config import (AGENT_PROFILES, CACHE, CANDIDATES_PER_PORTAL, LLM_PROFILE, MDS_ONTOLOGIES,
+                        MODEL_DEFINITION_PROFILES, ONTOLOGY_SEARCH, tier)
+from src.tools import lexical, mds_portal, ontostore, retrieval, upper
 from src.tools.owl import label_of, lineage
 from src.tools.progress import log
 
@@ -52,23 +55,23 @@ class EnrichmentAgent(Agent):
             c["definition_status"] = "unreviewed"
             c["restrictions"], c["disjoint_with"] = [], []
 
-        log(f"mapping candidates: {' and '.join(p for p, _, _ in self._portals())} + local BFO/CCO "
-            f"for {len(live):,} classes")
+        log(f"mapping candidates: ontology store + MDS-Onto portal for {len(live):,} classes")
         self._candidates(live)
         log(f"candidates kept for {sum(1 for c in live if c['candidates'])} classes; "
-            f"{sum(1 for c in live if any(x['label_match'] for x in c['candidates']))} with a label match")
+            f"{sum(1 for c in live if any(x['label_match'] for x in c['candidates']))} with a label match; "
+            f"{sum(1 for c in live for x in c['candidates'] if x.get('hop'))} propagated through mappings")
         self._causal(by_id, causal)
         log(f"causal restrictions added (local + RO + CCO): {sum(len(c['restrictions']) for c in live):,}")
 
-        pmenu = upper.property_menu()
-        system = self.system + rule + "\n\nPROPERTIES\n" + "\n".join(self._prop_line(lab, iri) for lab, iri in pmenu.items())
+        system = self.system + rule
         rels = defaultdict(list)
         for r in relations:  # unevidenced relations never become axioms
             if r["p"] != "is_a" and r["s"] in by_id and r["o"] in by_id and _evidenced(r):
                 rels[r["s"]].append(r)
             elif r["p"] != "is_a" and r["s"] in by_id and r["o"] in by_id:
                 self.dropped["unevidenced"] += 1
-        self._predicate_restrictions(by_id, rels)  # verified RO/BFO/CCO predicates: no model call needed
+        self._property_candidates(by_id, rels)
+        self._predicate_restrictions(by_id, rels)  # exact store names or RELATION_GROUPS tie-breaks: no model call
         log(f"restrictions from extracted predicates: {self.from_predicate}; "
             f"{sum(len(v) for v in rels.values())} relations left for the model")
         quotes = defaultdict(list)  # evidence each class takes part in, for definitions
@@ -83,8 +86,10 @@ class EnrichmentAgent(Agent):
         for c in live:
             children[c["parent"]].append(c["id"])
 
-        pmenu_lc = {k.lower(): v for k, v in pmenu.items()}
         rel_text = lambda c: [f"{r['p']}: {by_id[r['o']]['label']} ({r['o']}) x{r['support']}"
+                              for r in rels[c["id"]][:MAX_RELATIONS]]
+        rel_rows = lambda c: [{"o": r["o"], "target": by_id[r["o"]]["label"], "paper": f"{r['p']} x{r['support']}",
+                               "properties": [self._prop_line(x) for x in self.pcands.get(self._rkey(c["id"], r), [])]}
                               for r in rels[c["id"]][:MAX_RELATIONS]]
         sibs = lambda c: [f"{s}: {by_id[s]['label']}" for s in children[c["parent"]] if s != c["id"]][:MAX_SIBLINGS]
         if tier(self.name) == "local":
@@ -95,11 +100,10 @@ class EnrichmentAgent(Agent):
                             "evidence": quotes[c["id"]]}),
                 ("synonyms", load_prompt("enrichment_synonyms"), 50, [c for c in live if c["alt_labels"]],
                  lambda c: {"id": c["id"], "label": c["label"], "alt": c["alt_labels"][:8]}),
-                ("restrictions", load_prompt("enrichment_restrictions") + "\n\nPROPERTIES\n"
-                 + "\n".join(self._prop_line(lab, iri) for lab, iri in pmenu.items()), BATCH,
-                 [c for c in live if rels[c["id"]]],
+                ("restrictions", load_prompt("enrichment_restrictions"), BATCH,
+                 [c for c in live if any(self.pcands.get(self._rkey(c["id"], r)) for r in rels[c["id"]])],
                  lambda c: {"id": c["id"], "label": c["label"], "parent": label_of(c["parent"], by_id),
-                            "relations": rel_text(c)}),
+                            "relations": rel_rows(c)}),
                 ("disjointness", load_prompt("enrichment_disjoint"), BATCH, [c for c in live if sibs(c)],
                  lambda c: {"id": c["id"], "label": c["label"], "parent": label_of(c["parent"], by_id),
                             "siblings": sibs(c)}),
@@ -107,14 +111,14 @@ class EnrichmentAgent(Agent):
             for name, prompt, size, todo, row in passes:
                 log(f"enrichment {name}: {len(todo)} classes ({-(-len(todo) // size)} call(s))")
                 answers = self.call_rows([row(c) for c in todo], prompt, name, "classes", PASS_FIELD[name], size=size)
-                self._apply({"classes": answers}, by_id, pmenu_lc, rels)
+                self._apply({"classes": answers}, by_id, rels)
         else:
             n_batches = -(-len(live) // BATCH)
             log(f"definitions, synonyms, restrictions and disjointness for {len(live):,} classes ({n_batches} call(s))")
             rows = [{"id": c["id"], "label": c["label"], "parent": label_of(c["parent"], by_id),
                      "alt": c["alt_labels"][:8], "defs": [d["text"][:200] for d in c["definitions"][:2]],
-                     "evidence": quotes[c["id"]], "relations": rel_text(c), "siblings": sibs(c)} for c in live]
-            self._apply({"classes": self.call_rows(rows, system, "enrich", "classes", size=BATCH)}, by_id, pmenu_lc, rels)
+                     "evidence": quotes[c["id"]], "relations": rel_rows(c), "siblings": sibs(c)} for c in live]
+            self._apply({"classes": self.call_rows(rows, system, "enrich", "classes", size=BATCH)}, by_id, rels)
         for c in live:
             if c["definition_status"] in ("none", "unreviewed"):
                 c.setdefault("review_flags", []).append("unsupported_definition")
@@ -126,6 +130,7 @@ class EnrichmentAgent(Agent):
             c["disjoint_with"] = kept
         self.stats = {"restrictions_dropped": dict(self.dropped), "failed_calls": dict(self.failures),
                       "restrictions_from_predicate": self.from_predicate,
+                      "candidates": self.candidate_stats, "property_candidates": self.property_stats,
                       "definitions_by_status": dict(Counter(c["definition_status"] for c in live)),
                       "row_coverage": {k: dict(v) for k, v in self.row_stats.items()},
                       "unsupported_definitions": sum(c["definition_status"] in ("none", "unreviewed") for c in live),
@@ -134,40 +139,65 @@ class EnrichmentAgent(Agent):
         return classes, self._local_properties(live, by_id)
 
     @staticmethod
-    def _prop_line(label: str, iri: str) -> str:
-        m = upper.describe(iri)
-        dom = upper.describe(m["domain"]).get("label", "any") if m.get("domain") else "any"
-        rng = upper.describe(m["range"]).get("label", "any") if m.get("range") else "any"
-        return f"P:{label} (domain: {dom}; range: {rng}) - {m.get('definition', '')[:80]}"
+    def _prop_line(x: dict) -> str:
+        """A property candidate as shown to the model: P:<ONTOLOGY>:<label> (domain; range) - definition."""
+        dom = upper.describe(x["domain"]).get("label", "any") if x.get("domain") else "any"
+        rng = upper.describe(x["range"]).get("label", "any") if x.get("range") else "any"
+        return f"P:{x['ontology']}:{x['label']} (domain: {dom}; range: {rng}) - {x['definition'][:80]}"
 
     @staticmethod
-    def _portals() -> list[tuple]:
-        """(name, search function, ontology filter) for each portal in use."""
-        portals = [("MDS-Onto portal", mds_portal.search, MDS_ONTOLOGIES)]
-        if MATPORTAL["enabled"] and secret("MATPORTAL_API_KEY"):
-            portals.append(("MatPortal", matportal.search, MATPORTAL["ontologies"]))
-        return portals
+    def _rkey(cid: str, r: dict) -> tuple:
+        return cid, r["o"], r["p"]
+
+    def _property_candidates(self, by_id: dict, rels: dict):
+        """Object-property candidates per extracted relation from the store: the predicate phrase (exact and
+        trigram) and the embedding of phrase plus quote, kept only when the property's domain and range fit the two
+        classes."""
+        k = ONTOLOGY_SEARCH["properties_per_relation"]
+        todo = [(cid, r) for cid, edges in rels.items() for r in edges]
+        phrase = lambda r: r["p"].replace("_", " ")
+        texts = {self._rkey(cid, r): f"{phrase(r)}: {next((e['text'] for e in r.get('evidence', []) if e.get('text')), '')[:200]}"
+                 for cid, r in todo}
+        vectors = dict(zip(texts, retrieval.embed(list(texts.values()), self.ledger))) \
+            if ontostore.has_vectors() and texts else {}
+        self.pcands, unfit = {}, 0
+        for cid, r in todo:
+            o = by_id[r["o"]]
+            found = ontostore.search([phrase(r)], vectors.get(self._rkey(cid, r)), kinds=("object property",), k=k * 4)
+            fit = [{**x, **{f: upper.describe(x["iri"]).get(f) for f in ("domain", "range")}}
+                   for x in found if self._fits(x["iri"], by_id[cid], o, by_id)]
+            unfit += len(found) - len(fit)
+            self.pcands[self._rkey(cid, r)] = fit[:k]
+        n = len(todo) or 1
+        self.property_stats = {"relations": len(todo), "with_candidates": sum(1 for v in self.pcands.values() if v),
+                               "mean_candidates": round(sum(map(len, self.pcands.values())) / n, 2),
+                               "dropped_domain_range": unfit,
+                               "by_ontology": dict(Counter(x["ontology"] for v in self.pcands.values() for x in v))}
+        log(f"property candidates: {self.property_stats['with_candidates']}/{len(todo)} relations have a fitting "
+            f"store property ({unfit} dropped for domain/range)")
 
     def _candidates(self, live: list[dict]):
         """Mapping candidates per class:
-        1. portal searches with cleaned queries: an exact-label search, the full label, its general term, and the
-           spelled-out synonym when the label is an abbreviation (BFO/CCO hits dropped: those are matched locally);
-        2. local BFO/CCO classes with the same label, plus the nearest ones by embedding;
-        3. re-rank by embedding similarity to the class, keep label matches and anything above min_similarity."""
-        failed = set()
+        1. the ontology store, over every ontology in it: label, synonyms and lexical head (exact and trigram)
+           and the class's embedding (label + first source definition);
+        2. the MDS-Onto portal grounding search with cleaned queries (exact label, full label, general term,
+           spelled-out synonym of an abbreviation); hits join the pool flagged "MDS-Onto portal", with the store's
+           record when the term is in the store;
+        3. ranked label matches first, then fused score; then terms one and two mapping hops away from a
+           label-matched or strong candidate, with confidence decaying per hop and the path recorded."""
+        failed = []
 
-        def fetch(portal: str, search, onts, query: str, exact: bool) -> list[dict]:
-            folder = CACHE / ("mds" if portal == "MDS-Onto portal" else "matportal")
-            path = folder / (hashlib.sha256(f"{onts}|{exact}|{query}".encode()).hexdigest()[:20] + ".json")
+        def fetch(query: str, exact: bool) -> list[dict]:
+            path = CACHE / "mds" / (hashlib.sha256(f"{MDS_ONTOLOGIES}|{exact}|{query}".encode()).hexdigest()[:20] + ".json")
             if path.exists():
                 return json.loads(path.read_text(encoding="utf-8"))
             try:
-                res = search(query, ontologies=onts, max_results=CANDIDATES_PER_PORTAL, exact=exact)
+                res = mds_portal.search(query, ontologies=MDS_ONTOLOGIES, max_results=CANDIDATES_PER_PORTAL, exact=exact)
             except Exception as e:
-                if portal not in failed:
-                    failed.add(portal)
+                if not failed:
+                    failed.append(e)
                     err = re.sub(r"apikey=[^&\s]+", "apikey=***", str(e))
-                    log(f"  {portal}: a search failed ({type(e).__name__}: {err}); other searches continue")
+                    log(f"  MDS-Onto portal: a search failed ({type(e).__name__}: {err}); other searches continue")
                 return []
             if res:  # never cache failures
                 path.parent.mkdir(parents=True, exist_ok=True)
@@ -183,59 +213,73 @@ class EnrichmentAgent(Agent):
                 out += [(lexical.clean_query(a), False) for a in c["alt_labels"] if len(a) > 6][:1]
             return [(q, exact) for q, exact in dict.fromkeys(out) if q.strip()]  # a symbol-only label cleans to ""
 
-        jobs = [(c["id"], portal, search, onts, q, exact)
-                for c in live for portal, search, onts in self._portals() for q, exact in queries(c)]
+        jobs = [(c["id"], q, exact) for c in live for q, exact in queries(c)]
         with ThreadPoolExecutor(8) as ex:
-            results = list(ex.map(lambda j: fetch(j[1], j[2], j[3], j[4], j[5]), jobs))
-        found = {c["id"]: {} for c in live}
-        for (cid, portal, *_rest), res in zip(jobs, results):
-            for r in res:
-                if "commoncoreontologies.org" in r["ID"] or "/obo/BFO_" in r["ID"]:
-                    continue
-                found[cid].setdefault(r["ID"], {"iri": r["ID"], "label": r["Label"], "ontology": r["Ontology"],
-                                                 "definition": "" if r["Definition"] == "N/A" else r["Definition"],
-                                                 "portal": portal,
-                                                 "mds": {k: r[f"MDS_{v}"] for k, v in (("stage", "StudyStage"),
-                                                         ("domain", "Domain"), ("subdomain", "SubDomain"))
-                                                         if r.get(f"MDS_{v}") not in (None, "", "N/A")}})
-        by_label = {}
-        for iri, t in upper.terms()["classes"].items():
-            by_label.setdefault(lexical.match_key(t["label"]), iri)
+            results = list(ex.map(lambda j: fetch(j[1], j[2]), jobs))
 
-        def local(iri: str) -> dict:
-            t = upper.describe(iri)
-            return {"iri": iri, "label": t["label"], "ontology": t["source"].upper(),
-                    "definition": t.get("definition", ""), "portal": "local"}
+        def from_store(t: dict, source: str, **extra) -> dict:
+            return {"iri": t["iri"], "label": t["label"], "ontology": t["ontology"], "kind": t["kind"],
+                    "definition": t["definition"], "labels": [x if isinstance(x, str) else x["text"] for x in t["labels"]],
+                    "portal": source, **extra}
 
+        k = ONTOLOGY_SEARCH["candidates_per_class"]
         texts = {c["id"]: f"{c['label']}: {(c['definitions'][0]['text'] if c['definitions'] else '')[:200]}" for c in live}
-        near = {}
-        if retrieval.enabled():
-            ids = list(texts)
-            near = dict(zip(ids, retrieval.nearest_upper([texts[i] for i in ids], MAPPING["local_upper_top"],
-                                                          self.ledger)))
-        key_of = lambda x: f"{x['label']}: {x['definition'][:200]}"
+        vectors = dict(zip(texts, retrieval.embed(list(texts.values()), self.ledger))) \
+            if ontostore.has_vectors() and texts else {}
+        found = {c["id"]: {} for c in live}
         for c in live:
-            cands = found[c["id"]]
+            qs = [c["label"], *c["alt_labels"][:3], lexical.head_query(c["label"]) or ""]
+            for x in ontostore.search(qs, vectors.get(c["id"]), k=k * 2):
+                found[c["id"]][x["iri"]] = {**from_store(x, "store"), **{f: x[f] for f in ("score", "exact", "fuzzy", "cosine", "methods")}}
+        portal_hits = 0
+        lexical_texts = {c["id"]: [c["label"], *c["alt_labels"][:3]] for c in live}
+        for (cid, *_rest), res in zip(jobs, results):
+            for r in res:
+                mds = {k_: r[f"MDS_{v}"] for k_, v in (("stage", "StudyStage"), ("domain", "Domain"),
+                                                      ("subdomain", "SubDomain")) if r.get(f"MDS_{v}") not in (None, "", "N/A")}
+                if r["ID"] in found[cid]:
+                    found[cid][r["ID"]].update(mds=mds, portal="store+MDS-Onto portal")
+                    continue
+                t = ontostore.term(r["ID"])
+                portal_hits += 1
+                found[cid][r["ID"]] = {**from_store(t, "MDS-Onto portal", mds=mds),
+                                       **ontostore.score(t["iri"], lexical_texts[cid], vectors.get(cid))} if t else {
+                    "iri": r["ID"], "label": r["Label"], "ontology": r["Ontology"], "kind": "", "labels": [r["Label"]],
+                    "definition": "" if r["Definition"] == "N/A" else r["Definition"], "portal": "MDS-Onto portal",
+                    "mds": mds, "score": 0.0, "in_store": False}
+        decay, cap, strong = ONTOLOGY_SEARCH["hop_decay"], ONTOLOGY_SEARCH["propagated_per_class"], ONTOLOGY_SEARCH["min_cosine"]
+        for c in live:
             names = {lexical.match_key(n) for n in [c["label"], *c["alt_labels"]]}
-            for n in names:
-                if n in by_label:
-                    cands.setdefault(by_label[n], local(by_label[n]))
-            for iri, _ in near.get(c["id"], []):
-                cands.setdefault(iri, local(iri))
-            for x in cands.values():
-                x["label_match"] = lexical.match_key(x["label"]) in names
-        if retrieval.enabled():  # one batched embedding pass for every class and candidate
-            batch = list(dict.fromkeys([*texts.values(), *(key_of(x) for c in live for x in found[c["id"]].values())]))
-            log(f"embedding {len(batch):,} class and candidate texts for re-ranking ({EMBED['model']})")
-            retrieval.embed(batch, self.ledger)
-        for c in live:
             ranked = list(found[c["id"]].values())
-            if retrieval.enabled() and ranked:
-                for x in ranked:
-                    x["score"] = round(retrieval.similarity(texts[c["id"]], key_of(x)), 3)
-                ranked = [x for x in ranked if x["label_match"] or x["score"] >= MAPPING["min_similarity"]]
+            for x in ranked:
+                x["label_match"] = any(lexical.match_key(n) in names for n in x["labels"] or [x["label"]])
+            c["portal_only"] = [x for x in ranked if x.get("in_store") is False and x["label_match"]]  # facet hints
+            ranked = [x for x in ranked if x.get("in_store", True) and (x["label_match"]
+                      or x.get("score", 0) >= ONTOLOGY_SEARCH["min_score"])]
             ranked.sort(key=lambda x: (not x["label_match"], -x.get("score", 0)))
-            c["candidates"] = ranked[:MAPPING["candidates_total"]]
+            kept = ranked[:k]
+            have, extra = {x["iri"] for x in kept} | {c["iri"]}, []
+            for x in kept:
+                if not (x["label_match"] or x.get("score", 0) >= strong):
+                    continue
+                base_score = 1.0 if x["label_match"] else x["score"]
+                for hop in ontostore.propagate(x["iri"]):
+                    if hop["iri"] in have or len(extra) >= cap:
+                        continue
+                    have.add(hop["iri"])
+                    t = ontostore.term(hop["iri"])
+                    extra.append({**from_store(t, "propagated"), "score": round(base_score * decay ** hop["hop"], 3),
+                                  "hop": hop["hop"], "path": hop["path"], "via": hop["relations"],
+                                  "label_match": any(lexical.match_key(n["text"]) in names for n in t["labels"])})
+            c["candidates"] = kept + extra
+        per = [len(c["candidates"]) for c in live] or [0]
+        self.candidate_stats = {
+            "classes_with_candidates": sum(1 for c in live if c["candidates"]),
+            "mean_per_class": round(sum(per) / len(per), 2),
+            "by_source": dict(Counter(x["portal"] for c in live for x in c["candidates"])),
+            "by_ontology": dict(Counter(x["ontology"] for c in live for x in c["candidates"])),
+            "propagated_by_hop": dict(Counter(str(x["hop"]) for c in live for x in c["candidates"] if x.get("hop"))),
+            "portal_hits": portal_hits}
 
     @classmethod
     def _causal(cls, by_id: dict, causal: list[dict]):
@@ -244,7 +288,7 @@ class EnrichmentAgent(Agent):
             c, o = by_id.get(r["cause"]), by_id.get(r["effect"])
             if not c or not o:
                 continue
-            claim = {"o": o["id"], "kind": "causal", "polarity": r["polarity"], "support": r["support"],
+            claim = {"o": o["id"], "kind": "causal", "polarity": r["polarity"], "phrase": r["polarity"], "support": r["support"],
                      "papers": r["papers"], "evidence": r["evidence"], "conditions": r.get("conditions", [])}
             for p in ["local:" + polarity.get(r["polarity"], "influences"), *cls._standard_causal(c, o, r["polarity"], by_id)]:
                 if not any(x["p"] == p and x["o"] == o["id"] for x in c["restrictions"]):
@@ -269,7 +313,7 @@ class EnrichmentAgent(Agent):
         chosen.setdefault("RO", upper.property_iri(menus["causal_fallback"]))
         return list(chosen.values())
 
-    def _apply(self, out: dict, by_id: dict, pmenu_lc: dict, rels: dict, value_key: str | None = None):
+    def _apply(self, out: dict, by_id: dict, rels: dict, value_key: str | None = None):
         for r in items(out, "classes", value_key):
             c = by_id.get(key(r.get("id")))
             if not c:
@@ -292,18 +336,22 @@ class EnrichmentAgent(Agent):
                 given = {a.lower(): a for a in c["alt_labels"]}
                 c["alt_labels"] = [given[a.lower()] for a in r["alt_labels"] if isinstance(a, str) and a.lower() in given]
             for x in items(r, "restrictions"):
-                p = pmenu_lc.get(str(x.get("p", "")).removeprefix("P:").strip().lower())
+                answer = str(x.get("p", "")).split(" (")[0].removeprefix("P:").strip().lower()
                 for target in targets(x.get("o")) or [None]:
                     o = by_id.get(target)
                     src = next((e for e in rels[c["id"]] if o and e["o"] == o["id"]), None)
-                    if not p or not o or o["id"] == c["id"]:
+                    p = self._answer_property(c["id"], src, answer) if src else None
+                    if not o or o["id"] == c["id"]:
                         self.dropped["invalid"] += 1
                     elif not src:
                         self.dropped["ungrounded"] += 1
+                    elif not p:
+                        self.dropped["not_a_candidate"] += 1
                     elif not self._fits(p, c, o, by_id):
                         self.dropped["domain_range"] += 1
                     elif not any(e["p"] == p and e["o"] == o["id"] for e in c["restrictions"]):
-                        c["restrictions"].append({"p": p, "o": o["id"], "kind": "relation", "support": src["support"],
+                        c["restrictions"].append({"p": p, "o": o["id"], "kind": "relation", "source": "model",
+                                                  "phrase": src["p"], "support": src["support"],
                                                   "papers": src["papers"], "evidence": src["evidence"]})
             for d in targets(r.get("disjoint_with")):
                 o = by_id.get(d)
@@ -312,27 +360,47 @@ class EnrichmentAgent(Agent):
                     c["disjoint_with"].append(d)
 
     def _predicate_restrictions(self, by_id: dict, rels: dict):
-        """A relation whose extracted predicate an RO/BFO/CCO property formalizes, with verified evidence, becomes a
-        restriction with the first property of its group whose domain and range fit. Those relations leave rels;
-        the rest (related_to, unverified, or no fitting property) go to the model pass."""
+        """A relation with verified evidence becomes a restriction without a model call when the store settles the
+        property: one fitting candidate carries the predicate's name exactly, or the top candidates tie (within
+        tie_margin) and RELATION_GROUPS names one of them. Several exact names are also a tie for RELATION_GROUPS.
+        Those relations leave rels; the rest go to the model with their candidates."""
         self.from_predicate = 0
         for cid, edges in rels.items():
             c, rest = by_id[cid], []
             for r in edges:
-                o, group = by_id.get(r["o"]), upper.relation_group(r["p"])
-                fits = None
-                if o and group and any(e.get("verified") is True for e in r.get("evidence", [])):
-                    props, s_cat, o_cat = group
-                    if (not s_cat or s_cat in lineage(cid, by_id)) and (not o_cat or o_cat in lineage(o["id"], by_id)):
-                        fits = next((i for i in map(upper.property_iri, props) if i and self._fits(i, c, o, by_id)), None)
+                o = by_id.get(r["o"])
+                fits = self._store_choice(cid, r, by_id) if o and any(
+                    e.get("verified") is True for e in r.get("evidence", [])) else None
                 if not fits:
                     rest.append(r)
                     continue
                 if not any(e["p"] == fits and e["o"] == o["id"] for e in c["restrictions"]):
                     c["restrictions"].append({"p": fits, "o": o["id"], "kind": "relation", "source": "extracted_predicate",
-                                              "support": r["support"], "papers": r["papers"], "evidence": r["evidence"]})
+                                              "phrase": r["p"], "support": r["support"], "papers": r["papers"],
+                                              "evidence": r["evidence"]})
                     self.from_predicate += 1
             edges[:] = rest
+
+    def _store_choice(self, cid: str, r: dict, by_id: dict) -> str | None:
+        cands = self.pcands.get(self._rkey(cid, r)) or []
+        if not cands:
+            return None
+        group, preferred = upper.relation_group(r["p"]), []
+        if group:
+            props, s_cat, o_cat = group
+            if (not s_cat or s_cat in lineage(cid, by_id)) and (not o_cat or o_cat in lineage(r["o"], by_id)):
+                preferred = [i for i in map(upper.property_iri, props) if i]
+        exact = [x for x in cands if x["exact"]]
+        tied = exact or [x for x in cands if x["score"] >= cands[0]["score"] - ONTOLOGY_SEARCH["tie_margin"]]
+        pick = next((i for i in preferred if i in {x["iri"] for x in tied}), None)
+        return pick or (exact[0]["iri"] if exact else None)
+
+    def _answer_property(self, cid: str, rel: dict, answer: str) -> str | None:
+        """The IRI of the candidate the model named for this relation ("ONTOLOGY:label" or just the label)."""
+        for x in self.pcands.get(self._rkey(cid, rel), []):
+            if answer in (f"{x['ontology']}:{x['label']}".lower(), x["label"].lower()):
+                return x["iri"]
+        return None
 
     @staticmethod
     def _fits(p_iri: str, c: dict, o: dict, by_id: dict) -> bool:
