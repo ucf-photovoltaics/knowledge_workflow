@@ -58,10 +58,11 @@ class InteroperabilityAgent(Agent):
         log(f"{'mapping pass 2: relation for' if tier(self.name) == 'local' else 'aligning'} {len(todo)} classes "
             f"({n_batches} call(s))")
         for i in range(0, len(todo), BATCH):
-            out = self.call(compact([row(c) for c in todo[i:i + BATCH]]), item=f"align_{i // BATCH + 1}",
+            batch = {c["id"]: c for c in todo[i:i + BATCH]}
+            out = self.call(compact([row(c) for c in batch.values()]), item=f"align_{i // BATCH + 1}",
                             label=f"align {i // BATCH + 1}/{n_batches}", soft=True)
             for m in items(out, "mappings", "candidate"):
-                c = by_id.get(key(m.get("id")))
+                c = batch.get(key(m.get("id")))  # only accept classes actually shown in this call
                 if not c:
                     continue
                 rel = key(m.get("relation"))  # a list or dict here used to crash the stage (unhashable)
@@ -70,7 +71,7 @@ class InteroperabilityAgent(Agent):
                     n = int(m.get("candidate"))
                 except (TypeError, ValueError):
                     continue
-                if rel not in RELATIONS or n not in shown.get(c["id"], ()):  # ids the model invents or repeats
+                if rel not in RELATIONS or n not in shown[c["id"]]:
                     continue
                 if (c["id"], c["candidates"][n - 1]["iri"]) not in seen:
                     self._commit(c, c["candidates"][n - 1], rel, "model", by_id, mappings, seen)
