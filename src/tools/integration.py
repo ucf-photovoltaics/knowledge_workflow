@@ -1,8 +1,9 @@
 """Cross-domain integration: input run selection, the master ontology, its validation, report and eval row.
 
-The master ontology owl:imports every domain ontology unchanged and adds only mapping axioms between their classes
-(plus the declarations and labels of the mapped classes, copied from the domain graphs). master_merged.ttl is the
-union of the domain graphs and the master, for loading into one triple store."""
+The master ontology is named after the domains it joins (master_name: "tea_reliability_si-topcon"), in its IRI,
+title and file names. It owl:imports every domain ontology unchanged and adds only mapping axioms between their
+classes (plus the declarations and labels of the mapped classes, copied from the domain graphs).
+<name>_merged.ttl is the union of the domain graphs and the master, for loading into one triple store."""
 import json
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
@@ -89,16 +90,22 @@ def load_domain(s: dict) -> tuple[list[dict], rdflib.Graph, str]:
     return out, g, onto
 
 
+def master_name(domains: list[str]) -> str:
+    """The master ontology's name: its domains in input order, joined by "_" (domain names may contain "-")."""
+    return "_".join(domains)
+
+
 def build_master(selected: list[dict], graphs: dict, mappings: list[dict], integration_id: str) -> rdflib.Graph:
     kw = Namespace(owl.base())
     g = rdflib.Graph()
     for prefix, ns in (("kw", owl.base()), ("skos", SKOS), ("dcterms", DCTERMS), ("owl", OWL)):
         g.bind(prefix, ns)
-    onto = URIRef(f"{owl.base()}master")
+    domains = [s["domain"] for s in selected]
+    onto = URIRef(f"{owl.base()}{master_name(domains)}")
     g.add((onto, RDF.type, OWL.Ontology))
-    g.add((onto, OWL.versionIRI, URIRef(f"{owl.base()}master/version/{integration_id}")))
+    g.add((onto, OWL.versionIRI, URIRef(f"{onto}/version/{integration_id}")))
     g.add((onto, OWL.versionInfo, Literal(integration_id)))
-    g.add((onto, DCTERMS.title, Literal(f"{config.ONTOLOGY_TITLE}: cross-domain master", lang="en")))
+    g.add((onto, DCTERMS.title, Literal(f"{config.ONTOLOGY_TITLE}: {' + '.join(domains)}", lang="en")))
     g.add((onto, DCTERMS.created, Literal(datetime.now(timezone.utc).isoformat(timespec="seconds"), datatype=XSD.dateTime)))
     g.add((onto, DCTERMS.description, Literal(
         "Imports the domain ontologies of one run set unchanged and maps their classes to each other. Mappings are "
@@ -213,7 +220,8 @@ def report(path: Path, integration_id: str, selected: list[dict], domains: dict,
         mapped[m["b_domain"]].add(m["b_iri"])
         pair[(m["a_domain"], m["b_domain"])] += 1
     lines = [f"# Cross-domain integration report: {integration_id}", "",
-             "Mappings between the domain ontologies listed below. The master ontology imports them unchanged; only "
+             f"Mappings between the domain ontologies listed below. The master ontology `{master_name(names)}` imports them "
+             "unchanged; only "
              "`owl:equivalentClass` is a logical axiom, every other mapping is SKOS. Structural validation does not "
              "establish that a mapping is correct.", ""]
     if notes:

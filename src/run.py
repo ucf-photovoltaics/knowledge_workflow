@@ -12,7 +12,8 @@
   python -m src.run normalize --run-id ID      later stages continue an existing run
   (stages: extract, normalize, ontology, enrich, interop; collections are named in src/config.py)
   python -m src.run integrate [--runs ID ...] [--collections NAME ...] [--outputs DIR]
-      cross-domain stage after the domain runs: master ontology mapping their ontologies; outputs/integration-*/
+      cross-domain stage after the domain runs: master ontology named after its domains (tea_reliability_si-topcon.ttl)
+      mapping their ontologies; outputs/integration-*/
 """
 import argparse
 import csv
@@ -431,7 +432,8 @@ def integrate(args):
         log(n)
     if len(selected) < 2:
         raise SystemExit(f"integration needs completed runs for at least two domains in {outputs}; found {len(selected)}")
-    iid = args.run_id or f"integration-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+    name = integration.master_name([s["domain"] for s in selected])
+    iid = args.run_id or f"integration-{name}-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
     out = outputs / iid
     out.mkdir(parents=True, exist_ok=True)
     write = lambda name, obj: (out / name).write_text(
@@ -449,9 +451,9 @@ def integrate(args):
         text = owl.serialize(master)
         validation = integration.validate(master, text, graphs, result["mappings"])
         merged = integration.merge(master, graphs)
-        write("master.jsonld", text)
-        write("master.ttl", owl.serialize_turtle(master))
-        write("master_merged.ttl", owl.serialize_turtle(merged))
+        write(f"{name}.jsonld", text)
+        write(f"{name}.ttl", owl.serialize_turtle(master))
+        write(f"{name}_merged.ttl", owl.serialize_turtle(merged))
         write("candidates.json", integration.public_candidates(result["candidates"]))
         write("mappings.json", result["mappings"])
         write("bridge_concepts.json", result["clusters"])
@@ -469,6 +471,8 @@ def integrate(args):
                             "embedding_error": getattr(agent, "embedding_error", None)},
             "inputs": [{k: s[k] for k in ("run_id", "domain", "revision", "profile", "created")} | {"ontology_iri": graphs[s["domain"]]["iri"]}
                        for s in selected],
+            "ontology": {"name": name, "iri": f"{owl.base()}{name}",
+                         "files": [f"{name}.ttl", f"{name}.jsonld", f"{name}_merged.ttl"]},
             "notes": notes, "stats": result["stats"], "validation": {k: validation[k] for k in ("valid", "n_issues")},
             "compute": compute})
         reports.upsert_eval(outputs / "eval_integrations.csv", row)

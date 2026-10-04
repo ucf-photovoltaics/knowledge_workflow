@@ -24,7 +24,7 @@ One run per domain that completed `interop`. By default the newest such run per 
 
 ## Outputs
 
-`outputs/integration-<id>/`: `master.ttl`/`master.jsonld` (owl:imports of each domain ontology plus the mapping axioms, each with source, candidate kind, confidence, similarity and any downgrade), `master_merged.ttl` (domain graphs plus master), `mappings.json`, `candidates.json`, `bridge_concepts.json`, `validation.json`, `integration.json`, `integration_report.md`, `ledger.jsonl`, `calls.jsonl`. One row per integration in `outputs/eval_integrations.csv`.
+`outputs/integration-<id>/`: `<domains>.ttl`/`<domains>.jsonld`, named after the domains it joins in input order, e.g. `tea_reliability_si-topcon.ttl`, with ontology IRI `<ONTOLOGY_IRI>tea_reliability_si-topcon` and title `… : tea + reliability + si-topcon` (owl:imports of each domain ontology plus the mapping axioms, each with source, candidate kind, confidence, similarity and any downgrade), `<domains>_merged.ttl` (domain graphs plus master), `mappings.json`, `candidates.json`, `bridge_concepts.json`, `validation.json`, `integration.json`, `integration_report.md`, `ledger.jsonl`, `calls.jsonl`. One row per integration in `outputs/eval_integrations.csv`.
 
 ## Checks and limits
 
