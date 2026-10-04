@@ -1,7 +1,7 @@
 [project]
 name = "knowledge-workflow"
 version = "0.1.0"
-description = "Add your description here"
+description = "Draft BFO/CCO-aligned domain ontologies from photovoltaics literature, with an ontology store for external terms"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []
