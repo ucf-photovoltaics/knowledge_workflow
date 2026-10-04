@@ -1,0 +1,1 @@
+{"type": "object", "required": ["quotes"], "properties": {"quotes": {"type": "array", "items": {"type": "object", "required": ["id", "evidence"], "properties": {"id": {"type": "string"}, "evidence": {"type": "string"}}}}}}

@@ -9,13 +9,17 @@
    "items": {
     "type": "object",
     "required": [
-     "concept",
+     "property",
      "value"
     ],
     "properties": {
-     "concept": {
+     "property": {
       "type": "string",
-      "description": "concept id of the property or parameter"
+      "description": "concept id of the property, parameter or quantity"
+     },
+     "entity": {
+      "type": "string",
+      "description": "concept id of the thing measured on, if named"
      },
      "value": {
       "type": "string"
@@ -25,7 +29,7 @@
      },
      "condition": {
       "type": "string",
-      "description": "sample, device or condition it applies to"
+      "description": "stated context (temperature, illumination, sample state)"
      },
      "evidence": {
       "type": "string"

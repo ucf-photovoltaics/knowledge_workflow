@@ -1,0 +1,1 @@
+{"type": "object", "required": ["pairs"], "properties": {"pairs": {"type": "array", "items": {"type": "object", "required": ["id", "relation"], "properties": {"id": {"type": "string"}, "relation": {"enum": ["equivalent", "exact", "close", "broader", "narrower", "none"]}}}}}}

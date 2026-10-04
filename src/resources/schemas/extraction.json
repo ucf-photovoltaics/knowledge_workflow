@@ -11,7 +11,7 @@
       "figures": {"type": "array", "items": {"type": "string", "description": "F<n>"}}}}},
     "relations": {"type": "array", "items": {"type": "object", "required": ["s", "p", "o"], "properties": {
       "s": {"type": "string"},
-      "p": {"enum": ["is_a", "part_of", "has_part", "made_of", "has_property", "measured_by", "input_of", "output_of", "precedes", "participates_in", "located_in", "used_for", "related_to"]},
+      "p": {"enum": ["is_a", "part_of", "has_part", "composed_primarily_of", "derived_from", "transformation_of", "has_quality", "has_disposition", "has_function", "has_role", "capable_of", "has_input", "has_output", "input_of", "output_of", "participates_in", "has_participant", "located_in", "occurs_in", "adjacent_to", "connected_to", "precedes", "measured_by", "measures", "is_about", "regulates", "realizes", "correlated_with", "related_to"]},
       "o": {"type": "string"},
       "evidence": {"type": "string"}}}},
     "causal": {"type": "array", "items": {"type": "object", "required": ["cause", "effect", "polarity"], "properties": {
@@ -20,11 +20,12 @@
       "polarity": {"enum": ["increases", "decreases", "causes", "enables", "prevents", "affects"]},
       "condition": {"type": "string"},
       "evidence": {"type": "string"}}}},
-    "measurements": {"type": "array", "items": {"type": "object", "required": ["concept", "value"], "properties": {
-      "concept": {"type": "string", "description": "concept id of the property or parameter"},
+    "measurements": {"type": "array", "items": {"type": "object", "required": ["property", "value"], "properties": {
+      "property": {"type": "string", "description": "concept id of the property, parameter or quantity"},
+      "entity": {"type": "string", "description": "concept id of the thing measured on, if named"},
       "value": {"type": "string"},
       "unit": {"type": "string"},
-      "condition": {"type": "string", "description": "sample, device or condition it applies to"},
+      "condition": {"type": "string", "description": "stated context (temperature, illumination, sample state)"},
       "evidence": {"type": "string"}}}},
     "figures": {"type": "array", "items": {"type": "object", "required": ["id", "concepts"], "properties": {
       "id": {"type": "string"},

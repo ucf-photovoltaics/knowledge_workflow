@@ -1,60 +1,82 @@
 # Knowledge Workflow
 
-This repository now contains the implementation migrated from `opus_knowledge_workflow`. The former `kw/` and Kweave implementations are deprecated; their committed history remains available in Git. New development and runs use this checkout.
+Builds draft domain ontologies from curated photovoltaics literature and connects them. For each Zotero collection the pipeline extracts concepts and claims from every paper with verbatim evidence, joins them into a corpus vocabulary, places them under BFO/CCO, enriches and maps them, and exports an OWL ontology plus a literature layer that keeps every claim with its source. A final stage maps the domain ontologies of one run set to each other in a master ontology. The output is a starting point for domain-expert review, not a finished ontology.
 
-The pipeline selects literature from Zotero, extracts concepts and claims, normalizes them, builds and enriches a domain ontology, and exports OWL JSON-LD/Turtle plus an evidence-preserving literature layer. Run reports and the cross-run eval dataset remain local under `outputs/`.
-
-## Workflow
-
-The five CLI stages are `extract`, `normalize`, `ontology`, `enrich`, and `interop`. Ingestion and parsing happen inside extraction; export and structural validation happen inside interoperability. The model labels below apply when using the `gemini` or `gemini-lite` hybrid profile.
+## Pipeline
 
 ```mermaid
 flowchart TD
-    A["1. Ingest: select Zotero papers and obtain PDFs"]
-    B["2. Parse: clean text and collect figure context"]
-    C["3. Extract: concepts, relations, causal claims, measurements — local model"]
-    D["4. Normalize: canonical concepts and reviewed semantic merges — Gemini"]
-    E["5. Ontology: evidence-backed hierarchy and domain-scoped IRIs — Gemini"]
-    F["6. Enrich: definitions, synonyms, and relationship properties — Gemini"]
-    G["7. Interoperate: external mappings and study/domain facets — local model"]
-    H["8. Export and validate: OWL and literature layer — deterministic code"]
-    I["9. Report: ontology summary and cross-run evaluation dataset"]
-    A --> B --> C --> D --> E --> F --> G --> H --> I
+    A["1. extract: select papers, parse PDFs, extract concepts, relations, causal claims, values with quotes"]
+    B["2. normalize: corpus vocabulary, reviewed merges, contradictions, importance"]
+    C["3. ontology: BFO/CCO placement, paper is-a priority, domain-scoped IRIs"]
+    D["4. enrich: definitions with status, restrictions, disjointness, mapping candidates"]
+    E["5. interop: mappings, MDS facets, OWL + literature layer export, structural validation"]
+    F["6. integrate (after all domains): cross-domain mappings in a master ontology"]
+    A --> B --> C --> D --> E --> F
 ```
 
-1. **Ingest:** Read the selected Zotero collection, rank papers by citation count, choose papers with accessible PDFs, and cache their metadata and files.
-2. **Parse:** Extract PDF text, remove references and repeated headers, split text into processing sections, and collect figure captions and citing sentences. This step uses code rather than a model.
-3. **Extract (`extract`):** Identify concepts, non-causal relations, causal claims, measured values, units, conditions, and figure links. Keep source quotes, check quote overlap against the paper, and cache completed paper extractions.
-4. **Normalize (`normalize`):** Group matching normalized labels, use local embeddings to nominate similar concepts, and ask Gemini to review semantic merges. Aggregate evidence and relations, flag opposite causal polarities, settle type conflicts, and rank concepts by importance.
-5. **Ontology (`ontology`):** Select corpus or BFO/CCO parents using definitions and relationship context. Prioritize verified `is_a` edges when categories agree and cycles are avoided; flag unresolved placements and conflicts. Assign domain-scoped class IRIs with deterministic identity hashes.
-6. **Enrich (`enrich`):** Write evidence-supported definitions, filter synonym candidates, select properties for universal non-causal restrictions, and propose disjoint siblings. Add causal restrictions with provenance, retrieve external mapping candidates, and save review issues and cross-domain correspondence candidates. Conditional literature claims remain available in the separate literature layer.
-7. **Interoperate (`interop`):** Review external term candidates, choose mappings, and assign study-stage and domain facets. Same-label cross-domain candidates are review suggestions and do not automatically assert equivalence.
-8. **Export and validate:** Assemble and serialize the BFO/CCO-aligned OWL ontology as Turtle and JSON-LD. Also export the literature layer containing concepts, claims, conditions, evidence, and reported values. Structural checks cover declarations, hierarchy cycles, BFO connectivity, and JSON-LD round-trip counts; they do not establish semantic accuracy or reasoner consistency.
-9. **Report:** Record per-call and per-paper compute, corpus and ontology summaries, provenance, review flags, and cross-run metrics in `outputs/eval_runs.csv`. Reporting updates throughout the run; the final stage completes the ontology report. New runs carry the workflow revision, and the first run of a revision adds a separate change-event row.
+| Stage | Command | Agent | Main outputs | Details |
+|---|---|---|---|---|
+| Extract | `extract` | extraction | `papers/*.json` | [docs/stages/1-extract.md](docs/stages/1-extract.md) |
+| Normalize | `normalize` | normalization | `normalized/`, `corpus_report.md` | [docs/stages/2-normalize.md](docs/stages/2-normalize.md) |
+| Ontology | `ontology` | ontology | `ontology/classes.json` | [docs/stages/3-ontology.md](docs/stages/3-ontology.md) |
+| Enrich | `enrich` | enrichment | `ontology/enriched.json` | [docs/stages/4-enrich.md](docs/stages/4-enrich.md) |
+| Interop | `interop` | interoperability | `ontology.ttl`, `domain_layer.ttl`, `ontology_report.md` | [docs/stages/5-interop.md](docs/stages/5-interop.md) |
+| Integrate | `integrate` | integration | `integration-*/master.ttl`, `integration_report.md` | [docs/stages/6-integrate.md](docs/stages/6-integrate.md) |
+| Reporting | (every stage) | | `run.json`, `eval_runs.csv`, `eval_integrations.csv` | [docs/stages/7-reporting.md](docs/stages/7-reporting.md) |
 
-## Setup and run
+The stage order is fixed in ordinary Python (`src/run.py`); no model decides what runs next. Each agent has its own prompt and JSON schema (`src/resources/prompts`, `src/resources/schemas`) and writes its artifact before the next stage reads it.
+
+## Setup
 
 ```powershell
 uv venv
 uv pip install --python .venv\Scripts\python.exe -r requirements.txt
-Copy-Item .env.example .env
+Copy-Item .env.example .env   # then add your Zotero, MDS-Onto, MatPortal and model keys
 ```
 
-Edit `.env` locally with the credentials required by your providers and Zotero. Skip the copy if `.env` already exists. Credentials, runtime environments, caches, PDFs, and generated results are excluded from Git.
+Keep Ollama running with the configured local model (`kw-qwen3.5-9b-32k`) and embedding model (`nomic-embed-text`). Credentials, environments, caches, PDFs and results are excluded from Git.
 
-For Gemini hybrid routing, keep Ollama running with the configured local model and embedding model:
+## Running
 
 ```powershell
-$env:LLM_PROFILE = "gemini"  # or gemini-lite
-.\.venv\Scripts\python.exe -m src.run all --collection si-topcon --limit 1
+# one domain, all stages
+uv run --with-requirements requirements.txt python -m src.run all --collection tea --limit 5
+
+# three domains, then the cross-domain stage
+$cols = "tea","reliability","si-topcon"
+foreach ($c in $cols) {
+    uv run --with-requirements requirements.txt python -m src.run all --collection $c --limit 5
+    if ($LASTEXITCODE -ne 0) { break }
+}
+if ($LASTEXITCODE -eq 0) { uv run --with-requirements requirements.txt python -m src.run integrate --collections @cols }
+
+# resume a run (skips completed stages); preflight checks
+uv run --with-requirements requirements.txt python -m src.run all --run-id tea-YYYYMMDD-HHMMSS
+uv run --with-requirements requirements.txt python -m src.run check --collection tea
 ```
 
-Extraction and interoperability run locally. Normalization, ontology, and enrichment use Gemini with persistent quota accounting. See [Gemini setup](GEMINI.md), [hybrid routing](GEMINI_HYBRID.md), and [ontology revision](ONTOLOGY_REVISION.md).
+**Model profiles** (`LLM_PROFILE`, `src/config.py`): `ollama` (default, local tier), `ollama-lora`, `gemini`, `gemini-lite`, `deepseek`, `groq`, `anthropic`. Local-tier profiles split each stage into narrow single-task calls; frontier profiles use one combined call per batch. With `gemini` or `gemini-lite`, extraction and interop stay on Ollama and normalization, ontology and enrichment use Gemini with quota pacing ([GEMINI.md](GEMINI.md), [GEMINI_HYBRID.md](GEMINI_HYBRID.md)). Sampling temperature is left at each provider's default.
 
-Start a new run without `--run-id` to use the latest workflow revision and preserve older results. Its first run adds a workflow-change event to the local eval dataset. Structural validation is included; semantic correctness and reasoner validation are not established by that check.
+## Error checking and validity
 
-## Migration
+What the pipeline checks, and what it does not establish:
 
-The migration preserves the existing GitHub repository and history. `legacy/pre-opus-20261003` records the pre-migration commit. The original checkout's files, uncommitted changes, credentials, environment, and outputs were preserved locally at `C:\Users\brent\dev\knowledge_workflow_legacy_20261003`. The Opus folder remains untouched as the source copy.
+- **Evidence.** Every relation, causal claim and measurement carries a quote of at most 20 words. Quotes are checked against the parsed paper (80% of word 3-grams, normalised) and marked `verified`, `unverified` or, after one re-ask, `unevidenced`. A found quote shows the text exists, not that it supports the claim. Unevidenced items never become axioms.
+- **Model output.** Every call must return JSON for a fixed schema; one retry, then the pass is skipped and counted. Answers wrapped in a copy of the schema are unwrapped. Rows the model leaves out are sent once more, and coverage is reported per pass, because missing rows otherwise become silent defaults.
+- **Deterministic guards.** Unknown ids never become concepts; free-text types map onto a fixed enum; measurements separate property and entity; placement checks categories, cycles, paper is-a evidence and lexical heads; restrictions must trace to an extracted relation and fit the property's domain and range; mappings claiming identity need matching names; cross-domain equivalence never joins two classes of one domain.
+- **Structural validation** of each ontology and of the master ontology (declarations, round trip, cycles, BFO connectivity). It shows the files are well formed, not that their content is correct. No reasoner is run.
+- **Provenance and comparability.** Each run records profile, model and tier per agent, corpus hash, workflow revision and per-call compute. Runs are comparable within one revision and profile; model calls are not deterministic, so the same input can give different output.
+- **Not established by any of this:** extraction completeness, correctness of definitions, parents and mappings, and agreement with experts. Those need the evaluation protocol (expert review, model-based judging calibrated on a hand-annotated subset).
 
-Existing Opus outputs and quota state were copied into this checkout locally. Legacy outputs remain in the separate backup. No tests or live model requests were run during migration. A hardcoded demo-key fallback was removed before publication; callers must supply their configured MDS API key.
+## Configuration
+
+`src/config.py` holds everything except keys: profiles and routing (`PROFILES`, `AGENT_PROFILES`, `PIPELINE_TIER`, `AGENT_MODELS`), embeddings (`EMBED`), collections (`COLLECTIONS`, `TOP_N_BY_CITATIONS`), portals (`MDS_ONTOLOGIES`, `MATPORTAL`), mapping thresholds (`MAPPING`), integration (`INTEGRATION`), definition policy (`MODEL_DEFINITION_PROFILES`), LoRA data (`LORA`), output IRIs and `WORKFLOW_REVISION`. See [ONTOLOGY_REVISION.md](ONTOLOGY_REVISION.md) for what each revision changed.
+
+## Optional: local model adapter
+
+`python -m src.run lora-data` builds LoRA training data from BFO, CCO and QUDT with the pipeline's own prompts; `src/resources/lora/` has local (WSL2) and Colab training; `python -m src.run lora-eval --model NAME` scores base against adapter. The four evaluation collections are never used as training data.
+
+## History
+
+This repository replaced the earlier `kw/` and Kweave implementations on 2026-10-03; their code remains in Git history (branch `legacy/pre-opus-20261003`).

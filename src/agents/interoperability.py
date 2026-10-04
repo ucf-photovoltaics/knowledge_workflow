@@ -38,18 +38,15 @@ class InteroperabilityAgent(Agent):
         if tier(self.name) == "local":  # pass 1: keep only candidates about the same (or a broader) thing
             n_batches = -(-len(todo) // BATCH)
             log(f"mapping pass 1: screening candidates for {len(todo)} classes ({n_batches} call(s))")
-            system = load_prompt("interoperability_filter")
-            for i in range(0, len(todo), BATCH):
-                out = self.call(compact([row(c) for c in todo[i:i + BATCH]]), item=f"filter_{i // BATCH + 1}",
-                                system=system, label=f"filter {i // BATCH + 1}/{n_batches}", soft=True)
-                answered = {key(k.get("id")): k.get("candidates") for k in items(out, "keep", "candidates")}
-                for c in todo[i:i + BATCH]:
-                    if c["id"] not in answered:
-                        continue  # no answer for this class: show all candidates to pass 2
-                    keep = {int(n) for n in (answered[c["id"]] or []) if str(n).isdigit()}
-                    keep |= {n for n, x in enumerate(c["candidates"], 1) if x.get("label_match")}  # never screened out
-                    self.stats["candidates_screened_out"] += len(shown[c["id"]] - keep)
-                    shown[c["id"]] &= keep
+            answered = {key(k.get("id")): k.get("candidates") for k in self.call_rows(
+                [row(c) for c in todo], load_prompt("interoperability_filter"), "filter", "keep", "candidates", size=BATCH)}
+            for c in todo:
+                if c["id"] not in answered:
+                    continue  # no answer for this class: show all candidates to pass 2
+                keep = {int(n) for n in (targets(answered[c["id"]]) or []) if str(n).isdigit()}
+                keep |= {n for n, x in enumerate(c["candidates"], 1) if x.get("label_match")}  # never screened out
+                self.stats["candidates_screened_out"] += len(shown[c["id"]] - keep)
+                shown[c["id"]] &= keep
             todo = [c for c in todo if shown[c["id"]]]
         n_batches = -(-len(todo) // BATCH)
         log(f"{'mapping pass 2: relation for' if tier(self.name) == 'local' else 'aligning'} {len(todo)} classes "
@@ -127,12 +124,9 @@ class InteroperabilityAgent(Agent):
             f"({n_batches * len(prompts)} call(s))")
         answers = defaultdict(dict)
         for name, prompt in prompts:
-            for i in range(0, len(rows), FACET_BATCH):
-                out = self.call(compact(rows[i:i + FACET_BATCH]), item=f"{name}_{i // FACET_BATCH + 1}", system=prompt,
-                                label=f"{name} {i // FACET_BATCH + 1}/{n_batches}", soft=True)
-                for t in items(out, "tags", {"stage": "study_stage", "domain": "domain"}.get(name)):
-                    if key(t.get("id")):
-                        answers[key(t.get("id"))].update({k: v for k, v in t.items() if k != "id"})
+            for t in self.call_rows(rows, prompt, name, "tags", {"stage": "study_stage", "domain": "domain"}.get(name),
+                                    size=FACET_BATCH):
+                answers[key(t.get("id"))].update({k: v for k, v in t.items() if k != "id"})
         tags = {}
         for tid, t in answers.items():
             chosen = [stages[x.lower()] for x in targets(t.get("study_stage")) if x.lower() in stages][:2]
@@ -169,5 +163,6 @@ class InteroperabilityAgent(Agent):
         validation = owl.validate(graph, text)
         log("valid" if validation["valid"] else f"{validation['n_issues']} structural issue(s); see ontology/validation.json")
         self.stats.update({f"failed_{k}": v for k, v in self.failures.items()})
+        self.stats["row_coverage"] = {k: dict(v) for k, v in self.row_stats.items()}
         return {"mappings": mappings, "facets": facets, "checks": dict(self.stats), "jsonld": text, "turtle": turtle, "validation": validation,
                 "metrics": owl.metrics(graph, classes, mappings, properties)}

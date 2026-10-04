@@ -6,7 +6,7 @@ import math
 import re
 from collections import Counter, defaultdict
 
-from src.agents.base import Agent, compact, items, load_prompt
+from src.agents.base import Agent, compact, items, key, load_prompt
 from src.config import EMBED
 from src.tools import llm, upper
 from src.tools.progress import log
@@ -69,7 +69,8 @@ class NormalizationAgent(Agent):
         self._settle_types(concepts)
         relations = _aggregate(papers, cmap, "relations", ("s", "p", "o"), ("s", "o"))
         causal = _aggregate(papers, cmap, "causal", ("cause", "effect", "polarity"), ("cause", "effect"))
-        measurements = [{**m, "concept": cmap[(p["key"], m["concept"])], "paper": p["key"]}
+        measurements = [{**m, "concept": cmap[(p["key"], m["concept"])], "paper": p["key"],
+                         "entity": cmap.get((p["key"], m.get("entity")), "")}
                         for p in papers for m in p.get("measurements", []) if (p["key"], m["concept"]) in cmap]
         log(f"joined edges: {len(relations):,} distinct relations, {len(causal):,} distinct causal edges, "
             f"{len(measurements):,} reported values")
@@ -204,17 +205,15 @@ class NormalizationAgent(Agent):
             return
         log(f"settling types for {len(mixed)} concepts typed differently across papers")
         by_id, settled = {c["id"]: c for c in mixed}, 0
-        system = load_prompt("normalization_types")
-        for i in range(0, len(mixed), 25):
-            rows = [{"id": c["id"], "label": c["label"], "types": sorted(c["type_votes"], key=lambda t: -c["type_votes"][t]),
-                     "def": (c["definitions"][0]["text"] if c["definitions"] else "")[:140]} for c in mixed[i:i + 25]]
-            out = self.call(compact(rows), item="type_conflicts", system=system,
-                            label=f"types {i // 25 + 1}/{-(-len(mixed) // 25)}", soft=True)
-            for t in items(out, "types", "type"):
-                c = by_id.get(t.get("id")) if isinstance(t.get("id"), str) else None
-                if c and t.get("type") in c["type_votes"]:  # only one of the types the papers actually used
-                    c["type"], settled = t["type"], settled + 1
+        rows = [{"id": c["id"], "label": c["label"], "types": sorted(c["type_votes"], key=lambda t: -c["type_votes"][t]),
+                 "def": (c["definitions"][0]["text"] if c["definitions"] else "")[:140]} for c in mixed]
+        for t in self.call_rows(rows, load_prompt("normalization_types"), "type_conflicts", "types", "type",
+                                label="types"):
+            c = by_id.get(key(t.get("id")))
+            if c and t.get("type") in c["type_votes"]:  # only one of the types the papers actually used
+                c["type"], settled = t["type"], settled + 1
         self.stats["types_settled_by_model"] = settled
+        self.stats["row_coverage"] = {k: dict(v) for k, v in self.row_stats.items()}
 
     def _summarize(self, concepts: list[dict], causal: list[dict], order: dict, n_papers: int) -> dict:
         label = {c["id"]: c["label"] for c in concepts}
@@ -264,7 +263,8 @@ def _aggregate(papers, cmap, field, keys, ends) -> list[dict]:
             if r.get("condition"):
                 e["conditions"].add(r["condition"])
             if r.get("evidence") and len(e["evidence"]) < 2:
-                e["evidence"].append({"paper": p["key"], "text": r["evidence"], "verified": r.get("verified")})
+                e["evidence"].append({"paper": p["key"], "text": r["evidence"], "verified": r.get("verified"),
+                                      "status": r.get("evidence_status")})
     out = []
     for e in agg.values():
         e["papers"], e["support"] = sorted(e["papers"]), len(e["papers"])

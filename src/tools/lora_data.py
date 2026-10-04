@@ -278,39 +278,7 @@ def enrich_examples(terms: dict, rng: random.Random, repeat: int) -> list[dict]:
     return out
 
 
-BFO = "http://purl.obolibrary.org/obo/BFO_"
-CONTINUANT, OCCURRENT, IC, SDC = BFO + "0000002", BFO + "0000003", BFO + "0000004", BFO + "0000020"
-MATERIAL, PROCESS = BFO + "0000040", BFO + "0000015"
-# Paper-style relation phrases -> menu properties that formalize them, most specific first, and the subject/object
-# categories the relation needs where the properties leave domain or range open. Gold = first property that fits.
-RELATION_GROUPS = [
-    (["part_of", "is_part_of", "component_of", "belongs_to"], ["BFO:continuant part of", "BFO:occurrent part of"], None, None),
-    (["has_part", "contains", "consists_of", "includes"], ["BFO:has continuant part", "BFO:has occurrent part"], None, None),
-    (["has_property", "has_quality", "characterized_by", "exhibits"], ["RO:has quality", "RO:has characteristic"], IC, None),
-    (["has_disposition", "susceptible_to", "prone_to"], ["RO:has disposition"], None, None),
-    (["has_function", "functions_as", "serves_to"], ["RO:has function"], None, None),
-    (["has_role", "acts_as", "plays_role_of"], ["RO:has role"], None, None),
-    (["capable_of", "can_perform"], ["RO:capable of"], None, None),
-    (["has_input", "consumes", "takes_as_input"], ["CCO:has input", "RO:has input"], None, CONTINUANT),
-    (["has_output", "produces", "yields", "generates"], ["CCO:has output", "RO:has output"], PROCESS, CONTINUANT),
-    (["input_of", "used_in", "consumed_by"], ["CCO:is input of", "RO:input of"], CONTINUANT, PROCESS),
-    (["output_of", "produced_by", "result_of"], ["CCO:is output of", "RO:output of"], CONTINUANT, PROCESS),
-    (["participates_in", "involved_in", "takes_part_in"], ["RO:participates in", "BFO:participates in"], None, None),
-    (["has_participant", "involves"], ["RO:has participant", "BFO:has participant"], None, None),
-    (["located_in", "found_in", "positioned_in"], ["RO:located in"], None, None),
-    (["adjacent_to", "next_to", "in_contact_with"], ["RO:adjacent to"], None, None),
-    (["connected_to", "attached_to", "bonded_to"], ["RO:connected to"], IC, IC),
-    (["composed_primarily_of", "mainly_made_of"], ["RO:composed primarily of"], None, None),
-    (["derived_from", "made_from", "obtained_from"], ["RO:derives from"], MATERIAL, MATERIAL),
-    (["transformation_of", "converted_from"], ["RO:transformation of"], MATERIAL, MATERIAL),
-    (["measured_by", "quantified_by"], ["CCO:is measured by"], None, None),
-    (["measures", "is_measurement_of"], ["CCO:is a measurement of"], None, None),
-    (["describes", "is_about", "reports_on"], ["CCO:is about"], None, None),
-    (["precedes", "followed_by", "comes_before"], ["BFO:precedes"], None, None),
-    (["occurs_in", "takes_place_in"], ["BFO:occurs in"], OCCURRENT, IC),
-    (["regulates", "controls", "tunes"], ["RO:regulates characteristic"], None, SDC),
-    (["realizes", "manifests"], ["BFO:realizes"], None, None),
-]
+from src.tools.upper import CONTINUANT, IC, MATERIAL, OCCURRENT, PROCESS, RELATION_GROUPS, SDC  # noqa: F401
 
 
 def restrict_examples(rng: random.Random) -> list[dict]:

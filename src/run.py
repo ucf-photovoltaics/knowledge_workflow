@@ -10,6 +10,8 @@
   python -m src.run extract --collection NAME [--limit N]
   python -m src.run normalize --run-id ID      later stages continue an existing run
   (stages: extract, normalize, ontology, enrich, interop; collections are named in src/config.py)
+  python -m src.run integrate [--runs ID ...] [--collections NAME ...] [--outputs DIR]
+      cross-domain stage after the domain runs: master ontology mapping their ontologies; outputs/integration-*/
 """
 import argparse
 import csv
@@ -26,12 +28,13 @@ from pathlib import Path
 from src.agents.base import parse_json
 from src.agents.enrichment import EnrichmentAgent
 from src.agents.extraction import ExtractionAgent
+from src.agents.integration import IntegrationAgent
 from src.agents.interoperability import InteroperabilityAgent
 from src.agents.normalization import NormalizationAgent
 from src.agents.ontology import OntologyAgent
 from src import config
 from src.config import CACHE, OUTPUTS, ROOT, model_for
-from src.tools import bottomup, citations, llm, matportal, mds_portal, owl, pdf_parse, reports, zotero, ontology_review
+from src.tools import bottomup, citations, integration, llm, matportal, mds_portal, owl, pdf_parse, reports, zotero, ontology_review
 from src.tools.ledger import Ledger
 from src.tools.progress import log, set_stage
 
@@ -81,7 +84,7 @@ class Run:
             "run_id": run_id, "created": _now(), "git_commit": _git(), "config": _config(),
             "collection": {"name": collection, **config.COLLECTIONS[collection]}, "stages": {}}
         if not path.exists():
-            reports.revision_event(OUTPUTS / "eval_runs.csv", config.WORKFLOW_REVISION, _now())
+            reports.revision_event(OUTPUTS / "eval_runs.csv", config.WORKFLOW_REVISION, _now(), config.WORKFLOW_REVISION_NOTE)
 
     def read(self, name: str):
         return json.loads((self.dir / name).read_text(encoding="utf-8"))
@@ -243,7 +246,7 @@ def enrich(run: Run, args) -> dict:
         OUTPUTS, run.id, run.manifest["collection"]["name"], classes))
     log("wrote ontology/enriched.json and ontology/properties.json")
     live = [c for c in classes if not c["excluded"]]
-    return {"definitions_llm": sum(1 for c in live if c["definition_source"] == "llm"),
+    return {"definitions_llm": sum(1 for c in live if c["definition"]),
             "restrictions": sum(len(c["restrictions"]) for c in live),
             "disjoint_pairs": sum(len(c["disjoint_with"]) for c in live),
             "classes_with_candidates": sum(1 for c in live if c.get("candidates")), **agent.stats}
@@ -385,12 +388,69 @@ def portal(args):
             print(f"{acronym:<20} {name}")
 
 
+def integrate(args):
+    """Cross-domain stage: map the domain ontologies of completed runs to each other in one master ontology.
+    Reads the domain runs; never rewrites them."""
+    outputs = Path(args.outputs).resolve() if args.outputs else OUTPUTS
+    selected, notes = integration.select_runs(outputs, args.collections, args.runs)
+    for n in notes:
+        log(n)
+    if len(selected) < 2:
+        raise SystemExit(f"integration needs completed runs for at least two domains in {outputs}; found {len(selected)}")
+    iid = args.run_id or f"integration-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+    out = outputs / iid
+    out.mkdir(parents=True, exist_ok=True)
+    write = lambda name, obj: (out / name).write_text(
+        obj if isinstance(obj, str) else json.dumps(obj, indent=1, ensure_ascii=False, default=str), encoding="utf-8")
+    t0 = time.perf_counter()
+    try:
+        domains, graphs = {}, {}
+        for s in selected:
+            domains[s["domain"]], g, iri = integration.load_domain(s)
+            graphs[s["domain"]] = {"graph": g, "iri": iri}
+            log(f"{s['domain']}: {s['run_id']} ({len(domains[s['domain']])} classes, revision {s['revision'] or 'none'})")
+        agent = IntegrationAgent(Ledger(out / "ledger.jsonl"))
+        result = agent.run(domains)
+        master = integration.build_master(selected, graphs, result["mappings"], iid)
+        text = owl.serialize(master)
+        validation = integration.validate(master, text, graphs, result["mappings"])
+        merged = integration.merge(master, graphs)
+        write("master.jsonld", text)
+        write("master.ttl", owl.serialize_turtle(master))
+        write("master_merged.ttl", owl.serialize_turtle(merged))
+        write("candidates.json", integration.public_candidates(result["candidates"]))
+        write("mappings.json", result["mappings"])
+        write("bridge_concepts.json", result["clusters"])
+        write("validation.json", validation)
+        by_agent = agent.ledger.summary("agent")
+        compute = {k: round(sum(s.get(k, 0) or 0 for s in by_agent.values()), 6)
+                   for k in ("calls", "input_tokens", "cached_tokens", "output_tokens", "latency_s")}
+        compute["wall_s"] = round(time.perf_counter() - t0, 2)
+        row = integration.report(out / "integration_report.md", iid, selected, domains, result, validation, compute,
+                                 notes, len(merged))
+        write("integration.json", {
+            "integration_id": iid, "created": _now(), "git_commit": _git(), "config": _config(),
+            "integration": {**config.INTEGRATION, "llm_profile": config.AGENT_PROFILES.get("integration", config.LLM_PROFILE),
+                            "model": model_for("integration"), "tier": config.tier("integration"),
+                            "embedding_error": getattr(agent, "embedding_error", None)},
+            "inputs": [{k: s[k] for k in ("run_id", "domain", "revision", "profile", "created")} | {"ontology_iri": graphs[s["domain"]]["iri"]}
+                       for s in selected],
+            "notes": notes, "stats": result["stats"], "validation": {k: validation[k] for k in ("valid", "n_issues")},
+            "compute": compute})
+        reports.upsert_eval(outputs / "eval_integrations.csv", row)
+    except BaseException:
+        (out / "error.log").write_text(traceback.format_exc(), encoding="utf-8")
+        raise
+    log(f"finished; {len(result['mappings'])} mappings, {len(result['clusters'])} bridge concepts; outputs in {out}; "
+        f"summary row in {outputs / 'eval_integrations.csv'}")
+
+
 STAGES = {"extract": extract, "normalize": normalize, "ontology": ontology, "enrich": enrich, "interop": interop}
 
 
 def main():
     ap = argparse.ArgumentParser(description="Zotero -> concepts -> BFO/CCO ontology pipeline")
-    ap.add_argument("stage", choices=[*STAGES, "all", "check", "collections", "portal", "lora-data", "lora-eval"])
+    ap.add_argument("stage", choices=[*STAGES, "all", "check", "collections", "portal", "lora-data", "lora-eval", "integrate"])
     ap.add_argument("--collection", default=config.DEFAULT_COLLECTION, choices=list(config.COLLECTIONS),
                     help="named collection from src/config.py COLLECTIONS")
     ap.add_argument("--library", help="group library id (for 'collections')")
@@ -398,8 +458,12 @@ def main():
     ap.add_argument("--limit", type=int, help="process only the first N papers (or N test examples for lora-eval)")
     ap.add_argument("--distill", nargs="*", default=[], help="lora-data: run ids whose extractions become training data")
     ap.add_argument("--model", help="lora-eval: model name on the active profile (default: its model)")
+    ap.add_argument("--runs", nargs="*", help="integrate: one completed run id per domain (default: latest per collection)")
+    ap.add_argument("--collections", nargs="*", help="integrate: collections to include (default: INTEGRATION in config)")
+    ap.add_argument("--outputs", help="integrate: outputs folder holding the runs (default: this checkout's outputs)")
     args = ap.parse_args()
-    utilities = {"check": check, "collections": collections, "portal": portal, "lora-data": lora_data, "lora-eval": lora_eval}
+    utilities = {"check": check, "collections": collections, "portal": portal, "lora-data": lora_data, "lora-eval": lora_eval,
+                 "integrate": integrate}
     if args.stage in utilities:
         set_stage(args.stage)
         return utilities[args.stage](args)

@@ -11,9 +11,10 @@ The LLM does the semantic work; mention counts, sections, id checks and figure c
 import hashlib
 import json
 import re
+import unicodedata
 from collections import Counter
 
-from src.agents.base import Agent, items, key, load_prompt, targets
+from src.agents.base import Agent, compact, items, key, load_prompt, targets
 from src.config import CACHE, EXTRACTION_PASSES, tier
 from src.tools.llm import Usage
 from src.tools.pdf_parse import MENTION
@@ -25,12 +26,37 @@ KNOWN_LABELS = 80          # labels from earlier sections passed forward
 EARLIER_IN_LIST = 40       # earlier-section concepts added to a later pass's numbered list
 PASS_PROMPT = {"combined": "extraction", "concepts": "extraction_concepts", "causal": "extraction_causal",
                "relations": "extraction_relations", "measurements": "extraction_measurements"}
-PASS_REFS = {"causal": ("cause", "effect"), "relations": ("s", "o"), "measurements": ("concept",)}
+PASS_REFS = {"causal": ("cause", "effect"), "relations": ("s", "o"), "measurements": ("property", "entity", "concept")}
+PROPERTY_TYPES = ("property", "quantity", "parameter")
+EVIDENCE_WORDS = 3         # a quote shorter than this is no evidence: re-asked once, then flagged unevidenced
+EVIDENCE_BATCH = 40
+CODE_VERSION = "2026-10-04a"  # part of the cache key: bump when merge/finalize logic changes
+TYPES = ("material", "device", "equipment", "process", "parameter", "phenomenon", "property", "quantity", "method",
+         "defect", "condition", "information")
 VERIFY_SHARE = 0.8         # share of an evidence quote's word 3-grams that must appear in the paper
 
 
 def _key(label: str) -> str:
     return re.sub(r"\s+", " ", label.strip().lower())
+
+
+def _type(value) -> str:
+    """Map a free-text type onto the schema enum: the last enum word in a short answer ("process parameter" ->
+    parameter), else blank."""
+    words = re.findall(r"[a-z]+", str(value or "").lower())
+    hits = [w for w in words if w in TYPES]
+    return hits[-1] if hits and len(words) <= 4 else ""
+
+
+def _words(text: str) -> list[str]:
+    return re.findall(r"\w+", unicodedata.normalize("NFKC", text).lower())
+
+
+def _clean_label(label: str) -> str:
+    """'n1 (Auger recombination)' or 'n1: Auger recombination' -> 'Auger recombination' (a leaked id prefix)."""
+    m = re.fullmatch(r"[cnf]\d+\s*(?:\((.+)\)|[:\-\u2013]\s*(.+))\s*", label.strip(), re.I)
+    rest = (m.group(1) or m.group(2)).strip() if m else ""
+    return rest if rest and not re.fullmatch(r"(?:[cnf]\d+\W*)+", rest, re.I) else label.strip()
 
 
 class ExtractionAgent(Agent):
@@ -41,8 +67,11 @@ class ExtractionAgent(Agent):
         self.tier = tier(self.name)
         self.passes = EXTRACTION_PASSES[self.tier]
         self.prompts = {p: load_prompt(PASS_PROMPT[p]) for p in self.passes}
-        self.fingerprint = hashlib.sha256((self.model + self.tier + "".join(self.prompts.values())).encode()).hexdigest()
+        self.evidence_prompt = load_prompt("extraction_evidence")
+        self.fingerprint = hashlib.sha256((self.model + self.tier + CODE_VERSION + self.evidence_prompt
+                                           + "".join(self.prompts.values())).encode()).hexdigest()
         self.new_concepts = Counter()  # concepts added by the later passes, by pass
+        self.evidence = Counter()  # quotes re-asked and filled
 
     def run(self, paper: dict) -> dict:
         chunks = self._chunks(paper)
@@ -53,6 +82,7 @@ class ExtractionAgent(Agent):
             log("  reusing cached extraction (same text, prompt and model): 0 tokens")
             return {**json.loads(cache.read_text(encoding="utf-8")), "cache_hit": True}
         before, failed_before, new_before = Counter(self.spent), Counter(self.failures), Counter(self.new_concepts)
+        evidence_before = Counter(self.evidence)
         parts, raw_calls = [], []
         for i, chunk in enumerate(chunks, 1):
             known = self._merge(parts)["concepts"] if parts else []
@@ -64,6 +94,9 @@ class ExtractionAgent(Agent):
                                 label=f"extract {where}", soft=True)
                 raw_calls.append({"pass": "combined", "prompt": PASS_PROMPT["combined"],
                                   "input": known_text + chunk, "output": out})
+                labels = {key(c.get("id")): c.get("label") for c in items(out, "concepts")}
+                self._fill_evidence(chunk, out, ("relations", "causal", "measurements"), labels, paper["key"], where,
+                                    raw_calls)
                 parts.append(out)
             else:
                 parts.append(self._multi_pass(chunk, known_text, known, where, paper["key"], raw_calls))
@@ -72,7 +105,8 @@ class ExtractionAgent(Agent):
         result["n_chunks"] = len(chunks)
         result["extraction_tier"], result["extraction_passes"] = self.tier, self.passes
         result["checks"] = {"failed_calls": dict(self.failures - failed_before),
-                            "new_concepts_by_pass": dict(self.new_concepts - new_before), **result.pop("checks", {})}
+                            "new_concepts_by_pass": dict(self.new_concepts - new_before),
+                            "evidence": dict(self.evidence - evidence_before), **result.pop("checks", {})}
         result["raw_calls"] = raw_calls  # exact model input/output per section, reusable as training data
         result["compute"] = {"model": self.model, **{k: round(v, 3) for k, v in spent.items()}}
         cache.parent.mkdir(parents=True, exist_ok=True)
@@ -109,6 +143,9 @@ class ExtractionAgent(Agent):
             prompt_in = f"{concept_list}\n{chunk}"
             out = self.call(prompt_in, item=item, system=self.prompts[name], label=f"{name} {where}", soft=True)
             raw_calls.append({"pass": name, "prompt": PASS_PROMPT[name], "input": prompt_in, "output": out})
+            labels = {c["id"]: c["label"] for c in listed} | {
+                key(nc.get("id")): nc.get("label") for nc in items(out, "new_concepts") if key(nc.get("id"))}
+            self._fill_evidence(chunk, out, (name,), labels, item, where, raw_calls)
             new_ids = {}
             for nc in items(out, "new_concepts"):  # ids are per pass; make them unique before merging
                 if key(nc.get("id")) and isinstance(nc.get("label"), str):
@@ -118,6 +155,35 @@ class ExtractionAgent(Agent):
             part[name] = [{**r, **{f: new_ids.get(key(r.get(f)), r.get(f)) for f in PASS_REFS[name]}}
                           for r in items(out, name)]
         return part
+
+    def _fill_evidence(self, chunk: str, out: dict, kinds: tuple, labels: dict, item: str, where: str,
+                       raw_calls: list):
+        """Items returned without a usable quote get one more call that asks only for their quotes."""
+        rows, refs = [], {}
+        for kind in kinds:
+            for i, r in enumerate(items(out, kind), 1):
+                if len(_words(str(r.get("evidence") or ""))) >= EVIDENCE_WORDS:
+                    continue
+                name = lambda f: str(labels.get(key(r.get(f))) or r.get(f) or "")
+                claim = (f"{name('property') or name('concept')} = {r.get('value', '')} {r.get('unit') or ''}"
+                         if kind == "measurements" else
+                         f"{name('cause')} {r.get('polarity', '')} {name('effect')}" if kind == "causal" else
+                         f"{name('s')} {str(r.get('p', '')).replace('_', ' ')} {name('o')}")
+                rid = f"{kind[0]}{i}"
+                rows.append({"id": rid, "claim": claim.strip()})
+                refs[rid] = r
+        if not rows:
+            return
+        self.evidence["asked"] += len(rows)
+        for i in range(0, len(rows), EVIDENCE_BATCH):
+            user = f"SECTION\n{chunk}\n\nCLAIMS\n{compact(rows[i:i + EVIDENCE_BATCH])}"
+            out2 = self.call(user, item=item, system=self.evidence_prompt, label=f"evidence {where}", soft=True)
+            raw_calls.append({"pass": "evidence", "prompt": "extraction_evidence", "input": user, "output": out2})
+            for a in items(out2, "quotes", "evidence"):
+                r, quote = refs.get(key(a.get("id"))), str(a.get("evidence") or "").strip()
+                if r is not None and len(_words(quote)) >= EVIDENCE_WORDS:
+                    r["evidence"] = quote
+                    self.evidence["filled"] += 1
 
     def _chunks(self, paper: dict) -> list[str]:
         """One chunk per section: short sections merged forward, long ones split at sentence ends."""
@@ -158,11 +224,13 @@ class ExtractionAgent(Agent):
         stats = Counter()
 
         def add(label: str, ctype: str = "", definition: str = "", synonyms=(), figures=()) -> str:
+            label = _clean_label(label)
             k = _key(label)
             if k not in concepts:
-                concepts[k] = {"id": f"c{len(concepts) + 1}", "label": label.strip(), "type": ctype,
+                concepts[k] = {"id": f"c{len(concepts) + 1}", "label": label, "type": "",
                                "definition": definition, "synonyms": [], "figures": []}
             m = concepts[k]
+            m["type"] = m["type"] or _type(ctype)
             m["synonyms"] = sorted(set(m["synonyms"]) | {x for x in synonyms if isinstance(x, str)})
             m["figures"] = sorted(set(m["figures"]) | {x for x in figures if isinstance(x, str)})
             if len(definition) > len(m["definition"]):
@@ -192,7 +260,7 @@ class ExtractionAgent(Agent):
             if inside:
                 stats[f"{kind}_by_contained_label"] += 1
                 return known[max(inside, key=len)]
-            if 1 <= len(text.split()) <= 6 and not re.fullmatch(r"c\d+", text):
+            if 1 <= len(text.split()) <= 6 and not re.fullmatch(r"(?:[cnf]\d+\W*)+", text):  # an unknown id, not a phrase
                 stats[f"{kind}_new_concept"] += 1
                 return add(phrase, "phenomenon" if kind == "causal" else "")
             stats[f"{kind}_unresolved"] += 1
@@ -216,10 +284,18 @@ class ExtractionAgent(Agent):
                 if s_ and o_ and s_ != o_:
                     causal.append({**r, "cause": s_, "effect": o_})
             for m in items(part, "measurements"):
-                cid = resolve(m.get("concept"), local, "measurement")
-                if cid and str(m.get("value", "")).strip():
-                    measures.append({"concept": cid, **{k: str(m.get(k, "") or "").strip()
-                                                        for k in ("value", "unit", "condition", "evidence")}})
+                if not str(m.get("value", "")).strip():
+                    continue
+                prop = m.get("property") if m.get("property") is not None else m.get("concept")
+                pid = resolve(prop, local, "measurement") if prop else None
+                eid = resolve(m.get("entity"), local, "measurement_entity") if m.get("entity") else None
+                type_of = {c["id"]: c["type"] for c in concepts.values()}
+                if pid and type_of.get(pid) not in PROPERTY_TYPES and not eid:
+                    pid, eid = None, pid  # the value was attached to the thing measured, not to a property
+                if pid or eid:
+                    measures.append({"concept": pid or eid, "entity": (eid or "") if pid else "", "property_missing": not pid,
+                                     **{k: str(m.get(k, "") or "").strip()
+                                        for k in ("value", "unit", "condition", "evidence")}})
             for f in items(part, "figures"):
                 if not key(f.get("id")):
                     continue
@@ -228,24 +304,29 @@ class ExtractionAgent(Agent):
                 entry["shows"] = entry["shows"] or f.get("shows", "")
         return {"concepts": list(concepts.values()), "relations": _dedupe(rels, ("s", "p", "o")),
                 "causal": _dedupe(causal, ("cause", "effect", "polarity")),
-                "measurements": _dedupe(measures, ("concept", "value", "unit", "condition")),
+                "measurements": _dedupe(measures, ("concept", "entity", "value", "unit", "condition")),
                 "figure_links": {k: {"concepts": sorted(v["concepts"]), "shows": v["shows"]} for k, v in figs.items()},
                 "resolution": dict(stats)}
 
     @staticmethod
     def _finalize(x: dict, paper: dict) -> dict:
-        words = re.findall(r"\w+", " ".join(s["text"] for s in paper["sections"]).lower())
+        words = _words(" ".join(s["text"] for s in paper["sections"]))
         grams = set(zip(words, words[1:], words[2:]))
         verification = {}
         for kind in ("relations", "causal", "measurements"):
             for r in x[kind]:
-                ev = re.findall(r"\w+", str(r.get("evidence", "")).lower())
-                tri = list(zip(ev, ev[1:], ev[2:]))
+                evidence = str(r.get("evidence", "") or "")
+                segments = re.split(r"\.\.\.|\u2026", evidence)  # quotes with omissions
+                tri = [t for seg in segments for ev in [_words(seg)] for t in zip(ev, ev[1:], ev[2:])]
                 r["verified"] = bool(tri) and sum(t in grams for t in tri) / len(tri) >= VERIFY_SHARE
-            verification[kind] = {"items": len(x[kind]), "verified": sum(r["verified"] for r in x[kind])}
+                r["evidence_status"] = ("unevidenced" if len(_words(evidence)) < EVIDENCE_WORDS else
+                                        "verified" if r["verified"] else "unverified")
+            verification[kind] = {"items": len(x[kind]), "verified": sum(r["verified"] for r in x[kind]),
+                                  "unevidenced": sum(r["evidence_status"] == "unevidenced" for r in x[kind])}
         types = {c["id"]: c.get("type", "") for c in x["concepts"]}
         checks = {"measurements_on_non_property": sum(
-            1 for m in x["measurements"] if types.get(m["concept"]) not in ("property", "quantity", "parameter")),
+            1 for m in x["measurements"] if types.get(m["concept"]) not in PROPERTY_TYPES),
+                  "measurements_property_missing": sum(1 for m in x["measurements"] if m.get("property_missing")),
                   "pairs_both_relation_and_causal": len({(r["s"], r["o"]) for r in x["relations"]}
                                                         & {(r["cause"], r["effect"]) for r in x["causal"]})}
         fig_ids = {f["id"] for f in paper["figures"]}

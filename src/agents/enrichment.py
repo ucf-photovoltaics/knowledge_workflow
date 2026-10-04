@@ -14,7 +14,8 @@ from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor
 
 from src.agents.base import Agent, compact, items, key, load_prompt, targets
-from src.config import CACHE, CANDIDATES_PER_PORTAL, EMBED, MAPPING, MATPORTAL, MDS_ONTOLOGIES, secret, tier
+from src.config import (AGENT_PROFILES, CACHE, CANDIDATES_PER_PORTAL, EMBED, LLM_PROFILE, MAPPING, MATPORTAL,
+                        MDS_ONTOLOGIES, MODEL_DEFINITION_PROFILES, secret, tier)
 from src.tools import lexical, matportal, mds_portal, retrieval, upper
 from src.tools.owl import label_of, lineage
 from src.tools.progress import log
@@ -24,6 +25,12 @@ PASS_FIELD = {"definitions": "definition", "synonyms": "alt_labels", "restrictio
               "disjointness": "disjoint_with"}  # the answer field each local pass fills (reads {"k1": value} replies)
 MAX_RELATIONS = 8
 MAX_SIBLINGS = 12
+BASIS = {"source_definition": "supported", "evidence": "draft_evidence", "model_knowledge": "model_generated"}
+DEFINITION_RULE = {
+    True: "basis=model_knowledge is allowed: when the source definitions and evidence are not enough, write a standard "
+          "definition of the concept from general domain knowledge and return basis=model_knowledge.",
+    False: "Never use outside knowledge. When neither the source definitions nor the evidence support a definition, "
+           "return an empty definition and basis=none."}
 CATEGORY = {"process": "http://purl.obolibrary.org/obo/BFO_0000015",
             "specifically dependent continuant": "http://purl.obolibrary.org/obo/BFO_0000020",
             "continuant": "http://purl.obolibrary.org/obo/BFO_0000002"}
@@ -36,6 +43,10 @@ class EnrichmentAgent(Agent):
         live = [c for c in classes if not c["excluded"]]
         by_id = {c["id"]: c for c in live}
         self.dropped = Counter()
+        profile = AGENT_PROFILES.get(self.name, LLM_PROFILE)
+        self.model_definitions = profile in MODEL_DEFINITION_PROFILES
+        self.definition_source = f"{profile}:{self.model}"
+        rule = "\n\n" + DEFINITION_RULE[self.model_definitions]
         for c in live:
             c["definition"], c["definition_source"] = "", ""
             c["definition_status"] = "unreviewed"
@@ -50,11 +61,24 @@ class EnrichmentAgent(Agent):
         log(f"causal restrictions added (local + RO + CCO): {sum(len(c['restrictions']) for c in live):,}")
 
         pmenu = upper.property_menu()
-        system = self.system + "\n\nPROPERTIES\n" + "\n".join(self._prop_line(lab, iri) for lab, iri in pmenu.items())
+        system = self.system + rule + "\n\nPROPERTIES\n" + "\n".join(self._prop_line(lab, iri) for lab, iri in pmenu.items())
         rels = defaultdict(list)
-        for r in relations:
-            if r["p"] != "is_a" and r["s"] in by_id and r["o"] in by_id:
+        for r in relations:  # unevidenced relations never become axioms
+            if r["p"] != "is_a" and r["s"] in by_id and r["o"] in by_id and _evidenced(r):
                 rels[r["s"]].append(r)
+            elif r["p"] != "is_a" and r["s"] in by_id and r["o"] in by_id:
+                self.dropped["unevidenced"] += 1
+        self._predicate_restrictions(by_id, rels)  # verified RO/BFO/CCO predicates: no model call needed
+        log(f"restrictions from extracted predicates: {self.from_predicate}; "
+            f"{sum(len(v) for v in rels.values())} relations left for the model")
+        quotes = defaultdict(list)  # evidence each class takes part in, for definitions
+        for r in relations + causal:
+            ends = (r.get("s"), r.get("o")) if "s" in r else (r.get("cause"), r.get("effect"))
+            for e in r.get("evidence", []):
+                if e.get("text") and e.get("status") != "unevidenced":
+                    for cid in ends:
+                        if cid in by_id and len(quotes[cid]) < 3 and e["text"] not in quotes[cid]:
+                            quotes[cid].append(e["text"][:200])
         children = defaultdict(list)
         for c in live:
             children[c["parent"]].append(c["id"])
@@ -65,9 +89,10 @@ class EnrichmentAgent(Agent):
         sibs = lambda c: [f"{s}: {by_id[s]['label']}" for s in children[c["parent"]] if s != c["id"]][:MAX_SIBLINGS]
         if tier(self.name) == "local":
             passes = [  # (name, prompt, batch, which classes, row)
-                ("definitions", load_prompt("enrichment_definitions"), BATCH, live,
+                ("definitions", load_prompt("enrichment_definitions") + rule, BATCH, live,
                  lambda c: {"id": c["id"], "label": c["label"], "parent": label_of(c["parent"], by_id),
-                            "defs": [d["text"][:200] for d in c["definitions"][:2]], "relations": rel_text(c)[:4]}),
+                            "defs": [d["text"][:200] for d in c["definitions"][:2]], "relations": rel_text(c)[:4],
+                            "evidence": quotes[c["id"]]}),
                 ("synonyms", load_prompt("enrichment_synonyms"), 50, [c for c in live if c["alt_labels"]],
                  lambda c: {"id": c["id"], "label": c["label"], "alt": c["alt_labels"][:8]}),
                 ("restrictions", load_prompt("enrichment_restrictions") + "\n\nPROPERTIES\n"
@@ -80,24 +105,18 @@ class EnrichmentAgent(Agent):
                             "siblings": sibs(c)}),
             ]
             for name, prompt, size, todo, row in passes:
-                n_batches = -(-len(todo) // size)
-                log(f"enrichment {name}: {len(todo)} classes ({n_batches} call(s))")
-                for i in range(0, len(todo), size):
-                    out = self.call(compact([row(c) for c in todo[i:i + size]]), item=f"{name}_{i // size + 1}",
-                                    system=prompt, label=f"{name} {i // size + 1}/{n_batches}", soft=True)
-                    self._apply(out, by_id, pmenu_lc, rels, PASS_FIELD[name])
+                log(f"enrichment {name}: {len(todo)} classes ({-(-len(todo) // size)} call(s))")
+                answers = self.call_rows([row(c) for c in todo], prompt, name, "classes", PASS_FIELD[name], size=size)
+                self._apply({"classes": answers}, by_id, pmenu_lc, rels)
         else:
             n_batches = -(-len(live) // BATCH)
             log(f"definitions, synonyms, restrictions and disjointness for {len(live):,} classes ({n_batches} call(s))")
-            for i in range(0, len(live), BATCH):
-                rows = [{"id": c["id"], "label": c["label"], "parent": label_of(c["parent"], by_id),
-                         "alt": c["alt_labels"][:8], "defs": [d["text"][:200] for d in c["definitions"][:2]],
-                         "relations": rel_text(c), "siblings": sibs(c)} for c in live[i:i + BATCH]]
-                out = self.call(compact(rows), item=f"enrich_{i // BATCH + 1}", system=system,
-                                label=f"enrich {i // BATCH + 1}/{n_batches}", soft=True)
-                self._apply(out, by_id, pmenu_lc, rels)
+            rows = [{"id": c["id"], "label": c["label"], "parent": label_of(c["parent"], by_id),
+                     "alt": c["alt_labels"][:8], "defs": [d["text"][:200] for d in c["definitions"][:2]],
+                     "evidence": quotes[c["id"]], "relations": rel_text(c), "siblings": sibs(c)} for c in live]
+            self._apply({"classes": self.call_rows(rows, system, "enrich", "classes", size=BATCH)}, by_id, pmenu_lc, rels)
         for c in live:
-            if c["definition_status"] != "supported":
+            if c["definition_status"] in ("none", "unreviewed"):
                 c.setdefault("review_flags", []).append("unsupported_definition")
         # check: a disjoint pair the papers call "is a" of one another is dropped
         isa = {(r["s"], r["o"]) for r in relations if r["p"] == "is_a"}
@@ -106,7 +125,10 @@ class EnrichmentAgent(Agent):
             self.dropped["disjoint_vs_is_a"] += len(c["disjoint_with"]) - len(kept)
             c["disjoint_with"] = kept
         self.stats = {"restrictions_dropped": dict(self.dropped), "failed_calls": dict(self.failures),
-                      "unsupported_definitions": sum(c["definition_status"] != "supported" for c in live),
+                      "restrictions_from_predicate": self.from_predicate,
+                      "definitions_by_status": dict(Counter(c["definition_status"] for c in live)),
+                      "row_coverage": {k: dict(v) for k, v in self.row_stats.items()},
+                      "unsupported_definitions": sum(c["definition_status"] in ("none", "unreviewed") for c in live),
                       "definition_category_conflicts": sum("definition_category_conflict" in c.get("review_flags", []) for c in live)}
         log(f"restrictions dropped: {dict(self.dropped) or 'none'}")
         return classes, self._local_properties(live, by_id)
@@ -253,13 +275,17 @@ class EnrichmentAgent(Agent):
             if not c:
                 continue
             if "definition" in r:
-                supported = r.get("definition_supported") is True
-                c["definition_status"] = "supported" if supported else "unsupported"
-                if supported and isinstance(r.get("definition"), str) and r["definition"].strip():
-                    c["definition"], c["definition_source"] = r["definition"].strip(), "llm"
+                text = r["definition"].strip() if isinstance(r.get("definition"), str) else ""
+                basis = str(r.get("basis") or "").strip().lower()
+                if not basis and r.get("definition_supported") is True:  # answer in the previous shape
+                    basis = "source_definition"
+                status = BASIS.get(basis) if text else None
+                if status == "model_generated" and not self.model_definitions:
+                    status = None  # outside knowledge is only allowed on the profiles that permit it
+                if status:
+                    c["definition"], c["definition_status"], c["definition_source"] = text, status, self.definition_source
                 else:
-                    c["definition"], c["definition_source"] = "", ""
-                    c["definition_status"] = "unsupported"
+                    c["definition"], c["definition_status"], c["definition_source"] = "", "none", ""
                 if r.get("category_conflict") is True:
                     c.setdefault("review_flags", []).append("definition_category_conflict")
             if isinstance(r.get("alt_labels"), list):
@@ -284,6 +310,29 @@ class EnrichmentAgent(Agent):
                 if o and o["id"] != c["id"] and o["parent"] == c["parent"] \
                         and d not in c["disjoint_with"] and c["id"] not in o["disjoint_with"]:
                     c["disjoint_with"].append(d)
+
+    def _predicate_restrictions(self, by_id: dict, rels: dict):
+        """A relation whose extracted predicate an RO/BFO/CCO property formalizes, with verified evidence, becomes a
+        restriction with the first property of its group whose domain and range fit. Those relations leave rels;
+        the rest (related_to, unverified, or no fitting property) go to the model pass."""
+        self.from_predicate = 0
+        for cid, edges in rels.items():
+            c, rest = by_id[cid], []
+            for r in edges:
+                o, group = by_id.get(r["o"]), upper.relation_group(r["p"])
+                fits = None
+                if o and group and any(e.get("verified") is True for e in r.get("evidence", [])):
+                    props, s_cat, o_cat = group
+                    if (not s_cat or s_cat in lineage(cid, by_id)) and (not o_cat or o_cat in lineage(o["id"], by_id)):
+                        fits = next((i for i in map(upper.property_iri, props) if i and self._fits(i, c, o, by_id)), None)
+                if not fits:
+                    rest.append(r)
+                    continue
+                if not any(e["p"] == fits and e["o"] == o["id"] for e in c["restrictions"]):
+                    c["restrictions"].append({"p": fits, "o": o["id"], "kind": "relation", "source": "extracted_predicate",
+                                              "support": r["support"], "papers": r["papers"], "evidence": r["evidence"]})
+                    self.from_predicate += 1
+            edges[:] = rest
 
     @staticmethod
     def _fits(p_iri: str, c: dict, o: dict, by_id: dict) -> bool:
@@ -318,3 +367,9 @@ def _lca(ids: list[str], by_id: dict):
         return None
     common = next((a for a in chains[0] if all(a in ch for ch in chains[1:])), None)
     return None if common in (None, upper.ENTITY) else common
+
+
+def _evidenced(r: dict) -> bool:
+    """A joined relation with at least one usable quote (older runs carry no evidence status)."""
+    return any(e.get("text") and e.get("status") != "unevidenced" and len(str(e["text"]).split()) >= 3
+               for e in r.get("evidence", []))

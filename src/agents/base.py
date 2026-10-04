@@ -53,7 +53,11 @@ def items(obj, field: str, value_key: str | None = None) -> list[dict]:
       {"<other name>": [{...}]} (a single list under another key) -> that list"""
     if not isinstance(obj, dict):
         return []
+    if field not in obj and isinstance(obj.get("properties"), dict):  # small models echo the JSON schema around the answer
+        obj = obj["properties"]
     value = obj.get(field)
+    if isinstance(value, dict) and isinstance(value.get("items"), list):
+        value = value["items"]
     if isinstance(value, list):
         return [x for x in value if isinstance(x, dict)]
     if not value_key:
@@ -79,6 +83,7 @@ class Agent:
         self.fingerprint = hashlib.sha256((self.model + self.system).encode()).hexdigest()
         self.spent = Counter()  # running totals for this agent instance
         self.failures = Counter()  # soft calls that returned no valid JSON, by label
+        self.row_stats = {}  # per pass: rows sent, answered first time, recovered by the retry, still missing
 
     def call(self, user: str, item: str, system: str | None = None, label: str | None = None,
              soft: bool = False) -> dict:
@@ -103,3 +108,32 @@ class Agent:
             log(f"  {label or item}: no valid JSON after 2 attempts; skipping this pass")
             return {}
         raise ValueError(f"{self.name}: no valid JSON for {item} after 2 attempts")
+
+    def call_rows(self, rows: list[dict], system: str, item: str, field: str, value_key: str | None = None,
+                  size: int = 25, label: str | None = None, stat: str | None = None) -> list[dict]:
+        """Rows in batches; rows the model left out are sent once more in half-size batches. Returns one answer
+        entry per answered row id; coverage counts accumulate in self.row_stats[stat or item]."""
+        ids, answers, answered = {str(r["id"]) for r in rows}, [], set()
+
+        def send(todo, n, tag):
+            batches = -(-len(todo) // n)
+            for i in range(0, len(todo), n):
+                part = todo[i:i + n]
+                out = self.call(f"Return one entry for each of these {len(part)} ids.\n" + compact(part),
+                                item=f"{item}{tag}_{i // n + 1}", system=system,
+                                label=f"{label or item}{tag} {i // n + 1}/{batches}", soft=True)
+                for a in items(out, field, value_key):
+                    k = key(a.get("id"))
+                    if k in ids and k not in answered:
+                        answered.add(k)
+                        answers.append(a)
+
+        send(rows, size, "")
+        first = len(answered)
+        missing = [r for r in rows if str(r["id"]) not in answered]
+        if missing:
+            send(missing, max(5, size // 2), "_retry")
+        s = self.row_stats.setdefault(stat or item, Counter())
+        s.update(rows=len(rows), answered_first=first, recovered=len(answered) - first,
+                 missing=len(rows) - len(answered))
+        return answers

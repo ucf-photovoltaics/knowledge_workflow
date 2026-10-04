@@ -23,7 +23,8 @@ def build(domain: str, norm: dict, classes: list[dict], papers: list[dict]) -> t
     kw, rel = Namespace(base()), Namespace(f"{base()}rel/")
     ns = Namespace(f"{base()}{domain}/concept/")
     g = rdflib.Graph()
-    for prefix, n in (("kw", base()), ("rel", str(rel)), ("c", str(ns)), ("skos", SKOS), ("dcterms", DCTERMS)):
+    for prefix, n in (("kw", base()), ("rel", str(rel)), ("c", str(ns)), ("skos", SKOS), ("dcterms", DCTERMS),
+                      ("obo", "http://purl.obolibrary.org/obo/"), ("cco", "https://www.commoncoreontologies.org/")):
         g.bind(prefix, n)
     scheme = URIRef(f"{base()}{domain}/concepts")
     g.add((scheme, RDF.type, SKOS.ConceptScheme))
@@ -110,6 +111,8 @@ def build(domain: str, norm: dict, classes: list[dict], papers: list[dict]) -> t
             g.add((node, kw.evidence, Literal(e["text"])))
         if any(e.get("verified") for e in r.get("evidence", [])):
             g.add((node, kw.evidenceVerified, Literal(True)))
+        if not any(e.get("text") and e.get("status") != "unevidenced" for e in r.get("evidence", [])):
+            g.add((node, kw.evidenceStatus, Literal("unevidenced")))
         for cond in r.get("conditions", []):
             g.add((node, kw.condition, Literal(cond)))
         for k in r["papers"]:
@@ -122,16 +125,19 @@ def build(domain: str, norm: dict, classes: list[dict], papers: list[dict]) -> t
     pred = lambda p: re.sub(r"[^a-z0-9]+", "_", str(p or "").lower()).strip("_")
     norm = {**norm, "relations": [{**r, "p": pred(r.get("p"))} for r in norm["relations"] if pred(r.get("p"))],
             "causal": [{**r, "polarity": pred(r.get("polarity")) or "affects"} for r in norm["causal"]]}
+    standard = {p: upper.relation_iri(p) for p in {r["p"] for r in norm["relations"]}}  # RO/BFO/CCO where one fits
     for r in norm["relations"]:
         if r["p"] != "is_a":
-            claim(r["s"], rel[r["p"]], r["o"], r)
+            claim(r["s"], URIRef(standard[r["p"]]) if standard[r["p"]] else rel[r["p"]], r["o"], r)
             predicates[r["p"]] += 1
     for r in norm["causal"]:
         claim(r["cause"], rel[r["polarity"]], r["effect"], r)
         predicates[f"causal:{r['polarity']}"] += 1
     for p in {r["p"] for r in norm["relations"]} | {r["polarity"] for r in norm["causal"]}:
-        g.add((rel[p], RDF.type, RDF.Property))
-        g.add((rel[p], RDFS.label, Literal(p.replace("_", " "), lang="en")))
+        P = URIRef(standard[p]) if standard.get(p) else rel[p]
+        g.add((P, RDF.type, RDF.Property))
+        g.add((P, RDFS.label, Literal(upper.describe(standard[p]).get("label", p) if standard.get(p)
+                                      else p.replace("_", " "), lang="en")))
 
     for m in norm.get("measurements", []):
         if m["concept"] not in iri:
@@ -139,6 +145,10 @@ def build(domain: str, norm: dict, classes: list[dict], papers: list[dict]) -> t
         node = BNode()
         g.add((node, RDF.type, kw.ReportedValue))
         g.add((node, kw.ofConcept, iri[m["concept"]]))
+        if m.get("entity") in iri:
+            g.add((node, kw.measuredOn, iri[m["entity"]]))
+        if m.get("property_missing"):
+            g.add((node, kw.propertyMissing, Literal(True)))
         g.add((node, kw.value, Literal(m["value"])))
         for k in ("unit", "condition", "evidence"):
             if m.get(k):
@@ -156,5 +166,8 @@ def build(domain: str, norm: dict, classes: list[dict], papers: list[dict]) -> t
         "reported_values": len(norm.get("measurements", [])),
         "linked_to_ontology_class": sum(1 for c in concepts if c["id"] in ontology_class),
         "triples": len(g), "predicates": dict(predicates.most_common()),
+        "relation_links_standard_property": sum(v for k, v in predicates.items() if standard.get(k)),
+        "relation_links_unevidenced": sum(1 for r in norm["relations"] if r["p"] != "is_a" and not any(
+            e.get("text") and e.get("status") != "unevidenced" for e in r.get("evidence", []))),
     }
     return g, metrics

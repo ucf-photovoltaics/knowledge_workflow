@@ -25,6 +25,8 @@ ANNOTATIONS = {
     "mentionCount": "mention count", "causalRank": "causal rank", "figureReference": "figure reference",
     "support": "supporting paper count", "evidence": "evidence quote", "condition": "stated condition",
     "portalOntology": "source ontology on the MDS-Onto portal", "polarity": "causal polarity",
+    "definitionStatus": "definition status (supported, draft_evidence, model_generated)",
+    "definitionSource": "definition source (profile:model)",
 }
 MAPPING_PREDICATES = {"equivalent": OWL.equivalentClass, "subclass": RDFS.subClassOf,
                       "exact": SKOS.exactMatch, "close": SKOS.closeMatch}
@@ -133,6 +135,10 @@ def build(classes: list[dict], properties: dict, mappings: list[dict], papers: l
         g.add((C, RDFS.label, Literal(c["label"], lang="en")))
         if c.get("definition"):
             g.add((C, SKOS.definition, Literal(c["definition"], lang="en")))
+            if c.get("definition_status"):
+                g.add((C, kw.definitionStatus, Literal(c["definition_status"])))
+            if c.get("definition_source"):
+                g.add((C, kw.definitionSource, Literal(c["definition_source"])))
         for a in c.get("alt_labels", []):
             g.add((C, SKOS.altLabel, Literal(a, lang="en")))
         g.add((C, RDFS.subClassOf, ref(c["parent"])))

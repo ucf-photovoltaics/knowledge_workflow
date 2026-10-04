@@ -76,6 +76,7 @@ class OntologyAgent(Agent):
         self.stats["paper_is_a"] = sum(c["parent_source"] == "paper_is_a" for c in classes)
         self.stats["unresolved_placements"] = sum("unresolved_placement" in c.get("review_flags", []) for c in classes)
         self.stats["category_conflicts"] = sum("paper_parent_category_conflict" in c.get("review_flags", []) for c in classes)
+        self.stats["row_coverage"] = {k: dict(v) for k, v in self.row_stats.items()}
         placed = sum(1 for c in classes if c["parent_source"] == "llm")
         log(f"placement sources: {dict(Counter(c['parent_source'] for c in classes))}; "
             f"{self.stats['unresolved_placements']} unresolved; {sum(c['excluded'] for c in classes)} excluded")
@@ -85,12 +86,8 @@ class OntologyAgent(Agent):
         """Frontier tier: one call per batch chooses parent (upper class or corpus concept) and exclusion."""
         n_batches = -(-len(concepts) // BATCH)
         log(f"placing {len(concepts):,} concepts under {len(menu)} BFO/CCO classes or each other ({n_batches} call(s))")
-        picks = {}
-        for i in range(0, len(concepts), BATCH):
-            out = self.call(compact(rows_of(concepts[i:i + BATCH])), item=f"hierarchy_{i // BATCH + 1}", system=system,
-                            label=f"hierarchy {i // BATCH + 1}/{n_batches}", soft=True)
-            picks.update({key(r.get("id")): r for r in items(out, "classes", "parent") if key(r.get("id"))})
-        return picks
+        answers = self.call_rows(rows_of(concepts), system, "hierarchy", "classes", "parent", size=BATCH)
+        return {key(r.get("id")): r for r in answers}
 
     def _pick_split(self, concepts: list[dict], menu: dict, menu_lc: dict, rows_of) -> dict:
         """Local tier: pass 1 picks a BFO category (or 'not a class'); pass 2 picks the parent from the upper classes
@@ -99,13 +96,10 @@ class OntologyAgent(Agent):
             [f"- {c}" for c in CATEGORIES] + ["- not a class"])
         cats, n_batches = {}, -(-len(concepts) // SPLIT_BATCH)
         log(f"ontology pass 1: BFO category for {len(concepts):,} concepts ({n_batches} call(s))")
-        for i in range(0, len(concepts), SPLIT_BATCH):
-            out = self.call(compact(rows_of(concepts[i:i + SPLIT_BATCH])), item=f"category_{i // SPLIT_BATCH + 1}",
-                            system=cat_prompt, label=f"category {i // SPLIT_BATCH + 1}/{n_batches}", soft=True)
-            for r in items(out, "classes", "category"):
-                cat = str(r.get("category", "")).strip().lower()
-                if key(r.get("id")) and (cat in CATEGORIES or cat == "not a class"):
-                    cats[key(r.get("id"))] = cat
+        for r in self.call_rows(rows_of(concepts), cat_prompt, "category", "classes", "category", size=SPLIT_BATCH):
+            cat = str(r.get("category", "")).strip().lower()
+            if cat in CATEGORIES or cat == "not a class":
+                cats[key(r.get("id"))] = cat
         for c in concepts:  # no answer: category of the type's default parent
             if c["id"] not in cats:
                 default = [self._default(c, menu_lc)] + upper.ancestors(self._default(c, menu_lc))
@@ -127,20 +121,18 @@ class OntologyAgent(Agent):
                           + (c["definitions"][0]["text"][:160] if c["definitions"] else "") for c in same))
             n = -(-len(members) // SPLIT_BATCH)
             log(f"ontology pass 2: parents for {len(members)} {cat} concept(s) ({n} call(s), {len(sub_menu)} upper classes)")
-            for i in range(0, len(members), SPLIT_BATCH):
-                out = self.call(compact(rows_of(members[i:i + SPLIT_BATCH])), item=f"parent_{cat}", system=system,
-                                label=f"parent {cat} {i // SPLIT_BATCH + 1}/{n}", soft=True)
-                for r in items(out, "classes", "parent"):
-                    cid, parent = key(r.get("id")), key(r.get("parent")) or ""
-                    if not cid or cid not in by_id:
-                        continue
-                    if parent in by_id and cats.get(parent) != cat:  # local parent from another category
-                        self.stats["category_mismatch"] = self.stats.get("category_mismatch", 0) + 1
-                        parent = f"U:{root_labels[cat]}"
-                    target = menu_lc.get(parent[2:].strip().lower()) if parent.startswith("U:") else None
-                    if target and root not in [target] + upper.ancestors(target):
-                        self.stats["category_override"] = self.stats.get("category_override", 0) + 1
-                    picks[cid] = {"parent": parent, "exclude": False}
+            for r in self.call_rows(rows_of(members), system, f"parent_{cat}", "classes", "parent",
+                                    size=SPLIT_BATCH, label=f"parent {cat}", stat="parent"):
+                cid, parent = key(r.get("id")), key(r.get("parent")) or ""
+                if not cid or cid not in by_id:
+                    continue
+                if parent in by_id and cats.get(parent) != cat:  # local parent from another category
+                    self.stats["category_mismatch"] = self.stats.get("category_mismatch", 0) + 1
+                    parent = f"U:{root_labels[cat]}"
+                target = menu_lc.get(parent[2:].strip().lower()) if parent.startswith("U:") else None
+                if target and root not in [target] + upper.ancestors(target):
+                    self.stats["category_override"] = self.stats.get("category_override", 0) + 1
+                picks[cid] = {"parent": parent, "exclude": False}
             for c in members:  # no usable answer: the category's root
                 picks.setdefault(c["id"], {"parent": f"U:{root_labels[cat]}", "exclude": False, "default": True})
         self.stats["categories"] = dict(Counter(cats.values()))

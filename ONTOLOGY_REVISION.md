@@ -1,4 +1,17 @@
-# New-run ontology revision
+# New-run revision 2026-10-04-coverage-evidence-ro-v1
+
+Start a new run to use it; old run folders stay readable by normalization, the literature layer and `integrate`. Extraction prompts changed, so cached extractions are redone.
+
+- Row coverage: unanswered rows in every batched pass are retried once (`Agent.call_rows`); counts per pass in `run.json` and `eval_runs.csv`.
+- Definitions: status `supported`, `draft_evidence`, `model_generated` (only on profiles in `MODEL_DEFINITION_PROFILES`), `none` or `unreviewed`; exported as `skos:definition` with `kw:definitionStatus` and `kw:definitionSource`. Coverage is reported per status (`definitions_<status>`).
+- Measurements: `property` and `entity` instead of `concept`; a value attached to a non-property concept with no entity is moved to `entity` and flagged `property_missing`. Older records with `concept` are still read.
+- Evidence: items whose quote has fewer than 3 words get one follow-up call; still empty, `evidence_status: unevidenced`. Unevidenced relations are kept in the literature layer (`kw:evidenceStatus`) but never become restrictions.
+- Relations: predicates are `is_a` plus RO/BFO/CCO-grounded names (`upper.RELATION_GROUPS`, `upper.relation_group`); older names (`made_of`, `has_property`, `measured_by`, `used_for`) resolve through aliases. Verified relations become restrictions with the first property in their group whose domain/range fit; the literature layer uses the RO/BFO/CCO IRI.
+- Leaked id labels: `n1 (Auger recombination)` becomes `Auger recombination` at extraction; `integrate` skips id-like labels after parentheses are stripped.
+
+Tested with a stand-in model only (backward-compatible resume on an older run, a frontier-tier run, extraction unit cases, `integrate`); no live model runs.
+
+# Previous revision
 
 Revision: `2026-10-03-evidence-hierarchy-domain-iris-v1`.
 

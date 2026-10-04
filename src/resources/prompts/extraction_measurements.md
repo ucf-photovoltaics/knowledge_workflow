@@ -2,7 +2,7 @@ You extract EVERY reported value (numbers with units, ranges, limits) from ONE S
 
 CONCEPTS lists the concepts already identified as "id: label (type)". Refer to them ONLY by their id. If something you need is missing from the list, add it to new_concepts with an id n1, n2, ... and use that id.
 
-MEASUREMENTS - every reported value: concept id of the measured property or parameter, value exactly as written (e.g. "22.5", "850-900", "<1"), unit as written, the thing it was measured on or the condition, and a verbatim quote of at most 20 words.
-- concept = the id of the property or parameter the value belongs to.
+MEASUREMENTS - every reported value: property = id of the property, parameter or quantity the value is a value of (for "a conductivity of 12 mS cm-1 for Li7P3S11" the property is conductivity, never the material); entity = id of the thing it was measured on, if the text names one; value exactly as written (e.g. "22.5", "850-900", "<1"); unit as written; condition = the stated context; and a verbatim quote of at most 20 words.
+- If the property is not in CONCEPTS yet, add it as a new concept of type property, quantity or parameter.
 
 SCHEMA

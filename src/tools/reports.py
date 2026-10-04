@@ -59,7 +59,9 @@ def corpus_report(path: Path, run_id: str, norm: dict, papers: list[dict]) -> di
         "relations": len(norm["relations"]), "causal_edges": len(causal),
         "reported_values": len(norm.get("measurements", [])),
         "type_conflicts": st.get("type_conflicts", 0), "types_settled_by_model": st.get("types_settled_by_model", 0),
-        "causal_contradictions": st.get("causal_contradictions", 0),
+        "causal_contradictions": st.get("causal_contradictions", 0), "row_coverage": st.get("row_coverage", {}),
+        "measurements_property_missing": sum(1 for m in norm.get("measurements", []) if m.get("property_missing")),
+        "measurements_with_entity": sum(1 for m in norm.get("measurements", []) if m.get("entity")),
         "tiers": dict(Counter(c["tier"] for c in concepts)), "types": dict(Counter(c["type"] for c in concepts).most_common()),
         "figures": n_figs, "figures_linked": sum(1 for p in papers for f in p["figures"] if f["concepts"]),
         "concepts_with_figures": sum(1 for c in concepts if c["figures"]),
@@ -164,6 +166,22 @@ def _flat(prefix: str, d: dict) -> dict:
     return {f"{prefix}_{str(k).replace(' ', '_')}": v for k, v in (d or {}).items()}
 
 
+def _coverage(*sources) -> dict:
+    """Row coverage per model pass (sent, recovered by the retry, still missing) as flat columns."""
+    out = {}
+    for src in sources:
+        for name, s in (src or {}).items():
+            out.update({f"{name}_rows": s.get("rows"), f"{name}_rows_recovered": s.get("recovered"),
+                        f"{name}_rows_missing_after_retry": s.get("missing")})
+    return out
+
+
+def _unevidenced(papers: list[dict], kind: str):
+    items = sum(p.get("verification", {}).get(kind, {}).get("items", 0) for p in papers)
+    n = sum(p.get("verification", {}).get(kind, {}).get("unevidenced", 0) for p in papers)
+    return round(n / items, 3) if items and any("unevidenced" in p.get("verification", {}).get(kind, {}) for p in papers) else None
+
+
 def _share(papers: list[dict], kind: str):
     """Share of a paper set's extracted items whose evidence quote was found in the paper text."""
     items = sum(p.get("verification", {}).get(kind, {}).get("items", 0) for p in papers)
@@ -228,6 +246,9 @@ def eval_row(run_dir: Path, m: dict) -> dict:
         "pipeline_tier": cfg.get("pipeline_tier") or cfg.get("extraction_tier"),
         **{f"{k}_evidence_verified_share": round(v, 3) if (v := _share(papers, k)) is not None else None
            for k in ("relations", "causal", "measurements")},
+        **{f"{k}_unevidenced_share": _unevidenced(papers, k) for k in ("relations", "causal", "measurements")},
+        "measurements_property_missing": cs.get("measurements_property_missing"),
+        "measurements_with_entity": cs.get("measurements_with_entity"),
         "extraction_calls_per_paper": round(sum(len(p.get("raw_calls", [])) for p in papers) / len(papers), 1)
         if papers else None,
         "figures": sum(len(p["figures"]) for p in papers),
@@ -251,7 +272,12 @@ def eval_row(run_dir: Path, m: dict) -> dict:
         **_flat("bfo_category_pass", on.get("categories")),
         **{f"ontology_{k}": on.get(k) for k in ("category_override", "category_mismatch", "category_default")},
         **_flat("ontology_failed", on.get("failed_calls")), **_flat("enrichment_failed", en.get("failed_calls")),
-        **_flat("interop_check", stages.get("interop", {}).get("checks")),
+        **_flat("interop_check", {k: v for k, v in (stages.get("interop", {}).get("checks") or {}).items()
+                                  if k != "row_coverage"}),
+        **_coverage(cs.get("row_coverage"), on.get("row_coverage"), en.get("row_coverage"),
+                    (stages.get("interop", {}).get("checks") or {}).get("row_coverage")),
+        **_flat("definitions", en.get("definitions_by_status")),
+        "restrictions_from_predicate": en.get("restrictions_from_predicate"),
         **_flat("imported_classes", om.get("imported_classes")), **_flat("object_properties", om.get("object_properties")),
         **_flat("axioms", om.get("axioms")), **_flat("causal_restrictions", om.get("causal_restrictions_by_source")),
         **_flat("restrictions_dropped", en.get("restrictions_dropped")),
@@ -304,7 +330,7 @@ def upsert_eval(path: Path, row: dict):
         print(f"[eval] could not write {path} (is it open in Excel?); the run itself is unaffected")
 
 
-def revision_event(path: Path, revision: str, created: str):
+def revision_event(path: Path, revision: str, created: str, description: str = ""):
     """One non-metric event when this revision first starts a new run."""
     event_id = "workflow-change:" + revision
     if path.exists():
@@ -312,6 +338,4 @@ def revision_event(path: Path, revision: str, created: str):
             if any(r.get("run_id") == event_id for r in csv.DictReader(f)):
                 return
     upsert_eval(path, {"run_id": event_id, "row_type": "workflow_change", "workflow_revision": revision,
-                      "created": created, "change_description":
-                      "Verified is_a priority; evidence-reviewed definitions/category flags; domain-scoped deterministic IRIs; "
-                      "cross-domain candidates; synonym union removal; hybrid Gemini routing"})
+                      "created": created, "change_description": description})

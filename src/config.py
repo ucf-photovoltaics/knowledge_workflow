@@ -72,7 +72,7 @@ def tier(agent: str | None = None) -> str:
 
 # Per-agent model override within that agent's routed profile (None = profile_for(agent)["model"]).
 AGENT_MODELS = {"extraction": None, "normalization": None, "ontology": None,
-                "enrichment": None, "interoperability": None}
+                "enrichment": None, "interoperability": None, "integration": None}
 TEMPERATURE = None          # None = provider default (some reasoning models reject temperature)
 MAX_OUTPUT_TOKENS = 16000
 MAX_RETRIES = 6             # retries with exponential backoff on 429 / 5xx (e.g. "model overloaded")
@@ -126,6 +126,17 @@ MAPPING = {
     "local_upper_top": 3,        # nearest BFO/CCO classes added as local candidates
 }
 
+# ---- Cross-domain integration (python -m src.run integrate) ----
+# Runs after the domain runs: maps the domain ontologies of one run set to each other in a master ontology.
+# Domain ontologies are read, never rewritten. Default inputs: the latest run per collection below that completed
+# interop (current WORKFLOW_REVISION preferred).
+INTEGRATION = {
+    "collections": ["tea", "reliability", "si-perc", "si-topcon"],
+    "min_similarity": 0.80,      # embedding cosine for a mutual-nearest-neighbour candidate pair (EMBED model required)
+    "max_model_pairs": 1500,     # candidate pairs sent to the model; the rest are listed in candidates.json unreviewed
+    "batch": {"local": 12, "frontier": 30},
+}
+
 # ---- LoRA training data (python -m src.run lora-data) ----
 # Ontology suite used as the answer key: BFO, CCO and QUDT classes; RO enters through the property menu
 # (resources/upper). Values are URLs or local file paths (.ttl = Turtle, .owl/.rdf = RDF/XML).
@@ -147,7 +158,12 @@ LORA = {
 # ---- Output ontology ----
 ONTOLOGY_IRI = "http://example.org/kw/"
 ONTOLOGY_TITLE = "PV Knowledge Workflow Ontology"
-WORKFLOW_REVISION = "2026-10-03-evidence-hierarchy-domain-iris-v1"
+WORKFLOW_REVISION = "2026-10-04-coverage-evidence-ro-v1"
+WORKFLOW_REVISION_NOTE = ("Unanswered rows retried once; draft evidence-based definitions (model-generated on Gemini); "
+                          "measurements split into property and entity; missing quotes re-asked, then flagged unevidenced; "
+                          "RO/BFO/CCO relation predicates with explicit is_a; leaked id labels cleaned")
+# Profiles whose enrichment may write definitions from model knowledge (recorded as definition_source <profile>:<model>).
+MODEL_DEFINITION_PROFILES = ("gemini", "gemini-lite")
 
 
 def secret(name: str | None) -> str | None:

@@ -114,8 +114,9 @@ def score(task: str, pred: dict, gold: dict, meta: dict, acc: dict):
                 _prf({(r.get("s"), r.get("p"), r.get("o")) for r in rows(pred, "relations")},
                      {(r.get("s"), r.get("p"), r.get("o")) for r in rows(gold, "relations")}, acc, "relation")
             if "measurements" in gold:
-                _prf({(r.get("concept"), norm(r.get("value"))) for r in rows(pred, "measurements")},
-                     {(r.get("concept"), norm(r.get("value"))) for r in rows(gold, "measurements")}, acc, "measurement")
+                prop = lambda r: r.get("property", r.get("concept"))  # older extractions named it "concept"
+                _prf({(prop(r), norm(r.get("value"))) for r in rows(pred, "measurements")},
+                     {(prop(r), norm(r.get("value"))) for r in rows(gold, "measurements")}, acc, "measurement")
 
 def _summarize(acc: dict) -> dict:
     out = {"examples": acc["examples"], "json_valid": round(acc["valid"] / acc["examples"], 3) if acc["examples"] else None}
