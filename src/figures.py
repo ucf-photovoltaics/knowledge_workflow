@@ -166,7 +166,7 @@ def stacked_barh(ax, labels: list[str], series: list[tuple[str, str, list[float]
         v = np.array(values, dtype=float)
         ax.barh(y, v, left=left, color=color, edgecolor="white", linewidth=1.0, height=0.62, label=name)
         for i, (l, w) in enumerate(zip(left, v)):
-            if share and w >= 0.08:
+            if share and w >= 0.08 and l + w <= 1.001:
                 ax.text(l + w / 2, i, f"{w:.0%}", ha="center", va="center", fontsize=6.5,
                         color="white" if color in (EVIDENCE[0], SLOTS[0], SLOTS[5], SLOTS[6], BLUES[5]) else INK)
         left += v
@@ -386,8 +386,9 @@ def _domain_shares(out, rows, name, title, source, cols, prefix, total_col=None,
     if not present:
         return out.skip(name, f"no {prefix}* columns")
     labels, series, table = [label(d) for d in runs], [], []
-    totals = {d: (num(r.get(total_col)) if total_col else sum(num(r.get(f"{prefix}{c}")) for c, _ in present)) or 1
-              for d, r in runs.items()}
+    cols_total = [total_col] if isinstance(total_col, str) else list(total_col or [])
+    totals = {d: next((num(r.get(t)) for t in cols_total if num(r.get(t))), 0)
+              or sum(num(r.get(f"{prefix}{c}")) for c, _ in present) or 1 for d, r in runs.items()}
     for c, t in present:  # colour follows the category's fixed slot, not its position among those present
         series.append((t, (colors or SLOTS)[[k for k, _ in cols].index(c)], [num(r.get(f"{prefix}{c}")) / totals[d] for d, r in runs.items()]))
     for d, r in runs.items():
@@ -506,7 +507,8 @@ def fig_integration(out: Out, outputs: Path, rows_runs: list[dict], revision: st
     ints = [r for r in ints if (outputs / r["run_id"] / "mappings.json").exists()]
     if not ints:
         return out.skip("integration", "no integration at this revision")
-    papers = {r["run_id"]: num(r.get("papers_processed")) for r in rows_runs}
+    papers = {r["run_id"]: num(r.get("papers_processed")) for r in _csv(outputs / "eval_runs.csv")
+              if r.get("row_type") == "run"}  # inputs may come from older revisions
     latest = max(ints, key=lambda r: r.get("created", ""))
     folder = outputs / latest["run_id"]
     maps = _json(folder / "mappings.json") or []
@@ -541,11 +543,25 @@ def fig_integration(out: Out, outputs: Path, rows_runs: list[dict], revision: st
     ax.grid(axis="x", visible=False)
     ax = axes[2]
     series = []
-    for r in sorted(ints, key=lambda r: r.get("created", "")):
+    ordered = sorted(ints, key=lambda r: r.get("created", ""))
+    for r in ordered:
         per = [papers.get(k, 0) for k in r.get("input_runs", "").split("+") if k]
         if per:
             series.append((min(per), num(r.get("bridge_concepts")), r["run_id"]))
-    if len(series) > 1:
+    repeats = len(ordered) > 1 and len({r.get("input_runs") for r in ordered}) == 1
+    if repeats:  # the same inputs integrated several times: run-to-run spread of a nondeterministic stage
+        xs = np.arange(1, len(ordered) + 1)
+        for k, (col, name) in enumerate((("mappings_total", "Mappings"), ("bridge_concepts", "Bridge concepts"))):
+            ys = [num(r.get(col)) for r in ordered]
+            ax.plot(xs, ys, color=SLOTS[k], marker="o", markeredgecolor="white", markeredgewidth=1.0, linewidth=0, label=name)
+            ax.axhline(np.mean(ys), color=SLOTS[k], linewidth=0.8, linestyle="--")
+            ax.text(xs[-1] + 0.3, np.mean(ys), f"{name}\n{min(ys):.0f}-{max(ys):.0f}", va="center", fontsize=6.5, color=INK2)
+        ax.set_xticks(xs)
+        ax.set_xlim(0.5, len(xs) + 2.2)
+        ax.set_xlabel("Repeat (same input runs)")
+        ax.set_title("Repeat integrations", loc="left")
+        series = [(i, num(r.get("bridge_concepts")), r["run_id"]) for i, r in zip(xs, ordered)]
+    elif len(series) > 1:
         xs, ys = zip(*[(a, b) for a, b, _ in series])
         ax.plot(xs, ys, color=SLOTS[0], marker="o", markeredgecolor="white", markeredgewidth=1.0)
         ax.set_xlabel("Papers per domain")
@@ -564,7 +580,8 @@ def fig_integration(out: Out, outputs: Path, rows_runs: list[dict], revision: st
              [{"integration": latest["run_id"], "a": a, "b": b, "mappings": int(m[i, j])}
               for i, a in enumerate(doms) for j, b in enumerate(doms) if i < j]
              + [{"integration": latest["run_id"], "relation": k, "count": rc[k]} for k in rel_order]
-             + [{"integration": rid, "papers_per_domain": x, "bridge_concepts": y} for x, y, rid in series])
+             + [{"integration": rid, ("repeat" if repeats else "papers_per_domain"): x, "bridge_concepts": y}
+                for x, y, rid in series])
 
 
 # ---------------------------------------------------------------- stage detail

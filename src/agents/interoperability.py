@@ -70,7 +70,7 @@ class InteroperabilityAgent(Agent):
                     n = int(m.get("candidate"))
                 except (TypeError, ValueError):
                     continue
-                if rel not in RELATIONS or n not in shown[c["id"]]:
+                if rel not in RELATIONS or n not in shown.get(c["id"], ()):  # ids the model invents or repeats
                     continue
                 if (c["id"], c["candidates"][n - 1]["iri"]) not in seen:
                     self._commit(c, c["candidates"][n - 1], rel, "model", by_id, mappings, seen)
