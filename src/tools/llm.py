@@ -7,7 +7,7 @@ import sqlite3
 from dataclasses import dataclass
 
 from src.config import CACHE, EMBED, GEMINI_LIMITS, LLM, MAX_OUTPUT_TOKENS, MAX_RETRIES, TEMPERATURE, secret
-from src.tools import gemini_quota
+from src.tools import gemini_quota, workers
 from src.tools.progress import log
 
 
@@ -36,7 +36,7 @@ def _get_client(profile=None):
             import openai
             gemini = profile.get("api_key_env") == "GEMINI_API_KEY"
             _clients[identity] = openai.OpenAI(api_key=key or "none", base_url=profile["base_url"],
-                                              max_retries=0 if gemini else MAX_RETRIES,
+                                              max_retries=0 if gemini or profile.get("outage_wait_s") else MAX_RETRIES,
                                               timeout=profile.get("timeout", 600))
     return _clients[identity]
 
@@ -45,6 +45,25 @@ def _outage_safe(profile: dict, request):
     """A local server (Ollama) that is restarting, reloading the model or briefly gone: after the client's own
     retries, wait and try again for up to profile['outage_wait_s'] (default 0: fail at once) before giving up."""
     import openai
+    if profile.get("outage_wait_s", 0):
+        for attempt in range(3):
+            try:
+                with workers.slot():
+                    return request()
+            except (openai.APIConnectionError, openai.APITimeoutError, openai.APIStatusError) as e:
+                status = getattr(e, "status_code", None)
+                timeout = isinstance(e, openai.APITimeoutError)
+                memory = any(s in str(e).lower() for s in ("out of memory", "overloaded", "insufficient memory"))
+                transient = isinstance(e, (openai.APIConnectionError, openai.APITimeoutError)) or status in (429, 500, 502, 503, 504) or memory
+                if not transient:
+                    raise
+                if timeout or memory or status in (429, 503):
+                    workers.fallback(type(e).__name__ if not status else f"HTTP {status}", timeout=timeout)
+                if attempt == 2:
+                    raise
+                delay = 5 * 2 ** attempt
+                log(f"local model request failed ({type(e).__name__}); retry {attempt + 1}/2 in {delay}s")
+                time.sleep(delay)
     budget, waited = profile.get("outage_wait_s", 0), 0
     while True:
         try:
@@ -149,7 +168,7 @@ def _embed_uncached(texts: list[str], batch: int) -> tuple[list[list[float]], Us
     import re
     import openai
     client = openai.OpenAI(api_key=secret(EMBED["api_key_env"]) or "none", base_url=EMBED["base_url"],
-                           max_retries=MAX_RETRIES, timeout=120)
+                           max_retries=0 if "localhost:11434" in EMBED["base_url"] else MAX_RETRIES, timeout=120)
     per_minute = EMBED.get("inputs_per_minute")
     batch = min(batch, per_minute) if per_minute else batch
     t0, vectors, tokens = time.perf_counter(), [], 0
@@ -159,9 +178,12 @@ def _embed_uncached(texts: list[str], batch: int) -> tuple[list[list[float]], Us
             time.sleep(60)
         for attempt in range(5):
             try:
-                r = client.embeddings.create(model=EMBED["model"], input=texts[i:i + batch])
+                r = _outage_safe({"outage_wait_s": 900} if "localhost:11434" in EMBED["base_url"] else {},
+                                 lambda: client.embeddings.create(model=EMBED["model"], input=texts[i:i + batch]))
                 break
             except openai.RateLimitError as e:
+                if "localhost:11434" in EMBED["base_url"]:
+                    raise  # local retry budget was already exhausted by _outage_safe
                 wait = float(m.group(1)) + 2 if (m := re.search(r"retry in ([\d.]+)s", str(e))) else 30 * (attempt + 1)
                 if attempt == 4:
                     raise

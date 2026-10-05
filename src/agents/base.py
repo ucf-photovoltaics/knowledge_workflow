@@ -5,9 +5,10 @@ import re
 import time
 from dataclasses import asdict
 from collections import Counter
+from threading import RLock
 
 from src.config import CACHE, RESOURCES, TEMPERATURE, WORKFLOW_REVISION, model_for, profile_for
-from src.tools import files, llm
+from src.tools import files, llm, workers
 from src.tools.ledger import Ledger
 from src.tools.progress import finish, log
 
@@ -131,6 +132,7 @@ class Agent:
     name = ""
 
     def __init__(self, ledger: Ledger):
+        self._lock = RLock()
         self.ledger = ledger
         self.profile = profile_for(self.name)
         self.model = model_for(self.name)
@@ -164,7 +166,7 @@ class Agent:
                 if saved["request_hash"] == digest and isinstance(data, dict) and "properties" not in data \
                         and (cache_valid is None or cache_valid(data)):
                     self.ledger.log(self.name, item, self.model, llm.Usage(), cache_hit=True)
-                    with (self.ledger.path.parent / "calls.jsonl").open("a", encoding="utf-8") as f:
+                    with self._lock, (self.ledger.path.parent / "calls.jsonl").open("a", encoding="utf-8") as f:
                         f.write(json.dumps({"agent": self.name, "item": item, "ok": True, "cache_hit": True,
                                             "cache": str(cache), "request_hash": digest,
                                             "source_usage": saved["usage"], "source_run": saved.get("source_run"),
@@ -184,11 +186,12 @@ class Agent:
                    + ("" if data is not None else ", NO VALID JSON"))
             self.ledger.log(self.name, item, self.model, usage, ok=data is not None, attempt=attempt)
             if self.name != "extraction":  # extraction keeps its own raw_calls per paper
-                with (self.ledger.path.parent / "calls.jsonl").open("a", encoding="utf-8") as f:
+                with self._lock, (self.ledger.path.parent / "calls.jsonl").open("a", encoding="utf-8") as f:
                     f.write(json.dumps({"agent": self.name, "item": item, "attempt": attempt, "ok": data is not None,
                                         "request_hash": digest, "output": text[:30000]}, ensure_ascii=False) + "\n")
-            self.spent.update(calls=1, input_tokens=usage.input_tokens, cached_tokens=usage.cached_tokens,
-                              output_tokens=usage.output_tokens, latency_s=usage.latency_s)
+            with self._lock:
+                self.spent.update(calls=1, input_tokens=usage.input_tokens, cached_tokens=usage.cached_tokens,
+                                  output_tokens=usage.output_tokens, latency_s=usage.latency_s)
             if data is not None:
                 if cache and data and "properties" not in data and (cache_valid is None or cache_valid(data)):
                     files.atomic_write(cache, json.dumps({"request_hash": digest, "model": self.model,
@@ -197,7 +200,8 @@ class Agent:
                                                         ensure_ascii=False))
                 return data
         if soft:
-            self.failures[(label or item).split(" ")[0]] += 1
+            with self._lock:
+                self.failures[(label or item).split(" ")[0]] += 1
             log(f"  {label or item}: no valid JSON after 2 attempts; skipping this pass")
             return {}
         raise ValueError(f"{self.name}: no valid JSON for {item} after 2 attempts")
@@ -219,7 +223,7 @@ class Agent:
 
         def send(todo, n, tag):
             batches = -(-len(todo) // n)
-            for i in range(0, len(todo), n):
+            def batch(i):
                 part = todo[i:i + n]
                 part_ids = {str(r["id"]) for r in part}
 
@@ -235,9 +239,12 @@ class Agent:
                 out = self.call(f"Return one entry for each of these {len(part)} ids.\n" + compact(part),
                                 item=f"{item}{tag}_{i // n + 1}", system=system + contract,
                                 label=f"{label or item}{tag} {i // n + 1}/{batches}", soft=True, cache_valid=complete)
-                for a in items(out, field, value_key):
+                return [a for a in items(out, field, value_key) if valid(a)]
+
+            for entries in workers.ordered(batch, range(0, len(todo), n)):
+                for a in entries:
                     k = key(a.get("id"))
-                    if valid(a) and k not in answered:
+                    if k not in answered:
                         answered.add(k)
                         answers.append(a)
 

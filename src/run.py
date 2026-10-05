@@ -23,9 +23,11 @@ import json
 import subprocess
 import time
 import traceback
+from threading import Lock
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
+from openai import APIError
 
 from src.agents.base import parse_json
 from src.agents.enrichment import EnrichmentAgent
@@ -37,7 +39,7 @@ from src.agents.ontology import OntologyAgent
 from src import config
 from src.config import CACHE, OUTPUTS, ROOT, model_for
 from src.tools import (bottomup, citations, files, integration, llm, matportal, mds_portal, ontostore, owl, pdf_parse,
-                       reports, zotero, ontology_review)
+                       reports, zotero, ontology_review, workers)
 from src.tools.ledger import Ledger
 from src.tools.progress import log, set_stage
 
@@ -109,6 +111,7 @@ class Run:
 
     def fail(self, stage: str, exc: BaseException):
         """Keep the error with the run (error.log, run.json "errors") and in the central outputs/errors.csv."""
+        self.manifest["workers"] = workers.summary()
         tb = "".join(traceback.format_exception(exc))
         where = traceback.extract_tb(exc.__traceback__)[-1] if exc.__traceback__ else None
         error = {"stage": stage, "time": _now(), "error": f"{type(exc).__name__}: {exc}"[:500],
@@ -133,6 +136,7 @@ class Run:
         if stage in ("ontology", "enrich", "interop"):
             self.manifest["ontology_store"] = ontostore.summary()
         profile = config.profile_for(agent)
+        self.manifest["workers"] = workers.summary()
         self.manifest["stages"][stage] = {"completed": _now(), "wall_s": round(seconds, 2), **stats,
                                           "llm_profile": config.AGENT_PROFILES.get(agent, config.LLM_PROFILE),
                                           "model": model_for(agent), "tier": config.tier(agent),
@@ -212,35 +216,48 @@ def extract(run: Run, args) -> dict:
     log(f"{len(papers)} papers to extract (top {config.TOP_N_BY_CITATIONS} of {selection['items_in_collection']} by "
         f"citations{f', limited to {args.limit}' if args.limit else ''}; "
         f"{len(selection['skipped_no_pdf'])} passed over for no PDF)")
-    agent = ExtractionAgent(run.ledger)
     done, failed, digests = [], [], []
-    for n, p in enumerate(papers, 1):
+    paper_doubts = []
+    parse_lock = Lock()  # PyMuPDF parsing is not thread safe
+
+    def process(entry):
+        n, p = entry
+        agent = ExtractionAgent(run.ledger)
         log(f"paper {n}/{len(papers)} {p['key']} ({p['citations'] if p['citations'] is not None else '?'} citations, "
             f"PDF from {p['pdf_source']}): {p['title'][:70]}")
         try:
-            parsed = pdf_parse.parse(p["pdf"])
+            with parse_lock:
+                parsed = pdf_parse.parse(p["pdf"])
             st = parsed["parse_stats"]
             log(f"  parsed {st['pages']} pages: {st['n_sections']} sections, {st['n_figures']} figures, "
                 f"kept {st['chars_kept']:,} of {st['chars_raw']:,} chars")
             result = agent.run({**p, **parsed})
-        except llm.gemini_quota.GeminiRequestStopped:
-            raise  # quota exhaustion must not skip papers or mark extraction complete
+        except (llm.gemini_quota.GeminiRequestStopped, APIError):
+            raise  # exhausted model retries or terminal provider errors stop this run, not every paper
         except Exception as e:  # keep going; the failure is reported in run.json
-            failed.append({"key": p["key"], "title": p["title"], "error": f"{type(e).__name__}: {e}"[:300]})
-            log(f"  FAILED: {failed[-1]['error']}")
-            continue
+            failure = {"key": p["key"], "title": p["title"], "error": f"{type(e).__name__}: {e}"[:300]}
+            log(f"  FAILED: {failure['error']}")
+            return None, failure, None, agent.doubts
         record = {**p, "parse_stats": parsed["parse_stats"], **result}
         run.write(f"papers/{p['key']}.json", record)
-        done.append(record)
         with open(p["pdf"], "rb") as f:
-            digests.append(p["key"] + hashlib.sha256(f.read()).hexdigest())
+            digest = p["key"] + hashlib.sha256(f.read()).hexdigest()
         log(f"  -> {len(result['concepts'])} concepts, {len(result['relations'])} relations, "
             f"{len(result['causal'])} causal, {sum(1 for f in result['figures'] if f['concepts'])}/{len(result['figures'])} "
             f"figures linked" + (f"; ends resolved from phrases: {result['resolution']}" if result.get("resolution") else ""))
+        return record, None, digest, agent.doubts
+
+    for record, failure, digest, doubts in workers.ordered(process, enumerate(papers, 1)):
+        paper_doubts.extend(doubts)
+        if failure:
+            failed.append(failure)
+        else:
+            done.append(record)
+            digests.append(digest)
     reports.write_csv(run.dir / "compute_per_paper.csv", reports.paper_compute(done, run.ledger.summary("item")))
     _uncertain(run, "extract", [{"kind": "unresolved_relation_end", "paper": p["key"], **u}
                                 for p in done for u in p.get("unresolved_ends", [])]
-               + agent.doubts)
+               + paper_doubts)
     run.manifest["corpus"] = {"items": len(papers), "processed": len(done), "failed": failed, "selection": selection,
                               "pdf_sources": dict(Counter(p["pdf_source"] or "missing" for p in papers)),
                               "hash": hashlib.sha256("".join(sorted(digests)).encode()).hexdigest()}
@@ -507,7 +524,7 @@ def integrate(args):
         row = integration.report(out / "integration_report.md", iid, selected, domains, result, validation, compute,
                                  notes, len(merged))
         write("integration.json", {
-            "integration_id": iid, "created": _now(), "git_commit": _git(), "config": _config(),
+            "integration_id": iid, "workers": workers.summary(), "created": _now(), "git_commit": _git(), "config": _config(),
             "integration": {**config.INTEGRATION, "llm_profile": config.AGENT_PROFILES.get("integration", config.LLM_PROFILE),
                             "model": model_for("integration"), "tier": config.tier("integration"),
                             "embedding_error": getattr(agent, "embedding_error", None)},
@@ -551,7 +568,11 @@ def main():
     ap.add_argument("--outputs", help="integrate: outputs folder holding the runs (default: this checkout's outputs)")
     ap.add_argument("--no-figures", action="store_true",
                     help="skip the figures and report written after a finished run or integration")
+    ap.add_argument("--workers", type=int, default=2, help="independent paper/batch workers (default: 2; overload falls back to 1)")
     args = ap.parse_args()
+    if args.workers < 1:
+        ap.error("--workers must be positive")
+    workers.configure(args.workers)
     utilities = {"check": check, "collections": collections, "portal": portal, "lora-data": lora_data, "lora-eval": lora_eval,
                  "integrate": integrate, "ontologies": ontologies}
     if args.stage in utilities:

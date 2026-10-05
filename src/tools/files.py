@@ -1,6 +1,7 @@
 """Writes that stay safe when several runs share outputs/ and the cache (e.g. three domains in parallel)."""
 import os
 import time
+import uuid
 from contextlib import contextmanager
 from pathlib import Path
 
@@ -8,7 +9,7 @@ from pathlib import Path
 def atomic_write(path: Path, text: str):
     """Write to a temporary file beside path, then rename: a reader never sees half a file."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    tmp = path.with_name(f".{path.name}.{os.getpid()}.tmp")
+    tmp = path.with_name(f".{path.name}.{os.getpid()}.{uuid.uuid4().hex}.tmp")
     tmp.write_text(text, encoding="utf-8", errors="replace")
     for attempt in range(20):
         try:

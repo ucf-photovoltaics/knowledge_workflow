@@ -58,6 +58,38 @@ adjacent short sections up to 6,000 characters while retaining headings, caption
 
 ## Running
 
+The pipeline uses two independent paper/batch workers by default (`--workers 1` forces serial work).
+Chunks within one paper and dependent stages remain ordered. Local chat and embedding requests share
+a concurrency limit. Ollama overload/429/503 or out-of-memory errors reduce that limit to one for the
+rest of the run; two timeout failures do the same. Transient local requests have two retries with
+5/10-second backoff, in addition to the existing JSON and coverage safeguards. The effective limit and
+fallback reasons are recorded in `run.json` (or `integration.json`). Already-running requests finish
+before the reduced limit governs new requests.
+
+For a resilient cumulative sweep across tea, reliability and si-topcon:
+
+```powershell
+Set-Location C:\Users\brent\dev\knowledge_workflow
+.\scripts\run-sweep.ps1                         # 5, 10, 15, 20, 25; two workers
+.\scripts\run-sweep.ps1 -ContinueTo50           # adds 30, 35, 40, 45, 50
+.\scripts\run-sweep.ps1 -Workers 1              # force one worker
+# Reuse a previous sweep id to resume completed stages after interruption:
+.\scripts\run-sweep.ps1 -SweepId 20261005-120000
+```
+
+The script retries transient command failures once with one worker, records terminal failures and
+continues other collections and sizes. Integration includes only successful, structurally valid runs
+from the current size; failed-paper runs are excluded and at least two domains are required. A smaller
+available corpus is recorded explicitly. Logs and `summary.csv` live in `outputs/sweep-<id>/`.
+Exit status is 1 if any run failed, was partial/invalid, or integration was skipped, after attempting
+the entire sweep. Uncertain model answers still require review in each run's ontology report.
+
+To allow two concurrent requests in Ollama, quit the tray application, then in a separate PowerShell
+window run `$env:OLLAMA_NUM_PARALLEL = "2"; ollama serve`. Leave that server window open.
+The application fallback limits overlapping requests but cannot reclaim Ollama's reserved parallel
+context memory. To reclaim it, interrupt the pipeline, stop the server with Ctrl+C, restart it using
+`$env:OLLAMA_NUM_PARALLEL = "1"; ollama serve`, and resume the sweep with the same `-SweepId -Workers 1`.
+
 ```powershell
 # one domain, all stages
 uv run --with-requirements requirements.txt python -m src.run all --collection tea --limit 5
