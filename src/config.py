@@ -204,7 +204,8 @@ WORKFLOW_REVISION_NOTE = ("External terms from a local ontology store (Oxigraph 
                           "v2: MDS-Onto portal and MatPortal searched over all their ontologies; v3: parent answers read "
                           "tolerantly (format variants, CCO/BFO class by name inside the category, close spellings), "
                           "ontology/uncertain.json, figures and grouped report after each run and integration; interop "
-                          "passes re-send missing rows twice; answers inside an echoed schema are read")
+                          "passes re-send missing rows twice; answers inside an echoed schema are read; screening prompt "
+                          "ends with an example answer instead of the schema")
 # Profiles whose enrichment may write definitions from model knowledge (recorded as definition_source <profile>:<model>).
 MODEL_DEFINITION_PROFILES = ("gemini", "gemini-lite")
 
