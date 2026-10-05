@@ -171,6 +171,15 @@ def select_papers(coll: dict, top_n: int | None) -> tuple[list[dict], dict]:
     }
 
 
+def _uncertain(run: Run, stage: str, items: list[dict]):
+    """Keep this stage's uncertain items in ontology/uncertain.json; a failure here never fails the run."""
+    try:
+        data = reports.write_uncertain(run.dir, run.id, stage, items, _now())
+        log(f"uncertain items ({stage}): {len(items)} written to {reports.UNCERTAIN} ({data['total']} in all)")
+    except Exception as e:
+        log(f"uncertain.json not updated ({type(e).__name__}: {e})")
+
+
 def extract(run: Run, args) -> dict:
     coll = run.manifest["collection"]
     if not coll["collection_key"]:
@@ -206,6 +215,9 @@ def extract(run: Run, args) -> dict:
             f"{len(result['causal'])} causal, {sum(1 for f in result['figures'] if f['concepts'])}/{len(result['figures'])} "
             f"figures linked" + (f"; ends resolved from phrases: {result['resolution']}" if result.get("resolution") else ""))
     reports.write_csv(run.dir / "compute_per_paper.csv", reports.paper_compute(done, run.ledger.summary("item")))
+    _uncertain(run, "extract", [{"kind": "unresolved_relation_end", "paper": p["key"], **u}
+                                for p in done for u in p.get("unresolved_ends", [])]
+               + agent.doubts)
     run.manifest["corpus"] = {"items": len(papers), "processed": len(done), "failed": failed, "selection": selection,
                               "pdf_sources": dict(Counter(p["pdf_source"] or "missing" for p in papers)),
                               "hash": hashlib.sha256("".join(sorted(digests)).encode()).hexdigest()}
@@ -217,7 +229,9 @@ def extract(run: Run, args) -> dict:
 
 def normalize(run: Run, args) -> dict:
     papers = run.papers()
-    norm = NormalizationAgent(run.ledger).run(papers)
+    agent = NormalizationAgent(run.ledger)
+    norm = agent.run(papers)
+    _uncertain(run, "normalize", agent.doubts)
     for name in ("concepts", "relations", "causal", "measurements", "contradictions", "causal_order", "summary"):
         run.write(f"normalized/{name}.json", norm[name])
     stats = reports.corpus_report(run.dir / "corpus_report.md", run.id, norm, papers)
@@ -234,6 +248,7 @@ def ontology(run: Run, args) -> dict:
     run.write("ontology/classes.json", classes)
     run.write("ontology/review_issues.json", ontology_review.issues(classes))
     log("wrote ontology/classes.json and ontology/review_issues.json")
+    _uncertain(run, "ontology", agent.doubts)
     live = [c for c in classes if not c["excluded"]]
     return {"classes": len(live), "excluded": len(classes) - len(live),
             "local_parent": sum(1 for c in live if c["parent"].startswith("k")),
@@ -254,6 +269,7 @@ def enrich(run: Run, args) -> dict:
     run.write("ontology/cross_domain_candidates.json", ontology_review.correspondences(
         OUTPUTS, run.id, run.manifest["collection"]["name"], classes))
     log("wrote ontology/enriched.json and ontology/properties.json")
+    _uncertain(run, "enrich", agent.doubts)
     live = [c for c in classes if not c["excluded"]]
     return {"definitions_llm": sum(1 for c in live if c["definition"]),
             "restrictions": sum(len(c["restrictions"]) for c in live),
@@ -264,8 +280,9 @@ def enrich(run: Run, args) -> dict:
 def interop(run: Run, args) -> dict:
     ontostore.require()
     classes = run.read("ontology/enriched.json")
-    out = InteroperabilityAgent(run.ledger).run(classes, run.read("ontology/properties.json"), run.papers(), run.id,
-                                                run.manifest["collection"]["name"])
+    agent = InteroperabilityAgent(run.ledger)
+    out = agent.run(classes, run.read("ontology/properties.json"), run.papers(), run.id,
+                    run.manifest["collection"]["name"])
     run.write("ontology.jsonld", out["jsonld"])
     run.write("ontology.ttl", out["turtle"])
     norm = {n: (run.read(f"normalized/{n}.json") if (run.dir / "normalized" / f"{n}.json").exists() else [])
@@ -283,6 +300,7 @@ def interop(run: Run, args) -> dict:
     run.write("ontology/facets.json", out["facets"])
     run.write("ontology/validation.json", out["validation"])
     run.write("ontology/metrics.json", out["metrics"])
+    _uncertain(run, "interop", agent.doubts)
     run.record("interop", {}, 0)  # refresh compute totals before the report reads them
     reports.ontology_report(run.dir / "ontology_report.md", run.id, out["metrics"], out["validation"], classes,
                             run.manifest["compute"]["by_agent"], run.manifest)

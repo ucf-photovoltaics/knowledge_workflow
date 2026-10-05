@@ -221,7 +221,7 @@ class ExtractionAgent(Agent):
         concept named inside the phrase, or (short phrases only) as a new concept taken from the text."""
         concepts: dict[str, dict] = {}
         rels, causal, figs, measures = [], [], {}, []
-        stats = Counter()
+        stats, unresolved = Counter(), []
 
         def add(label: str, ctype: str = "", definition: str = "", synonyms=(), figures=()) -> str:
             label = _clean_label(label)
@@ -264,6 +264,8 @@ class ExtractionAgent(Agent):
                 stats[f"{kind}_new_concept"] += 1
                 return add(phrase, "phenomenon" if kind == "causal" else "")
             stats[f"{kind}_unresolved"] += 1
+            if phrase not in [u["ref"] for u in unresolved]:
+                unresolved.append({"end_of": kind, "ref": phrase[:160]})
             return None
 
         for part in parts:
@@ -306,7 +308,7 @@ class ExtractionAgent(Agent):
                 "causal": _dedupe(causal, ("cause", "effect", "polarity")),
                 "measurements": _dedupe(measures, ("concept", "entity", "value", "unit", "condition")),
                 "figure_links": {k: {"concepts": sorted(v["concepts"]), "shows": v["shows"]} for k, v in figs.items()},
-                "resolution": dict(stats)}
+                "resolution": dict(stats), "unresolved_ends": unresolved}
 
     @staticmethod
     def _finalize(x: dict, paper: dict) -> dict:
@@ -343,7 +345,7 @@ class ExtractionAgent(Agent):
             figures.append({**f, "concepts": link.get("concepts", []), "shows": link.get("shows", "")})
         return {"concepts": x["concepts"], "relations": x["relations"], "causal": x["causal"],
                 "measurements": x["measurements"], "figures": figures, "resolution": x.get("resolution", {}),
-                "verification": verification, "checks": checks}
+                "unresolved_ends": x.get("unresolved_ends", []), "verification": verification, "checks": checks}
 
 
 def _dedupe(rows: list[dict], keys: tuple) -> list[dict]:

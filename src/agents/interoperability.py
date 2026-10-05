@@ -52,6 +52,10 @@ class InteroperabilityAgent(Agent):
                 keep = {int(n) for n in (targets(answered[c["id"]]) or []) if str(n).isdigit()}
                 keep |= {n for n, x in enumerate(c["candidates"], 1) if x.get("label_match")}  # never screened out
                 self.stats["candidates_screened_out"] += len(shown[c["id"]] - keep)
+                for n in sorted(shown[c["id"]] - keep):
+                    x = c["candidates"][n - 1]
+                    self.doubt("candidate_screened_out", id=c["id"], label=c["label"], term=x["label"], iri=x["iri"],
+                               ontology=x["ontology"], score=x.get("score"), hop=x.get("hop"))
                 shown[c["id"]] &= keep
             todo = [c for c in todo if shown[c["id"]]]
         n_batches = -(-len(todo) // BATCH)
@@ -92,17 +96,20 @@ class InteroperabilityAgent(Agent):
         t = ontostore.term(cand["iri"])
         if cand["iri"] == c["iri"]:
             return
-        if t is None:
-            self.stats["dropped_not_in_store"] += 1
-            return
-        if t["deprecated"]:
-            self.stats["dropped_deprecated"] += 1
+        if t is None or t["deprecated"]:
+            reason = "not_in_store" if t is None else "deprecated"
+            self.stats[f"dropped_{reason}"] += 1
+            self.doubt("mapping_dropped", reason=reason, id=c["id"], label=c["label"], relation=rel,
+                       term=cand.get("label"), iri=cand["iri"], ontology=cand.get("ontology"), method=method)
             return
         chosen = rel
         if rel in ("exact", "equivalent") and not cand.get("label_match"):
             rel = "close"  # meaning claimed identical but the names differ: keep only as a close match
         if rel == "equivalent" and not owl.category_fit(lineage(c["id"], by_id), t["iri"], same=True, kind=t["kind"]):
             rel = "exact"  # not a BFO-aligned class of the same category: SKOS only
+        if rel != chosen:
+            self.doubt("mapping_downgraded", id=c["id"], label=c["label"], chosen=chosen, kept=rel, term=t["label"],
+                       iri=t["iri"], ontology=t["ontology"], label_match=bool(cand.get("label_match")))
         axiom = rel == "broader" and owl.category_fit(lineage(c["id"], by_id), t["iri"], same=False, kind=t["kind"])
         seen.add((c["id"], cand["iri"]))
         mappings.append({"id": c["id"], "relation": rel, "iri": t["iri"], "label": t["label"], "ontology": t["ontology"],

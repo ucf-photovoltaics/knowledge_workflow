@@ -161,6 +161,38 @@ STAGE_AGENT = {"extract": "extraction", "normalize": "normalization", "ontology"
 AGENT_FIELDS = ("calls", "cache_hits", "input_tokens", "cached_tokens", "output_tokens", "latency_s", "cost_usd")
 
 
+UNCERTAIN = "ontology/uncertain.json"
+UNCERTAIN_KINDS = {  # kind -> what it means, written into the file so it reads on its own
+    "unresolved_relation_end": "a relation, causal claim or value end that named no concept (the item was dropped)",
+    "unanswered_row": "a row the model left out even after the retry (defaults were used)",
+    "unresolved_parent_answer": "a parent answer naming no candidate, corpus concept, BFO root or CCO/BFO class "
+                                "(the class sits under its BFO category root)",
+    "name_match_no_bfo_route": "a same-name MDS-Onto/PMDCO class skipped because it has no route to BFO",
+    "restriction_dropped": "a relation or restriction answer that did not become an axiom, with the reason",
+    "disjointness_dropped": "a disjointness answer dropped because the papers state is_a between the two",
+    "portal_match_not_in_store": "a same-name portal term that is not in the ontology store (used as a facet hint only)",
+    "candidate_screened_out": "a mapping candidate the model screened out in mapping pass 1",
+    "mapping_downgraded": "a mapping kept with a weaker relation than the model chose (names differ, or category)",
+    "mapping_dropped": "a chosen mapping whose term is not in the store or is deprecated",
+}
+
+
+def write_uncertain(run_dir: Path, run_id: str, stage: str, items: list[dict], updated: str = "") -> dict:
+    """Replace one stage's items in ontology/uncertain.json; other stages are kept, so a resumed run keeps them.
+    Everything here is otherwise only counted in run.json/eval_runs.csv."""
+    path = run_dir / UNCERTAIN
+    old = _load(path) or {}
+    stages = {**old.get("items", {}), stage: items}
+    stages = {s: stages[s] for s in STAGE_AGENT if s in stages}
+    counts = {s: dict(Counter(x.get("kind", "?") for x in v)) for s, v in stages.items()}
+    data = {"run_id": run_id, "updated": updated, "total": sum(len(v) for v in stages.values()), "counts": counts,
+            "kinds": {k: UNCERTAIN_KINDS[k] for k in sorted({x for c in counts.values() for x in c}) if k in UNCERTAIN_KINDS},
+            "items": stages}
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, indent=1, ensure_ascii=False, default=str), encoding="utf-8")
+    return data
+
+
 def _load(path: Path):
     return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
 
@@ -200,6 +232,7 @@ def eval_row(run_dir: Path, m: dict) -> dict:
     concepts = _load(run_dir / "normalized" / "concepts.json") or []
     om, val = _load(run_dir / "ontology" / "metrics.json"), _load(run_dir / "ontology" / "validation.json")
     layer = _load(run_dir / "ontology" / "domain_layer_metrics.json")
+    unc = _load(run_dir / UNCERTAIN)
     ex, on, en = stages.get("extract", {}), stages.get("ontology", {}), stages.get("enrich", {})
     ps = [p["parse_stats"] for p in papers]
     cites = sorted(s["citations"] for s in sel.get("selected", []) if s.get("citations") is not None)
@@ -314,6 +347,10 @@ def eval_row(run_dir: Path, m: dict) -> dict:
         **_flat("store_version", {n: s.get("version") for n, s in (m.get("ontology_store") or {}).get("sources", {}).items()}),
         "triples": om.get("triples"), "annotation_assertions": om.get("annotation_assertions"),
         "validation_valid": val.get("valid"), "validation_issues": val.get("n_issues"),
+        # items only counted elsewhere, listed in ontology/uncertain.json
+        "uncertain_total": unc.get("total"),
+        **{f"uncertain_{s}_{k}": n for s, c in (unc.get("counts") or {}).items() for k, n in c.items()},
+        **_flat("parent_answers", on.get("parent_answers")),
         # bottom-up literature layer
         **_flat("domain_layer", {k: v for k, v in layer.items() if k != "predicates"}),
     }

@@ -70,6 +70,8 @@ class EnrichmentAgent(Agent):
                 rels[r["s"]].append(r)
             elif r["p"] != "is_a" and r["s"] in by_id and r["o"] in by_id:
                 self.dropped["unevidenced"] += 1
+                self.doubt("restriction_dropped", reason="unevidenced", id=r["s"], label=by_id[r["s"]]["label"],
+                           p=r["p"], o=r["o"], target=by_id[r["o"]]["label"], support=r.get("support"))
         self._property_candidates(by_id, rels)
         self._predicate_restrictions(by_id, rels)  # exact store names or RELATION_GROUPS tie-breaks: no model call
         log(f"restrictions from extracted predicates: {self.from_predicate}; "
@@ -126,6 +128,9 @@ class EnrichmentAgent(Agent):
         isa = {(r["s"], r["o"]) for r in relations if r["p"] == "is_a"}
         for c in live:
             kept = [d for d in c["disjoint_with"] if (c["id"], d) not in isa and (d, c["id"]) not in isa]
+            for d in set(c["disjoint_with"]) - set(kept):
+                self.doubt("disjointness_dropped", reason="papers state is_a", id=c["id"], label=c["label"], o=d,
+                           target=by_id.get(d, {}).get("label"))
             self.dropped["disjoint_vs_is_a"] += len(c["disjoint_with"]) - len(kept)
             c["disjoint_with"] = kept
         self.stats = {"restrictions_dropped": dict(self.dropped), "failed_calls": dict(self.failures),
@@ -263,6 +268,9 @@ class EnrichmentAgent(Agent):
             for x in ranked:
                 x["label_match"] = any(lexical.match_key(n) in names for n in x["labels"] or [x["label"]])
             c["portal_only"] = [x for x in ranked if x.get("in_store") is False and x["label_match"]]  # facet hints
+            for x in c["portal_only"]:
+                self.doubt("portal_match_not_in_store", id=c["id"], label=c["label"], term=x["label"], iri=x["iri"],
+                           ontology=x["ontology"], portal=x["portal"])
             ranked = [x for x in ranked if x.get("in_store", True) and (x["label_match"]
                       or x.get("score", 0) >= ONTOLOGY_SEARCH["min_score"])]
             ranked.sort(key=lambda x: (not x["label_match"], -x.get("score", 0)))
@@ -350,14 +358,13 @@ class EnrichmentAgent(Agent):
                     o = by_id.get(target)
                     src = next((e for e in rels[c["id"]] if o and e["o"] == o["id"]), None)
                     p = self._answer_property(c["id"], src, answer) if src else None
-                    if not o or o["id"] == c["id"]:
-                        self.dropped["invalid"] += 1
-                    elif not src:
-                        self.dropped["ungrounded"] += 1
-                    elif not p:
-                        self.dropped["not_a_candidate"] += 1
-                    elif not self._fits(p, c, o, by_id):
-                        self.dropped["domain_range"] += 1
+                    reason = ("invalid" if not o or o["id"] == c["id"] else "ungrounded" if not src
+                              else "not_a_candidate" if not p else "domain_range" if not self._fits(p, c, o, by_id) else "")
+                    if reason:
+                        self.dropped[reason] += 1
+                        self.doubt("restriction_dropped", reason=reason, id=c["id"], label=c["label"],
+                                   answer=str(x.get("p", ""))[:120], o=target, target=(o or {}).get("label"),
+                                   property=p)
                     elif not any(e["p"] == p and e["o"] == o["id"] for e in c["restrictions"]):
                         c["restrictions"].append({"p": p, "o": o["id"], "kind": "relation", "source": "model",
                                                   "phrase": src["p"], "support": src["support"],
