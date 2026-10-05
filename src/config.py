@@ -194,12 +194,14 @@ LORA = {
 # ---- Output ontology ----
 ONTOLOGY_IRI = "http://example.org/kw/"
 ONTOLOGY_TITLE = "PV Knowledge Workflow Ontology"
-WORKFLOW_REVISION = "2026-10-04-ontology-store-v2"
+WORKFLOW_REVISION = "2026-10-05-ontology-store-v3"
 WORKFLOW_REVISION_NOTE = ("External terms from a local ontology store (Oxigraph + trigram + embedding search over BFO, "
                           "CCO, RO, QUDT, PMDCO, IOF, MDS-Onto): placement parents (CCO, then BFO; same-name MDS-Onto/PMDCO "
                           "class wins), restriction properties, mapping candidates with 1-2 hop propagation; broader, "
                           "narrower and related matches; imported definitions and labels; MIREOT imports of every term; "
-                          "v2: MDS-Onto portal and MatPortal searched over all their ontologies")
+                          "v2: MDS-Onto portal and MatPortal searched over all their ontologies; v3: parent answers read "
+                          "tolerantly (format variants, CCO/BFO class by name inside the category, close spellings), "
+                          "ontology/uncertain.json, figures and grouped report after each run and integration")
 # Profiles whose enrichment may write definitions from model knowledge (recorded as definition_source <profile>:<model>).
 MODEL_DEFINITION_PROFILES = ("gemini", "gemini-lite")
 
