@@ -172,8 +172,6 @@ UNCERTAIN_KINDS = {  # kind -> what it means, written into the file so it reads 
     "name_match_no_bfo_route": "a same-name MDS-Onto/PMDCO class skipped because it has no route to BFO",
     "restriction_dropped": "a relation or restriction answer that did not become an axiom, with the reason",
     "disjointness_dropped": "a disjointness answer dropped because the papers state is_a between the two",
-    "portal_match_not_in_store": "a class with same-name portal terms that are not in the ontology store (facet hints "
-                                 "only; candidates for adding an ontology to the store)",
     "candidate_screened_out": "a mapping candidate the model screened out in mapping pass 1",
     "mapping_downgraded": "a mapping kept with a weaker relation than the model chose (names differ, or category)",
     "mapping_dropped": "a chosen mapping whose term is not in the store or is deprecated",
@@ -346,6 +344,8 @@ def eval_row(run_dir: Path, m: dict) -> dict:
         **_flat("candidates_ontology", (en.get("candidates") or {}).get("by_ontology")),
         **_flat("candidates_hop", (en.get("candidates") or {}).get("propagated_by_hop")),
         **_flat("portal_hits", (en.get("candidates") or {}).get("portal_hits")),
+        "candidates_outside_store": (en.get("candidates") or {}).get("outside_store"),
+        **_flat("portal_resolved_by_label", (en.get("candidates") or {}).get("portal_resolved_by_label")),
         **_flat("property_candidates", {k: v for k, v in (en.get("property_candidates") or {}).items() if k != "by_ontology"}),
         **_flat("property_candidates_ontology", (en.get("property_candidates") or {}).get("by_ontology")),
         **_flat("store_version", {n: s.get("version") for n, s in (m.get("ontology_store") or {}).get("sources", {}).items()}),

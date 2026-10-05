@@ -15,6 +15,7 @@ import json
 import re
 from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor
+from urllib.parse import urlparse
 
 from src.agents.base import Agent, items, key, load_prompt, targets
 from src.config import (AGENT_PROFILES, CACHE, CANDIDATES_PER_PORTAL, LLM_PROFILE, MATPORTAL, MDS_ONTOLOGIES,
@@ -37,6 +38,23 @@ DEFINITION_RULE = {
 CATEGORY = {"process": "http://purl.obolibrary.org/obo/BFO_0000015",
             "specifically dependent continuant": "http://purl.obolibrary.org/obo/BFO_0000020",
             "continuant": "http://purl.obolibrary.org/obo/BFO_0000002"}
+
+
+def _public(iri: str) -> bool:
+    """A term IRI others can resolve: http(s) on a public host (portals also return private-network IRIs)."""
+    host = urlparse(iri).hostname or ""
+    return urlparse(iri).scheme in ("http", "https") and "." in host and not (
+        host == "localhost" or host.startswith(("127.", "10.", "192.168.", "169.254.")) or
+        re.match(r"172\.(1[6-9]|2\d|3[01])\.", host))
+
+
+def _same_term(r: dict) -> dict | None:
+    """A portal hit from an ontology in the store but under another IRI (e.g. an older CCO release): the store's
+    term of that ontology with the same label."""
+    name = str(r.get("Ontology", "")).lower()
+    hits = [t for t in ontostore.exact(r.get("Label", ""))
+            if t["ontology"].lower() == name or t["ontology"].lower().startswith(name + "-")]
+    return hits[0] if len(hits) == 1 else None
 
 
 class EnrichmentAgent(Agent):
@@ -187,10 +205,12 @@ class EnrichmentAgent(Agent):
            and the class's embedding (label + first source definition);
         2. the MDS-Onto portal and MatPortal searches over every ontology each portal hosts, with cleaned
            queries (exact label, full label, general term, spelled-out synonym of an abbreviation); a hit for a
-           term in the store joins the pool with the store's record, flagged with the portal(s) that found it; a
-           hit outside the store is kept only as a facet hint and counted per ontology (portal_only);
-        3. ranked label matches first, then fused score; then terms one and two mapping hops away from a
-           label-matched or strong candidate, with confidence decaying per hop and the path recorded."""
+           term in the store (also under another IRI of the same ontology, matched by label) joins the pool with
+           the store's record, flagged with the portal(s) that found it; a hit outside the store (public IRI only)
+           is a candidate too, scored on its label, up to portal_per_class per class;
+        3. ranked label matches first, then score: the store's best candidates_per_class, then the portal-only
+           ones; then terms one and two mapping hops away from a label-matched or strong store candidate, with
+           confidence decaying per hop and the path recorded."""
         portals = [("MDS-Onto portal", mds_portal.search, MDS_ONTOLOGIES, "mds")]
         if MATPORTAL["enabled"] and secret("MATPORTAL_API_KEY"):
             portals.append(("MatPortal", matportal.search, MATPORTAL["ontologies"], "matportal"))
@@ -239,27 +259,38 @@ class EnrichmentAgent(Agent):
             qs = [c["label"], *c["alt_labels"][:3], lexical.head_query(c["label"]) or ""]
             for x in ontostore.search(qs, vectors.get(c["id"]), k=k * 2):
                 found[c["id"]][x["iri"]] = {**from_store(x, "store"), **{f: x[f] for f in ("score", "exact", "fuzzy", "cosine", "methods")}}
-        hits, off_store = Counter(), Counter()
+        hits, off_store, by_label = Counter(), Counter(), Counter()
         lexical_texts = {c["id"]: [c["label"], *c["alt_labels"][:3]] for c in live}
         for (cid, (portal, *_p), *_rest), res in zip(jobs, results):
             for r in res:
                 hits[portal] += 1
                 mds = {k_: r[f"MDS_{v}"] for k_, v in (("stage", "StudyStage"), ("domain", "Domain"),
                                                       ("subdomain", "SubDomain")) if r.get(f"MDS_{v}") not in (None, "", "N/A")}
-                x = found[cid].get(r["ID"])
+                t = ontostore.term(r["ID"]) or _same_term(r)  # a store ontology under another IRI (version): by label
+                iri = t["iri"] if t else r["ID"]
+                x = found[cid].get(iri)
                 if x:  # already found by the store or the other portal
                     x["mds"] = x.get("mds") or mds
                     if portal not in x["portal"]:
                         x["portal"] += f"+{portal}"
                     continue
-                t = ontostore.term(r["ID"])
-                if not t:
+                if t:
+                    by_label[portal] += t["iri"] != r["ID"]
+                    found[cid][iri] = {**from_store(t, portal, mds=mds),
+                                       **ontostore.score(t["iri"], lexical_texts[cid], vectors.get(cid))}
+                elif _public(r["ID"]):  # outside the store: a candidate in its own right, scored below
                     off_store[f"{portal}: {r['Ontology']}"] += 1
-                found[cid][r["ID"]] = {**from_store(t, portal, mds=mds),
-                                       **ontostore.score(t["iri"], lexical_texts[cid], vectors.get(cid))} if t else {
-                    "iri": r["ID"], "label": r["Label"], "ontology": r["Ontology"], "kind": "", "labels": [r["Label"]],
-                    "definition": "" if r["Definition"] == "N/A" else r["Definition"], "portal": portal,
-                    "mds": mds, "score": 0.0, "in_store": False}
+                    found[cid][iri] = {"iri": iri, "label": r["Label"], "ontology": r["Ontology"], "kind": "",
+                                       "labels": [r["Label"]], "definition": "" if r["Definition"] == "N/A" else r["Definition"],
+                                       "portal": portal, "mds": mds, "in_store": False}
+        # terms outside the store: the store's own signals and fused score (label + embedding of label: definition)
+        outside = [(cid, x) for cid in found for x in found[cid].values() if x.get("in_store") is False]
+        texts_out = [ontostore.external_text(x["label"], x["definition"]) for _, x in outside]
+        term_vecs = dict(zip(texts_out, retrieval.embed(texts_out, self.ledger))) if vectors and texts_out else {}
+        for (cid, x), text in zip(outside, texts_out):
+            x.update(ontostore.score_external(x["label"], x["definition"],
+                                              lexical_texts[cid],
+                                              vectors.get(cid), term_vecs.get(text)))
         decay, cap, strong = ONTOLOGY_SEARCH["hop_decay"], ONTOLOGY_SEARCH["propagated_per_class"], ONTOLOGY_SEARCH["min_cosine"]
         for c in live:
             names = {lexical.match_key(n) for n in [c["label"], *c["alt_labels"]]}
@@ -267,17 +298,16 @@ class EnrichmentAgent(Agent):
             for x in ranked:
                 x["label_match"] = any(lexical.match_key(n) in names for n in x["labels"] or [x["label"]])
             c["portal_only"] = [x for x in ranked if x.get("in_store") is False and x["label_match"]]  # facet hints
-            if c["portal_only"]:  # one entry per class: same-name terms the store lacks (facet hints only)
-                self.doubt("portal_match_not_in_store", id=c["id"], label=c["label"],
-                           terms=sorted({f"{x['ontology']}: {x['label']} <{x['iri']}> ({x['portal']})"
-                                         for x in c["portal_only"]}))
+            outside = [x for x in ranked if x.get("in_store") is False and (  # stricter: no store curation behind them
+                x["label_match"] or x.get("score", 0) >= ONTOLOGY_SEARCH["portal_min_score"])]
             ranked = [x for x in ranked if x.get("in_store", True) and (x["label_match"]
                       or x.get("score", 0) >= ONTOLOGY_SEARCH["min_score"])]
             ranked.sort(key=lambda x: (not x["label_match"], -x.get("score", 0)))
-            kept = ranked[:k]
+            outside.sort(key=lambda x: (not x["label_match"], -x.get("score", 0)))
+            kept = ranked[:k] + outside[:ONTOLOGY_SEARCH["portal_per_class"]]  # store terms, then portal-only terms
             have, extra = {x["iri"] for x in kept} | {c["iri"]}, []
             for x in kept:
-                if not (x["label_match"] or x.get("score", 0) >= strong):
+                if x.get("in_store") is False or not (x["label_match"] or x.get("score", 0) >= strong):
                     continue
                 base_score = 1.0 if x["label_match"] else x["score"]
                 for hop in ontostore.propagate(x["iri"]):
@@ -293,7 +323,10 @@ class EnrichmentAgent(Agent):
         self.candidate_stats = {
             "classes_with_candidates": sum(1 for c in live if c["candidates"]),
             "mean_per_class": round(sum(per) / len(per), 2),
-            "by_source": dict(Counter(x["portal"] for c in live for x in c["candidates"])),
+            "by_source": dict(Counter(x["portal"] + (" (outside store)" if x.get("in_store") is False else "")
+                                      for c in live for x in c["candidates"])),
+            "outside_store": sum(1 for c in live for x in c["candidates"] if x.get("in_store") is False),
+            "portal_resolved_by_label": dict(by_label),
             "by_ontology": dict(Counter(x["ontology"] for c in live for x in c["candidates"])),
             "propagated_by_hop": dict(Counter(str(x["hop"]) for c in live for x in c["candidates"] if x.get("hop"))),
             "portal_hits": dict(hits), "portal_hits_off_store": dict(off_store.most_common(25))}

@@ -2,7 +2,8 @@
 candidates), import definitions of matched terms, then assemble, validate (structurally, no reasoner) and emit the
 ontology as OWL2 JSON-LD and Turtle.
 
-Mapping checks: every target must be in the ontology store and not deprecated. exact/equivalent are kept only
+Mapping checks: a store target must not be deprecated; a portal term outside the store gets SKOS mappings only
+(no OWL axiom: its BFO category is unknown). exact/equivalent are kept only
 when the labels (or a synonym) actually match - otherwise they are downgraded to close. owl:equivalentClass needs
 a BFO-aligned class target in the same BFO category (otherwise skos:exactMatch); broader adds rdfs:subClassOf
 only when the target's category is the class's own or above it (otherwise skos:broadMatch alone). Individuals
@@ -97,6 +98,10 @@ class InteroperabilityAgent(Agent):
         t = ontostore.term(cand["iri"])
         if cand["iri"] == c["iri"]:
             return
+        if t is None and cand.get("in_store") is False:  # a portal term outside the store: its own record
+            t = {"iri": cand["iri"], "label": cand["label"], "ontology": cand["ontology"], "kind": "",
+                 "definition": cand.get("definition", ""), "labels": [{"text": x} for x in cand.get("labels", [])],
+                 "deprecated": False}
         if t is None or t["deprecated"]:
             reason = "not_in_store" if t is None else "deprecated"
             self.stats[f"dropped_{reason}"] += 1
@@ -117,6 +122,7 @@ class InteroperabilityAgent(Agent):
                          "kind": t["kind"], "definition": t["definition"], "labels": [x["text"] for x in t["labels"]],
                          "method": method, "source": method, "portal": cand.get("portal"), "mds": cand.get("mds", {}),
                          "label_match": bool(cand.get("label_match")), "subclass_axiom": axiom,
+                         "in_store": cand.get("in_store") is not False,
                          "scores": {k: cand.get(k) for k in ("score", "fuzzy", "cosine") if cand.get(k) is not None},
                          "confidence": 1.0 if cand.get("label_match") and not cand.get("hop") else cand.get("score"),
                          "hop": cand.get("hop", 0), "path": cand.get("path", []), "via": cand.get("via", []),
@@ -144,11 +150,16 @@ class InteroperabilityAgent(Agent):
         return imported
 
     def mapping_issues(self, graph, classes: list[dict], mappings: list[dict]) -> list[str]:
-        """Checks the structural validator cannot make: mapped IRIs exist in the store and are not deprecated;
+        """Checks the structural validator cannot make: mapped store IRIs exist and are not deprecated, terms
+        outside the store carry SKOS only;
         owl:sameAs only between individuals; no subclass or equivalence into another BFO category."""
         live = {c["id"]: c for c in classes if not c["excluded"]}
         issues = []
         for m in mappings:
+            if m.get("in_store") is False:  # portal term: SKOS only, nothing to check against the store
+                if m["relation"] == "equivalent" or m.get("subclass_axiom"):
+                    issues.append(f"OWL axiom to a term outside the store: {m['iri']}")
+                continue
             t = ontostore.term(m["iri"])
             if t is None:
                 issues.append(f"mapped IRI not in the ontology store: {m['iri']}")

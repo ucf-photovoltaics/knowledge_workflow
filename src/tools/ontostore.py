@@ -524,6 +524,24 @@ def score(iri: str, texts: list[str], vector=None) -> dict:
             "cosine": None if cosine is None else round(cosine, 3)}
 
 
+def score_external(label: str, definition: str, texts: list[str], vector=None, term_vector=None) -> dict:
+    """The same signals and fused score for a term outside the store (a portal hit): term_vector is the term's
+    embedding of label: definition, made with the store's recipe."""
+    norms = [_norm(x) for x in texts if x and len(_norm(x)) >= 3]
+    name = _norm(label)
+    exact = float(name in norms)
+    fuzzy = max((_dice(n, name) for n in norms), default=0.0)
+    cosine = None
+    if vector is not None and term_vector is not None:
+        cosine = float(np.asarray(term_vector) @ np.asarray(vector) / (np.linalg.norm(vector) + 1e-12))
+    return {"score": round(_fuse(exact, fuzzy, cosine), 3), "exact": bool(exact), "fuzzy": round(fuzzy, 3),
+            "cosine": None if cosine is None else round(cosine, 3)}
+
+
+def external_text(label: str, definition: str) -> str:
+    return _text({"label": label, "labels": [{"text": label}], "definition": definition or ""})
+
+
 # ---------------------------------------------------------------- reporting
 
 def summary() -> dict:

@@ -262,7 +262,12 @@ def build(classes: list[dict], properties: dict, mappings: list[dict], papers: l
             g.add((C, P, T))
             _annotate(g, kw, C, P, T, notes)
         g.add((T, kw.portalOntology, Literal(m["ontology"])))
-        upper_used.add(m["iri"])
+        if m.get("in_store") is False:  # outside the store: label and definition as the portal gave them
+            g.add((T, RDFS.label, Literal(m["label"], lang="en")))
+            if m.get("definition"):
+                g.add((T, SKOS.definition, Literal(m["definition"], lang="en")))
+        else:
+            upper_used.add(m["iri"])
 
     # MIREOT-style import: every external term used (BFO/CCO/RO from bfo_cco.json, anything else from the ontology
     # store), with its labels, definition, defining ontology and full ancestor chain.
@@ -445,6 +450,7 @@ def metrics(g: rdflib.Graph, classes: list[dict], mappings: list[dict], properti
                      "by_method": dict(Counter(m.get("method") or m.get("source") for m in mappings)),
                      "by_hop": dict(Counter(str(m.get("hop", 0)) for m in mappings)),
                      "label_matched": sum(1 for m in mappings if m.get("label_match")),
+                     "outside_store": sum(1 for m in mappings if m.get("in_store") is False),
                      "downgraded": sum(1 for m in mappings if "downgraded_from" in m),
                      "added_from_label_match": sum(1 for m in mappings if m.get("source") == "label_match"),
                      "mean_confidence": round(sum(m.get("confidence") or 0 for m in mappings) / len(mappings), 3)

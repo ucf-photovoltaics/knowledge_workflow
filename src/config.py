@@ -148,7 +148,9 @@ ONTOLOGY_SEARCH = {
     "min_score": 0.35,           # fused score a candidate needs (exact label matches are always kept)
     "min_fuzzy": 0.5,            # trigram similarity that counts as a lexical hit
     "min_cosine": 0.75,          # embedding cosine that counts as a semantic hit (nomic-embed-text: any two terms ~0.5)
-    "candidates_per_class": 8,   # external candidates shown per class (interop)
+    "candidates_per_class": 8,   # external candidates from the store shown per class (interop)
+    "portal_per_class": 5,       # plus up to this many portal terms outside the store (SKOS mappings only),
+    "portal_min_score": 0.6,     # each a same-name term or one with at least this fused score
     "parents_per_class": 8,      # CCO/BFO parent candidates shown per concept (placement)
     "properties_per_relation": 5,  # property candidates shown per extracted relation (restrictions)
     "tie_margin": 0.05,          # store candidates within this fused score are a tie; RELATION_GROUPS breaks it
@@ -198,7 +200,7 @@ LORA = {
 # ---- Output ontology ----
 ONTOLOGY_IRI = "http://example.org/kw/"
 ONTOLOGY_TITLE = "PV Knowledge Workflow Ontology"
-WORKFLOW_REVISION = "2026-10-05-ontology-store-v3"
+WORKFLOW_REVISION = "2026-10-05-ontology-store-v4"
 WORKFLOW_REVISION_NOTE = ("External terms from a local ontology store (Oxigraph + trigram + embedding search over BFO, "
                           "CCO, RO, QUDT, PMDCO, IOF, MDS-Onto): placement parents (CCO, then BFO; same-name MDS-Onto/PMDCO "
                           "class wins), restriction properties, mapping candidates with 1-2 hop propagation; broader, "
@@ -207,7 +209,8 @@ WORKFLOW_REVISION_NOTE = ("External terms from a local ontology store (Oxigraph 
                           "tolerantly (format variants, CCO/BFO class by name inside the category, close spellings), "
                           "ontology/uncertain.json, figures and grouped report after each run and integration; interop "
                           "passes re-send missing rows twice; answers inside an echoed schema are read; screening prompt "
-                          "ends with an example answer instead of the schema")
+                          "ends with an example answer instead of the schema; v4: portal terms outside the store are mapping "
+                          "candidates (SKOS only), portal hits under another IRI of a store ontology matched by label")
 # Profiles whose enrichment may write definitions from model knowledge (recorded as definition_source <profile>:<model>).
 MODEL_DEFINITION_PROFILES = ("gemini", "gemini-lite")
 
