@@ -261,6 +261,8 @@ def eval_row(run_dir: Path, m: dict) -> dict:
         "ontology_category_conflicts": on.get("category_conflicts"),
         "enrichment_unsupported_definitions": en.get("unsupported_definitions"),
         "enrichment_definition_category_conflicts": en.get("definition_category_conflicts"),
+        **{f"materials_project_{k}": (en.get("materials_project") or {}).get(k)
+           for k in ("classes_looked_up", "classes_with_entries", "entries", "failed_queries", "database_version")},
         **{k: cfg.get(k) for k in ("llm_profile", "llm_provider", "model_extraction", "model_normalization",
                                    "model_ontology", "model_enrichment", "model_interoperability", "embed_model",
                                    "temperature", "max_input_chars", "max_output_tokens", "mds_ontologies")},

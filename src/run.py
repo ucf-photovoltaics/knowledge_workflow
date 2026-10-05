@@ -277,6 +277,7 @@ def enrich(run: Run, args) -> dict:
                                     run.read("normalized/causal.json"))
     run.write("ontology/enriched.json", classes)
     run.write("ontology/properties.json", properties)
+    run.write("ontology/materials_project.json", agent.materials_log)
     run.write("ontology/review_issues.json", ontology_review.issues(classes))
     run.write("ontology/cross_domain_candidates.json", ontology_review.correspondences(
         OUTPUTS, run.id, run.manifest["collection"]["name"], classes))

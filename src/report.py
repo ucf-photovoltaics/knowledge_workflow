@@ -457,7 +457,8 @@ def paragraph(name: str, table: list[dict]) -> str:
 
 RUN_COLS = [("collection", "Domain"), ("papers_processed", "Papers"), ("stages", "Stages"), ("canonical_concepts", "Concepts"),
             ("final_classes", "Classes"), ("placement_llm", "Placed by model"), ("placement_category_default", "Category root"),
-            ("mappings_total", "Mappings"), ("restrictions", "Restrictions"), ("validation_valid", "Valid"),
+            ("mappings_total", "Mappings"), ("restrictions", "Restrictions"),
+            ("materials_project_classes_with_entries", "Materials Project classes"), ("validation_valid", "Valid"),
             ("uncertain_total", "Uncertain items"), ("total_tokens", "Tokens"), ("total_wall_s", "Wall (min)"),
             ("run_id", "Run")]
 INT_COLS = [("domains", "Domains"), ("papers_per_domain", "Papers/domain"), ("classes_total", "Classes"),

@@ -25,10 +25,11 @@ Adds definitions, alternative labels, restrictions, disjointness and the externa
 7. **What the paper said stays.** Every restriction keeps the extracted predicate phrase (`phrase`), quote, support and source papers; the OWL export writes them as axiom annotations next to the formal property chosen.
 8. **Checks.** Model restrictions must trace back to an extracted relation, use one of that relation's candidates, and fit the property's domain and range; disjointness only between siblings, and dropped where a paper states is-a between the pair. Local property domain and range = most specific common ancestor of the classes that use them.
 9. **Review artifacts.** `review_issues.json` (unsupported definitions, unresolved placements, conflicts) and `cross_domain_candidates.json` (same-label classes in completed runs of other domains; suggestions only).
+10. **Materials Project** (deterministic, `MATERIALS_PROJECT` in config, `MATERIALS_PROJECT_API_KEY` in `.env`). A class in the BFO category material entity is looked up when its label or a synonym is an mp-id, a chemical formula (TiO2, CdTe, Si3N4), an element name (silicon), or either followed by a material-form word (TiO2 layer, silicon wafer). All-capital names without digits (PV, BSF, PERC) are acronyms, not formulas; gases and process liquids (SiH4, NH3, H2O) are skipped. Up to 3 entries per class, most stable first and within 0.1 eV/atom of the hull: id, formula, crystal system, space group, energy above hull, stability, formation energy, band gap (direct or not, metallic), density, volume per atom, bulk and shear moduli (VRH). They are annotations, never mapping candidates: the OWL export writes `rdfs:seeAlso` to each entry, annotated with these values (band gap, density and moduli carry `qudt:hasUnit`), the query and the database version. Cached in `outputs/cache/materials_project` per database version.
 
 ## Outputs
 
-`ontology/enriched.json` (classes with `candidates`, `portal_only`, restrictions, definitions), `ontology/properties.json`, `ontology/review_issues.json`, `ontology/cross_domain_candidates.json`.
+`ontology/enriched.json` (classes with `candidates`, `portal_only`, `materials_project`, restrictions, definitions), `ontology/properties.json`, `ontology/materials_project.json` (every lookup: class, name, query, entries, failures; database version), `ontology/review_issues.json`, `ontology/cross_domain_candidates.json`.
 
 ## Checks and limits
 

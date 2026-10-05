@@ -34,6 +34,27 @@ ANNOTATIONS = {
     "mappingScore": "fused store search score of the mapped term", "mappingHops": "mapping hops from a matched term",
     "mappingPath": "IRIs a propagated mapping came through", "targetOntology": "ontology of the mapped term",
 }
+QUDT, UNIT = Namespace("http://qudt.org/schema/qudt/"), Namespace("http://qudt.org/vocab/unit/")
+# Materials Project entry of a material class, annotating its rdfs:seeAlso link: (record field, label, QUDT unit)
+MATERIALS_PROJECT = {
+    "mpMaterialId": ("material_id", "Materials Project material id", None),
+    "mpFormula": ("formula", "reduced formula (Materials Project)", None),
+    "mpCrystalSystem": ("crystal_system", "crystal system (Materials Project)", None),
+    "mpSpaceGroup": ("space_group", "space group symbol (Materials Project)", None),
+    "mpEnergyAboveHull": ("energy_above_hull", "energy above hull, eV/atom (Materials Project, DFT)", None),
+    "mpIsStable": ("is_stable", "on the convex hull (Materials Project, DFT)", None),
+    "mpTheoretical": ("theoretical", "not matched to an experimental structure (Materials Project)", None),
+    "mpFormationEnergy": ("formation_energy_per_atom", "formation energy, eV/atom (Materials Project, DFT)", None),
+    "mpBandGap": ("band_gap", "band gap, eV (Materials Project, DFT)", "EV"),
+    "mpGapDirect": ("is_gap_direct", "direct band gap (Materials Project, DFT)", None),
+    "mpIsMetal": ("is_metal", "metallic (Materials Project, DFT)", None),
+    "mpDensity": ("density", "density, g/cm3 (Materials Project, DFT)", "GM-PER-CentiM3"),
+    "mpVolumePerAtom": ("volume_per_atom", "volume per atom, cubic angstrom (Materials Project, DFT)", None),
+    "mpBulkModulus": ("bulk_modulus", "bulk modulus, Voigt-Reuss-Hill, GPa (Materials Project, DFT)", "GigaPA"),
+    "mpShearModulus": ("shear_modulus", "shear modulus, Voigt-Reuss-Hill, GPa (Materials Project, DFT)", "GigaPA"),
+    "mpQuery": ("query", "formula or id the Materials Project was searched with", None),
+    "mpDatabaseVersion": ("database_version", "Materials Project database version", None),
+}
 MAPPING_PREDICATES = {"equivalent": OWL.equivalentClass, "subclass": RDFS.subClassOf, "exact": SKOS.exactMatch,
                       "close": SKOS.closeMatch, "broader": SKOS.broadMatch, "narrower": SKOS.narrowMatch,
                       "related": SKOS.relatedMatch}
@@ -147,6 +168,15 @@ def build(classes: list[dict], properties: dict, mappings: list[dict], papers: l
     for name, label in ANNOTATIONS.items():
         g.add((kw[name], RDF.type, OWL.AnnotationProperty))
         g.add((kw[name], RDFS.label, Literal(label, lang="en")))
+    if any(c.get("materials_project") for c in classes if not c["excluded"]):
+        g.bind("qudt", QUDT)
+        g.bind("unit", UNIT)
+        g.add((QUDT.hasUnit, RDF.type, OWL.AnnotationProperty))
+        for name, (_, label, unit) in MATERIALS_PROJECT.items():
+            g.add((kw[name], RDF.type, OWL.AnnotationProperty))
+            g.add((kw[name], RDFS.label, Literal(label, lang="en")))
+            if unit:
+                g.add((kw[name], QUDT.hasUnit, UNIT[unit]))
     for ap in (SKOS.definition, SKOS.prefLabel, SKOS.altLabel, SKOS.hiddenLabel, SKOS.exactMatch, SKOS.closeMatch,
                SKOS.broadMatch, SKOS.narrowMatch, SKOS.relatedMatch,
                DCTERMS.source, DCTERMS.title, DCTERMS.created, DCTERMS.description):
@@ -246,6 +276,11 @@ def build(classes: list[dict], properties: dict, mappings: list[dict], papers: l
         for d in c.get("disjoint_with", []):
             if d in live:
                 g.add((C, OWL.disjointWith, ref(d)))
+        for e in c.get("materials_project", []):  # computed properties of the material the class names
+            _annotate(g, kw, C, RDFS.seeAlso, URIRef(e["url"]),
+                      {kw[name]: Literal(e[field], datatype=XSD.decimal) if isinstance(e.get(field), float)
+                       else e.get(field) for name, (field, _, _) in MATERIALS_PROJECT.items()})
+            g.add((C, RDFS.seeAlso, URIRef(e["url"])))
 
     for m in mappings:
         if m["id"] not in live:
@@ -440,6 +475,8 @@ def metrics(g: rdflib.Graph, classes: list[dict], mappings: list[dict], properti
         "labels": dict(label_counts),
         "imported_terms": dict(imported),
         "definitions_by_status": dict(Counter(c.get("definition_status") or "none" for c in live.values())),
+        "materials_project": {"classes": sum(1 for c in live.values() if c.get("materials_project")),
+                              "entries": sum(len(c.get("materials_project", [])) for c in live.values())},
         "coverage": {"definition": cover(SKOS.definition), "alt_label": cover(SKOS.altLabel),
                      "hidden_label": cover(SKOS.hiddenLabel),
                      "source_paper": cover(DCTERMS.source),

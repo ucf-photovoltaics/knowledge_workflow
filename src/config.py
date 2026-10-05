@@ -117,6 +117,11 @@ TOP_N_BY_CITATIONS = 50
 MDS_ONTOLOGIES = None       # or comma-separated portal acronyms, e.g. "MDS-ONTO,IOF,PMDCO,QUDT"
 MATPORTAL = {"enabled": True, "base_url": "https://rest.matportal.org", "ontologies": None}
 CANDIDATES_PER_PORTAL = 10  # results kept per portal search query
+# Materials Project (MATERIALS_PROJECT_API_KEY): computed properties of the crystalline material a class names
+# (src/tools/materials_project.py), attached to material-entity classes as annotations, never as mapping candidates.
+MATERIALS_PROJECT = {"enabled": True, "base_url": "https://api.materialsproject.org",
+                     "per_class": 3,                   # entries kept per class, most stable first
+                     "max_energy_above_hull": 0.1}     # eV/atom; less stable polymorphs are left out
 
 # ---- Ontology store (python -m src.run ontologies build|status|search; docs/ontology-store.md) ----
 # Every external term used by placement, enrichment and interop comes from this store: one Oxigraph named graph

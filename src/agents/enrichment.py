@@ -18,10 +18,10 @@ from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import urlparse
 
 from src.agents.base import Agent, items, key, load_prompt, targets
-from src.config import (AGENT_PROFILES, CACHE, CANDIDATES_PER_PORTAL, LLM_PROFILE, MATPORTAL, MDS_ONTOLOGIES,
-                        MODEL_DEFINITION_PROFILES, ONTOLOGY_SEARCH, secret, tier)
-from src.tools import files, lexical, matportal, mds_portal, ontostore, retrieval, upper
-from src.tools.owl import label_of, lineage
+from src.config import (AGENT_PROFILES, CACHE, CANDIDATES_PER_PORTAL, LLM_PROFILE, MATERIALS_PROJECT, MATPORTAL,
+                        MDS_ONTOLOGIES, MODEL_DEFINITION_PROFILES, ONTOLOGY_SEARCH, secret, tier)
+from src.tools import files, lexical, materials_project, matportal, mds_portal, ontostore, retrieval, upper
+from src.tools.owl import bfo_category, label_of, lineage
 from src.tools.progress import log
 
 BATCH = 25
@@ -78,6 +78,7 @@ class EnrichmentAgent(Agent):
         log(f"candidates kept for {sum(1 for c in live if c['candidates'])} classes; "
             f"{sum(1 for c in live if any(x['label_match'] for x in c['candidates']))} with a label match; "
             f"{sum(1 for c in live for x in c['candidates'] if x.get('hop'))} propagated through mappings")
+        self._materials(live, by_id)
         self._causal(by_id, causal)
         log(f"causal restrictions added (local + RO + CCO): {sum(len(c['restrictions']) for c in live):,}")
 
@@ -154,6 +155,7 @@ class EnrichmentAgent(Agent):
         self.stats = {"restrictions_dropped": dict(self.dropped), "failed_calls": dict(self.failures),
                       "restrictions_from_predicate": self.from_predicate,
                       "candidates": self.candidate_stats, "property_candidates": self.property_stats,
+                      "materials_project": self.materials_stats,
                       "definitions_by_status": dict(Counter(c["definition_status"] for c in live)),
                       "row_coverage": {k: dict(v) for k, v in self.row_stats.items()},
                       "unsupported_definitions": sum(c["definition_status"] in ("none", "unreviewed") for c in live),
@@ -330,6 +332,59 @@ class EnrichmentAgent(Agent):
             "by_ontology": dict(Counter(x["ontology"] for c in live for x in c["candidates"])),
             "propagated_by_hop": dict(Counter(str(x["hop"]) for c in live for x in c["candidates"] if x.get("hop"))),
             "portal_hits": dict(hits), "portal_hits_off_store": dict(off_store.most_common(25))}
+
+    def _materials(self, live: list[dict], by_id: dict):
+        """Materials Project entries (src/tools/materials_project.py) for material-entity classes whose label or a
+        synonym names a crystalline material: up to per_class entries, most stable first, kept on the class as
+        `materials_project` for the OWL annotations. Every lookup is recorded in self.materials_log."""
+        for c in live:
+            c["materials_project"] = []
+        self.materials_log, self.materials_stats = {"database_version": None, "lookups": []}, {"enabled": False}
+        if not (MATERIALS_PROJECT["enabled"] and secret("MATERIALS_PROJECT_API_KEY")):
+            return
+        todo = {}
+        for c in live:
+            if bfo_category(c["id"], by_id) == "material entity":
+                for i, name in enumerate([c["label"], *c["alt_labels"]]):
+                    k = materials_project.lookup_key(name)
+                    if k:
+                        todo[c["id"]] = (k, name, "label" if i == 0 else "synonym")
+                        break
+        version = materials_project.database_version()
+        failed = []
+
+        def fetch(k: tuple) -> list[dict] | None:
+            path = CACHE / "materials_project" / (hashlib.sha256(f"{version}|{k}".encode()).hexdigest()[:20] + ".json")
+            if path.exists():
+                return json.loads(path.read_text(encoding="utf-8"))
+            try:
+                res = materials_project.search(*k, limit=MATERIALS_PROJECT["per_class"])
+            except Exception as e:
+                if not failed:
+                    log(f"  Materials Project: a lookup failed ({type(e).__name__}: {e}); other lookups continue")
+                failed.append(k)
+                return None
+            if res and version:  # never cache failures; a new database version is looked up again
+                files.atomic_write(path, json.dumps(res))
+            return res
+
+        keys = list(dict.fromkeys(k for k, _, _ in todo.values()))
+        with ThreadPoolExecutor(8) as ex:
+            found = dict(zip(keys, ex.map(fetch, keys)))
+        for cid, (k, name, matched) in todo.items():
+            entries = found[k] or []
+            by_id[cid]["materials_project"] = [{**e, "query": k[1], "matched": matched, "name": name,
+                                                "database_version": version} for e in entries]
+            self.materials_log["lookups"].append({"id": cid, "label": by_id[cid]["label"], "name": name,
+                                                  "matched": matched, k[0]: k[1], "failed": found[k] is None,
+                                                  "entries": [e["material_id"] for e in entries]})
+        self.materials_log["database_version"] = version
+        self.materials_stats = {"enabled": True, "database_version": version, "classes_looked_up": len(todo),
+                                "classes_with_entries": sum(1 for c in live if c["materials_project"]),
+                                "entries": sum(len(c["materials_project"]) for c in live),
+                                "queries": len(keys), "failed_queries": len(failed)}
+        log(f"Materials Project ({version or 'version unknown'}): {self.materials_stats['classes_with_entries']}/"
+            f"{len(todo)} material classes with entries ({len(failed)} failed lookups)")
 
     @classmethod
     def _causal(cls, by_id: dict, causal: list[dict]):
