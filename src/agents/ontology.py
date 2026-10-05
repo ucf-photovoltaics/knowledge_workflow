@@ -13,6 +13,7 @@ from src.tools.owl import base, bfo_category, lineage
 
 BATCH = 60
 SPLIT_BATCH = 25       # local tier: smaller batches, so a small model answers every row
+PARENT_BATCH = 8       # parent candidate menus need more space per row than category choices
 PARENT_CONCEPTS = 150  # local parent pass: the most important corpus concepts of the category offered as parents
 OBO = "http://purl.obolibrary.org/obo/"
 CATEGORIES = {  # local tier, pass 1 choices -> BFO root
@@ -258,10 +259,10 @@ class OntologyAgent(Agent):
                       + "\n\nOTHER CATEGORIES\n" + ", ".join(f"U:{l}" for k, l in root_labels.items() if k != cat)
                       + "\n\nCORPUS CONCEPTS\n" + "\n".join(f"{c['id']}: {c['label']} - "
                           + (c["definitions"][0]["text"][:160] if c["definitions"] else "") for c in same))
-            n = -(-len(members) // SPLIT_BATCH)
+            n = -(-len(members) // PARENT_BATCH)
             log(f"ontology pass 2: parents for {len(members)} {cat} concept(s) ({n} call(s))")
             for r in self.call_rows(rows_of(members), system, f"parent_{cat}", "classes", "parent",
-                                    size=SPLIT_BATCH, label=f"parent {cat}", stat="parent"):
+                                    size=PARENT_BATCH, label=f"parent {cat}", stat="parent"):
                 cid = key(r.get("id"))
                 if not cid or cid not in self.by_id:
                     continue

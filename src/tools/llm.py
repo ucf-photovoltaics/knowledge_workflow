@@ -1,5 +1,9 @@
 """Provider-agnostic chat call returning (text, usage), with usage normalized across providers."""
 import time
+import hashlib
+import json
+import math
+import sqlite3
 from dataclasses import dataclass
 
 from src.config import CACHE, EMBED, GEMINI_LIMITS, LLM, MAX_OUTPUT_TOKENS, MAX_RETRIES, TEMPERATURE, secret
@@ -13,6 +17,7 @@ class Usage:
     cached_tokens: int = 0  # prompt tokens served from the provider cache
     output_tokens: int = 0
     latency_s: float = 0.0
+    cache_hit: bool = False
 
 
 _clients = {}
@@ -93,9 +98,56 @@ def chat(system: str, user: str, model: str, max_tokens: int = MAX_OUTPUT_TOKENS
 def embed(texts: list[str], batch: int = 100) -> tuple[list[list[float]], Usage]:
     """Embeddings from an OpenAI-compatible /embeddings endpoint (OpenAI, Ollama, vLLM, Gemini).
     Paced to EMBED['inputs_per_minute']; on a quota error it waits the delay the provider asks for."""
+    if batch < 1:
+        raise ValueError("Embedding batch size must be positive")
+    if not isinstance(texts, list) or any(not isinstance(t, str) for t in texts):
+        raise ValueError("Embedding inputs must be a list of strings")
+    if not texts:
+        return [], Usage()
+    if not EMBED["model"]:
+        raise ValueError("Set EMBED['model'] before requesting embeddings")
+    CACHE.mkdir(parents=True, exist_ok=True)
+    con = sqlite3.connect(CACHE / "embeddings.sqlite3", timeout=60)
+    try:
+        con.execute("CREATE TABLE IF NOT EXISTS embeddings (key TEXT PRIMARY KEY, vector TEXT NOT NULL)")
+        identity = json.dumps([EMBED["base_url"], EMBED["model"], EMBED.get("cache_version", 1)])
+        keys = {t: hashlib.sha256((identity + "\n" + t).encode()).hexdigest() for t in dict.fromkeys(texts)}
+        found = {}
+        for t, digest in keys.items():
+            saved = con.execute("SELECT vector FROM embeddings WHERE key=?", (digest,)).fetchone()
+            if saved:
+                try:
+                    v = json.loads(saved[0])
+                    if isinstance(v, list) and v and all(isinstance(x, (int, float)) and math.isfinite(x) for x in v) \
+                            and any(v):
+                        found[t] = v
+                except (ValueError, TypeError):
+                    pass
+        todo = [t for t in keys if t not in found]
+        if len({len(v) for v in found.values()}) > 1:
+            raise ValueError("Cached embedding dimensions disagree; bump EMBED['cache_version']")
+        if not todo:
+            return [found[t] for t in texts], Usage(cache_hit=True)
+        vectors, usage = _embed_uncached(todo, batch)
+        if len(vectors) != len(todo) or not vectors or any(
+                not v or len(v) != len(vectors[0]) or not all(math.isfinite(x) for x in v) or not any(v)
+                for v in vectors):
+            raise ValueError("Embedding provider returned missing, inconsistent, or invalid vectors")
+        if any(len(v) != len(vectors[0]) for v in found.values()):
+            raise ValueError("Cached embedding dimension changed; bump EMBED['cache_version']")
+        con.executemany("INSERT OR REPLACE INTO embeddings VALUES (?,?)",
+                        [(keys[t], json.dumps(v)) for t, v in zip(todo, vectors)])
+        con.commit()
+        found.update(zip(todo, vectors))
+        return [found[t] for t in texts], usage
+    finally:
+        con.close()
+
+
+def _embed_uncached(texts: list[str], batch: int) -> tuple[list[list[float]], Usage]:
+    """Provider request for only the texts missing from the persistent embedding cache."""
     import re
     import openai
-    from src.tools.progress import log
     client = openai.OpenAI(api_key=secret(EMBED["api_key_env"]) or "none", base_url=EMBED["base_url"],
                            max_retries=MAX_RETRIES, timeout=120)
     per_minute = EMBED.get("inputs_per_minute")
@@ -115,6 +167,6 @@ def embed(texts: list[str], batch: int = 100) -> tuple[list[list[float]], Usage]
                     raise
                 log(f"  embedding quota hit; waiting {wait:.0f}s")
                 time.sleep(wait)
-        vectors += [d.embedding for d in r.data]
+        vectors += [d.embedding for d in sorted(r.data, key=lambda d: d.index)]
         tokens += getattr(r.usage, "prompt_tokens", 0) or 0
     return vectors, Usage(tokens, 0, 0, round(time.perf_counter() - t0, 3))

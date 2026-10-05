@@ -1,6 +1,6 @@
 """Extraction agent: one paper -> concepts, relations, causal edges, measurements, figure links.
 
-Per section (tiny sections merged, oversized ones split at sentence ends), with only the figures that section
+Per section group (adjacent short sections packed, oversized ones split at sentence ends), with only the figures it
 cites and the labels already found earlier in the paper:
 - frontier tier: one combined call (prompts/extraction.md);
 - local tier: one narrow call per pass - concepts first, then causal, relations and measurements, each given the
@@ -15,14 +15,14 @@ import unicodedata
 from collections import Counter
 
 from src.agents.base import Agent, compact, items, key, load_prompt, targets
-from src.config import CACHE, EXTRACTION_PASSES, tier
+from src.config import CACHE, EXTRACTION_PASSES, TEMPERATURE, tier
 from src.tools import files
 from src.tools.llm import Usage
 from src.tools.pdf_parse import MENTION
 from src.tools.progress import log
 
 CAPTION_CHARS = 400
-SECTION_MIN_CHARS = 1500   # shorter sections are merged with the next one
+SECTION_PACK_CHARS = 6000  # adjacent short sections share a call, retaining their headings
 KNOWN_LABELS = 80          # labels from earlier sections passed forward
 EARLIER_IN_LIST = 40       # earlier-section concepts added to a later pass's numbered list
 PASS_PROMPT = {"combined": "extraction", "concepts": "extraction_concepts", "causal": "extraction_causal",
@@ -31,7 +31,7 @@ PASS_REFS = {"causal": ("cause", "effect"), "relations": ("s", "o"), "measuremen
 PROPERTY_TYPES = ("property", "quantity", "parameter")
 EVIDENCE_WORDS = 3         # a quote shorter than this is no evidence: re-asked once, then flagged unevidenced
 EVIDENCE_BATCH = 40
-CODE_VERSION = "2026-10-04a"  # part of the cache key: bump when merge/finalize logic changes
+CODE_VERSION = "2026-10-05-runtime"  # part of the cache key: bump when merge/finalize logic changes
 TYPES = ("material", "device", "equipment", "process", "parameter", "phenomenon", "property", "quantity", "method",
          "defect", "condition", "information")
 VERIFY_SHARE = 0.8         # share of an evidence quote's word 3-grams that must appear in the paper
@@ -69,8 +69,10 @@ class ExtractionAgent(Agent):
         self.passes = EXTRACTION_PASSES[self.tier]
         self.prompts = {p: load_prompt(PASS_PROMPT[p]) for p in self.passes}
         self.evidence_prompt = load_prompt("extraction_evidence")
-        self.fingerprint = hashlib.sha256((self.model + self.tier + CODE_VERSION + self.evidence_prompt
-                                           + "".join(self.prompts.values())).encode()).hexdigest()
+        self.fingerprint = hashlib.sha256(compact({"model": self.model, "tier": self.tier, "version": CODE_VERSION,
+            "provider": self.profile["provider"], "base_url": self.profile["base_url"], "temperature": TEMPERATURE,
+            "request": self.profile.get("request", {}), "pack_chars": SECTION_PACK_CHARS,
+            "evidence_prompt": self.evidence_prompt, "prompts": self.prompts}).encode()).hexdigest()
         self.new_concepts = Counter()  # concepts added by the later passes, by pass
         self.evidence = Counter()  # quotes re-asked and filled
 
@@ -186,32 +188,43 @@ class ExtractionAgent(Agent):
                     self.evidence["filled"] += 1
 
     def _chunks(self, paper: dict) -> list[str]:
-        """One chunk per section: short sections merged forward, long ones split at sentence ends."""
-        limit = self.profile["max_input_chars"]
+        """Pack adjacent short sections; keep long sections separate and split them without dropping text."""
+        title = f"TITLE: {paper.get('title', '')}\n"
+        captions = {f["id"]: f["caption"][:CAPTION_CHARS] for f in paper["figures"]}
+        # Leave space for title, captions, and the concept list added by the local passes.
+        maximum = self.profile["max_input_chars"]
+        limit = maximum - len(title) - len("FIGURES:\nTEXT:\n") - sum(
+            len(f"{fid}: {caption}\n") for fid, caption in captions.items()) - min(4096, maximum // 4)
+        if limit < 100:
+            raise ValueError("Extraction input budget is too small for the title, captions, and concept list")
         pieces = []
         for s in paper["sections"]:
+            heading = f"## {s['heading']}\n"
+            available = limit - len(heading) - 1
+            if available < 1:
+                raise ValueError("Section heading exceeds the extraction input budget")
             text = s["text"]
-            while len(text) > limit:
-                cut = text.rfind(". ", 0, limit)
-                cut = cut + 1 if cut > limit // 2 else limit
-                pieces.append(f"## {s['heading']}\n{text[:cut].strip()}\n")
+            while len(text) > available:
+                cut = text.rfind(". ", 0, available)
+                cut = cut + 1 if cut > available // 2 else available
+                pieces.append(heading + text[:cut].strip() + "\n")
                 text = text[cut:]
-            pieces.append(f"## {s['heading']}\n{text.strip()}\n")
+            pieces.append(heading + text.strip() + "\n")
         bodies, body = [], ""
+        pack = min(SECTION_PACK_CHARS, limit)
         for piece in pieces:
-            if body and (len(body) >= SECTION_MIN_CHARS or len(body) + len(piece) > limit):
+            if body and len(body) + len(piece) > pack:
                 bodies.append(body)
                 body = ""
             body += piece
         if body:
             bodies.append(body)
-        captions = {f["id"]: f["caption"][:CAPTION_CHARS] for f in paper["figures"]}
         chunks = []
         for body in bodies:
             cited = sorted({f"F{n}" for m in MENTION.finditer(body) for n in m.groups() if n} & set(captions),
                            key=lambda f: int(f[1:]))
             figures = "FIGURES:\n" + "\n".join(f"{f}: {captions[f]}" for f in cited) + "\n" if cited else ""
-            chunks.append(f"TITLE: {paper.get('title', '')}\n{figures}TEXT:\n{body}")
+            chunks.append(f"{title}{figures}TEXT:\n{body}")
         return chunks
 
     @staticmethod

@@ -13,6 +13,7 @@ to an extracted relation.
 import hashlib
 import json
 import re
+import time
 from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import urlparse
@@ -25,6 +26,7 @@ from src.tools.owl import bfo_category, label_of, lineage
 from src.tools.progress import log
 
 BATCH = 25
+PASS_BATCH = {"definitions": 15, "synonyms": 10, "restrictions": 8, "disjointness": 12}
 PASS_FIELD = {"definitions": "definition", "synonyms": "alt_labels", "restrictions": "restrictions",
               "disjointness": "disjoint_with"}  # the answer field each local pass fills (reads {"k1": value} replies)
 MAX_RELATIONS = 8
@@ -55,6 +57,23 @@ def _same_term(r: dict) -> dict | None:
     hits = [t for t in ontostore.exact(r.get("Label", ""))
             if t["ontology"].lower() == name or t["ontology"].lower().startswith(name + "-")]
     return hits[0] if len(hits) == 1 else None
+
+
+def _portal_fetch(search, onts, folder: str, query: str, exact: bool) -> list[dict]:
+    """Cache successful searches; empty results expire after one day. Exceptions are never cached."""
+    path = CACHE / folder / (hashlib.sha256(f"{onts}|{exact}|{query}".encode()).hexdigest()[:20] + ".json")
+    if path.exists():
+        try:
+            saved = json.loads(path.read_text(encoding="utf-8"))
+            if isinstance(saved, list) and (saved or time.time() - path.stat().st_mtime < 86400):
+                return saved
+        except (OSError, ValueError):
+            pass
+    res = search(query, ontologies=onts, max_results=CANDIDATES_PER_PORTAL, exact=exact)
+    if not isinstance(res, list):
+        raise ValueError("Portal search must return a list of results")
+    files.atomic_write(path, json.dumps(res))
+    return res
 
 
 class EnrichmentAgent(Agent):
@@ -115,17 +134,17 @@ class EnrichmentAgent(Agent):
         sibs = lambda c: [f"{s}: {by_id[s]['label']}" for s in children[c["parent"]] if s != c["id"]][:MAX_SIBLINGS]
         if tier(self.name) == "local":
             passes = [  # (name, prompt, batch, which classes, row)
-                ("definitions", load_prompt("enrichment_definitions") + rule, BATCH, live,
+                ("definitions", load_prompt("enrichment_definitions") + rule, PASS_BATCH["definitions"], live,
                  lambda c: {"id": c["id"], "label": c["label"], "parent": label_of(c["parent"], by_id),
                             "defs": [d["text"][:200] for d in c["definitions"][:2]], "relations": rel_text(c)[:4],
                             "evidence": quotes[c["id"]]}),
-                ("synonyms", load_prompt("enrichment_synonyms"), 50, [c for c in live if c["alt_labels"]],
+                ("synonyms", load_prompt("enrichment_synonyms"), PASS_BATCH["synonyms"], [c for c in live if c["alt_labels"]],
                  lambda c: {"id": c["id"], "label": c["label"], "alt": c["alt_labels"][:8]}),
-                ("restrictions", load_prompt("enrichment_restrictions"), BATCH,
+                ("restrictions", load_prompt("enrichment_restrictions"), PASS_BATCH["restrictions"],
                  [c for c in live if any(self.pcands.get(self._rkey(c["id"], r)) for r in rels[c["id"]])],
                  lambda c: {"id": c["id"], "label": c["label"], "parent": label_of(c["parent"], by_id),
                             "relations": rel_rows(c)}),
-                ("disjointness", load_prompt("enrichment_disjoint"), BATCH, [c for c in live if sibs(c)],
+                ("disjointness", load_prompt("enrichment_disjoint"), PASS_BATCH["disjointness"], [c for c in live if sibs(c)],
                  lambda c: {"id": c["id"], "label": c["label"], "parent": label_of(c["parent"], by_id),
                             "siblings": sibs(c)}),
             ]
@@ -219,20 +238,14 @@ class EnrichmentAgent(Agent):
         failed = set()
 
         def fetch(portal: str, search, onts, folder: str, query: str, exact: bool) -> list[dict]:
-            path = CACHE / folder / (hashlib.sha256(f"{onts}|{exact}|{query}".encode()).hexdigest()[:20] + ".json")
-            if path.exists():
-                return json.loads(path.read_text(encoding="utf-8"))
             try:
-                res = search(query, ontologies=onts, max_results=CANDIDATES_PER_PORTAL, exact=exact)
+                return _portal_fetch(search, onts, folder, query, exact)
             except Exception as e:
                 if portal not in failed:
                     failed.add(portal)
                     err = re.sub(r"apikey=[^&\s]+", "apikey=***", str(e))
                     log(f"  {portal}: a search failed ({type(e).__name__}: {err}); other searches continue")
                 return []
-            if res:  # never cache failures
-                files.atomic_write(path, json.dumps(res))
-            return res
 
         def queries(c: dict) -> list[tuple[str, bool]]:
             q = lexical.clean_query(c["label"])
@@ -244,8 +257,11 @@ class EnrichmentAgent(Agent):
             return [(q, exact) for q, exact in dict.fromkeys(out) if q.strip()]  # a symbol-only label cleans to ""
 
         jobs = [(c["id"], portal, q, exact) for c in live for portal in portals for q, exact in queries(c)]
+        unique = list(dict.fromkeys((portal[0], q, exact) for _, portal, q, exact in jobs))
+        by_portal = {p[0]: p for p in portals}
         with ThreadPoolExecutor(8) as ex:
-            results = list(ex.map(lambda j: fetch(*j[1], j[2], j[3]), jobs))
+            fetched = dict(zip(unique, ex.map(lambda j: fetch(*by_portal[j[0]], j[1], j[2]), unique)))
+        results = [fetched[(portal[0], q, exact)] for _, portal, q, exact in jobs]
 
         def from_store(t: dict, source: str, **extra) -> dict:
             return {"iri": t["iri"], "label": t["label"], "ontology": t["ontology"], "kind": t["kind"],

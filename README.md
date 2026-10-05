@@ -46,6 +46,16 @@ uv run --with-requirements requirements.txt python -m src.run ontologies build
 
 Credentials, environments, caches, PDFs and results are excluded from Git.
 
+Runtime caches: successful downstream JSON calls are reused only for the same input, prompt/schema, model,
+provider settings and workflow revision. Incomplete row batches and schema echoes are not cached. Reused calls
+record zero new compute in the ledger and retain their originating run, item and usage in `calls.jsonl`.
+Use a new model name or workflow revision when replacing chat weights under an existing model name.
+Embeddings are deduplicated and persisted in `outputs/cache/embeddings.sqlite3`, keyed by endpoint, model,
+`EMBED['cache_version']` and text. Bump the cache version when replacing an embedding model under the same name.
+Successful empty portal searches expire after one day; failed requests are never cached.
+`--limit` stops PDF acquisition as soon as enough ranked, available papers have been found. Extraction packs
+adjacent short sections up to 6,000 characters while retaining headings, captions, evidence checks and all text.
+
 ## Running
 
 ```powershell

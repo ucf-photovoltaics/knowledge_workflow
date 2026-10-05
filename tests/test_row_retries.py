@@ -12,7 +12,7 @@ class Fake(Agent):
     def __init__(self):
         self.row_stats, self.doubts, self.sizes = {}, [], []
 
-    def call(self, user, item, system=None, label=None, soft=False):
+    def call(self, user, item, system=None, label=None, soft=False, cache_valid=None):
         rows = json.loads(user.split("\n", 1)[1])
         self.sizes.append(len(rows))
         if len(rows) > 5:  # big batches: the schema comes back, nothing else

@@ -48,8 +48,11 @@ def search(query: str, ontologies: str | None = None, max_results: int = 10, exa
               "require_exact_match": "true" if exact else "false"}
     if ontologies:
         params["ontologies"] = ontologies
+    data = _get("/search", params)
+    if not isinstance(data, dict) or not isinstance(data.get("collection"), list):
+        raise ValueError("MatPortal returned no search collection")
     out = []
-    for r in _get("/search", params).get("collection", [])[:max_results]:
+    for r in data["collection"][:max_results]:
         onto = str((r.get("links") or {}).get("ontology", "")).rstrip("/").rsplit("/", 1)[-1]
         d = r.get("definition") or []
         if r.get("@id") and r.get("prefLabel"):

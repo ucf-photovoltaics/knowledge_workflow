@@ -2,12 +2,27 @@
 import hashlib
 import json
 import re
+import time
+from dataclasses import asdict
 from collections import Counter
 
-from src.config import RESOURCES, model_for, profile_for
-from src.tools import llm
+from src.config import CACHE, RESOURCES, TEMPERATURE, WORKFLOW_REVISION, model_for, profile_for
+from src.tools import files, llm
 from src.tools.ledger import Ledger
 from src.tools.progress import finish, log
+
+
+RESPONSE_EXAMPLES = {
+    "ontology_category": {"classes": [{"id": "k1", "category": "quality"}]},
+    "ontology_parent": {"classes": [{"id": "k1", "parent": "U:quality"}]},
+    "enrichment_definitions": {"classes": [{"id": "k1", "definition": "", "basis": "none",
+                                              "category_conflict": False}]},
+    "enrichment_synonyms": {"classes": [{"id": "k1", "alt_labels": []}]},
+    "enrichment_restrictions": {"classes": [{"id": "k1", "restrictions": []}]},
+    "enrichment_disjoint": {"classes": [{"id": "k1", "disjoint_with": []}]},
+    "facets_stage": {"tags": [{"id": "k1", "study_stage": ["Sample"]}]},
+    "facets_domain": {"tags": [{"id": "k1", "domain": "General", "subdomain": ""}]},
+}
 
 
 def parse_json(text: str):
@@ -26,7 +41,12 @@ def load_prompt(name: str) -> str:
     """Prompt text plus its compact JSON schema (if any): the stable, cacheable system prefix."""
     prompt = (RESOURCES / "prompts" / f"{name}.md").read_text(encoding="utf-8")
     schema = RESOURCES / "schemas" / f"{name}.json"
-    return prompt + (json.dumps(json.loads(schema.read_text(encoding="utf-8")), separators=(",", ":")) if schema.exists() else "")
+    prompt += json.dumps(json.loads(schema.read_text(encoding="utf-8")), separators=(",", ":")) if schema.exists() else ""
+    if name in RESPONSE_EXAMPLES:
+        prompt += ("\n\nANSWER SHAPE EXAMPLE (replace ids and values with your answers; include EVERY input id, "
+                   "including empty answers; do not return the schema):\n"
+                   + json.dumps(RESPONSE_EXAMPLES[name], separators=(",", ":")))
+    return prompt
 
 
 def key(value) -> str | None:
@@ -127,22 +147,54 @@ class Agent:
         self.__dict__.setdefault("doubts", []).append({"kind": kind, **kept})
 
     def call(self, user: str, item: str, system: str | None = None, label: str | None = None,
-             soft: bool = False) -> dict:
+             soft: bool = False, cache_valid=None) -> dict:
         """One JSON call with one retry. soft=True returns {} on failure (the pass is skipped, the run goes on)."""
+        system = system or self.system
+        # Extraction already caches complete papers. Never include credentials in a cache record.
+        request = {"version": 1, "revision": WORKFLOW_REVISION, "agent": self.name, "model": self.model,
+                   "provider": self.profile["provider"], "base_url": self.profile["base_url"],
+                   "temperature": TEMPERATURE, "request": self.profile.get("request", {}),
+                   "system": system, "user": user}
+        digest = hashlib.sha256(compact(request).encode()).hexdigest()
+        cache = CACHE / "calls" / f"{digest}.json" if self.name != "extraction" else None
+        if cache and cache.exists():
+            try:
+                saved = json.loads(cache.read_text(encoding="utf-8"))
+                data = parse_json(saved["output"])
+                if saved["request_hash"] == digest and isinstance(data, dict) and "properties" not in data \
+                        and (cache_valid is None or cache_valid(data)):
+                    self.ledger.log(self.name, item, self.model, llm.Usage(), cache_hit=True)
+                    with (self.ledger.path.parent / "calls.jsonl").open("a", encoding="utf-8") as f:
+                        f.write(json.dumps({"agent": self.name, "item": item, "ok": True, "cache_hit": True,
+                                            "cache": str(cache), "request_hash": digest,
+                                            "source_usage": saved["usage"], "source_run": saved.get("source_run"),
+                                            "source_item": saved.get("source_item"), "output": saved["output"][:30000]},
+                                           ensure_ascii=False) + "\n")
+                    log(f"  {label or item}: reusing cached response (0 tokens)")
+                    return data
+            except (OSError, ValueError, KeyError, TypeError):
+                pass  # corrupt or obsolete cache: obtain a fresh response
         for attempt in range(2):
             log(f"  {label or item}: {self.model}{' (retry: previous reply was not JSON)' if attempt else ''} ...", end="")
-            text, usage = llm.chat(system or self.system, user, self.model, profile=self.profile)
+            text, usage = llm.chat(system, user, self.model, profile=self.profile)
             data = parse_json(text)
+            if not isinstance(data, dict):
+                data = None
             finish(f"{usage.latency_s:.1f}s, {usage.input_tokens:,} in / {usage.output_tokens:,} out"
                    + ("" if data is not None else ", NO VALID JSON"))
             self.ledger.log(self.name, item, self.model, usage, ok=data is not None, attempt=attempt)
             if self.name != "extraction":  # extraction keeps its own raw_calls per paper
                 with (self.ledger.path.parent / "calls.jsonl").open("a", encoding="utf-8") as f:
                     f.write(json.dumps({"agent": self.name, "item": item, "attempt": attempt, "ok": data is not None,
-                                        "output": text[:30000]}, ensure_ascii=False) + "\n")
+                                        "request_hash": digest, "output": text[:30000]}, ensure_ascii=False) + "\n")
             self.spent.update(calls=1, input_tokens=usage.input_tokens, cached_tokens=usage.cached_tokens,
                               output_tokens=usage.output_tokens, latency_s=usage.latency_s)
             if data is not None:
+                if cache and data and "properties" not in data and (cache_valid is None or cache_valid(data)):
+                    files.atomic_write(cache, json.dumps({"request_hash": digest, "model": self.model,
+                                                         "source_run": self.ledger.path.parent.name, "source_item": item,
+                                                         "created": time.time(), "usage": asdict(usage), "output": text},
+                                                        ensure_ascii=False))
                 return data
         if soft:
             self.failures[(label or item).split(" ")[0]] += 1
@@ -155,18 +207,37 @@ class Agent:
         """Rows in batches; rows the model left out are sent again, up to retries times, each time in batches half
         the size of the last (at least 5). Returns one answer entry per answered row id; coverage counts accumulate
         in self.row_stats[stat or item] (recovered: by any retry; recovered_retryN: by retry N >= 2)."""
+        if size < 1 or retries < 0:
+            raise ValueError("Row batch size must be positive and retries must be nonnegative")
         ids, answers, answered = {str(r["id"]) for r in rows}, [], set()
+        if len(ids) != len(rows):
+            raise ValueError("Row ids must be unique within a task")
+        contract = (f"\n\nReturn actual values under {field!r}, not a JSON schema. Include every input id exactly once. "
+                    + (f"Every row must include {value_key!r}; an explicit empty string or list is an answer, "
+                       "but an id without this field is incomplete. " if value_key else "")
+                    + "Use the task's stated fallback when unsure; never omit a row.")
 
         def send(todo, n, tag):
             batches = -(-len(todo) // n)
             for i in range(0, len(todo), n):
                 part = todo[i:i + n]
+                part_ids = {str(r["id"]) for r in part}
+
+                def valid(a):
+                    return key(a.get("id")) in part_ids and (not value_key or (
+                        value_key in a and a[value_key] is not None))
+
+                def complete(out):
+                    entries = items(out, field, value_key)
+                    return len(entries) == len(part_ids) and all(valid(a) for a in entries) \
+                        and {key(a.get("id")) for a in entries} == part_ids
+
                 out = self.call(f"Return one entry for each of these {len(part)} ids.\n" + compact(part),
-                                item=f"{item}{tag}_{i // n + 1}", system=system,
-                                label=f"{label or item}{tag} {i // n + 1}/{batches}", soft=True)
+                                item=f"{item}{tag}_{i // n + 1}", system=system + contract,
+                                label=f"{label or item}{tag} {i // n + 1}/{batches}", soft=True, cache_valid=complete)
                 for a in items(out, field, value_key):
                     k = key(a.get("id"))
-                    if k in ids and k not in answered:
+                    if valid(a) and k not in answered:
                         answered.add(k)
                         answers.append(a)
 

@@ -57,6 +57,8 @@ def _git() -> str | None:
 
 def _config() -> dict:
     """Run settings for the manifest. Never includes keys."""
+    from src.agents import enrichment as enrich_agent, extraction as extract_agent
+    from src.agents import interoperability as interop_agent, ontology as ontology_agent
     models = {}
     for a in AGENTS:
         try:
@@ -72,7 +74,12 @@ def _config() -> dict:
                                    "base_url": config.profile_for(a)["base_url"], "tier": config.tier(a),
                                    "max_input_chars": config.profile_for(a)["max_input_chars"]} for a in AGENTS},
             "pipeline_tier": config.tier(), "extraction_passes": config.EXTRACTION_PASSES[config.tier("extraction")], "embed_model": config.EMBED["model"],
-            "embed_base_url": config.EMBED["base_url"], "mds_ontologies": config.MDS_ONTOLOGIES or "all",
+            "task_batches": {"category": ontology_agent.SPLIT_BATCH, "parent": ontology_agent.PARENT_BATCH,
+                             "enrichment": enrich_agent.PASS_BATCH, "filter": interop_agent.FILTER_BATCH,
+                             "stage": interop_agent.STAGE_BATCH, "domain": interop_agent.DOMAIN_BATCH},
+            "extraction_pack_chars": extract_agent.SECTION_PACK_CHARS,
+            "embed_base_url": config.EMBED["base_url"], "embed_cache_version": config.EMBED.get("cache_version", 1),
+            "mds_ontologies": config.MDS_ONTOLOGIES or "all",
             "matportal": (config.MATPORTAL["ontologies"] or "all") if config.MATPORTAL["enabled"] else "off",
             "ontology_search": config.ONTOLOGY_SEARCH,
             "workflow_revision": config.WORKFLOW_REVISION, "ontology_iri": config.ONTOLOGY_IRI, "prices_usd_per_m": config.PRICES}
@@ -139,9 +146,14 @@ class Run:
         reports.upsert_eval(OUTPUTS / "eval_runs.csv", reports.eval_row(self.dir, self.manifest))
 
 
-def select_papers(coll: dict, top_n: int | None) -> tuple[list[dict], dict]:
-    """Rank a collection by OpenAlex citation count and keep the top N that have a PDF.
+def select_papers(coll: dict, top_n: int | None, limit: int | None = None) -> tuple[list[dict], dict]:
+    """Rank by citation count and fetch only enough available PDFs for the requested selection.
     Papers without a DOI or without a count rank last, in Zotero order."""
+    if limit is not None and limit < 1:
+        raise ValueError("Paper limit must be positive")
+    if top_n is not None and top_n < 1:
+        raise ValueError("Citation selection size must be positive")
+    target = min(n for n in (top_n, limit) if n is not None) if top_n or limit else None
     log(f"listing Zotero collection {coll['collection_key']} (library {coll['library_id']})")
     items = zotero.list_items(coll["library_id"], coll["collection_key"])
     log(f"{len(items)} items; looking up citation counts for {sum(1 for p in items if p['doi'])} DOIs")
@@ -151,10 +163,10 @@ def select_papers(coll: dict, top_n: int | None) -> tuple[list[dict], dict]:
         p["citations"], p["citations_source"], p["citations_fetched"] = \
             (c["count"], c.get("source"), c["fetched"]) if c else (None, None, None)
     ranked = sorted(items, key=lambda p: -1 if p["citations"] is None else -p["citations"])
-    log(f"ranked by citations; getting PDFs for the top {top_n or 'all'}")
+    log(f"ranked by citations; getting PDFs for the top {target or 'all'}")
     chosen, no_pdf = [], []
     for p in ranked:
-        if top_n and len(chosen) >= top_n:
+        if target and len(chosen) >= target:
             break
         zotero.attach_pdf(p, CACHE / "pdfs", coll["library_id"])
         (chosen if p["pdf"] else no_pdf).append(p)
@@ -196,8 +208,7 @@ def extract(run: Run, args) -> dict:
     coll = run.manifest["collection"]
     if not coll["collection_key"]:
         raise SystemExit(f"No collection key for '{coll['name']}' in src/config.py COLLECTIONS")
-    papers, selection = select_papers(coll, config.TOP_N_BY_CITATIONS)
-    papers = papers[: args.limit or None]
+    papers, selection = select_papers(coll, config.TOP_N_BY_CITATIONS, args.limit)
     log(f"{len(papers)} papers to extract (top {config.TOP_N_BY_CITATIONS} of {selection['items_in_collection']} by "
         f"citations{f', limited to {args.limit}' if args.limit else ''}; "
         f"{len(selection['skipped_no_pdf'])} passed over for no PDF)")

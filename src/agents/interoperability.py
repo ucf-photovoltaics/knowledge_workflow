@@ -19,7 +19,10 @@ from src.tools.owl import label_of, lineage
 from src.tools.progress import log
 
 BATCH = 20
-FACET_BATCH = 40
+FILTER_BATCH = 8
+FACET_BATCH = 20
+STAGE_BATCH = 8
+DOMAIN_BATCH = 8       # both local facet tasks need smaller batches than combined frontier tagging
 RELATIONS = {"equivalent", "exact", "close", "broader", "narrower", "related"}
 ALIASES = {"subclass": "broader", "broad": "broader", "narrow": "narrower"}  # earlier answer shapes
 
@@ -43,10 +46,10 @@ class InteroperabilityAgent(Agent):
                                          *([f"via {x['hop']} hop(s)"] if x.get("hop") else [])]
                                         for n, x in enumerate(c["candidates"], 1) if n in shown[c["id"]]]}
         if tier(self.name) == "local":  # pass 1: keep only candidates about the same (or a broader) thing
-            n_batches = -(-len(todo) // BATCH)
+            n_batches = -(-len(todo) // FILTER_BATCH)
             log(f"mapping pass 1: screening candidates for {len(todo)} classes ({n_batches} call(s))")
             answered = {key(k.get("id")): k.get("candidates") for k in self.call_rows(
-                [row(c) for c in todo], load_prompt("interoperability_filter"), "filter", "keep", "candidates", size=BATCH,
+                [row(c) for c in todo], load_prompt("interoperability_filter"), "filter", "keep", "candidates", size=FILTER_BATCH,
                 retries=MAPPING["row_retries"])}
             for c in todo:
                 if c["id"] not in answered:
@@ -201,13 +204,13 @@ class InteroperabilityAgent(Agent):
             prompts = [("stage", load_prompt("facets_stage") + stage_list), ("domain", load_prompt("facets_domain") + domain_list)]
         else:
             prompts = [("facets", system)]
-        n_batches = -(-len(rows) // FACET_BATCH)
+        batch_for = lambda name: DOMAIN_BATCH if name == "domain" else STAGE_BATCH if name == "stage" else FACET_BATCH
         log(f"tagging {len(rows)} classes/properties with study stage and domain "
-            f"({n_batches * len(prompts)} call(s))")
+            f"({sum(-(-len(rows) // batch_for(name)) for name, _ in prompts)} call(s))")
         answers = defaultdict(dict)
         for name, prompt in prompts:
             for t in self.call_rows(rows, prompt, name, "tags", {"stage": "study_stage", "domain": "domain"}.get(name),
-                                    size=FACET_BATCH, retries=MAPPING["row_retries"]):
+                                    size=batch_for(name), retries=MAPPING["row_retries"]):
                 answers[key(t.get("id"))].update({k: v for k, v in t.items() if k != "id"})
         tags = {}
         for tid, t in answers.items():

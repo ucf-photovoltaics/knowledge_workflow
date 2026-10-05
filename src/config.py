@@ -82,7 +82,8 @@ MAX_RETRIES = 6             # retries with exponential backoff on 429 / 5xx (e.g
 # ---- Embeddings (normalization synonym clustering; OpenAI-compatible /embeddings) ----
 # model None = skip embedding clustering (lexical merging only). e.g. "nomic-embed-text" on Ollama.
 # inputs_per_minute = provider quota on texts embedded per minute (Gemini free tier: 100); None = no pacing.
-EMBED = {"base_url": "http://localhost:11434/v1", "model": "nomic-embed-text", "api_key_env": None, "inputs_per_minute": None}
+EMBED = {"base_url": "http://localhost:11434/v1", "model": "nomic-embed-text", "api_key_env": None,
+         "inputs_per_minute": None, "cache_version": 1}  # bump if a model is replaced under the same name
 # Gemini alternative: {"base_url": "https://generativelanguage.googleapis.com/v1beta/openai/", "model": "gemini-embedding-001",
 #                      "api_key_env": "GEMINI_API_KEY", "inputs_per_minute": 90}
 
@@ -205,7 +206,7 @@ LORA = {
 # ---- Output ontology ----
 ONTOLOGY_IRI = "http://example.org/kw/"
 ONTOLOGY_TITLE = "PV Knowledge Workflow Ontology"
-WORKFLOW_REVISION = "2026-10-05-ontology-store-v4"
+WORKFLOW_REVISION = "2026-10-05-runtime-v5"
 WORKFLOW_REVISION_NOTE = ("External terms from a local ontology store (Oxigraph + trigram + embedding search over BFO, "
                           "CCO, RO, QUDT, PMDCO, IOF, MDS-Onto): placement parents (CCO, then BFO; same-name MDS-Onto/PMDCO "
                           "class wins), restriction properties, mapping candidates with 1-2 hop propagation; broader, "
@@ -215,7 +216,9 @@ WORKFLOW_REVISION_NOTE = ("External terms from a local ontology store (Oxigraph 
                           "ontology/uncertain.json, figures and grouped report after each run and integration; interop "
                           "passes re-send missing rows twice; answers inside an echoed schema are read; screening prompt "
                           "ends with an example answer instead of the schema; v4: portal terms outside the store are mapping "
-                          "candidates (SKOS only), portal hits under another IRI of a store ontology matched by label")
+                          "candidates (SKOS only), portal hits under another IRI of a store ontology matched by label; "
+                          "v5: explicit row coverage, task batches and answer examples, downstream response and embedding "
+                          "caches, early paper limits, short-section packing, deduplicated portal queries and vector top-k")
 # Profiles whose enrichment may write definitions from model knowledge (recorded as definition_source <profile>:<model>).
 MODEL_DEFINITION_PROFILES = ("gemini", "gemini-lite")
 

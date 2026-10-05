@@ -26,7 +26,7 @@ class Ledger:
 
     def log(self, agent: str, item: str, model: str, usage: Usage, ok=True, attempt=0, cache_hit=False):
         row = {"ts": time.time(), "agent": agent, "item": item, "model": model, **asdict(usage),
-               "cost_usd": cost(usage), "ok": ok, "attempt": attempt, "cache_hit": cache_hit}
+               "cost_usd": cost(usage), "ok": ok, "attempt": attempt, "cache_hit": cache_hit or usage.cache_hit}
         with self.path.open("a", encoding="utf-8") as f:
             f.write(json.dumps(row) + "\n")
 

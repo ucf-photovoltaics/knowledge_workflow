@@ -327,7 +327,7 @@ def manifest() -> dict:
 
 
 def _reset():
-    for f in (_db, manifest, term, ancestors, _vectors):
+    for f in (_db, manifest, term, ancestors, _vectors, _search_vectors):
         f.cache_clear()
 
 
@@ -412,6 +412,22 @@ def has_vectors() -> bool:
     return available() and _vectors() is not None
 
 
+@lru_cache(maxsize=32)
+def _search_vectors(kinds: tuple, ontologies: tuple):
+    """Reuse eligible vector subsets instead of scoring unrelated ontologies and term kinds."""
+    vec = _vectors()
+    if vec is None:
+        return None
+    m, _, _, onts, knds, dep = vec
+    mask = ~dep
+    if kinds:
+        mask &= np.isin(knds, kinds)
+    if ontologies:
+        mask &= np.isin(onts, ontologies)
+    indices = np.flatnonzero(mask)
+    return indices, m[indices]
+
+
 def exact(text: str, kinds=None, ontologies=None) -> list[dict]:
     """Terms (not deprecated) with any label that normalises to the same form as text."""
     require()
@@ -445,6 +461,8 @@ def search(texts: list[str], vector=None, kinds=None, ontologies=None, k: int = 
     one signal on its own (exact, fuzzy >= min_fuzzy or cosine >= min_cosine) and a fused score >= min_score;
     the `nearest` closest terms by cosine are kept regardless (placement always sees the nearest classes).
     kinds / ontologies restrict the result (e.g. kinds=("class",), ontologies=("CCO", "BFO"))."""
+    if k < 1 or pool < 1 or nearest < 0:
+        raise ValueError("Search k and pool must be positive and nearest must be nonnegative")
     require()
     con, s = _db(), ONTOLOGY_SEARCH
     hits = defaultdict(lambda: {"exact": 0.0, "fuzzy": 0.0, "cosine": None, "methods": set()})
@@ -466,20 +484,30 @@ def search(texts: list[str], vector=None, kinds=None, ontologies=None, k: int = 
     vec = _vectors() if vector is not None else None
     if vec is not None:
         m, ids, row, onts, knds, dep = vec
-        sims = m @ np.asarray(vector, dtype=np.float32) / (np.linalg.norm(vector) + 1e-12)
-        mask = ~dep
-        if kinds:
-            mask &= np.isin(knds, list(kinds))
-        if ontologies:
-            mask &= np.isin(onts, list(ontologies))
-        masked = np.where(mask, sims, -1.0)
-        for rank, j in enumerate(np.argsort(-masked)[:pool]):
+        query = np.asarray(vector, dtype=np.float32)
+        if query.shape != (m.shape[1],) or not np.isfinite(query).all():
+            raise ValueError("Search vector must be finite and match the ontology store's embedding dimension")
+        indices, matrix = _search_vectors(tuple(kinds or ()), tuple(ontologies or ()))
+        masked = np.full(len(ids), -1.0, dtype=np.float32)
+        masked[indices] = matrix @ query / (np.linalg.norm(vector) + 1e-12)
+        count = min(pool, len(ids))
+        if count < len(ids):
+            best = np.argpartition(-masked, count - 1)[:count]
+            boundary = masked[best].min()
+            # Retain the old sort's tie behavior, including ties spanning the pool boundary.
+            if np.count_nonzero(masked == boundary) > 1 or len(np.unique(masked[best])) != count:
+                best = np.argsort(-masked)[:count]
+            else:
+                best = best[np.argsort(-masked[best])]
+        else:
+            best = np.argsort(-masked)[:count]
+        for rank, j in enumerate(best):
             if masked[j] >= s["min_cosine"] or rank < nearest:
                 hits[ids[j]]["methods"].add("embedding" if masked[j] >= s["min_cosine"] else "nearest")
                 hits[ids[j]]["cosine"] = float(masked[j])
         for iri, h in hits.items():
             if h["cosine"] is None and iri in row:
-                h["cosine"] = float(sims[row[iri]])
+                h["cosine"] = float(masked[row[iri]])
     out = []
     for iri, h in hits.items():
         t = term(iri)

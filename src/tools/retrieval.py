@@ -1,10 +1,11 @@
-"""Embedding vectors (EMBED model) for the texts a stage searches the ontology store with, kept in memory for the run."""
+"""Normalized retrieval vectors in memory; llm.embed also persists them across runs by endpoint and model."""
 import numpy as np
 
 from src.config import EMBED
 from src.tools import llm
 
 _vectors: dict[str, np.ndarray] = {}
+_identity = None
 
 
 def enabled() -> bool:
@@ -12,6 +13,11 @@ def enabled() -> bool:
 
 
 def embed(texts: list[str], ledger=None, agent: str = "enrichment") -> np.ndarray:
+    global _identity
+    identity = (EMBED["base_url"], EMBED["model"], EMBED.get("cache_version", 1))
+    if identity != _identity:
+        _vectors.clear()
+        _identity = identity
     todo = [t for t in dict.fromkeys(texts) if t not in _vectors]
     if todo:
         vecs, usage = llm.embed(todo)
