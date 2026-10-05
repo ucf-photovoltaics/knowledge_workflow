@@ -1,6 +1,12 @@
 """Normalization agent: per-paper concepts -> canonical corpus concepts, importance scores, causal order.
 
 Lexical merging and scoring are deterministic; embeddings propose synonym clusters and the LLM only settles those.
+
+With a base (a sweep step after the first), the base's concepts keep their ids, labels and types: mentions in new
+papers join an existing concept by label or synonym, or through a merge the model accepts; the model reviews only
+look-alike clusters that hold a new term and never merges two existing concepts (a merge suggestion instead). Every
+concept and edge records the step it first appeared in (since); existing concepts record what each step added
+(history). Support, evidence, importance and causal order are recomputed over all papers without a model call.
 """
 import math
 import re
@@ -51,7 +57,11 @@ POLARITIES = set(upper.menus()["causal_polarity"])  # an unknown or missing pola
 class NormalizationAgent(Agent):
     name = "normalization"
 
-    def run(self, papers: list[dict]) -> dict:
+    def run(self, papers: list[dict], base: dict | None = None, step: int | None = None) -> dict:
+        """base: {"concepts", "concept_map", "relations", "causal", "summary", "papers", "step"} of the run this one
+        builds on; step: this run's step (papers in the run)."""
+        self.step = step = step or len(papers)
+        self.suggestions = []
         for p in papers:  # small models sometimes return a list or dict where a string belongs
             p["concepts"] = [_clean_concept(c) for c in p["concepts"] if isinstance(c, dict) and _text(c.get("label"))]
             p["relations"] = [{**r, "p": pred} for r in p.get("relations", []) if isinstance(r, dict)
@@ -60,15 +70,28 @@ class NormalizationAgent(Agent):
                            if isinstance(r, dict)]
         self.stats = {"concept_occurrences": sum(len(p["concepts"]) for p in papers)}
         log(f"joining {self.stats['concept_occurrences']:,} concept occurrences from {len(papers)} papers")
-        groups = self._lexical_groups(papers)
-        self.stats["lexical_groups"] = len(groups)
-        log(f"lexical merge (same wording and plurals only; synonyms require model review): {len(groups):,} groups")
-        groups = self._semantic_merge(groups)
-        concepts, cmap = self._canonical(groups)
-        log(f"canonical concepts: {len(concepts):,} ({self.stats['semantic_merges']} merged by meaning)")
-        self._settle_types(concepts)
+        if base:
+            old_papers = set(base["papers"])
+            papers = sorted(papers, key=lambda p: p["key"] not in old_papers)  # base evidence stays first on each edge
+            concepts, cmap = self._incremental(papers, base, step)
+            self._settle_types([c for c in concepts if c["since"] == step])
+        else:
+            groups = self._lexical_groups(papers)
+            self.stats["lexical_groups"] = len(groups)
+            log(f"lexical merge (same wording and plurals only; synonyms require model review): {len(groups):,} groups")
+            groups = self._semantic_merge(groups)
+            concepts, cmap = self._canonical(groups)
+            for c in concepts:
+                c["since"] = step
+            log(f"canonical concepts: {len(concepts):,} ({self.stats['semantic_merges']} merged by meaning)")
+            self._settle_types(concepts)
+        self.stats["new_concepts"] = sum(c["since"] == step for c in concepts)
         relations = _aggregate(papers, cmap, "relations", ("s", "p", "o"), ("s", "o"))
         causal = _aggregate(papers, cmap, "causal", ("cause", "effect", "polarity"), ("cause", "effect"))
+        _since(relations, (base or {}).get("relations"), ("s", "p", "o"), step, (base or {}).get("step"))
+        _since(causal, (base or {}).get("causal"), ("cause", "effect", "polarity"), step, (base or {}).get("step"))
+        if base:
+            _edge_history(concepts, relations + causal, base, step)
         measurements = [{**m, "concept": cmap[(p["key"], m["concept"])], "paper": p["key"],
                          "entity": cmap.get((p["key"], m.get("entity")), "")}
                         for p in papers for m in p.get("measurements", []) if (p["key"], m["concept"]) in cmap]
@@ -83,12 +106,21 @@ class NormalizationAgent(Agent):
         log(f"importance scored: core {tiers['core']}, major {tiers['major']}, minor {tiers['minor']}")
         order = _causal_order(concepts, causal)
         log(f"causal order: {order['n_nodes']} concepts, depth {order['max_rank']}, {len(order['cycles'])} cycles")
-        log("writing corpus summary")
-        summary = self._summarize(concepts, causal, order, len(papers))
+        if base:  # only new material goes to the model: the corpus summary is the base's
+            summary = {**(base.get("summary") or {}), "summary_step": (base.get("summary") or {}).get(
+                "summary_step", base.get("step"))}
+        else:
+            log("writing corpus summary")
+            summary = self._summarize(concepts, causal, order, len(papers))
+        self.stats["suggestions"] = dict(Counter(s["type"] for s in self.suggestions))
+        concept_map = defaultdict(dict)
+        for (paper, local), kid in cmap.items():
+            concept_map[paper][local] = kid
         return {"concepts": concepts, "relations": relations, "causal": causal, "measurements": measurements,
                 "contradictions": contradictions,
                 "causal_order": order,
-                "summary": summary, "stats": self.stats}
+                "summary": summary, "stats": self.stats, "concept_map": dict(concept_map),
+                "suggestions": self.suggestions}
 
     @staticmethod
     def _lexical_groups(papers: list[dict]) -> list[dict]:
@@ -183,28 +215,208 @@ class NormalizationAgent(Agent):
         concepts, cmap = [], {}
         for g in sorted(groups, key=lambda g: -len(g["members"])):
             kid = f"k{len(concepts) + 1}"
-            members = g["members"]
-            label = g["label"] or Counter(c["label"] for _, c in members).most_common(1)[0][0]
-            alts, defs = {}, {}
-            for key, c in members:
-                for t in [c["label"], *c.get("synonyms", [])]:
-                    if t.lower() != label.lower():
-                        alts.setdefault(t.lower(), t)
-                d = c.get("definition", "").strip()
-                if d:
-                    defs.setdefault(d.lower(), {"text": d, "paper": key})
+            label = g["label"] or Counter(c["label"] for _, c in g["members"]).most_common(1)[0][0]
+            for key, c in g["members"]:
                 cmap[(key, c["id"])] = kid
-            papers = sorted({key for key, _ in members})
-            concepts.append({
-                "id": kid, "label": label, "alt_labels": sorted(alts.values()),
-                "type": Counter(c.get("type", "") for _, c in members).most_common(1)[0][0],
-                "type_votes": dict(Counter(c.get("type", "") for _, c in members if c.get("type"))),
-                "definitions": sorted(defs.values(), key=lambda d: -len(d["text"]))[:3],
-                "papers": papers, "n_papers": len(papers),
-                "mentions": sum(c.get("mentions", 0) for _, c in members),
-                "figures": sorted({f"{key}:{f}" for key, c in members for f in c.get("figures", [])}),
-            })
+            concepts.append(_concept(kid, label, g["members"]))
         return concepts, cmap
+
+    def _suggest(self, kind: str, cid: str, label: str, current, suggested, paper: str = "", quote: str = "", **extra):
+        """One suggestion for ontology/suggestions.json (never applied during a sweep); duplicates are dropped."""
+        s = {"type": kind, "class": cid, "label": label, "current": current, "suggested": suggested, "paper": paper,
+             "quote": (quote or "")[:300], "step": self.step, "stage": "normalize", **extra}
+        if not any(all(x.get(k) == s.get(k) for k in ("type", "class", "suggested", "other")) for x in self.suggestions):
+            self.suggestions.append(s)
+
+    def _incremental(self, papers: list[dict], base: dict, step: int) -> tuple[list[dict], dict]:
+        """Canonical concepts that keep the base's: existing ids, labels and types stay; new papers' mentions join
+        them by label or synonym, or through a model-accepted merge with a new term; the rest become new concepts."""
+        self.step = step
+        old = {c["id"]: c for c in base["concepts"]}
+        old_papers = set(base["papers"])
+        new_papers = {p["key"] for p in papers if p["key"] not in old_papers}
+        cmap = {(k, local): kid for k, m in (base.get("concept_map") or {}).items() for local, kid in m.items()
+                if kid in old and k in old_papers}
+        by_label = {norm_key(c["label"]): c["id"] for c in old.values()}
+        by_alt = defaultdict(set)
+        for c in old.values():
+            for a in c.get("alt_labels", []):
+                by_alt[norm_key(a)].add(c["id"])
+
+        def lookup(text: str) -> list[str]:
+            k = norm_key(text)
+            if k in by_label:
+                return [by_label[k]]
+            return sorted(by_alt.get(k, ()), key=lambda i: (-old[i].get("n_papers", 0), i))
+
+        fresh, joined = defaultdict(list), 0
+        for p in papers:
+            for c in p["concepts"]:
+                if (p["key"], c["id"]) in cmap:
+                    continue
+                ids = lookup(c["label"])
+                if p["key"] not in new_papers:  # a base mention the base map does not cover (older base runs)
+                    if ids:
+                        cmap[(p["key"], c["id"])] = ids[0]
+                    continue
+                if not ids:
+                    fresh[norm_key(c["label"])].append((p["key"], c))
+                    continue
+                cmap[(p["key"], c["id"])] = ids[0]
+                joined += 1
+                for term, others in [(c["label"], ids[1:]),
+                                     *((s, [i for i in lookup(s) if i != ids[0]]) for s in c.get("synonyms", []))]:
+                    for o in others[:1]:
+                        self._suggest("synonym_conflict", ids[0], old[ids[0]]["label"], "separate concepts",
+                                      f"'{term}' names both {old[ids[0]]['label']} and {old[o]['label']}: merge them",
+                                      p["key"], c.get("definition", ""), other=o, other_label=old[o]["label"], term=term)
+        groups = [{"members": m, "label": None} for m in fresh.values()]
+        self.stats.update(base_concepts=len(old), papers_added=len(new_papers), mentions_joined_existing=joined,
+                          lexical_groups=len(groups))
+        log(f"{len(new_papers)} new paper(s): {joined:,} mentions join existing concepts; "
+            f"{len(groups):,} new lexical groups")
+        groups = self._review_new(groups, old)
+        next_id = max((int(k[1:]) for k in old if k[1:].isdigit()), default=0) + 1
+        named = {}
+        for g in groups:
+            label = g["label"] or Counter(c["label"] for _, c in g["members"]).most_common(1)[0][0]
+            target = g.get("join") or by_label.get(norm_key(label))
+            if target:
+                for key, c in g["members"]:
+                    cmap[(key, c["id"])] = target
+                continue
+            same = named.setdefault(norm_key(label), {"members": [], "label": g["label"]})
+            same["members"] += g["members"]
+            same["label"] = same["label"] or g["label"]
+        new = {}
+        for g in sorted(named.values(), key=lambda g: -len(g["members"])):
+            kid = f"k{next_id}"
+            next_id += 1
+            new[kid] = g["label"] or Counter(c["label"] for _, c in g["members"]).most_common(1)[0][0]
+            for key, c in g["members"]:
+                cmap[(key, c["id"])] = kid
+        members = defaultdict(list)
+        for p in papers:
+            for c in p["concepts"]:
+                if (p["key"], c["id"]) in cmap:
+                    members[cmap[(p["key"], c["id"])]].append((p["key"], c))
+        concepts = []
+        for kid, o in old.items():
+            if not members[kid]:  # no mention mapped (should not happen): kept unchanged
+                concepts.append({**o, "since": o.get("since", base.get("step"))})
+                continue
+            c = _concept(kid, o["label"], members[kid])
+            known = {a.lower() for a in o.get("alt_labels", [])}
+            added = [a for a in c["alt_labels"] if a.lower() not in known]
+            texts = {d["text"].lower() for d in o.get("definitions", [])}
+            defs = [d for d in c["all_definitions"] if d["text"].lower() not in texts and d["paper"] in new_papers]
+            c.update(type=o["type"], alt_labels=[*o.get("alt_labels", []), *added],
+                     definitions=[*o.get("definitions", []), *defs][:6], since=o.get("since", base.get("step")),
+                     history=list(o.get("history", [])))
+            mine = [(k, m) for k, m in members[kid] if k in new_papers]
+            if mine:
+                c["history"].append({"step": step, "papers_added": len({k for k, _ in mine}),
+                                     "mentions_added": sum(m.get("mentions", 0) for _, m in mine),
+                                     "synonyms_added": added, "definitions_added": len(defs)})
+            for t, rows in _group_by(mine, lambda km: km[1].get("type", "")).items():
+                if t and t != o["type"]:
+                    k, m = rows[0]
+                    self._suggest("type", kid, o["label"], o["type"], t, k, m.get("definition", ""),
+                                  papers=sorted({k for k, _ in rows}))
+            concepts.append(c)
+        for kid, label in new.items():
+            concepts.append({**_concept(kid, label, members[kid]), "since": step, "history": []})
+        for c in concepts:
+            c.pop("all_definitions", None)
+        log(f"canonical concepts: {len(concepts):,} ({len(new)} new, {len(old)} carried from step {base.get('step')}); "
+            f"suggestions: {dict(Counter(s['type'] for s in self.suggestions)) or 'none'}")
+        return concepts, cmap
+
+    def _review_new(self, groups: list[dict], old: dict) -> list[dict]:
+        """Embedding look-alikes of the new groups among the new groups and the existing concepts; only clusters
+        holding a new term go to the model. A merge with one existing concept joins it (label and id kept); a merge
+        naming two existing concepts becomes a merge suggestion."""
+        self.stats.update(semantic_merges=0, candidate_clusters=0)
+        if not EMBED["model"] or not groups:
+            log("embedding review of new terms: " + ("off (no EMBED model)" if groups else "nothing new"))
+            return groups
+        import numpy as np
+        labels = [Counter(c["label"] for _, c in g["members"]).most_common(1)[0][0] for g in groups]
+        olds = sorted(old.values(), key=lambda c: c["id"])
+        try:
+            vectors, usage = llm.embed(labels + [c["label"] for c in olds])
+        except Exception as e:  # never lose a run to the embedding service
+            self.stats["embedding_error"] = f"{type(e).__name__}: {e}"[:300]
+            log(f"embedding failed ({type(e).__name__}); new terms join by label only")
+            return groups
+        self.ledger.log(self.name, "embeddings", EMBED["model"], usage)
+        v = np.array(vectors, dtype=float)
+        v /= np.linalg.norm(v, axis=1, keepdims=True) + 1e-12
+        n = len(groups)
+        rows, cols = np.where(v[:n] @ v.T >= SIM_THRESHOLD)
+        uf = _UnionFind()
+        for a, b in zip(rows.tolist(), cols.tolist()):
+            if a != b:
+                uf.union(a, b)
+        comps = defaultdict(list)
+        for a in {x for a, b in zip(rows.tolist(), cols.tolist()) if a != b for x in (a, b)}:
+            comps[uf.find(a)].append(a)
+        clusters = [c[i:i + MAX_CLUSTER] for c in (sorted(c) for c in comps.values()) for i in range(0, len(c), MAX_CLUSTER)]
+        clusters = [c for c in clusters if len(c) > 1 and any(i < n for i in c)]
+        self.stats["candidate_clusters"] = len(clusters)
+        ident = lambda i: f"g{i}" if i < n else olds[i - n]["id"]
+
+        def term(i):
+            if i < n:
+                c = groups[i]["members"][0][1]
+                return {"id": f"g{i}", "label": labels[i], "type": c.get("type", ""), "def": c.get("definition", "")[:120]}
+            o = olds[i - n]
+            return {"id": o["id"], "label": o["label"], "type": o.get("type", ""),
+                    "def": (o["definitions"][0]["text"] if o.get("definitions") else "")[:120]}
+
+        batches, current, size = [], [], 0
+        for cluster in clusters:
+            if current and size + len(cluster) > TERMS_PER_CALL:
+                batches.append(current)
+                current, size = [], 0
+            current.append(cluster)
+            size += len(cluster)
+        if current:
+            batches.append(current)
+        log(f"{len(clusters)} look-alike clusters holding a new term -> {len(batches)} model call(s)")
+        merged, preferred, joins = _UnionFind(), {}, {}
+        for k, batch in enumerate(batches, 1):
+            out = self.call(compact({"clusters": [[term(i) for i in c] for c in batch]}), item="synonym_clusters",
+                            label=f"synonym clusters {k}/{len(batches)}")
+            allowed = [{ident(i) for i in c} for c in batch]
+            for m in items(out, "merges"):
+                ids = [x for x in m.get("ids", []) if isinstance(x, str)]
+                if len(ids) < 2 or not any(set(ids) <= a for a in allowed):
+                    continue
+                ex = [x for x in ids if x in old]
+                nw = [int(x[1:]) for x in ids if x.startswith("g") and x[1:].isdigit() and int(x[1:]) < n]
+                first = next((groups[i]["members"][0] for i in nw), ("", {}))
+                for o in ex[1:]:
+                    self._suggest("merge", ex[0], old[ex[0]]["label"], "separate concepts",
+                                  f"merge {old[ex[0]]['label']} and {old[o]['label']}"
+                                  + (f" as '{m['label']}'" if isinstance(m.get("label"), str) else ""),
+                                  first[0], first[1].get("definition", ""), other=o, other_label=old[o]["label"])
+                for i in nw[1:]:
+                    merged.union(i, nw[0])
+                if nw and ex:
+                    joins.setdefault(nw[0], ex[0])
+                elif nw and isinstance(m.get("label"), str):
+                    preferred[nw[0]] = m["label"]
+        out = defaultdict(lambda: {"members": [], "label": None})
+        for i, g in enumerate(groups):
+            out[merged.find(i)]["members"] += g["members"]
+        for i, label in preferred.items():
+            out[merged.find(i)]["label"] = label
+        for i, kid in joins.items():
+            out[merged.find(i)].setdefault("join", kid)
+        result = list(out.values())
+        self.stats["semantic_merges"] = len(groups) - len(result) + sum(1 for g in result if g.get("join"))
+        return result
 
     def _settle_types(self, concepts: list[dict]):
         """One narrow call for concepts the papers typed differently (the rest keep their single type)."""
@@ -256,6 +468,66 @@ def _clean_concept(c: dict) -> dict:
             "definition": str(_text(c.get("definition")) or "").strip(), "synonyms": as_list(c.get("synonyms")),
             "figures": as_list(c.get("figures")),
             "mentions": c.get("mentions") if isinstance(c.get("mentions"), int) else 0}
+
+
+def _concept(kid: str, label: str, members: list[tuple[str, dict]]) -> dict:
+    """One canonical concept from its mentions (paper key, extracted concept). all_definitions: every distinct
+    source definition, longest first (definitions keeps three)."""
+    alts, defs = {}, {}
+    for key, c in members:
+        for t in [c["label"], *c.get("synonyms", [])]:
+            if t.lower() != label.lower():
+                alts.setdefault(t.lower(), t)
+        d = c.get("definition", "").strip()
+        if d:
+            defs.setdefault(d.lower(), {"text": d, "paper": key})
+    papers = sorted({key for key, _ in members})
+    ranked = sorted(defs.values(), key=lambda d: -len(d["text"]))
+    return {"id": kid, "label": label, "alt_labels": sorted(alts.values()),
+            "type": Counter(c.get("type", "") for _, c in members).most_common(1)[0][0],
+            "type_votes": dict(Counter(c.get("type", "") for _, c in members if c.get("type"))),
+            "definitions": ranked[:3], "all_definitions": ranked,
+            "papers": papers, "n_papers": len(papers),
+            "mentions": sum(c.get("mentions", 0) for _, c in members),
+            "figures": sorted({f"{key}:{f}" for key, c in members for f in c.get("figures", [])})}
+
+
+def _group_by(rows, fn) -> dict:
+    out = defaultdict(list)
+    for r in rows:
+        out[fn(r)].append(r)
+    return dict(out)
+
+
+def _edge_key(e: dict) -> tuple:
+    return (e["s"], e["p"], e["o"]) if "s" in e else (e["cause"], e["effect"], e["polarity"])
+
+
+def _since(edges: list[dict], base_edges, keys, step: int, base_step):
+    """An edge keeps the step it first appeared in; one the base did not have is new at this step."""
+    seen = {tuple(e.get(k) for k in keys): e.get("since", base_step) for e in base_edges or []}
+    for e in edges:
+        e["since"] = seen.get(tuple(e.get(k) for k in keys), step)
+
+
+def _edge_history(concepts: list[dict], edges: list[dict], base: dict, step: int):
+    """What this step's papers added to the edges of existing concepts, in their history entry for this step:
+    new edges, support added to edges the base had, and new evidence quotes."""
+    old_papers = set(base["papers"])
+    support = {_edge_key(e): e.get("support", 0) for e in (base.get("relations") or []) + (base.get("causal") or [])}
+    entry = {c["id"]: c["history"][-1] for c in concepts if c.get("history") and c["history"][-1]["step"] == step}
+    for h in entry.values():
+        h.update(edges_added=0, support_added=0, evidence_added=0)
+    for e in edges:
+        for cid in {e.get("s") or e.get("cause"), e.get("o") or e.get("effect")}:
+            h = entry.get(cid)
+            if h is None:
+                continue
+            if e["since"] == step:
+                h["edges_added"] += 1
+            else:
+                h["support_added"] += max(0, e["support"] - support.get(_edge_key(e), 0))
+            h["evidence_added"] += sum(1 for x in e.get("evidence", []) if x.get("paper") not in old_papers)
 
 
 def _aggregate(papers, cmap, field, keys, ends) -> list[dict]:

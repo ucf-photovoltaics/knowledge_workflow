@@ -1,5 +1,9 @@
 """Ontology agent: place canonical concepts under CCO/BFO classes from the ontology store (or a same-name MDS-Onto or
-PMDCO class), or under each other, and assign IRIs."""
+PMDCO class), or under each other, and assign IRIs.
+
+With a base (a sweep step after the first), only new classes are placed - under existing local classes or under
+CCO/BFO - and a class excluded earlier is offered again when a new paper mentions it. Existing classes keep their
+parent, IRI and exclusion; an is-a stated by a new paper that contradicts a kept parent becomes a parent suggestion."""
 import re
 import hashlib
 from urllib.parse import quote
@@ -9,7 +13,7 @@ from src.agents.base import Agent, key, load_prompt
 from src.config import ONTOLOGY_SEARCH, tier
 from src.tools import lexical, ontology_review, ontostore, retrieval, upper
 from src.tools.progress import log
-from src.tools.owl import base, bfo_category, lineage
+from src.tools.owl import base, bfo_category, label_of, lineage
 
 BATCH = 60
 SPLIT_BATCH = 25       # local tier: smaller batches, so a small model answers every row
@@ -57,9 +61,18 @@ def slug(label: str) -> str:
 class OntologyAgent(Agent):
     name = "ontology"
 
-    def run(self, concepts: list[dict], relations: list[dict], domain: str) -> list[dict]:
+    def run(self, concepts: list[dict], relations: list[dict], domain: str, prior: dict | None = None,
+            step: int | None = None) -> list[dict]:
+        """prior: {"classes", "papers", "step"} of the run this one builds on (sweep steps after the first)."""
         if not domain or not domain.strip():
             raise ValueError("Ontology generation requires a nonempty domain")
+        step = step or len({k for c in concepts for k in c.get("papers", [])})
+        old = {c["id"]: c for c in (prior or {}).get("classes", [])}
+        new_papers = {k for c in concepts for k in c.get("papers", [])} - set((prior or {}).get("papers", []))
+        fresh = [c for c in concepts if c["id"] not in old
+                 or (old[c["id"]]["excluded"] and set(c.get("papers", [])) & new_papers)]
+        frozen = {cid for cid in old if cid not in {c["id"] for c in fresh}}
+        self.suggestions = []
         context = ontology_review.context(concepts, relations)
         menu_lc = {k.lower(): v for k, v in upper.class_menu().items()}  # type defaults only; not shown to the model
         self.roots = {upper.describe(root).get("label", cat).lower(): root for cat, root in CATEGORIES.items()}
@@ -67,25 +80,36 @@ class OntologyAgent(Agent):
         self.answers = Counter()  # how each parent answer was read (see _resolve)
         self.by_id = {c["id"]: c for c in concepts}
 
-        names = self._name_matches(concepts, menu_lc)
-        rest = [c for c in concepts if c["id"] not in names]
+        existing = [old[cid] for cid in frozen if not old[cid]["excluded"] and cid in self.by_id]
+        if prior:
+            log(f"placing {len(fresh)} new class(es); {len(frozen)} carried from step {prior.get('step')} keep their parents")
+        names = self._name_matches(fresh, menu_lc)
+        rest = [c for c in fresh if c["id"] not in names]
         self.cands = {}
         rows_of = lambda cs: [{"id": c["id"], "label": c["label"], "type": c["type"], "alt": c["alt_labels"][:3],
                                "source_definitions": c["definitions"][:2], "relations": context[c["id"]][:8],
                                **({"candidates": [f"U:{x['label']} - {x['definition'][:90]}" for x in self.cands[c["id"]]]}
                                   if c["id"] in self.cands else {})} for c in cs]
-        if tier(self.name) == "local":
-            picks = self._pick_split(rest, menu_lc, rows_of)
+        if not rest:
+            picks = {}
+        elif tier(self.name) == "local":
+            picks = self._pick_split(rest, menu_lc, rows_of, existing)
         else:
-            picks = self._pick_combined(rest, menu_lc, rows_of)
+            picks = self._pick_combined(rest, menu_lc, rows_of, existing)
         picks.update(names)
         self.stats["parent_answers"] = dict(self.answers)
         self.stats["parent_candidates_mean"] = round(sum(map(len, self.cands.values())) / max(len(self.cands), 1), 1)
         self.stats["parent_candidates_by_ontology"] = dict(Counter(
             (ontostore.term(x["iri"]) or {}).get("ontology", "BFO") for v in self.cands.values() for x in v))
 
-        used, classes = set(), []
+        used, classes = {o["iri"].rsplit("/", 1)[-1] for o in old.values()}, []
         for c in concepts:
+            if c["id"] in frozen:  # parent, IRI, exclusion and review state are kept; paper data is refreshed
+                o = old[c["id"]]
+                classes.append({**c, **{k: o[k] for k in ("parent", "parent_source", "iri", "excluded", "label", "type")},
+                                **{k: o[k] for k in ("review_flags", "parent_evidence") if k in o},
+                                "class_since": o.get("class_since", o.get("since", prior.get("step")))})
+                continue
             pick = picks.get(c["id"], {})
             parent = pick.get("parent") or ""
             entry = {**c, "excluded": bool(pick.get("exclude")), "parent_source": pick.get("source", "llm")}
@@ -97,6 +121,11 @@ class OntologyAgent(Agent):
                 entry["parent"] = parent
             else:
                 entry["parent"], entry["parent_source"] = self._default(c, menu_lc), "type_default"
+            entry["class_since"] = step
+            if c["id"] in old:  # excluded earlier, offered again: same IRI
+                entry["iri"] = old[c["id"]]["iri"]
+                classes.append(entry)
+                continue
             identity = c["label"] + "\0" + c["type"]
             name = slug(c["label"]) + "_" + hashlib.sha256(identity.encode("utf-8")).hexdigest()[:16]
             if name in used:  # same label and type twice (older normalized runs): keep both, flag, never stop the run
@@ -107,10 +136,14 @@ class OntologyAgent(Agent):
             used.add(name)
             entry["iri"] = base() + quote(domain, safe="") + "/class/" + name
             classes.append(entry)
-        self._repair(classes, menu_lc)
-        ontology_review.paper_parents(classes, relations)
-        self._lexical_heads(classes)
+        self._repair(classes, menu_lc, frozen)
+        ontology_review.paper_parents(classes, relations, None if prior is None else {c["id"] for c in fresh})
+        self._lexical_heads(classes, frozen)
+        if prior:
+            self._parent_suggestions(classes, relations, frozen, new_papers, step)
         for c in classes:
+            if c["id"] in frozen:
+                continue
             if c["parent_source"] not in ("category_default", "type_default", "cycle_break"):
                 c["review_flags"] = [f for f in c.get("review_flags", []) if f != "unresolved_placement"]
         self.stats["paper_is_a"] = sum(c["parent_source"] == "paper_is_a" for c in classes)
@@ -118,9 +151,31 @@ class OntologyAgent(Agent):
         self.stats["unresolved_placements"] = sum("unresolved_placement" in c.get("review_flags", []) for c in classes)
         self.stats["category_conflicts"] = sum("paper_parent_category_conflict" in c.get("review_flags", []) for c in classes)
         self.stats["row_coverage"] = {k: dict(v) for k, v in self.row_stats.items()}
+        self.stats["new_classes"] = sum(1 for c in classes if c["class_since"] == step and not c["excluded"])
+        self.stats["suggestions"] = dict(Counter(s["type"] for s in self.suggestions))
         log(f"placement sources: {dict(Counter(c['parent_source'] for c in classes))}; "
             f"{self.stats['unresolved_placements']} unresolved; {sum(c['excluded'] for c in classes)} excluded")
         return classes
+
+    def _parent_suggestions(self, classes: list[dict], relations: list[dict], frozen: set, new_papers: set, step: int):
+        """An is-a a new paper states for a kept class that its kept parent does not already imply."""
+        live = {c["id"]: c for c in classes if not c["excluded"]}
+        for r in relations:
+            if r.get("p") != "is_a" or r.get("s") not in frozen or r.get("s") not in live or r.get("o") not in live:
+                continue
+            papers = sorted(set(r.get("papers", [])) & new_papers)
+            c = live[r["s"]]
+            if not papers or r["o"] == r["s"] or r["o"] in lineage(r["s"], live):
+                continue
+            quote = next((e for e in r.get("evidence", []) if e.get("paper") in new_papers), {})
+            s = {"type": "parent", "class": c["id"], "label": c["label"], "current": label_of(c["parent"], live),
+                 "current_id": c["parent"], "suggested": live[r["o"]]["label"], "suggested_id": r["o"],
+                 "paper": papers[0], "papers": papers, "quote": str(quote.get("text", ""))[:300],
+                 "verified": quote.get("verified"), "step": step, "stage": "ontology"}
+            if not any(x["class"] == s["class"] and x["suggested_id"] == s["suggested_id"] for x in self.suggestions):
+                self.suggestions.append(s)
+        if self.suggestions:
+            log(f"parent suggestions (stated is-a against a kept parent): {len(self.suggestions)}")
 
     def _name_matches(self, concepts: list[dict], menu_lc: dict) -> dict:
         """A concept whose label names an MDS-Onto or PMDCO class (any of its labels, normalised) is placed under
@@ -211,12 +266,12 @@ class OntologyAgent(Agent):
                        answer=str(key(answer))[:200])
         return parent
 
-    def _pick_combined(self, concepts: list[dict], menu_lc: dict, rows_of) -> dict:
+    def _pick_combined(self, concepts: list[dict], menu_lc: dict, rows_of, existing=()) -> dict:
         """Frontier tier: one call per batch chooses the parent (a candidate, a BFO category or a corpus concept)
-        and exclusion."""
+        and exclusion. existing: kept classes offered as parents too."""
         self._candidates(concepts, menu_lc)
-        index = "\n".join(f"{c['id']}: {c['label']} - " + (c["definitions"][0]["text"][:160] if c["definitions"] else "")
-                          for c in concepts)
+        index = "\n".join(f"{c['id']}: {c['label']} - " + (c["definitions"][0]["text"][:160] if c.get("definitions") else "")
+                          for c in [*concepts, *existing])
         system = (f"{self.system}\n\nBFO CATEGORIES\n" + "\n".join(f"U:{lab}" for lab in self.roots)
                   + f"\n\nCORPUS CONCEPTS\n{index}")  # stable across batches -> cached
         log(f"placing {len(concepts):,} concepts under store candidates or each other ({-(-len(concepts) // BATCH)} call(s))")
@@ -227,7 +282,7 @@ class OntologyAgent(Agent):
                 picks[cid] = {"parent": self._parent(cid, r.get("parent")), "exclude": bool(r.get("exclude"))}
         return picks
 
-    def _pick_split(self, concepts: list[dict], menu_lc: dict, rows_of) -> dict:
+    def _pick_split(self, concepts: list[dict], menu_lc: dict, rows_of, existing=()) -> dict:
         """Local tier: pass 1 picks a BFO category (or 'not a class'); pass 2 picks the parent from that concept's
         store candidates inside the category and the corpus concepts in it. Pass 2 may override a wrong category
         with another root."""
@@ -247,6 +302,14 @@ class OntologyAgent(Agent):
                 self.stats["category_default"] = self.stats.get("category_default", 0) + 1
         picks = {cid: {"parent": "", "exclude": True} for cid, cat in cats.items() if cat == "not a class"}
         kept = [c for c in concepts if cats[c["id"]] != "not a class"]
+        kept_by_id = {c["id"]: c for c in existing}
+        offered = {}  # kept classes (sweep steps): offered as parents inside their own category
+        for c in existing:
+            chain = lineage(c["id"], kept_by_id)
+            cat = next((k for k, root in CATEGORIES.items() if root in chain), None)
+            if cat:
+                cats.setdefault(c["id"], cat)
+                offered.setdefault(cat, []).append(c)
         log(f"parent candidates from the ontology store for {len(kept):,} concepts")
         self._candidates(kept, menu_lc, cats)
         root_labels = {k: upper.describe(root).get("label", k) for k, root in CATEGORIES.items()}
@@ -254,11 +317,11 @@ class OntologyAgent(Agent):
             members = [c for c in kept if cats[c["id"]] == cat]
             if not members:
                 continue
-            same = sorted(members, key=lambda c: -c.get("score", 0))[:PARENT_CONCEPTS]
+            same = sorted(members + offered.get(cat, []), key=lambda c: -c.get("score", 0))[:PARENT_CONCEPTS]
             system = (load_prompt("ontology_parent") + f"\n\nCATEGORY\n{cat} (U:{root_labels[cat]})"
                       + "\n\nOTHER CATEGORIES\n" + ", ".join(f"U:{l}" for k, l in root_labels.items() if k != cat)
                       + "\n\nCORPUS CONCEPTS\n" + "\n".join(f"{c['id']}: {c['label']} - "
-                          + (c["definitions"][0]["text"][:160] if c["definitions"] else "") for c in same))
+                          + (c["definitions"][0]["text"][:160] if c.get("definitions") else "") for c in same))
             n = -(-len(members) // PARENT_BATCH)
             log(f"ontology pass 2: parents for {len(members)} {cat} concept(s) ({n} call(s))")
             for r in self.call_rows(rows_of(members), system, f"parent_{cat}", "classes", "parent",
@@ -285,14 +348,14 @@ class OntologyAgent(Agent):
         return menu_lc.get(label.lower(), upper.ENTITY)
 
     @staticmethod
-    def _lexical_heads(classes: list[dict]):
+    def _lexical_heads(classes: list[dict], frozen=frozenset()):
         """Where the model attached a concept straight to BFO/CCO, nest it under its obvious lexical head
         instead - only if the head is kept, falls in the same BFO category, and no cycle results."""
         live = {c["id"]: c for c in classes if not c["excluded"]}
         moved = 0
         for child_id, head_id in lexical.heads(list(live.values())).items():
             c, head = live[child_id], live.get(head_id)
-            if head is None or c["parent"] in live or c["parent_source"] == "name_match" \
+            if child_id in frozen or head is None or c["parent"] in live or c["parent_source"] == "name_match" \
                     or child_id in lineage(head_id, live):
                 continue
             if bfo_category(child_id, live) != bfo_category(head_id, live):
@@ -301,10 +364,13 @@ class OntologyAgent(Agent):
             moved += 1
         log(f"lexical heads: {moved} concept(s) nested under a more general corpus concept")
 
-    def _repair(self, classes: list[dict], menu_lc: dict):
-        """Break is-a cycles, then route children of excluded concepts to the nearest kept ancestor."""
+    def _repair(self, classes: list[dict], menu_lc: dict, frozen=frozenset()):
+        """Break is-a cycles, then route children of excluded concepts to the nearest kept ancestor. Kept classes
+        (frozen) are never changed."""
         by_id = {c["id"]: c for c in classes}
         for c in classes:
+            if c["id"] in frozen:
+                continue
             seen, p = {c["id"]}, c["parent"]
             while p in by_id:
                 if p in seen:
@@ -313,6 +379,8 @@ class OntologyAgent(Agent):
                 seen.add(p)
                 p = by_id[p]["parent"]
         for c in classes:
+            if c["id"] in frozen:
+                continue
             p = c["parent"]
             while p in by_id and by_id[p]["excluded"]:
                 p = by_id[p]["parent"]

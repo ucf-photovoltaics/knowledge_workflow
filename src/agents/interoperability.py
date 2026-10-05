@@ -9,7 +9,11 @@ a BFO-aligned class target in the same BFO category (otherwise skos:exactMatch);
 only when the target's category is the class's own or above it (otherwise skos:broadMatch alone). Individuals
 (QUDT quantity kinds and units) get SKOS only. Label-matched candidates the model skipped are added when their
 similarity is high; propagated candidates are only ever asserted by the model. Every mapping carries its method,
-scores, confidence, target ontology, hop count and path."""
+scores, confidence, target ontology, hop count and path.
+
+With a base (a sweep step after the first), only new classes get candidates screened and mappings committed;
+existing mappings, facets and imported definitions carry over, and every mapping records the step it first appeared
+in (since)."""
 from collections import Counter, defaultdict
 
 from src.agents.base import Agent, compact, items, key, load_prompt, targets
@@ -34,9 +38,10 @@ class InteroperabilityAgent(Agent):
         super().__init__(ledger)
         self.stats = Counter(dropped_not_in_store=0, dropped_deprecated=0)
 
-    def align(self, classes: list[dict]) -> list[dict]:
+    def align(self, classes: list[dict], skip=frozenset()) -> list[dict]:
+        """skip: classes whose mappings are carried from the base (sweep steps)."""
         by_id = {c["id"]: c for c in classes if not c["excluded"]}
-        todo = [c for c in by_id.values() if c.get("candidates")]
+        todo = [c for c in by_id.values() if c.get("candidates") and c["id"] not in skip]
         mappings, seen = [], set()
         shown = {c["id"]: set(range(1, len(c["candidates"]) + 1)) for c in todo}
         row = lambda c: {"id": c["id"], "label": c["label"], "parent": label_of(c["parent"], by_id),
@@ -174,7 +179,7 @@ class InteroperabilityAgent(Agent):
         issues += owl.same_as_issues(graph)
         return issues
 
-    def tag_facets(self, classes: list[dict], properties: dict, mappings: list[dict]) -> dict:
+    def tag_facets(self, classes: list[dict], properties: dict, mappings: list[dict], carried: dict | None = None) -> dict:
         """MDS-Onto study stage(s) and MDSDom domain/subdomain for every class and local property.
         MDS-Onto's own facets on matched terms are passed as hints; invalid names are dropped; anything left
         untagged gets a stage from its concept type and the General domain."""
@@ -194,6 +199,8 @@ class InteroperabilityAgent(Agent):
                  "def": c.get("definition", "")[:140], "mds": sorted(hints[cid])[:2]} for cid, c in live.items()]
         rows += [{"id": f"p:{name}", "label": name, "type": "relation", "parent": p.get("parent") or "",
                   "def": p.get("definition", "")[:140], "mds": []} for name, p in properties.items()]
+        carried = carried or {}
+        rows = [r for r in rows if r["id"] not in carried]  # sweep steps: earlier facets are kept
         system = (load_prompt("facets") + "\n\nSTUDY STAGES\n"
                   + "\n".join(f"- {s}: {d}" for s, d in f["study_stages"].items()) + "\n\nDOMAINS\n"
                   + "\n".join(f"- {d}: {', '.join(subs) or '(no subdomains)'}" for d, subs in f["domains"].items()))
@@ -222,6 +229,7 @@ class InteroperabilityAgent(Agent):
             sub = next((x for x in f["domains"][dom] if x.lower() == sub.lower()), "") if dom else ""
             tags[tid] = {"study_stage": chosen, "domain": dom or "General", "subdomain": sub,
                          "source": "model" if chosen and dom else "partial"}
+        tags.update({k: v for k, v in carried.items() if k in live or k.startswith("p:")})
         for cid, c in live.items():
             c["facets"] = tags.get(cid) or {"study_stage": [], "domain": "General", "subdomain": "",
                                             "source": "type_default"}
@@ -235,10 +243,22 @@ class InteroperabilityAgent(Agent):
             f"domains {dict(Counter(v['domain'] for v in facets.values()).most_common(4))}")
         return facets
 
-    def run(self, classes: list[dict], properties: dict, papers: list[dict], run_id: str, domain: str) -> dict:
-        mappings = self.align(classes)
+    def run(self, classes: list[dict], properties: dict, papers: list[dict], run_id: str, domain: str,
+            prior: dict | None = None, step: int | None = None) -> dict:
+        """prior: {"mappings", "facets", "classes" (the base's enriched.json), "step"} for a sweep step."""
+        step = step or len(papers)
+        live = {c["id"] for c in classes if not c["excluded"]}
+        kept = {c["id"] for c in (prior or {}).get("classes", []) if not c.get("excluded")} & live
+        carried = [{**m, "since": m.get("since", prior.get("step"))} for m in (prior or {}).get("mappings", [])
+                   if m["id"] in kept]
+        if prior:
+            log(f"mappings: {len(carried)} carried from step {prior.get('step')}; screening only the "
+                f"{len(live - kept)} new class(es)")
+        mappings = carried + [{**m, "since": step} for m in self.align(classes, kept)]
+        self.stats["mappings_new"] = len(mappings) - len(carried)
+        self.stats["mappings_carried"] = len(carried)
         imported = self.import_definitions(classes, mappings)
-        facets = self.tag_facets(classes, properties, mappings)
+        facets = self.tag_facets(classes, properties, mappings, (prior or {}).get("facets"))
         log(f"mappings committed: {len(mappings)}")
         log("building OWL2 graph (classes, labels, restrictions, mappings, provenance, imports from the store)")
         graph = owl.build(classes, properties, mappings, papers, run_id, domain)

@@ -194,6 +194,31 @@ def write_uncertain(run_dir: Path, run_id: str, stage: str, items: list[dict], u
     return data
 
 
+SUGGESTIONS = "ontology/suggestions.json"
+SUGGESTION_TYPES = {  # type -> what it proposes; suggestions are never applied during a sweep
+    "definition": "a paper-backed definition for a class without one, or a new paper's definition beside an existing "
+                  "paper-backed one",
+    "parent": "an is-a a new paper states that contradicts the kept parent",
+    "merge": "two existing concepts the model would join",
+    "synonym_conflict": "a new term that would join two different existing concepts",
+    "type": "a new paper typing an existing concept differently",
+}
+
+
+def write_suggestions(run_dir: Path, run_id: str, stage: str, items: list[dict], updated: str = "") -> dict:
+    """Replace one stage's suggestions in ontology/suggestions.json; other stages are kept (resumed runs)."""
+    path = run_dir / SUGGESTIONS
+    old = _load(path) or {}
+    stages = {**old.get("by_stage", {}), stage: items}
+    stages = {s: stages[s] for s in STAGE_AGENT if s in stages}
+    every = [x for v in stages.values() for x in v]
+    data = {"run_id": run_id, "updated": updated, "total": len(every),
+            "counts": dict(Counter(x["type"] for x in every)), "types": SUGGESTION_TYPES, "by_stage": stages}
+    path.parent.mkdir(parents=True, exist_ok=True)
+    files.atomic_write(path, json.dumps(data, indent=1, ensure_ascii=False, default=str))
+    return data
+
+
 def _load(path: Path):
     return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
 
@@ -235,6 +260,8 @@ def eval_row(run_dir: Path, m: dict) -> dict:
     om, val = _load(run_dir / "ontology" / "metrics.json"), _load(run_dir / "ontology" / "validation.json")
     layer = _load(run_dir / "ontology" / "domain_layer_metrics.json")
     unc = _load(run_dir / UNCERTAIN)
+    sug = _load(run_dir / SUGGESTIONS)
+    sw = m.get("sweep") or {}
     ex, on, en = stages.get("extract", {}), stages.get("ontology", {}), stages.get("enrich", {})
     ps = [p["parse_stats"] for p in papers]
     cites = sorted(s["citations"] for s in sel.get("selected", []) if s.get("citations") is not None)
@@ -257,6 +284,13 @@ def eval_row(run_dir: Path, m: dict) -> dict:
         "last_completed": max((s["completed"] for s in stages.values()), default=""),
         "git_commit": m.get("git_commit"),
         "row_type": "run", "workflow_revision": cfg.get("workflow_revision", ""),
+        # sweep steps: what this step built on and what it added
+        "sweep_name": sw.get("name"), "sweep_step": sw.get("n"), "base_run": m.get("base_run"),
+        "papers_added": corpus.get("papers_added"), "new_concepts": cs.get("new_concepts"),
+        "mentions_joined_existing": cs.get("mentions_joined_existing"), "new_classes": on.get("new_classes"),
+        "restrictions_added_to_existing": en.get("restrictions_added_to_existing"),
+        "suggestions_total": sug.get("total") if sug else None,
+        **{f"suggestions_{t}": (sug.get("counts") or {}).get(t, 0) for t in SUGGESTION_TYPES if sug},
         "ontology_unresolved_placements": on.get("unresolved_placements"),
         "ontology_category_conflicts": on.get("category_conflicts"),
         "enrichment_unsupported_definitions": en.get("unsupported_definitions"),

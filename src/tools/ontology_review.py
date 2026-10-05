@@ -16,11 +16,12 @@ def context(concepts, relations):
     return rows
 
 
-def paper_parents(classes, relations):
+def paper_parents(classes, relations, only=None):
+    """only: the ids whose parents may change (a sweep step places only its new classes)."""
     live = {c['id']: c for c in classes if not c['excluded']}
     candidates = defaultdict(list)
     for r in relations:
-        if r.get('p') == 'is_a' and r.get('s') in live and r.get('o') in live \
+        if r.get('p') == 'is_a' and r.get('s') in live and r.get('o') in live and (only is None or r['s'] in only) \
                 and any(e.get('verified') is True for e in r.get('evidence', [])):
             candidates[r['s']].append(r)
     for cid, edges in candidates.items():
@@ -44,7 +45,7 @@ def paper_parents(classes, relations):
         elif targets:
             c.setdefault('review_flags', []).append('ambiguous_paper_parents')
     for c in live.values():
-        if c['parent_source'] in ('category_default', 'type_default', 'cycle_break'):
+        if (only is None or c['id'] in only) and c['parent_source'] in ('category_default', 'type_default', 'cycle_break'):
             c.setdefault('review_flags', []).append('unresolved_placement')
 
 

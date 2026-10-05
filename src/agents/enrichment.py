@@ -9,6 +9,12 @@ from the store (predicate phrase and quote; domain and range must fit): an exact
 upper.RELATION_GROUPS breaks, is used directly; the rest go to the model with their numbered candidates. The
 paper's predicate phrase, quote, support and papers stay on every restriction. Every restriction must trace back
 to an extracted relation.
+
+With a base (a sweep step after the first), new classes get the full pass; existing classes keep their definition,
+synonyms, candidates and Materials Project entries, gain the synonyms this step's papers added, restrictions from the
+relations those papers add, and updated support, papers and evidence on the restrictions they already had. A new
+paper's definition for an existing class becomes a definition suggestion (one model call per batch for classes whose
+definition is not paper-backed), never a change.
 """
 import hashlib
 import json
@@ -79,31 +85,70 @@ def _portal_fetch(search, onts, folder: str, query: str, exact: bool) -> list[di
 class EnrichmentAgent(Agent):
     name = "enrichment"
 
-    def run(self, classes: list[dict], relations: list[dict], causal: list[dict]) -> tuple[list[dict], dict]:
+    def run(self, classes: list[dict], relations: list[dict], causal: list[dict], prior: dict | None = None,
+            step: int | None = None) -> tuple[list[dict], dict]:
+        """prior: {"classes" (the base's enriched.json), "materials_log", "papers", "step"} for a sweep step."""
         live = [c for c in classes if not c["excluded"]]
         by_id = {c["id"]: c for c in live}
         self.dropped = Counter()
+        self.suggestions = []
         profile = AGENT_PROFILES.get(self.name, LLM_PROFILE)
         self.model_definitions = profile in MODEL_DEFINITION_PROFILES
         self.definition_source = f"{profile}:{self.model}"
         rule = "\n\n" + DEFINITION_RULE[self.model_definitions]
+        old = {c["id"]: c for c in (prior or {}).get("classes", []) if not c.get("excluded")}
+        self.frozen = {c["id"] for c in live if c["id"] in old}
+        fresh = [c for c in live if c["id"] not in self.frozen]
+        step = step or len({k for c in live for k in c.get("papers", [])})
         for c in live:
+            if c["id"] in self.frozen:  # kept: definition, synonyms, candidates, axioms; this step's synonyms added
+                o = old[c["id"]]
+                added = next((h.get("synonyms_added", []) for h in c.get("history", []) if h.get("step") == step), [])
+                known = {a.lower() for a in o.get("alt_labels", [])}
+                c.update({k: o.get(k, d) for k, d in (("definition", ""), ("definition_source", ""),
+                                                      ("definition_status", "none"), ("candidates", []),
+                                                      ("portal_only", []), ("materials_project", []),
+                                                      ("disjoint_with", []))})
+                c["alt_labels"] = [*o.get("alt_labels", []), *(a for a in added if a.lower() not in known)]
+                c["restrictions"] = [{**r, "since": r.get("since", prior.get("step"))} for r in o.get("restrictions", [])]
+                c["review_flags"] = list(dict.fromkeys([*c.get("review_flags", []), *o.get("review_flags", [])]))
+                continue
             c["definition"], c["definition_source"] = "", ""
             c["definition_status"] = "unreviewed"
             c["restrictions"], c["disjoint_with"] = [], []
+        if prior:
+            log(f"enriching {len(fresh)} new class(es); {len(self.frozen)} carried from step {prior.get('step')}")
 
-        log(f"mapping candidates: ontology store + MDS-Onto portal + MatPortal (all their ontologies) for {len(live):,} classes")
-        self._candidates(live)
-        log(f"candidates kept for {sum(1 for c in live if c['candidates'])} classes; "
-            f"{sum(1 for c in live if any(x['label_match'] for x in c['candidates']))} with a label match; "
-            f"{sum(1 for c in live for x in c['candidates'] if x.get('hop'))} propagated through mappings")
-        self._materials(live, by_id)
+        log(f"mapping candidates: ontology store + MDS-Onto portal + MatPortal (all their ontologies) for {len(fresh):,} classes")
+        self.candidate_stats = {}
+        if fresh:
+            self._candidates(fresh)
+        log(f"candidates kept for {sum(1 for c in fresh if c['candidates'])} classes; "
+            f"{sum(1 for c in fresh if any(x['label_match'] for x in c['candidates']))} with a label match; "
+            f"{sum(1 for c in fresh for x in c['candidates'] if x.get('hop'))} propagated through mappings")
+        self._materials(fresh, by_id)
+        if prior:
+            self.materials_log["lookups"] = [*(prior.get("materials_log") or {}).get("lookups", []),
+                                             *self.materials_log["lookups"]]
+            if self.materials_stats.get("enabled") or any(c.get("materials_project") for c in live):
+                self.materials_stats.update(classes_with_entries=sum(1 for c in live if c.get("materials_project")),
+                                            entries=sum(len(c.get("materials_project", [])) for c in live),
+                                            classes_looked_up_this_step=self.materials_stats.get("classes_looked_up", 0),
+                                            classes_looked_up=len(self.materials_log["lookups"]))
         self._causal(by_id, causal)
         log(f"causal restrictions added (local + RO + CCO): {sum(len(c['restrictions']) for c in live):,}")
 
         system = self.system + rule
         rels = defaultdict(list)
+        if self.frozen:  # what new papers add to restrictions an existing class already has
+            for r in relations:
+                c = by_id.get(r["s"]) if r["s"] in self.frozen else None
+                for x in (c or {}).get("restrictions", []):
+                    if x.get("kind") == "relation" and x.get("phrase") == r["p"] and x["o"] == r["o"]:
+                        x.update(support=r["support"], papers=r["papers"], evidence=r["evidence"])
         for r in relations:  # unevidenced relations never become axioms
+            if r["s"] in self.frozen and r.get("since") != step:
+                continue  # an existing class gets restrictions only from relations this step's papers add
             if r["p"] != "is_a" and r["s"] in by_id and r["o"] in by_id and _evidenced(r):
                 rels[r["s"]].append(r)
             elif r["p"] != "is_a" and r["s"] in by_id and r["o"] in by_id:
@@ -134,17 +179,17 @@ class EnrichmentAgent(Agent):
         sibs = lambda c: [f"{s}: {by_id[s]['label']}" for s in children[c["parent"]] if s != c["id"]][:MAX_SIBLINGS]
         if tier(self.name) == "local":
             passes = [  # (name, prompt, batch, which classes, row)
-                ("definitions", load_prompt("enrichment_definitions") + rule, PASS_BATCH["definitions"], live,
+                ("definitions", load_prompt("enrichment_definitions") + rule, PASS_BATCH["definitions"], fresh,
                  lambda c: {"id": c["id"], "label": c["label"], "parent": label_of(c["parent"], by_id),
                             "defs": [d["text"][:200] for d in c["definitions"][:2]], "relations": rel_text(c)[:4],
                             "evidence": quotes[c["id"]]}),
-                ("synonyms", load_prompt("enrichment_synonyms"), PASS_BATCH["synonyms"], [c for c in live if c["alt_labels"]],
+                ("synonyms", load_prompt("enrichment_synonyms"), PASS_BATCH["synonyms"], [c for c in fresh if c["alt_labels"]],
                  lambda c: {"id": c["id"], "label": c["label"], "alt": c["alt_labels"][:8]}),
                 ("restrictions", load_prompt("enrichment_restrictions"), PASS_BATCH["restrictions"],
                  [c for c in live if any(self.pcands.get(self._rkey(c["id"], r)) for r in rels[c["id"]])],
                  lambda c: {"id": c["id"], "label": c["label"], "parent": label_of(c["parent"], by_id),
                             "relations": rel_rows(c)}),
-                ("disjointness", load_prompt("enrichment_disjoint"), PASS_BATCH["disjointness"], [c for c in live if sibs(c)],
+                ("disjointness", load_prompt("enrichment_disjoint"), PASS_BATCH["disjointness"], [c for c in fresh if sibs(c)],
                  lambda c: {"id": c["id"], "label": c["label"], "parent": label_of(c["parent"], by_id),
                             "siblings": sibs(c)}),
             ]
@@ -153,13 +198,16 @@ class EnrichmentAgent(Agent):
                 answers = self.call_rows([row(c) for c in todo], prompt, name, "classes", PASS_FIELD[name], size=size)
                 self._apply({"classes": answers}, by_id, rels)
         else:
-            n_batches = -(-len(live) // BATCH)
-            log(f"definitions, synonyms, restrictions and disjointness for {len(live):,} classes ({n_batches} call(s))")
+            todo = [c for c in live if c["id"] not in self.frozen or rels[c["id"]]]
+            n_batches = -(-len(todo) // BATCH)
+            log(f"definitions, synonyms, restrictions and disjointness for {len(todo):,} classes ({n_batches} call(s))")
             rows = [{"id": c["id"], "label": c["label"], "parent": label_of(c["parent"], by_id),
                      "alt": c["alt_labels"][:8], "defs": [d["text"][:200] for d in c["definitions"][:2]],
-                     "evidence": quotes[c["id"]], "relations": rel_rows(c), "siblings": sibs(c)} for c in live]
+                     "evidence": quotes[c["id"]], "relations": rel_rows(c), "siblings": sibs(c)} for c in todo]
             self._apply({"classes": self.call_rows(rows, system, "enrich", "classes", size=BATCH)}, by_id, rels)
-        for c in live:
+        if prior:
+            self._definition_suggestions(live, by_id, set((prior or {}).get("papers", [])), quotes, rel_text, step)
+        for c in fresh:
             if c["definition_status"] in ("none", "unreviewed"):
                 c.setdefault("review_flags", []).append("unsupported_definition")
         # check: a disjoint pair the papers call "is a" of one another is dropped
@@ -171,7 +219,14 @@ class EnrichmentAgent(Agent):
                            target=by_id.get(d, {}).get("label"))
             self.dropped["disjoint_vs_is_a"] += len(c["disjoint_with"]) - len(kept)
             c["disjoint_with"] = kept
+        for c in live:
+            for r in c["restrictions"]:
+                r.setdefault("since", step)
         self.stats = {"restrictions_dropped": dict(self.dropped), "failed_calls": dict(self.failures),
+                      "new_classes_enriched": len(fresh),
+                      "restrictions_added_to_existing": sum(1 for c in live if c["id"] in self.frozen
+                                                            for r in c["restrictions"] if r["since"] == step),
+                      "suggestions": dict(Counter(s["type"] for s in self.suggestions)),
                       "restrictions_from_predicate": self.from_predicate,
                       "candidates": self.candidate_stats, "property_candidates": self.property_stats,
                       "materials_project": self.materials_stats,
@@ -181,6 +236,45 @@ class EnrichmentAgent(Agent):
                       "definition_category_conflicts": sum("definition_category_conflict" in c.get("review_flags", []) for c in live)}
         log(f"restrictions dropped: {dict(self.dropped) or 'none'}")
         return classes, self._local_properties(live, by_id)
+
+    def _definition_suggestions(self, live, by_id, old_papers: set, quotes, rel_text, step: int):
+        """A source definition from a new paper on an existing class. Not paper-backed yet: one model call per batch
+        writes a paper-backed definition (suggested, never applied). Paper-backed already: a new paper definition
+        worded differently is listed beside it."""
+        same = lambda a, b: (a := " ".join(a.lower().split())) in (b := " ".join(b.lower().split())) or b in a
+        todo = []
+        for c in live:
+            new = [d for d in c.get("definitions", []) if d.get("paper") not in old_papers]
+            if c["id"] not in self.frozen or not new:
+                continue
+            if c.get("definition_status") == "supported":
+                for d in new:
+                    if not same(d["text"], c.get("definition", "")):
+                        self.suggestions.append({"type": "definition", "kind": "alternative", "class": c["id"],
+                                                 "label": c["label"], "current": c.get("definition", ""),
+                                                 "current_status": "supported", "suggested": d["text"],
+                                                 "paper": d["paper"], "quote": d["text"][:300], "step": step,
+                                                 "stage": "enrich"})
+            else:
+                todo.append((c, new))
+        if not todo:
+            return
+        prompt = load_prompt("enrichment_definitions") + "\n\n" + DEFINITION_RULE[False]
+        rows = [{"id": c["id"], "label": c["label"], "parent": label_of(c["parent"], by_id),
+                 "defs": [d["text"][:200] for d in new[:2]], "relations": rel_text(c)[:4], "evidence": quotes[c["id"]]}
+                for c, new in todo]
+        log(f"definition suggestions: {len(rows)} existing class(es) a new paper defines ({-(-len(rows) // PASS_BATCH['definitions'])} call(s))")
+        answers = {key(a.get("id")): a for a in self.call_rows(rows, prompt, "definition_suggestions", "classes",
+                                                                "definition", size=PASS_BATCH["definitions"])}
+        for c, new in todo:
+            a = answers.get(c["id"]) or {}
+            text = a.get("definition").strip() if isinstance(a.get("definition"), str) else ""
+            if text and str(a.get("basis") or "").strip().lower() == "source_definition":
+                self.suggestions.append({"type": "definition", "kind": "paper_backed", "class": c["id"],
+                                         "label": c["label"], "current": c.get("definition", ""),
+                                         "current_status": c.get("definition_status", ""), "suggested": text,
+                                         "paper": new[0]["paper"], "quote": new[0]["text"][:300], "step": step,
+                                         "stage": "enrich"})
 
     @staticmethod
     def _prop_line(x: dict) -> str:
@@ -412,8 +506,12 @@ class EnrichmentAgent(Agent):
             claim = {"o": o["id"], "kind": "causal", "polarity": r["polarity"], "phrase": r["polarity"], "support": r["support"],
                      "papers": r["papers"], "evidence": r["evidence"], "conditions": r.get("conditions", [])}
             for p in ["local:" + polarity.get(r["polarity"], "influences"), *cls._standard_causal(c, o, r["polarity"], by_id)]:
-                if not any(x["p"] == p and x["o"] == o["id"] for x in c["restrictions"]):
+                same = next((x for x in c["restrictions"] if x["p"] == p and x["o"] == o["id"]), None)
+                if same is None:
                     c["restrictions"].append({"p": p, **claim})
+                elif same.get("kind") == "causal" and same.get("polarity") == r["polarity"]:
+                    same.update(support=r["support"], papers=r["papers"], evidence=r["evidence"],
+                                conditions=r.get("conditions", []))  # the same claim, now with this step's papers
 
     @classmethod
     def _standard_causal(cls, c: dict, o: dict, polarity: str, by_id: dict) -> list[str]:
@@ -439,6 +537,8 @@ class EnrichmentAgent(Agent):
             c = by_id.get(key(r.get("id")))
             if not c:
                 continue
+            if c["id"] in getattr(self, "frozen", ()):  # an existing class takes only new restrictions
+                r = {k: v for k, v in r.items() if k in ("id", "restrictions")}
             if "definition" in r:
                 text = r["definition"].strip() if isinstance(r.get("definition"), str) else ""
                 basis = str(r.get("basis") or "").strip().lower()
