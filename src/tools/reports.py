@@ -68,8 +68,11 @@ def corpus_report(path: Path, run_id: str, norm: dict, papers: list[dict]) -> di
         "causal_graph": {k: order[k] for k in ("n_nodes", "n_edges", "max_rank")} | {"cycles": len(order["cycles"])},
     }
     s = norm["summary"]
-    md = [f"# Corpus Report - run {run_id}", "", "## Summary", "", s.get("summary", ""), "", "## Themes", ""]
-    md += [f"- **{t.get('theme', '')}**: {', '.join(t.get('concepts', []))}" for t in s.get("themes", [])]
+    text = lambda v: v if isinstance(v, str) else ""  # the summary is model output: ignore odd shapes, never fail
+    themes = [t for t in (s.get("themes") if isinstance(s.get("themes"), list) else []) if isinstance(t, dict)]
+    md = [f"# Corpus Report - run {run_id}", "", "## Summary", "", text(s.get("summary")), "", "## Themes", ""]
+    md += [f"- **{text(t.get('theme'))}**: {', '.join(c for c in t.get('concepts') or [] if isinstance(c, str))}"
+           for t in themes]
     md += ["", "## Corpus statistics", "", _table(["metric", "value"], [
         ["papers", stats["papers"]], ["concept occurrences (per-paper)", stats["concept_occurrences"]],
         ["mean concepts per paper", stats["mean_concepts_per_paper"]], ["lexical groups", stats["lexical_groups"]],
