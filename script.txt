@@ -1,0 +1,59 @@
+& {
+    Set-Location C:\Users\brent\dev\knowledge_workflow
+    Set-ExecutionPolicy -Scope Process Bypass -Force
+
+    $uvExe = (Get-Command uv -CommandType Application -ErrorAction Stop).Source
+    $ollamaExe = (Get-Command ollama -CommandType Application -ErrorAction Stop).Source
+    $sweepId = Get-Date -Format 'yyyyMMdd-HHmmss'
+    $control = @{ Serial = $false; Server = $null }
+
+    $env:UV_CACHE_DIR = "$PWD\.uv-cache"
+    $env:LLM_PROFILE = 'ollama'
+
+    # Start Ollama with two simultaneous request slots.
+    Stop-Process -Name 'ollama app','ollama' -Force -ErrorAction SilentlyContinue
+    Start-Sleep -Seconds 2
+
+    $env:OLLAMA_NUM_PARALLEL = '2'
+    $control.Server = Start-Process -FilePath $ollamaExe `
+        -ArgumentList 'serve' -WindowStyle Hidden -PassThru
+    Start-Sleep -Seconds 3
+
+    # Intercept overload fallback messages and restart Ollama with one slot.
+    function uv {
+        & $uvExe @args 2>&1 | ForEach-Object {
+            $line = $_
+
+            if (-not $control.Serial -and
+                "$line" -match 'reducing model concurrency to 1') {
+                $control.Serial = $true
+                Write-Host 'Restarting Ollama with ONE request slot.' -ForegroundColor Yellow
+
+                Stop-Process -Id $control.Server.Id -Force -ErrorAction SilentlyContinue
+                Start-Sleep -Seconds 2
+
+                $env:OLLAMA_NUM_PARALLEL = '1'
+                $control.Server = Start-Process -FilePath $ollamaExe `
+                    -ArgumentList 'serve' -WindowStyle Hidden -PassThru
+                Start-Sleep -Seconds 3
+            }
+
+            $line
+        }
+
+        $global:LASTEXITCODE = $LASTEXITCODE
+    }
+
+    Write-Host "Sweep ID: $sweepId" -ForegroundColor Cyan
+
+    # Run every size from 5–50, continuing after individual run failures.
+    # Integration and final HTML/Markdown/CSV reporting are included.
+    & .\scripts\run-sweep.ps1 `
+        -Workers 2 `
+        -ContinueTo50 `
+        -SweepId $sweepId
+
+    Write-Host "Sweep exit code: $LASTEXITCODE"
+    Write-Host "Summary: $PWD\outputs\sweep-$sweepId\summary.csv"
+    Write-Host "Report:  $PWD\outputs\sweep-$sweepId\report\report.html"
+}

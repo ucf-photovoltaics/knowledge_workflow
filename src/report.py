@@ -459,7 +459,7 @@ RUN_COLS = [("collection", "Domain"), ("papers_processed", "Papers"), ("stages",
             ("final_classes", "Classes"), ("placement_llm", "Placed by model"), ("placement_category_default", "Category root"),
             ("mappings_total", "Mappings"), ("restrictions", "Restrictions"),
             ("materials_project_classes_with_entries", "Materials Project classes"), ("validation_valid", "Valid"),
-            ("uncertain_total", "Uncertain items"), ("total_tokens", "Tokens"), ("total_wall_s", "Wall (min)"),
+            ("uncertain_total", "Uncertain items"), ("total_tokens", "Tokens"), ("total_wall_min", "Wall (min)"),
             ("run_id", "Run")]
 INT_COLS = [("domains", "Domains"), ("papers_per_domain", "Papers/domain"), ("classes_total", "Classes"),
             ("mappings_total", "Mappings"), ("bridge_concepts", "Bridge concepts"), ("validation_valid", "Valid"),
@@ -475,13 +475,11 @@ def sweep(rows: list[dict], outputs: Path, revision: str, run_ids) -> tuple[list
         mt = sum(F.num(v) for k, v in r.items() if k.startswith("mappings_predicate_"))
         row["mappings_total"] = int(mt) if mt else r.get("mappings_total", "")
         row["restrictions"] = int(sum(F.num(r.get(f"axioms_restriction_{k}")) for k in ("causal", "relation"))) or ""
-        row["total_wall_s"] = round(F.num(r.get("total_wall_s")) / 60, 1) if r.get("total_wall_s") else ""
+        row["total_wall_min"] = round(F.num(r.get("total_wall_s")) / 60, 1) if r.get("total_wall_s") else ""
         runs.append(row)
     papers = {r["run_id"]: F.num(r.get("papers_processed")) for r in F._csv(outputs / "eval_runs.csv")
               if r.get("row_type") == "run"}
-    ints = [r for r in F._csv(outputs / "eval_integrations.csv") if r.get("row_type") == "integration"]
-    ints = [r for r in ints if (set(filter(None, r.get("input_runs", "").split("+"))) <= set(run_ids) if run_ids
-                                else r.get("workflow_revision") == revision)]
+    ints = F.load_integrations(outputs, run_ids if run_ids is not None else [r["run_id"] for r in rows])
     out_ints = []
     for r in sorted(ints, key=lambda r: r.get("created", "")):
         per = sorted({int(papers.get(k, 0)) for k in r.get("input_runs", "").split("+") if k})
@@ -490,15 +488,23 @@ def sweep(rows: list[dict], outputs: Path, revision: str, run_ids) -> tuple[list
     return runs, out_ints
 
 
-def _write_csv(path: Path, runs, ints):
+def _write_csv(path: Path, runs, ints, statuses=()):
+    columns = list(dict.fromkeys(["row_type", "status", "limit", "detail"]
+                                + [k for k, _ in RUN_COLS] + [k for k, _ in INT_COLS]))
+    outcomes = {r["run_id"]: r for r in statuses}
+    written = set()
     with path.open("w", newline="", encoding="utf-8") as f:
-        w = csv.writer(f)
-        w.writerow(["row_type"] + [k for k, _ in RUN_COLS])
-        w.writerows([["run"] + [r[k] for k, _ in RUN_COLS] for r in runs])
-        if ints:
-            w.writerow([])
-            w.writerow(["row_type"] + [k for k, _ in INT_COLS])
-            w.writerows([["integration"] + [r[k] for k, _ in INT_COLS] for r in ints])
+        writer = csv.DictWriter(f, fieldnames=columns, extrasaction="ignore")
+        writer.writeheader()
+        for kind, rows in (("run", runs), ("integration", ints)):
+            for row in rows:
+                outcome = outcomes.get(row["run_id"], {})
+                writer.writerow({**row, "row_type": kind,
+                                 **{k: outcome.get(k, "") for k in ("status", "limit", "detail")}})
+                written.add(row["run_id"])
+        for outcome in statuses:
+            if outcome["run_id"] not in written:
+                writer.writerow({**outcome, "row_type": "run" if outcome["kind"] == "domain" else outcome["kind"]})
 
 
 def _cell(k, v):
@@ -527,9 +533,11 @@ def sections(out) -> list[tuple[str, str, list[tuple[str, str, str, str, str]]]]
     return result
 
 
-def write(out, rows: list[dict], outputs: Path, revision: str, run_ids, notes: list[str], title: str | None = None):
+def write(out, rows: list[dict], outputs: Path, revision: str, run_ids, notes: list[str], title: str | None = None, statuses=()):
     runs, ints = sweep(rows, outputs, revision, run_ids)
-    _write_csv(out.folder / "sweep_summary.csv", runs, ints)
+    if getattr(out, "integration_ids", None) is not None:
+        ints = [r for r in ints if r["run_id"] in out.integration_ids]
+    _write_csv(out.folder / "sweep_summary.csv", runs, ints, statuses)
     secs = sections(out)
     title = title or f"Pipeline report: revision {revision}"
     stamp = datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -545,6 +553,11 @@ def write(out, rows: list[dict], outputs: Path, revision: str, run_ids, notes: l
     if ints:
         md += ["", "| " + " | ".join(h for _, h in INT_COLS) + " |", "|" + "---|" * len(INT_COLS)]
         md += ["| " + " | ".join(_cell(k, r[k]) for k, _ in INT_COLS) + " |" for r in ints]
+    if statuses:
+        md += ["", "## Sweep outcomes", "", "| Kind | Limit | Run | Status | Detail |", "|---|---|---|---|---|"]
+        for row in statuses:
+            md.append("| " + " | ".join(str(row.get(k, "")).replace("|", "\\|").replace("\n", " ")
+                                      for k in ("kind", "limit", "run_id", "status", "detail")) + " |")
     for g, intro, items in secs:
         md += ["", f"## {g}", "", intro]
         for nm, h, t, s, para in items:
@@ -564,6 +577,10 @@ def write(out, rows: list[dict], outputs: Path, revision: str, run_ids, notes: l
             + "</ol></nav>", "<h2>Sweep summary</h2>", "<div class=scroll>" + table(RUN_COLS, runs) + "</div>"]
     if ints:
         body.append("<div class=scroll>" + table(INT_COLS, ints) + "</div>")
+    if statuses:
+        body.append("<h2>Sweep outcomes</h2><div class=scroll>" + table(
+            [("kind", "Kind"), ("limit", "Limit"), ("run_id", "Run"), ("status", "Status"), ("detail", "Detail")],
+            statuses) + "</div>")
     for i, (g, intro, items) in enumerate(secs, 1):
         body += [f"<section id='g{i}'><h2>{i}. {e(g)}</h2>", f"<p class=intro>{e(intro)}</p>"]
         for nm, h, t, s, para in items:

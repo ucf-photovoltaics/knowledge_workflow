@@ -83,6 +83,17 @@ from the current size; failed-paper runs are excluded and at least two domains a
 available corpus is recorded explicitly. Logs and `summary.csv` live in `outputs/sweep-<id>/`.
 Exit status is 1 if any run failed, was partial/invalid, or integration was skipped, after attempting
 the entire sweep. Uncertain model answers still require review in each run's ontology report.
+After all attempts, the script writes `outputs/sweep-<id>/report/report.html`, `report.md`, figures,
+and a single-header `sweep_summary.csv`. The report lists failed, partial, invalid and skipped attempts;
+plots use completed domains and their selected integrations only. Report-generation failures appear
+in the sweep status summary and `report.log` and also produce exit status 1.
+To rebuild the report without running the pipeline:
+
+```powershell
+uv run --with-requirements requirements.txt python -m src.figures `
+    --sweep-summary outputs/sweep-YOUR_SWEEP_ID/summary.csv `
+    --out outputs/sweep-YOUR_SWEEP_ID/report
+```
 
 To allow two concurrent requests in Ollama, quit the tray application, then in a separate PowerShell
 window run `$env:OLLAMA_NUM_PARALLEL = "2"; ollama serve`. Leave that server window open.

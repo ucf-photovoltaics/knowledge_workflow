@@ -24,7 +24,29 @@ function Save-Result($Kind, $Limit, $Id, $Status, $Detail) {
     $summary.Add([pscustomobject]@{
         kind = $Kind; limit = $Limit; run_id = $Id; status = $Status; detail = $Detail
     })
-    $summary | Export-Csv (Join-Path $logDir 'summary.csv') -NoTypeInformation
+    $summary | Export-Csv (Join-Path $logDir 'summary.csv') -NoTypeInformation -Encoding UTF8
+}
+
+function Read-WorkflowStatus([string]$Path) {
+    if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
+        throw "Workflow status file missing: $Path"
+    }
+    # Project with Python: full manifests can contain empty JSON keys, which
+    # ConvertFrom-Json rejects in Windows PowerShell 5.1 and without -AsHashtable.
+    $reader = @'
+import json
+import sys
+from pathlib import Path
+
+data = json.loads(Path(sys.argv[1]).read_text(encoding='utf-8-sig'))
+corpus = data.get('corpus', {})
+valid = data.get('valid', data.get('stages', {}).get('interop', {}).get('valid', False))
+print(json.dumps({'valid': valid is True, 'processed': corpus.get('processed', 0),
+                  'failed_count': len(corpus.get('failed', []))}))
+'@
+    $status = & uv run python -c $reader $Path
+    if ($LASTEXITCODE -ne 0) { throw "Could not read workflow status: $Path (exit $LASTEXITCODE)" }
+    return ($status | ConvertFrom-Json)
 }
 
 function Invoke-Workflow([string[]]$WorkflowArgs, [string]$Id) {
@@ -69,17 +91,17 @@ foreach ($n in $limits) {
                 Save-Result 'domain' $n $id 'failed' 'Command failed; see attempt log.'
                 continue
             }
-            $manifest = Get-Content "outputs\$id\run.json" -Raw | ConvertFrom-Json
-            if ($manifest.stages.interop.valid -ne $true -or $manifest.corpus.processed -lt 1) {
+            $manifest = Read-WorkflowStatus "outputs\$id\run.json"
+            if ($manifest.valid -ne $true -or $manifest.processed -lt 1) {
                 Save-Result 'domain' $n $id 'invalid' 'Incomplete or structurally invalid; excluded from integration.'
                 continue
             }
-            if (@($manifest.corpus.failed).Count -gt 0) {
+            if ($manifest.failed_count -gt 0) {
                 Save-Result 'domain' $n $id 'partial' 'Failed papers; excluded from integration. Other runs continue.'
                 continue
             }
             $completed += $id
-            $detail = "$($manifest.corpus.processed) papers processed; requested $n."
+            $detail = "$($manifest.processed) papers processed; requested $n."
             Save-Result 'domain' $n $id 'completed' $detail
         } catch {
             Write-Warning "$id : $($_.Exception.Message); continuing."
@@ -99,7 +121,7 @@ foreach ($n in $limits) {
             Save-Result 'integration' $n $integrationId 'failed' 'Command failed; see attempt log.'
             continue
         }
-        $validation = Get-Content "outputs\$integrationId\validation.json" -Raw | ConvertFrom-Json
+        $validation = Read-WorkflowStatus "outputs\$integrationId\validation.json"
         if ($validation.valid -eq $true) {
             Save-Result 'integration' $n $integrationId 'completed' ($completed -join ', ')
         } else {
@@ -109,6 +131,23 @@ foreach ($n in $limits) {
         Write-Warning "$integrationId : $($_.Exception.Message); continuing."
         Save-Result 'integration' $n $integrationId 'failed' $_.Exception.Message
     }
+}
+try {
+    Write-Host 'Writing the final sweep report...'
+    $reportLog = Join-Path $logDir 'report.log'
+    $ErrorActionPreference = 'Continue'
+    & uv run --with-requirements requirements.txt python -m src.figures `
+        --sweep-summary (Join-Path $logDir 'summary.csv') `
+        --out (Join-Path $logDir 'report') --title "Paper sweep $SweepId" 2>&1 |
+        Tee-Object -FilePath $reportLog | Out-Host
+    $reportCode = $LASTEXITCODE
+    $ErrorActionPreference = 'Stop'
+    if ($reportCode -ne 0) { throw "Report generation failed (exit $reportCode); inspect $reportLog" }
+    Write-Host "Report: $(Join-Path $logDir 'report\report.html')"
+} catch {
+    $ErrorActionPreference = 'Stop'
+    Write-Warning $_.Exception.Message
+    Save-Result 'report' '' "sweep-$SweepId-report" 'failed' $_.Exception.Message
 }
 $summary | Format-Table -AutoSize | Out-Host
 Write-Host "Logs and summary: $logDir"

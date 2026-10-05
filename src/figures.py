@@ -76,7 +76,7 @@ def label(domain: str) -> str:
 def load_runs(outputs: Path, revision: str, profile: str | None, run_ids: list[str] | None) -> tuple[list[dict], list[str]]:
     notes = []
     rows = [r for r in _csv(outputs / "eval_runs.csv") if r.get("row_type", "run") in ("run", "")]
-    if run_ids:
+    if run_ids is not None:
         rows = [r for r in rows if r["run_id"] in run_ids]
     else:
         rows = [r for r in rows if r.get("workflow_revision") == revision and r.get("collection") in DOMAINS]
@@ -89,7 +89,25 @@ def load_runs(outputs: Path, revision: str, profile: str | None, run_ids: list[s
             rows = [r for r in rows if r.get("llm_profile") == keep]
     for r in rows:
         r["_dir"] = outputs / r["run_id"]
-    return [r for r in rows if r["_dir"].exists()], notes
+    rows = [r for r in rows if r["_dir"].exists()]
+    if run_ids is not None:
+        missing = sorted(set(run_ids) - {r["run_id"] for r in rows})
+        if missing:
+            notes.append("No evaluation row or run folder for: " + ", ".join(missing))
+    return rows, notes
+
+
+def load_integrations(outputs: Path, selected_ids, integration_ids=None) -> list[dict]:
+    """Only integrations whose nonempty input set is fully represented in this report."""
+    selected = set(selected_ids)
+    allowed = None if integration_ids is None else set(integration_ids)
+    rows = []
+    for row in _csv(outputs / "eval_integrations.csv"):
+        inputs = set(filter(None, row.get("input_runs", "").split("+")))
+        if row.get("row_type") == "integration" and len(inputs) >= 2 and inputs <= selected \
+                and (allowed is None or row.get("run_id") in allowed):
+            rows.append(row)
+    return rows
 
 
 def largest(rows: list[dict], needs: str) -> dict[str, dict]:
@@ -503,11 +521,8 @@ def fig_compute(out: Out, rows: list[dict]):
 
 
 def fig_integration(out: Out, outputs: Path, rows_runs: list[dict], revision: str, run_ids):
-    ints = [r for r in _csv(outputs / "eval_integrations.csv") if r.get("row_type") == "integration"]
-    if run_ids:  # only integrations built from the given runs
-        ints = [r for r in ints if set(filter(None, r.get("input_runs", "").split("+"))) <= set(run_ids)]
-    else:
-        ints = [r for r in ints if r.get("workflow_revision") == revision]
+    ints = load_integrations(outputs, run_ids or [r["run_id"] for r in rows_runs],
+                             getattr(out, "integration_ids", None))
     ints = [r for r in ints if (outputs / r["run_id"] / "mappings.json").exists()]
     if not ints:
         return out.skip("integration", "no integration at this revision")
@@ -1123,9 +1138,8 @@ def fig_uncertain(out: Out, rows: list[dict]):
 
 
 def fig_integration_series(out: Out, outputs: Path, revision: str, run_ids):
-    ints = [r for r in _csv(outputs / "eval_integrations.csv") if r.get("row_type") == "integration"]
-    ints = [r for r in ints if (set(filter(None, r.get("input_runs", "").split("+"))) <= set(run_ids) if run_ids
-                                else r.get("workflow_revision") == revision)]
+    ints = load_integrations(outputs, run_ids if run_ids is not None else [],
+                             getattr(out, "integration_ids", None))
     papers = {r["run_id"]: num(r.get("papers_processed")) for r in _csv(outputs / "eval_runs.csv")
               if r.get("row_type") == "run"}
     pts = []
@@ -1177,17 +1191,31 @@ FIGURES = (fig_concept_growth, fig_knowledge_growth, fig_scaling, fig_per_paper_
 
 
 def build(outputs: Path | None = None, revision: str = config.WORKFLOW_REVISION, profile: str | None = None,
-          run_ids: list[str] | None = None, out_dir: Path | None = None, title: str | None = None) -> Path:
+          run_ids: list[str] | None = None, out_dir: Path | None = None, title: str | None = None,
+          sweep_summary: Path | None = None) -> Path:
     """Every figure (PDF, PNG, CSV), index.md, sweep_summary.csv and the grouped report (report.md, report.html).
     One failing figure is listed as skipped; it never stops the others."""
     from src import report
     outputs = Path(outputs).resolve() if outputs else config.OUTPUTS
+    statuses = _csv(Path(sweep_summary)) if sweep_summary else []
+    if sweep_summary:
+        if not Path(sweep_summary).is_file() or not statuses:
+            raise ValueError("Sweep summary is missing or empty")
+        required = {"kind", "limit", "run_id", "status", "detail"}
+        if any(not required <= set(row) for row in statuses):
+            raise ValueError("Sweep summary requires kind, limit, run_id, status and detail columns")
+        run_ids = [r["run_id"] for r in statuses if r["kind"] == "domain" and r["status"] == "completed"]
     rows, notes = load_runs(outputs, revision, profile, run_ids)
     out = Out(Path(out_dir) if out_dir else outputs / "figures" / revision)
+    out.integration_ids = ([r["run_id"] for r in statuses if r["kind"] == "integration"
+                            and r["status"] == "completed"] if sweep_summary else None)
+    selected_ids = [r["run_id"] for r in rows]
+    if sweep_summary:
+        notes.append("Plots include completed domains only; sweep outcomes below include failed and skipped attempts.")
     print(f"{len(rows)} run(s) at revision {revision}" + (f"; {'; '.join(notes)}" if notes else ""))
     steps = [(f.__name__[4:], lambda f=f: f(out, rows)) for f in FIGURES]
-    steps += [("integration", lambda: fig_integration(out, outputs, rows, revision, run_ids)),
-              ("integration_series", lambda: fig_integration_series(out, outputs, revision, run_ids))]
+    steps += [("integration", lambda: fig_integration(out, outputs, rows, revision, selected_ids)),
+              ("integration_series", lambda: fig_integration_series(out, outputs, revision, selected_ids))]
     for name, step in steps:
         try:
             step()
@@ -1201,10 +1229,7 @@ def build(outputs: Path | None = None, revision: str = config.WORKFLOW_REVISION,
     if out.skipped:
         lines += ["", "Skipped:", *[f"- `{n}`: {w}" for n, w in out.skipped]]
     (out.folder / "index.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
-    try:
-        report.write(out, rows, outputs, revision, run_ids, notes, title)
-    except Exception as e:
-        print(f"  report not written: {type(e).__name__}: {e}")
+    report.write(out, rows, outputs, revision, selected_ids, notes, title, statuses)
     print(f"wrote {len(out.index)} figure(s) and the report to {out.folder}")
     return out.folder
 
@@ -1217,8 +1242,9 @@ def main():
     ap.add_argument("--runs", nargs="*", help="explicit run ids instead of revision/profile filtering")
     ap.add_argument("--out", help="figure folder (default: outputs/figures/<revision>)")
     ap.add_argument("--title", help="report title")
+    ap.add_argument("--sweep-summary", help="PowerShell sweep summary.csv; include all outcomes and plot completed runs")
     args = ap.parse_args()
-    build(args.outputs, args.revision, args.profile, args.runs, args.out, args.title)
+    build(args.outputs, args.revision, args.profile, args.runs, args.out, args.title, args.sweep_summary)
 
 
 if __name__ == "__main__":

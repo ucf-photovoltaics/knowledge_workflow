@@ -24,6 +24,19 @@ Every stage writes what it did, what it cost and what it could not do. `tools/re
 
 ## Figures (`python -m src.figures`)
 
+The PowerShell sweep driver builds a final report after attempting every requested run. Its
+`summary.csv` supplies the outcome of every domain and integration attempt, including failures and
+skips. `--sweep-summary PATH` rebuilds this report independently. Outputs live under
+`outputs/sweep-<id>/report/`: grouped `report.md`, self-contained `report.html`, figure artifacts,
+and `sweep_summary.csv`. The latter uses one header for both domain and integration rows, with
+`row_type`, `status`, requested `limit`, failure/detail text and available metrics; `total_wall_min`
+is in minutes. Failed attempts retain blank metrics rather than invented zero values.
+
+Figures use completed sweep domains only. Integration tables and figures require at least two
+input runs, all in the report's domain selection; sweep reports additionally restrict integrations
+to the successful integration IDs in their status summary. A failed individual figure is listed as
+skipped. A failure to write the final report propagates to the CLI and is recorded by the sweep driver.
+
 Writes PDF (for LaTeX), PNG and the plotted numbers as CSV to `outputs/figures/<revision>/`, plus `index.md` listing each figure and its data source. Only runs of one workflow revision and one profile are plotted together (`--revision`, `--profile`, or `--runs ID ...`; `--outputs DIR` for another outputs folder). Per domain, the run with the most papers is used for the single-run figures.
 
 | Stage | Figure | Shows | Data |
