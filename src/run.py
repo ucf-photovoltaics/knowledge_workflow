@@ -171,6 +171,18 @@ def select_papers(coll: dict, top_n: int | None) -> tuple[list[dict], dict]:
     }
 
 
+def _figures(what: str, **kw):
+    """Figures and the grouped report (src.figures.build); a failure here never fails the run or integration."""
+    try:
+        from src import figures
+        log(f"figures and report for {what} ...")
+        folder = figures.build(**kw)
+        log(f"figures and report for {what}: {folder / 'report.html'}")
+    except Exception as e:
+        log(f"figures for {what} not written ({type(e).__name__}: {str(e)[:200]}); "
+            "rerun with: python -m src.figures --runs <run ids> --out <folder>")
+
+
 def _uncertain(run: Run, stage: str, items: list[dict]):
     """Keep this stage's uncertain items in ontology/uncertain.json; a failure here never fails the run."""
     try:
@@ -499,6 +511,11 @@ def integrate(args):
         raise
     log(f"finished; {len(result['mappings'])} mappings, {len(result['clusters'])} bridge concepts; outputs in {out}; "
         f"summary row in {outputs / 'eval_integrations.csv'}")
+    if not args.no_figures:  # this integration with its input runs, then every run and integration of the revision
+        ids = [s["run_id"] for s in selected]
+        _figures(iid, outputs=outputs, run_ids=ids, out_dir=out / "figures", title=f"Integration report: {iid}")
+        _figures(f"revision {config.WORKFLOW_REVISION}", outputs=outputs, revision=config.WORKFLOW_REVISION,
+                 title=f"Sweep report: revision {config.WORKFLOW_REVISION}")
 
 
 STAGES = {"extract": extract, "normalize": normalize, "ontology": ontology, "enrich": enrich, "interop": interop}
@@ -520,6 +537,8 @@ def main():
     ap.add_argument("--runs", nargs="*", help="integrate: one completed run id per domain (default: latest per collection)")
     ap.add_argument("--collections", nargs="*", help="integrate: collections to include (default: INTEGRATION in config)")
     ap.add_argument("--outputs", help="integrate: outputs folder holding the runs (default: this checkout's outputs)")
+    ap.add_argument("--no-figures", action="store_true",
+                    help="skip the figures and report written after a finished run or integration")
     args = ap.parse_args()
     utilities = {"check": check, "collections": collections, "portal": portal, "lora-data": lora_data, "lora-eval": lora_eval,
                  "integrate": integrate, "ontologies": ontologies}
@@ -548,6 +567,8 @@ def main():
         log(f"done in {time.perf_counter() - t0:.1f}s: {spent['calls']} model calls, "
             f"{spent['input_tokens']:,} in / {spent['output_tokens']:,} out")
     set_stage("run")
+    if "interop" in run.manifest["stages"] and not args.no_figures:
+        _figures(run.id, run_ids=[run.id], out_dir=run.dir / "figures", title=f"Run report: {run.id}")
     log(f"finished; outputs in {run.dir}; summary row in {OUTPUTS / 'eval_runs.csv'}")
 
 

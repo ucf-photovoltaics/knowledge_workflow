@@ -99,7 +99,8 @@ def largest(rows: list[dict], needs: str) -> dict[str, dict]:
         if not (r["_dir"] / needs).exists():
             continue
         d = r.get("collection")
-        rank = lambda x: (num(x.get("papers_processed")), len((x.get("stages_completed") or "").split("+")))
+        rank = lambda x: ("interop" in (x.get("stages_completed") or ""), num(x.get("papers_processed")),
+                          len((x.get("stages_completed") or "").split("+")))  # finished runs first, then the largest
         if d not in best or rank(r) > rank(best[d]):
             best[d] = r
     return {d: best[d] for d in DOMAINS if d in best}
@@ -124,7 +125,7 @@ def cumulative(order: list[str], first_papers: list[set]) -> np.ndarray:
 
 class Out:
     def __init__(self, folder: Path):
-        self.folder, self.index, self.skipped = folder, [], []
+        self.folder, self.index, self.skipped, self.tables = folder, [], [], {}
         folder.mkdir(parents=True, exist_ok=True)
 
     def save(self, fig, name: str, title: str, source: str, table: list[dict]):
@@ -137,6 +138,7 @@ class Out:
                 w.writeheader()
                 w.writerows(table)
         self.index.append((name, title, source))
+        self.tables[name] = table
         print(f"  {name}.pdf/.png  {title}")
 
     def skip(self, name: str, why: str):
@@ -404,7 +406,7 @@ def _domain_shares(out, rows, name, title, source, cols, prefix, total_col=None,
 def fig_placement(out, rows):
     _domain_shares(out, rows, "placement_sources", "Where each class's parent came from",
                    "eval_runs.csv placement_*", [("llm", "Model choice"), ("paper_is_a", "Paper is-a"),
-                                                 ("lexical_head", "Lexical head"), ("category_default", "Category root (no answer)"),
+                                                 ("lexical_head", "Lexical head"), ("category_default", "Category root (no usable answer)"),
                                                  ("type_default", "Type default"), ("cycle_break", "Cycle break"),
                                                  ("name_match", "Same-name MDS-Onto/PMDCO class")], "placement_")
 
@@ -918,35 +920,305 @@ def fig_layer_vs_ontology(out: Out, rows: list[dict]):
              "ontology/domain_layer_metrics.json, ontology/metrics.json", [{"domain": d, **lv[d], **ov[d]} for d in runs])
 
 
+# ---------------------------------------------------------------- ontology store
+
+ONTOLOGY_SLOTS = {"cco": SLOTS[0], "bfo": SLOTS[1], "mds-onto": SLOTS[2], "pmdco": SLOTS[3], "ro": SLOTS[4],
+                  "iof": SLOTS[5], "qudt": SLOTS[6], "qudt-units": SLOTS[7]}
+ONTOLOGY_NAMES = {"cco": "CCO", "bfo": "BFO", "mds-onto": "MDS-Onto", "pmdco": "PMDCO", "ro": "RO", "iof": "IOF",
+                  "qudt": "QUDT", "qudt-units": "QUDT units"}
+OTHER = "#b9b8b2"
+
+
+def columns(r: dict, prefix: str, skip=()) -> Counter:
+    """Counter of the numeric columns that start with prefix (suffix -> value)."""
+    return Counter({k[len(prefix):]: num(v) for k, v in r.items()
+                    if k.startswith(prefix) and v not in ("", None) and k[len(prefix):] not in skip and num(v)})
+
+
+def ontology_series(counts: dict[str, Counter]) -> list[tuple[str, str, list[float]]]:
+    """Share series per ontology with a fixed colour per ontology (case-insensitive), rest as Other."""
+    runs = list(counts)
+    norm = {d: Counter() for d in runs}
+    for d in runs:
+        for k, v in counts[d].items():
+            norm[d][k.lower() if k.lower() in ONTOLOGY_SLOTS else "other"] += v
+    keys = [k for k in [*ONTOLOGY_SLOTS, "other"] if any(norm[d][k] for d in runs)]
+    return [(ONTOLOGY_NAMES.get(k, "Other"), ONTOLOGY_SLOTS.get(k, OTHER),
+             [norm[d][k] / (sum(norm[d].values()) or 1) for d in runs]) for k in keys]
+
+
+def fig_store_candidates(out: Out, rows: list[dict]):
+    runs = largest(rows, "run.json")
+    panels = (("parent_candidates_", "Parent candidates (placement)"), ("candidates_ontology_", "Mapping candidates"),
+              ("property_candidates_ontology_", "Property candidates"))
+    data = {p: {d: columns(r, p) for d, r in runs.items()} for p, _ in panels}
+    panels = [(p, t) for p, t in panels if any(sum(c.values()) for c in data[p].values())]
+    if not panels:
+        return out.skip("store_candidates", "no store candidate columns (runs before the ontology store)")
+    fig, axes = plt.subplots(len(panels), 1, figsize=(7.0, (0.3 * len(runs) + 0.75) * len(panels) + 0.4))
+    axes = np.atleast_1d(axes)
+    table, handles = [], {}
+    for ax, (p, title) in zip(axes, panels):
+        ds = [d for d in runs if sum(data[p][d].values())]
+        stacked_barh(ax, [label(d) for d in ds], ontology_series({d: data[p][d] for d in ds}), share=True)
+        ax.set_title(title, loc="left")
+        for h, lab in zip(*ax.get_legend_handles_labels()):
+            handles.setdefault(lab, h)
+        table += [{"panel": p.rstrip("_"), "domain": d, "total": sum(data[p][d].values()), **data[p][d]} for d in ds]
+    axes[-1].set_xlabel("Share of candidates, by ontology")
+    fig.tight_layout()
+    fig.legend(handles.values(), handles.keys(), ncol=min(len(handles), 5), loc="lower center", bbox_to_anchor=(0.5, 1.0))
+    out.save(fig, "store_candidates", "Candidates drawn from the ontology store, by ontology: parents for placement, "
+             "terms for mappings, properties for restrictions", "eval_runs.csv parent_candidates_*, candidates_ontology_*, "
+             "property_candidates_ontology_*", table)
+
+
+def fig_store_sources(out: Out, rows: list[dict]):
+    runs = largest(rows, "run.json")
+    src = {d: columns(r, "candidates_source_") for d, r in runs.items()}
+    hits = {d: columns(r, "portal_hits_") for d, r in runs.items()}
+    if not any(sum(c.values()) for c in src.values()):
+        return out.skip("store_sources", "no candidates_source_* columns")
+    names = {"store": "Store search", "propagated": "Propagated (mappings)"}
+    keys = sorted({k for c in src.values() for k in c}, key=lambda k: (k != "store", k != "propagated", "+" in k, k))
+    fig, axes = plt.subplots(1, 2, figsize=(7.0, 0.36 * len(runs) + 1.4), gridspec_kw={"width_ratios": [1.6, 1]})
+    ds = [d for d in runs if sum(src[d].values())]
+    stacked_barh(axes[0], [label(d) for d in ds],
+                 [(names.get(k, k.replace("_", " ").replace("+", " + ")), SLOTS[i % len(SLOTS)],
+                   [src[d][k] / sum(src[d].values()) for d in ds]) for i, k in enumerate(keys)], share=True)
+    axes[0].set_title("Where mapping candidates were found", loc="left")
+    axes[0].legend(ncol=2, loc="upper left", bbox_to_anchor=(0, -0.18 - 0.02 * len(ds)), fontsize=6.5)
+    portals = sorted({k for c in hits.values() for k in c})
+    classes = {d: num(r.get("final_classes")) or num(r.get("canonical_concepts")) or 1 for d, r in runs.items()}
+    if portals:
+        grouped_barh(axes[1], [p.replace("_", " ") for p in portals], {d: None for d in ds},
+                     {d: {p.replace("_", " "): hits[d][p] / classes[d] for p in portals} for d in ds})
+        axes[1].set_xlabel("Portal hits per class")
+        axes[1].set_title("Portal search hits", loc="left")
+        axes[1].legend(loc="upper left", bbox_to_anchor=(0, -0.18 - 0.02 * len(ds)), fontsize=6.5)
+    else:
+        axes[1].axis("off")
+    fig.tight_layout()
+    out.save(fig, "store_sources", "Mapping candidates by where they were found (store search, MDS-Onto portal, "
+             "MatPortal, propagation) and portal hits per class", "eval_runs.csv candidates_source_*, portal_hits_*",
+             [{"domain": d, "classes": classes[d], **{f"source_{k}": v for k, v in src[d].items()},
+               **{f"hits_{k}": v for k, v in hits[d].items()}} for d in ds])
+
+
+def fig_store_propagation(out: Out, rows: list[dict]):
+    runs = largest(rows, "run.json")
+    cand = {d: columns(r, "candidates_hop_") for d, r in runs.items()}
+    maps = {d: columns(r, "mappings_hop_") for d, r in runs.items()}
+    if not any(sum(c.values()) for c in list(cand.values()) + list(maps.values())):
+        return out.skip("store_propagation", "no candidates_hop_* or mappings_hop_* columns")
+    fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.4))
+    hops = sorted({k for c in list(cand.values()) + list(maps.values()) for k in c}, key=lambda k: num(k))
+    lab = lambda h: "direct" if h == "0" else f"{h} hop{'s' if h != '1' else ''}"
+    grouped_barh(axes[0], [lab(h) for h in hops if h != "0"], runs, {d: {lab(h): cand[d][h] for h in hops} for d in runs})
+    axes[0].set_title("Candidates added by propagation", loc="left")
+    axes[0].set_xlabel("Candidates")
+    grouped_barh(axes[1], [lab(h) for h in hops], runs, {d: {lab(h): maps[d][h] for h in hops} for d in runs})
+    axes[1].set_title("Mappings committed", loc="left")
+    axes[1].set_xlabel("Mappings")
+    fig.tight_layout()
+    fig.legend(*axes[1].get_legend_handles_labels(), ncol=len(runs), loc="lower center", bbox_to_anchor=(0.5, 1.0))
+    out.save(fig, "store_propagation", "Propagation through the store's own mappings: candidates reached in one or two "
+             "hops, and mappings committed directly or through a hop", "eval_runs.csv candidates_hop_*, mappings_hop_*",
+             [{"domain": d, **{f"candidates_hop_{h}": cand[d][h] for h in hops},
+               **{f"mappings_hop_{h}": maps[d][h] for h in hops}} for d in runs])
+
+
+def fig_store_imports(out: Out, rows: list[dict]):
+    runs = largest(rows, "run.json")
+    imp = {d: columns(r, "imported_terms_") for d, r in runs.items()}
+    labs = {d: columns(r, "labels_") for d, r in runs.items()}
+    if not any(sum(c.values()) for c in imp.values()):
+        return out.skip("store_imports", "no imported_terms_* columns")
+    fig, axes = plt.subplots(1, 2, figsize=(7.0, 0.36 * len(runs) + 1.5))
+    ds = list(runs)
+    stacked_barh(axes[0], [label(d) for d in ds], [(n, c, [v * sum(imp[d].values()) for v, d in zip(vals, ds)])
+                                                    for n, c, vals in ontology_series(imp)], share=False)
+    axes[0].set_title("Imported terms (count), by ontology", loc="left")
+    axes[0].legend(ncol=2, loc="upper left", bbox_to_anchor=(0, -0.22 - 0.02 * len(ds)), fontsize=6.5)
+    keys = sorted({k for c in labs.values() for k in c}, key=lambda k: -sum(labs[d][k] for d in ds))
+    stacked_barh(axes[1], [label(d) for d in ds],
+                 [(k.replace("_", " "), SLOTS[i % len(SLOTS)], [labs[d][k] / (sum(labs[d].values()) or 1) for d in ds])
+                  for i, k in enumerate(keys)], share=True)
+    axes[1].set_yticklabels([])
+    axes[1].set_title("Class labels, by origin and property", loc="left")
+    axes[1].legend(ncol=2, loc="upper left", bbox_to_anchor=(0, -0.22 - 0.02 * len(ds)), fontsize=6.5)
+    fig.tight_layout()
+    out.save(fig, "store_imports", "External terms the ontology imports from the store, by ontology, and class labels by "
+             "origin (paper, external match, preferred label)", "eval_runs.csv imported_terms_*, labels_*",
+             [{"domain": d, **{f"imported_{k}": v for k, v in imp[d].items()},
+               **{f"labels_{k}": v for k, v in labs[d].items()}} for d in ds])
+
+
+def fig_mapping_methods(out: Out, rows: list[dict]):
+    runs = largest(rows, "run.json")
+    pred = {d: columns(r, "mappings_predicate_") for d, r in runs.items()}
+    meth = {d: columns(r, "mappings_method_") for d, r in runs.items()}
+    if not any(sum(c.values()) for c in pred.values()):
+        return out.skip("mapping_methods", "no mappings_predicate_* columns")
+    order = ["owl:equivalentClass", "skos:exactMatch", "rdfs:subClassOf", "skos:broadMatch", "skos:closeMatch",
+             "skos:narrowMatch", "skos:relatedMatch"]
+    keys = [k for k in order if any(pred[d][k] for d in runs)] + sorted(
+        {k for c in pred.values() for k in c} - set(order))
+    ds = [d for d in runs if sum(pred[d].values())]
+    fig, axes = plt.subplots(1, 2, figsize=(7.0, 0.36 * len(ds) + 1.5), gridspec_kw={"width_ratios": [1.6, 1]})
+    stacked_barh(axes[0], [label(d) for d in ds], [(k, SLOTS[i % len(SLOTS)], [pred[d][k] / sum(pred[d].values())
+                                                                              for d in ds]) for i, k in enumerate(keys)],
+                 share=True)
+    axes[0].set_title("Mappings by predicate written", loc="left")
+    axes[0].legend(ncol=3, loc="upper left", bbox_to_anchor=(0, -0.2 - 0.02 * len(ds)), fontsize=6.5)
+    mk = sorted({k for c in meth.values() for k in c})
+    down = {d: num(runs[d].get("mappings_downgraded")) for d in ds}
+    cats = [k.replace("_", " ") for k in mk] + ["downgraded"]
+    grouped_barh(axes[1], cats, {d: None for d in ds},
+                 {d: {**{k.replace("_", " "): meth[d][k] for k in mk}, "downgraded": down[d]} for d in ds})
+    axes[1].set_title("How mappings were chosen", loc="left")
+    axes[1].set_xlabel("Mappings")
+    axes[1].legend(loc="upper left", bbox_to_anchor=(0, -0.3 - 0.02 * len(ds)), fontsize=6.5)
+    fig.tight_layout()
+    out.save(fig, "mapping_methods", "Mappings by the predicate written to the ontology, and how they were chosen (model "
+             "choice or same-name label match; downgraded: kept with a weaker relation)",
+             "eval_runs.csv mappings_predicate_*, mappings_method_*, mappings_downgraded",
+             [{"domain": d, **pred[d], **{f"method_{k}": v for k, v in meth[d].items()}, "downgraded": down[d]}
+              for d in ds])
+
+
+def fig_parent_answers(out: Out, rows: list[dict]):
+    order = [("candidate", "A store candidate"), ("corpus", "A corpus concept"), ("root", "A BFO category root"),
+             ("store_label", "A CCO/BFO class by name"), ("fuzzy", "Close spelling of an offered parent"),
+             ("unresolved", "Unresolved (category root used)"), ("no_answer", "No answer")]
+    _domain_shares(out, rows, "parent_answers", "How the model's parent answers were read (local tier, pass 2)",
+                   "eval_runs.csv parent_answers_*", order, "parent_answers_",
+                   colors=[SLOTS[0], SLOTS[1], SLOTS[2], SLOTS[6], SLOTS[3], SLOTS[7], "#d9d8d3"])
+
+
+def fig_uncertain(out: Out, rows: list[dict]):
+    runs = largest(rows, "ontology/uncertain.json")
+    if not runs:
+        return out.skip("uncertain_items", "no ontology/uncertain.json (runs before this revision)")
+    from src.tools.reports import UNCERTAIN_KINDS
+    counts = {}
+    for d, r in runs.items():
+        data = _json(r["_dir"] / "ontology/uncertain.json") or {}
+        counts[d] = Counter()
+        for stage, c in (data.get("counts") or {}).items():
+            for k, n in c.items():
+                counts[d][f"{stage}: {k.replace('_', ' ')}"] += n
+    cats = [k for k, _ in sum(counts.values(), Counter()).most_common()]
+    if not cats:
+        return out.skip("uncertain_items", "uncertain.json lists nothing")
+    classes = {d: num(r.get("final_classes")) or 1 for d, r in runs.items()}
+    fig, ax = plt.subplots(figsize=(7.0, 0.3 * len(cats) * max(len(runs), 1) ** 0.5 + 1.0))
+    grouped_barh(ax, cats, runs, {d: dict(counts[d]) for d in runs})
+    ax.set_xlabel("Items listed in ontology/uncertain.json")
+    ax.set_xscale("symlog", linthresh=10)
+    ax.legend(ncol=len(runs), loc="lower left", bbox_to_anchor=(0, 1.0))
+    out.save(fig, "uncertain_items", "Uncertain or dropped items listed for review, by stage and kind (log scale above 10)",
+             "ontology/uncertain.json counts; kinds: " + "; ".join(f"{k}: {v}" for k, v in UNCERTAIN_KINDS.items()),
+             [{"domain": d, "classes": classes[d], **counts[d]} for d in runs])
+
+
+def fig_integration_series(out: Out, outputs: Path, revision: str, run_ids):
+    ints = [r for r in _csv(outputs / "eval_integrations.csv") if r.get("row_type") == "integration"]
+    ints = [r for r in ints if (set(filter(None, r.get("input_runs", "").split("+"))) <= set(run_ids) if run_ids
+                                else r.get("workflow_revision") == revision)]
+    papers = {r["run_id"]: num(r.get("papers_processed")) for r in _csv(outputs / "eval_runs.csv")
+              if r.get("row_type") == "run"}
+    pts = []
+    for r in ints:
+        per = [papers.get(k, 0) for k in r.get("input_runs", "").split("+") if k]
+        if per and min(per):
+            pts.append((int(min(per)), r))
+    if len({n for n, _ in pts}) < 2:
+        return out.skip("integration_series", "needs integrations at two or more corpus sizes")
+    latest = {}
+    for n, r in sorted(pts, key=lambda x: x[1].get("created", "")):
+        latest[n] = r  # the newest integration per size
+    xs = sorted(latest)
+    fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.5))
+    for k, (col, name) in enumerate((("mappings_total", "Mappings"), ("bridge_concepts", "Bridge concepts"))):
+        axes[0].plot(xs, [num(latest[n].get(col)) for n in xs], color=SLOTS[k], marker="o", markeredgecolor="white",
+                     markeredgewidth=1.0, label=name)
+    axes[0].set_title("Cross-domain links", loc="left")
+    axes[0].legend(loc="upper left", ncol=2)
+    doms = [d for d in DOMAINS if any(latest[n].get(f"classes_mapped_share_{d}") not in (None, "") for n in xs)]
+    for d in doms:
+        name, color, marker = DOMAINS[d]
+        axes[1].plot(xs, [num(latest[n].get(f"classes_mapped_share_{d}"), np.nan) for n in xs], color=color, marker=marker,
+                     markeredgecolor="white", markeredgewidth=1.0, label=name)
+    axes[1].set_title("Share of each domain's classes mapped", loc="left")
+    axes[1].yaxis.set_major_formatter(matplotlib.ticker.PercentFormatter(1.0))
+    if doms:
+        axes[1].legend(loc="upper left", ncol=len(doms), fontsize=6.5)
+    for ax in axes:
+        ax.set_xlabel("Papers per domain")
+        ax.set_xticks(xs)
+        ax.set_ylim(0, ax.get_ylim()[1] * 1.3)  # room for the legend above the lines
+    fig.tight_layout()
+    out.save(fig, "integration_series", "Cross-domain integration as the corpus grows: mappings and bridge concepts, and "
+             "the share of each domain's classes mapped (newest integration per size)", "eval_integrations.csv",
+             [{"papers_per_domain": n, "integration": latest[n]["run_id"], "mappings": num(latest[n].get("mappings_total")),
+               "bridge_concepts": num(latest[n].get("bridge_concepts")),
+               **{f"mapped_share_{d}": num(latest[n].get(f"classes_mapped_share_{d}")) for d in doms}} for n in xs])
+
+
 # ---------------------------------------------------------------- main
 
-def main():
-    ap = argparse.ArgumentParser(description="Paper figures from eval tables and run folders")
-    ap.add_argument("--outputs", help="outputs folder (default: this checkout's outputs)")
-    ap.add_argument("--revision", default=config.WORKFLOW_REVISION, help="workflow revision to plot")
-    ap.add_argument("--profile", help="LLM profile to plot (default: the most common one at this revision)")
-    ap.add_argument("--runs", nargs="*", help="explicit run ids instead of revision/profile filtering")
-    ap.add_argument("--out", help="figure folder (default: outputs/figures/<revision>)")
-    args = ap.parse_args()
-    outputs = Path(args.outputs).resolve() if args.outputs else config.OUTPUTS
-    rows, notes = load_runs(outputs, args.revision, args.profile, args.runs)
-    out = Out(Path(args.out) if args.out else outputs / "figures" / args.revision)
-    print(f"{len(rows)} run(s) at revision {args.revision}" + (f"; {'; '.join(notes)}" if notes else ""))
-    for f in (fig_concept_growth, fig_knowledge_growth, fig_scaling, fig_per_paper_yield, fig_parsing,
-              fig_extraction_checks, fig_evidence, fig_normalization, fig_concept_support, fig_concept_types,
-              fig_causal_polarity, fig_relation_predicates, fig_bfo_categories, fig_hierarchy, fig_placement,
-              fig_review_flags, fig_row_coverage, fig_definitions, fig_restrictions, fig_layer_vs_ontology,
-              fig_mappings, fig_mapping_targets, fig_study_stages, fig_compute):
-        f(out, rows)
-    fig_integration(out, outputs, rows, args.revision, args.runs)
-    lines = [f"# Figures: revision {args.revision}", "",
+FIGURES = (fig_concept_growth, fig_knowledge_growth, fig_scaling, fig_per_paper_yield, fig_parsing,
+           fig_extraction_checks, fig_evidence, fig_normalization, fig_concept_support, fig_concept_types,
+           fig_causal_polarity, fig_relation_predicates, fig_bfo_categories, fig_hierarchy, fig_placement,
+           fig_parent_answers, fig_review_flags, fig_row_coverage, fig_definitions, fig_restrictions,
+           fig_layer_vs_ontology, fig_mappings, fig_mapping_targets, fig_mapping_methods, fig_study_stages,
+           fig_store_candidates, fig_store_sources, fig_store_propagation, fig_store_imports, fig_uncertain, fig_compute)
+
+
+def build(outputs: Path | None = None, revision: str = config.WORKFLOW_REVISION, profile: str | None = None,
+          run_ids: list[str] | None = None, out_dir: Path | None = None, title: str | None = None) -> Path:
+    """Every figure (PDF, PNG, CSV), index.md, sweep_summary.csv and the grouped report (report.md, report.html).
+    One failing figure is listed as skipped; it never stops the others."""
+    from src import report
+    outputs = Path(outputs).resolve() if outputs else config.OUTPUTS
+    rows, notes = load_runs(outputs, revision, profile, run_ids)
+    out = Out(Path(out_dir) if out_dir else outputs / "figures" / revision)
+    print(f"{len(rows)} run(s) at revision {revision}" + (f"; {'; '.join(notes)}" if notes else ""))
+    steps = [(f.__name__[4:], lambda f=f: f(out, rows)) for f in FIGURES]
+    steps += [("integration", lambda: fig_integration(out, outputs, rows, revision, run_ids)),
+              ("integration_series", lambda: fig_integration_series(out, outputs, revision, run_ids))]
+    for name, step in steps:
+        try:
+            step()
+        except Exception as e:  # a figure whose data has an unexpected shape must not cost the rest
+            plt.close("all")
+            out.skip(name, f"failed: {type(e).__name__}: {str(e)[:160]}")
+    lines = [f"# Figures: revision {revision}", "",
              f"Runs: {', '.join(r['run_id'] for r in rows) or 'none'}", *[f"Note: {n}" for n in notes], "",
              "| Figure | Shows | Data |", "|---|---|---|"]
     lines += [f"| `{n}.pdf` | {t} | {s} |" for n, t, s in out.index]
     if out.skipped:
         lines += ["", "Skipped:", *[f"- `{n}`: {w}" for n, w in out.skipped]]
     (out.folder / "index.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"wrote {len(out.index)} figure(s) to {out.folder}")
+    try:
+        report.write(out, rows, outputs, revision, run_ids, notes, title)
+    except Exception as e:
+        print(f"  report not written: {type(e).__name__}: {e}")
+    print(f"wrote {len(out.index)} figure(s) and the report to {out.folder}")
+    return out.folder
+
+
+def main():
+    ap = argparse.ArgumentParser(description="Paper figures and the grouped report from eval tables and run folders")
+    ap.add_argument("--outputs", help="outputs folder (default: this checkout's outputs)")
+    ap.add_argument("--revision", default=config.WORKFLOW_REVISION, help="workflow revision to plot")
+    ap.add_argument("--profile", help="LLM profile to plot (default: the most common one at this revision)")
+    ap.add_argument("--runs", nargs="*", help="explicit run ids instead of revision/profile filtering")
+    ap.add_argument("--out", help="figure folder (default: outputs/figures/<revision>)")
+    ap.add_argument("--title", help="report title")
+    args = ap.parse_args()
+    build(args.outputs, args.revision, args.profile, args.runs, args.out, args.title)
 
 
 if __name__ == "__main__":

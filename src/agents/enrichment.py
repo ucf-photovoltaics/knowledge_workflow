@@ -268,9 +268,10 @@ class EnrichmentAgent(Agent):
             for x in ranked:
                 x["label_match"] = any(lexical.match_key(n) in names for n in x["labels"] or [x["label"]])
             c["portal_only"] = [x for x in ranked if x.get("in_store") is False and x["label_match"]]  # facet hints
-            for x in c["portal_only"]:
-                self.doubt("portal_match_not_in_store", id=c["id"], label=c["label"], term=x["label"], iri=x["iri"],
-                           ontology=x["ontology"], portal=x["portal"])
+            if c["portal_only"]:  # one entry per class: same-name terms the store lacks (facet hints only)
+                self.doubt("portal_match_not_in_store", id=c["id"], label=c["label"],
+                           terms=sorted({f"{x['ontology']}: {x['label']} <{x['iri']}> ({x['portal']})"
+                                         for x in c["portal_only"]}))
             ranked = [x for x in ranked if x.get("in_store", True) and (x["label_match"]
                       or x.get("score", 0) >= ONTOLOGY_SEARCH["min_score"])]
             ranked.sort(key=lambda x: (not x["label_match"], -x.get("score", 0)))
