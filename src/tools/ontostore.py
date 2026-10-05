@@ -422,6 +422,11 @@ def exact(text: str, kinds=None, ontologies=None) -> list[dict]:
     return [t for t in found if (not kinds or t["kind"] in kinds) and (not ontologies or t["ontology"] in ontologies)]
 
 
+def similarity(a: str, b: str) -> float:
+    """Trigram Dice similarity of two labels after the store's normalisation (0-1)."""
+    return _dice(_norm(a), _norm(b))
+
+
 def _grams(text: str) -> set:
     t = f" {text} "
     return {t[i:i + 3] for i in range(len(t) - 2)}

@@ -22,6 +22,32 @@ CATEGORIES = {  # local tier, pass 1 choices -> BFO root
 }
 
 
+PREFIX = re.compile(r"^\s*[Uu]\s*:\s*")
+FUZZY_PARENT = 0.85  # trigram similarity for an answer that misspells one of the offered parents
+
+
+def answer_texts(answer: str) -> list[str]:
+    """Readings of a free-form parent answer, most literal first. Small models write 'U:Material Artifact - <def>',
+    'UMaterial Artifact', 'Material Artifact (or U:material entity)', 'u:k38' or 'molecular_entity'."""
+    out = []
+
+    def add(t: str):
+        t = PREFIX.sub("", t).split(" - ")[0].strip().strip("'\"").strip()
+        if t and t not in out:
+            out.append(t)
+
+    add(answer)
+    if m := re.match(r"^U([A-Z].*)$", answer.strip()):  # the colon after U: left out
+        add(m.group(1))
+    add(re.split(r"\s*[(\[]", answer)[0])  # text before a parenthetical
+    for inner in [] if re.match(r"^\w+\(", answer.strip()) else re.findall(r"\(([^()]*)\)", answer):  # not made_of(x)
+        add(re.sub(r"^(or|i\.e\.|e\.g\.)\s+", "", inner.strip(), flags=re.I))
+    for t in list(out):
+        if "_" in t:
+            add(t.replace("_", " "))
+    return out
+
+
 def slug(label: str) -> str:
     s = "".join(w[0].upper() + w[1:] for w in re.findall(r"[A-Za-z0-9]+", label)) or "Concept"
     return "C" + s if s[0].isdigit() else s
@@ -37,6 +63,7 @@ class OntologyAgent(Agent):
         menu_lc = {k.lower(): v for k, v in upper.class_menu().items()}  # type defaults only; not shown to the model
         self.roots = {upper.describe(root).get("label", cat).lower(): root for cat, root in CATEGORIES.items()}
         self.stats = {"tier": tier(self.name)}
+        self.answers = Counter()  # how each parent answer was read (see _resolve)
         self.by_id = {c["id"]: c for c in concepts}
 
         names = self._name_matches(concepts, menu_lc)
@@ -51,6 +78,7 @@ class OntologyAgent(Agent):
         else:
             picks = self._pick_combined(rest, menu_lc, rows_of)
         picks.update(names)
+        self.stats["parent_answers"] = dict(self.answers)
         self.stats["parent_candidates_mean"] = round(sum(map(len, self.cands.values())) / max(len(self.cands), 1), 1)
         self.stats["parent_candidates_by_ontology"] = dict(Counter(
             (ontostore.term(x["iri"]) or {}).get("ontology", "BFO") for v in self.cands.values() for x in v))
@@ -103,6 +131,9 @@ class OntologyAgent(Agent):
                           key=lambda x: order.index(x["ontology"]))
             hit = next((x for x in hits if ontostore.reaches_bfo(x["iri"])), None)
             unaligned += bool(hits) and hit is None
+            if hits and hit is None:
+                self.doubt("name_match_no_bfo_route", id=c["id"], label=c["label"],
+                           matches=[f"{x['ontology']}:{x['label']} <{x['iri']}>" for x in hits[:3]])
             if hit:
                 roots = {self._root(hit["iri"]), self._root(self._default(c, menu_lc))}
                 flags = ["name_match_category_conflict"] if None not in roots and len(roots) > 1 else []
@@ -142,14 +173,42 @@ class OntologyAgent(Agent):
             self.cands[c["id"]] = [{"iri": x["iri"], "label": x.get("label", ""), "definition": x.get("definition", "")}
                                    for x in found]
 
-    def _resolve(self, cid: str, answer) -> str | None:
-        """A model answer as a parent: a corpus id, one of the concept's candidates, or a BFO category root."""
+    def _resolve(self, cid: str, answer, root: str | None = None) -> tuple[str | None, str]:
+        """A model answer as a parent, and how it was read: a corpus id ('corpus'), one of the concept's candidates
+        ('candidate'), a BFO category root ('root'), a CCO/BFO store class named exactly that, inside the category
+        when one is given ('store_label'), or a close misspelling of a candidate or root ('fuzzy'). Otherwise
+        (None, 'unresolved'); no answer at all is (None, 'no_answer')."""
         a = key(answer) or ""
-        if a in self.by_id:
-            return a
-        label = (a[2:] if a.startswith("U:") else a).split(" - ")[0].strip().lower()
-        hit = next((x["iri"] for x in self.cands.get(cid, []) if x["label"].lower() == label), None)
-        return hit or self.roots.get(label)
+        if not a:
+            return None, "no_answer"
+        readings = answer_texts(a)
+        cands = self.cands.get(cid, [])
+        order = ONTOLOGY_SEARCH["parent_ontologies"]
+        for t in readings:  # what was offered first: a corpus concept or one of this concept's candidates
+            if t in self.by_id:
+                return t, "corpus"
+            hit = next((x["iri"] for x in cands if x["label"].lower() == t.lower()), None)
+            if hit:
+                return hit, "candidate"
+        for t in readings:  # the most literal reading wins, so 'Material Artifact (or U:material entity)' is the artifact
+            if t.lower() in self.roots:
+                return self.roots[t.lower()], "root"
+            for x in ontostore.exact(t, kinds=("class",), ontologies=order):
+                if (root in [x["iri"], *upper.ancestors(x["iri"])]) if root else ontostore.reaches_bfo(x["iri"]):
+                    return x["iri"], "store_label"
+        offered = [(x["label"], x["iri"]) for x in cands] + list(self.roots.items())
+        best = max(((ontostore.similarity(t, lab), iri) for t in readings for lab, iri in offered if lab),
+                   default=(0.0, None))
+        return (best[1], "fuzzy") if best[0] >= FUZZY_PARENT else (None, "unresolved")
+
+    def _parent(self, cid: str, answer, root: str | None = None, category: str | None = None) -> str | None:
+        """_resolve, counted in stats parent_answers; unresolved answers are kept for review."""
+        parent, how = self._resolve(cid, answer, root)
+        self.answers[how] += 1
+        if how == "unresolved":
+            self.doubt("unresolved_parent_answer", id=cid, label=self.by_id[cid]["label"], category=category,
+                       answer=str(key(answer))[:200])
+        return parent
 
     def _pick_combined(self, concepts: list[dict], menu_lc: dict, rows_of) -> dict:
         """Frontier tier: one call per batch chooses the parent (a candidate, a BFO category or a corpus concept)
@@ -164,7 +223,7 @@ class OntologyAgent(Agent):
         for r in self.call_rows(rows_of(concepts), system, "hierarchy", "classes", "parent", size=BATCH):
             cid = key(r.get("id"))
             if cid in self.by_id:
-                picks[cid] = {"parent": self._resolve(cid, r.get("parent")), "exclude": bool(r.get("exclude"))}
+                picks[cid] = {"parent": self._parent(cid, r.get("parent")), "exclude": bool(r.get("exclude"))}
         return picks
 
     def _pick_split(self, concepts: list[dict], menu_lc: dict, rows_of) -> dict:
@@ -206,7 +265,7 @@ class OntologyAgent(Agent):
                 cid = key(r.get("id"))
                 if not cid or cid not in self.by_id:
                     continue
-                parent = self._resolve(cid, r.get("parent"))
+                parent = self._parent(cid, r.get("parent"), root, cat)
                 if parent in self.by_id and cats.get(parent) != cat:  # local parent from another category
                     self.stats["category_mismatch"] = self.stats.get("category_mismatch", 0) + 1
                     parent = root

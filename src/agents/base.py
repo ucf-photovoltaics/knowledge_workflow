@@ -53,6 +53,8 @@ def items(obj, field: str, value_key: str | None = None) -> list[dict]:
       {"<other name>": [{...}]} (a single list under another key) -> that list"""
     if not isinstance(obj, dict):
         return []
+    if field not in obj and value_key and "id" in obj and value_key in obj:  # one row answered as a bare object
+        return [obj]
     if field not in obj and isinstance(obj.get("properties"), dict):  # small models echo the JSON schema around the answer
         obj = obj["properties"]
     value = obj.get(field)
@@ -84,6 +86,12 @@ class Agent:
         self.spent = Counter()  # running totals for this agent instance
         self.failures = Counter()  # soft calls that returned no valid JSON, by label
         self.row_stats = {}  # per pass: rows sent, answered first time, recovered by the retry, still missing
+        self.doubts = []  # items only counted elsewhere, listed for review in ontology/uncertain.json
+
+    def doubt(self, kind: str, **item):
+        """Record one uncertain or dropped item (kind names why) for ontology/uncertain.json."""
+        kept = {k: v for k, v in item.items() if v not in (None, "", [], {})}
+        self.__dict__.setdefault("doubts", []).append({"kind": kind, **kept})
 
     def call(self, user: str, item: str, system: str | None = None, label: str | None = None,
              soft: bool = False) -> dict:
@@ -133,6 +141,9 @@ class Agent:
         missing = [r for r in rows if str(r["id"]) not in answered]
         if missing:
             send(missing, max(5, size // 2), "_retry")
+        for r in rows:
+            if str(r["id"]) not in answered:
+                self.doubt("unanswered_row", step=stat or item, id=str(r["id"]), label=r.get("label"))
         s = self.row_stats.setdefault(stat or item, Counter())
         s.update(rows=len(rows), answered_first=first, recovered=len(answered) - first,
                  missing=len(rows) - len(answered))
