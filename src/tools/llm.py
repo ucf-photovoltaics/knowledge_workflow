@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 from src.config import CACHE, EMBED, GEMINI_LIMITS, LLM, MAX_OUTPUT_TOKENS, MAX_RETRIES, TEMPERATURE, secret
 from src.tools import gemini_quota
+from src.tools.progress import log
 
 
 @dataclass
@@ -30,8 +31,26 @@ def _get_client(profile=None):
             import openai
             gemini = profile.get("api_key_env") == "GEMINI_API_KEY"
             _clients[identity] = openai.OpenAI(api_key=key or "none", base_url=profile["base_url"],
-                                              max_retries=0 if gemini else MAX_RETRIES)
+                                              max_retries=0 if gemini else MAX_RETRIES,
+                                              timeout=profile.get("timeout", 600))
     return _clients[identity]
+
+
+def _outage_safe(profile: dict, request):
+    """A local server (Ollama) that is restarting, reloading the model or briefly gone: after the client's own
+    retries, wait and try again for up to profile['outage_wait_s'] (default 0: fail at once) before giving up."""
+    import openai
+    budget, waited = profile.get("outage_wait_s", 0), 0
+    while True:
+        try:
+            return request()
+        except (openai.APIConnectionError, openai.APITimeoutError, openai.InternalServerError) as e:
+            if waited >= budget:
+                raise
+            log(f"  model server unavailable ({type(e).__name__}); retrying in 60 s "
+                f"({waited // 60} of {budget // 60} min waited)")
+            time.sleep(60)
+            waited += 60
 
 
 def chat(system: str, user: str, model: str, max_tokens: int = MAX_OUTPUT_TOKENS,
@@ -59,10 +78,10 @@ def chat(system: str, user: str, model: str, max_tokens: int = MAX_OUTPUT_TOKENS
             r = gemini_quota.call(client, model, system, user,
                                   {**kw, **profile.get("request", {}), "max_tokens": max_tokens}, _quota, MAX_RETRIES)
         else:
-            r = client.chat.completions.create(
+            r = _outage_safe(profile, lambda: client.chat.completions.create(
                 model=model, response_format={"type": "json_object"},
                 messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
-                **kw, **profile.get("request", {}))
+                **kw, **profile.get("request", {})))
         text = r.choices[0].message.content or ""
         u = r.usage
         details = getattr(u, "prompt_tokens_details", None)

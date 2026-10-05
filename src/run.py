@@ -36,8 +36,8 @@ from src.agents.normalization import NormalizationAgent
 from src.agents.ontology import OntologyAgent
 from src import config
 from src.config import CACHE, OUTPUTS, ROOT, model_for
-from src.tools import (bottomup, citations, integration, llm, matportal, mds_portal, ontostore, owl, pdf_parse, reports,
-                       zotero, ontology_review)
+from src.tools import (bottomup, citations, files, integration, llm, matportal, mds_portal, ontostore, owl, pdf_parse,
+                       reports, zotero, ontology_review)
 from src.tools.ledger import Ledger
 from src.tools.progress import log, set_stage
 
@@ -94,10 +94,8 @@ class Run:
         return json.loads((self.dir / name).read_text(encoding="utf-8"))
 
     def write(self, name: str, obj):
-        path = self.dir / name
-        path.parent.mkdir(parents=True, exist_ok=True)
         text = obj if isinstance(obj, str) else json.dumps(obj, indent=1, ensure_ascii=False)
-        path.write_text(text, encoding="utf-8", errors="replace")  # a stray unencodable character never loses a run
+        files.atomic_write(self.dir / name, text)  # other runs (cross-domain candidates) may be reading it
 
     def papers(self) -> list[dict]:
         return [json.loads(p.read_text(encoding="utf-8")) for p in sorted((self.dir / "papers").glob("*.json"))]
@@ -113,12 +111,14 @@ class Run:
         self.manifest.setdefault("errors", []).append(error)
         self.write("run.json", self.manifest)
         path = OUTPUTS / "errors.csv"
-        new = not path.exists()
-        with path.open("a", newline="", encoding="utf-8") as f:
-            w = csv.DictWriter(f, fieldnames=["time", "run_id", "collection", "stage", "error", "where"])
-            if new:
-                w.writeheader()
-            w.writerow({"run_id": self.id, "collection": self.manifest["collection"]["name"], **error})
+        try:
+            with files.locked(path, wait_s=30), path.open("a", newline="", encoding="utf-8") as f:
+                w = csv.DictWriter(f, fieldnames=["time", "run_id", "collection", "stage", "error", "where"])
+                if f.tell() == 0:
+                    w.writeheader()
+                w.writerow({"run_id": self.id, "collection": self.manifest["collection"]["name"], **error})
+        except (OSError, TimeoutError):
+            pass  # error.log and run.json already hold it
         log(f"stage {stage} failed: {error['error']} ({error['where']}); traceback in {self.dir / 'error.log'}")
 
     def record(self, stage: str, stats: dict, seconds: float):

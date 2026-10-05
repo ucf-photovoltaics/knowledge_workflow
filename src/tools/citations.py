@@ -13,6 +13,7 @@ from datetime import date
 import requests
 
 from src.config import CACHE, secret
+from src.tools import files
 from src.tools.progress import log
 
 OPENCITATIONS = "https://api.opencitations.net/index/v2/citation-count/doi:"
@@ -103,6 +104,5 @@ def counts(dois: list[str]) -> dict[str, dict]:
             by_source[cache[d]["source"] or "none"] = by_source.get(cache[d]["source"] or "none", 0) + 1
         log(f"  citations {i + 1}-{i + len(batch)} of {len(todo)}: {by_source}")
     if todo:
-        PATH.parent.mkdir(parents=True, exist_ok=True)
-        PATH.write_text(json.dumps(cache, indent=0, sort_keys=True), encoding="utf-8")
+        files.atomic_write(PATH, json.dumps(cache, indent=0, sort_keys=True))
     return {norm(d): cache[norm(d)] for d in dois if d}

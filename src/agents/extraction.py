@@ -16,6 +16,7 @@ from collections import Counter
 
 from src.agents.base import Agent, compact, items, key, load_prompt, targets
 from src.config import CACHE, EXTRACTION_PASSES, tier
+from src.tools import files
 from src.tools.llm import Usage
 from src.tools.pdf_parse import MENTION
 from src.tools.progress import log
@@ -109,8 +110,7 @@ class ExtractionAgent(Agent):
                             "evidence": dict(self.evidence - evidence_before), **result.pop("checks", {})}
         result["raw_calls"] = raw_calls  # exact model input/output per section, reusable as training data
         result["compute"] = {"model": self.model, **{k: round(v, 3) for k, v in spent.items()}}
-        cache.parent.mkdir(parents=True, exist_ok=True)
-        cache.write_text(json.dumps(result), encoding="utf-8")
+        files.atomic_write(cache, json.dumps(result))
         return result
 
     def _multi_pass(self, chunk: str, known_text: str, known: list[dict], where: str, item: str,

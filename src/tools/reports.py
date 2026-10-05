@@ -1,11 +1,13 @@
 """Run reports: per-paper compute CSV, corpus report, ontology report (Markdown + JSON stats)."""
 import csv
+import io
 import json
 from collections import Counter
 from pathlib import Path
 from statistics import median
 
 from src.agents.normalization import TIERS, WEIGHTS
+from src.tools import files
 
 TOKENS = ("calls", "input_tokens", "cached_tokens", "output_tokens", "latency_s")
 
@@ -372,20 +374,23 @@ def eval_row(run_dir: Path, m: dict) -> dict:
 
 
 def upsert_eval(path: Path, row: dict):
-    """Replace this run's row (or append it). New columns are added at the end; old rows keep blanks."""
-    rows = []
-    if path.exists():
-        with path.open(newline="", encoding="utf-8") as f:
-            rows = [r for r in csv.DictReader(f) if r.get("run_id") != row["run_id"]]
-    rows.append(row)
-    columns = list(dict.fromkeys(k for r in rows for k in r))
+    """Replace this run's row (or append it). New columns are added at the end; old rows keep blanks.
+    Locked and written atomically, so runs in parallel never lose each other's rows."""
     try:
-        with path.open("w", newline="", encoding="utf-8") as f:
-            w = csv.DictWriter(f, fieldnames=columns, restval="")
+        with files.locked(path):
+            rows = []
+            if path.exists():
+                with path.open(newline="", encoding="utf-8") as f:
+                    rows = [r for r in csv.DictReader(f) if r.get("run_id") != row["run_id"]]
+            rows.append(row)
+            columns = list(dict.fromkeys(k for r in rows for k in r))
+            out = io.StringIO()
+            w = csv.DictWriter(out, fieldnames=columns, restval="")
             w.writeheader()
             w.writerows(rows)
-    except PermissionError:  # usually open in Excel
-        print(f"[eval] could not write {path} (is it open in Excel?); the run itself is unaffected")
+            files.atomic_write(path, out.getvalue())
+    except (PermissionError, TimeoutError) as e:  # usually open in Excel
+        print(f"[eval] could not write {path} ({e}; is it open in Excel?); the run itself is unaffected")
 
 
 def revision_event(path: Path, revision: str, created: str, description: str = ""):

@@ -22,11 +22,13 @@ CACHE = OUTPUTS / "cache"
 PROFILES = {
     "ollama": {"tier": "local", "provider": "openai", "base_url": "http://localhost:11434/v1",
                "model": "kw-qwen3.5-9b-32k", "api_key_env": None, "max_input_chars": 48000,
+               "outage_wait_s": 900,  # Ollama restarting or the model reloading: wait up to 15 min, then fail
                # thinking off (Qwen 3.5 otherwise reasons for minutes before answering) and a hard output cap
                "request": {"reasoning_effort": "none", "max_tokens": 8000}},
     # Fine-tuned local model (build: see src/resources/ollama/Modelfile.lora)
     "ollama-lora": {"tier": "local", "provider": "openai", "base_url": "http://localhost:11434/v1",
                     "model": "kw-qwen3.5-9b-lora-32k", "api_key_env": None, "max_input_chars": 48000,
+                    "outage_wait_s": 900,
                     "request": {"reasoning_effort": "none", "max_tokens": 8000}},
     "gemini": {"tier": "frontier", "provider": "openai", "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
                "model": "gemini-3-flash-preview", "api_key_env": "GEMINI_API_KEY", "max_input_chars": 60000},

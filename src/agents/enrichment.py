@@ -19,7 +19,7 @@ from concurrent.futures import ThreadPoolExecutor
 from src.agents.base import Agent, items, key, load_prompt, targets
 from src.config import (AGENT_PROFILES, CACHE, CANDIDATES_PER_PORTAL, LLM_PROFILE, MATPORTAL, MDS_ONTOLOGIES,
                         MODEL_DEFINITION_PROFILES, ONTOLOGY_SEARCH, secret, tier)
-from src.tools import lexical, matportal, mds_portal, ontostore, retrieval, upper
+from src.tools import files, lexical, matportal, mds_portal, ontostore, retrieval, upper
 from src.tools.owl import label_of, lineage
 from src.tools.progress import log
 
@@ -209,8 +209,7 @@ class EnrichmentAgent(Agent):
                     log(f"  {portal}: a search failed ({type(e).__name__}: {err}); other searches continue")
                 return []
             if res:  # never cache failures
-                path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_text(json.dumps(res), encoding="utf-8")
+                files.atomic_write(path, json.dumps(res))
             return res
 
         def queries(c: dict) -> list[tuple[str, bool]]:
