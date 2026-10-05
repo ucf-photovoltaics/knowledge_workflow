@@ -160,6 +160,8 @@ ONTOLOGY_SEARCH = {
 # ---- Mapping checks (interoperability, integration) ----
 MAPPING = {
     "strong_similarity": 0.85,   # label-matched candidate at/above this is auto-mapped as exact if the model skipped it
+    "row_retries": 2,            # interop passes (screening, study stage, domain): rows left out are re-sent twice,
+                                 # in batches of half, then a quarter, of the first size (at least 5)
 }
 
 # ---- Cross-domain integration (python -m src.run integrate) ----
@@ -201,7 +203,8 @@ WORKFLOW_REVISION_NOTE = ("External terms from a local ontology store (Oxigraph 
                           "narrower and related matches; imported definitions and labels; MIREOT imports of every term; "
                           "v2: MDS-Onto portal and MatPortal searched over all their ontologies; v3: parent answers read "
                           "tolerantly (format variants, CCO/BFO class by name inside the category, close spellings), "
-                          "ontology/uncertain.json, figures and grouped report after each run and integration")
+                          "ontology/uncertain.json, figures and grouped report after each run and integration; interop "
+                          "passes re-send missing rows twice; answers inside an echoed schema are read")
 # Profiles whose enrichment may write definitions from model knowledge (recorded as definition_source <profile>:<model>).
 MODEL_DEFINITION_PROFILES = ("gemini", "gemini-lite")
 

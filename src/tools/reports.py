@@ -208,7 +208,8 @@ def _coverage(*sources) -> dict:
     for src in sources:
         for name, s in (src or {}).items():
             out.update({f"{name}_rows": s.get("rows"), f"{name}_rows_recovered": s.get("recovered"),
-                        f"{name}_rows_missing_after_retry": s.get("missing")})
+                        f"{name}_rows_missing_after_retry": s.get("missing"),
+                        **{f"{name}_rows_{k}": v for k, v in s.items() if k.startswith("recovered_retry")}})
     return out
 
 

@@ -45,6 +45,31 @@ def targets(value) -> list[str]:
     return [k for k in (key(v) for v in (value if isinstance(value, list) else [value])) if k]
 
 
+def _hidden_rows(obj, value_key: str | None) -> list[dict]:
+    """Answer rows anywhere inside a copy of the JSON schema: lists of dicts that carry an id (and value_key)."""
+    found = []
+
+    def walk(x):
+        if isinstance(x, list):
+            rows = [r for r in x if isinstance(r, dict) and isinstance(r.get("id"), (str, int)) and "type" not in r
+                    and (not value_key or value_key in r)]
+            if rows:
+                found.extend(rows)
+                return
+            for y in x:
+                walk(y)
+        elif isinstance(x, dict):
+            rows = [v for v in x.values() if isinstance(v, dict) and isinstance(v.get("id"), (str, int))
+                    and "type" not in v and (not value_key or value_key in v)]  # {"k1": {"id": "k1", ...}, ...}
+            found.extend(rows)
+            for y in x.values():
+                if not any(y is r for r in rows):
+                    walk(y)
+
+    walk(obj)
+    return found
+
+
 def items(obj, field: str, value_key: str | None = None) -> list[dict]:
     """The dict entries of obj[field], ignoring anything malformed.
     Small models often answer in another shape; with value_key these are read too:
@@ -53,6 +78,14 @@ def items(obj, field: str, value_key: str | None = None) -> list[dict]:
       {"<other name>": [{...}]} (a single list under another key) -> that list"""
     if not isinstance(obj, dict):
         return []
+    if "type" in obj and isinstance(obj.get("properties"), dict):  # the schema echoed back, the answer (if any) inside
+        rows = _rows(obj, field, value_key)
+        seen = {str(r.get("id")) for r in rows}
+        return rows + [r for r in _hidden_rows(obj, value_key) if str(r.get("id")) not in seen]
+    return _rows(obj, field, value_key)
+
+
+def _rows(obj: dict, field: str, value_key: str | None) -> list[dict]:
     if field not in obj and value_key and "id" in obj and value_key in obj:  # one row answered as a bare object
         return [obj]
     if field not in obj and isinstance(obj.get("properties"), dict):  # small models echo the JSON schema around the answer
@@ -118,9 +151,10 @@ class Agent:
         raise ValueError(f"{self.name}: no valid JSON for {item} after 2 attempts")
 
     def call_rows(self, rows: list[dict], system: str, item: str, field: str, value_key: str | None = None,
-                  size: int = 25, label: str | None = None, stat: str | None = None) -> list[dict]:
-        """Rows in batches; rows the model left out are sent once more in half-size batches. Returns one answer
-        entry per answered row id; coverage counts accumulate in self.row_stats[stat or item]."""
+                  size: int = 25, label: str | None = None, stat: str | None = None, retries: int = 1) -> list[dict]:
+        """Rows in batches; rows the model left out are sent again, up to retries times, each time in batches half
+        the size of the last (at least 5). Returns one answer entry per answered row id; coverage counts accumulate
+        in self.row_stats[stat or item] (recovered: by any retry; recovered_retryN: by retry N >= 2)."""
         ids, answers, answered = {str(r["id"]) for r in rows}, [], set()
 
         def send(todo, n, tag):
@@ -137,14 +171,19 @@ class Agent:
                         answers.append(a)
 
         send(rows, size, "")
-        first = len(answered)
-        missing = [r for r in rows if str(r["id"]) not in answered]
-        if missing:
-            send(missing, max(5, size // 2), "_retry")
+        first, by_round = len(answered), Counter()
+        for n in range(1, retries + 1):
+            missing = [r for r in rows if str(r["id"]) not in answered]
+            if not missing:
+                break
+            before = len(answered)
+            send(missing, max(5, size // 2 ** n), "_retry" if n == 1 else f"_retry{n}")
+            if n > 1:
+                by_round[f"recovered_retry{n}"] = len(answered) - before
         for r in rows:
             if str(r["id"]) not in answered:
                 self.doubt("unanswered_row", step=stat or item, id=str(r["id"]), label=r.get("label"))
         s = self.row_stats.setdefault(stat or item, Counter())
         s.update(rows=len(rows), answered_first=first, recovered=len(answered) - first,
-                 missing=len(rows) - len(answered))
+                 missing=len(rows) - len(answered), **by_round)
         return answers

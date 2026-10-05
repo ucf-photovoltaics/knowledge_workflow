@@ -45,7 +45,8 @@ class InteroperabilityAgent(Agent):
             n_batches = -(-len(todo) // BATCH)
             log(f"mapping pass 1: screening candidates for {len(todo)} classes ({n_batches} call(s))")
             answered = {key(k.get("id")): k.get("candidates") for k in self.call_rows(
-                [row(c) for c in todo], load_prompt("interoperability_filter"), "filter", "keep", "candidates", size=BATCH)}
+                [row(c) for c in todo], load_prompt("interoperability_filter"), "filter", "keep", "candidates", size=BATCH,
+                retries=MAPPING["row_retries"])}
             for c in todo:
                 if c["id"] not in answered:
                     continue  # no answer for this class: show all candidates to pass 2
@@ -195,7 +196,7 @@ class InteroperabilityAgent(Agent):
         answers = defaultdict(dict)
         for name, prompt in prompts:
             for t in self.call_rows(rows, prompt, name, "tags", {"stage": "study_stage", "domain": "domain"}.get(name),
-                                    size=FACET_BATCH):
+                                    size=FACET_BATCH, retries=MAPPING["row_retries"]):
                 answers[key(t.get("id"))].update({k: v for k, v in t.items() if k != "id"})
         tags = {}
         for tid, t in answers.items():
