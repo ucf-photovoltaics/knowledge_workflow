@@ -17,7 +17,8 @@ param(
     [string]$UvExe = (Get-Command uv -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1).Source,
     [string]$OllamaExe = (Get-Command ollama -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1).Source,
     [int]$MaxAttempts = 10,
-    [ValidateRange(1, 32)][int]$Workers = 2   # model requests at once; scripts\bench-concurrency.ps1 finds your GPU's limit
+    [ValidateRange(1, 32)][int]$Workers = 2,  # model requests at once; scripts\bench-concurrency.ps1 finds your GPU's limit
+    [int]$MaxSize = 50   # last corpus size of the sweep (5, 10, ... up to 50)
 )
 
 $root = Split-Path $PSScriptRoot -Parent
@@ -69,7 +70,7 @@ while ($attempt -lt $MaxAttempts) {
     $attempt++
     Set-Content $countFile $attempt
     Write-Host "$(Get-Date -Format s) sweep $SweepId, attempt $attempt of $MaxAttempts"
-    & .\scripts\run-sweep.ps1 -Workers $Workers -ContinueTo50 -SweepId $SweepId
+    & .\scripts\run-sweep.ps1 -Workers $Workers -ContinueTo50 -MaxSize $MaxSize -SweepId $SweepId
     $code = $LASTEXITCODE
     Write-Host "$(Get-Date -Format s) run-sweep exit code $code"
     if ($code -eq 0) {

@@ -6,6 +6,7 @@ param(
     [switch]$ContinueTo50,
     [switch]$ContinueTo100,
     [ValidateRange(0, 5)][int]$Retries = 1,
+    [ValidateRange(0, 100)][int]$MaxSize = 0,   # stop after this size (0 = no limit), e.g. -ContinueTo50 -MaxSize 30
     [string]$SweepId = (Get-Date -Format 'yyyyMMdd-HHmmss')
 )
 
@@ -82,6 +83,7 @@ $limits = @(5, 10, 15, 20, 25)
 if ($ContinueTo100) {
     $limits += @(30..100 | Where-Object { $_ % 5 -eq 0 })
 } elseif ($ContinueTo50) { $limits += @(30, 35, 40, 45, 50) }
+if ($MaxSize) { $limits = @($limits | Where-Object { $_ -le $MaxSize }) }
 foreach ($n in $limits) {
     $completed = @()
     foreach ($collection in $Collections) {
