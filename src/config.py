@@ -30,6 +30,11 @@ PROFILES = {
                     "model": "kw-qwen3.5-9b-lora-32k", "api_key_env": None, "max_input_chars": 48000,
                     "outage_wait_s": 900,
                     "request": {"reasoning_effort": "none", "max_tokens": 8000}},
+    # vLLM on a cluster GPU node (scripts/slurm-sweep.sh). Same local-tier passes as "ollama", so runs differ only by model.
+    "vllm": {"tier": "local", "provider": "openai", "base_url": os.getenv("VLLM_BASE_URL", "http://localhost:8000/v1"),
+             "model": os.getenv("VLLM_MODEL", "mistralai/Mistral-Small-4-119B-2603"), "api_key_env": None,
+             "max_input_chars": 48000, "outage_wait_s": 900,
+             "request": {"reasoning_effort": os.getenv("VLLM_REASONING_EFFORT", "none"), "max_tokens": 8000}},
     "gemini": {"tier": "frontier", "provider": "openai", "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
                "model": "gemini-3-flash-preview", "api_key_env": "GEMINI_API_KEY", "max_input_chars": 60000},
     "deepseek": {"tier": "frontier", "provider": "openai", "base_url": "https://api.deepseek.com/v1",
@@ -206,7 +211,7 @@ LORA = {
 # ---- Output ontology ----
 ONTOLOGY_IRI = "http://example.org/kw/"
 ONTOLOGY_TITLE = "PV Knowledge Workflow Ontology"
-WORKFLOW_REVISION = "2026-10-05-runtime-v5"
+WORKFLOW_REVISION = "2026-10-14-category-from-type"
 WORKFLOW_REVISION_NOTE = ("External terms from a local ontology store (Oxigraph + trigram + embedding search over BFO, "
                           "CCO, RO, QUDT, PMDCO, IOF, MDS-Onto): placement parents (CCO, then BFO; same-name MDS-Onto/PMDCO "
                           "class wins), restriction properties, mapping candidates with 1-2 hop propagation; broader, "
@@ -218,7 +223,9 @@ WORKFLOW_REVISION_NOTE = ("External terms from a local ontology store (Oxigraph 
                           "ends with an example answer instead of the schema; v4: portal terms outside the store are mapping "
                           "candidates (SKOS only), portal hits under another IRI of a store ontology matched by label; "
                           "v5: explicit row coverage, task batches and answer examples, downstream response and embedding "
-                          "caches, early paper limits, short-section packing, deduplicated portal queries and vector top-k")
+                          "caches, early paper limits, short-section packing, deduplicated portal queries and vector top-k; "
+                          "2026-10-14: BFO category from the extraction type (the model only marks non-classes), "
+                          "model merge labels read as text, a restarting local server waited out for outage_wait_s")
 # Profiles whose enrichment may write definitions from model knowledge (recorded as definition_source <profile>:<model>).
 MODEL_DEFINITION_PROFILES = ("gemini", "gemini-lite")
 

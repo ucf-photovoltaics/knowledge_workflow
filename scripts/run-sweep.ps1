@@ -4,6 +4,7 @@ param(
     [ValidateRange(1, 32)][int]$Workers = 2,
     [string[]]$Collections = @('tea', 'reliability', 'si-topcon'),
     [switch]$ContinueTo50,
+    [switch]$ContinueTo100,
     [ValidateRange(0, 5)][int]$Retries = 1,
     [string]$SweepId = (Get-Date -Format 'yyyyMMdd-HHmmss')
 )
@@ -78,7 +79,9 @@ function Invoke-Workflow([string[]]$WorkflowArgs, [string]$Id) {
 }
 
 $limits = @(5, 10, 15, 20, 25)
-if ($ContinueTo50) { $limits += @(30, 35, 40, 45, 50) }
+if ($ContinueTo100) {
+    $limits += @(30..100 | Where-Object { $_ % 5 -eq 0 })
+} elseif ($ContinueTo50) { $limits += @(30, 35, 40, 45, 50) }
 foreach ($n in $limits) {
     $completed = @()
     foreach ($collection in $Collections) {

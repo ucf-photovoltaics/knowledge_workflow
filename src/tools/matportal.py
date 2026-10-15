@@ -9,9 +9,7 @@ import requests
 
 from src.config import MATPORTAL, secret
 from src.tools.progress import log
-
-_warned = set()
-
+from src.tools.lexical import validate_search_query
 
 def _get(path: str, params: dict):
     r = requests.get(MATPORTAL["base_url"].rstrip("/") + path, timeout=60,
@@ -34,15 +32,18 @@ def check_acronyms(ontologies: str | None) -> tuple[str | None, list[str]]:
     wanted = [o.strip() for o in ontologies.split(",") if o.strip()]
     try:
         known = list_ontologies()
-    except requests.RequestException:
+    except requests.RequestException as e:
+        log(f'MatPortal: ontology acronym lookup failed ({type(e).__name__}: {e}); using requested acronyms')
         return ontologies, []
     return ",".join(o for o in wanted if o in known) or None, [o for o in wanted if o not in known]
 
 
 def search(query: str, ontologies: str | None = None, max_results: int = 10, exact: bool = False) -> list[dict]:
+    validate_search_query(query)
+    if max_results < 1:
+        raise ValueError('Portal search result limit must be positive')
     ontologies, unknown = check_acronyms(ontologies)
-    if unknown and tuple(unknown) not in _warned:
-        _warned.add(tuple(unknown))
+    if unknown:
         log(f"MatPortal: unknown ontology acronyms ignored: {', '.join(unknown)}")
     params = {"q": query, "pagesize": max_results, "include": "prefLabel,definition", "display_context": "false",
               "require_exact_match": "true" if exact else "false"}

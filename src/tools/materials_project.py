@@ -73,7 +73,9 @@ def _get(path: str, params: dict) -> dict:
 def database_version() -> str | None:
     try:
         return _get("/heartbeat", {}).get("db_version")
-    except requests.RequestException:
+    except requests.RequestException as e:
+        from src.tools.progress import log
+        log(f'Materials Project: database version lookup failed ({type(e).__name__}: {e})')
         return None
 
 
@@ -96,6 +98,10 @@ def _record(d: dict) -> dict:
 
 def search(kind: str, value: str, limit: int) -> list[dict]:
     """Entries for a formula (most stable first, within max_energy_above_hull) or a material id."""
+    from src.tools.lexical import validate_search_query
+    validate_search_query(value)
+    if limit < 1:
+        raise ValueError('Materials Project result limit must be positive')
     docs = _get("/materials/summary/", {kind: value, "deprecated": "false", "_fields": FIELDS,
                                         "_limit": 100}).get("data", [])
     if kind == "formula":

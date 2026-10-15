@@ -61,6 +61,7 @@ def _same_term(r: dict) -> dict | None:
 
 def _portal_fetch(search, onts, folder: str, query: str, exact: bool) -> list[dict]:
     """Cache successful searches; empty results expire after one day. Exceptions are never cached."""
+    lexical.validate_search_query(query)
     path = CACHE / folder / (hashlib.sha256(f"{onts}|{exact}|{query}".encode()).hexdigest()[:20] + ".json")
     if path.exists():
         try:
@@ -241,13 +242,21 @@ class EnrichmentAgent(Agent):
             try:
                 return _portal_fetch(search, onts, folder, query, exact)
             except Exception as e:
-                if portal not in failed:
-                    failed.add(portal)
-                    err = re.sub(r"apikey=[^&\s]+", "apikey=***", str(e))
-                    log(f"  {portal}: a search failed ({type(e).__name__}: {err}); other searches continue")
+                failed.add(portal)
+                log(f"  {portal}: a search failed ({type(e).__name__}: {e}); "
+                    f"query_sha256={hashlib.sha256(query.encode()).hexdigest()} exact={exact}; other searches continue")
                 return []
 
         def queries(c: dict) -> list[tuple[str, bool]]:
+            try:
+                lexical.validate_search_query(c['label'])
+            except ValueError as e:
+                if 'oversized_external_search_query' not in c.setdefault('review_flags', []):
+                    c['review_flags'].append('oversized_external_search_query')
+                log(f"warning: external searches skipped for concept {c['id']} ({e}); "
+                    f"papers={c.get('papers', [])}; "
+                    f"label_sha256={hashlib.sha256(c['label'].encode()).hexdigest()}; source label preserved")
+                return []
             q = lexical.clean_query(c["label"])
             out = [(q, True), (q, False)]
             if lexical.head_query(c["label"]):
@@ -376,8 +385,8 @@ class EnrichmentAgent(Agent):
             try:
                 res = materials_project.search(*k, limit=MATERIALS_PROJECT["per_class"])
             except Exception as e:
-                if not failed:
-                    log(f"  Materials Project: a lookup failed ({type(e).__name__}: {e}); other lookups continue")
+                log(f"  Materials Project: a lookup failed ({type(e).__name__}: {e}); "
+                    f"lookup={k}; other lookups continue")
                 failed.append(k)
                 return None
             if res and version:  # never cache failures; a new database version is looked up again

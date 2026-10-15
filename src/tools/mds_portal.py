@@ -6,9 +6,9 @@ import requests
 from src.config import secret
 from src.tools import mds_onto_open_api as _api
 from src.tools.progress import log
+from src.tools.lexical import validate_search_query
 
 PORTAL = "https://www.mdsonto-portal.com:8443"
-_warned = set()
 
 
 @lru_cache
@@ -27,16 +27,17 @@ def check_acronyms(ontologies: str | None) -> tuple[str | None, list[str]]:
     wanted = [o.strip() for o in ontologies.split(",") if o.strip()]
     try:
         known = list_ontologies()
-    except requests.RequestException:
+    except requests.RequestException as e:
+        log(f'MDS portal: ontology acronym lookup failed ({type(e).__name__}: {e}); using requested acronyms')
         return ontologies, []  # cannot verify; pass through unchanged
     return ",".join(o for o in wanted if o in known) or None, [o for o in wanted if o not in known]
 
 
 def search(query: str, ontologies: str | None = None, max_results: int = 10, exact: bool = False) -> list[dict]:
     """ontologies: comma-separated portal acronyms, e.g. "MDS-ONTO,IOF,PMDCO,QUDT". Unknown ones are dropped."""
+    validate_search_query(query)
     ontologies, unknown = check_acronyms(ontologies)
-    if unknown and tuple(unknown) not in _warned:
-        _warned.add(tuple(unknown))
+    if unknown:
         log(f"MDS portal: unknown ontology acronyms ignored: {', '.join(unknown)}")
     # The vendored search swallows HTTP/JSON errors as [], which cannot safely be negative-cached.
     if max_results < 1:

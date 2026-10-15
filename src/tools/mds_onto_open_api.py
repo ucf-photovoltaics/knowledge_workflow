@@ -44,6 +44,8 @@ def search_mdsonto(
     Search for ontology terms in BioPortal/OntoPortal using the search endpoint.
     Modified to include property data in the retrieval.
     """
+    from src.tools.lexical import validate_search_query
+    validate_search_query(query)
     # Callers must provide their configured API key; no embedded fallback.
    
     if api_key is None:
@@ -78,12 +80,12 @@ def search_mdsonto(
             response.raise_for_status()
             data = response.json()
         except requests.exceptions.RequestException as e:
-            if verbose:
-                print(f"Error fetching from Portal: {e}")
+            from src.tools.progress import log
+            log(f"MDS portal: search failed ({type(e).__name__}: {e})")
             break
         except ValueError as e:
-            if verbose:
-                print(f"Error parsing JSON response: {e}")
+            from src.tools.progress import log
+            log(f"MDS portal: JSON parsing failed ({type(e).__name__}: {e})")
             break
        
         if isinstance(data, dict) and 'collection' in data:
@@ -220,7 +222,8 @@ def search_mds_ontology(
         return processed_results
    
     except Exception as e:
-        print(f"Error executing search: {e}")
+        from src.tools.progress import log
+        log(f"MDS portal: search failed ({type(e).__name__}: {e})")
         return []
 
 

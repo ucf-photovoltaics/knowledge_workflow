@@ -237,10 +237,10 @@ class OntologyAgent(Agent):
         log(f"ontology pass 1: BFO category for {len(concepts):,} concepts ({n_batches} call(s))")
         for r in self.call_rows(rows_of(concepts), cat_prompt, "category", "classes", "category",
                                 size=SPLIT_BATCH):
-            cat = str(r.get("category", "")).strip().lower()
-            if cat in CATEGORIES or cat == "not a class":
-                cats[key(r.get("id"))] = cat
-        for c in concepts:  # no answer: category of the type's default parent
+            # only the exclusion is taken from the model; the category comes from the extraction type below
+            if str(r.get("category", "")).strip().lower() == "not a class":
+                cats[key(r.get("id"))] = "not a class"
+        for c in concepts:  # category of the type's default parent
             if c["id"] not in cats:
                 default = [self._default(c, menu_lc)] + upper.ancestors(self._default(c, menu_lc))
                 cats[c["id"]] = next((k for k, root in CATEGORIES.items() if root in default), "material entity")

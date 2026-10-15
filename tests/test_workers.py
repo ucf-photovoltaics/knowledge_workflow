@@ -100,7 +100,7 @@ def test_terminal_error_not_retried_and_transient_budget_exhausts(monkeypatch):
     monkeypatch.setattr(llm.time, 'sleep', lambda _: None)
     with pytest.raises(openai.APIConnectionError):
         llm._outage_safe({'outage_wait_s': 900}, unavailable)
-    assert len(calls) == 3
+    assert len(calls) == 3 + 900 // 60 + 1  # three quick tries, then one a minute until the wait runs out
     # Slot release must survive exceptions.
     workers.configure(1)
 

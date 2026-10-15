@@ -158,7 +158,7 @@ class NormalizationAgent(Agent):
                     idx = [int(x[1:]) for x in ids]
                     for i in idx[1:]:
                         merged.union(i, idx[0])
-                    preferred[idx[0]] = m.get("label")
+                    preferred[idx[0]] = _text(m.get("label"))
 
         out = defaultdict(lambda: {"members": [], "label": None})
         for i, g in enumerate(groups):

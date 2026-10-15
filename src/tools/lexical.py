@@ -20,6 +20,16 @@ def normalize(label: str) -> str:
     return norm_key(re.sub(r"\([^)]*\)", " ", label))
 
 
+def validate_search_query(query: str) -> str:
+    """Reject oversized external search terms without altering source evidence."""
+    from urllib.parse import quote_plus
+    if not isinstance(query, str) or not query.strip():
+        raise ValueError('Search query must be a nonempty string')
+    if len(quote_plus(query)) > 512:
+        raise ValueError(f'Search query exceeds 512 encoded characters ({len(query)} characters); use a concise concept label')
+    return query
+
+
 def clean_query(label: str) -> str:
     """A portal search query: no parentheses, LaTeX, or hyphen/underscore joins."""
     text = re.sub(r"\$[^$]*\$|\([^)]*\)|\[[^\]]*\]", " ", label)

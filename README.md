@@ -72,6 +72,7 @@ For a resilient cumulative sweep across tea, reliability and si-topcon:
 Set-Location C:\Users\brent\dev\knowledge_workflow
 .\scripts\run-sweep.ps1                         # 5, 10, 15, 20, 25; two workers
 .\scripts\run-sweep.ps1 -ContinueTo50           # adds 30, 35, 40, 45, 50
+.\scripts\run-sweep.ps1 -ContinueTo100          # 5 through 100, in increments of five
 .\scripts\run-sweep.ps1 -Workers 1              # force one worker
 # Reuse a previous sweep id to resume completed stages after interruption:
 .\scripts\run-sweep.ps1 -SweepId 20261005-120000
@@ -87,6 +88,11 @@ After all attempts, the script writes `outputs/sweep-<id>/report/report.html`, `
 and a single-header `sweep_summary.csv`. The report lists failed, partial, invalid and skipped attempts;
 plots use completed domains and their selected integrations only. Report-generation failures appear
 in the sweep status summary and `report.log` and also produce exit status 1.
+Each pipeline run and integration also appends progress to its own `run.log` and warnings/errors to
+`warnings_errors.jsonl` (timestamp, run id, stage and redacted message). Repeated search failures and
+Python warnings are retained. External search queries over 512 URL-encoded characters are rejected
+before requests; malformed oversized concept labels are logged and skipped for portal search while
+their original labels and evidence remain unchanged for review.
 To rebuild the report without running the pipeline:
 
 ```powershell

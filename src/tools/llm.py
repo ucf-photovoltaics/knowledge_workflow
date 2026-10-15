@@ -60,7 +60,7 @@ def _outage_safe(profile: dict, request):
                 if timeout or memory or status in (429, 503):
                     workers.fallback(type(e).__name__ if not status else f"HTTP {status}", timeout=timeout)
                 if attempt == 2:
-                    raise
+                    break  # still down: wait out the outage below
                 delay = 5 * 2 ** attempt
                 log(f"local model request failed ({type(e).__name__}); retry {attempt + 1}/2 in {delay}s")
                 time.sleep(delay)

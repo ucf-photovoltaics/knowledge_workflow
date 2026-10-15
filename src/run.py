@@ -41,7 +41,7 @@ from src.config import CACHE, OUTPUTS, ROOT, model_for
 from src.tools import (bottomup, citations, files, integration, llm, matportal, mds_portal, ontostore, owl, pdf_parse,
                        reports, zotero, ontology_review, workers)
 from src.tools.ledger import Ledger
-from src.tools.progress import log, set_stage
+from src.tools.progress import configure_logging, log, redact, set_stage
 
 AGENTS = ("extraction", "normalization", "ontology", "enrichment", "interoperability")
 
@@ -91,6 +91,7 @@ class Run:
     def __init__(self, run_id: str, collection: str):
         self.id, self.dir = run_id, OUTPUTS / run_id
         self.dir.mkdir(parents=True, exist_ok=True)
+        configure_logging(self.dir, run_id)
         self.ledger = Ledger(self.dir / "ledger.jsonl")
         path = self.dir / "run.json"
         self.manifest = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {
@@ -112,9 +113,9 @@ class Run:
     def fail(self, stage: str, exc: BaseException):
         """Keep the error with the run (error.log, run.json "errors") and in the central outputs/errors.csv."""
         self.manifest["workers"] = workers.summary()
-        tb = "".join(traceback.format_exception(exc))
+        tb = redact("".join(traceback.format_exception(exc)))
         where = traceback.extract_tb(exc.__traceback__)[-1] if exc.__traceback__ else None
-        error = {"stage": stage, "time": _now(), "error": f"{type(exc).__name__}: {exc}"[:500],
+        error = {"stage": stage, "time": _now(), "error": redact(f"{type(exc).__name__}: {exc}")[:500],
                  "where": f"{Path(where.filename).name}:{where.lineno} in {where.name}" if where else ""}
         with (self.dir / "error.log").open("a", encoding="utf-8") as f:
             f.write(f"==== {error['time']} stage {stage}\n{tb}\n")
@@ -495,6 +496,7 @@ def integrate(args):
     iid = args.run_id or f"integration-{name}-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
     out = outputs / iid
     out.mkdir(parents=True, exist_ok=True)
+    configure_logging(out, iid)
     write = lambda name, obj: (out / name).write_text(
         obj if isinstance(obj, str) else json.dumps(obj, indent=1, ensure_ascii=False, default=str), encoding="utf-8")
     t0 = time.perf_counter()
@@ -535,8 +537,9 @@ def integrate(args):
             "notes": notes, "stats": result["stats"], "validation": {k: validation[k] for k in ("valid", "n_issues")},
             "compute": compute})
         reports.upsert_eval(outputs / "eval_integrations.csv", row)
-    except BaseException:
-        (out / "error.log").write_text(traceback.format_exc(), encoding="utf-8")
+    except BaseException as exc:
+        (out / "error.log").write_text(redact(traceback.format_exc()), encoding="utf-8")
+        log(f'integration failed ({type(exc).__name__}: {exc}); traceback in {out / "error.log"}')
         raise
     log(f"finished; {len(result['mappings'])} mappings, {len(result['clusters'])} bridge concepts; outputs in {out}; "
         f"summary row in {outputs / 'eval_integrations.csv'}")

@@ -8,7 +8,9 @@ from pathlib import Path
 import pytest
 
 
-@pytest.mark.parametrize('extended,last_limit', [(False, 25), (True, 50)])
+@pytest.mark.parametrize('extended,last_limit', [('', 25), ('-ContinueTo50', 50),
+                                              ('-ContinueTo100', 100),
+                                              ('-ContinueTo50 -ContinueTo100', 100)])
 @pytest.mark.parametrize('shell_name', ['powershell', 'pwsh'])
 def test_sweep_retries_skips_and_continues(tmp_path, extended, last_limit, shell_name):
     shell = shutil.which(shell_name)
@@ -67,7 +69,7 @@ function global:uv {
 }
 & "$PSScriptRoot\scripts\run-sweep.ps1" -SweepId fixture EXTENDED
 exit $LASTEXITCODE
-'''.replace('EXTENDED', '-ContinueTo50' if extended else '')
+'''.replace('EXTENDED', extended)
        .replace('PYTHON_EXECUTABLE', sys.executable.replace("'", "''")), encoding='utf-8')
     result = subprocess.run([shell, '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', str(harness)],
                             capture_output=True, text=True, timeout=60)
@@ -79,6 +81,8 @@ exit $LASTEXITCODE
     assert by_id['si-topcon-n10-fixture']['status'] == 'partial'
     assert by_id['integration-n15-fixture']['status'] == 'failed'
     assert by_id[f'integration-n{last_limit}-fixture']['status'] == 'completed'
+    assert sorted({int(r['limit']) for r in rows}) == list(range(5, last_limit + 1, 5))
+    assert len(rows) == (last_limit // 5) * 4
     inputs = (tmp_path / 'outputs' / 'integration-n5-fixture' / 'inputs.txt').read_text()
     assert 'reliability' not in inputs
     assert 'tea-n5-fixture' in inputs and 'si-topcon-n5-fixture' in inputs
