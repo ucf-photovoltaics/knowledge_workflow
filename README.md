@@ -60,11 +60,20 @@ adjacent short sections up to 6,000 characters while retaining headings, caption
 
 The pipeline uses two independent paper/batch workers by default (`--workers 1` forces serial work).
 Chunks within one paper and dependent stages remain ordered. Local chat and embedding requests share
-a concurrency limit. Ollama overload/429/503 or out-of-memory errors reduce that limit to one for the
-rest of the run; two timeout failures do the same. Transient local requests have two retries with
+a concurrency limit. Ollama overload/429/503 or out-of-memory errors halve that limit (8 -> 4 -> 2 -> 1)
+for the rest of the run; two timeout failures do the same. Failures from requests that were already
+running when the limit last changed count once. Transient local requests have two retries with
 5/10-second backoff, in addition to the existing JSON and coverage safeguards. The effective limit and
 fallback reasons are recorded in `run.json` (or `integration.json`). Already-running requests finish
 before the reduced limit governs new requests.
+
+Answers are reused per row across runs: a row whose content is identical to one answered before (same
+revision, model, prompt, evidence, support counts, parent, siblings and candidates) takes the earlier
+answer, so tea-n10 asks the model only about what changed since tea-n5 (`outputs/cache/rows.sqlite3`;
+every run's `rows.jsonl` lists each answer and whether it was reused). `$env:KW_FRESH = "1"` asks the
+model for everything. `.\scripts\bench-concurrency.ps1 -FromRun <finished run>` finds how many requests
+at once your GPU handles best; `.\scripts\run-checks.ps1` reruns the checks behind the 2026-10-15
+revision (reuse across sizes, study stage and domain in one call, first-call answer rates).
 
 For a resilient cumulative sweep across tea, reliability and si-topcon:
 
@@ -74,11 +83,13 @@ Set-Location C:\Users\brent\dev\knowledge_workflow
 .\scripts\run-sweep.ps1 -ContinueTo50           # adds 30, 35, 40, 45, 50
 .\scripts\run-sweep.ps1 -ContinueTo100          # 5 through 100, in increments of five
 .\scripts\run-sweep.ps1 -Workers 1              # force one worker
+# Unattended, resuming after crashes (scheduled task setup in the script header):
+.\scripts\auto-sweep.ps1 -SweepId 20261005-120000 -Workers 4
 # Reuse a previous sweep id to resume completed stages after interruption:
 .\scripts\run-sweep.ps1 -SweepId 20261005-120000
 ```
 
-The script retries transient command failures once with one worker, records terminal failures and
+The script retries transient command failures once with half the workers, records terminal failures and
 continues other collections and sizes. Integration includes only successful, structurally valid runs
 from the current size; failed-paper runs are excluded and at least two domains are required. A smaller
 available corpus is recorded explicitly. Logs and `summary.csv` live in `outputs/sweep-<id>/`.
@@ -101,11 +112,14 @@ uv run --with-requirements requirements.txt python -m src.figures `
     --out outputs/sweep-YOUR_SWEEP_ID/report
 ```
 
-To allow two concurrent requests in Ollama, quit the tray application, then in a separate PowerShell
-window run `$env:OLLAMA_NUM_PARALLEL = "2"; ollama serve`. Leave that server window open.
-The application fallback limits overlapping requests but cannot reclaim Ollama's reserved parallel
-context memory. To reclaim it, interrupt the pipeline, stop the server with Ctrl+C, restart it using
-`$env:OLLAMA_NUM_PARALLEL = "1"; ollama serve`, and resume the sweep with the same `-SweepId -Workers 1`.
+`script.txt` and `scripts\auto-sweep.ps1` start Ollama with as many request slots as workers and restart
+it with fewer slots when the pipeline halves its limit (which frees Ollama's reserved context memory).
+By hand: quit the tray application, then in a separate PowerShell window run
+`$env:OLLAMA_NUM_PARALLEL = "2"; ollama serve` with the slot count matching `-Workers`.
+
+On a Slurm cluster, `sbatch scripts/slurm-sweep.sh` uses whatever the job is given: every allocated GPU
+(as many vLLM copies of the model as fit), workers scaled to the copies, and the domains of each size
+side by side. Ask for more with `sbatch --gres=gpu:N ...`; the header lists the overrides.
 
 ```powershell
 # one domain, all stages

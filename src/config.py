@@ -83,6 +83,12 @@ AGENT_MODELS = {"extraction": None, "normalization": None, "ontology": None,
 TEMPERATURE = None          # None = provider default (some reasoning models reject temperature)
 MAX_OUTPUT_TOKENS = 16000
 MAX_RETRIES = 6             # retries with exponential backoff on 429 / 5xx (e.g. "model overloaded")
+# Reuse model answers from earlier runs: identical whole requests (outputs/cache/calls) and identical rows across
+# runs, e.g. tea-n5 answers inside tea-n10 (outputs/cache/rows.sqlite3, src/agents/base.py RowCache).
+# KW_FRESH=1 asks the model again for everything (benchmarks and the reuse check).
+REUSE_ANSWERS = os.getenv("KW_FRESH", "") != "1"
+# KW_SCRATCH=1: a benchmark or check run - kept out of eval_runs.csv, the sweep figures and integration's run choice.
+SCRATCH_RUN = os.getenv("KW_SCRATCH", "") == "1"
 
 # ---- Embeddings (normalization synonym clustering; OpenAI-compatible /embeddings) ----
 # model None = skip embedding clustering (lexical merging only). e.g. "nomic-embed-text" on Ollama.
@@ -173,6 +179,9 @@ ONTOLOGY_SEARCH = {
 }
 
 # ---- Mapping checks (interoperability, integration) ----
+# Local tier study stage and domain tags: "combined" = one call per batch returns both (default since 2026-10-15),
+# "split" = a stage call and a domain call per batch, as before. KW_FACET_CALLS overrides it (the facets check).
+FACET_CALLS = os.getenv("KW_FACET_CALLS", "combined")
 MAPPING = {
     "strong_similarity": 0.85,   # label-matched candidate at/above this is auto-mapped as exact if the model skipped it
     "row_retries": 2,            # interop passes (screening, study stage, domain): rows left out are re-sent twice,
@@ -211,7 +220,7 @@ LORA = {
 # ---- Output ontology ----
 ONTOLOGY_IRI = "http://example.org/kw/"
 ONTOLOGY_TITLE = "PV Knowledge Workflow Ontology"
-WORKFLOW_REVISION = "2026-10-14-category-from-type"
+WORKFLOW_REVISION = "2026-10-15-speedups"
 WORKFLOW_REVISION_NOTE = ("External terms from a local ontology store (Oxigraph + trigram + embedding search over BFO, "
                           "CCO, RO, QUDT, PMDCO, IOF, MDS-Onto): placement parents (CCO, then BFO; same-name MDS-Onto/PMDCO "
                           "class wins), restriction properties, mapping candidates with 1-2 hop propagation; broader, "
@@ -225,7 +234,10 @@ WORKFLOW_REVISION_NOTE = ("External terms from a local ontology store (Oxigraph 
                           "v5: explicit row coverage, task batches and answer examples, downstream response and embedding "
                           "caches, early paper limits, short-section packing, deduplicated portal queries and vector top-k; "
                           "2026-10-14: BFO category from the extraction type (the model only marks non-classes), "
-                          "model merge labels read as text, a restarting local server waited out for outage_wait_s")
+                          "model merge labels read as text, a restarting local server waited out for outage_wait_s; "
+                          "2026-10-15: answers reused per identical row across runs (corpus sizes), study stage and "
+                          "domain in one local call, definitions and disjointness in batches of 8, each sibling pair "
+                          "asked once for disjointness (next siblings by label), overload halves the request limit")
 # Profiles whose enrichment may write definitions from model knowledge (recorded as definition_source <profile>:<model>).
 MODEL_DEFINITION_PROFILES = ("gemini", "gemini-lite")
 

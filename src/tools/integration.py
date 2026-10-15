@@ -36,7 +36,7 @@ def select_runs(outputs: Path, collections: list[str] | None, run_ids: list[str]
     """One completed run (interop done, ontology.ttl present) per domain. Returns (selected, notes)."""
     notes, chosen = [], []
     complete = lambda m, d: m and "interop" in m.get("stages", {}) and (d / "ontology.ttl").exists() \
-        and (d / "ontology" / "enriched.json").exists()
+        and (d / "ontology" / "enriched.json").exists() and not m.get("scratch")
     if run_ids:
         for rid in run_ids:
             d = outputs / rid

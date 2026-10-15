@@ -69,10 +69,10 @@ function Invoke-Workflow([string[]]$WorkflowArgs, [string]$Id) {
             Write-Warning "$Id stopped (exit $code). Continuing the sweep; inspect $logPath"
             return $false
         }
-        Write-Warning "$Id encountered a transient error; resuming with one worker in 10 seconds."
-        # Keep the same run id; completed stages are skipped.
+        # Keep the same run id; completed stages are skipped. Resume with half the workers.
         $workerIndex = [Array]::IndexOf($WorkflowArgs, '--workers')
-        if ($workerIndex -ge 0) { $WorkflowArgs[$workerIndex + 1] = '1' }
+        if ($workerIndex -ge 0) { $WorkflowArgs[$workerIndex + 1] = "$([Math]::Max(1, [Math]::Floor([int]$WorkflowArgs[$workerIndex + 1] / 2)))" }
+        Write-Warning "$Id encountered a transient error; resuming with $($WorkflowArgs[$workerIndex + 1]) worker(s) in 10 seconds."
         Start-Sleep -Seconds 10
     }
     return $false

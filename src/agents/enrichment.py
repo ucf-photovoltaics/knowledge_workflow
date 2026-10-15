@@ -26,11 +26,11 @@ from src.tools.owl import bfo_category, label_of, lineage
 from src.tools.progress import log
 
 BATCH = 25
-PASS_BATCH = {"definitions": 15, "synonyms": 10, "restrictions": 8, "disjointness": 12}
+PASS_BATCH = {"definitions": 8, "synonyms": 10, "restrictions": 8, "disjointness": 8}
 PASS_FIELD = {"definitions": "definition", "synonyms": "alt_labels", "restrictions": "restrictions",
               "disjointness": "disjoint_with"}  # the answer field each local pass fills (reads {"k1": value} replies)
 MAX_RELATIONS = 8
-MAX_SIBLINGS = 12
+MAX_SIBLINGS = 12  # disjointness: each class is shown the next siblings by label, so every pair is asked once
 BASIS = {"source_definition": "supported", "evidence": "draft_evidence", "model_knowledge": "model_generated"}
 DEFINITION_RULE = {
     True: "basis=model_knowledge is allowed: when the source definitions and evidence are not enough, write a standard "
@@ -83,6 +83,7 @@ class EnrichmentAgent(Agent):
     def run(self, classes: list[dict], relations: list[dict], causal: list[dict]) -> tuple[list[dict], dict]:
         live = [c for c in classes if not c["excluded"]]
         by_id = {c["id"]: c for c in live}
+        self.concept_labels = {c["id"]: c["label"] for c in classes}
         self.dropped = Counter()
         profile = AGENT_PROFILES.get(self.name, LLM_PROFILE)
         self.model_definitions = profile in MODEL_DEFINITION_PROFILES
@@ -123,8 +124,9 @@ class EnrichmentAgent(Agent):
                     for cid in ends:
                         if cid in by_id and len(quotes[cid]) < 3 and e["text"] not in quotes[cid]:
                             quotes[cid].append(e["text"][:200])
-        children = defaultdict(list)
-        for c in live:
+        children, place = defaultdict(list), {}
+        for c in sorted(live, key=lambda c: (c["label"].lower(), c["id"])):  # label order: stable across runs
+            place[c["id"]] = len(children[c["parent"]])
             children[c["parent"]].append(c["id"])
 
         rel_text = lambda c: [f"{r['p']}: {by_id[r['o']]['label']} ({r['o']}) x{r['support']}"
@@ -132,7 +134,8 @@ class EnrichmentAgent(Agent):
         rel_rows = lambda c: [{"o": r["o"], "target": by_id[r["o"]]["label"], "paper": f"{r['p']} x{r['support']}",
                                "properties": [self._prop_line(x) for x in self.pcands.get(self._rkey(c["id"], r), [])]}
                               for r in rels[c["id"]][:MAX_RELATIONS]]
-        sibs = lambda c: [f"{s}: {by_id[s]['label']}" for s in children[c["parent"]] if s != c["id"]][:MAX_SIBLINGS]
+        sibs = lambda c: [f"{s}: {by_id[s]['label']}"  # siblings after c only: each pair is asked from one side
+                          for s in children[c["parent"]][place[c["id"]] + 1:place[c["id"]] + 1 + MAX_SIBLINGS]]
         if tier(self.name) == "local":
             passes = [  # (name, prompt, batch, which classes, row)
                 ("definitions", load_prompt("enrichment_definitions") + rule, PASS_BATCH["definitions"], live,

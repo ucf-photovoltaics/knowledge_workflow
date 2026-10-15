@@ -66,6 +66,7 @@ class OntologyAgent(Agent):
         self.stats = {"tier": tier(self.name)}
         self.answers = Counter()  # how each parent answer was read (see _resolve)
         self.by_id = {c["id"]: c for c in concepts}
+        self.concept_labels = {c["id"]: c["label"] for c in concepts}
 
         names = self._name_matches(concepts, menu_lc)
         rest = [c for c in concepts if c["id"] not in names]

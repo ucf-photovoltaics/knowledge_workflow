@@ -13,16 +13,14 @@ scores, confidence, target ontology, hop count and path."""
 from collections import Counter, defaultdict
 
 from src.agents.base import Agent, compact, items, key, load_prompt, targets
-from src.config import MAPPING, tier
-from src.tools import ontostore, owl, upper
+from src.config import FACET_CALLS, MAPPING, tier
+from src.tools import ontostore, owl, upper, workers
 from src.tools.owl import label_of, lineage
 from src.tools.progress import log
 
 BATCH = 20
 FILTER_BATCH = 8
-FACET_BATCH = 20
-STAGE_BATCH = 8
-DOMAIN_BATCH = 8       # both local facet tasks need smaller batches than combined frontier tagging
+FACET_BATCH = {"frontier": 20, "local": 8}  # local: stage and domain together (or each alone, FACET_CALLS="split")
 RELATIONS = {"equivalent", "exact", "close", "broader", "narrower", "related"}
 ALIASES = {"subclass": "broader", "broad": "broader", "narrow": "narrower"}  # earlier answer shapes
 
@@ -66,10 +64,13 @@ class InteroperabilityAgent(Agent):
         n_batches = -(-len(todo) // BATCH)
         log(f"{'mapping pass 2: relation for' if tier(self.name) == 'local' else 'aligning'} {len(todo)} classes "
             f"({n_batches} call(s))")
-        for i in range(0, len(todo), BATCH):
+
+        def ask(i):
             batch = {c["id"]: c for c in todo[i:i + BATCH]}
-            out = self.call(compact([row(c) for c in batch.values()]), item=f"align_{i // BATCH + 1}",
-                            label=f"align {i // BATCH + 1}/{n_batches}", soft=True)
+            return batch, self.call(compact([row(c) for c in batch.values()]), item=f"align_{i // BATCH + 1}",
+                                    label=f"align {i // BATCH + 1}/{n_batches}", soft=True)
+
+        for batch, out in workers.ordered(ask, range(0, len(todo), BATCH)):  # answers applied in batch order
             for m in items(out, "mappings", "candidate"):
                 c = batch.get(key(m.get("id")))  # only accept classes actually shown in this call
                 if not c:
@@ -200,17 +201,18 @@ class InteroperabilityAgent(Agent):
         stage_list = "\n\nSTUDY STAGES\n" + "\n".join(f"- {s}: {d}" for s, d in f["study_stages"].items())
         domain_list = "\n\nDOMAINS\n" + "\n".join(f"- {d}: {', '.join(subs) or '(no subdomains)'}"
                                                    for d, subs in f["domains"].items())
-        if tier(self.name) == "local":  # separate closed-list calls for stage and for domain, merged per item
-            prompts = [("stage", load_prompt("facets_stage") + stage_list), ("domain", load_prompt("facets_domain") + domain_list)]
-        else:
-            prompts = [("facets", system)]
-        batch_for = lambda name: DOMAIN_BATCH if name == "domain" else STAGE_BATCH if name == "stage" else FACET_BATCH
+        level = tier(self.name)
+        if level == "local" and FACET_CALLS == "split":  # separate closed-list calls for stage and for domain
+            prompts = [("stage", load_prompt("facets_stage") + stage_list, "study_stage"),
+                       ("domain", load_prompt("facets_domain") + domain_list, "domain")]
+        else:  # one call per batch returns both
+            prompts = [("facets", system, ("study_stage", "domain") if level == "local" else None)]
+        size = FACET_BATCH[level]
         log(f"tagging {len(rows)} classes/properties with study stage and domain "
-            f"({sum(-(-len(rows) // batch_for(name)) for name, _ in prompts)} call(s))")
+            f"({len(prompts) * -(-len(rows) // size)} call(s))")
         answers = defaultdict(dict)
-        for name, prompt in prompts:
-            for t in self.call_rows(rows, prompt, name, "tags", {"stage": "study_stage", "domain": "domain"}.get(name),
-                                    size=batch_for(name), retries=MAPPING["row_retries"]):
+        for name, prompt, fields in prompts:
+            for t in self.call_rows(rows, prompt, name, "tags", fields, size=size, retries=MAPPING["row_retries"]):
                 answers[key(t.get("id"))].update({k: v for k, v in t.items() if k != "id"})
         tags = {}
         for tid, t in answers.items():
@@ -236,6 +238,7 @@ class InteroperabilityAgent(Agent):
         return facets
 
     def run(self, classes: list[dict], properties: dict, papers: list[dict], run_id: str, domain: str) -> dict:
+        self.concept_labels = {c["id"]: c["label"] for c in classes}
         mappings = self.align(classes)
         imported = self.import_definitions(classes, mappings)
         facets = self.tag_facets(classes, properties, mappings)

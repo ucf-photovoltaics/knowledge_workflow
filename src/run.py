@@ -78,7 +78,8 @@ def _config() -> dict:
             "pipeline_tier": config.tier(), "extraction_passes": config.EXTRACTION_PASSES[config.tier("extraction")], "embed_model": config.EMBED["model"],
             "task_batches": {"category": ontology_agent.SPLIT_BATCH, "parent": ontology_agent.PARENT_BATCH,
                              "enrichment": enrich_agent.PASS_BATCH, "filter": interop_agent.FILTER_BATCH,
-                             "stage": interop_agent.STAGE_BATCH, "domain": interop_agent.DOMAIN_BATCH},
+                             "facets": interop_agent.FACET_BATCH[config.tier("interoperability")]},
+            "facet_calls": config.FACET_CALLS, "reuse_answers": config.REUSE_ANSWERS,
             "extraction_pack_chars": extract_agent.SECTION_PACK_CHARS,
             "embed_base_url": config.EMBED["base_url"], "embed_cache_version": config.EMBED.get("cache_version", 1),
             "mds_ontologies": config.MDS_ONTOLOGIES or "all",
@@ -97,7 +98,9 @@ class Run:
         self.manifest = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {
             "run_id": run_id, "created": _now(), "git_commit": _git(), "config": _config(),
             "collection": {"name": collection, **config.COLLECTIONS[collection]}, "stages": {}}
-        if not path.exists():
+        if config.SCRATCH_RUN:
+            self.manifest["scratch"] = True
+        elif not path.exists():
             reports.revision_event(OUTPUTS / "eval_runs.csv", config.WORKFLOW_REVISION, _now(), config.WORKFLOW_REVISION_NOTE)
 
     def read(self, name: str):
@@ -148,7 +151,8 @@ class Run:
         self.manifest["compute"] = {"total": total, "by_agent": by_agent}
         self.write("run.json", self.manifest)
         reports.write_csv(self.dir / "compute_per_agent.csv", [{"agent": a, **s} for a, s in by_agent.items()])
-        reports.upsert_eval(OUTPUTS / "eval_runs.csv", reports.eval_row(self.dir, self.manifest))
+        if not self.manifest.get("scratch"):
+            reports.upsert_eval(OUTPUTS / "eval_runs.csv", reports.eval_row(self.dir, self.manifest))
 
 
 def select_papers(coll: dict, top_n: int | None, limit: int | None = None) -> tuple[list[dict], dict]:
@@ -571,7 +575,7 @@ def main():
     ap.add_argument("--outputs", help="integrate: outputs folder holding the runs (default: this checkout's outputs)")
     ap.add_argument("--no-figures", action="store_true",
                     help="skip the figures and report written after a finished run or integration")
-    ap.add_argument("--workers", type=int, default=2, help="independent paper/batch workers (default: 2; overload falls back to 1)")
+    ap.add_argument("--workers", type=int, default=2, help="independent paper/batch workers (default: 2; each overload halves the model request limit)")
     args = ap.parse_args()
     if args.workers < 1:
         ap.error("--workers must be positive")
