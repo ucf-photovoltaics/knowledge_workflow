@@ -1,4 +1,7 @@
-"""Overload step-down, answers reused per row across runs, and calls that need two fields per row."""
+"""Overload step-down, answers reused per row across runs, and calls that need two fields per row.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import json
 from threading import RLock
 

@@ -1,4 +1,7 @@
-"""Normalized retrieval vectors in memory; llm.embed also persists them across runs by endpoint and model."""
+"""Normalized retrieval vectors in memory; llm.embed also persists them across runs by endpoint and model.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import numpy as np
 
 from src.config import EMBED
@@ -27,6 +30,16 @@ def embed(texts: list[str], ledger=None, agent: str = "enrichment") -> np.ndarra
             v = np.asarray(v, dtype=float)
             _vectors[t] = v / (np.linalg.norm(v) + 1e-12)
     return np.stack([_vectors[t] for t in texts]) if texts else np.zeros((0, 1))
+
+
+def query(texts: list[str], ledger=None, agent: str = "enrichment") -> np.ndarray:
+    """Vectors for texts searched against the ontology store (EMBED query prefix)."""
+    return embed([EMBED.get("query_prefix", "") + t for t in texts], ledger, agent)
+
+
+def document(texts: list[str], ledger=None, agent: str = "enrichment") -> np.ndarray:
+    """Vectors for texts scored as store terms (EMBED document prefix, as the store's own vectors)."""
+    return embed([EMBED.get("document_prefix", "") + t for t in texts], ledger, agent)
 
 
 def similarity(a: str, b: str) -> float:

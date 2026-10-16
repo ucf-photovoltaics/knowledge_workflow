@@ -1,7 +1,12 @@
 """Ontology agent: place canonical concepts under CCO/BFO classes from the ontology store (or a same-name MDS-Onto or
-PMDCO class), or under each other, and assign IRIs."""
+PMDCO class), or under each other, and assign IRIs.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import re
 import hashlib
+
+import numpy as np
 from urllib.parse import quote
 from collections import Counter
 
@@ -14,7 +19,8 @@ from src.tools.owl import base, bfo_category, lineage
 BATCH = 60
 SPLIT_BATCH = 25       # local tier: smaller batches, so a small model answers every row
 PARENT_BATCH = 8       # parent candidate menus need more space per row than category choices
-PARENT_CONCEPTS = 150  # local parent pass: the most important corpus concepts of the category offered as parents
+PARENT_CONCEPTS = 150  # local parent pass without embeddings: the top corpus concepts of the category, for every row
+NEAREST_CORPUS = 5     # local parent pass: corpus concepts of the same category offered per row, nearest by embedding
 OBO = "http://purl.obolibrary.org/obo/"
 CATEGORIES = {  # local tier, pass 1 choices -> BFO root
     "material entity": f"{OBO}BFO_0000040", "site": f"{OBO}BFO_0000029", "quality": f"{OBO}BFO_0000019",
@@ -49,6 +55,11 @@ def answer_texts(answer: str) -> list[str]:
     return out
 
 
+def _text(c: dict) -> str:
+    """A concept as embedded for retrieval: label and the start of its first source definition."""
+    return f"{c['label']}: {(c['definitions'][0]['text'] if c['definitions'] else '')[:200]}"
+
+
 def slug(label: str) -> str:
     s = "".join(w[0].upper() + w[1:] for w in re.findall(r"[A-Za-z0-9]+", label)) or "Concept"
     return "C" + s if s[0].isdigit() else s
@@ -70,11 +81,14 @@ class OntologyAgent(Agent):
 
         names = self._name_matches(concepts, menu_lc)
         rest = [c for c in concepts if c["id"] not in names]
-        self.cands = {}
+        self.cands, self.near = {}, {}
         rows_of = lambda cs: [{"id": c["id"], "label": c["label"], "type": c["type"], "alt": c["alt_labels"][:3],
                                "source_definitions": c["definitions"][:2], "relations": context[c["id"]][:8],
                                **({"candidates": [f"U:{x['label']} - {x['definition'][:90]}" for x in self.cands[c["id"]]]}
-                                  if c["id"] in self.cands else {})} for c in cs]
+                                  if c["id"] in self.cands else {}),
+                               **({"corpus": [f"{k}: {self.by_id[k]['label']} - "
+                                              + (self.by_id[k]["definitions"][0]["text"][:90] if self.by_id[k]["definitions"] else "")
+                                              for k in self.near[c["id"]]]} if c["id"] in self.near else {})} for c in cs]
         if tier(self.name) == "local":
             picks = self._pick_split(rest, menu_lc, rows_of)
         else:
@@ -156,17 +170,16 @@ class OntologyAgent(Agent):
         tier, the root of the concept's BFO category. With cats, only candidates inside that category."""
         order = ONTOLOGY_SEARCH["parent_ontologies"]
         k = ONTOLOGY_SEARCH["parents_per_class"]
-        texts = {c["id"]: f"{c['label']}: {(c['definitions'][0]['text'] if c['definitions'] else '')[:200]}"
-                 for c in concepts}
-        vectors = dict(zip(texts, retrieval.embed(list(texts.values()), self.ledger, self.name))) \
+        texts = {c["id"]: _text(c) for c in concepts}
+        vectors = dict(zip(texts, retrieval.query(list(texts.values()), self.ledger, self.name))) \
             if ontostore.has_vectors() and texts else {}
         for c in concepts:
             queries = [c["label"], *c["alt_labels"][:2], lexical.head_query(c["label"]) or ""]
             found = ontostore.search(queries, vectors.get(c["id"]), kinds=("class",), ontologies=order, k=k * 3,
-                                     nearest=3)
+                                     nearest=5)
             root = CATEGORIES.get(cats[c["id"]]) if cats else None
-            if root:
-                found = [x for x in found if root in [x["iri"], *upper.ancestors(x["iri"])]]
+            if root:  # an exact label match is offered whatever its category; the model may override the category
+                found = [x for x in found if x["exact"] or root in [x["iri"], *upper.ancestors(x["iri"])]]
             found.sort(key=lambda x: (order.index(x["ontology"]), -x["score"]))
             extra = [self._default(c, menu_lc)] + ([root] if root else [])
             if root and root not in [self._default(c, menu_lc), *upper.ancestors(self._default(c, menu_lc))]:
@@ -174,6 +187,20 @@ class OntologyAgent(Agent):
             found = found[:k] + [{"iri": i, **upper.describe(i)} for i in extra if i not in {x["iri"] for x in found[:k]}]
             self.cands[c["id"]] = [{"iri": x["iri"], "label": x.get("label", ""), "definition": x.get("definition", "")}
                                    for x in found]
+
+    def _nearest_corpus(self, members: list[dict]) -> dict:
+        """Per concept: the NEAREST_CORPUS other concepts of its category closest by embedding of label: definition.
+        Empty without an EMBED model or when embedding fails (the pass then lists the top concepts for every row)."""
+        if not retrieval.enabled() or len(members) < 2:
+            return {}
+        try:
+            v = retrieval.embed([_text(c) for c in members], self.ledger, self.name)
+        except Exception as e:  # never lose the stage to the embedding service
+            log(f"nearest corpus concepts: embedding failed ({type(e).__name__}); listing top concepts instead")
+            return {}
+        sim = v @ v.T
+        np.fill_diagonal(sim, -np.inf)
+        return {c["id"]: [members[j]["id"] for j in np.argsort(-sim[i])[:NEAREST_CORPUS]] for i, c in enumerate(members)}
 
     def _resolve(self, cid: str, answer, root: str | None = None) -> tuple[str | None, str]:
         """A model answer as a parent, and how it was read: a corpus id ('corpus'), one of the concept's candidates
@@ -255,11 +282,13 @@ class OntologyAgent(Agent):
             members = [c for c in kept if cats[c["id"]] == cat]
             if not members:
                 continue
-            same = sorted(members, key=lambda c: -c.get("score", 0))[:PARENT_CONCEPTS]
+            near = self._nearest_corpus(members)
+            self.near.update(near)
+            same = [] if near else sorted(members, key=lambda c: -c.get("score", 0))[:PARENT_CONCEPTS]
             system = (load_prompt("ontology_parent") + f"\n\nCATEGORY\n{cat} (U:{root_labels[cat]})"
                       + "\n\nOTHER CATEGORIES\n" + ", ".join(f"U:{l}" for k, l in root_labels.items() if k != cat)
-                      + "\n\nCORPUS CONCEPTS\n" + "\n".join(f"{c['id']}: {c['label']} - "
-                          + (c["definitions"][0]["text"][:160] if c["definitions"] else "") for c in same))
+                      + ("\n\nCORPUS CONCEPTS\n" + "\n".join(f"{c['id']}: {c['label']} - "
+                         + (c["definitions"][0]["text"][:160] if c["definitions"] else "") for c in same) if same else ""))
             n = -(-len(members) // PARENT_BATCH)
             log(f"ontology pass 2: parents for {len(members)} {cat} concept(s) ({n} call(s))")
             for r in self.call_rows(rows_of(members), system, f"parent_{cat}", "classes", "parent",

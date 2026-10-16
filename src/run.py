@@ -14,6 +14,8 @@
   python -m src.run integrate [--runs ID ...] [--collections NAME ...] [--outputs DIR]
       cross-domain stage after the domain runs: master ontology named after its domains (tea_reliability_si-topcon.ttl)
       mapping their ontologies; outputs/integration-*/
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
 """
 import argparse
 import csv
@@ -98,6 +100,7 @@ class Run:
         self.manifest = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {
             "run_id": run_id, "created": _now(), "git_commit": _git(), "config": _config(),
             "collection": {"name": collection, **config.COLLECTIONS[collection]}, "stages": {}}
+        config.DOMAIN = config.domain_of(self.manifest["collection"])
         if config.SCRATCH_RUN:
             self.manifest["scratch"] = True
         elif not path.exists():
@@ -510,6 +513,7 @@ def integrate(args):
             domains[s["domain"]], g, iri = integration.load_domain(s)
             graphs[s["domain"]] = {"graph": g, "iri": iri}
             log(f"{s['domain']}: {s['run_id']} ({len(domains[s['domain']])} classes, revision {s['revision'] or 'none'})")
+        config.DOMAIN = " and ".join(dict.fromkeys(config.domain_of(s["manifest"]["collection"]) for s in selected))
         agent = IntegrationAgent(Ledger(out / "ledger.jsonl"))
         result = agent.run(domains)
         master = integration.build_master(selected, graphs, result["mappings"], iid)

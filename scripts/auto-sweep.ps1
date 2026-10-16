@@ -1,3 +1,5 @@
+# Author: Brent Thompson <brent.thompson@ucf.edu>
+# Summary: auto-sweep support for Knowledge Workflow; retain the existing operational notes below.
 # Runs a paper sweep to completion, resuming after crashes and failed runs (up to MaxAttempts starts).
 # Meant to be started by the kw-sweep scheduled task at boot; safe to run by hand too (one copy at a time).
 # Each attempt reruns scripts\run-sweep.ps1 with the same sweep ID, so completed stages are skipped.

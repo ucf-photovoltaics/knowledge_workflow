@@ -1,0 +1,799 @@
+{
+  "author": "Brent Thompson",
+  "email": "brent.thompson@ucf.edu",
+  "namespace": "https://w3id.org/ucf-dpv/knowledge-workflow/codebase#",
+  "namespace_status": "Project namespace proposal; no external registration is claimed.",
+  "steps": [
+    {
+      "id": "preflight",
+      "label": "Check environment and sources",
+      "order": 1,
+      "prerequisites": [
+        "store"
+      ],
+      "inputs": [
+        "configured collection; credentials in local environment"
+      ],
+      "outputs": [
+        "preflight observations in terminal"
+      ],
+      "functions": [
+        "src/run.py:check"
+      ],
+      "configuration": [
+        "ZOTERO_API_KEY",
+        "LLM_PROFILE",
+        "EMBED"
+      ],
+      "cli": [
+        "uv",
+        "run",
+        "--with-requirements",
+        "requirements.txt",
+        "python",
+        "-m",
+        "src.run",
+        "check",
+        "--collection",
+        "COLLECTION"
+      ],
+      "wrapper": null,
+      "description": "Verify collection names, model and embeddings, accessible PDFs and ontology services. This command makes provider/network checks; it is not a no-network validator.",
+      "completion": "Read every printed check and require the final ready message with no [FAIL] lines. src.run.check catches check failures and does not guarantee a nonzero exit code; exit status alone is insufficient.",
+      "recovery": "Resolve each failed source/model/provider/store check, then rerun check and inspect its printed outcome. Exit code alone is insufficient; this command does not create a per-run completion record.",
+      "effects": "Calls real chat, embedding and portal services and downloads/ranks collection PDFs into shared cache. Full preflight includes ontology-store readiness; build the store first if missing.",
+      "required_artifacts": [],
+      "cli_prerequisites": [
+        "store"
+      ],
+      "wrapper_prerequisites": [],
+      "conditions": [
+        "authorized_inputs_and_write_scope",
+        "provider_settings_for_selected_mode",
+        "no_active_shared_store_mutation"
+      ],
+      "resource_patterns": []
+    },
+    {
+      "id": "store",
+      "label": "Prepare ontology store",
+      "order": 0,
+      "prerequisites": [],
+      "inputs": [
+        "configured ontology sources"
+      ],
+      "outputs": [
+        "configured ONTOLOGY_STORE (default outputs/cache/ontology_store/)"
+      ],
+      "functions": [
+        "src/run.py:ontologies",
+        "src/tools/ontostore.py:build",
+        "src/tools/ontostore.py:require"
+      ],
+      "configuration": [
+        "ONTOLOGY_SOURCES",
+        "ONTOLOGY_STORE",
+        "EMBED"
+      ],
+      "cli": [
+        "uv",
+        "run",
+        "--with-requirements",
+        "requirements.txt",
+        "python",
+        "-m",
+        "src.run",
+        "ontologies",
+        "build"
+      ],
+      "wrapper": null,
+      "description": "Build once before placement. This writes the shared store, downloads sources and may embed terms; do not rebuild or upgrade it during active runs.",
+      "completion": "Confirm the configured ontology-store DB and manifest exist and inspect ontologies status; build/require implementations define readiness. Do not rebuild an already-valid active store.",
+      "recovery": "Inspect the configured store status, DB and manifest first. Repair/build only if readiness is missing and no active job uses shared assets; do not rebuild an already-valid store. A build is not a per-domain stage restart.",
+      "effects": "Downloads ontology sources, writes the configured shared ontology store and may call embedding providers. Establish exclusive safe write scope before building.",
+      "required_artifacts": [],
+      "cli_prerequisites": [],
+      "wrapper_prerequisites": [],
+      "conditions": [
+        "authorized_inputs_and_write_scope",
+        "provider_settings_for_selected_mode",
+        "no_active_shared_store_mutation"
+      ],
+      "resource_patterns": []
+    },
+    {
+      "id": "ingest",
+      "label": "Select literature across collections",
+      "order": 2,
+      "prerequisites": [
+        "preflight"
+      ],
+      "inputs": [
+        "project.json domains[].collections and domains[].limit"
+      ],
+      "outputs": [
+        "ingestion.json",
+        "ingestion.partial.json",
+        "outputs/dashboard/cache/pdfs/"
+      ],
+      "functions": [
+        "dpv_dashboard/worker.py:ingest",
+        "dpv_dashboard/zotero.py:Libraries.expand",
+        "dpv_dashboard/zotero.py:deduplicate",
+        "src/run.py:select_papers"
+      ],
+      "configuration": [
+        "ZOTERO_API_KEY",
+        "domain.collections",
+        "domain.limit"
+      ],
+      "cli": null,
+      "wrapper": [
+        "outputs/dashboard/.venv/Scripts/python.exe",
+        "-m",
+        "dpv_dashboard.worker",
+        "PROJECT_ID",
+        "stage",
+        "--domain",
+        "DOMAIN_ID",
+        "--stage",
+        "ingest"
+      ],
+      "description": "Select personal/group libraries permitted by the key; expand descendants, deduplicate DOI/membership, rank citations across the entire domain, and skip unavailable PDFs. Missing citation counts rank last.",
+      "completion": "Confirm expected artifacts are parseable and inspect the saved stage/error records. Review content; file presence alone is not completion.",
+      "recovery": "CLI single-stage commands reattempt that stage in the same run; all --run-id skips recorded completion. Dashboard stage skips completed stages; restart creates a new attempt and preserves upstream/history. Inspect failures and do not mix these semantics.",
+      "effects": "Writes output artifacts; may call models/providers and shared read caches. Do not execute a command template without resolving scope and credentials.",
+      "required_artifacts": [
+        "ingestion.json"
+      ],
+      "cli_prerequisites": [],
+      "wrapper_prerequisites": [],
+      "conditions": [
+        "authorized_inputs_and_write_scope",
+        "provider_settings_for_selected_mode",
+        "mode_specific_project_or_collection_configuration"
+      ],
+      "resource_patterns": []
+    },
+    {
+      "id": "parse",
+      "label": "Parse PDFs and prepare text windows",
+      "order": 3,
+      "prerequisites": [
+        "ingest"
+      ],
+      "inputs": [
+        "ingestion.json",
+        "selected accessible PDFs"
+      ],
+      "outputs": [
+        "parsed/*.json"
+      ],
+      "functions": [
+        "dpv_dashboard/worker.py:parse",
+        "src/tools/pdf_parse.py:parse",
+        "src/agents/extraction.py:ExtractionAgent._chunks"
+      ],
+      "configuration": [
+        "profile_for(extraction)"
+      ],
+      "cli": null,
+      "wrapper": [
+        "outputs/dashboard/.venv/Scripts/python.exe",
+        "-m",
+        "dpv_dashboard.worker",
+        "PROJECT_ID",
+        "stage",
+        "--domain",
+        "DOMAIN_ID",
+        "--stage",
+        "parse"
+      ],
+      "description": "Retain captions and source pages, remove recurring headers/reference sections, save PDF hashes and chunk windows. Chunk windows are temporary inputs, not separate paper ontologies.",
+      "completion": "Confirm expected artifacts are parseable and inspect the saved stage/error records. Review content; file presence alone is not completion.",
+      "recovery": "CLI single-stage commands reattempt that stage in the same run; all --run-id skips recorded completion. Dashboard stage skips completed stages; restart creates a new attempt and preserves upstream/history. Inspect failures and do not mix these semantics.",
+      "effects": "Writes output artifacts; may call models/providers and shared read caches. Do not execute a command template without resolving scope and credentials.",
+      "required_artifacts": [
+        "parsed/*.json"
+      ],
+      "cli_prerequisites": [],
+      "wrapper_prerequisites": [
+        "ingest"
+      ],
+      "conditions": [
+        "authorized_inputs_and_write_scope",
+        "provider_settings_for_selected_mode",
+        "mode_specific_project_or_collection_configuration"
+      ],
+      "resource_patterns": []
+    },
+    {
+      "id": "extract",
+      "label": "Extract evidence-backed paper records",
+      "order": 4,
+      "prerequisites": [
+        "parse"
+      ],
+      "inputs": [
+        "ingestion.json",
+        "parsed/*.json"
+      ],
+      "outputs": [
+        "papers/*.json",
+        "compute_per_paper.csv",
+        "ontology/uncertain.json"
+      ],
+      "functions": [
+        "src/run.py:extract",
+        "src/agents/extraction.py:ExtractionAgent.run"
+      ],
+      "configuration": [
+        "LLM_PROFILE",
+        "EXTRACTION_PASSES",
+        "SECTION_PACK_CHARS"
+      ],
+      "cli": [
+        "uv",
+        "run",
+        "--with-requirements",
+        "requirements.txt",
+        "python",
+        "-m",
+        "src.run",
+        "extract",
+        "--collection",
+        "COLLECTION",
+        "--run-id",
+        "RUN_ID",
+        "--limit",
+        "15",
+        "--no-figures"
+      ],
+      "wrapper": [
+        "outputs/dashboard/.venv/Scripts/python.exe",
+        "-m",
+        "dpv_dashboard.worker",
+        "PROJECT_ID",
+        "stage",
+        "--domain",
+        "DOMAIN_ID",
+        "--stage",
+        "extract"
+      ],
+      "description": "One reconciled record per paper: concepts, relations, causal claims, measurements, quotes, figures and verification. CLI extract combines ingestion, parsing and extraction; do not invoke it separately for the first two UI steps.",
+      "completion": "Confirm expected artifacts are parseable and inspect the saved stage/error records. Review content; file presence alone is not completion.",
+      "recovery": "CLI single-stage commands reattempt that stage in the same run; all --run-id skips recorded completion. Dashboard stage skips completed stages; restart creates a new attempt and preserves upstream/history. Inspect failures and do not mix these semantics.",
+      "effects": "Writes output artifacts; may call models/providers and shared read caches. Do not execute a command template without resolving scope and credentials.",
+      "required_artifacts": [
+        "papers/*.json"
+      ],
+      "cli_prerequisites": [
+        "preflight"
+      ],
+      "wrapper_prerequisites": [
+        "parse"
+      ],
+      "conditions": [
+        "authorized_inputs_and_write_scope",
+        "provider_settings_for_selected_mode",
+        "mode_specific_project_or_collection_configuration"
+      ],
+      "resource_patterns": [
+        "src/resources/prompts/extraction*.md",
+        "src/resources/schemas/extraction*.json"
+      ]
+    },
+    {
+      "id": "normalize",
+      "label": "Consolidate vocabulary across papers",
+      "order": 5,
+      "prerequisites": [
+        "extract"
+      ],
+      "inputs": [
+        "papers/*.json"
+      ],
+      "outputs": [
+        "normalized/concepts.json",
+        "normalized/relations.json",
+        "normalized/causal.json",
+        "normalized/measurements.json",
+        "normalized/contradictions.json",
+        "normalized/corpus_stats.json",
+        "corpus_report.md"
+      ],
+      "functions": [
+        "src/run.py:normalize",
+        "src/agents/normalization.py:NormalizationAgent.run"
+      ],
+      "configuration": [
+        "LLM_PROFILE",
+        "EMBED"
+      ],
+      "cli": [
+        "uv",
+        "run",
+        "--with-requirements",
+        "requirements.txt",
+        "python",
+        "-m",
+        "src.run",
+        "normalize",
+        "--run-id",
+        "RUN_ID",
+        "--no-figures"
+      ],
+      "wrapper": [
+        "outputs/dashboard/.venv/Scripts/python.exe",
+        "-m",
+        "dpv_dashboard.worker",
+        "PROJECT_ID",
+        "stage",
+        "--domain",
+        "DOMAIN_ID",
+        "--stage",
+        "normalize"
+      ],
+      "description": "Canonicalize terms and reviewed aliases, merge claims and rank importance. Inspect ambiguous aliases and contradictions. The current pipeline does not save exact original-to-canonical merge lineage; older dashboard links can be reconstructed or ambiguous.",
+      "completion": "Confirm expected artifacts are parseable and inspect the saved stage/error records. Review content; file presence alone is not completion.",
+      "recovery": "CLI single-stage commands reattempt that stage in the same run; all --run-id skips recorded completion. Dashboard stage skips completed stages; restart creates a new attempt and preserves upstream/history. Inspect failures and do not mix these semantics.",
+      "effects": "Writes output artifacts; may call models/providers and shared read caches. Do not execute a command template without resolving scope and credentials.",
+      "required_artifacts": [
+        "normalized/concepts.json",
+        "normalized/relations.json",
+        "normalized/causal.json",
+        "normalized/measurements.json",
+        "normalized/contradictions.json",
+        "normalized/causal_order.json",
+        "normalized/summary.json",
+        "normalized/corpus_stats.json"
+      ],
+      "cli_prerequisites": [
+        "extract"
+      ],
+      "wrapper_prerequisites": [
+        "extract"
+      ],
+      "conditions": [
+        "authorized_inputs_and_write_scope",
+        "provider_settings_for_selected_mode",
+        "mode_specific_project_or_collection_configuration"
+      ],
+      "resource_patterns": [
+        "src/resources/prompts/normalization*.md",
+        "src/resources/schemas/normalization*.json"
+      ]
+    },
+    {
+      "id": "ontology",
+      "label": "Place canonical concepts",
+      "order": 6,
+      "prerequisites": [
+        "normalize",
+        "store"
+      ],
+      "inputs": [
+        "normalized/concepts.json",
+        "normalized/relations.json"
+      ],
+      "outputs": [
+        "ontology/classes.json",
+        "ontology/review_issues.json"
+      ],
+      "functions": [
+        "src/run.py:ontology",
+        "src/agents/ontology.py:OntologyAgent.run"
+      ],
+      "configuration": [
+        "ONTOLOGY_STORE",
+        "ONTOLOGY_IRI",
+        "WORKFLOW_REVISION"
+      ],
+      "cli": [
+        "uv",
+        "run",
+        "--with-requirements",
+        "requirements.txt",
+        "python",
+        "-m",
+        "src.run",
+        "ontology",
+        "--run-id",
+        "RUN_ID",
+        "--no-figures"
+      ],
+      "wrapper": [
+        "outputs/dashboard/.venv/Scripts/python.exe",
+        "-m",
+        "dpv_dashboard.worker",
+        "PROJECT_ID",
+        "stage",
+        "--domain",
+        "DOMAIN_ID",
+        "--stage",
+        "ontology"
+      ],
+      "description": "Place under BFO/CCO or suitable existing/corpus parents, assign stable domain IRIs, check cycles/categories. Distinguish excluded concepts, default parents and review flags from reviewed placements.",
+      "completion": "Confirm expected artifacts are parseable and inspect the saved stage/error records. Review content; file presence alone is not completion.",
+      "recovery": "CLI single-stage commands reattempt that stage in the same run; all --run-id skips recorded completion. Dashboard stage skips completed stages; restart creates a new attempt and preserves upstream/history. Inspect failures and do not mix these semantics.",
+      "effects": "Writes output artifacts; may call models/providers and shared read caches. Do not execute a command template without resolving scope and credentials.",
+      "required_artifacts": [
+        "ontology/classes.json"
+      ],
+      "cli_prerequisites": [
+        "normalize",
+        "store"
+      ],
+      "wrapper_prerequisites": [
+        "normalize"
+      ],
+      "conditions": [
+        "authorized_inputs_and_write_scope",
+        "provider_settings_for_selected_mode",
+        "mode_specific_project_or_collection_configuration",
+        "prepared_ontology_store"
+      ],
+      "resource_patterns": [
+        "src/resources/prompts/ontology*.md",
+        "src/resources/schemas/ontology*.json"
+      ]
+    },
+    {
+      "id": "enrich",
+      "label": "Add definitions and formal relationships",
+      "order": 7,
+      "prerequisites": [
+        "ontology"
+      ],
+      "inputs": [
+        "ontology/classes.json",
+        "normalized/relations.json",
+        "normalized/causal.json"
+      ],
+      "outputs": [
+        "ontology/enriched.json",
+        "ontology/properties.json",
+        "ontology/materials_project.json",
+        "ontology/review_issues.json",
+        "ontology/cross_domain_candidates.json"
+      ],
+      "functions": [
+        "src/run.py:enrich",
+        "src/agents/enrichment.py:EnrichmentAgent.run"
+      ],
+      "configuration": [
+        "MODEL_DEFINITION_PROFILES",
+        "MDS_ONTOLOGIES",
+        "MATPORTAL",
+        "MATERIALS_PROJECT_API_KEY"
+      ],
+      "cli": [
+        "uv",
+        "run",
+        "--with-requirements",
+        "requirements.txt",
+        "python",
+        "-m",
+        "src.run",
+        "enrich",
+        "--run-id",
+        "RUN_ID",
+        "--no-figures"
+      ],
+      "wrapper": [
+        "outputs/dashboard/.venv/Scripts/python.exe",
+        "-m",
+        "dpv_dashboard.worker",
+        "PROJECT_ID",
+        "stage",
+        "--domain",
+        "DOMAIN_ID",
+        "--stage",
+        "enrich"
+      ],
+      "description": "Preserve definition sources/status, evidence restrictions, disjointness and rejected candidates. Generated or draft definitions are not authoritative; external candidates are not accepted mappings.",
+      "completion": "Confirm expected artifacts are parseable and inspect the saved stage/error records. Review content; file presence alone is not completion.",
+      "recovery": "CLI single-stage commands reattempt that stage in the same run; all --run-id skips recorded completion. Dashboard stage skips completed stages; restart creates a new attempt and preserves upstream/history. Inspect failures and do not mix these semantics.",
+      "effects": "Writes output artifacts; may call models/providers and shared read caches. Do not execute a command template without resolving scope and credentials.",
+      "required_artifacts": [
+        "ontology/enriched.json",
+        "ontology/properties.json"
+      ],
+      "cli_prerequisites": [
+        "ontology"
+      ],
+      "wrapper_prerequisites": [
+        "ontology"
+      ],
+      "conditions": [
+        "authorized_inputs_and_write_scope",
+        "provider_settings_for_selected_mode",
+        "mode_specific_project_or_collection_configuration",
+        "prepared_ontology_store"
+      ],
+      "resource_patterns": [
+        "src/resources/prompts/enrichment*.md",
+        "src/resources/schemas/enrichment*.json"
+      ]
+    },
+    {
+      "id": "interop",
+      "label": "Map, export and validate domain layers",
+      "order": 8,
+      "prerequisites": [
+        "enrich"
+      ],
+      "inputs": [
+        "ontology/enriched.json",
+        "ontology/properties.json",
+        "papers/*.json",
+        "normalized/*.json"
+      ],
+      "outputs": [
+        "ontology.ttl",
+        "ontology.jsonld",
+        "domain_layer.ttl",
+        "domain_layer.jsonld",
+        "ontology/mappings.json",
+        "ontology/imported_definitions.json",
+        "ontology/facets.json",
+        "ontology/validation.json",
+        "ontology/metrics.json",
+        "ontology_report.md"
+      ],
+      "functions": [
+        "src/run.py:interop",
+        "src/agents/interoperability.py:InteroperabilityAgent.run",
+        "src/tools/bottomup.py:build",
+        "src/tools/owl.py:validate"
+      ],
+      "configuration": [
+        "MAPPING",
+        "ONTOLOGY_IRI",
+        "MDS_ONTOLOGIES"
+      ],
+      "cli": [
+        "uv",
+        "run",
+        "--with-requirements",
+        "requirements.txt",
+        "python",
+        "-m",
+        "src.run",
+        "interop",
+        "--run-id",
+        "RUN_ID",
+        "--no-figures"
+      ],
+      "wrapper": [
+        "outputs/dashboard/.venv/Scripts/python.exe",
+        "-m",
+        "dpv_dashboard.worker",
+        "PROJECT_ID",
+        "stage",
+        "--domain",
+        "DOMAIN_ID",
+        "--stage",
+        "interop"
+      ],
+      "description": "Export formal OWL classes separately from literature claims. Quote matches and structural validity do not establish semantic correctness. Review mapping category compatibility, confidence and evidence.",
+      "completion": "Confirm expected artifacts are parseable and inspect the saved stage/error records. Review content; file presence alone is not completion.",
+      "recovery": "CLI single-stage commands reattempt that stage in the same run; all --run-id skips recorded completion. Dashboard stage skips completed stages; restart creates a new attempt and preserves upstream/history. Inspect failures and do not mix these semantics.",
+      "effects": "Writes output artifacts; may call models/providers and shared read caches. Do not execute a command template without resolving scope and credentials.",
+      "required_artifacts": [
+        "ontology.ttl",
+        "ontology.jsonld",
+        "domain_layer.ttl",
+        "domain_layer.jsonld",
+        "ontology/mappings.json",
+        "ontology/validation.json"
+      ],
+      "cli_prerequisites": [
+        "enrich"
+      ],
+      "wrapper_prerequisites": [
+        "enrich"
+      ],
+      "conditions": [
+        "authorized_inputs_and_write_scope",
+        "provider_settings_for_selected_mode",
+        "mode_specific_project_or_collection_configuration",
+        "prepared_ontology_store"
+      ],
+      "resource_patterns": [
+        "src/resources/prompts/interoperability*.md",
+        "src/resources/schemas/interoperability*.json"
+      ]
+    },
+    {
+      "id": "integrate",
+      "label": "Integrate completed domain ontologies",
+      "order": 9,
+      "prerequisites": [
+        "interop"
+      ],
+      "inputs": [
+        "at least two explicit completed domain runs with ontology.ttl, run.json and ontology/enriched.json"
+      ],
+      "outputs": [
+        "integration.json",
+        "mappings.json",
+        "bridge_concepts.json",
+        "candidates.json",
+        "validation.json",
+        "integration_report.md",
+        "<domains>.ttl",
+        "<domains>.jsonld",
+        "<domains>_merged.ttl"
+      ],
+      "functions": [
+        "src/run.py:integrate",
+        "src/agents/integration.py:IntegrationAgent.run",
+        "src/tools/integration.py:select_runs",
+        "src/tools/integration.py:build_master",
+        "src/tools/integration.py:merge",
+        "src/tools/integration.py:validate"
+      ],
+      "configuration": [
+        "INTEGRATION",
+        "LLM_PROFILE"
+      ],
+      "cli": [
+        "uv",
+        "run",
+        "--with-requirements",
+        "requirements.txt",
+        "python",
+        "-m",
+        "src.run",
+        "integrate",
+        "--runs",
+        "DOMAIN_A_RUN_ID",
+        "DOMAIN_B_RUN_ID",
+        "--run-id",
+        "INTEGRATION_RUN_ID",
+        "--no-figures"
+      ],
+      "wrapper": [
+        "outputs/dashboard/.venv/Scripts/python.exe",
+        "-m",
+        "dpv_dashboard.worker",
+        "PROJECT_ID",
+        "stage",
+        "--stage",
+        "integrate"
+      ],
+      "description": "Use explicit selected runs from distinct domains; default latest-run selection can mix historical runs. Master imports formal graphs; merged output unions them. Claims remain separate source-domain layers. At least two successful distinct domains are required.",
+      "completion": "Confirm expected artifacts are parseable and inspect the saved stage/error records. Review content; file presence alone is not completion.",
+      "recovery": "CLI single-stage commands reattempt that stage in the same run; all --run-id skips recorded completion. Dashboard stage skips completed stages; restart creates a new attempt and preserves upstream/history. Inspect failures and do not mix these semantics.",
+      "effects": "Writes output artifacts; may call models/providers and shared read caches. Do not execute a command template without resolving scope and credentials.",
+      "required_artifacts": [
+        "integration.json",
+        "mappings.json",
+        "bridge_concepts.json",
+        "candidates.json",
+        "validation.json"
+      ],
+      "cli_prerequisites": [
+        "interop"
+      ],
+      "wrapper_prerequisites": [
+        "interop"
+      ],
+      "conditions": [
+        "authorized_inputs_and_write_scope",
+        "provider_settings_for_selected_mode",
+        "mode_specific_project_or_collection_configuration",
+        "two_distinct_completed_domains"
+      ],
+      "resource_patterns": [
+        "src/resources/prompts/integration*.md",
+        "src/resources/schemas/integration*.json"
+      ]
+    },
+    {
+      "id": "reports",
+      "label": "Produce reports and figures",
+      "order": 10,
+      "prerequisites": [
+        "interop"
+      ],
+      "inputs": [
+        "explicit completed run IDs and optional integration inputs"
+      ],
+      "outputs": [
+        "report.html",
+        "report.md",
+        "index.md",
+        "*.png",
+        "*.pdf",
+        "*.csv"
+      ],
+      "functions": [
+        "src/figures.py:build",
+        "src/figures.py:main"
+      ],
+      "configuration": [
+        "WORKFLOW_REVISION"
+      ],
+      "cli": [
+        "uv",
+        "run",
+        "--with-requirements",
+        "requirements.txt",
+        "python",
+        "-m",
+        "src.figures",
+        "--runs",
+        "RUN_ID",
+        "--out",
+        "outputs/review-RUN_ID",
+        "--title",
+        "Domain literature review"
+      ],
+      "wrapper": [
+        "outputs/dashboard/.venv/Scripts/python.exe",
+        "-m",
+        "dpv_dashboard.worker",
+        "PROJECT_ID",
+        "stage",
+        "--stage",
+        "reports"
+      ],
+      "description": "Reports can run after one domain interop; integration is optional, not a prerequisite. Plot failures/skips must be read from index.md/report messages; successful command completion does not mean every plot exists.",
+      "completion": "Confirm expected artifacts are parseable and inspect the saved stage/error records. Review content; file presence alone is not completion.",
+      "recovery": "CLI single-stage commands reattempt that stage in the same run; all --run-id skips recorded completion. Dashboard stage skips completed stages; restart creates a new attempt and preserves upstream/history. Inspect failures and do not mix these semantics.",
+      "effects": "Writes output artifacts; may call models/providers and shared read caches. Do not execute a command template without resolving scope and credentials.",
+      "required_artifacts": [
+        "report.html",
+        "report.md",
+        "index.md"
+      ],
+      "cli_prerequisites": [
+        "interop"
+      ],
+      "wrapper_prerequisites": [
+        "interop"
+      ],
+      "conditions": [
+        "authorized_inputs_and_write_scope",
+        "provider_settings_for_selected_mode",
+        "mode_specific_project_or_collection_configuration",
+        "explicit_completed_run_selection"
+      ],
+      "resource_patterns": [],
+      "artifact_locations": [
+        ".",
+        "figures"
+      ]
+    }
+  ],
+  "bindings": {
+    "COLLECTION": "Existing configured collection name in src/config.py; CLI path supports its configured single collection, not arbitrary cross-library domains.",
+    "RUN_ID": "User-selected unique new run ID or deliberately selected existing run to continue.",
+    "PROJECT_ID": "Existing dashboard project UUID from outputs/dashboard/projects/<id>/project.json; create via Home or model.create_project.",
+    "DOMAIN_ID": "Existing domain.id within that project; create via Zotero UI/model.add_domain with real accessible selections.",
+    "DOMAIN_A_RUN_ID": "Explicit successful first-domain run, not an integration ID.",
+    "DOMAIN_B_RUN_ID": "Explicit successful second, distinct-domain run from the intended run set.",
+    "INTEGRATION_RUN_ID": "New integration ID to avoid overwriting earlier integration products."
+  },
+  "conditions": {
+    "authorized_inputs_and_write_scope": "Use human-authorized input sources, runtime and output scope. An ontology template is not a grant of permission.",
+    "provider_settings_for_selected_mode": "CLI reads root environment/.env; wrapper reads dashboard private settings. Check required provider/model availability without exposing values.",
+    "mode_specific_project_or_collection_configuration": "CLI COLLECTION must exist in src.config.COLLECTIONS. Wrapper PROJECT_ID and DOMAIN_ID must exist with real accessible collection selections. Do not substitute one mode for another.",
+    "prepared_ontology_store": "Read the current src.tools.ontostore availability/require contract. A full CLI preflight requires the store. Wrapper uses the prebuilt shared store; do not rebuild it during active runs.",
+    "two_distinct_completed_domains": "Select at least two distinct-domain run IDs with recorded interop, formal ontology and enriched classes; inspect failed papers and validation independently.",
+    "explicit_completed_run_selection": "Select the exact intended completed run IDs; reports do not require integration.",
+    "no_active_shared_store_mutation": "Establish that no running job uses shared assets before store writes; do not infer process ownership from logs."
+  },
+  "coverage": {
+    "cli_extract": [
+      "ingest",
+      "parse",
+      "extract"
+    ],
+    "wrapper_extract": [
+      "extract"
+    ]
+  }
+}

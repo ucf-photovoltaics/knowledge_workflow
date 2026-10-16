@@ -1,6 +1,8 @@
 """Normalization agent: per-paper concepts -> canonical corpus concepts, importance scores, causal order.
 
 Lexical merging and scoring are deterministic; embeddings propose synonym clusters and the LLM only settles those.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
 """
 import math
 import re

@@ -6,7 +6,10 @@
   python scripts/compare_runs.py facets C S X    C: stage and domain in one call; S: the same run's interop redone
                                                  with separate calls; X: redone in one call again (the noise floor)
   python scripts/compare_runs.py coverage RUN... rows answered by the model on the first call, per pass
-Answers are compared with concept ids replaced by labels and lists as sets."""
+Answers are compared with concept ids replaced by labels and lists as sets.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import json
 import re
 import sys

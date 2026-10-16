@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Author: Brent Thompson <brent.thompson@ucf.edu>
+# Summary: slurm-sweep support for Knowledge Workflow; retain the existing operational notes below.
 # Paper sweep on one GPU node. vLLM serves the LLM (profile "vllm" in src/config.py); Ollama on CPU serves
 # nomic-embed-text at localhost:11434 so the embedding cache from local runs is reused unchanged.
 # Bash port of scripts/run-sweep.ps1, plus: the sweep stops when either model server is down instead of failing
@@ -12,6 +14,7 @@
 #   sbatch scripts/slurm-sweep.sh
 #   sbatch --gres=gpu:8 --cpus-per-task=32 --mem=256G scripts/slurm-sweep.sh                   # a bigger node
 #   SWEEP_ID=20261014-150000 sbatch scripts/slurm-sweep.sh                                  # resume
+#   USE_CASE=pv-cost-chain sbatch scripts/slurm-sweep.sh          # collections (and max size) from scripts/use-cases.txt
 #   VLLM_MODEL=openai/gpt-oss-120b VLLM_REASONING_EFFORT=low sbatch scripts/slurm-sweep.sh
 #
 #SBATCH --job-name=kw-sweep
@@ -36,8 +39,15 @@ WORKERS_PER_COPY=${WORKERS_PER_COPY:-16}   # requests at once per vLLM copy; an 
 PARALLEL_DOMAINS=${PARALLEL_DOMAINS:-1}    # 1: the domains of one size run at the same time
 LIMITS=${LIMITS:-"5 10 15 20 25 30 35 40 45 50"}
 COLLECTIONS=${COLLECTIONS:-"tea reliability si-topcon"}
+USE_CASE=${USE_CASE:-}
+if [ -n "$USE_CASE" ]; then   # line format: name: collection collection ...  # max=N  description
+    uc=$(grep -m1 "^$USE_CASE:" "$ROOT/scripts/use-cases.txt") || { echo "no use case '$USE_CASE' in scripts/use-cases.txt"; exit 1; }
+    COLLECTIONS=$(cut -d: -f2- <<<"$uc" | cut -d'#' -f1 | xargs)
+    max=$(grep -o 'max=[0-9]*' <<<"$uc" | cut -d= -f2)
+    [ -n "$max" ] && LIMITS=$(for n in $LIMITS; do [ "$n" -le "$max" ] && echo "$n"; done | xargs)
+fi
 RETRIES=${RETRIES:-1}
-SWEEP_ID=${SWEEP_ID:-$(date +%Y%m%d-%H%M%S)}
+SWEEP_ID=${SWEEP_ID:-${USE_CASE:+$USE_CASE-}$(date +%Y%m%d-%H%M%S)}
 VLLM_ENV=${VLLM_ENV:-$HOME/.venvs/vllm}
 OLLAMA=${OLLAMA:-$(command -v ollama || echo "$HOME/.local/ollama/bin/ollama")}
 export HF_HOME=${HF_HOME:-$HOME/.cache/huggingface}

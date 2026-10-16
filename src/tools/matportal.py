@@ -2,6 +2,8 @@
 
 Returns records in the same shape as mds_portal.search ({"Label", "ID", "Ontology", "Definition"}) so enrichment
 treats both portals alike. Needs MATPORTAL_API_KEY in .env (from your matportal.org account).
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
 """
 from functools import lru_cache
 

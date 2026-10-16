@@ -1,3 +1,5 @@
+# Author: Brent Thompson <brent.thompson@ucf.edu>
+# Summary: bench-concurrency support for Knowledge Workflow; retain the existing operational notes below.
 <# Finds how many model requests at once this GPU handles best with Ollama.
 
 For each slot count it restarts Ollama with that many request slots, reruns the enrich stage of a copy of a

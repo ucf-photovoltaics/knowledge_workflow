@@ -9,6 +9,8 @@
 Oxigraph has no full-text or vector search (https://github.com/oxigraph/oxigraph/issues/48), hence the two sidecars.
 
   python -m src.run ontologies build | status | search <text>
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
 """
 import hashlib
 import json
@@ -29,7 +31,8 @@ FILES = CACHE / "ontologies"
 DB, VECTORS, MANIFEST = ONTOLOGY_STORE / "terms.sqlite", ONTOLOGY_STORE / "vectors.npy", ONTOLOGY_STORE / "manifest.json"
 GRAPH = "urn:kw:ontology:"
 PORTAL = "https://www.mdsonto-portal.com:8443"
-RECIPE = "v1: label; up to 4 other labels: first 200 characters of the definition"
+RECIPE = "v1: label; up to 4 other labels: first 200 characters of the definition" + (
+    f"; document prefix {EMBED['document_prefix']!r}" if EMBED.get("document_prefix") else "")
 
 OWL, RDFS = "http://www.w3.org/2002/07/owl#", "http://www.w3.org/2000/01/rdf-schema#"
 SKOS, OBO = "http://www.w3.org/2004/02/skos/core#", "http://purl.obolibrary.org/obo/"
@@ -293,7 +296,7 @@ def _write_vectors(terms: dict) -> str | None:
     ids = list(terms)
     log(f"embedding {len(ids):,} terms with {EMBED['model']} (once per store build)")
     try:
-        vecs, _ = llm.embed([_text(terms[i]) for i in ids])
+        vecs, _ = llm.embed([EMBED.get("document_prefix", "") + _text(terms[i]) for i in ids])
     except Exception as e:
         log(f"embeddings skipped ({type(e).__name__}: {str(e)[:120]}); search falls back to labels only")
         return None
@@ -443,6 +446,16 @@ def similarity(a: str, b: str) -> float:
     return _dice(_norm(a), _norm(b))
 
 
+def _words(norm: str) -> set:
+    return {w[:-1] if len(w) > 3 and w.endswith("s") else w for w in norm.split() if len(w) >= 3}
+
+
+def _fuzzy(a: str, b: str) -> float:
+    """Trigram similarity of two normalised labels, counted only when they share a whole word ("backsheet" is not
+    "spreadsheet", "PV modules" is not "mode")."""
+    return _dice(a, b) if _words(a) & _words(b) else 0.0
+
+
 def _grams(text: str) -> set:
     t = f" {text} "
     return {t[i:i + 3] for i in range(len(t) - 2)}
@@ -476,7 +489,7 @@ def search(texts: list[str], vector=None, kinds=None, ontologies=None, k: int = 
             continue
         expr = " OR ".join(f'"{g}"' for g in grams)
         for iri, label in con.execute("SELECT iri, text FROM fts WHERE fts MATCH ? ORDER BY rank LIMIT 400", (expr,)):
-            score = _dice(norm, _norm(label))
+            score = _fuzzy(norm, _norm(label))
             if score > hits[iri]["fuzzy"]:
                 hits[iri]["fuzzy"] = score
             if score >= s["min_fuzzy"]:
@@ -543,7 +556,7 @@ def score(iri: str, texts: list[str], vector=None) -> dict:
     norms = [_norm(x) for x in texts if x and len(_norm(x)) >= 3]
     names = [_norm(x["text"]) for x in t["labels"]]
     exact = float(any(n in names for n in norms))
-    fuzzy = max((_dice(n, m) for n in norms for m in names), default=0.0)
+    fuzzy = max((_fuzzy(n, m) for n in norms for m in names), default=0.0)
     vec = _vectors() if vector is not None else None
     cosine = None
     if vec is not None and iri in vec[2]:
@@ -558,7 +571,7 @@ def score_external(label: str, definition: str, texts: list[str], vector=None, t
     norms = [_norm(x) for x in texts if x and len(_norm(x)) >= 3]
     name = _norm(label)
     exact = float(name in norms)
-    fuzzy = max((_dice(n, name) for n in norms), default=0.0)
+    fuzzy = max((_fuzzy(n, name) for n in norms), default=0.0)
     cosine = None
     if vector is not None and term_vector is not None:
         cosine = float(np.asarray(term_vector) @ np.asarray(vector) / (np.linalg.norm(vector) + 1e-12))
@@ -603,6 +616,8 @@ def status(check_portal: bool = True) -> dict:
     problems += [f"{name} is in the store but no longer configured" for name in m["sources"] if name not in ONTOLOGY_SOURCES]
     if EMBED["model"] and m.get("embed_model") != EMBED["model"]:
         problems.append(f"embeddings were built with {m.get('embed_model')}, EMBED model is {EMBED['model']}: rebuild")
+    elif EMBED["model"] and not has_vectors():
+        problems.append("embeddings were built with another text recipe (EMBED prefixes): python -m src.run ontologies build")
     return {"built": m["built"], "terms": m["terms"], "by_ontology": m["by_ontology"],
             "versions": {n: s.get("version") for n, s in m["sources"].items()},
             "embed_model": m.get("embed_model"), "problems": problems, "notes": notes}

@@ -1,4 +1,7 @@
-"""Persistent Gemini chat quotas; reservations include every retry attempt."""
+"""Persistent Gemini chat quotas; reservations include every retry attempt.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import re
 import sqlite3
 import time

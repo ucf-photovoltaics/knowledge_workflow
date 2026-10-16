@@ -1,4 +1,7 @@
-"""Only names of crystalline materials are looked up in the Materials Project; acronyms and gases are not."""
+"""Only names of crystalline materials are looked up in the Materials Project; acronyms and gases are not.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import sys
 from pathlib import Path
 

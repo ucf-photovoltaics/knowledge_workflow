@@ -1,4 +1,7 @@
-"""Run reports: per-paper compute CSV, corpus report, ontology report (Markdown + JSON stats)."""
+"""Run reports: per-paper compute CSV, corpus report, ontology report (Markdown + JSON stats).
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import csv
 import io
 import json

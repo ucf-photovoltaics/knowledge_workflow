@@ -1,4 +1,7 @@
-"""Runs in parallel share eval_runs.csv: no row may be lost."""
+"""Runs in parallel share eval_runs.csv: no row may be lost.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import csv
 import tempfile
 import unittest

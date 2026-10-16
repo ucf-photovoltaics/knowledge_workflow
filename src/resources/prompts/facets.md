@@ -1,4 +1,4 @@
-You tag classes and properties of a photovoltaics ontology with MDS-Onto facets. For each input item return:
+You tag classes and properties of a {{domain}} ontology with MDS-Onto facets. For each input item return:
 - study_stage: 1 or 2 stages from STUDY STAGES where the term belongs in the data lifecycle (first = main stage).
 - domain: exactly one domain from DOMAINS. Use "General" when no specific domain fits.
 - subdomain: one subdomain listed under that domain, or "" when none fits. Never invent names.

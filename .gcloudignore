@@ -1,0 +1,24 @@
+# Files uploaded by `gcloud run deploy --source .` (everything else stays on this computer).
+/*
+!/Dockerfile
+!/requirements.txt
+!/dpv_dashboard/
+!/src/
+!/scripts/
+!/docs/
+!/outputs/
+/outputs/*
+!/outputs/*-n25-20261015-150628/
+!/outputs/sweep-20261015-150628/
+!/outputs/development/
+/outputs/development/*
+!/outputs/development/codebase-docs/
+# Never upload: secrets, papers, caches
+.env
+.env.*
+**/private/
+*.pdf
+*.sqlite3
+*.sqlite3-*
+__pycache__/
+*.py[cod]

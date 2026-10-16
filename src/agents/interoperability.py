@@ -9,7 +9,10 @@ a BFO-aligned class target in the same BFO category (otherwise skos:exactMatch);
 only when the target's category is the class's own or above it (otherwise skos:broadMatch alone). Individuals
 (QUDT quantity kinds and units) get SKOS only. Label-matched candidates the model skipped are added when their
 similarity is high; propagated candidates are only ever asserted by the model. Every mapping carries its method,
-scores, confidence, target ontology, hop count and path."""
+scores, confidence, target ontology, hop count and path.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 from collections import Counter, defaultdict
 
 from src.agents.base import Agent, compact, items, key, load_prompt, targets

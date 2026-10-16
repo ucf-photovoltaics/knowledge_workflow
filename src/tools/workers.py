@@ -1,4 +1,7 @@
-"""Ordered task workers and a run-wide adaptive limit for local model requests (halved on overload)."""
+"""Ordered task workers and a run-wide adaptive limit for local model requests (halved on overload).
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 from concurrent.futures import ThreadPoolExecutor
 from collections import deque
 from contextlib import contextmanager

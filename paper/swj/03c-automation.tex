@@ -1,0 +1,73 @@
+% 03c-automation.tex -- place directly after 03b-embeddings.tex.
+% Citation keys are defined in automation.bib (same folder); check the status of the SWJ submissions before submitting.
+% Numbers come from the local sweep 20261015-150628 (revision 2026-10-15) unless stated otherwise.
+
+\section{Automation}\label{sec:automation}
+
+Building an ontology from a body of literature is mostly repeatable work: finding and ranking papers, reading them for terms and claims, looking up candidate terms in reference ontologies, writing the same axioms in the same patterns, checking the output and keeping track of what came from where. The work the Semantic Web community has published on knowledge engineering describes this effort as time-intensive and still largely manual~\citep{tsaneva2025llmeval}; knowledge graph construction with declarative mappings ``remains primarily manual''~\citep{chavesfraga2026kgc}, and building large, high-quality knowledge graphs from text remains an open challenge in accuracy, completeness, provenance and scale~\citep{kggentext2026editorial}. A review of 36 studies of large language models in ontology engineering finds that they can take over parts of several development activities, but recommends hybrid workflows that combine automation with human expertise, and notes that missing protocols and code make many results hard to reproduce~\citep{li2025llmoe}. An assessment of LLMs on ontology evaluation reaches a similar conclusion: models are most useful for narrowing candidate problems for an expert to review~\citep{tsaneva2025llmeval}.
+
+The pipeline follows that division of labour. It automates the known, repeatable steps (retrieval, bookkeeping, checks, retries and orchestration) and leaves to the domain expert the choices that need judgement: which literature defines a domain, and which drafted classes, axioms and mappings to accept. Every automated decision is recorded with its inputs, so the expert reviews a traceable draft rather than reconstructing it.
+
+\subsection{Corpus acquisition}
+
+A domain is a Zotero collection. The pipeline lists its items through the Zotero web API, ranks them by citation count (OpenCitations, then OpenAlex, then Crossref), and downloads PDFs from Zotero storage until the requested number of papers with a PDF is reached; papers without a PDF are passed over and listed. Citation counts are cached with their source and date, so a corpus selection stays fixed across runs and sizes. Parsing is deterministic: PDF text is split into sections with figure captions, back matter and repeated headers are dropped, and short sections are packed together. The scientist's part is curating the collection.
+
+\subsection{Agents}
+
+Six agents carry out the stages (Table~\ref{tab:agents}). Each stage is split into narrow, single-task model calls, each with its own prompt and JSON schema, in a fixed order set by code rather than by the model. The model answers bounded questions about rows it is shown (which candidate, which category, which quote); deterministic code assembles the ontology, applies category and relation rules, assigns IRIs and repairs cycles. Any model behind an OpenAI-compatible endpoint can serve the agents: the local runs use a 9B model on a laptop GPU, the HPC runs serve larger open-weight models through vLLM, and hosted providers are configured profiles.
+
+\begin{table*}[t]
+\centering
+\caption{Agents and the split between model calls and deterministic code.}\label{tab:agents}
+\small
+\begin{tabular}{p{2.2cm}p{6.3cm}p{6.3cm}}
+\hline
+Agent & Model calls & Deterministic code \\
+\hline
+Extraction & concepts, causal claims, relations, measurements per paper section; supporting quotes & quote verification against the text; one re-ask for missing quotes; cache per paper \\
+Normalization & settling embedding clusters into synonyms; type conflicts; corpus summary & lexical grouping; contradiction flags; importance ranking; causal order \\
+Ontology & ``not a class''; parent among retrieved candidates & BFO category from extraction type; same-name MDS-Onto/PMDCO parents; lexical heads; cycle and exclusion repair; IRIs \\
+Enrichment & definitions from evidence, synonyms, restriction properties, disjointness among siblings & causal edges to restrictions; domain/range checks; mapping candidates and propagation; Materials Project annotations \\
+Interoperability & candidate screening, mapping relation, study stage and domain tags & exact matches only for equal labels; imported definitions; OWL 2 serialization; structural validation \\
+Integration & relation between cross-domain candidate pairs & candidates by label, synonym, shared IRI and embedding; equivalence rules; master ontology; bridge concepts \\
+\hline
+\end{tabular}
+\end{table*}
+
+\subsection{External services}
+
+The pipeline queries the services a knowledge engineer would otherwise search by hand (Table~\ref{tab:services}). Reference ontologies are downloaded from their published sources and indexed once (Section~\ref{sec:embeddings}); the newest MDS-Onto submission is fetched from its portal, and the store reports when a newer one appears. Portal results are scored with the same signals as store terms, and Materials Project properties are attached as annotations, never as mappings.
+
+\begin{table}[t]
+\centering
+\caption{External services queried automatically.}\label{tab:services}
+\small
+\begin{tabular}{p{2.8cm}p{4.2cm}}
+\hline
+Service & Used for \\
+\hline
+Zotero API & collections, items, PDFs \\
+OpenCitations, OpenAlex, Crossref & citation counts for paper ranking \\
+Ontology sources (BFO, CCO, RO, QUDT, PMDCO, IOF) & local ontology store \\
+MDS-Onto portal & latest MDS-Onto, term search, study stage and domain \\
+MatPortal (OntoPortal) & term search across materials ontologies \\
+Materials Project & computed properties of named materials \\
+LLM endpoint (Ollama, vLLM, hosted) & agent calls \\
+Embedding endpoint & retrieval (Section~\ref{sec:embeddings}) \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Unattended operation}
+
+Long runs on a small local model meet malformed answers, partial answers, overloaded servers and restarts. Each is handled without intervention. Model answers are read tolerantly (format variants, answers wrapped in a copy of the schema), and a call that returns no valid JSON is retried once. Rows an answer leaves out are re-sent twice in smaller batches; rows still missing fall back to recorded defaults and are listed for review, and the share answered on the first call is reported per pass. Requests run in parallel up to a worker limit, which halves after an overload; a restarting local server is waited out for up to 15 minutes. Answers are reused when a later run asks exactly the same question (same revision, model, prompt and row content), so a corpus grown from 5 to 10 papers asks the model only about what changed; extraction is cached per paper and every embedding per text. Hosted providers are paced to their published quotas.
+
+A sweep runs every domain at every corpus size (5, 10, \ldots{} papers), integrates the domains after each size, and writes a report with figures. On a workstation, a scheduled task restarts an interrupted sweep at the stage it reached, up to a fixed number of attempts, and manages the local model server. On a Slurm cluster, the job script discovers the GPUs it was given, starts as many model servers as fit, scales the request workers to them, runs the domains of a size side by side, and stops cleanly when a model server fails; resubmitting with the same sweep identifier resumes it. Sets of collections to integrate are kept as named use cases, so a sweep is one command. The 25-paper sweep of three domains used here ran unattended from 3:06\,pm to 5:08\,am (about 14\,h, five integrations and the report), on a laptop GPU.
+
+\subsection{Records for review}
+
+Automation is only useful to the expert if its decisions can be checked. Every run records its configuration, code revision and workflow revision; every model call (tokens, latency, cache use) in a ledger; and every answered row with its inputs and whether it was reused (13,606 rows in the 25-paper reliability run). Items the pipeline could not settle (unresolved parents, conflicting types, contradictions between papers, unevidenced relations) are collected per run as review items. Every ontology and integration is serialized as OWL 2 in JSON-LD and Turtle and checked structurally, including a JSON-LD round trip. A local dashboard presents each stage's outputs as readable tables, traces each concept to its source quotes, papers and figures, shows the ontologies in WebVOWL, and answers questions with citations to the saved evidence.
+
+\subsection{What remains for the scientist}
+
+The pipeline does not decide what a domain is, whether a drafted ontology is correct, or which axioms to trust. Those decisions remain with the domain expert, who chooses and curates the collections, reviews the listed uncertain items and flagged placements, accepts or rejects mappings and bridge concepts, and judges the ontology against competency questions. The automation replaces the reading, searching and bookkeeping that precede those decisions, so the expert's time goes to quality and to the outputs. % TODO: once the expert calibration runs, report reviewer time per class or per item.

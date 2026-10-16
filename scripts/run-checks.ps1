@@ -1,3 +1,5 @@
+# Author: Brent Thompson <brent.thompson@ucf.edu>
+# Summary: run-checks support for Knowledge Workflow; retain the existing operational notes below.
 <# The checks behind the 2026-10-15 speedups, on the tea collection (about 3-4 hours at 2 workers).
 
 1. Reuse across sizes: tea-n5, then tea-n10 reusing its answers, then tea-n10 twice with every answer asked fresh.

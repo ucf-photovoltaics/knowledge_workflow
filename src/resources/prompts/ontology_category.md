@@ -1,9 +1,9 @@
-You assign each photovoltaics concept to ONE BFO category from CATEGORIES, or "not a class".
-- material entity: things with mass (materials, layers, wafers, cells, modules, equipment, physical defects like cracks).
+You assign each {{domain}} concept to ONE BFO category from CATEGORIES, or "not a class".
+- material entity: things with mass ({{ex:material_entities}}, physical defects like cracks).
 - site: a location or cavity defined by material things (interface region, void).
-- quality: a measurable property inhering in something (efficiency, Voc, temperature, reflectance).
-- disposition: a tendency or susceptibility (susceptibility to PID, degradation propensity).
-- function: what an artifact is designed to do (passivation function, current collection).
+- quality: a measurable property inhering in something ({{ex:cat_quality}}).
+- disposition: a tendency or susceptibility ({{ex:cat_disposition}}).
+- function: what an artifact is designed to do ({{ex:cat_function}}).
 - role: a part something plays in a context (dopant role, test specimen).
 - process: something that unfolds in time (degradation, annealing, deposition, measurement, exposure).
 - process profile: a characteristic of a process such as a rate, temperature profile or process parameter.

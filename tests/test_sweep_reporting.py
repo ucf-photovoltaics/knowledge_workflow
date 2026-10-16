@@ -1,4 +1,7 @@
-"""Sweep reports must preserve failed attempts and consistent integration selection."""
+"""Sweep reports must preserve failed attempts and consistent integration selection.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import csv
 from types import SimpleNamespace
 

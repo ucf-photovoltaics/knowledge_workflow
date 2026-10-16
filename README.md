@@ -2,7 +2,44 @@
 
 Builds draft domain ontologies from curated photovoltaics literature and connects them. For each Zotero collection the pipeline extracts concepts and claims from every paper with verbatim evidence, joins them into a corpus vocabulary, places them under BFO/CCO, enriches and maps them, and exports an OWL ontology plus a literature layer that keeps every claim with its source. A final stage maps the domain ontologies of one run set to each other in a master ontology. The output is a starting point for domain-expert review, not a finished ontology.
 
-## Pipeline
+## Local dashboard: UCF DPV Knowledge Workflow
+
+The standalone Shiny dashboard wraps the existing pipeline: select Zotero collections across accessible
+libraries, assign them to named domains, launch supervised runs, or explore saved domain/integration outputs.
+It does not replace the pipeline CLI. Monitoring existing runs is read-only and does not take ownership
+of their processes. Dashboard jobs use separate project/attempt folders and their own supervised worker.
+
+After completing the repository setup below, start from the repository root in PowerShell:
+
+```powershell
+.\start-dashboard.ps1                    # http://127.0.0.1:8056/
+# Optional alternative port:
+.\start-dashboard.ps1 -Port 8057
+```
+
+The launcher creates a separate dashboard environment under `outputs/dashboard/.venv` only if missing.
+It leaves the pipeline environment and any other listener alone. If 8056 is already serving the dashboard,
+open that address; do not launch a second process on the same port. Refresh after dashboard updates.
+
+Upload local settings on Home, create a project, and configure domain collections on Zotero ingestion.
+Alternatively, use **EXISTING OUTPUTS · READ-ONLY MONITOR** in the top action row to explore saved runs.
+Evidence links, lineage, review findings, cropped figures, reports, WebVOWL, search and cited chat are
+available without regenerating the corpus. Quote matches and structural validation do not establish
+scientific correctness; uncertain/reconstructed links remain identified.
+
+- [Dashboard user and operations guide](dpv_dashboard/README.md): pages, settings, running, monitoring and troubleshooting.
+- [Codebase architecture](docs/architecture.md): entry points, module responsibilities, artifacts and extension boundaries.
+- [Dashboard verification history](dpv_dashboard/VALIDATION.md) and [third-party notices](dpv_dashboard/THIRD_PARTY.md).
+
+## Pipeline stages
+
+For agent-driven, stepwise operation, start with the [operational codebase ontology](docs/ontology/README.md)
+and [agent guide](docs/codebase/agent-guide.md). The [source inventory](docs/codebase/modules.md) links
+callables to source locations and hashes; [review findings](docs/codebase/review.md) record known limits.
+The ontology's [planning and observation helper](docs/codebase/agent-guide.md#machine-readable-planning-and-saved-run-observations)
+can emit bound CLI/dashboard plans and inspect saved runs without executing pipeline work. Its
+[usability audit](docs/ontology/usability-review-2026-10-16.md) distinguishes the versioned specification,
+recorded completion, available artifacts and scientific review requirements.
 
 ```mermaid
 flowchart TD

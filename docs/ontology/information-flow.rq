@@ -1,0 +1,14 @@
+# Author: Brent Thompson <brent.thompson@ucf.edu>
+# Summary: Discover information transformations, their data states and source implementations.
+PREFIX kw: <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?transformation ?action ?input ?inputName ?output ?outputName ?function ?path ?qualifiedName ?optional WHERE {
+ kw:LiteratureToOntologyWorkflow kw:hasInformationTransformation ?transformation .
+ ?transformation rdfs:label ?action ; kw:transformsInputState ?input ;
+                 kw:producesInformationState ?output ; kw:transformationImplementation ?function .
+ ?input rdfs:label ?inputName .
+ ?output rdfs:label ?outputName .
+ ?function kw:sourcePath ?path ; kw:qualifiedName ?qualifiedName .
+ BIND(EXISTS { ?transformation kw:optionalInputState ?input } AS ?optional)
+}
+ORDER BY ?action ?inputName ?outputName ?path

@@ -1,3 +1,5 @@
+# Author: Brent Thompson <brent.thompson@ucf.edu>
+# Summary: run-sweep support for Knowledge Workflow; retain the existing operational notes below.
 <# Cumulative collection runs, with isolated failures and explicit integration inputs. #>
 [CmdletBinding()]
 param(

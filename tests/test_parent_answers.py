@@ -1,4 +1,7 @@
-"""Free-form parent answers from small models are read tolerantly, but never guessed."""
+"""Free-form parent answers from small models are read tolerantly, but never guessed.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import unittest
 
 from src.agents.ontology import CATEGORIES, OntologyAgent, answer_texts

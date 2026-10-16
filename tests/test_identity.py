@@ -1,4 +1,7 @@
-"""Concepts that end up with the same name are folded into one at normalization."""
+"""Concepts that end up with the same name are folded into one at normalization.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import sys
 from pathlib import Path
 

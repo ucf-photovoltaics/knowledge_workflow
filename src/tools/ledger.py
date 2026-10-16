@@ -1,4 +1,7 @@
-"""Append-only compute ledger: one JSONL row per LLM call (or cache hit), summarized per item or agent."""
+"""Append-only compute ledger: one JSONL row per LLM call (or cache hit), summarized per item or agent.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import json
 import time
 from dataclasses import asdict

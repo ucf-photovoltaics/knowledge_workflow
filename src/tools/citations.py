@@ -5,6 +5,8 @@ A DOI moves on to the next source when the current one has no positive count for
 says 0 (or has nothing), the first explicit 0 is kept. Counts are cached in outputs/cache/citations.json
 with their source and fetch date, so a collection's top-N selection stays fixed across runs.
 Delete an entry (or the file) to refresh it.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
 """
 import json
 import time

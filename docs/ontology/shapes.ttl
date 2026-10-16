@@ -1,0 +1,81 @@
+@prefix kw: <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+kw:StepShape a sh:NodeShape ; sh:targetClass kw:StepSpecification ;
+ sh:property [ sh:path rdfs:label ; sh:minCount 1 ] ;
+ sh:property [ sh:path kw:hasImplementation ; sh:minCount 1 ; sh:class kw:CodeUnitSpecification ] ;
+ sh:property [ sh:path kw:expectsInput ; sh:minCount 1 ; sh:class kw:ArtifactSpecification ] ;
+ sh:property [ sh:path kw:expectsOutput ; sh:minCount 1 ; sh:class kw:ArtifactSpecification ] ;
+ sh:property [ sh:path kw:hasInvocation ; sh:minCount 1 ; sh:class kw:InvocationSpecification ] ;
+ sh:property [ sh:path kw:completionRule ; sh:minCount 1 ] ;
+ sh:property [ sh:path kw:recoveryRule ; sh:minCount 1 ] .
+
+kw:DefinitionShape a sh:NodeShape ;
+ sh:targetClass kw:StepSpecification, kw:CodeUnitSpecification, kw:ArtifactSpecification,
+   kw:InvocationSpecification, kw:ConfigurationSpecification, kw:ParameterSpecification,
+   kw:ResourceSpecification, kw:DataBindingSpecification, kw:ArgumentSpecification,
+   kw:CheckSpecification, kw:RecoverySpecification, kw:OperationSpecification,
+   kw:InformationStateSpecification, kw:InformationTransformationSpecification ;
+ sh:property [ sh:path skos:definition ; sh:minCount 1 ; sh:minLength 1 ] .
+
+kw:DataBindingShape a sh:NodeShape ; sh:targetClass kw:DataBindingSpecification ;
+ sh:property [ sh:path kw:implementedBy ; sh:minCount 1 ; sh:class kw:CodeUnitSpecification ] ;
+ sh:property [ sh:path kw:bindsArtifact ; sh:minCount 1 ; sh:class kw:ArtifactSpecification ] ;
+ sh:property [ sh:path kw:bindingDirection ; sh:in ("input" "output") ; sh:minCount 1 ] ;
+ sh:property [ sh:path kw:bindingSelector ; sh:minCount 1 ] .
+
+kw:InformationStateShape a sh:NodeShape ; sh:targetClass kw:InformationStateSpecification ;
+ sh:property [ sh:path kw:representedByArtifact ; sh:minCount 1 ; sh:class kw:ArtifactSpecification ] ;
+ sh:property [ sh:path kw:informationStateJson ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+kw:InformationTransformationShape a sh:NodeShape ; sh:targetClass kw:InformationTransformationSpecification ;
+ sh:property [ sh:path kw:transformsInputState ; sh:minCount 1 ; sh:class kw:InformationStateSpecification ] ;
+ sh:property [ sh:path kw:producesInformationState ; sh:minCount 1 ; sh:class kw:InformationStateSpecification ] ;
+ sh:property [ sh:path kw:transformationStage ; sh:minCount 1 ; sh:class kw:StepSpecification ] ;
+ sh:property [ sh:path kw:transformationImplementation ; sh:minCount 1 ; sh:class kw:CodeUnitSpecification ] .
+
+kw:ArgumentShape a sh:NodeShape ; sh:targetClass kw:ArgumentSpecification ;
+ sh:property [ sh:path kw:argumentName ; sh:minCount 1 ; sh:maxCount 1 ] ;
+ sh:property [ sh:path kw:argumentKind ; sh:minCount 1 ; sh:maxCount 1 ] ;
+ sh:property [ sh:path kw:typeExpression ; sh:minCount 1 ; sh:maxCount 1 ] ;
+ sh:property [ sh:path kw:argumentRequired ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ] .
+
+kw:CheckShape a sh:NodeShape ; sh:targetClass kw:CheckSpecification ;
+ sh:property [ sh:path kw:evaluatedBy ; sh:minCount 1 ; sh:class kw:CodeUnitSpecification ] ;
+ sh:property [ sh:path kw:checkRule ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+kw:CodeShape a sh:NodeShape ; sh:targetClass kw:CodeUnitSpecification ;
+ sh:property [ sh:path kw:sourcePath ; sh:minCount 1 ; sh:maxCount 1 ] ;
+ sh:property [ sh:path kw:sourceDigest ; sh:minCount 1 ; sh:pattern "^[0-9a-f]{64}$" ] .
+
+kw:InvocationShape a sh:NodeShape ; sh:targetClass kw:InvocationSpecification ;
+ sh:property [ sh:path kw:commandArguments ; sh:minCount 1 ; sh:maxCount 1 ] ;
+ sh:property [ sh:path kw:executionMode ; sh:in ("cli" "wrapper") ; sh:minCount 1 ] ;
+ sh:property [ sh:path kw:evidenceStatus ; sh:minCount 1 ] ;
+ sh:property [ sh:path kw:requiresCondition ; sh:minCount 1 ; sh:class kw:EnvironmentConditionSpecification ] ;
+ sh:property [ sh:path kw:coversStep ; sh:minCount 1 ; sh:class kw:StepSpecification ] ;
+ sh:property [ sh:path kw:requiresStepForMode ; sh:class kw:StepSpecification ] .
+
+kw:ArtifactShape a sh:NodeShape ; sh:targetClass kw:ArtifactSpecification ;
+ sh:property [ sh:path kw:artifactPattern ; sh:minCount 1 ] .
+
+kw:SnapshotShape a sh:NodeShape ; sh:targetClass kw:CodebaseSnapshot ;
+ sh:property [ sh:path kw:documentsWorkflow ; sh:minCount 1 ; sh:class kw:WorkflowSpecification ] ;
+ sh:property [ sh:path kw:hasCodeUnit ; sh:minCount 1 ; sh:class kw:CodeUnitSpecification ] .
+
+kw:ResourceShape a sh:NodeShape ; sh:targetClass kw:ResourceSpecification ;
+ sh:property [ sh:path kw:sourcePath ; sh:minCount 1 ; sh:maxCount 1 ] ;
+ sh:property [ sh:path kw:sourceDigest ; sh:minCount 1 ; sh:pattern "^[0-9a-f]{64}$" ] ;
+ sh:property [ sh:path kw:resourceText ; sh:minCount 1 ] .
+
+kw:ConditionShape a sh:NodeShape ; sh:targetClass kw:EnvironmentConditionSpecification ;
+ sh:property [ sh:path kw:conditionRule ; sh:minCount 1 ] .
+
+kw:ObservationShape a sh:NodeShape ; sh:targetClass kw:RuntimeObservation ;
+ sh:property [ sh:path kw:observesStep ; sh:minCount 1 ; sh:maxCount 1 ] ;
+ sh:property [ sh:path kw:observedAt ; sh:minCount 1 ; sh:maxCount 1 ] ;
+ sh:property [ sh:path kw:recordedStatus ; sh:minCount 1 ; sh:maxCount 1 ] ;
+ sh:property [ sh:path kw:readiness ; sh:minCount 1 ; sh:maxCount 1 ] .

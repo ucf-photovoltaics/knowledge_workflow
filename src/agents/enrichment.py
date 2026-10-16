@@ -9,6 +9,8 @@ from the store (predicate phrase and quote; domain and range must fit): an exact
 upper.RELATION_GROUPS breaks, is used directly; the rest go to the model with their numbered candidates. The
 paper's predicate phrase, quote, support and papers stay on every restriction. Every restriction must trace back
 to an extracted relation.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
 """
 import hashlib
 import json
@@ -206,7 +208,7 @@ class EnrichmentAgent(Agent):
         phrase = lambda r: r["p"].replace("_", " ")
         texts = {self._rkey(cid, r): f"{phrase(r)}: {next((e['text'] for e in r.get('evidence', []) if e.get('text')), '')[:200]}"
                  for cid, r in todo}
-        vectors = dict(zip(texts, retrieval.embed(list(texts.values()), self.ledger))) \
+        vectors = dict(zip(texts, retrieval.query(list(texts.values()), self.ledger))) \
             if ontostore.has_vectors() and texts else {}
         self.pcands, unfit = {}, 0
         for cid, r in todo:
@@ -282,7 +284,7 @@ class EnrichmentAgent(Agent):
 
         k = ONTOLOGY_SEARCH["candidates_per_class"]
         texts = {c["id"]: f"{c['label']}: {(c['definitions'][0]['text'] if c['definitions'] else '')[:200]}" for c in live}
-        vectors = dict(zip(texts, retrieval.embed(list(texts.values()), self.ledger))) \
+        vectors = dict(zip(texts, retrieval.query(list(texts.values()), self.ledger))) \
             if ontostore.has_vectors() and texts else {}
         found = {c["id"]: {} for c in live}
         for c in live:
@@ -316,7 +318,7 @@ class EnrichmentAgent(Agent):
         # terms outside the store: the store's own signals and fused score (label + embedding of label: definition)
         outside = [(cid, x) for cid in found for x in found[cid].values() if x.get("in_store") is False]
         texts_out = [ontostore.external_text(x["label"], x["definition"]) for _, x in outside]
-        term_vecs = dict(zip(texts_out, retrieval.embed(texts_out, self.ledger))) if vectors and texts_out else {}
+        term_vecs = dict(zip(texts_out, retrieval.document(texts_out, self.ledger))) if vectors and texts_out else {}
         for (cid, x), text in zip(outside, texts_out):
             x.update(ontostore.score_external(x["label"], x["definition"],
                                               lexical_texts[cid],

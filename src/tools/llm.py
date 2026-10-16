@@ -1,4 +1,7 @@
-"""Provider-agnostic chat call returning (text, usage), with usage normalized across providers."""
+"""Provider-agnostic chat call returning (text, usage), with usage normalized across providers.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import time
 import hashlib
 import json

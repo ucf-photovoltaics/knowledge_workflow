@@ -1,0 +1,11 @@
+# Author: Brent Thompson <brent.thompson@ucf.edu>
+# Summary: Follow shared output specifications from producing to consuming pipeline steps.
+PREFIX kw: <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?producer ?producerName ?pattern ?consumer ?consumerName WHERE {
+ ?producer kw:expectsOutput ?artifact ; rdfs:label ?producerName .
+ ?consumer kw:expectsInput ?artifact ; rdfs:label ?consumerName .
+ ?artifact kw:artifactPattern ?pattern .
+ FILTER (?producer != ?consumer)
+}
+ORDER BY ?producerName ?consumerName ?pattern

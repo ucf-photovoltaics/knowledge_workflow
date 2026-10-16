@@ -1,3 +1,5 @@
+# Author: Brent Thompson <brent.thompson@ucf.edu>
+# Summary: script support for Knowledge Workflow; retain the existing operational notes below.
 & {
     Set-Location C:\Users\brent\dev\knowledge_workflow
     Set-ExecutionPolicy -Scope Process Bypass -Force

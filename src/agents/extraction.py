@@ -7,6 +7,8 @@ cites and the labels already found earlier in the paper:
   section's numbered concept list so they refer to ids instead of inventing them (EXTRACTION_PASSES in config).
 Every evidence quote is checked against the paper text (word 3-gram overlap) and marked verified or not.
 The LLM does the semantic work; mention counts, sections, id checks and figure citations are deterministic.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
 """
 import hashlib
 import json

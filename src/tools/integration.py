@@ -3,7 +3,10 @@
 The master ontology is named after the domains it joins (master_name: "tea_reliability_si-topcon"), in its IRI,
 title and file names. It owl:imports every domain ontology unchanged and adds only mapping axioms between their
 classes (plus the declarations and labels of the mapped classes, copied from the domain graphs).
-<name>_merged.ttl is the union of the domain graphs and the master, for loading into one triple store."""
+<name>_merged.ttl is the union of the domain graphs and the master, for loading into one triple store.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import json
 from collections import Counter, defaultdict
 from datetime import datetime, timezone

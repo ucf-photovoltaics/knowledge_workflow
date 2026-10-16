@@ -1,0 +1,37 @@
+{
+  "valid_within_checked_scope": true,
+  "errors": [],
+  "shacl_conforms": true,
+  "steps": 11,
+  "invocation_templates": 18,
+  "source_files": 131,
+  "triples": 51812,
+  "inferred_type_conflicts": [],
+  "reasoning": "OWL-RL materialization plus named disjointness checks over pinned imports",
+  "full_owl2_dl_reasoner": "Not run: Java/complete DL reasoner unavailable. No full BFO/CCO certification claimed.",
+  "execution_examples": "Source-checked argument templates; no literature/model workflows executed.",
+  "operational_checks": "All code units reachable; source/resource/contract fingerprints; shared artifact flow; mode-specific prerequisites, bindings and conditions.",
+  "definition_coverage": {
+    "project_nodes": 3688,
+    "with_skos_definition": 3688
+  },
+  "operational_contracts": {
+    "stages": 11,
+    "data_bindings": 74,
+    "formal_arguments": 1883,
+    "detailed_worked_examples": [
+      "enrich",
+      "extract",
+      "ingest",
+      "integrate",
+      "interop",
+      "normalize",
+      "ontology",
+      "parse",
+      "preflight",
+      "reports",
+      "store"
+    ],
+    "source_reviewed_operations": 80
+  }
+}

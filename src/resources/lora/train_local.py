@@ -5,6 +5,8 @@ the adapter, a 4-bit GGUF and a training log to outputs/lora/. Setup and usage: 
 
   python src/resources/lora/train_local.py                 # 2B (default)
   python src/resources/lora/train_local.py --size 4B --max-seq 3072
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
 """
 import argparse
 import glob

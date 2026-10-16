@@ -1,4 +1,7 @@
-"""Exercise the actual PowerShell driver with a fake CLI, never remote services."""
+"""Exercise the actual PowerShell driver with a fake CLI, never remote services.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import csv
 import shutil
 import subprocess

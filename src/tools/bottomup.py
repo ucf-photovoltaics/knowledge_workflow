@@ -6,6 +6,8 @@ Built only from what the papers say, with no upper ontology:
   source papers), whether or not it holds universally;
 - every reported value as a kw:ReportedValue node;
 - kw:ontologyClass links each concept to its class in the run's BFO/CCO ontology.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
 """
 import re
 from collections import Counter

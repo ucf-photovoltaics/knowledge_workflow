@@ -1,5 +1,8 @@
 """Shared agent mechanics: stable system prompt (prompt + schema), JSON call with one retry, ledger logging,
-and answers reused per row across runs (RowCache)."""
+and answers reused per row across runs (RowCache).
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import hashlib
 import json
 import re
@@ -9,6 +12,7 @@ from dataclasses import asdict
 from collections import Counter
 from threading import RLock
 
+from src import config
 from src.config import CACHE, RESOURCES, REUSE_ANSWERS, TEMPERATURE, WORKFLOW_REVISION, model_for, profile_for
 from src.tools import files, llm, workers
 from src.tools.ledger import Ledger
@@ -44,6 +48,10 @@ def parse_json(text: str):
 def load_prompt(name: str) -> str:
     """Prompt text plus its compact JSON schema (if any): the stable, cacheable system prefix."""
     prompt = (RESOURCES / "prompts" / f"{name}.md").read_text(encoding="utf-8")
+    pv = config.DOMAIN == config.DEFAULT_DOMAIN
+    prompt = prompt.replace("{{domain}}", config.DOMAIN)
+    for ex, (pv_text, other) in config.PROMPT_EXAMPLES.items():
+        prompt = prompt.replace("{{ex:" + ex + "}}", pv_text if pv else other)
     schema = RESOURCES / "schemas" / f"{name}.json"
     prompt += json.dumps(json.loads(schema.read_text(encoding="utf-8")), separators=(",", ":")) if schema.exists() else ""
     if name in RESPONSE_EXAMPLES:
