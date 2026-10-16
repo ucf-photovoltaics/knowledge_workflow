@@ -1,4 +1,7 @@
-"""Writes that stay safe when several runs share outputs/ and the cache (e.g. three domains in parallel)."""
+"""Writes that stay safe when several runs share outputs/ and the cache (e.g. three domains in parallel).
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import os
 import time
 import uuid

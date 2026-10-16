@@ -1,4 +1,7 @@
-"""Provider-agnostic chat call returning (text, usage), with usage normalized across providers."""
+"""Provider-agnostic chat call returning (text, usage), with usage normalized across providers.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import time
 import hashlib
 import json
@@ -48,7 +51,7 @@ def _outage_safe(profile: dict, request):
     if profile.get("outage_wait_s", 0):
         for attempt in range(3):
             try:
-                with workers.slot():
+                with workers.slot() as generation:
                     return request()
             except (openai.APIConnectionError, openai.APITimeoutError, openai.APIStatusError) as e:
                 status = getattr(e, "status_code", None)
@@ -58,7 +61,8 @@ def _outage_safe(profile: dict, request):
                 if not transient:
                     raise
                 if timeout or memory or status in (429, 503):
-                    workers.fallback(type(e).__name__ if not status else f"HTTP {status}", timeout=timeout)
+                    workers.fallback(type(e).__name__ if not status else f"HTTP {status}", timeout=timeout,
+                                     generation=generation)
                 if attempt == 2:
                     break  # still down: wait out the outage below
                 delay = 5 * 2 ** attempt

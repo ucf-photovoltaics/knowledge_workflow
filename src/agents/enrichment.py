@@ -9,6 +9,8 @@ from the store (predicate phrase and quote; domain and range must fit): an exact
 upper.RELATION_GROUPS breaks, is used directly; the rest go to the model with their numbered candidates. The
 paper's predicate phrase, quote, support and papers stay on every restriction. Every restriction must trace back
 to an extracted relation.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
 """
 import hashlib
 import json
@@ -26,11 +28,11 @@ from src.tools.owl import bfo_category, label_of, lineage
 from src.tools.progress import log
 
 BATCH = 25
-PASS_BATCH = {"definitions": 15, "synonyms": 10, "restrictions": 8, "disjointness": 12}
+PASS_BATCH = {"definitions": 8, "synonyms": 10, "restrictions": 8, "disjointness": 8}
 PASS_FIELD = {"definitions": "definition", "synonyms": "alt_labels", "restrictions": "restrictions",
               "disjointness": "disjoint_with"}  # the answer field each local pass fills (reads {"k1": value} replies)
 MAX_RELATIONS = 8
-MAX_SIBLINGS = 12
+MAX_SIBLINGS = 12  # disjointness: each class is shown the next siblings by label, so every pair is asked once
 BASIS = {"source_definition": "supported", "evidence": "draft_evidence", "model_knowledge": "model_generated"}
 DEFINITION_RULE = {
     True: "basis=model_knowledge is allowed: when the source definitions and evidence are not enough, write a standard "
@@ -83,6 +85,7 @@ class EnrichmentAgent(Agent):
     def run(self, classes: list[dict], relations: list[dict], causal: list[dict]) -> tuple[list[dict], dict]:
         live = [c for c in classes if not c["excluded"]]
         by_id = {c["id"]: c for c in live}
+        self.concept_labels = {c["id"]: c["label"] for c in classes}
         self.dropped = Counter()
         profile = AGENT_PROFILES.get(self.name, LLM_PROFILE)
         self.model_definitions = profile in MODEL_DEFINITION_PROFILES
@@ -123,8 +126,9 @@ class EnrichmentAgent(Agent):
                     for cid in ends:
                         if cid in by_id and len(quotes[cid]) < 3 and e["text"] not in quotes[cid]:
                             quotes[cid].append(e["text"][:200])
-        children = defaultdict(list)
-        for c in live:
+        children, place = defaultdict(list), {}
+        for c in sorted(live, key=lambda c: (c["label"].lower(), c["id"])):  # label order: stable across runs
+            place[c["id"]] = len(children[c["parent"]])
             children[c["parent"]].append(c["id"])
 
         rel_text = lambda c: [f"{r['p']}: {by_id[r['o']]['label']} ({r['o']}) x{r['support']}"
@@ -132,7 +136,8 @@ class EnrichmentAgent(Agent):
         rel_rows = lambda c: [{"o": r["o"], "target": by_id[r["o"]]["label"], "paper": f"{r['p']} x{r['support']}",
                                "properties": [self._prop_line(x) for x in self.pcands.get(self._rkey(c["id"], r), [])]}
                               for r in rels[c["id"]][:MAX_RELATIONS]]
-        sibs = lambda c: [f"{s}: {by_id[s]['label']}" for s in children[c["parent"]] if s != c["id"]][:MAX_SIBLINGS]
+        sibs = lambda c: [f"{s}: {by_id[s]['label']}"  # siblings after c only: each pair is asked from one side
+                          for s in children[c["parent"]][place[c["id"]] + 1:place[c["id"]] + 1 + MAX_SIBLINGS]]
         if tier(self.name) == "local":
             passes = [  # (name, prompt, batch, which classes, row)
                 ("definitions", load_prompt("enrichment_definitions") + rule, PASS_BATCH["definitions"], live,
@@ -203,7 +208,7 @@ class EnrichmentAgent(Agent):
         phrase = lambda r: r["p"].replace("_", " ")
         texts = {self._rkey(cid, r): f"{phrase(r)}: {next((e['text'] for e in r.get('evidence', []) if e.get('text')), '')[:200]}"
                  for cid, r in todo}
-        vectors = dict(zip(texts, retrieval.embed(list(texts.values()), self.ledger))) \
+        vectors = dict(zip(texts, retrieval.query(list(texts.values()), self.ledger))) \
             if ontostore.has_vectors() and texts else {}
         self.pcands, unfit = {}, 0
         for cid, r in todo:
@@ -279,7 +284,7 @@ class EnrichmentAgent(Agent):
 
         k = ONTOLOGY_SEARCH["candidates_per_class"]
         texts = {c["id"]: f"{c['label']}: {(c['definitions'][0]['text'] if c['definitions'] else '')[:200]}" for c in live}
-        vectors = dict(zip(texts, retrieval.embed(list(texts.values()), self.ledger))) \
+        vectors = dict(zip(texts, retrieval.query(list(texts.values()), self.ledger))) \
             if ontostore.has_vectors() and texts else {}
         found = {c["id"]: {} for c in live}
         for c in live:
@@ -313,7 +318,7 @@ class EnrichmentAgent(Agent):
         # terms outside the store: the store's own signals and fused score (label + embedding of label: definition)
         outside = [(cid, x) for cid in found for x in found[cid].values() if x.get("in_store") is False]
         texts_out = [ontostore.external_text(x["label"], x["definition"]) for _, x in outside]
-        term_vecs = dict(zip(texts_out, retrieval.embed(texts_out, self.ledger))) if vectors and texts_out else {}
+        term_vecs = dict(zip(texts_out, retrieval.document(texts_out, self.ledger))) if vectors and texts_out else {}
         for (cid, x), text in zip(outside, texts_out):
             x.update(ontostore.score_external(x["label"], x["definition"],
                                               lexical_texts[cid],

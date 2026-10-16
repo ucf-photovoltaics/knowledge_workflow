@@ -10,6 +10,8 @@ system prompt and output schema of the local-tier pass that makes that call (PIP
   extract   - (optional) section -> concepts/relations/causal/measurements/figures: the exact per-section calls of
               an earlier (e.g. frontier-model) run on a collection NOT in LORA["exclude_collections"] -> extraction agent
 Splits are by ontology branch (source + nearest curated upper class), so test branches never appear in training.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
 """
 import hashlib
 import json

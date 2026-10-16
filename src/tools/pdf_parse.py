@@ -1,4 +1,7 @@
-"""Deterministic PDF → sections + figure captions/mentions. Drops back matter and repeated headers/footers."""
+"""Deterministic PDF → sections + figure captions/mentions. Drops back matter and repeated headers/footers.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import re
 import time
 from collections import Counter

@@ -1,3 +1,7 @@
+"""Test workers support for the Knowledge Workflow system.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor

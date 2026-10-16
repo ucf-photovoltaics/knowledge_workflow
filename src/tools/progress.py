@@ -1,4 +1,7 @@
-"""Console progress: every line is 'HH:MM:SS [stage] message'."""
+"""Console progress: every line is 'HH:MM:SS [stage] message'.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import time
 import json
 import logging

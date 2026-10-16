@@ -1,6 +1,9 @@
 """BFO 2020 + CCO terms and OBO Relations Ontology (RO) properties, cached in resources/upper/bfo_cco.json, the
 curated menus (category roots, type defaults, causal rules, LoRA tasks), and lookups of any other external term
-through the ontology store (src/tools/ontostore.py)."""
+through the ontology store (src/tools/ontostore.py).
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import json
 from functools import lru_cache
 

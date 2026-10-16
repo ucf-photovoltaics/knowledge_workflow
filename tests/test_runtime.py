@@ -1,4 +1,7 @@
-"""Runtime changes must preserve coverage, cache identity, evidence text, and search ranking."""
+"""Runtime changes must preserve coverage, cache identity, evidence text, and search ranking.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import json
 import os
 import time

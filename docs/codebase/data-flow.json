@@ -1,0 +1,465 @@
+{
+  "author": "Brent Thompson <brent.thompson@ucf.edu>",
+  "scope": "Specifications of information representations and their source-reviewed transformations. These are not domain entities or claims that an execution occurred.",
+  "main_path": [
+    "papers",
+    "text",
+    "extracted",
+    "canonical",
+    "placed",
+    "enriched",
+    "formal",
+    "integrated",
+    "reports"
+  ],
+  "states": [
+    {
+      "id": "papers",
+      "label": "Selected papers",
+      "description": "A ranked corpus with source identities and available PDFs.",
+      "stage": "ingest",
+      "artifacts": [
+        "ingestion.json"
+      ],
+      "fields": [
+        "paper key",
+        "title / DOI",
+        "collection memberships",
+        "citations",
+        "PDF path"
+      ],
+      "note": "Dashboard ingestion saves this separately. CLI extraction records selection in run.json."
+    },
+    {
+      "id": "text",
+      "label": "Text and captions",
+      "description": "Cleaned sections, caption records and temporary extraction windows.",
+      "stage": "parse",
+      "artifacts": [
+        "parsed/*.json"
+      ],
+      "fields": [
+        "section heading / text",
+        "figure ID / caption / page",
+        "PDF hash",
+        "chunks"
+      ],
+      "note": "Windows are temporary model inputs, not separate paper ontologies. Saved parsed files are wrapper-specific."
+    },
+    {
+      "id": "extracted",
+      "label": "Paper concepts and claims",
+      "description": "One reconciled record per paper; concept IDs are local to that paper.",
+      "stage": "extract",
+      "artifacts": [
+        "papers/*.json"
+      ],
+      "fields": [
+        "paper key + concept ID",
+        "concept label / synonyms",
+        "relations / causal claims",
+        "measurements",
+        "quotes / verification",
+        "figure links"
+      ],
+      "note": "c1 in one paper does not identify c1 in another. Quote verification measures text overlap, not entailment."
+    },
+    {
+      "id": "canonical",
+      "label": "Canonical vocabulary",
+      "description": "Cross-paper concepts with aliases, supporting papers and remapped claims.",
+      "stage": "normalize",
+      "artifacts": [
+        "normalized/concepts.json",
+        "normalized/relations.json",
+        "normalized/causal.json",
+        "normalized/measurements.json"
+      ],
+      "fields": [
+        "canonical concept ID",
+        "label / alt_labels",
+        "supporting paper keys",
+        "canonical claim endpoints",
+        "importance / contradictions"
+      ],
+      "note": "Exact original concept-ID merge decisions are currently transient. Supporting papers and aliases cannot recover every merge."
+    },
+    {
+      "id": "placed",
+      "label": "Placed ontology classes",
+      "description": "Canonical records acquire parent decisions and stable domain IRIs.",
+      "stage": "ontology",
+      "artifacts": [
+        "ontology/classes.json"
+      ],
+      "fields": [
+        "canonical ID retained",
+        "class IRI",
+        "parent / parent_source",
+        "excluded",
+        "review flags"
+      ],
+      "note": "A BFO/CCO-connected hierarchy does not establish that every parent decision is scientifically correct."
+    },
+    {
+      "id": "enriched",
+      "label": "Definitions and restrictions",
+      "description": "Live classes gain definitions, supported restrictions and external candidates.",
+      "stage": "enrich",
+      "artifacts": [
+        "ontology/enriched.json",
+        "ontology/properties.json",
+        "ontology/review_issues.json"
+      ],
+      "fields": [
+        "definition / basis / source",
+        "restrictions + evidence",
+        "disjointness",
+        "mapping candidates",
+        "review flags"
+      ],
+      "note": "Candidates are not committed mappings. Generated, draft and supported definitions have different authority."
+    },
+    {
+      "id": "formal",
+      "label": "Formal domain ontology",
+      "description": "OWL classes, hierarchy, restrictions and committed external mappings.",
+      "stage": "interop",
+      "artifacts": [
+        "ontology.ttl",
+        "ontology.jsonld",
+        "ontology/mappings.json",
+        "ontology/imported_definitions.json",
+        "ontology/facets.json"
+      ],
+      "fields": [
+        "class IRIs",
+        "OWL axioms",
+        "mapping semantics",
+        "imported definitions",
+        "source provenance"
+      ],
+      "note": "Interoperability can update in-memory definitions and facets without rewriting enriched.json; inspect its sidecars."
+    },
+    {
+      "id": "integrated",
+      "label": "Cross-domain ontology",
+      "description": "Selected domain graphs are imported and united, with reviewed cross-domain links.",
+      "stage": "integrate",
+      "artifacts": [
+        "integration.json",
+        "mappings.json",
+        "bridge_concepts.json",
+        "<name>_merged.ttl"
+      ],
+      "fields": [
+        "explicit source run IDs",
+        "source class IRIs retained",
+        "cross-domain mappings",
+        "bridge groups",
+        "master imports / formal union"
+      ],
+      "note": "The merged formal graph preserves source ontologies. Bridge groups summarize connections; they are not necessarily new OWL classes."
+    },
+    {
+      "id": "reports",
+      "label": "Reports and figures",
+      "description": "Readable summaries and plots assembled from selected saved results.",
+      "stage": "reports",
+      "artifacts": [
+        "index.md",
+        "report.md",
+        "report.html",
+        "sweep_summary.csv"
+      ],
+      "fields": [
+        "selected run IDs",
+        "plotted CSV values",
+        "review findings",
+        "skipped figures"
+      ],
+      "note": "Reports can be generated for a single domain without integration. Report availability is distinct from recorded completion."
+    },
+    {
+      "id": "claims",
+      "label": "Literature-claims layer",
+      "description": "Evidence-bearing scientific claims remain separate from formal OWL assertions.",
+      "stage": "interop",
+      "artifacts": [
+        "domain_layer.ttl",
+        "domain_layer.jsonld"
+      ],
+      "fields": [
+        "canonical concepts",
+        "reported relations / values",
+        "paper provenance",
+        "claim evidence"
+      ],
+      "note": "This layer is not automatically unioned into the integration's merged formal ontology. Keep source domain layers accessible."
+    }
+  ],
+  "transformations": [
+    {
+      "id": "parse",
+      "from": [
+        "papers"
+      ],
+      "to": [
+        "text"
+      ],
+      "label": "Extract text and retain captions",
+      "stage": "parse",
+      "functions": [
+        "src/tools/pdf_parse.py:parse",
+        "src/agents/extraction.py:ExtractionAgent._chunks"
+      ],
+      "preserves": [
+        "paper identity through the orchestrator",
+        "caption figure number and page"
+      ],
+      "adds": [
+        "sections",
+        "parse statistics",
+        "bounded text windows"
+      ],
+      "omits": [
+        "recurring headers and back matter",
+        "page geometry is not retained as exact evidence bounds"
+      ],
+      "limitation": "A text window is not a separately saved micro-ontology."
+    },
+    {
+      "id": "extract",
+      "from": [
+        "text"
+      ],
+      "to": [
+        "extracted"
+      ],
+      "label": "Extract and reconcile within each paper",
+      "stage": "extract",
+      "functions": [
+        "src/agents/extraction.py:ExtractionAgent.run",
+        "src/agents/extraction.py:ExtractionAgent._merge",
+        "src/agents/extraction.py:ExtractionAgent._finalize"
+      ],
+      "preserves": [
+        "paper context",
+        "retained evidence quotes and figure references"
+      ],
+      "adds": [
+        "paper-local concepts and claim endpoints",
+        "quote-overlap verification status"
+      ],
+      "omits": [
+        "failed or unresolved model outputs may not become usable claims"
+      ],
+      "limitation": "Verified quote overlap is not scientific entailment. Saved measurement concept identifies its property concept."
+    },
+    {
+      "id": "normalize",
+      "from": [
+        "extracted"
+      ],
+      "to": [
+        "canonical"
+      ],
+      "label": "Merge aliases and remap claims",
+      "stage": "normalize",
+      "functions": [
+        "src/agents/normalization.py:NormalizationAgent.run",
+        "src/agents/normalization.py:_aggregate"
+      ],
+      "preserves": [
+        "supporting paper identities",
+        "reviewed aliases as alternate labels",
+        "retained claim evidence"
+      ],
+      "adds": [
+        "canonical IDs",
+        "cross-paper support and ranks",
+        "contradiction findings"
+      ],
+      "omits": [
+        "exact paper-local concept-ID → canonical-ID merge map is not persisted",
+        "aggregation retains limited evidence, not necessarily every quote"
+      ],
+      "limitation": "The current saved runs support reconstructed candidate links, not a complete recorded merge history."
+    },
+    {
+      "id": "place",
+      "from": [
+        "canonical"
+      ],
+      "to": [
+        "placed"
+      ],
+      "label": "Assign parents and domain IRIs",
+      "stage": "ontology",
+      "functions": [
+        "src/agents/ontology.py:OntologyAgent.run"
+      ],
+      "preserves": [
+        "canonical concept IDs and supporting-paper fields"
+      ],
+      "adds": [
+        "parent choice / source",
+        "class IRI",
+        "exclusion and review decisions"
+      ],
+      "omits": [
+        "excluded records are retained but do not become live classes"
+      ],
+      "limitation": "Fallback parents and unresolved placement flags require review."
+    },
+    {
+      "id": "enrich",
+      "from": [
+        "placed",
+        "canonical"
+      ],
+      "to": [
+        "enriched"
+      ],
+      "label": "Enrich classes from claims and ontology sources",
+      "stage": "enrich",
+      "functions": [
+        "src/agents/enrichment.py:EnrichmentAgent.run"
+      ],
+      "preserves": [
+        "canonical IDs / class IRIs",
+        "source support on accepted restrictions"
+      ],
+      "adds": [
+        "definition basis/status",
+        "restrictions and candidates",
+        "disjointness and material annotations"
+      ],
+      "omits": [
+        "unsupported or incompatible restriction candidates are rejected"
+      ],
+      "limitation": "The agent returns (classes, properties); generated text and external candidates remain reviewable."
+    },
+    {
+      "id": "export",
+      "from": [
+        "enriched",
+        "extracted"
+      ],
+      "to": [
+        "formal"
+      ],
+      "label": "Commit mappings and export formal OWL",
+      "stage": "interop",
+      "functions": [
+        "src/agents/interoperability.py:InteroperabilityAgent.run",
+        "src/tools/owl.py:build"
+      ],
+      "preserves": [
+        "live class IRIs",
+        "paper provenance",
+        "accepted formal restrictions"
+      ],
+      "adds": [
+        "committed mappings",
+        "imported labels/definitions",
+        "facets and structural validation"
+      ],
+      "omits": [
+        "not every extracted scientific claim is asserted as an OWL axiom"
+      ],
+      "limitation": "Mapping and definition sidecars record later in-memory changes; enriched.json is not a complete final export record."
+    },
+    {
+      "id": "claims",
+      "from": [
+        "canonical",
+        "extracted"
+      ],
+      "to": [
+        "claims"
+      ],
+      "label": "Preserve the literature claims separately",
+      "stage": "interop",
+      "functions": [
+        "src/tools/bottomup.py:build"
+      ],
+      "preserves": [
+        "canonical claim endpoints",
+        "supporting papers and retained evidence"
+      ],
+      "adds": [
+        "a separate evidence-bearing RDF claims layer"
+      ],
+      "omits": [
+        "this layer is not automatically included in the merged formal integration"
+      ],
+      "limitation": "Claims remain reported literature assertions; they do not acquire scientific validity through RDF export."
+    },
+    {
+      "id": "integrate",
+      "from": [
+        "formal"
+      ],
+      "to": [
+        "integrated"
+      ],
+      "label": "Connect selected domain ontologies",
+      "stage": "integrate",
+      "functions": [
+        "src/tools/integration.py:load_domain",
+        "src/agents/integration.py:IntegrationAgent.run",
+        "src/tools/integration.py:build_master",
+        "src/tools/integration.py:merge"
+      ],
+      "preserves": [
+        "full selected source formal graphs in merged output",
+        "source run/domain identities and IRIs"
+      ],
+      "adds": [
+        "cross-domain mappings",
+        "bridge summaries",
+        "master ontology imports"
+      ],
+      "omits": [
+        "excluded classes are not compared",
+        "review caps leave some candidates unreviewed",
+        "source literature layers remain separate"
+      ],
+      "limitation": "A class can be in the merged ontology without receiving a cross-domain mapping."
+    },
+    {
+      "id": "report",
+      "from": [
+        "formal",
+        "claims",
+        "integrated"
+      ],
+      "to": [
+        "reports"
+      ],
+      "label": "Summarize results and review findings",
+      "stage": "reports",
+      "functions": [
+        "src/figures.py:build",
+        "src/report.py:write"
+      ],
+      "preserves": [
+        "selected run scope",
+        "plotted numbers in CSV",
+        "skipped-figure findings"
+      ],
+      "adds": [
+        "readable summaries and figures"
+      ],
+      "omits": [
+        "integration is optional",
+        "individual plots can fail or be skipped"
+      ],
+      "limitation": "Reports summarize selected results; they do not replace source evidence or establish complete figure coverage.",
+      "optional_from": [
+        "integrated"
+      ]
+    }
+  ]
+}

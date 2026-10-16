@@ -8,7 +8,10 @@
 Reads outputs/eval_runs.csv (row_type=run), outputs/eval_integrations.csv and each run's folder. Only runs of one
 workflow revision and one profile are plotted together. Each figure is written as PDF (for LaTeX) and PNG with the
 plotted numbers as CSV beside it; index.md lists every figure and its data source. A figure whose data is missing
-is skipped and listed as skipped."""
+is skipped and listed as skipped.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import argparse
 import csv
 import json

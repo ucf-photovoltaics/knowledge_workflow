@@ -1,4 +1,7 @@
-"""OWL2 assembly (rdflib) -> JSON-LD, structural validation (no reasoner), and ontology metrics."""
+"""OWL2 assembly (rdflib) -> JSON-LD, structural validation (no reasoner), and ontology metrics.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 from collections import Counter
 from datetime import datetime, timezone
 from statistics import mean

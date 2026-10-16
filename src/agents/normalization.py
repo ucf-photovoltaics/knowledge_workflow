@@ -1,6 +1,8 @@
 """Normalization agent: per-paper concepts -> canonical corpus concepts, importance scores, causal order.
 
 Lexical merging and scoring are deterministic; embeddings propose synonym clusters and the LLM only settles those.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
 """
 import math
 import re
@@ -214,6 +216,7 @@ class NormalizationAgent(Agent):
             return
         log(f"settling types for {len(mixed)} concepts typed differently across papers")
         by_id, settled = {c["id"]: c for c in mixed}, 0
+        self.concept_labels = {c["id"]: c["label"] for c in concepts}
         rows = [{"id": c["id"], "label": c["label"], "types": sorted(c["type_votes"], key=lambda t: -c["type_votes"][t]),
                  "def": (c["definitions"][0]["text"] if c["definitions"] else "")[:140]} for c in mixed]
         for t in self.call_rows(rows, load_prompt("normalization_types"), "type_conflicts", "types", "type",

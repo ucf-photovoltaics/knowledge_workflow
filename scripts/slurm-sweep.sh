@@ -1,12 +1,21 @@
 #!/usr/bin/env bash
+# Author: Brent Thompson <brent.thompson@ucf.edu>
+# Summary: slurm-sweep support for Knowledge Workflow; retain the existing operational notes below.
 # Paper sweep on one GPU node. vLLM serves the LLM (profile "vllm" in src/config.py); Ollama on CPU serves
 # nomic-embed-text at localhost:11434 so the embedding cache from local runs is reused unchanged.
 # Bash port of scripts/run-sweep.ps1, plus: the sweep stops when either model server is down instead of failing
 # every remaining run. Resubmit with the same SWEEP_ID to resume; completed stages are skipped.
 #
+# Uses whatever the job is given, found at runtime: every allocated GPU (as many vLLM copies of the model as fit,
+# each split over the fewest GPUs that hold it), request workers scaled to the copies, and the domains of each size
+# run side by side. TP, DP, WORKERS and PARALLEL_DOMAINS override what is found. See what a cluster offers with
+#   sinfo -o "%20P %30G %8c %10m %l"     (partition, GPUs per node, CPUs, memory, time limit)
+#
 #   sbatch scripts/slurm-sweep.sh
+#   sbatch --gres=gpu:8 --cpus-per-task=32 --mem=256G scripts/slurm-sweep.sh                   # a bigger node
 #   SWEEP_ID=20261014-150000 sbatch scripts/slurm-sweep.sh                                  # resume
-#   VLLM_MODEL=RedHatAI/Mistral-Small-4-119B-2603 sbatch --gres=gpu:2 scripts/slurm-sweep.sh   # FP8 on 2 GPUs
+#   USE_CASE=pv-cost-chain sbatch scripts/slurm-sweep.sh          # collections (and max size) from scripts/use-cases.txt
+#   VLLM_MODEL=openai/gpt-oss-120b VLLM_REASONING_EFFORT=low sbatch scripts/slurm-sweep.sh
 #
 #SBATCH --job-name=kw-sweep
 #SBATCH --nodes=1
@@ -25,13 +34,20 @@ export LLM_PROFILE=vllm
 export VLLM_MODEL=${VLLM_MODEL:-mistralai/Mistral-Small-4-119B-2603}
 VLLM_PORT=${VLLM_PORT:-8000}
 export VLLM_BASE_URL=http://localhost:$VLLM_PORT/v1
-TP=${TP:-${SLURM_GPUS_ON_NODE:-$(nvidia-smi -L | wc -l)}}
 MAX_MODEL_LEN=${MAX_MODEL_LEN:-32768}   # same window as the local kw-qwen3.5-9b-32k runs
-WORKERS=${WORKERS:-4}
+WORKERS_PER_COPY=${WORKERS_PER_COPY:-16}   # requests at once per vLLM copy; an overload halves the pipeline's limit
+PARALLEL_DOMAINS=${PARALLEL_DOMAINS:-1}    # 1: the domains of one size run at the same time
 LIMITS=${LIMITS:-"5 10 15 20 25 30 35 40 45 50"}
 COLLECTIONS=${COLLECTIONS:-"tea reliability si-topcon"}
+USE_CASE=${USE_CASE:-}
+if [ -n "$USE_CASE" ]; then   # line format: name: collection collection ...  # max=N  description
+    uc=$(grep -m1 "^$USE_CASE:" "$ROOT/scripts/use-cases.txt") || { echo "no use case '$USE_CASE' in scripts/use-cases.txt"; exit 1; }
+    COLLECTIONS=$(cut -d: -f2- <<<"$uc" | cut -d'#' -f1 | xargs)
+    max=$(grep -o 'max=[0-9]*' <<<"$uc" | cut -d= -f2)
+    [ -n "$max" ] && LIMITS=$(for n in $LIMITS; do [ "$n" -le "$max" ] && echo "$n"; done | xargs)
+fi
 RETRIES=${RETRIES:-1}
-SWEEP_ID=${SWEEP_ID:-$(date +%Y%m%d-%H%M%S)}
+SWEEP_ID=${SWEEP_ID:-${USE_CASE:+$USE_CASE-}$(date +%Y%m%d-%H%M%S)}
 VLLM_ENV=${VLLM_ENV:-$HOME/.venvs/vllm}
 OLLAMA=${OLLAMA:-$(command -v ollama || echo "$HOME/.local/ollama/bin/ollama")}
 export HF_HOME=${HF_HOME:-$HOME/.cache/huggingface}
@@ -40,7 +56,6 @@ export UV_PROJECT_ENVIRONMENT=${UV_PROJECT_ENVIRONMENT:-$HOME/.venvs/kw}   # nor
 export OLLAMA_HOST=127.0.0.1:11434
 LOG=$ROOT/outputs/sweep-$SWEEP_ID
 mkdir -p "$LOG"
-echo "sweep $SWEEP_ID: $VLLM_MODEL, tensor parallel $TP, workers $WORKERS, sizes $LIMITS"
 
 # ---- model servers ----
 command -v uv >/dev/null || { echo "uv not found (curl -LsSf https://astral.sh/uv/install.sh | sh)"; exit 1; }
@@ -48,10 +63,40 @@ command -v uv >/dev/null || { echo "uv not found (curl -LsSf https://astral.sh/u
 if [ ! -x "$VLLM_ENV/bin/vllm" ]; then
     uv venv --python 3.12 "$VLLM_ENV" && VIRTUAL_ENV=$VLLM_ENV uv pip install "vllm${VLLM_VERSION:+==$VLLM_VERSION}" || exit 1
 fi
+
+# ---- resources this job was given ----
+if [ -n "${CUDA_VISIBLE_DEVICES:-}" ]; then NGPU=$(tr ',' '\n' <<<"$CUDA_VISIBLE_DEVICES" | grep -c .)
+else NGPU=$(nvidia-smi -L 2>/dev/null | grep -c '^GPU'); fi
+[ "$NGPU" -ge 1 ] || { echo "no GPU visible to this job"; exit 1; }
+GPU_GB=$(nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits | sort -n | head -1 | awk '{print int($1 / 1024)}')
+CPUS=${SLURM_CPUS_PER_TASK:-$(nproc)}
+weights_gb() {  # model weights in GB: a local folder, else the Hugging Face file listing (nothing is downloaded)
+    if [ -d "$VLLM_MODEL" ]; then du -s --block-size=1G "$VLLM_MODEL" | cut -f1; return; fi
+    "$VLLM_ENV/bin/python" - "$VLLM_MODEL" 2>/dev/null <<'EOF'
+import sys
+from huggingface_hub import HfApi
+info = HfApi().model_info(sys.argv[1], files_metadata=True)
+print(round(sum(f.size or 0 for f in info.siblings if f.rfilename.endswith((".safetensors", ".bin", ".pt"))) / 1e9))
+EOF
+}
+WEIGHTS_GB=${WEIGHTS_GB:-$(weights_gb)}
+if [ -z "${TP:-}" ]; then   # fewest GPUs (a power of two) holding the weights with ~40% of their memory left for the KV cache
+    TP=$NGPU
+    if [ "${WEIGHTS_GB:-0}" -gt 0 ] 2>/dev/null && [ "$GPU_GB" -gt 0 ]; then
+        for t in 1 2 4 8 16; do
+            if [ "$t" -le "$NGPU" ] && [ $((WEIGHTS_GB * 10)) -le $((t * GPU_GB * 6)) ]; then TP=$t; break; fi
+        done
+    fi
+fi
+DP=${DP:-$((NGPU / TP))}
+[ "$DP" -ge 1 ] || DP=1
+WORKERS=${WORKERS:-$((WORKERS_PER_COPY * DP))}
+echo "sweep $SWEEP_ID: $VLLM_MODEL (${WEIGHTS_GB:-?} GB) on $NGPU x ${GPU_GB} GB GPU(s): $DP copy(ies) x tensor parallel $TP;" \
+     "$CPUS CPUs; $WORKERS workers per run; domains side by side: $PARALLEL_DOMAINS; sizes $LIMITS"
 CUDA_VISIBLE_DEVICES='' "$OLLAMA" serve >"$LOG/ollama.log" 2>&1 &
 OLLAMA_PID=$!
 # shellcheck disable=SC2086  # VLLM_EXTRA_ARGS is a list of flags
-"$VLLM_ENV/bin/vllm" serve "$VLLM_MODEL" --port "$VLLM_PORT" --tensor-parallel-size "$TP" \
+"$VLLM_ENV/bin/vllm" serve "$VLLM_MODEL" --port "$VLLM_PORT" --tensor-parallel-size "$TP" --data-parallel-size "$DP" \
     --max-model-len "$MAX_MODEL_LEN" --gpu-memory-utilization 0.90 --enable-prefix-caching \
     ${VLLM_EXTRA_ARGS:-} >"$LOG/vllm.log" 2>&1 &
 VLLM_PID=$!
@@ -89,20 +134,22 @@ SUMMARY=$LOG/summary.csv
 echo '"kind","limit","run_id","status","detail"' >"$SUMMARY"
 save() { printf '"%s","%s","%s","%s","%s"\n' "$1" "$2" "$3" "$4" "$5" >>"$SUMMARY"; }
 
-run_kw() {  # id, then src.run arguments; --workers drops to 1 after a transient error, like run-sweep.ps1
+run_kw() {  # id, then src.run arguments; --workers halves after a transient error, like run-sweep.ps1. 3 = server down
     local id=$1; shift
-    local args=("$@") attempt log
+    local args=("$@") attempt log rc
     for attempt in $(seq 0 "$RETRIES"); do
-        healthy || { echo "model server down; stopping the sweep (resubmit with SWEEP_ID=$SWEEP_ID)"; exit 3; }
+        healthy || return 3
         log=$LOG/$id-attempt$attempt.log
-        "${PY[@]}" -m src.run "${args[@]}" 2>&1 | tee "$log"
-        [ "${PIPESTATUS[0]}" -eq 0 ] && return 0
+        if [ "$PARALLEL_DOMAINS" = 1 ]; then "${PY[@]}" -m src.run "${args[@]}" >"$log" 2>&1; rc=$?   # side by side: log only
+        else "${PY[@]}" -m src.run "${args[@]}" 2>&1 | tee "$log"; rc=${PIPESTATUS[0]}; fi
+        [ "$rc" -eq 0 ] && return 0
         grep -qE 'APIConnectionError|APITimeoutError|InternalServerError|RateLimitError|HTTP (429|502|503|504)|ConnectionError|ConnectTimeout|ReadTimeout|database is locked|out of memory|overloaded' "$log" || return 1
-        for i in "${!args[@]}"; do [ "${args[$i]}" = --workers ] && args[i+1]=1; done
+        for i in "${!args[@]}"; do [ "${args[$i]}" = --workers ] && args[i+1]=$(( args[i+1] > 1 ? args[i+1] / 2 : 1 )); done
         sleep 10
     done
     return 1
 }
+stop_if_down() { [ "$1" -eq 3 ] && { echo "model server down; stopping the sweep (resubmit with SWEEP_ID=$SWEEP_ID)"; exit 3; }; }
 
 status() {  # prints: valid processed failed_count
     python3 - "$1" <<'EOF'
@@ -117,10 +164,25 @@ EOF
 }
 
 for n in $LIMITS; do
-    completed=()
+    completed=() ids=() rcs=() pids=()
     for col in $COLLECTIONS; do
         id=$col-n$n-$SWEEP_ID
-        if ! run_kw "$id" all --collection "$col" --limit "$n" --run-id "$id" --workers "$WORKERS"; then
+        ids+=("$id")
+        if [ "$PARALLEL_DOMAINS" = 1 ]; then
+            echo "$(date +%T) $id started"
+            run_kw "$id" all --collection "$col" --limit "$n" --run-id "$id" --workers "$WORKERS" &
+            pids+=($!)
+        else
+            run_kw "$id" all --collection "$col" --limit "$n" --run-id "$id" --workers "$WORKERS"; rc=$?
+            stop_if_down "$rc"; rcs+=("$rc")
+        fi
+    done
+    for pid in ${pids[@]+"${pids[@]}"}; do wait "$pid"; rcs+=($?); done
+    for i in "${!ids[@]}"; do
+        id=${ids[$i]} rc=${rcs[$i]}
+        stop_if_down "$rc"
+        echo "$(date +%T) $id finished (exit $rc)"
+        if [ "$rc" -ne 0 ]; then
             save domain "$n" "$id" failed "Command failed; see attempt log."; continue
         fi
         read -r valid processed failed <<<"$(status "outputs/$id/run.json")"
@@ -136,7 +198,9 @@ for n in $LIMITS; do
     if [ ${#completed[@]} -lt 2 ]; then
         save integration "$n" "$iid" skipped "Fewer than two successful domains at this size."; continue
     fi
-    if ! run_kw "$iid" integrate --run-id "$iid" --workers "$WORKERS" --runs "${completed[@]}"; then
+    run_kw "$iid" integrate --run-id "$iid" --workers "$WORKERS" --runs "${completed[@]}"; rc=$?
+    stop_if_down "$rc"
+    if [ "$rc" -ne 0 ]; then
         save integration "$n" "$iid" failed "Command failed; see attempt log."; continue
     fi
     read -r valid _ _ <<<"$(status "outputs/$iid/validation.json")"

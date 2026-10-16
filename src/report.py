@@ -3,7 +3,10 @@ plots; plus the sweep summary (one row per run and per integration). Written by 
 
   report.md            figures linked as PNG files beside it
   report.html          self-contained (figures embedded), for sharing
-  sweep_summary.csv    one row per run, then one per integration"""
+  sweep_summary.csv    one row per run, then one per integration
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import base64
 import csv
 import html

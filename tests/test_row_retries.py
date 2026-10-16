@@ -1,4 +1,7 @@
-"""Rows the model leaves out are re-sent in smaller batches; answers inside an echoed schema are read."""
+"""Rows the model leaves out are re-sent in smaller batches; answers inside an echoed schema are read.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import json
 import unittest
 from collections import Counter

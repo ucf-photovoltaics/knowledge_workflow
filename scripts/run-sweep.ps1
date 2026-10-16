@@ -1,3 +1,5 @@
+# Author: Brent Thompson <brent.thompson@ucf.edu>
+# Summary: run-sweep support for Knowledge Workflow; retain the existing operational notes below.
 <# Cumulative collection runs, with isolated failures and explicit integration inputs. #>
 [CmdletBinding()]
 param(
@@ -6,6 +8,7 @@ param(
     [switch]$ContinueTo50,
     [switch]$ContinueTo100,
     [ValidateRange(0, 5)][int]$Retries = 1,
+    [ValidateRange(0, 100)][int]$MaxSize = 0,   # stop after this size (0 = no limit), e.g. -ContinueTo50 -MaxSize 30
     [string]$SweepId = (Get-Date -Format 'yyyyMMdd-HHmmss')
 )
 
@@ -69,10 +72,10 @@ function Invoke-Workflow([string[]]$WorkflowArgs, [string]$Id) {
             Write-Warning "$Id stopped (exit $code). Continuing the sweep; inspect $logPath"
             return $false
         }
-        Write-Warning "$Id encountered a transient error; resuming with one worker in 10 seconds."
-        # Keep the same run id; completed stages are skipped.
+        # Keep the same run id; completed stages are skipped. Resume with half the workers.
         $workerIndex = [Array]::IndexOf($WorkflowArgs, '--workers')
-        if ($workerIndex -ge 0) { $WorkflowArgs[$workerIndex + 1] = '1' }
+        if ($workerIndex -ge 0) { $WorkflowArgs[$workerIndex + 1] = "$([Math]::Max(1, [Math]::Floor([int]$WorkflowArgs[$workerIndex + 1] / 2)))" }
+        Write-Warning "$Id encountered a transient error; resuming with $($WorkflowArgs[$workerIndex + 1]) worker(s) in 10 seconds."
         Start-Sleep -Seconds 10
     }
     return $false
@@ -82,6 +85,7 @@ $limits = @(5, 10, 15, 20, 25)
 if ($ContinueTo100) {
     $limits += @(30..100 | Where-Object { $_ % 5 -eq 0 })
 } elseif ($ContinueTo50) { $limits += @(30, 35, 40, 45, 50) }
+if ($MaxSize) { $limits = @($limits | Where-Object { $_ -le $MaxSize }) }
 foreach ($n in $limits) {
     $completed = @()
     foreach ($collection in $Collections) {

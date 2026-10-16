@@ -1,4 +1,7 @@
-"""Run reports: per-paper compute CSV, corpus report, ontology report (Markdown + JSON stats)."""
+"""Run reports: per-paper compute CSV, corpus report, ontology report (Markdown + JSON stats).
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import csv
 import io
 import json
@@ -207,7 +210,8 @@ def _coverage(*sources) -> dict:
     out = {}
     for src in sources:
         for name, s in (src or {}).items():
-            out.update({f"{name}_rows": s.get("rows"), f"{name}_rows_recovered": s.get("recovered"),
+            out.update({f"{name}_rows": s.get("rows"), f"{name}_rows_reused": s.get("reused"),
+                        f"{name}_rows_recovered": s.get("recovered"),
                         f"{name}_rows_missing_after_retry": s.get("missing"),
                         **{f"{name}_rows_{k}": v for k, v in s.items() if k.startswith("recovered_retry")}})
     return out

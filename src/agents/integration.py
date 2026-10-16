@@ -4,7 +4,10 @@ Candidate pairs are deterministic: the same normalized label or synonym, a class
 (runs from before domain-scoped IRIs), and mutual nearest neighbours by label embedding. The model then chooses the
 relation of each pair. Checks keep owl:equivalentClass only for same-label pairs in the same BFO category, and never
 let an equivalence cluster join two classes of one domain; everything else becomes a SKOS mapping, so the master
-ontology does not change the hierarchy of any domain ontology. Every mapping records its source and confidence."""
+ontology does not change the hierarchy of any domain ontology. Every mapping records its source and confidence.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import re
 from collections import Counter, defaultdict
 from itertools import combinations

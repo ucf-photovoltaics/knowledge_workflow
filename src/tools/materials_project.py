@@ -5,6 +5,8 @@ A name is looked up when it is a Materials Project id (mp-149), a chemical formu
 name (silicon), or either of the last two followed by a material-form word (TiO2 layer, silicon wafer). All-capital
 names without digits (PV, BSF, PERC, UV) are acronyms here, not formulas, and molecular gases and liquids are
 skipped. Entries come from the summary endpoint, most stable first. Needs MATERIALS_PROJECT_API_KEY in .env.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
 """
 import re
 from functools import lru_cache

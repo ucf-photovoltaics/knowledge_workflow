@@ -1,4 +1,7 @@
-"""Oversized queries never reach providers; repeated diagnostics remain reviewable."""
+"""Oversized queries never reach providers; repeated diagnostics remain reviewable.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import json
 import logging
 from concurrent.futures import ThreadPoolExecutor

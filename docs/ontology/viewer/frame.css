@@ -1,0 +1,5 @@
+/* Author: Brent Thompson <brent.thompson@ucf.edu>
+Summary: Hide duplicate upstream details in the generated preview; retain graph controls. */
+body main aside#detailsArea,body #generalDetails,body #generalDetailsEdit{display:none!important;visibility:hidden!important;width:0!important}
+body main section#canvasArea{width:100%!important;right:0!important}
+body #rightSideBarToggle{display:none!important}

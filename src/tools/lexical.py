@@ -4,6 +4,8 @@ Applied only when the reading is obvious:
 - the head is itself a concept of the same extracted type;
 - the head is specific (several words, or one non-generic word of 5+ letters);
 - no negating or prepositional modifier ("non-", "-free", "rate of degradation" is not a kind of degradation).
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
 """
 import re
 

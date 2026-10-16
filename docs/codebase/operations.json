@@ -1,0 +1,2419 @@
+{
+  "author": "Brent Thompson <brent.thompson@ucf.edu>",
+  "scope": "Source-reviewed operational recipes for all eleven stages, with callable arguments, input/output adaptations, operation order, worked tasks and bounded read-only checks. Scientific acceptance and runtime readiness remain explicit review conditions; no pipeline acceptance policy is changed.",
+  "stages": {
+    "preflight": {
+      "task": "Inspect printed readiness checks",
+      "recovery": "Resolve each failed check and rerun preflight. A zero exit code is insufficient; require the printed ready outcome.",
+      "limitation": "Printed checks do not create a stage completion record.",
+      "bindings": [
+        {
+          "id": "configured-collection",
+          "function": "src/run.py:check",
+          "argument": "args.collection",
+          "artifact": "explicit configured CLI collection",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "Use an actual configured name; wrapper project credentials and collections are a distinct execution mode."
+        },
+        {
+          "id": "readiness",
+          "function": "src/run.py:check",
+          "argument": "printed outcomes",
+          "artifact": "preflight observations in terminal",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "Eight guarded checks print their outcomes. A zero exit status is insufficient; require no FAIL and the final ready line."
+        }
+      ],
+      "checks": [
+        {
+          "id": "printed-ready",
+          "kind": "runtime_condition",
+          "phases": [
+            "before",
+            "after"
+          ],
+          "instruction": "Perform the configured live check and require all printed checks plus the final ready line; saved domain artifacts cannot prove readiness.",
+          "severity": "runtime"
+        }
+      ],
+      "algorithm": [
+        {
+          "id": "1",
+          "order": 1,
+          "label": "Check required credentials",
+          "function": "src/run.py:check.keys",
+          "definition": "Check presence of required credential names in the selected runtime without publishing their values."
+        },
+        {
+          "id": "2",
+          "order": 2,
+          "label": "Probe extraction model",
+          "function": "src/run.py:check.model",
+          "definition": "Make a small real chat request and require a parseable JSON reply; this checks connectivity, not extraction quality."
+        },
+        {
+          "id": "3",
+          "order": 3,
+          "label": "Probe optional embeddings",
+          "function": "src/run.py:check.embeddings",
+          "definition": "If embedding is enabled, request a vector; otherwise explicitly report lexical-only operation."
+        },
+        {
+          "id": "4",
+          "order": 4,
+          "label": "Select and cache a sample corpus",
+          "function": "src/run.py:check.corpus",
+          "definition": "Select citation-ranked PDFs for the configured collection and require a nonempty corpus. This writes the PDF cache."
+        },
+        {
+          "id": "5",
+          "order": 5,
+          "label": "Check PDF parsing",
+          "function": "src/run.py:check.parser",
+          "definition": "Parse a selected PDF and report its page, section, figure and retained-text counts."
+        },
+        {
+          "id": "6",
+          "order": 6,
+          "label": "Check ontology portals",
+          "function": "src/run.py:check.portal",
+          "definition": "Check MDS portal acronyms and a sample search. check.matportal_check separately checks its optional portal."
+        },
+        {
+          "id": "7",
+          "order": 7,
+          "label": "Check shared store",
+          "function": "src/run.py:check.store",
+          "definition": "Inspect configured store status/problems; require a built store and no reported problems."
+        },
+        {
+          "id": "8",
+          "order": 8,
+          "label": "Read every outcome",
+          "function": "src/run.py:check",
+          "definition": "Catch individual failures and print a final ready or failure-count line. This routine does not guarantee a nonzero failure exit code."
+        }
+      ],
+      "input_contract": {
+        "description": "A configured CLI collection and provider settings, not a saved paper corpus. This utility performs real network/model requests and PDF caching.",
+        "required_inputs": {
+          "args.collection": "existing key in config.COLLECTIONS",
+          "runtime": "configured credentials, extraction profile, optional embedding profile, portals and existing store"
+        },
+        "initialization": "Use the trusted CLI check invocation after shared-store readiness; configuration is loaded by the runtime. Never copy secret values into RDF or task output.",
+        "mutation": "Downloads selected PDFs to the shared cache and contacts services. No run stage is recorded.",
+        "returns": [
+          "None; printed per-check outcomes and final ready/failure count"
+        ],
+        "source_functions": [
+          "src/run.py:check"
+        ]
+      },
+      "worked_example": "docs/codebase/stages/preflight.md"
+    },
+    "store": {
+      "task": "Establish shared ontology-store readiness",
+      "recovery": "Inspect configured DB/manifest and status; build only a missing/unusable store when no active job uses it.",
+      "limitation": "Store readiness and exclusive safe write scope require runtime confirmation.",
+      "bindings": [
+        {
+          "id": "sources",
+          "function": "src/tools/ontostore.py:build",
+          "argument": "ONTOLOGY_SOURCES",
+          "artifact": "explicit configured ontology source specifications",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "Resolve source configuration in the trusted runtime. This is not a run-relative artifact glob."
+        },
+        {
+          "id": "store",
+          "function": "src/tools/ontostore.py:build",
+          "argument": "manifest",
+          "artifact": "configured ONTOLOGY_STORE (default outputs/cache/ontology_store/)",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "The returned manifest describes sources/index/embedding recipe; the store is shared and has no per-domain stage record."
+        }
+      ],
+      "checks": [
+        {
+          "id": "exclusive-ready-store",
+          "kind": "runtime_condition",
+          "phases": [
+            "before",
+            "after"
+          ],
+          "instruction": "Inspect the actual configured store status and exclusive safe write scope. This assessor never opens, builds or repairs the shared store.",
+          "severity": "runtime"
+        }
+      ],
+      "algorithm": [
+        {
+          "id": "1",
+          "order": 1,
+          "label": "Inspect readiness and ownership",
+          "function": "src/tools/ontostore.py:status",
+          "definition": "Inspect status and readiness before considering a rebuild. Runtime process ownership must be established separately."
+        },
+        {
+          "id": "2",
+          "order": 2,
+          "label": "Fetch configured sources",
+          "function": "src/tools/ontostore.py:_fetch",
+          "definition": "Resolve the configured source or current submission into a cached file; build fingerprints the bytes and detects RDF format."
+        },
+        {
+          "id": "3",
+          "order": 3,
+          "label": "Load source graphs",
+          "function": "src/tools/ontostore.py:build",
+          "definition": "Replace the configured store only under exclusive safe write scope; bulk-load source graphs into Oxigraph and discover versions."
+        },
+        {
+          "id": "4",
+          "order": 4,
+          "label": "Extract term records",
+          "function": "src/tools/ontostore.py:_extract",
+          "definition": "Extract class/property labels, definitions, hierarchy and mappings from the loaded store."
+        },
+        {
+          "id": "5",
+          "order": 5,
+          "label": "Write searchable index",
+          "function": "src/tools/ontostore.py:_write_index",
+          "definition": "Write the SQLite term index used by read-only ontology retrieval."
+        },
+        {
+          "id": "6",
+          "order": 6,
+          "label": "Build optional vectors",
+          "function": "src/tools/ontostore.py:_write_vectors",
+          "definition": "Embed indexed term descriptions when configured, then persist vectors and embedding recipe information."
+        },
+        {
+          "id": "7",
+          "order": 7,
+          "label": "Save manifest and inspect status",
+          "function": "src/tools/ontostore.py:build",
+          "definition": "Write source hashes, counts and embedding metadata, reset process caches and return the manifest. require checks file presence only, so inspect status for fuller readiness."
+        }
+      ],
+      "input_contract": {
+        "description": "Shared ontology sources and configured store location. Building is destructive to an existing store directory; first inspect status and establish exclusive ownership.",
+        "required_inputs": {
+          "ONTOLOGY_SOURCES": "configured source specifications",
+          "ONTOLOGY_STORE": "configured shared output directory",
+          "EMBED": "optional embedding settings"
+        },
+        "initialization": "Use ontologies status first. Build only when needed and no active process uses shared assets; do not run a build as an ordinary per-domain retry.",
+        "mutation": "build removes an existing configured store directory, downloads/caches source files, writes Oxigraph, SQLite index, vectors and manifest, and resets process caches.",
+        "returns": [
+          "manifest dictionary; status reports readiness separately"
+        ],
+        "source_functions": [
+          "src/tools/ontostore.py:build",
+          "src/tools/ontostore.py:status",
+          "src/tools/ontostore.py:require"
+        ]
+      },
+      "worked_example": "docs/codebase/stages/store.md"
+    },
+    "ingest": {
+      "task": "Choose a reproducible domain corpus",
+      "recovery": "Check key-authorized libraries, descendant collections, citation ranking and PDF availability; retry ingestion in a new wrapper attempt when selections change.",
+      "limitation": "A citation-ranked selected corpus may contain fewer papers when PDFs are unavailable.",
+      "bindings": [
+        {
+          "id": "selected-corpus",
+          "function": "dpv_dashboard/worker.py:ingest",
+          "argument": "chosen",
+          "artifact": "ingestion.json",
+          "selector": "$.papers",
+          "direction": "output",
+          "transformation": "Citation-ranked domain selections are saved by the wrapper, not by the single-collection CLI."
+        },
+        {
+          "id": "domain-selection",
+          "function": "dpv_dashboard/worker.py:ingest",
+          "argument": "domain",
+          "artifact": "explicit selected project domain collections and limit",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "Bind actual key-authorized collection records and the domain cap; do not invent library identifiers."
+        },
+        {
+          "id": "partial-selection",
+          "function": "dpv_dashboard/worker.py:ingest",
+          "argument": "chosen, skipped",
+          "artifact": "ingestion.partial.json",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "After PDF attempts, save selected/skipped_no_pdf progress. A partial file does not establish completion."
+        }
+      ],
+      "checks": [
+        {
+          "id": "shape-ingestion",
+          "kind": "shape",
+          "pattern": "ingestion.json",
+          "container": "object",
+          "required": {
+            "papers": "array",
+            "selection": "object"
+          },
+          "nonempty": false,
+          "unique": null,
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "selected-paper-fields",
+          "kind": "shape",
+          "pattern": "ingestion.json",
+          "container": "array",
+          "required": {
+            "key": "string",
+            "title": "string",
+            "pdf": "string",
+            "sources": "array"
+          },
+          "severity": "block",
+          "selector": "$.papers",
+          "nonempty": true,
+          "unique": "key",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "review-findings",
+          "kind": "scientific_review",
+          "instruction": "Review selected scope, missing citation counts, skipped PDFs and duplicate memberships. A smaller available corpus is not proof of complete literature coverage.",
+          "severity": "review",
+          "phases": [
+            "after"
+          ]
+        }
+      ],
+      "algorithm": [
+        {
+          "id": "1",
+          "order": 1,
+          "label": "Expand descendant collections",
+          "function": "dpv_dashboard/zotero.py:Libraries.expand",
+          "definition": "Expand selected library/collection records to include descendants before gathering items across the named domain."
+        },
+        {
+          "id": "2",
+          "order": 2,
+          "label": "Gather and deduplicate papers",
+          "function": "dpv_dashboard/zotero.py:deduplicate",
+          "definition": "Merge duplicate paper memberships while retaining source library/item/collection information."
+        },
+        {
+          "id": "3",
+          "order": 3,
+          "label": "Count citations",
+          "function": "src/tools/citations.py:counts",
+          "definition": "Resolve DOI citation counts through configured providers and cache; missing counts remain explicitly unknown."
+        },
+        {
+          "id": "4",
+          "order": 4,
+          "label": "Rank across the domain",
+          "function": "dpv_dashboard/worker.py:ingest",
+          "definition": "Sort all deduplicated papers by citation count, missing counts last and stable key ties; apply one cap across the domain, not one per collection."
+        },
+        {
+          "id": "5",
+          "order": 5,
+          "label": "Find available PDFs",
+          "function": "src/tools/zotero.py:_fetch_pdf",
+          "definition": "Reuse cached PDFs or fetch them for each paper source; skip unavailable PDFs and continue down the citation ranking until the cap or candidates are exhausted."
+        },
+        {
+          "id": "6",
+          "order": 6,
+          "label": "Persist selected corpus",
+          "function": "dpv_dashboard/worker.py:ingest",
+          "definition": "Require at least one available PDF; save selected paper metadata, source memberships, ranking rules, expanded collections and skipped-PDF findings."
+        }
+      ],
+      "input_contract": {
+        "description": "Dashboard domain selections span key-authorized personal/group libraries and descendant collections. CLI extraction uses its separately configured collection.",
+        "required_inputs": {
+          "domain.collections": "list of {library:{type,id,name}, key, name}",
+          "domain.limit": "positive citation-ranked per-domain cap",
+          "folder": "selected wrapper attempt directory"
+        },
+        "initialization": "The worker bootstrap selects the project profile, credentials, cache and output root before importing the pipeline. Prefer worker stage ingest; no separate CLI ingest command exists.",
+        "mutation": "Downloads PDFs into the dashboard cache and writes partial/final selection files in the selected attempt; Zotero source items are read.",
+        "returns": [
+          "None; ingestion.json and incremental ingestion.partial.json"
+        ],
+        "source_functions": [
+          "dpv_dashboard/worker.py:ingest",
+          "dpv_dashboard/zotero.py:Libraries.expand",
+          "src/run.py:select_papers"
+        ]
+      },
+      "worked_example": "docs/codebase/stages/ingest.md"
+    },
+    "parse": {
+      "task": "Prepare text windows without extracting claims",
+      "recovery": "Inspect missing/corrupt PDFs and PDF hashes; retry parsing for affected inputs before extraction.",
+      "limitation": "Retained captions do not establish exact bounding boxes or assertion correctness.",
+      "bindings": [
+        {
+          "id": "pdf-path",
+          "function": "src/tools/pdf_parse.py:parse",
+          "argument": "pdf_path",
+          "artifact": "ingestion.json",
+          "selector": "$.papers[*].pdf",
+          "direction": "input",
+          "transformation": "For each selected paper, read the PDF path; wrapper saves parser/chunker output in parsed/<key>.json.",
+          "modes": [
+            "wrapper"
+          ]
+        },
+        {
+          "id": "chunks",
+          "function": "src/agents/extraction.py:ExtractionAgent._chunks",
+          "argument": "paper",
+          "artifact": "ingestion.json",
+          "selector": "$.papers",
+          "direction": "input",
+          "transformation": "Combine each selected paper title with parsed sections/figures; the worker passes this in-memory dictionary to the configured chunker.",
+          "modes": [
+            "wrapper"
+          ]
+        },
+        {
+          "id": "parsed-record",
+          "function": "dpv_dashboard/worker.py:parse",
+          "argument": "parsed, digest, chunks",
+          "artifact": "parsed/*.json",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "Persist parser fields plus key/title, SHA256 of the PDF and chunk strings. These separate products are wrapper-specific."
+        }
+      ],
+      "checks": [
+        {
+          "id": "shape-parsed-all",
+          "kind": "shape",
+          "pattern": "parsed/*.json",
+          "container": "object",
+          "required": {
+            "key": "string",
+            "pdf_hash": "string",
+            "chunks": "array"
+          },
+          "nonempty": false,
+          "unique": null,
+          "severity": "block",
+          "phases": [
+            "after"
+          ],
+          "modes": [
+            "wrapper"
+          ]
+        },
+        {
+          "id": "parser-sections",
+          "kind": "shape",
+          "pattern": "parsed/*.json",
+          "container": "array",
+          "required": {
+            "heading": "string",
+            "text": "string"
+          },
+          "severity": "block",
+          "selector": "$.sections",
+          "nonempty": true,
+          "modes": [
+            "wrapper"
+          ],
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "parser-figures",
+          "kind": "shape",
+          "pattern": "parsed/*.json",
+          "container": "array",
+          "required": {
+            "id": "string",
+            "caption": "string"
+          },
+          "severity": "block",
+          "selector": "$.figures",
+          "unique": "id",
+          "modes": [
+            "wrapper"
+          ],
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "selected-parsed-coverage",
+          "kind": "corpus_coverage",
+          "pattern": "parsed/*.json",
+          "modes": [
+            "wrapper"
+          ],
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "review-findings",
+          "kind": "scientific_review",
+          "instruction": "Review retained text, missing captions, scanned PDFs, over-aggressive back-matter removal and window sizes. Text extraction is not OCR or figure localization.",
+          "severity": "review",
+          "phases": [
+            "after"
+          ]
+        }
+      ],
+      "algorithm": [
+        {
+          "id": "1",
+          "order": 1,
+          "label": "Resolve selected PDFs and hashes",
+          "function": "dpv_dashboard/worker.py:parse",
+          "definition": "Load ingestion papers and fingerprint each PDF. Reuse an existing parsed record only when its recorded PDF hash matches."
+        },
+        {
+          "id": "2",
+          "order": 2,
+          "label": "Clean and section PDF text",
+          "function": "src/tools/pdf_parse.py:parse",
+          "definition": "Read text blocks, remove short repeated headers/footers and page numbers, detect headings and omit configured back matter."
+        },
+        {
+          "id": "3",
+          "order": 3,
+          "label": "Retain captions and mentions",
+          "function": "src/tools/pdf_parse.py:parse",
+          "definition": "Capture figure number, one-based page and caption; attach up to three citing sentences. No image crop or exact bounding box is produced here."
+        },
+        {
+          "id": "4",
+          "order": 4,
+          "label": "Build extraction windows",
+          "function": "src/agents/extraction.py:ExtractionAgent._chunks",
+          "definition": "Pack adjacent sections, split oversized text and include title/cited captions within the configured input budget; fail if the budget is too small."
+        },
+        {
+          "id": "5",
+          "order": 5,
+          "label": "Persist wrapper intermediates",
+          "function": "dpv_dashboard/worker.py:parse",
+          "definition": "Save sections, figures, parse_stats, key/title, PDF hash and chunks. Extraction recalculates chunks from sections rather than trusting saved chunks as its direct argument."
+        }
+      ],
+      "input_contract": {
+        "description": "Selected paper PDF paths come from wrapper ingestion.json. The deterministic parser returns sections, figures and parse_stats; the wrapper separately hashes PDFs and calculates chunks.",
+        "required_inputs": {
+          "paper.pdf": "local PDF path from ingestion papers",
+          "sections[]": "parser {heading,text} records",
+          "figures[]": "parser {id,label,page,caption,mentions} records"
+        },
+        "initialization": "Use worker stage parse after ingestion. It constructs only the chunker profile, without a model instance; CLI extract performs this operation internally.",
+        "mutation": "Reads PDFs and writes parsed/<key>.json. An existing matching PDF hash skips work; that shortcut does not fingerprint chunker profile changes.",
+        "returns": [
+          "parse(pdf_path): {sections,figures,parse_stats}",
+          "_chunks(paper): list[str]",
+          "worker.parse: None; persisted parser record"
+        ],
+        "source_functions": [
+          "dpv_dashboard/worker.py:parse",
+          "src/tools/pdf_parse.py:parse",
+          "src/agents/extraction.py:ExtractionAgent._chunks"
+        ]
+      },
+      "worked_example": "docs/codebase/stages/parse.md"
+    },
+    "extract": {
+      "task": "Create evidence-backed per-paper records",
+      "recovery": "Inspect failed papers and verification flags; resume/retry extraction under the selected controller before normalization.",
+      "limitation": "Quote overlap does not establish entailment; partial CLI extraction may still be recorded complete.",
+      "bindings": [
+        {
+          "id": "paper-record",
+          "function": "src/agents/extraction.py:ExtractionAgent.run",
+          "argument": "paper",
+          "artifact": "parsed/*.json",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "CLI constructs paper context from selected PDFs and parser output; wrapper can reuse parsed records. This port describes parser context, not independent CLI parse completion.",
+          "modes": [
+            "wrapper"
+          ]
+        },
+        {
+          "id": "paper-output",
+          "function": "src/run.py:extract",
+          "argument": "record",
+          "artifact": "papers/*.json",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "One finalized record per paper; cache/failed-paper handling belongs to the orchestrator."
+        },
+        {
+          "id": "selected-context",
+          "function": "src/run.py:extract",
+          "argument": "papers, selection",
+          "artifact": "explicit CLI collection selection or wrapper ingestion papers",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "CLI select_papers selects/caches its corpus; wrapper overrides selection and parser adapters to reuse ingestion/parsed products."
+        },
+        {
+          "id": "selected-manifest",
+          "function": "src/run.py:extract",
+          "argument": "run.manifest.corpus",
+          "artifact": "run.json",
+          "selector": "$.corpus",
+          "direction": "output",
+          "transformation": "Record selected items, processed/failed papers and corpus hash separately from each saved paper."
+        },
+        {
+          "id": "paper-compute",
+          "function": "src/run.py:extract",
+          "argument": "reports.paper_compute(...)",
+          "artifact": "compute_per_paper.csv",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "Save per-paper compute from finalized records and ledger summaries; not evidence of scientific quality."
+        }
+      ],
+      "checks": [
+        {
+          "id": "shape-papers-all",
+          "kind": "shape",
+          "pattern": "papers/*.json",
+          "container": "object",
+          "required": {
+            "key": "string",
+            "concepts": "array",
+            "relations": "array",
+            "causal": "array",
+            "measurements": "array"
+          },
+          "nonempty": true,
+          "unique": null,
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "saved-paper-contract",
+          "kind": "paper_contract",
+          "phases": [
+            "after"
+          ],
+          "severity": "block"
+        },
+        {
+          "id": "selected-extracted-coverage",
+          "kind": "corpus_coverage",
+          "pattern": "papers/*.json",
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "review-findings",
+          "kind": "scientific_review",
+          "instruction": "Review unevidenced claims, unresolved endpoints, malformed or overly broad concepts, measurement property/entity assignments, figure links and failed calls. Verified text overlap alone is insufficient.",
+          "severity": "review",
+          "phases": [
+            "after"
+          ]
+        }
+      ],
+      "algorithm": [
+        {
+          "id": "1",
+          "order": 1,
+          "label": "Select corpus and parse under lock",
+          "function": "src/run.py:extract",
+          "definition": "Obtain selected source metadata and parse each PDF under the PyMuPDF lock; the wrapper supplies saved selection/parser adapters."
+        },
+        {
+          "id": "2",
+          "order": 2,
+          "label": "Check extraction cache",
+          "function": "src/agents/extraction.py:ExtractionAgent.run",
+          "definition": "Calculate the text/prompt/model/settings fingerprint; reuse a matching cache with zero new model tokens, otherwise process all text windows."
+        },
+        {
+          "id": "3",
+          "order": 3,
+          "label": "Build windows",
+          "function": "src/agents/extraction.py:ExtractionAgent._chunks",
+          "definition": "Regenerate chunk strings from paper sections/title/cited captions under the current extraction profile."
+        },
+        {
+          "id": "4",
+          "order": 4,
+          "label": "Extract combined or narrow passes",
+          "function": "src/agents/extraction.py:ExtractionAgent._multi_pass",
+          "definition": "Local-tier windows extract concepts first then relations/causal/measurements against numbered concepts; frontier-tier run instead uses the combined prompt. These are alternative branches."
+        },
+        {
+          "id": "5",
+          "order": 5,
+          "label": "Request missing evidence",
+          "function": "src/agents/extraction.py:ExtractionAgent._fill_evidence",
+          "definition": "Re-ask claims missing a usable quote once, using section text and the concept labels. A filled quote still requires verification."
+        },
+        {
+          "id": "6",
+          "order": 6,
+          "label": "Reconcile one paper",
+          "function": "src/agents/extraction.py:ExtractionAgent._merge",
+          "definition": "Merge all windows into one concept vocabulary, remap endpoints by IDs/labels/synonyms, retain unresolved-end findings and deduplicate claims."
+        },
+        {
+          "id": "7",
+          "order": 7,
+          "label": "Verify quotes and figure links",
+          "function": "src/agents/extraction.py:ExtractionAgent._finalize",
+          "definition": "Check evidence word-trigram overlap against source text; attach status and parser figure links. Quote overlap is not entailment or numeric validation."
+        },
+        {
+          "id": "8",
+          "order": 8,
+          "label": "Persist corpus results and failures",
+          "function": "src/run.py:extract",
+          "definition": "Combine source metadata with agent result and parse_stats, save papers/<key>.json, compute and uncertainty records. Failed papers remain in manifest.corpus.failed; CLI may record partial completion."
+        }
+      ],
+      "input_contract": {
+        "description": "One parsed paper dictionary, including source metadata, sections and figures, is passed to the agent. The saved paper record is composed by the orchestrator, not returned wholesale by the agent.",
+        "required_inputs": {
+          "paper": "{key,title,sections:[{heading,text}],figures:[{id,caption}], source metadata}",
+          "saved measurements": "concept stores the property concept ID; entity is optional"
+        },
+        "initialization": "Instantiate ExtractionAgent(run.ledger) under the configured profile. Use CLI extract for combined selection/parsing/extraction or wrapper extract after separately completed ingestion/parsing.",
+        "mutation": "The agent writes extraction cache and ledger records. src.run.extract writes finalized papers and updates corpus selection/failures; wrapper raises after partial extraction.",
+        "returns": [
+          "concepts",
+          "relations",
+          "causal",
+          "measurements",
+          "figures",
+          "resolution",
+          "unresolved_ends",
+          "verification",
+          "checks",
+          "n_chunks",
+          "extraction_tier",
+          "extraction_passes",
+          "raw_calls",
+          "compute",
+          "cache_hit on reuse"
+        ],
+        "source_functions": [
+          "src/run.py:extract",
+          "src/agents/extraction.py:ExtractionAgent.run",
+          "src/agents/extraction.py:ExtractionAgent._finalize"
+        ],
+        "required_paper_fields": {
+          "key": "string",
+          "concepts": "array",
+          "relations": "array",
+          "causal": "array",
+          "measurements": "array"
+        },
+        "concept_fields": {
+          "id": "string",
+          "label": "string"
+        },
+        "relation_fields": [
+          "s",
+          "p",
+          "o"
+        ],
+        "causal_fields": [
+          "cause",
+          "effect",
+          "polarity"
+        ],
+        "measurement_fields": [
+          "concept",
+          "value"
+        ]
+      },
+      "worked_example": "docs/codebase/stages/extract.md"
+    },
+    "normalize": {
+      "task": "Build the canonical corpus vocabulary",
+      "recovery": "If paper contracts or references fail, repair/retry extraction in an isolated attempt before rerunning normalization. If normalized products are damaged, restart normalization using the same intact corpus and review all downstream products for staleness.",
+      "limitation": "The canonical map is transient. Exact original concept ID to canonical ID lineage is not persisted; alt_labels and supporting paper IDs are weaker provenance.",
+      "bindings": [
+        {
+          "id": "papers",
+          "function": "src/agents/normalization.py:NormalizationAgent.run",
+          "argument": "papers",
+          "artifact": "papers/*.json",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "Run.papers() reads sorted JSON files into one list; the agent cleans list contents in memory."
+        },
+        {
+          "id": "result-concepts",
+          "function": "src/run.py:normalize",
+          "argument": "norm",
+          "artifact": "normalized/concepts.json",
+          "selector": "$.concepts",
+          "direction": "output",
+          "transformation": "Run.write serializes norm[\"concepts\"] after NormalizationAgent.run returns."
+        },
+        {
+          "id": "result-relations",
+          "function": "src/run.py:normalize",
+          "argument": "norm",
+          "artifact": "normalized/relations.json",
+          "selector": "$.relations",
+          "direction": "output",
+          "transformation": "Run.write serializes norm[\"relations\"] after NormalizationAgent.run returns."
+        },
+        {
+          "id": "result-causal",
+          "function": "src/run.py:normalize",
+          "argument": "norm",
+          "artifact": "normalized/causal.json",
+          "selector": "$.causal",
+          "direction": "output",
+          "transformation": "Run.write serializes norm[\"causal\"] after NormalizationAgent.run returns."
+        },
+        {
+          "id": "result-measurements",
+          "function": "src/run.py:normalize",
+          "argument": "norm",
+          "artifact": "normalized/measurements.json",
+          "selector": "$.measurements",
+          "direction": "output",
+          "transformation": "Run.write serializes norm[\"measurements\"] after NormalizationAgent.run returns."
+        },
+        {
+          "id": "result-contradictions",
+          "function": "src/run.py:normalize",
+          "argument": "norm",
+          "artifact": "normalized/contradictions.json",
+          "selector": "$.contradictions",
+          "direction": "output",
+          "transformation": "Run.write serializes norm[\"contradictions\"] after NormalizationAgent.run returns."
+        },
+        {
+          "id": "result-causal_order",
+          "function": "src/run.py:normalize",
+          "argument": "norm",
+          "artifact": "normalized/causal_order.json",
+          "selector": "$.causal_order",
+          "direction": "output",
+          "transformation": "Run.write serializes norm[\"causal_order\"] after NormalizationAgent.run returns."
+        },
+        {
+          "id": "result-summary",
+          "function": "src/run.py:normalize",
+          "argument": "norm",
+          "artifact": "normalized/summary.json",
+          "selector": "$.summary",
+          "direction": "output",
+          "transformation": "Run.write serializes norm[\"summary\"] after NormalizationAgent.run returns."
+        },
+        {
+          "id": "corpus-stats",
+          "function": "src/tools/reports.py:corpus_report",
+          "argument": "return",
+          "artifact": "normalized/corpus_stats.json",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "corpus_report produces stats returned to src.run.normalize; Run.write saves stats. This is not a direct serialization of norm.stats."
+        },
+        {
+          "id": "corpus-report",
+          "function": "src/tools/reports.py:corpus_report",
+          "argument": "path",
+          "artifact": "corpus_report.md",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "corpus_report writes the Markdown report as a side effect."
+        }
+      ],
+      "checks": [
+        {
+          "id": "shape-normalized-concepts",
+          "kind": "shape",
+          "pattern": "normalized/concepts.json",
+          "container": "array",
+          "required": {
+            "id": "string",
+            "label": "string",
+            "alt_labels": "array",
+            "papers": "array"
+          },
+          "nonempty": true,
+          "unique": "id",
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "shape-normalized-relations",
+          "kind": "shape",
+          "pattern": "normalized/relations.json",
+          "container": "array",
+          "required": {
+            "s": "string",
+            "p": "string",
+            "o": "string"
+          },
+          "nonempty": false,
+          "unique": null,
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "shape-normalized-causal",
+          "kind": "shape",
+          "pattern": "normalized/causal.json",
+          "container": "array",
+          "required": {
+            "cause": "string",
+            "effect": "string",
+            "polarity": "string"
+          },
+          "nonempty": false,
+          "unique": null,
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "shape-normalized-measurements",
+          "kind": "shape",
+          "pattern": "normalized/measurements.json",
+          "container": "array",
+          "required": {
+            "concept": "string",
+            "value": "string"
+          },
+          "nonempty": false,
+          "unique": null,
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "paper-input",
+          "kind": "paper_contract",
+          "pattern": "papers/*.json",
+          "severity": "block",
+          "phases": [
+            "before"
+          ]
+        },
+        {
+          "id": "canonical-references",
+          "kind": "canonical_references",
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "input-output-coverage",
+          "kind": "paper_coverage",
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "aliases-and-contradictions",
+          "kind": "scientific_review",
+          "severity": "review",
+          "instruction": "Inspect alternate labels, supporting definitions, type votes, contradictions, unsupported measurements and uncertain rows before accepting the vocabulary.",
+          "phases": [
+            "after"
+          ]
+        }
+      ],
+      "algorithm": [
+        {
+          "id": "1",
+          "order": 1,
+          "label": "Clean paper fields",
+          "function": "src/agents/normalization.py:_clean_concept",
+          "definition": "Normalize model-supplied label/type/definition fields; sanitize relation predicates and causal polarity before grouping."
+        },
+        {
+          "id": "2",
+          "order": 2,
+          "label": "Group lexical variants",
+          "function": "src/agents/normalization.py:NormalizationAgent._lexical_groups",
+          "definition": "Group equal normalized wording and plural variants. This does not itself authorize synonym merges."
+        },
+        {
+          "id": "3",
+          "order": 3,
+          "label": "Review semantic merges",
+          "function": "src/agents/normalization.py:NormalizationAgent._semantic_merge",
+          "definition": "Use embeddings for candidate clusters and model review for synonym merges; inspect embedding failure/fallback statistics."
+        },
+        {
+          "id": "4",
+          "order": 4,
+          "label": "Assign canonical identities",
+          "function": "src/agents/normalization.py:NormalizationAgent._canonical",
+          "definition": "Create k IDs, alternate labels, supporting paper lists and the transient (paper key, original concept ID) mapping."
+        },
+        {
+          "id": "5",
+          "order": 5,
+          "label": "Resolve type votes",
+          "function": "src/agents/normalization.py:NormalizationAgent._settle_types",
+          "definition": "Review conflicting canonical type votes with the model."
+        },
+        {
+          "id": "6",
+          "order": 6,
+          "label": "Join corpus claims",
+          "function": "src/agents/normalization.py:_aggregate",
+          "definition": "Remap relation/causal endpoints through the canonical map, combine support and retain limited evidence; measurements are remapped separately in run."
+        },
+        {
+          "id": "7",
+          "order": 7,
+          "label": "Flag contradictions and score",
+          "function": "src/agents/normalization.py:_contradictions",
+          "definition": "Keep opposed causal claims for review; _score then ranks concepts by configured evidence and graph signals."
+        },
+        {
+          "id": "8",
+          "order": 8,
+          "label": "Order causal structure",
+          "function": "src/agents/normalization.py:_causal_order",
+          "definition": "Compute causal ranks/chains and cycles without claiming causal proof."
+        },
+        {
+          "id": "9",
+          "order": 9,
+          "label": "Summarize and save",
+          "function": "src/agents/normalization.py:NormalizationAgent._summarize",
+          "definition": "Generate the corpus summary; src.run.normalize writes returned fields and reports.corpus_report writes summary statistics."
+        }
+      ],
+      "input_contract": {
+        "description": "Persisted extraction records, not raw model-response JSON. In saved measurements, the property concept ID is in concept (raw extraction schema calls it property).",
+        "required_paper_fields": {
+          "key": "string",
+          "concepts": "array",
+          "relations": "array",
+          "causal": "array",
+          "measurements": "array"
+        },
+        "concept_fields": {
+          "id": "string",
+          "label": "string"
+        },
+        "relation_fields": [
+          "s",
+          "p",
+          "o"
+        ],
+        "causal_fields": [
+          "cause",
+          "effect",
+          "polarity"
+        ],
+        "measurement_fields": [
+          "concept",
+          "value"
+        ],
+        "source_functions": [
+          "src/run.py:Run.papers",
+          "src/agents/normalization.py:NormalizationAgent.run",
+          "src/run.py:normalize",
+          "src/tools/reports.py:corpus_report"
+        ],
+        "mutation": "The agent replaces concept/relation/causal lists in its in-memory papers. The orchestrator does not rewrite source papers during normalization.",
+        "initialization": "Construct NormalizationAgent(run.ledger) in the existing configured runtime. Prefer the trusted CLI/wrapper invocation to direct calls so logging, settings and manifests are handled.",
+        "returns": [
+          "concepts",
+          "relations",
+          "causal",
+          "measurements",
+          "contradictions",
+          "causal_order",
+          "summary",
+          "stats"
+        ]
+      }
+    },
+    "ontology": {
+      "task": "Place canonical concepts and assign IRIs",
+      "recovery": "Check shared-store readiness and unresolved parents/exclusions; retry placement in a new attempt, then regenerate dependent enrichment and exports.",
+      "limitation": "Fallback placement, exclusions and review flags require domain review.",
+      "bindings": [
+        {
+          "id": "concepts",
+          "function": "src/agents/ontology.py:OntologyAgent.run",
+          "argument": "concepts",
+          "artifact": "normalized/concepts.json",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "src.run.ontology reads this saved canonical JSON value and passes it unchanged to the corresponding agent argument."
+        },
+        {
+          "id": "relations",
+          "function": "src/agents/ontology.py:OntologyAgent.run",
+          "argument": "relations",
+          "artifact": "normalized/relations.json",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "src.run.ontology reads this saved canonical JSON value and passes it unchanged to the corresponding agent argument."
+        },
+        {
+          "id": "classes",
+          "function": "src/run.py:ontology",
+          "argument": "classes",
+          "artifact": "ontology/classes.json",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "Serialize the returned class list; review issues are written separately."
+        },
+        {
+          "id": "domain",
+          "function": "src/agents/ontology.py:OntologyAgent.run",
+          "argument": "domain",
+          "artifact": "run.json",
+          "selector": "$.collection.name",
+          "direction": "input",
+          "transformation": "Bind the selected nonempty domain name from the run collection context; it forms the domain segment of stable class IRIs."
+        },
+        {
+          "id": "review-issues",
+          "function": "src/run.py:ontology",
+          "argument": "ontology_review.issues(classes)",
+          "artifact": "ontology/review_issues.json",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "Save class-level review findings separately from classes; enrichment later refreshes this shared artifact."
+        }
+      ],
+      "checks": [
+        {
+          "id": "shape-ontology-classes",
+          "kind": "shape",
+          "pattern": "ontology/classes.json",
+          "container": "array",
+          "required": {
+            "id": "string",
+            "label": "string",
+            "parent": "string",
+            "iri": "string",
+            "excluded": "boolean"
+          },
+          "nonempty": false,
+          "unique": null,
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "review-findings",
+          "kind": "scientific_review",
+          "severity": "review",
+          "instruction": "Fallback placement, exclusions and review flags require domain review.",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "canonical-input",
+          "kind": "shape",
+          "pattern": "normalized/concepts.json",
+          "container": "array",
+          "required": {
+            "id": "string",
+            "label": "string",
+            "type": "string",
+            "alt_labels": "array",
+            "definitions": "array"
+          },
+          "severity": "block",
+          "unique": "id",
+          "nonempty": true,
+          "phases": [
+            "before"
+          ]
+        },
+        {
+          "id": "canonical-class-coverage",
+          "kind": "identity_coverage",
+          "source": "normalized/concepts.json",
+          "target": "ontology/classes.json",
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "parent-endpoints",
+          "kind": "references",
+          "pattern": "ontology/classes.json",
+          "target": "ontology/classes.json",
+          "field": "$.parent",
+          "allow_iri": true,
+          "live_only": true,
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "canonical-input-endpoints",
+          "kind": "canonical_references",
+          "phases": [
+            "before"
+          ],
+          "severity": "block"
+        }
+      ],
+      "algorithm": [
+        {
+          "id": "1",
+          "order": 1,
+          "label": "Gather corpus context",
+          "function": "src/tools/ontology_review.py:context",
+          "definition": "Collect canonical relations and evidence context for placement choices."
+        },
+        {
+          "id": "2",
+          "order": 2,
+          "label": "Prefer known named classes",
+          "function": "src/agents/ontology.py:OntologyAgent._name_matches",
+          "definition": "Use configured ontology name matches only when their store hierarchy reaches BFO; retain unaligned-match doubts."
+        },
+        {
+          "id": "3",
+          "order": 3,
+          "label": "Choose category and parent",
+          "function": "src/agents/ontology.py:OntologyAgent._pick_split",
+          "definition": "Local-tier category/exclusion and parent passes use type-derived defaults and candidate menus. Frontier-tier _pick_combined is the alternative branch."
+        },
+        {
+          "id": "4",
+          "order": 4,
+          "label": "Assign stable domain IRIs",
+          "function": "src/agents/ontology.py:OntologyAgent.run",
+          "definition": "Preserve canonical IDs; derive domain class IRIs from label/type hashes. Preserve excluded records and flag duplicate identities rather than silently dropping them."
+        },
+        {
+          "id": "5",
+          "order": 5,
+          "label": "Repair hierarchy and fallbacks",
+          "function": "src/agents/ontology.py:OntologyAgent._repair",
+          "definition": "Check parents and cycles, apply configured fallbacks and preserve review information; a parseable fallback is not a validated scientific placement."
+        },
+        {
+          "id": "6",
+          "order": 6,
+          "label": "Apply evidenced paper parents",
+          "function": "src/tools/ontology_review.py:paper_parents",
+          "definition": "Apply supported paper is_a parent information with category-conflict review safeguards."
+        },
+        {
+          "id": "7",
+          "order": 7,
+          "label": "Apply lexical heads and save",
+          "function": "src/agents/ontology.py:OntologyAgent._lexical_heads",
+          "definition": "Consider lexical-head corpus parents after repairs; src.run.ontology saves classes, uncertainty and review findings."
+        }
+      ],
+      "input_contract": {
+        "description": "Canonical concepts and relations are read from normalized files; the nonempty domain is run.manifest.collection.name. No raw paper concept IDs should be supplied here.",
+        "required_inputs": {
+          "concepts[]": "id,label,type,alt_labels,definitions and preserved canonical evidence/support fields",
+          "relations[]": "canonical s,p,o with evidence/support",
+          "domain": "nonempty selected domain name"
+        },
+        "initialization": "Require the existing ontology store, then construct OntologyAgent(run.ledger) through src.run.ontology or the wrapper stage.",
+        "mutation": "Constructs new class dictionaries and repairs their hierarchy; source normalized files are not rewritten by the orchestrator.",
+        "returns": [
+          "list of classes preserving canonical IDs, plus iri,parent,parent_source,excluded and optional review_flags"
+        ],
+        "source_functions": [
+          "src/run.py:ontology",
+          "src/agents/ontology.py:OntologyAgent.run"
+        ]
+      },
+      "worked_example": "docs/codebase/stages/ontology.md"
+    },
+    "enrich": {
+      "task": "Add definitions, restrictions and candidates",
+      "recovery": "Inspect unsupported definitions, failed rows and restrictions dropped; reattempt enrichment and regenerate interop/integration/reports from the new results.",
+      "limitation": "Generated definitions, imported definitions and evidence-supported definitions have different authority.",
+      "bindings": [
+        {
+          "id": "classes",
+          "function": "src/agents/enrichment.py:EnrichmentAgent.run",
+          "argument": "classes",
+          "artifact": "ontology/classes.json",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "Read the corresponding saved JSON value; pass classes and normalized claims as separate arguments, not a combined ontology graph."
+        },
+        {
+          "id": "relations",
+          "function": "src/agents/enrichment.py:EnrichmentAgent.run",
+          "argument": "relations",
+          "artifact": "normalized/relations.json",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "Read the corresponding saved JSON value; pass classes and normalized claims as separate arguments, not a combined ontology graph."
+        },
+        {
+          "id": "causal",
+          "function": "src/agents/enrichment.py:EnrichmentAgent.run",
+          "argument": "causal",
+          "artifact": "normalized/causal.json",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "Read the corresponding saved JSON value; pass classes and normalized claims as separate arguments, not a combined ontology graph."
+        },
+        {
+          "id": "output-classes",
+          "function": "src/run.py:enrich",
+          "argument": "classes",
+          "artifact": "ontology/enriched.json",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "Unpack the agent tuple (classes, properties), then serialize each component."
+        },
+        {
+          "id": "output-properties",
+          "function": "src/run.py:enrich",
+          "argument": "properties",
+          "artifact": "ontology/properties.json",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "Unpack the agent tuple (classes, properties), then serialize each component."
+        },
+        {
+          "id": "materials-log",
+          "function": "src/run.py:enrich",
+          "argument": "agent.materials_log",
+          "artifact": "ontology/materials_project.json",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "Persist optional Materials Project lookup/annotation results and review provenance."
+        },
+        {
+          "id": "review-issues",
+          "function": "src/run.py:enrich",
+          "argument": "ontology_review.issues(classes)",
+          "artifact": "ontology/review_issues.json",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "Refresh the shared class review findings from enriched classes."
+        },
+        {
+          "id": "cross-domain-candidates",
+          "function": "src/run.py:enrich",
+          "argument": "ontology_review.correspondences(...)",
+          "artifact": "ontology/cross_domain_candidates.json",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "Advisory historical correspondences; these do not replace explicit source-run selection for integration."
+        }
+      ],
+      "checks": [
+        {
+          "id": "shape-ontology-enriched",
+          "kind": "shape",
+          "pattern": "ontology/enriched.json",
+          "container": "array",
+          "required": {
+            "id": "string",
+            "definition": "string",
+            "restrictions": "array",
+            "definition_status": "string"
+          },
+          "nonempty": false,
+          "unique": null,
+          "severity": "block",
+          "live_only": true,
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "review-findings",
+          "kind": "scientific_review",
+          "severity": "review",
+          "instruction": "Generated definitions, imported definitions and evidence-supported definitions have different authority.",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "placed-input",
+          "kind": "shape",
+          "pattern": "ontology/classes.json",
+          "container": "array",
+          "required": {
+            "id": "string",
+            "label": "string",
+            "parent": "string",
+            "iri": "string",
+            "excluded": "boolean",
+            "definitions": "array",
+            "alt_labels": "array"
+          },
+          "severity": "block",
+          "unique": "id",
+          "nonempty": true,
+          "phases": [
+            "before"
+          ]
+        },
+        {
+          "id": "properties-object",
+          "kind": "shape",
+          "pattern": "ontology/properties.json",
+          "container": "object",
+          "required": {},
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "placed-enriched-coverage",
+          "kind": "identity_coverage",
+          "source": "ontology/classes.json",
+          "target": "ontology/enriched.json",
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "restriction-targets",
+          "kind": "references",
+          "pattern": "ontology/enriched.json",
+          "target": "ontology/enriched.json",
+          "field": "$.restrictions",
+          "nested_field": "o",
+          "live_only": true,
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "disjoint-targets",
+          "kind": "references",
+          "pattern": "ontology/enriched.json",
+          "target": "ontology/enriched.json",
+          "field": "$.disjoint_with",
+          "live_only": true,
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "canonical-input-endpoints",
+          "kind": "canonical_references",
+          "phases": [
+            "before"
+          ],
+          "severity": "block"
+        },
+        {
+          "id": "placed-input-parents",
+          "kind": "references",
+          "pattern": "ontology/classes.json",
+          "target": "ontology/classes.json",
+          "field": "$.parent",
+          "allow_iri": true,
+          "live_only": true,
+          "phases": [
+            "before"
+          ],
+          "severity": "block"
+        }
+      ],
+      "algorithm": [
+        {
+          "id": "1",
+          "order": 1,
+          "label": "Initialize live class enrichment",
+          "function": "src/agents/enrichment.py:EnrichmentAgent.run",
+          "definition": "Retain excluded records, initialize live definitions/restrictions/disjointness and determine whether the configured profile permits model-knowledge definitions."
+        },
+        {
+          "id": "2",
+          "order": 2,
+          "label": "Gather mapping candidates",
+          "function": "src/agents/enrichment.py:EnrichmentAgent._candidates",
+          "definition": "Combine store candidates, bounded portal searches and propagated mappings, preserving source, score, path and label-match distinctions."
+        },
+        {
+          "id": "3",
+          "order": 3,
+          "label": "Add optional material annotations",
+          "function": "src/agents/enrichment.py:EnrichmentAgent._materials",
+          "definition": "Annotate applicable material classes using configured Materials Project support, retaining lookup evidence and review results."
+        },
+        {
+          "id": "4",
+          "order": 4,
+          "label": "Translate evidenced causal claims",
+          "function": "src/agents/enrichment.py:EnrichmentAgent._causal",
+          "definition": "Create local and appropriate RO/CCO causal restrictions for eligible evidence-backed canonical claims."
+        },
+        {
+          "id": "5",
+          "order": 5,
+          "label": "Resolve scientific property candidates",
+          "function": "src/agents/enrichment.py:EnrichmentAgent._property_candidates",
+          "definition": "Retrieve object properties for evidenced non-is_a relations and retain only candidates fitting domain and range."
+        },
+        {
+          "id": "6",
+          "order": 6,
+          "label": "Commit deterministic predicate matches",
+          "function": "src/agents/enrichment.py:EnrichmentAgent._predicate_restrictions",
+          "definition": "Use exact or configured tie-broken property matches directly, leaving other eligible relations for model review."
+        },
+        {
+          "id": "7",
+          "order": 7,
+          "label": "Apply profile-specific enrichment",
+          "function": "src/agents/enrichment.py:EnrichmentAgent._apply",
+          "definition": "Apply local split-pass or frontier combined answers; retain definition basis/status, validate restrictions against source relations and flag unsupported results."
+        },
+        {
+          "id": "8",
+          "order": 8,
+          "label": "Check disjointness and persist tuple",
+          "function": "src/agents/enrichment.py:EnrichmentAgent._local_properties",
+          "definition": "After dropping disjointness conflicting with paper is_a, build local property descriptions. The orchestrator unpacks classes/properties and saves sidecars."
+        }
+      ],
+      "input_contract": {
+        "description": "Placed class records and normalized relation/causal lists are independent arguments. Only non-excluded classes are enriched, but all class identities are returned.",
+        "required_inputs": {
+          "classes[]": "placed canonical fields including id,label,parent,excluded,alt_labels,definitions,iri",
+          "relations[]": "canonical s,p,o and evidence/support",
+          "causal[]": "canonical cause,effect,polarity and evidence/support"
+        },
+        "initialization": "Require the shared ontology store, construct EnrichmentAgent(run.ledger), then call run(classes,relations,causal) via the existing stage.",
+        "mutation": "Mutates live class dictionaries in memory: initializes definitions/restrictions/disjointness, adds candidates and annotations. The orchestrator saves enriched classes separately from placement classes.",
+        "returns": [
+          "tuple[classes, properties dictionary]",
+          "agent.materials_log and agent.doubts are saved separately"
+        ],
+        "source_functions": [
+          "src/run.py:enrich",
+          "src/agents/enrichment.py:EnrichmentAgent.run"
+        ]
+      },
+      "worked_example": "docs/codebase/stages/enrich.md"
+    },
+    "interop": {
+      "task": "Export formal ontology and literature claims",
+      "recovery": "Inspect saved validation issues, mappings and imported definitions; repair the originating stage and regenerate exports before integration.",
+      "limitation": "Structural validation does not validate every scientific claim or mapping.",
+      "bindings": [
+        {
+          "id": "classes",
+          "function": "src/agents/interoperability.py:InteroperabilityAgent.run",
+          "argument": "classes",
+          "artifact": "ontology/enriched.json",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "Read the saved JSON value; papers is assembled by Run.papers(). Other context arguments come from the selected run, not model-generated text."
+        },
+        {
+          "id": "properties",
+          "function": "src/agents/interoperability.py:InteroperabilityAgent.run",
+          "argument": "properties",
+          "artifact": "ontology/properties.json",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "Read the saved JSON value; papers is assembled by Run.papers(). Other context arguments come from the selected run, not model-generated text."
+        },
+        {
+          "id": "papers",
+          "function": "src/agents/interoperability.py:InteroperabilityAgent.run",
+          "argument": "papers",
+          "artifact": "papers/*.json",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "Read the saved JSON value; papers is assembled by Run.papers(). Other context arguments come from the selected run, not model-generated text."
+        },
+        {
+          "id": "export-turtle",
+          "function": "src/run.py:interop",
+          "argument": "out",
+          "artifact": "ontology.ttl",
+          "selector": "$.turtle",
+          "direction": "output",
+          "transformation": "Serialize the returned result field; domain_layer is built separately by bottomup.build."
+        },
+        {
+          "id": "export-jsonld",
+          "function": "src/run.py:interop",
+          "argument": "out",
+          "artifact": "ontology.jsonld",
+          "selector": "$.jsonld",
+          "direction": "output",
+          "transformation": "Serialize the returned result field; domain_layer is built separately by bottomup.build."
+        },
+        {
+          "id": "export-mappings",
+          "function": "src/run.py:interop",
+          "argument": "out",
+          "artifact": "ontology/mappings.json",
+          "selector": "$.mappings",
+          "direction": "output",
+          "transformation": "Serialize the returned result field; domain_layer is built separately by bottomup.build."
+        },
+        {
+          "id": "export-validation",
+          "function": "src/run.py:interop",
+          "argument": "out",
+          "artifact": "ontology/validation.json",
+          "selector": "$.validation",
+          "direction": "output",
+          "transformation": "Serialize the returned result field; domain_layer is built separately by bottomup.build."
+        },
+        {
+          "id": "domain",
+          "function": "src/agents/interoperability.py:InteroperabilityAgent.run",
+          "argument": "domain",
+          "artifact": "run.json",
+          "selector": "$.collection.name",
+          "direction": "input",
+          "transformation": "Bind selected domain name; run_id is run.id from the owning Run object."
+        },
+        {
+          "id": "layer-concepts",
+          "function": "src/tools/bottomup.py:build",
+          "argument": "norm",
+          "artifact": "normalized/concepts.json",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "Add this canonical list to norm for the separate literature-claims layer. Runtime falls back to [] if absent; the stricter documentation boundary requires all four to avoid silent loss."
+        },
+        {
+          "id": "layer-relations",
+          "function": "src/tools/bottomup.py:build",
+          "argument": "norm",
+          "artifact": "normalized/relations.json",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "Add this canonical list to norm for the separate literature-claims layer. Runtime falls back to [] if absent; the stricter documentation boundary requires all four to avoid silent loss."
+        },
+        {
+          "id": "layer-causal",
+          "function": "src/tools/bottomup.py:build",
+          "argument": "norm",
+          "artifact": "normalized/causal.json",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "Add this canonical list to norm for the separate literature-claims layer. Runtime falls back to [] if absent; the stricter documentation boundary requires all four to avoid silent loss."
+        },
+        {
+          "id": "layer-measurements",
+          "function": "src/tools/bottomup.py:build",
+          "argument": "norm",
+          "artifact": "normalized/measurements.json",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "Add this canonical list to norm for the separate literature-claims layer. Runtime falls back to [] if absent; the stricter documentation boundary requires all four to avoid silent loss."
+        },
+        {
+          "id": "claims-turtle",
+          "function": "src/run.py:interop",
+          "argument": "layer",
+          "artifact": "domain_layer.ttl",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "Save this stage product separately; preserve the distinction between formal OWL, literature claims, imported definitions, facets and report metrics."
+        },
+        {
+          "id": "claims-jsonld",
+          "function": "src/run.py:interop",
+          "argument": "layer",
+          "artifact": "domain_layer.jsonld",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "Save this stage product separately; preserve the distinction between formal OWL, literature claims, imported definitions, facets and report metrics."
+        },
+        {
+          "id": "claims-metrics",
+          "function": "src/run.py:interop",
+          "argument": "layer_metrics",
+          "artifact": "ontology/domain_layer_metrics.json",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "Save this stage product separately; preserve the distinction between formal OWL, literature claims, imported definitions, facets and report metrics."
+        },
+        {
+          "id": "imports",
+          "function": "src/run.py:interop",
+          "argument": "out",
+          "artifact": "ontology/imported_definitions.json",
+          "selector": "$.imported_definitions",
+          "direction": "output",
+          "transformation": "Save this stage product separately; preserve the distinction between formal OWL, literature claims, imported definitions, facets and report metrics."
+        },
+        {
+          "id": "facets",
+          "function": "src/run.py:interop",
+          "argument": "out",
+          "artifact": "ontology/facets.json",
+          "selector": "$.facets",
+          "direction": "output",
+          "transformation": "Save this stage product separately; preserve the distinction between formal OWL, literature claims, imported definitions, facets and report metrics."
+        },
+        {
+          "id": "metrics",
+          "function": "src/run.py:interop",
+          "argument": "out",
+          "artifact": "ontology/metrics.json",
+          "selector": "$.metrics",
+          "direction": "output",
+          "transformation": "Save this stage product separately; preserve the distinction between formal OWL, literature claims, imported definitions, facets and report metrics."
+        },
+        {
+          "id": "report",
+          "function": "src/run.py:interop",
+          "argument": "reports.ontology_report(...)",
+          "artifact": "ontology_report.md",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "Save this stage product separately; preserve the distinction between formal OWL, literature claims, imported definitions, facets and report metrics."
+        }
+      ],
+      "checks": [
+        {
+          "id": "shape-ontology-validation",
+          "kind": "shape",
+          "pattern": "ontology/validation.json",
+          "container": "object",
+          "required": {
+            "valid": "boolean"
+          },
+          "nonempty": false,
+          "unique": null,
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "review-findings",
+          "kind": "scientific_review",
+          "severity": "review",
+          "instruction": "Structural validation does not validate every scientific claim or mapping.",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "properties-input",
+          "kind": "shape",
+          "pattern": "ontology/properties.json",
+          "container": "object",
+          "required": {},
+          "severity": "block",
+          "phases": [
+            "before"
+          ]
+        },
+        {
+          "id": "mapping-records",
+          "kind": "shape",
+          "pattern": "ontology/mappings.json",
+          "container": "array",
+          "required": {
+            "id": "string",
+            "relation": "string",
+            "iri": "string"
+          },
+          "severity": "block",
+          "phases": [
+            "after"
+          ],
+          "unique": null
+        },
+        {
+          "id": "mapping-local-ids",
+          "kind": "references",
+          "pattern": "ontology/mappings.json",
+          "target": "ontology/enriched.json",
+          "field": "$.id",
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "structural-validation",
+          "kind": "saved_validation",
+          "pattern": "ontology/validation.json",
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "formal-roundtrip",
+          "kind": "rdf_pair",
+          "turtle": "ontology.ttl",
+          "jsonld": "ontology.jsonld",
+          "severity": "block",
+          "phases": [
+            "after"
+          ],
+          "max_triples": 12000,
+          "max_blank_nodes": 40,
+          "instruction": "Parse local Turtle/JSON-LD exports without fetching imports/remote contexts; compare exact graph equality up to 12000 triples per graph and 40 distinct blank-node identifiers across the pair. Larger comparisons remain unverified review findings."
+        },
+        {
+          "id": "claims-roundtrip",
+          "kind": "rdf_pair",
+          "turtle": "domain_layer.ttl",
+          "jsonld": "domain_layer.jsonld",
+          "severity": "block",
+          "phases": [
+            "after"
+          ],
+          "max_triples": 12000,
+          "max_blank_nodes": 40,
+          "instruction": "Parse local Turtle/JSON-LD exports without fetching imports/remote contexts; compare exact graph equality up to 12000 triples per graph and 40 distinct blank-node identifiers across the pair. Larger comparisons remain unverified review findings."
+        },
+        {
+          "id": "canonical-input-endpoints",
+          "kind": "canonical_references",
+          "phases": [
+            "before"
+          ],
+          "severity": "block"
+        },
+        {
+          "id": "placed-input-parents",
+          "kind": "references",
+          "pattern": "ontology/enriched.json",
+          "target": "ontology/enriched.json",
+          "field": "$.parent",
+          "allow_iri": true,
+          "live_only": true,
+          "phases": [
+            "before"
+          ],
+          "severity": "block"
+        }
+      ],
+      "algorithm": [
+        {
+          "id": "1",
+          "order": 1,
+          "label": "Commit external alignments",
+          "function": "src/agents/interoperability.py:InteroperabilityAgent.align",
+          "definition": "Choose mappings from enriched candidates using recorded methods, guards and mapping semantics; candidates alone are not accepted mappings."
+        },
+        {
+          "id": "2",
+          "order": 2,
+          "label": "Import mapped definitions",
+          "function": "src/agents/interoperability.py:InteroperabilityAgent.import_definitions",
+          "definition": "Import appropriate mapped labels/definitions into in-memory classes and return an explicit import log."
+        },
+        {
+          "id": "3",
+          "order": 3,
+          "label": "Assign MDS facets",
+          "function": "src/agents/interoperability.py:InteroperabilityAgent.tag_facets",
+          "definition": "Tag applicable process/study/domain facets and local properties; retain missing/failed row findings."
+        },
+        {
+          "id": "4",
+          "order": 4,
+          "label": "Build formal OWL",
+          "function": "src/tools/owl.py:build",
+          "definition": "Construct formal classes/properties, hierarchy, supported restrictions, selected mappings, source provenance and store imports."
+        },
+        {
+          "id": "5",
+          "order": 5,
+          "label": "Serialize and validate formal graph",
+          "function": "src/agents/interoperability.py:InteroperabilityAgent.run",
+          "definition": "Serialize the same graph to JSON-LD/Turtle, run structural and mapping checks, and return metrics and sidecars. A false validation result is still saved by the runtime."
+        },
+        {
+          "id": "6",
+          "order": 6,
+          "label": "Build separate literature claims",
+          "function": "src/tools/bottomup.py:build",
+          "definition": "Use canonical concepts/claims and papers to create a separate evidence-preserving domain layer; do not assume every literature relation became an OWL axiom."
+        },
+        {
+          "id": "7",
+          "order": 7,
+          "label": "Save exports and report",
+          "function": "src/run.py:interop",
+          "definition": "Save both layers and sidecars; refresh interop compute record before ontology_report reads it, then return final stage statistics for the controller to record."
+        }
+      ],
+      "input_contract": {
+        "description": "The agent receives enriched class dictionaries, a local property dictionary, saved source papers, run ID and domain. The orchestrator separately rereads normalized concepts/claims to build the literature layer.",
+        "required_inputs": {
+          "classes[]": "enriched placed class records",
+          "properties": "dictionary, not list",
+          "papers[]": "Run.papers() persisted records",
+          "run_id/domain": "selected run context",
+          "norm": "separate canonical concepts/relations/causal/measurements dictionary for bottomup.build"
+        },
+        "initialization": "Require the existing store and use InteroperabilityAgent(run.ledger) through src.run.interop. Preserve source run context for provenance.",
+        "mutation": "Agent alignment/import/facet passes mutate the in-memory class records; src.run.interop does not rewrite enriched.json afterward. Persisted mapping/definition/facet sidecars record these later decisions.",
+        "returns": [
+          "mappings",
+          "facets",
+          "checks",
+          "jsonld",
+          "turtle",
+          "validation",
+          "imported_definitions",
+          "metrics",
+          "bottomup.build separately returns (Graph, metrics)"
+        ],
+        "source_functions": [
+          "src/run.py:interop",
+          "src/agents/interoperability.py:InteroperabilityAgent.run",
+          "src/tools/bottomup.py:build"
+        ]
+      },
+      "worked_example": "docs/codebase/stages/interop.md"
+    },
+    "integrate": {
+      "task": "Connect explicitly selected domain ontologies",
+      "recovery": "Resolve missing/duplicate-domain source runs, stale source revisions and validation failures; create a new integration ID after corrected domain exports.",
+      "limitation": "Cross-domain links are not a replacement for source domain graphs; literature claims remain in their source layers.",
+      "bindings": [
+        {
+          "id": "domains",
+          "function": "src/agents/integration.py:IntegrationAgent.run",
+          "argument": "domains",
+          "artifact": "explicit domain ontology/enriched.json inputs",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "src.run.integrate selects distinct completed domain runs and constructs domain name to live class list. The artifact text is a descriptive multi-run requirement, not a relative file glob."
+        },
+        {
+          "id": "source-graphs",
+          "function": "src/tools/integration.py:load_domain",
+          "argument": "s",
+          "artifact": "explicit selected domain ontology.ttl and run.json inputs",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "Select readable completed source runs, one per distinct domain, before adapting live classes and parsing formal graphs. Explicit IDs avoid latest-run ambiguity."
+        },
+        {
+          "id": "candidates",
+          "function": "src/run.py:integrate",
+          "argument": "integration.public_candidates(result.candidates)",
+          "artifact": "candidates.json",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "The name is computed from selected domains and recorded in integration.json. Master imports source formal ontologies; merged unions them. Source literature layers remain separate."
+        },
+        {
+          "id": "mappings",
+          "function": "src/run.py:integrate",
+          "argument": "result",
+          "artifact": "mappings.json",
+          "selector": "$.mappings",
+          "direction": "output",
+          "transformation": "The name is computed from selected domains and recorded in integration.json. Master imports source formal ontologies; merged unions them. Source literature layers remain separate."
+        },
+        {
+          "id": "bridges",
+          "function": "src/run.py:integrate",
+          "argument": "result",
+          "artifact": "bridge_concepts.json",
+          "selector": "$.clusters",
+          "direction": "output",
+          "transformation": "The name is computed from selected domains and recorded in integration.json. Master imports source formal ontologies; merged unions them. Source literature layers remain separate."
+        },
+        {
+          "id": "manifest",
+          "function": "src/run.py:integrate",
+          "argument": "integration manifest",
+          "artifact": "integration.json",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "The name is computed from selected domains and recorded in integration.json. Master imports source formal ontologies; merged unions them. Source literature layers remain separate."
+        },
+        {
+          "id": "validation",
+          "function": "src/run.py:integrate",
+          "argument": "validation",
+          "artifact": "validation.json",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "The name is computed from selected domains and recorded in integration.json. Master imports source formal ontologies; merged unions them. Source literature layers remain separate."
+        },
+        {
+          "id": "master",
+          "function": "src/run.py:integrate",
+          "argument": "master",
+          "artifact": "<name>.ttl",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "The name is computed from selected domains and recorded in integration.json. Master imports source formal ontologies; merged unions them. Source literature layers remain separate."
+        },
+        {
+          "id": "master-jsonld",
+          "function": "src/run.py:integrate",
+          "argument": "master",
+          "artifact": "<name>.jsonld",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "The name is computed from selected domains and recorded in integration.json. Master imports source formal ontologies; merged unions them. Source literature layers remain separate."
+        },
+        {
+          "id": "merged",
+          "function": "src/run.py:integrate",
+          "argument": "merged",
+          "artifact": "<name>_merged.ttl",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "The name is computed from selected domains and recorded in integration.json. Master imports source formal ontologies; merged unions them. Source literature layers remain separate."
+        },
+        {
+          "id": "report",
+          "function": "src/run.py:integrate",
+          "argument": "integration.report(...)",
+          "artifact": "integration_report.md",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "The name is computed from selected domains and recorded in integration.json. Master imports source formal ontologies; merged unions them. Source literature layers remain separate."
+        }
+      ],
+      "checks": [
+        {
+          "id": "shape-validation",
+          "kind": "shape",
+          "pattern": "validation.json",
+          "container": "object",
+          "required": {
+            "valid": "boolean"
+          },
+          "nonempty": false,
+          "unique": null,
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "mapping-records",
+          "kind": "shape",
+          "pattern": "mappings.json",
+          "container": "array",
+          "required": {
+            "a_iri": "string",
+            "b_iri": "string",
+            "a_domain": "string",
+            "b_domain": "string",
+            "a_run": "string",
+            "b_run": "string",
+            "relation": "string"
+          },
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "bridge-records",
+          "kind": "shape",
+          "pattern": "bridge_concepts.json",
+          "container": "array",
+          "required": {
+            "label": "string",
+            "domains": "array",
+            "members": "array"
+          },
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "source-readiness",
+          "kind": "runtime_condition",
+          "phases": [
+            "before"
+          ],
+          "instruction": "Bind explicit source run IDs and inspect each completed interop export before creating a new integration. An old integration folder cannot establish readiness of a proposed new selection.",
+          "severity": "runtime"
+        },
+        {
+          "id": "mapping-and-bridge-provenance",
+          "kind": "integration_links",
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "structural-validation",
+          "kind": "saved_validation",
+          "pattern": "validation.json",
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "master-roundtrip",
+          "kind": "rdf_pair",
+          "turtle": "<name>.ttl",
+          "jsonld": "<name>.jsonld",
+          "from_manifest": true,
+          "severity": "block",
+          "phases": [
+            "after"
+          ],
+          "max_triples": 12000,
+          "max_blank_nodes": 40,
+          "instruction": "Parse local Turtle/JSON-LD exports without fetching imports/remote contexts; compare exact graph equality up to 12000 triples per graph and 40 distinct blank-node identifiers across the pair. Larger comparisons remain unverified review findings."
+        },
+        {
+          "id": "review-findings",
+          "kind": "scientific_review",
+          "instruction": "Review capped/unreviewed candidates, missing decisions, exact versus equivalent semantics, downgraded mappings, bridge membership and source freshness. Full source ontologies are preserved in merged formal output; literature layers remain separate.",
+          "severity": "review",
+          "phases": [
+            "after"
+          ]
+        }
+      ],
+      "algorithm": [
+        {
+          "id": "1",
+          "order": 1,
+          "label": "Select explicit distinct domains",
+          "function": "src/tools/integration.py:select_runs",
+          "definition": "Require completed interop, formal export and enriched records, reject duplicate domain runs and record revision mismatch notes."
+        },
+        {
+          "id": "2",
+          "order": 2,
+          "label": "Adapt classes and load graphs",
+          "function": "src/tools/integration.py:load_domain",
+          "definition": "Exclude non-live classes; compute category/parent labels and attach source run/domain context. Parse the full source formal graph independently of the comparison records."
+        },
+        {
+          "id": "3",
+          "order": 3,
+          "label": "Generate candidate pairs",
+          "function": "src/agents/integration.py:IntegrationAgent._candidates",
+          "definition": "Find cross-domain label/synonym and optional embedding candidates, rank them and assign pair IDs after unusable labels are filtered."
+        },
+        {
+          "id": "4",
+          "order": 4,
+          "label": "Review bounded mappings",
+          "function": "src/agents/integration.py:IntegrationAgent._decide",
+          "definition": "Apply configured review cap, retain unreviewed/missing decisions, guard equivalence and downgrade unsafe claims. Missing decisions can still yield guarded label-based exact mappings."
+        },
+        {
+          "id": "5",
+          "order": 5,
+          "label": "Build bridge groups",
+          "function": "src/agents/integration.py:IntegrationAgent._clusters",
+          "definition": "Group equivalent/exact/shared-IRI connections across domains. A bridge group is a saved cluster summary, not necessarily a newly minted OWL bridge class."
+        },
+        {
+          "id": "6",
+          "order": 6,
+          "label": "Build master imports and links",
+          "function": "src/tools/integration.py:build_master",
+          "definition": "Preserve source ontology imports and attach selected cross-domain mappings/provenance to the master graph."
+        },
+        {
+          "id": "7",
+          "order": 7,
+          "label": "Validate and merge formal graphs",
+          "function": "src/tools/integration.py:validate",
+          "definition": "Check master round trip and integration structure. merge then unions master and all source formal graphs; it does not union domain_layer literature graphs."
+        },
+        {
+          "id": "8",
+          "order": 8,
+          "label": "Save provenance and reports",
+          "function": "src/run.py:integrate",
+          "definition": "Write exports, public candidates, mappings, bridge summaries, validation, compute/report and manifest source identities; update aggregate evaluation. No source run is modified."
+        }
+      ],
+      "input_contract": {
+        "description": "Select at least two distinct completed domain runs explicitly. load_domain adapts enriched class records into live comparison records and parses each source formal ontology; the agent does not open run folders itself.",
+        "required_inputs": {
+          "selected[]": "one completed run per distinct domain",
+          "domains": "dict[domain,list[{iri,label,domain,run,alt_labels,category,parent_label,definition,type,score}]]",
+          "graphs": "dict[domain,{graph,iri}] for master construction"
+        },
+        "initialization": "src.run.integrate resolves outputs and explicit run IDs, creates the integration directory and an IntegrationAgent with its own ledger. Wrapper integration selects every configured domain run and a fresh integration ID.",
+        "mutation": "Reads source runs without rewriting them; writes a new integration folder and updates the aggregate evaluation table. Reusing a CLI integration ID can overwrite its products.",
+        "returns": [
+          "agent returns candidates,mappings,clusters,stats",
+          "orchestrator saves master/imports, merged formal union, mappings/bridges, validation, report and integration manifest"
+        ],
+        "source_functions": [
+          "src/run.py:integrate",
+          "src/tools/integration.py:select_runs",
+          "src/tools/integration.py:load_domain",
+          "src/agents/integration.py:IntegrationAgent.run"
+        ]
+      },
+      "worked_example": "docs/codebase/stages/integrate.md"
+    },
+    "reports": {
+      "task": "Publish an inspectable review package",
+      "recovery": "Read index.md skipped-figure findings; regenerate reports from explicit completed run IDs after repairing source artifacts.",
+      "limitation": "Readable reports do not prove every figure succeeded. Report availability is separate from recorded completion.",
+      "bindings": [
+        {
+          "id": "run-selection",
+          "function": "src/figures.py:build",
+          "argument": "run_ids",
+          "artifact": "explicit completed run IDs",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "Bind actual selected run IDs; optional integration is separate. Reports write to explicit out_dir."
+        },
+        {
+          "id": "output-folder",
+          "function": "src/figures.py:build",
+          "argument": "out_dir",
+          "artifact": "explicit report output directory",
+          "selector": "$",
+          "direction": "input",
+          "transformation": "Bind the intended report destination; omission falls back to outputs/figures/<revision>. Source scope and destination are distinct."
+        },
+        {
+          "id": "index-md",
+          "function": "src/figures.py:build",
+          "argument": "out.folder",
+          "artifact": "index.md",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "Write the report package alongside successful plot PDF/PNG/CSV files. index.md records skipped figures; file presence is availability, not proof of recorded stage completion."
+        },
+        {
+          "id": "report-md",
+          "function": "src/figures.py:build",
+          "argument": "out.folder",
+          "artifact": "report.md",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "Write the report package alongside successful plot PDF/PNG/CSV files. index.md records skipped figures; file presence is availability, not proof of recorded stage completion."
+        },
+        {
+          "id": "report-html",
+          "function": "src/figures.py:build",
+          "argument": "out.folder",
+          "artifact": "report.html",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "Write the report package alongside successful plot PDF/PNG/CSV files. index.md records skipped figures; file presence is availability, not proof of recorded stage completion."
+        },
+        {
+          "id": "sweep_summary-csv",
+          "function": "src/figures.py:build",
+          "argument": "out.folder",
+          "artifact": "sweep_summary.csv",
+          "selector": "$",
+          "direction": "output",
+          "transformation": "Write the report package alongside successful plot PDF/PNG/CSV files. index.md records skipped figures; file presence is availability, not proof of recorded stage completion."
+        }
+      ],
+      "checks": [
+        {
+          "id": "explicit-source-readiness",
+          "kind": "runtime_condition",
+          "phases": [
+            "before"
+          ],
+          "instruction": "Resolve actual selected completed run IDs and a report destination; inspect source findings and optional integration freshness. This assessor does not generate plots.",
+          "severity": "runtime"
+        },
+        {
+          "id": "readable-package",
+          "kind": "report_package",
+          "severity": "block",
+          "phases": [
+            "after"
+          ]
+        },
+        {
+          "id": "review-findings",
+          "kind": "scientific_review",
+          "instruction": "Review skipped figures, empty selections, filtering notes and failed/skipped sweep outcomes; readable HTML does not establish complete coverage or acceptance of upstream scientific claims.",
+          "severity": "review",
+          "phases": [
+            "after"
+          ]
+        }
+      ],
+      "algorithm": [
+        {
+          "id": "1",
+          "order": 1,
+          "label": "Resolve source selection",
+          "function": "src/figures.py:load_runs",
+          "definition": "Read selected runs and evaluation rows, or use revision/profile filters; collect omissions as notes. A sweep summary overrides run selection to completed domain outcomes."
+        },
+        {
+          "id": "2",
+          "order": 2,
+          "label": "Attempt figures independently",
+          "function": "src/figures.py:build",
+          "definition": "Run configured figure functions plus applicable integration plots. Catch each plot failure, close figures and record its skip so other figures continue."
+        },
+        {
+          "id": "3",
+          "order": 3,
+          "label": "Save successful plot bundles",
+          "function": "src/figures.py:Out.save",
+          "definition": "Write each figure PDF/PNG and plotted-data CSV, then register it for the index/report."
+        },
+        {
+          "id": "4",
+          "order": 4,
+          "label": "Record skipped figures",
+          "function": "src/figures.py:Out.skip",
+          "definition": "Preserve figure name and failure/insufficient-data reason. A skip must remain visible during review."
+        },
+        {
+          "id": "5",
+          "order": 5,
+          "label": "Build sweep review tables",
+          "function": "src/report.py:sweep",
+          "definition": "Assemble selected domain and applicable integration summaries from saved rows and source manifests."
+        },
+        {
+          "id": "6",
+          "order": 6,
+          "label": "Render report sections",
+          "function": "src/report.py:sections",
+          "definition": "Group successful figures, source descriptions and computed explanatory paragraphs into report sections."
+        },
+        {
+          "id": "7",
+          "order": 7,
+          "label": "Publish package and return path",
+          "function": "src/report.py:write",
+          "definition": "Write sweep_summary.csv, Markdown and HTML reports, including omitted/failed outcomes and skipped figures; figures.build also writes index.md and returns out.folder."
+        }
+      ],
+      "input_contract": {
+        "description": "figures.build reads saved results and evaluation tables for explicitly selected run IDs, or revision/profile selection. Integration is optional; sweep_summary can constrain completed selections and retain failed/skipped outcomes.",
+        "required_inputs": {
+          "outputs": "root containing selected source runs/evaluation tables",
+          "run_ids": "explicit actual source IDs; None uses revision/profile filtering",
+          "out_dir": "explicit new report destination",
+          "sweep_summary": "optional CSV requiring kind,limit,run_id,status,detail"
+        },
+        "initialization": "Use the trusted src.figures invocation with explicit --outputs, --runs and --out. Wrapper reports selects domains with recorded completed interoperability.",
+        "mutation": "Writes figure PNG/PDF/CSV and report products in out_dir; source pipeline artifacts are read. Per-figure exceptions become skipped entries without aborting other figures.",
+        "returns": [
+          "Path to report folder containing index.md, report.md, report.html, sweep_summary.csv and successfully generated figure files"
+        ],
+        "source_functions": [
+          "src/figures.py:build",
+          "src/figures.py:load_runs",
+          "src/report.py:write"
+        ]
+      },
+      "worked_example": "docs/codebase/stages/reports.md"
+    }
+  },
+  "callable_definitions": {
+    "src/agents/normalization.py:NormalizationAgent.run": "Transform a list of persisted paper records into canonical concepts, remapped relations/causal claims/measurements, contradictions, causal order, summary and agent statistics. Cleans the supplied in-memory paper lists; uses optional embedding-assisted merge proposals and model-reviewed decisions. Does not write normalized files itself.",
+    "src/run.py:normalize": "Load this run's saved paper records, instantiate NormalizationAgent with its ledger, run normalization, save uncertainty and seven returned fields, then write the corpus report/statistics. Returns report-derived corpus statistics for stage recording.",
+    "src/run.py:Run.papers": "Read sorted papers/*.json under this run directory and return their JSON objects as a list. It does not discover Zotero items or validate every record schema.",
+    "src/run.py:Run.write": "Serialize an object as JSON or retain supplied text, then atomically write it relative to the run directory. This is a persistence utility, not a scientific validator.",
+    "src/tools/reports.py:corpus_report": "Write a Markdown corpus report from normalized results and source papers, and return derived corpus statistics for the orchestrator to persist separately.",
+    "src/agents/extraction.py:ExtractionAgent.run": "Extract and reconcile evidence-backed concepts, relations, causal claims, measurements and figure links for one paper using the configured extraction passes. The orchestrator owns corpus selection, checkpoint persistence and per-paper failure handling.",
+    "src/agents/ontology.py:OntologyAgent.run": "Place normalized concepts using corpus relations, the selected nonempty domain and existing ontology-store candidates; return class records carrying parent decisions, exclusions, review information and stable domain IRIs.",
+    "src/agents/enrichment.py:EnrichmentAgent.run": "Enrich placed class records using normalized relations and causal claims, store/portal candidates and configured providers; return a tuple of enriched classes and a local property dictionary. Preserve evidence and review distinctions.",
+    "src/agents/interoperability.py:InteroperabilityAgent.run": "Align enriched classes with external candidates using properties, source papers, explicit run ID and domain; return formal ontology serializations, mapping/definition/facet artifacts, metrics, checks and validation. The orchestrator separately builds the literature-claims layer.",
+    "src/agents/integration.py:IntegrationAgent.run": "Compare a dictionary of distinct domain names to their live class lists, generate cross-domain candidates and reviewed mappings, and form bridge clusters without replacing the original domain ontologies.",
+    "src/tools/pdf_parse.py:parse": "Read a PDF path and return structured parser text, figure/caption and parsing information. In wrapper mode, worker.parse additionally creates text chunks and saves PDF hashes.",
+    "src/figures.py:build": "Load explicitly selected or configured completed run results, attempt each figure independently and write an index and readable reports to the selected output directory. Individual plot failures may be skipped rather than aborting the report."
+  },
+  "artifact_definitions": {
+    "papers/*.json": "One finalized extraction record per paper, identified by key, retaining concepts, relations, causal claims, measurements, figures and evidence/verification information. These persisted records are the normalization input boundary.",
+    "ingestion.json": "Selected citation-ranked domain papers, source metadata and corpus selection information produced by dashboard ingestion. Includes local PDF paths for parsing.",
+    "parsed/*.json": "Saved parser and chunker results for a selected paper, including key, source PDF hash and extraction text chunks; these are wrapper intermediate records.",
+    "normalized/concepts.json": "Canonical corpus vocabulary with k identifiers, labels, alternate labels, type votes, supporting papers, evidence-derived definitions and importance/rank fields. Exact original concept-ID merge lineage is not persisted here.",
+    "normalized/relations.json": "Corpus relations whose subject and object use canonical concept IDs, aggregated with supporting papers, counts and retained evidence.",
+    "normalized/causal.json": "Corpus causal claims with canonical cause/effect IDs, polarity, source papers, conditions and retained evidence; causal wording is not proof of causation.",
+    "normalized/measurements.json": "Reported values associated with canonical property concept IDs and optional entity IDs, source paper, units, conditions and evidence status.",
+    "normalized/contradictions.json": "Opposed causal claims retained for review, including source papers and conditions rather than silently resolving scientific disagreement.",
+    "normalized/causal_order.json": "Graph-derived causal ranks, chains, depth and cycles used for corpus exploration; a structural summary rather than validated causal inference.",
+    "normalized/summary.json": "Model-generated corpus summary and themes based on normalized concepts and causal structure; requires comparison with the supporting literature.",
+    "normalized/corpus_stats.json": "Corpus report statistics computed by reports.corpus_report, including canonical counts, support, tiers, conflicts and coverage. Distinct from NormalizationAgent.run's internal stats field.",
+    "corpus_report.md": "Readable corpus vocabulary, relation, support and review report written from normalized results and source papers.",
+    "ontology/classes.json": "Placed canonical class records with assigned domain IRIs, parent decisions, exclusions, parent sources and review flags.",
+    "ontology/enriched.json": "Placed classes after definition, restriction, synonym, disjointness and external-candidate enrichment, retaining evidence sources and review status.",
+    "ontology/properties.json": "Local property dictionary returned alongside enriched classes, used by interoperability to describe formal relationships.",
+    "ontology/validation.json": "Saved structural/export validation findings for the formal domain ontology; validity is separate from scientific claim acceptance.",
+    "ontology/mappings.json": "Selected local-to-external mappings with relation semantics, target ontology, method, scores/confidence and provenance.",
+    "ontology.ttl": "Formal domain OWL ontology serialized as Turtle, containing classes, properties, hierarchy, restrictions and selected mappings.",
+    "domain_layer.ttl": "Separate literature-claims Turtle layer built from normalized evidence and source papers; it preserves claims that are not asserted as formal ontology axioms.",
+    "integration.json": "Integration manifest recording explicit source runs/domains/revisions, formal export filenames, compute and validation summary. Public task observers whitelist structural fields; credentials and raw configuration are not part of the operational contract.",
+    "candidates.json": "Public cross-domain candidate pairs with source-side labels/IRIs, kind, similarity, reviewed flag and decision. A missing decision or cap-limited candidate is not an accepted mapping.",
+    "mappings.json": "Committed cross-domain mappings with both source run/domain identities, endpoint IRIs, relation semantics, confidence, decision source and pair identifier.",
+    "bridge_concepts.json": "Connected cross-domain groups from equivalent/exact/shared-IRI mappings, recording member IRIs/domains and labels. These cluster records are not a guarantee of new bridge OWL classes.",
+    "validation.json": "Saved structural integration checks for the master and source graph relationships; not a full scientific validation.",
+    "ontology/imported_definitions.json": "Interoperability import log recording which mapped external definitions/labels were used after enrichment; enriched.json is not rewritten by this stage.",
+    "ontology/facets.json": "MDS facet assignment artifact from interoperability, separate from initial BFO placement and source evidence.",
+    "ontology/review_issues.json": "Shared latest class-review artifact refreshed by placement and enrichment; it is not an immutable record of each earlier stage review.",
+    "ontology/cross_domain_candidates.json": "Advisory historical correspondences found during enrichment, not the explicitly selected domain-run inputs used by IntegrationAgent.",
+    "index.md": "Report figure inventory with source descriptions and recorded skipped/failed figure findings; inspect alongside report files.",
+    "sweep_summary.csv": "Report-derived domain/integration overview table; optional supplied sweep outcomes are also represented in the report."
+  }
+}

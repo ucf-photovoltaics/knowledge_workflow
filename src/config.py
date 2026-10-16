@@ -1,4 +1,7 @@
-"""Pipeline settings. API keys live in .env; everything else is set here."""
+"""Pipeline settings. API keys live in .env; everything else is set here.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import os
 from pathlib import Path
 
@@ -34,7 +37,9 @@ PROFILES = {
     "vllm": {"tier": "local", "provider": "openai", "base_url": os.getenv("VLLM_BASE_URL", "http://localhost:8000/v1"),
              "model": os.getenv("VLLM_MODEL", "mistralai/Mistral-Small-4-119B-2603"), "api_key_env": None,
              "max_input_chars": 48000, "outage_wait_s": 900,
-             "request": {"reasoning_effort": os.getenv("VLLM_REASONING_EFFORT", "none"), "max_tokens": 8000}},
+             "request": {"reasoning_effort": os.getenv("VLLM_REASONING_EFFORT", "none"), "max_tokens": 8000,
+                         # Qwen-style templates ignore reasoning_effort; other templates ignore this flag
+                         "extra_body": {"chat_template_kwargs": {"enable_thinking": False}}}},
     "gemini": {"tier": "frontier", "provider": "openai", "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
                "model": "gemini-3-flash-preview", "api_key_env": "GEMINI_API_KEY", "max_input_chars": 60000},
     "deepseek": {"tier": "frontier", "provider": "openai", "base_url": "https://api.deepseek.com/v1",
@@ -83,12 +88,21 @@ AGENT_MODELS = {"extraction": None, "normalization": None, "ontology": None,
 TEMPERATURE = None          # None = provider default (some reasoning models reject temperature)
 MAX_OUTPUT_TOKENS = 16000
 MAX_RETRIES = 6             # retries with exponential backoff on 429 / 5xx (e.g. "model overloaded")
+# Reuse model answers from earlier runs: identical whole requests (outputs/cache/calls) and identical rows across
+# runs, e.g. tea-n5 answers inside tea-n10 (outputs/cache/rows.sqlite3, src/agents/base.py RowCache).
+# KW_FRESH=1 asks the model again for everything (benchmarks and the reuse check).
+REUSE_ANSWERS = os.getenv("KW_FRESH", "") != "1"
+# KW_SCRATCH=1: a benchmark or check run - kept out of eval_runs.csv, the sweep figures and integration's run choice.
+SCRATCH_RUN = os.getenv("KW_SCRATCH", "") == "1"
 
 # ---- Embeddings (normalization synonym clustering; OpenAI-compatible /embeddings) ----
 # model None = skip embedding clustering (lexical merging only). e.g. "nomic-embed-text" on Ollama.
 # inputs_per_minute = provider quota on texts embedded per minute (Gemini free tier: 100); None = no pacing.
 EMBED = {"base_url": "http://localhost:11434/v1", "model": "nomic-embed-text", "api_key_env": None,
-         "inputs_per_minute": None, "cache_version": 1}  # bump if a model is replaced under the same name
+         "inputs_per_minute": None, "cache_version": 1,  # bump if a model is replaced under the same name
+         # retrieval task prefixes (nomic-embed-text expects these; "" for models without them). Ontology-store
+         # terms are documents, concepts searched against the store are queries; changing them needs `ontologies build`.
+         "query_prefix": "search_query: ", "document_prefix": "search_document: "}
 # Gemini alternative: {"base_url": "https://generativelanguage.googleapis.com/v1beta/openai/", "model": "gemini-embedding-001",
 #                      "api_key_env": "GEMINI_API_KEY", "inputs_per_minute": 90}
 
@@ -112,8 +126,126 @@ COLLECTIONS = {
     "sem-contact-corrosion": {"library_id": "2189702", "collection_key": "VWMCLGL5"},  # SEM-Contact-Corrosion (12)
     "sem-shj": {"library_id": "2189702", "collection_key": "L32TVGDK"},      # SEM-SHJ-Contact-Formation (3)
     "em-review": {"library_id": "2189702", "collection_key": "7R8Z2DNG"},    # Electron Microscopy Review (37)
+    # Use-case collections (scripts/use-cases.txt); PDF counts from the 2026-10-16 Zotero inventory.
+    # "domain" names the field for the prompts (config.DOMAIN); without it a collection is photovoltaics.
+    "accel-testing": {"library_id": "2189702", "collection_key": "HR3N6D86"},  # UCF DEPV: Reliability-Durability / Accelerated Testing (32 PDFs)
+    "acrylic-hardcoats": {"library_id": "37619", "collection_key": "UZ5PZED4", "domain": "polymers"},  # CWRU-SDLE: PolymersLit / PMMA / AcrylicHardcoats (64 PDFs)
+    "adv-manufacturing": {"library_id": "37619", "collection_key": "RUSNPYY6", "domain": "additive manufacturing"},  # CWRU-SDLE: AdvancedManufacturing (53 PDFs)
+    "ai4science": {"library_id": "37619", "collection_key": "H6SE4JV9", "domain": "AI for science"},  # CWRU-SDLE: DataScience / AI4Science-FASST (72 PDFs)
+    "backsheets": {"library_id": "37619", "collection_key": "A9G7PIW6"},  # CWRU-SDLE: PVlit / Backsheets (204 PDFs)
+    "building-energy": {"library_id": "37619", "collection_key": "SR7EXM7B", "domain": "building energy"},  # CWRU-SDLE: GroupMembers / Shreyas (97 PDFs)
+    "building-nn": {"library_id": "37619", "collection_key": "X7DVPQEK", "domain": "building energy"},  # CWRU-SDLE: BuildingEnergyEff / Neural Network (47 PDFs)
+    "cdte": {"library_id": "6423676", "collection_key": "NEKYMJDL"},  # PV-Opto-KG: CdTe (51 PDFs)
+    "cell-corrosion": {"library_id": "37619", "collection_key": "3QH98BPY"},  # CWRU-SDLE: PVlit / Cells / Cell-Corrosion (42 PDFs)
+    "cell-cracking": {"library_id": "37619", "collection_key": "X4YREY6N"},  # CWRU-SDLE: PVlit / Cells / CellCracking (91 PDFs)
+    "cell-metrology": {"library_id": "2189702", "collection_key": "AI25PZIX"},  # UCF DEPV: Characterization and Metrology / Cell Metrology (319 PDFs)
+    "chem-reactions": {"library_id": "37619", "collection_key": "9FLFUHV3", "domain": "chemistry and chemical synthesis"},  # CWRU-SDLE: GroupMembers / QuynhDTran / ChemReactions (61 PDFs)
+    "chemistry": {"library_id": "37619", "collection_key": "BJQ3H4ZY", "domain": "chemistry information extraction"},  # CWRU-SDLE: Chemistry (83 PDFs)
+    "coatings": {"library_id": "37619", "collection_key": "U4Q83KBG", "domain": "polymer coatings"},  # CWRU-SDLE: PolymersLit / Coatings (81 PDFs)
+    "contact-degr": {"library_id": "2189702", "collection_key": "ML5USF6J"},  # UCF DEPV: -Archived Collections- / Contact Degradation (66 PDFs)
+    "digital-twin": {"library_id": "37619", "collection_key": "HDKGRHYA", "domain": "digital twins"},  # CWRU-SDLE: DataScience / DigitalTwin (44 PDFs)
+    "diw-am": {"library_id": "37619", "collection_key": "9FZYE7EM", "domain": "additive manufacturing"},  # CWRU-SDLE: GroupMembers / Hein / DIW/AM (141 PDFs)
+    "elec-components": {"library_id": "5987301", "collection_key": "CLEVUB8V", "domain": "infrared photodetectors"},  # UCF-DARTS: P13-AI-Assisted-Knowledge-Extraction / Dataset-Electron (107 PDFs)
+    "encapsulants": {"library_id": "37619", "collection_key": "RZ49WRN3"},  # CWRU-SDLE: PVlit / Encapsulants (133 PDFs)
+    "energy-resilience": {"library_id": "2189702", "collection_key": "R2XEADNT", "domain": "energy resilience"},  # UCF DEPV: Energy Resilience (61 PDFs)
+    "eva-pe-degr": {"library_id": "37619", "collection_key": "M9GN3HHY", "domain": "polymer degradation"},  # CWRU-SDLE: GroupMembers / Klinke / EVA-PE-Degradation (52 PDFs)
+    "extreme-weather": {"library_id": "2189702", "collection_key": "XHEJUKL7"},  # UCF DEPV: Extreme Weather (26 PDFs)
+    "fair-data": {"library_id": "37619", "collection_key": "UWCPEV6E", "domain": "FAIR research data"},  # CWRU-SDLE: FAIR-Ontology / FAIR-data (40 PDFs)
+    "field-studies": {"library_id": "2189702", "collection_key": "9E649EBP"},  # UCF DEPV: Reliability-Durability / Field Studies (38 PDFs)
+    "fluoropolymer": {"library_id": "37619", "collection_key": "EGUBBBHV", "domain": "polymers"},  # CWRU-SDLE: PolymersLit / Fluoropolymer (94 PDFs)
+    "gaas": {"library_id": "6423676", "collection_key": "G32B4IIS"},  # PV-Opto-KG: GaAs (54 PDFs)
+    "geospatial": {"library_id": "37619", "collection_key": "V7CPNW5X", "domain": "geospatial data science"},  # CWRU-SDLE: DataScience / GeoSpatioTemporal (71 PDFs)
+    "gnn": {"library_id": "37619", "collection_key": "PAB55QSY", "domain": "graph neural networks"},  # CWRU-SDLE: DataScience / GraphNeuralNetworks (177 PDFs)
+    "iec-climatic": {"library_id": "37619", "collection_key": "5TF9N2Z7"},  # CWRU-SDLE: Standards / IEC / IEC-Climatic (69 PDFs)
+    "image-ml": {"library_id": "37619", "collection_key": "DVTAU699", "domain": "image machine learning"},  # CWRU-SDLE: DataScience / ImageML (86 PDFs)
+    "indentation": {"library_id": "37619", "collection_key": "73Q4SYTL", "domain": "nanoindentation and thin-film mechanics"},  # CWRU-SDLE: Materials / Indentation (50 PDFs)
+    "kg-rdf": {"library_id": "37619", "collection_key": "WNHDSEVJ", "domain": "knowledge graphs"},  # CWRU-SDLE: FAIR-Ontology / KnowledgeGraphs-RDF (43 PDFs)
+    "lifetime-degr": {"library_id": "37619", "collection_key": "HMBT8DV3"},  # CWRU-SDLE: PVlit / LifetimeDegradation (72 PDFs)
+    "lithography": {"library_id": "37619", "collection_key": "PJ6EWCFC", "domain": "lithography"},  # CWRU-SDLE: SemiconductorsLit / LithographyLit / ARMR (32 PDFs)
+    "matdatasci": {"library_id": "37619", "collection_key": "UCAPCC7G", "domain": "materials data science"},  # CWRU-SDLE: DataScience / MatDataSci (59 PDFs)
+    "metallization": {"library_id": "2189702", "collection_key": "WZHTQQLX"},  # UCF DEPV: Metallization (121 PDFs)
+    "microstructure-sim": {"library_id": "37619", "collection_key": "8MYPHITN", "domain": "microstructure simulation and characterization"},  # CWRU-SDLE: GroupMembers / Gabriel / Microstructure-Simulation (55 PDFs)
+    "module-metrology": {"library_id": "2189702", "collection_key": "IBBXLNG6"},  # UCF DEPV: Characterization and Metrology / Module Metrology (94 PDFs)
+    "onto-chem": {"library_id": "37619", "collection_key": "HILDJZU3", "domain": "chemistry ontologies and knowledge graphs"},  # CWRU-SDLE: FAIR-Ontology / Onto-Chem (40 PDFs)
+    "plant-performance": {"library_id": "37619", "collection_key": "NGRSRICF"},  # CWRU-SDLE: PVlit / PV-PlantPerformance (56 PDFs)
+    "pmma": {"library_id": "37619", "collection_key": "SZZNAEJZ", "domain": "polymer degradation"},  # CWRU-SDLE: PolymersLit / PMMA (47 PDFs)
+    "pv-cells-annot": {"library_id": "5987301", "collection_key": "HSWHBIMI"},  # UCF-DARTS: P13-AI-Assisted-Knowledge-Extraction / Dataset-Photovol (103 PDFs)
+    "reasoning": {"library_id": "37619", "collection_key": "2BJVUBI5", "domain": "ontology reasoning"},  # CWRU-SDLE: FAIR-Ontology / Reasoning (42 PDFs)
+    "recycling": {"library_id": "37619", "collection_key": "FI9BFJRJ"},  # CWRU-SDLE: PVlit / Recycling-CircularEconomy (60 PDFs)
+    "rubber-microplastics": {"library_id": "37619", "collection_key": "9UR82HDT", "domain": "rubber and tire materials"},  # CWRU-SDLE: GroupMembers / Hein / Rubber-Microplastics (34 PDFs)
+    "semis": {"library_id": "37619", "collection_key": "J5WTX9RG", "domain": "semiconductor microelectronics"},  # CWRU-SDLE: SemiconductorsLit (37 PDFs)
+    "servicelife": {"library_id": "37619", "collection_key": "97G2FTE4"},  # CWRU-SDLE: RelPhys-SLP (43 PDFs)
+    "sic": {"library_id": "37619", "collection_key": "QBMET8FE", "domain": "silicon carbide"},  # CWRU-SDLE: Materials / SiC (53 PDFs)
+    "solar-forecast": {"library_id": "37619", "collection_key": "4SQFK67E"},  # CWRU-SDLE: PVlit / SolarForecast (43 PDFs)
+    "spatial-char": {"library_id": "2189702", "collection_key": "8CP6VFBU"},  # UCF DEPV: Characterization and Metrology / Spatially-Resolved Cha (58 PDFs)
+    "timeseries": {"library_id": "37619", "collection_key": "7W8F2922", "domain": "time series statistics"},  # CWRU-SDLE: Statistics / TimeSeriesAnalysis (134 PDFs)
+    "topcon-rel": {"library_id": "2189702", "collection_key": "NEEKPD6J"},  # UCF DEPV: Reliability-Durability / TOPCon (37 PDFs)
+    "xct": {"library_id": "37619", "collection_key": "Y5QLU9XG", "domain": "X-ray computed tomography of materials"},  # CWRU-SDLE: DataScience / XCT (47 PDFs)
+    "xrd": {"library_id": "37619", "collection_key": "39II8T8R", "domain": "X-ray diffraction and scattering"},  # CWRU-SDLE: DataScience / XRD-WAXS-SAXS (86 PDFs)
 }
 DEFAULT_COLLECTION = "default"
+
+# ---- Domain wording in the prompts ----
+# The prompts name the field the papers come from ({{domain}}) and give examples ({{ex:<name>}}). A collection may set
+# "domain" (default "photovoltaics"); src/run.py sets DOMAIN per run, and integration joins its runs' domains.
+# For photovoltaics the prompts render exactly as written for PV; any other domain also gets the neutral examples.
+DEFAULT_DOMAIN = "photovoltaics"
+DOMAIN = DEFAULT_DOMAIN
+PROMPT_EXAMPLES = {  # name: (photovoltaics wording, wording for any other domain)
+    "materials": ("wafer, layer, film, paste, encapsulant, dopant, gas, chemical",
+                  "substrate, layer, film, powder, polymer, additive, gas, chemical"),
+    "devices": ("cell, module, contact, junction, interface, stack",
+                "device, component, part, joint, interface, assembly"),
+    "equipment": ("furnace, PECVD tool, solar simulator, SEM",
+                  "furnace, deposition tool, test chamber, SEM"),
+    "process_steps": ("texturing, diffusion, deposition, firing, annealing, lamination, cleaning, testing",
+                      "mixing, casting, deposition, curing, annealing, machining, cleaning, testing"),
+    "parameters": ("temperature, time, pressure, gas flow, thickness, doping level, dose, ramp rate",
+                   "temperature, time, pressure, gas flow, thickness, concentration, dose, ramp rate"),
+    "properties": ("efficiency, Voc, Jsc, FF, lifetime, sheet resistance, series resistance, recombination current, reflectance, cost, degradation rate",
+                   "efficiency, strength, modulus, conductivity, lifetime, resistance, yield, reflectance, cost, degradation rate"),
+    "phenomena": ("recombination, LeTID, corrosion, delamination, cracks, PID",
+                  "diffusion, fatigue, corrosion, delamination, cracks, creep"),
+    "methods": ("EL, PL, IV, SIMS, modelling, simulation",
+                "SEM, XRD, FTIR, tensile testing, modelling, simulation"),
+    "stressors": ("damp heat, UV exposure, illumination, bias, climate",
+                  "humidity, UV exposure, heat, mechanical load, climate"),
+    "label_example": ('"rear AlOx passivation layer", not just "layer"',
+                      '"UV-cured acrylic topcoat", not just "coating"'),
+    "quality": ('("the module has an efficiency"); has_disposition: a tendency ("modules susceptible to PID")',
+                '("the coating has a thickness"); has_disposition: a tendency ("joints susceptible to fatigue")'),
+    "parthood": ('("the rear contact is part of the cell", "the process has a firing step")',
+                 '("the topcoat is part of the coating system", "the process has a curing step")'),
+    "causal_param": ('("higher firing temperature increases contact resistance")',
+                     '("higher curing temperature increases hardness")'),
+    "causal_stressor": ('("damp heat causes corrosion of the Ag fingers")',
+                        '("humidity causes corrosion of the steel substrate")'),
+    "causal_finding": ('("thinner oxide improved Voc"), and prevention or mitigation ("hydrogenation prevents LeTID")',
+                       '("thinner layers improved adhesion"), and prevention or mitigation ("a UV absorber prevents yellowing")'),
+    "configuration": ("solar cell does not necessarily imply an amorphous silicon film or a phosphorus-diffused emitter",
+                      "coating does not necessarily imply the specific resin or cure schedule one paper used"),
+    "measured_thing": ('("efficiency" is not "solar cell")',
+                       '("efficiency" is not "device")'),
+    "material_entities": ("materials, layers, wafers, cells, modules, equipment",
+                          "materials, layers, substrates, devices, components, equipment"),
+    "cat_quality": ("efficiency, Voc, temperature, reflectance",
+                    "efficiency, strength, temperature, reflectance"),
+    "cat_disposition": ("susceptibility to PID, degradation propensity",
+                        "susceptibility to corrosion, degradation propensity"),
+    "cat_function": ("passivation function, current collection",
+                     "protective function, load bearing"),
+    "onto_quality": ("efficiency, open-circuit voltage, temperature, reflectance",
+                     "efficiency, tensile strength, temperature, reflectance"),
+    "onto_function": ("susceptibility to degradation, passivation function",
+                      "susceptibility to degradation, protective function"),
+    "onto_process": ("degradation, annealing, light soaking, deposition, an act of measuring",
+                     "degradation, annealing, curing, deposition, an act of measuring"),
+}
+
+
+def domain_of(collection: dict) -> str:
+    """The field a collection's papers come from, as the prompts name it."""
+    return collection.get("domain", DEFAULT_DOMAIN)
 # Keep only the N most-cited papers per collection that have a PDF (OpenAlex cited_by_count). None = all.
 TOP_N_BY_CITATIONS = 50
 
@@ -155,9 +287,9 @@ ONTOLOGY_SOURCES = {
 }
 ONTOLOGY_STORE = CACHE / "ontology_store"
 ONTOLOGY_SEARCH = {
-    "weights": {"lexical": 0.5, "cosine": 0.5},  # fused score: lexical = 1 for an exact label, else trigram similarity
+    "weights": {"lexical": 0.4, "cosine": 0.6},  # fused score: lexical = 1 for an exact label, else trigram similarity
     "min_score": 0.35,           # fused score a candidate needs (exact label matches are always kept)
-    "min_fuzzy": 0.5,            # trigram similarity that counts as a lexical hit
+    "min_fuzzy": 0.5,            # trigram similarity that counts as a lexical hit (labels must share a whole word)
     "min_cosine": 0.75,          # embedding cosine that counts as a semantic hit (nomic-embed-text: any two terms ~0.5)
     "candidates_per_class": 8,   # external candidates from the store shown per class (interop)
     "portal_per_class": 5,       # plus up to this many portal terms outside the store (SKOS mappings only),
@@ -173,6 +305,9 @@ ONTOLOGY_SEARCH = {
 }
 
 # ---- Mapping checks (interoperability, integration) ----
+# Local tier study stage and domain tags: "combined" = one call per batch returns both (default since 2026-10-15),
+# "split" = a stage call and a domain call per batch, as before. KW_FACET_CALLS overrides it (the facets check).
+FACET_CALLS = os.getenv("KW_FACET_CALLS", "combined")
 MAPPING = {
     "strong_similarity": 0.85,   # label-matched candidate at/above this is auto-mapped as exact if the model skipped it
     "row_retries": 2,            # interop passes (screening, study stage, domain): rows left out are re-sent twice,
@@ -211,7 +346,7 @@ LORA = {
 # ---- Output ontology ----
 ONTOLOGY_IRI = "http://example.org/kw/"
 ONTOLOGY_TITLE = "PV Knowledge Workflow Ontology"
-WORKFLOW_REVISION = "2026-10-14-category-from-type"
+WORKFLOW_REVISION = "2026-10-16-embedding-parents"
 WORKFLOW_REVISION_NOTE = ("External terms from a local ontology store (Oxigraph + trigram + embedding search over BFO, "
                           "CCO, RO, QUDT, PMDCO, IOF, MDS-Onto): placement parents (CCO, then BFO; same-name MDS-Onto/PMDCO "
                           "class wins), restriction properties, mapping candidates with 1-2 hop propagation; broader, "
@@ -225,7 +360,15 @@ WORKFLOW_REVISION_NOTE = ("External terms from a local ontology store (Oxigraph 
                           "v5: explicit row coverage, task batches and answer examples, downstream response and embedding "
                           "caches, early paper limits, short-section packing, deduplicated portal queries and vector top-k; "
                           "2026-10-14: BFO category from the extraction type (the model only marks non-classes), "
-                          "model merge labels read as text, a restarting local server waited out for outage_wait_s")
+                          "model merge labels read as text, a restarting local server waited out for outage_wait_s; "
+                          "2026-10-15: answers reused per identical row across runs (corpus sizes), study stage and "
+                          "domain in one local call, definitions and disjointness in batches of 8, each sibling pair "
+                          "asked once for disjointness (next siblings by label), overload halves the request limit; "
+                          "2026-10-16: prompts name the collection's domain (default photovoltaics, unchanged); local "
+                          "parent pass offers each concept its 5 nearest same-category corpus concepts by embedding "
+                          "instead of one top-150 list; exact CCO/BFO label matches offered outside the category; fuzzy "
+                          "label matches need a shared whole word; nomic query/document prefixes; fused weight 0.4/0.6 "
+                          "lexical/cosine; 5 nearest store classes kept")
 # Profiles whose enrichment may write definitions from model knowledge (recorded as definition_source <profile>:<model>).
 MODEL_DEFINITION_PROFILES = ("gemini", "gemini-lite")
 

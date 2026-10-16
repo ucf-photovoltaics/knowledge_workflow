@@ -1,4 +1,7 @@
-"""Ontology store on two tiny ontologies: home attribution, label search, ancestors, mapping propagation."""
+"""Ontology store on two tiny ontologies: home attribution, label search, ancestors, mapping propagation.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import pytest
 
 pytest.importorskip("pyoxigraph")

@@ -1,0 +1,482 @@
+[
+  {
+    "path": "docs/ontology/next-step.rq",
+    "status": "already present"
+  },
+  {
+    "path": "docs/ontology/step-functions.rq",
+    "status": "already present"
+  },
+  {
+    "path": "dpv_dashboard/__init__.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/__main__.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/app.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/auth.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/catalog.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/chat_settings.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/exploration.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/external.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/highlight.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/inspect.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/integration.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/jobs.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/media.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/model.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/pages/__init__.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/pages/browse.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/pages/exploration.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/pages/home.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/pages/inventory.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/pages/research.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/pages/stage.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/presentation.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/quality.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/record_view.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/research.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/tests/test_chat_presentation.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/tests/test_dashboard.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/tests/test_external.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/tests/test_highlight_exploration.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/tests/test_record_views.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/tests/test_reference_crops.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/tests/test_research.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/tests/test_search_quality.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/tests/test_stage_navigation.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/tests/test_visual_graph.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/viewer.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/visual_graph.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/worker.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "dpv_dashboard/www/dashboard.css",
+    "status": "language-appropriate header updated"
+  },
+  {
+    "path": "dpv_dashboard/www/dashboard.js",
+    "status": "language-appropriate header updated"
+  },
+  {
+    "path": "dpv_dashboard/www/vowl-bridge.js",
+    "status": "language-appropriate header updated"
+  },
+  {
+    "path": "dpv_dashboard/zotero.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "script.txt",
+    "status": "language-appropriate header updated"
+  },
+  {
+    "path": "scripts/auto-sweep.ps1",
+    "status": "language-appropriate header updated"
+  },
+  {
+    "path": "scripts/bench-concurrency.ps1",
+    "status": "language-appropriate header updated"
+  },
+  {
+    "path": "scripts/compare_runs.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "scripts/document-codebase.py",
+    "status": "already present"
+  },
+  {
+    "path": "scripts/run-checks.ps1",
+    "status": "language-appropriate header updated"
+  },
+  {
+    "path": "scripts/run-sweep.ps1",
+    "status": "language-appropriate header updated"
+  },
+  {
+    "path": "scripts/slurm-sweep.sh",
+    "status": "language-appropriate header updated"
+  },
+  {
+    "path": "scripts/stop-sweep.ps1",
+    "status": "language-appropriate header updated"
+  },
+  {
+    "path": "scripts/validate-codebase-ontology.py",
+    "status": "already present"
+  },
+  {
+    "path": "src/__init__.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/agents/__init__.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/agents/base.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/agents/enrichment.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/agents/extraction.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/agents/integration.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/agents/interoperability.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/agents/normalization.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/agents/ontology.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/config.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/figures.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/report.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/resources/lora/finetune_colab.ipynb",
+    "status": "language-appropriate header updated"
+  },
+  {
+    "path": "src/resources/lora/train_local.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/run.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/__init__.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/bottomup.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/citations.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/files.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/gemini_quota.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/integration.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/ledger.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/lexical.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/llm.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/lora_data.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/lora_eval.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/materials_project.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/matportal.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/mds_onto_open_api.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/mds_portal.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/ontology_review.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/ontostore.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/owl.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/pdf_parse.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/progress.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/reports.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/retrieval.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/upper.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/workers.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "src/tools/zotero.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "start-dashboard.ps1",
+    "status": "language-appropriate header updated"
+  },
+  {
+    "path": "tests/test_gemini_quota.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "tests/test_identity.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "tests/test_interoperability_alignment.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "tests/test_materials_project.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "tests/test_ontostore.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "tests/test_parent_answers.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "tests/test_row_retries.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "tests/test_runtime.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "tests/test_search_diagnostics.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "tests/test_shared_files.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "tests/test_speedups.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "tests/test_sweep.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "tests/test_sweep_reporting.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "tests/test_workers.py",
+    "status": "header updated; executable Python AST unchanged"
+  },
+  {
+    "path": "docs/ontology/artifact-flow.rq",
+    "status": "author header supplied at file creation; verified 2026-10-16"
+  },
+  {
+    "path": "scripts/codebase_ontology.py",
+    "status": "author header supplied at file creation; verified 2026-10-16"
+  },
+  {
+    "path": "scripts/ontology_agent.py",
+    "status": "author header supplied at file creation; verified 2026-10-16"
+  },
+  {
+    "path": "tests/test_codebase_ontology.py",
+    "status": "author header supplied at file creation; verified 2026-10-16"
+  },
+  {
+    "path": "docs/ontology/viewer/frame.css",
+    "status": "author header supplied with operational contracts/reviewer source; verified 2026-10-16"
+  },
+  {
+    "path": "docs/ontology/viewer/index.html",
+    "status": "author header supplied with operational contracts/reviewer source; verified 2026-10-16"
+  },
+  {
+    "path": "docs/ontology/viewer/reviewer.css",
+    "status": "author header supplied with operational contracts/reviewer source; verified 2026-10-16"
+  },
+  {
+    "path": "docs/ontology/viewer/reviewer.js",
+    "status": "author header supplied with operational contracts/reviewer source; verified 2026-10-16"
+  },
+  {
+    "path": "scripts/export-codebase-webvowl.py",
+    "status": "author header supplied with operational contracts/reviewer source; verified 2026-10-16"
+  },
+  {
+    "path": "scripts/operational_contracts.py",
+    "status": "author header supplied with operational contracts/reviewer source; verified 2026-10-16"
+  },
+  {
+    "path": "tests/test_operational_contracts.py",
+    "status": "author header supplied with operational contracts/reviewer source; verified 2026-10-16"
+  }
+]

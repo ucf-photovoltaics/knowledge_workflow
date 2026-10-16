@@ -1,0 +1,23 @@
+[
+  {
+    "file": "BFO.ttl",
+    "source": "existing read-only ontology cache",
+    "sha256": "128f5fe1dab7ee804a3037a836813e5953c846eeeefee883a47d5db0b37a106b",
+    "ontology_iri": "http://purl.obolibrary.org/obo/bfo.owl",
+    "version_iri": "http://purl.obolibrary.org/obo/bfo/2020/bfo-core.ttl"
+  },
+  {
+    "file": "CCO.ttl",
+    "source": "existing read-only ontology cache",
+    "sha256": "a9453382b25b40781c181d6ba44981f228abb76d90d548846713adba9baadb42",
+    "ontology_iri": "https://www.commoncoreontologies.org/CommonCoreOntologiesMerged",
+    "version_iri": "https://www.commoncoreontologies.org/2026-08-13/CommonCoreOntologiesMerged"
+  },
+  {
+    "file": "PROV.ttl",
+    "source": "https://www.w3.org/ns/prov-o.ttl",
+    "sha256": "7d203989f67b38bca572253942acc5a1bf24ce3ccfece16f072dcb4be2b79a96",
+    "ontology_iri": "http://www.w3.org/ns/prov#",
+    "version_iri": "http://www.w3.org/ns/prov#"
+  }
+]

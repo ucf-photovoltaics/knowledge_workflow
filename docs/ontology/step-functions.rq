@@ -1,0 +1,10 @@
+# Author: Brent Thompson <brent.thompson@ucf.edu>
+# Summary: Navigate every operational step to its source callable and expected products.
+PREFIX kw: <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?step ?label ?file ?function ?line ?output WHERE {
+ kw:LiteratureToOntologyWorkflow kw:hasStep ?step .
+ ?step rdfs:label ?label ; kw:hasImplementation ?implementation ; kw:expectsOutput ?artifact .
+ ?implementation kw:sourcePath ?file ; kw:qualifiedName ?function ; kw:lineStart ?line .
+ ?artifact kw:artifactPattern ?output .
+} ORDER BY ?step ?file ?function

@@ -1,4 +1,7 @@
-"""Review artifacts for evidence-backed placements and cross-domain candidates."""
+"""Review artifacts for evidence-backed placements and cross-domain candidates.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import json
 import re
 from collections import defaultdict

@@ -1,3 +1,7 @@
+"""MDS-Onto portal REST API helpers and FastMCP tool definitions for ontology retrieval.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 from typing import Any, Dict, List, Optional
 import requests
 from fastmcp import FastMCP

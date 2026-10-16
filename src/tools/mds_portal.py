@@ -1,4 +1,7 @@
-"""Thin wrapper over the MDS-Onto Open Portal client (mds_onto_open_api.py, vendored unchanged)."""
+"""Thin wrapper over the MDS-Onto Open Portal client (mds_onto_open_api.py, vendored unchanged).
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 from functools import lru_cache
 
 import requests

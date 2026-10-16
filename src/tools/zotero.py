@@ -1,6 +1,8 @@
 """Zotero: list collections, fetch a collection's top-level items, and cache their PDFs.
 
 PDF lookup order: local cache -> zotero.org file download -> local Zotero storage -> linked-file path.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
 """
 import shutil
 from functools import lru_cache

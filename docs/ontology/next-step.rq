@@ -1,0 +1,9 @@
+# Author: Brent Thompson <brent.thompson@ucf.edu>
+# Summary: Retrieve invocation templates and prerequisite specifications for an explicit step.
+PREFIX kw: <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#>
+SELECT ?mode ?arguments ?prerequisite ?completion ?recovery WHERE {
+ VALUES ?step { <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#step/normalize> }
+ ?step kw:hasInvocation ?invocation ; kw:completionRule ?completion ; kw:recoveryRule ?recovery .
+ ?invocation kw:executionMode ?mode ; kw:commandArguments ?arguments .
+ OPTIONAL { ?invocation kw:requiresStepForMode ?prerequisite }
+}

@@ -1,0 +1,44 @@
+# Use cases for scripts/slurm-sweep.sh:  USE_CASE=<name> sbatch scripts/slurm-sweep.sh
+# Format:  name: collection collection ...  # max=N  what the integration should show
+# Collections are names in COLLECTIONS (src/config.py); each one's "domain" sets the field the prompts name (default
+# photovoltaics). max= is the largest sweep size every domain can fill with PDFs not shared with the other domains
+# (2026-10-16 inventory). Evidence for each strong use case: docs/use-cases.md.
+
+# ---- Strong: domains share <= 2 PDFs pairwise, backed by published demand ----
+pv-cost-chain: tea reliability si-topcon  # max=50  PV: current SWJ triple; degradation mechanisms -> cost drivers
+si-cell-transition: si-perc si-topcon si-shj  # max=50  PV: shared Si device physics, distinct contact/passivation stacks
+silver-to-copper: metallization tea recycling  # max=50  PV: silver thrifting vs cost vs recycling value
+backsheet-weathering: coatings backsheets field-studies  # max=35  mixed: polymer-coatings weathering science -> PV backsheet field cracking
+corrosion-across: coatings cell-corrosion xct  # max=40  mixed: protective coatings, PV contact corrosion, CT of corroding metals
+am-materials-chain: diw-am indentation xct  # max=45  non-PV: AM process -> mechanical properties -> CT defect inspection
+autonomous-characterization: xrd microstructure-sim matdatasci  # max=50  non-PV: diffraction, microstructure models, data-driven materials science
+chem-materials-bridge: chem-reactions matdatasci onto-chem  # max=35  non-PV: chemistry vs materials science vocabularies
+semantic-web-stack: kg-rdf reasoning fair-data  # max=40  non-PV: KG construction, OWL reasoning, FAIR data
+polymer-durability: pmma eva-pe-degr rubber-microplastics  # max=30  mixed: photo/thermal degradation across PMMA optics, EVA, tire rubber
+
+# ---- Possible: weaker evidence, smaller domains, or overlapping papers (dedupe before trusting integration counts) ----
+circular-economy: recycling tea reliability  # max=50  PV: lifetime extension vs end-of-life recovery vs LCOE
+test-to-field: iec-climatic accel-testing field-studies  # max=25  PV: which lab stresses reproduce which field failures
+weather-resilience: energy-resilience extreme-weather plant-performance  # max=20  mixed: hail/hurricane damage -> plant output -> grid
+field-loss-analytics: timeseries plant-performance reliability  # max=50  mixed: statistical PLR methods <-> plant data <-> mechanisms
+absorber-platforms: cdte gaas si-topcon  # max=45  PV: three absorber families
+grid-buildings: building-energy energy-resilience solar-forecast  # max=40  mixed: building loads, outage resilience, PV forecasting
+five-absorbers: si-perc si-topcon si-shj cdte gaas  # max=45  PV: five-way integration of cell technologies
+cost-chain-plus: tea reliability si-perc si-topcon si-shj  # max=50  PV: cost chain across all three Si architectures
+imaging-defects-ml: spatial-char cell-cracking image-ml  # max=50  mixed: 8 shared PDFs; luminescence imaging -> cracks -> ML taxonomies
+encapsulant-corrosion: encapsulants cell-corrosion metallization  # max=25  PV: 9 shared PDFs; acetic acid from EVA -> contact corrosion
+topcon-reliability: si-topcon topcon-rel contact-degr  # max=30  PV: TOPCon UVID/damp-heat failure modes vs contact degradation
+measurement-scales: cell-metrology module-metrology plant-performance  # max=50  PV: 6 shared PDFs; one quantity at cell, module, plant
+polymer-backsheets: acrylic-hardcoats fluoropolymer backsheets  # max=50  mixed: polymer chemistry behind backsheet layers
+recycling-materials: recycling encapsulants tea  # max=50  PV: encapsulant chemistry as the barrier to recycling cost
+service-life-prediction: servicelife lifetime-degr timeseries  # max=40  mixed: service-life models <-> observed degradation <-> statistics
+annotated-benchmark: pv-cells-annot elec-components gaas  # max=50  mixed: UCF-DARTS annotated sets (PV cells, IR photodetectors) as a scored check
+am-qualification: adv-manufacturing xct digital-twin  # max=35  non-PV: 5 shared PDFs; in-situ monitoring, CT, digital twins
+chemistry-ie: chemistry chem-reactions onto-chem  # max=35  non-PV: chemical information extraction, synthesis planning, chemistry KGs
+ai-for-science: ai4science matdatasci kg-rdf  # max=40  non-PV: AI-for-science agendas, materials data science, KGs
+building-forecasting: building-nn solar-forecast timeseries  # max=40  mixed: load forecasting, PV forecasting, statistical methods
+geo-hazards: geospatial extreme-weather energy-resilience  # max=20  mixed: infrastructure exposure, extreme weather, resilience
+microelectronics: semis lithography sic  # max=30  non-PV: CMOS scaling, lithography, wide-bandgap SiC
+imaging-ml-materials: image-ml xct microstructure-sim  # max=45  non-PV: image ML, tomography, microstructure analysis
+graph-learning-science: gnn kg-rdf chem-reactions  # max=40  non-PV: graph neural networks, KGs, chemistry
+pv-in-buildings: building-energy plant-performance solar-forecast  # max=40  mixed: building energy, PV plant output, forecasting

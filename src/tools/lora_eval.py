@@ -8,6 +8,8 @@ Per task: JSON validity, plus
   restrict  - property precision, recall, F1 (any fitting property counts); share of vague/ill-fitting relations dropped
   extract   - concept-label and causal-pair F1 against the teacher
 Writes outputs/lora/eval/<model>-<time>.json and a row in outputs/lora/eval_summary.csv.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
 """
 import json
 import re

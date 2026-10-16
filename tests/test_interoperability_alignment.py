@@ -1,4 +1,7 @@
-"""Alignment replies may reference only candidates shown in the current batch."""
+"""Alignment replies may reference only candidates shown in the current batch.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import sys
 import unittest
 from collections import Counter

@@ -1,0 +1,87 @@
+% 03b-embeddings.tex -- place directly after the architecture overview (03), before the stage descriptions (04).
+% Numbers marked "development revision" come from runs on revisions 2026-10-15 and 2026-10-16 and motivate the design;
+% effect numbers for the 2026-10-16 retrieval wait for runs on that revision (% TODO below). Bib keys are placeholders.
+
+\section{Embeddings}\label{sec:embeddings}
+
+Several steps of the pipeline must find, among many terms, the few that could name the same thing as a given concept or stand above it in a hierarchy: synonym candidates within a corpus, parent classes in BFO and CCO, mapping targets in seven external ontologies, properties for extracted relations, and corresponding classes across domain ontologies. Asking the language model to compare every pair is not feasible: one 25-paper domain yields about 2,200 classes, and the ontology store holds over 11,000 terms. Matching labels alone misses synonyms worded differently and matches unrelated labels that share letters. The pipeline therefore uses text embeddings to retrieve a short candidate list for each decision. Embeddings only retrieve. Every list goes to the language model, which chooses from it, or to a deterministic rule; no merge, parent, mapping or axiom is asserted because two vectors are close.
+
+\subsection{Model and embedded text}
+
+All vectors come from one model, \texttt{nomic-embed-text} (768 dimensions) % CITE: Nussbaum et al., Nomic Embed (2024)
+served through an OpenAI-compatible endpoint (Ollama). The HPC runs keep the same model, so local and HPC runs share vectors. Vectors are normalized to unit length and compared by cosine similarity. Each vector is cached on disk under its endpoint, model and text, so a text is embedded once across runs and corpus sizes. Embedding is a negligible share of compute: in the 25-paper reliability run, embedding requests took 7.3~s of model time, most vectors having been cached at smaller corpus sizes, against about 9,240~s of generation.
+
+Two kinds of text are embedded. A concept is its label followed by the first 200 characters of its first source definition. An ontology term is its preferred label, up to four other labels, and the first 200 characters of its definition. Retrieving ontology terms for a concept is asymmetric: a short concept text is compared with longer, documented terms. Nomic Embed was trained with task prefixes for this case, so concept texts searched against the store are prefixed \texttt{search\_query:} and store terms \texttt{search\_document:}. Comparisons between concepts (synonym clusters, corpus neighbours, cross-domain pairs) are symmetric and use no prefix.
+
+\subsection{The ontology store index}
+
+The store indexes BFO, CCO, the OBO Relations Ontology (RO), QUDT quantity kinds and units, PMDCO, IOF and MDS-Onto in one Oxigraph triple store with a label index and one vector per term (Table~\ref{tab:store}). It is built once and rebuilt only when a source or the embedding recipe changes.
+
+\begin{table}[t]
+\centering
+\caption{Ontology store contents (non-deprecated terms) and their use.}\label{tab:store}
+\small
+\begin{tabular}{p{2.2cm}rp{3.6cm}}
+\hline
+Ontology & Terms & Used for \\
+\hline
+BFO & 87 & category roots, placement parents, properties \\
+CCO & 1,924 & placement parents (1,401 classes), mappings, properties \\
+RO & 940 & object properties for restrictions (689) \\
+QUDT quantity kinds & 1,224 & SKOS mappings of quantities \\
+QUDT units & 2,936 & SKOS mappings, unit symbols \\
+PMDCO & 1,380 & same-name parents, mappings \\
+IOF & 175 & mappings, properties \\
+MDS-Onto & 2,567 & same-name parents, mappings, study stage and domain tags \\
+\hline
+Total & 11,233 & \\
+\hline
+\end{tabular}
+\end{table}
+
+A search combines three signals for each term: an exact match of a normalized label, a fuzzy match (trigram Dice similarity, counted only when the query and the label share a whole word), and the cosine between the query vector and the term vector. The fused score is $0.4\,\ell + 0.6\,c$, where $\ell$ is 1 for an exact label and otherwise the trigram similarity, and $c$ is the cosine. A term is returned when its label matches exactly, or when its fused score is at least 0.35 and either its fuzzy similarity is at least 0.5 or its cosine at least 0.75. The five terms nearest by cosine are always returned, so a concept whose wording appears in no label still reaches the semantically closest terms. Exact matches rank first. A search can be restricted by term kind (class, property, individual) and by ontology.
+
+\subsection{Where embeddings are used}
+
+Table~\ref{tab:embedding-uses} lists each comparison and what receives its candidates.
+
+\begin{table*}[t]
+\centering
+\caption{Embedding comparisons in the pipeline. In every case the candidates are decided by the language model or a rule, not by similarity.}\label{tab:embedding-uses}
+\small
+\begin{tabular}{p{2cm}p{6.4cm}p{6.4cm}}
+\hline
+Stage & Comparison & Candidates go to \\
+\hline
+Normalize & concept label vs.\ concept label; cosine $\geq 0.85$, clusters of at most 12 & the model, which merges or keeps apart each cluster \\
+Ontology & concept (query) vs.\ CCO and BFO classes & parent candidates; the model chooses \\
+Ontology & concept vs.\ concepts of the same BFO category, 5 nearest & corpus parent candidates; the model chooses only a true is-a \\
+Enrich & concept (query) vs.\ all store terms & mapping candidates; portal hits outside the store scored the same way \\
+Enrich & relation phrase and evidence quote (query) vs.\ object properties & property candidates, filtered by domain and range; the model chooses \\
+Integrate & class label vs.\ class label of another domain; mutual nearest neighbours, cosine $\geq 0.80$ & cross-domain candidate pairs; the model decides the relation \\
+\hline
+\end{tabular}
+\end{table*}
+
+At 25 papers (development revision 2026-10-15), normalization formed 251 embedding clusters in the reliability corpus and 207 in the techno-economic corpus, of which the model merged 16 and 7. In the 25-paper integration of three domains, 135 of 430 cross-domain candidate pairs (31\%) came from embeddings alone; the rest came from shared labels and synonyms. Of the 1,410 restrictions in the reliability ontology, 671 use an RO property and 171 a CCO property, both found through the property search; the remaining 538 use the pipeline's own causal properties (\texttt{increases}, \texttt{causes}) where no store property fit. QUDT quantity kinds supplied 43 of its 423 external mappings (e.g., power, thermal resistance, relative humidity).
+
+\subsection{Retrieval for parent placement}
+
+The first retrieval design ranked CCO and BFO classes over the whole store and then kept those inside the concept's BFO category. Inspection of the 25-paper reliability ontology (development revision 2026-10-15) showed four weaknesses.
+\begin{itemize}
+\item Placement stayed shallow. Of 2,199 classes, 1,652 (75\%) had a BFO category as their direct parent: 680 because the model gave no usable answer, the rest because it chose the category over the offered candidates. 200 classes were placed under another corpus concept and 60 under CCO's \emph{Material Artifact}.
+\item Candidate lists were short: 3.2 store classes per concept on average. Filtering after a global ranking discarded most retrieved classes, including exact matches whose category disagreed with the extraction type (\emph{temperature}, typed as a process parameter, lost CCO \emph{Temperature}).
+\item Fuzzy label matches without a shared word dominated the lists: \emph{backsheet} retrieved \emph{Spreadsheet}, \emph{PV modules} retrieved \emph{Motorcycle}, \emph{polymers} retrieved \emph{Bodily Component}. Without task prefixes the cosine did not separate these from plausible candidates (0.55--0.70 for both).
+\item Corpus concepts were offered as one list of the 150 most important concepts per category, the same for every concept.
+\end{itemize}
+
+Exact CCO counterparts are rare: in the three 25-paper domain ontologies, 18 of the 5,128 classes not already placed under a same-name MDS-Onto or PMDCO class match a CCO or BFO class label exactly. Specific parents therefore have to come mostly from the corpus itself. Revision 2026-10-16 changes retrieval accordingly: each concept is offered its five nearest corpus concepts of the same category; exact store matches are offered whatever their category; fuzzy matches require a shared word; and store search uses the task prefixes, a higher cosine weight and five always-kept nearest classes. Nearest corpus concepts are typically more specific candidates than the category list, e.g., \emph{silicon wafers} and \emph{boron-doped Cz silicon} for a high-purity Cz silicon wafer, or \emph{PV modules} for \emph{engineering modules}.
+
+% TODO(results, revision 2026-10-16-embedding-parents): share of classes whose direct parent is a BFO category,
+% classes under a corpus concept, store candidates per concept, parent answers resolved vs. unresolved,
+% compared with 2026-10-15 on the same corpora and sizes. Do not state an improvement before these runs.
+
+\subsection{Limits}
+
+Embedding similarity measures relatedness, not subsumption or equivalence. Nearest neighbours include siblings, parts and near-duplicates as well as parents (a $(\mathrm{Cu,Ni})_6\mathrm{Sn}_5$ layer is nearest to other intermetallic layers, not to a general class), which is why the model, instructed to accept only a true is-a, makes the choice. The thresholds (0.85 for synonym clusters, 0.80 for cross-domain pairs, 0.75 for store hits) were set on a handful of known terms, not calibrated on an annotated set; with this model, unrelated terms already score about 0.5, so absolute thresholds are fragile and the always-kept nearest terms carry much of the semantic signal. % TODO: calibrate on the hand-labelled placement set.
+Synonym clusters and cross-domain pairs embed labels only, not definitions. The pipeline uses one embedding model; another would require re-embedding the store and a new comparison, which this work does not report.
