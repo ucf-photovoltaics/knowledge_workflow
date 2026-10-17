@@ -12,7 +12,9 @@
 # that are finished or already queued. Weights must be downloaded first (hf download <repo>; Llama and Gemma need
 # their license accepted on Hugging Face); a model that isn't downloaded is skipped with a message.
 # Overrides: USE_CASE (pv-cost-chain), LIMITS (25), PARTITION (normal), ACCOUNT (kdavis), GRES, MAIL_USER,
-# ENV_FILE (~/kw-hpc/env.sh, sourced if present), GCS_BUCKET, LLM_TEMPERATURE.
+# ENV_FILE (~/kw-hpc/env.sh, sourced if present), GCS_BUCKET, LLM_TEMPERATURE, TIME_LIMIT (instead of each model's),
+# EXCLUDE (nodes to avoid).
+# Quick test of every small model: LIMITS=2 TIME_LIMIT=01:30:00 scripts/slurm-models.sh small
 set -uo pipefail
 
 cd "$(dirname "$0")/.." || exit 1
@@ -23,6 +25,7 @@ LIMITS=${LIMITS:-25}
 PARTITION=${PARTITION:-normal}
 ACCOUNT=${ACCOUNT:-kdavis}
 GRES=${GRES:-gpu:nvidia_h100_pcie:2}
+EXCLUDE=${EXCLUDE:-}   # nodes to avoid, e.g. EXCLUDE=evc26 (GPUs not visible to jobs)
 MAIL_USER=${MAIL_USER:-}
 HF_HUB=${HF_HOME:-$HOME/.cache/huggingface}/hub
 MISTRAL="--tokenizer-mode mistral --config-format mistral --load-format mistral"
@@ -64,7 +67,7 @@ while read -r tier tag repo reasoning time extra; do
     if [ -n "$(squeue -h -u "${USER:-$(id -un)}" -n "kw-$tag" 2>/dev/null)" ]; then echo "$tag: already queued"; continue; fi
     if [ ! -d "$HF_HUB/models--${repo//\//--}" ]; then echo "$tag: skipped, not downloaded (hf download $repo)"; continue; fi
     cmd=(sbatch --parsable -J "kw-$tag" -p "$PARTITION" -A "$ACCOUNT" --gres="$GRES" --cpus-per-task=32 --mem=240G
-         --time="$time" ${after:+--dependency=afterok:$after}
+         --time="${TIME_LIMIT:-$time}" ${EXCLUDE:+--exclude=$EXCLUDE} ${after:+--dependency=afterok:$after}
          ${MAIL_USER:+--mail-type=END,FAIL --mail-user=$MAIL_USER} scripts/slurm-sweep.sh)
     if [ -n "$dry" ]; then
         echo "$tag: VLLM_MODEL=$repo VLLM_REASONING_EFFORT=$reasoning VLLM_EXTRA_ARGS='$extra' SWEEP_ID=$sweep ${cmd[*]}"
