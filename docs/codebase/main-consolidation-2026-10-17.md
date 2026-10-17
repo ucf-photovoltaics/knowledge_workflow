@@ -42,6 +42,8 @@ rewritten by consolidation.
   local Ollama service happens to be running. The cancellation fixture stops only its own child process.
 - Initial restricted-process failures concerned Windows temporary files, locks and cancellation.
   Host-permission runs with workspace-local temporary storage passed. RDFLib deprecation warnings remain.
+- Git checkout line endings are pinned to LF for the three external ontology snapshots. Restoring LF
+  reproduces their existing lock-file SHA256 values exactly; no import content/version was changed.
 
 The current ontology validation details are in [validation.json](../ontology/validation.json).
 No live model, GPU allocation or Slurm job was launched by these checks.

@@ -536,7 +536,7 @@ kw:ontology a owl:Ontology ;
     owl:versionInfo "2026-10-16 operational codebase snapshot" ;
     skos:definition "Project namespace proposal; no external registration is claimed."@en ;
     kw:definitionStatus "source-derived description" ;
-    kw:documentationInputs "{\"docs/codebase/agent-guide.md\": \"562708386a85e3159cd884845ec3e88d1fa3b309e3ddf24210137c69e4070166\", \"docs/codebase/data-flow.json\": \"134215ab698ce8a7c240612cff9c99a1786a58651ffe39a3b4eda220f56224a5\", \"docs/codebase/normalization-walkthrough.md\": \"1f0a037c6b805c598c984f2d88aeb91195b8119f596c3417c669084fcb8f86f2\", \"docs/codebase/operations.json\": \"080f33955acd256bc702971dc8ef9d740adce1017a984778bf5802e566fe4044\", \"docs/codebase/stages/enrich.md\": \"b126a203a0411c3aa1955253c90e40f3bcc59745ad80e19292b1dcbaa9bb8956\", \"docs/codebase/stages/extract.md\": \"a51cb1be68401dc1d848036594d6bd0cd88dc977f58faa7192c69ad887fef942\", \"docs/codebase/stages/ingest.md\": \"5d0feaa065450716dfd0cab0154ae4ff87c225069d6480b43eb3d3a10cd754c0\", \"docs/codebase/stages/integrate.md\": \"aa17d08ade0ba30378b268de32f966c46faebc984959bfb3b16d00bb9f5bda33\", \"docs/codebase/stages/interop.md\": \"d861d3c31f5820e2b5d2fa3249a768d5022b6ee579f268e1470202d747f3cc09\", \"docs/codebase/stages/ontology.md\": \"b30ffc2cc84eb54edfe7faf25a1e686eaf53c4c7dc09eac64b27e6a3aa8fc8bc\", \"docs/codebase/stages/parse.md\": \"b40df8239f73095920fa49eb9d27b82dc7ab0b8c4b6971e9e529fe46c740130c\", \"docs/codebase/stages/preflight.md\": \"f7a0de841c3754489597386f0f8aed113357640db7b93ead1397bb101467da5c\", \"docs/codebase/stages/reports.md\": \"da9da09ca5b4836ab29901b61b485810a9055b818e0f98c45d968ef1fabb5d79\", \"docs/codebase/stages/store.md\": \"7e2c7b064a6fecb8fab817208c7d4d72af18bd6b3cb303c7b7b805e379bcbc41\", \"docs/codebase/workflow.json\": \"51704a58f77d05f041085aea3a966f4962404fc4ea08af1931a8e7c2d42afcb1\", \"docs/ontology/shapes.ttl\": \"0bc9954068cb06882f1e3fd99e703e721b29d335a69237feace35d6dc2c9d6d2\", \"src/resources/prompts/enrichment.md\": \"2bc80d4e3f1278ca0c64ce679558e9df3175fc77aa2573077a26f69f35a19052\", \"src/resources/prompts/enrichment_definitions.md\": \"65e2d973011bb6af5a82f2b05a47c58ecdfb11dc764b86d4ad190e120ed18888\", \"src/resources/prompts/enrichment_disjoint.md\": \"c22f6cf94be4aabfc2bdf908d468536742450f2289c8e719bf4ed88945fd6e3b\", \"src/resources/prompts/enrichment_restrictions.md\": \"8972bbaf4e8d9c435fe9c985bc88ea4aeaee12121f6815ce9fd6c18ca545da00\", \"src/resources/prompts/enrichment_synonyms.md\": \"fb1c0eab8274cc9eb1848376172d6eced76656de4b99ceaa750c75497f0d5420\", \"src/resources/prompts/extraction.md\": \"557092cf711a230f8af581a94d8498ac663910c97a73af508a5ebf61495a9d60\", \"src/resources/prompts/extraction_causal.md\": \"1b0ccb5a051595a79bab498fa8fa5ed3d61c7d9f5db806d654f54f6abbff1745\", \"src/resources/prompts/extraction_concepts.md\": \"9f18e905c334f9485e591747a8169af4c2af033229ea42f8e33534a821a148e5\", \"src/resources/prompts/extraction_evidence.md\": \"c90c6525dc2c33cfe57ef42aaf7bcb7d1f552046f88596053bb3894186d66c1f\", \"src/resources/prompts/extraction_measurements.md\": \"7e8d8ecebe1a8a936bb1d380ffe5ee01685d47528d31c12a88aa7656074ec8dc\", \"src/resources/prompts/extraction_relations.md\": \"11b5b2aae9ec7cbf404f87254dc235942c68b2d8f493f70310e55cad679ea2f7\", \"src/resources/prompts/facets.md\": \"cac47ced5aa2c9c906b45315b0af66846fd65d8a8b928293ee71b2270c922177\", \"src/resources/prompts/facets_domain.md\": \"c5d8a11efd4237c593e65aa71826d5bea8be0cb62f365f8dc01e659e6821f3df\", \"src/resources/prompts/facets_stage.md\": \"9bb2ed6c547d29514be4f93bb612fba805846d01a861224637b96f8cbfb83546\", \"src/resources/prompts/integration.md\": \"1fe96b81427cecb5d112c3d4b3d4e3f62b9d39c8d53fbe69013f9e086582994b\", \"src/resources/prompts/interoperability.md\": \"d50dde7ec7800f5906349fe9562da5598a2a0a207ef791241072c1dace13db90\", \"src/resources/prompts/interoperability_filter.md\": \"8212222cdb36ffaab2a3eeaa0c604586b56ad88a0dc4425934b237469097918f\", \"src/resources/prompts/normalization.md\": \"7ca8776487cf23eecd9dbecec099c81ab8a3046086553c5b62102edd281f9e31\", \"src/resources/prompts/normalization_summary.md\": \"9ee8cd62285c8a6159492ed838bd0eb0b2b8a7f5f326d43f5193318b9191c5e1\", \"src/resources/prompts/normalization_types.md\": \"bba1eb33151941abda9185718f69c61b0155ad352513c83a03d329f0061a7ab4\", \"src/resources/prompts/ontology.md\": \"07a1c01ddef1459a660d8f35a44be9410f1cbea8a279028bcec3f3e070d08dd8\", \"src/resources/prompts/ontology_category.md\": \"e73bbce794e51075c89aaae4c56df8515064a9c06086ae3d6d4ed652282a1c91\", \"src/resources/prompts/ontology_parent.md\": \"5f9146f08c9ad6146ee6df0c3d306ea08c0f73f21b401c19b9704cfcb9058c73\", \"src/resources/schemas/enrichment.json\": \"b4931a852064b66ab77b2a42b0064cd2029c7f4ba1f252660e0b410a155e2bbb\", \"src/resources/schemas/enrichment_definitions.json\": \"2920b809d46388c006b58e39f25ba48657475787797545583357727c729ac8ae\", \"src/resources/schemas/enrichment_disjoint.json\": \"c276bdccb93723baf9b41a1c8793d2eb18f93bd3ef3676a4c6f6d5ab2fb6aef4\", \"src/resources/schemas/enrichment_restrictions.json\": \"0fb5b0ce5f640ba3576b4092b089c377e8f8e6e2c9c7c077f4a8e000540550ee\", \"src/resources/schemas/enrichment_synonyms.json\": \"84f27fd5a03273e3f280f53ae3316008dee139fb94e2b1c77482fafa70500d5f\", \"src/resources/schemas/extraction.json\": \"91eeae0d8f76ef601ebcd7cd3d885e4fd4e990f2ed485cdebcc8dd1812ac5572\", \"src/resources/schemas/extraction_causal.json\": \"d4823f8e5d472c59af3f1dd4e8814b61ee2c3d91ea76323d5228002148da2414\", \"src/resources/schemas/extraction_concepts.json\": \"0b5c97cb2f8a4dc25a22b3d9def98d84cb10850d5817fe06329e55e15145eb31\", \"src/resources/schemas/extraction_evidence.json\": \"5fdcbad9b0cf4c69c81b305fa962f8fbd9521bdecdc53f97173fe0bad38477c9\", \"src/resources/schemas/extraction_measurements.json\": \"c7627feea1bba0cd8b66e401554b76b7a029975adba91c9e2535d65c68f8d928\", \"src/resources/schemas/extraction_relations.json\": \"41d3451fd1f1db4a739ae3c662df90f6a23fec132010ee92116870aaf06eae9b\", \"src/resources/schemas/facets.json\": \"b6823854052a46bc52b3a7723711ba63e491820718020ad86b8bd5b90bec661f\", \"src/resources/schemas/facets_domain.json\": \"ee058059a2b86d0c44e3db97d0d33ecdf87d2a97bd2cfda028bad2e87902b153\", \"src/resources/schemas/facets_stage.json\": \"cd254e47235a8a008d575be4fe0a636cbd7fe8489c325b371fbd8bf5776daf84\", \"src/resources/schemas/integration.json\": \"706b176cb1abdb9b2f466b4546c49106c0daa189495c6caf3adda9359419690f\", \"src/resources/schemas/interoperability.json\": \"04628119a20377190dde721663a56d41a8ed03f8cfcb08f7163adbb1604d74af\", \"src/resources/schemas/normalization.json\": \"b362a9390e367313456c0eb354977c8c55bc1f1bc63282d7ff40c6a38597e3ba\", \"src/resources/schemas/normalization_summary.json\": \"a449354834e86beb1f61ac9ac3d3c551d7fe4ab33ea3d06483ca2de0e8faf39e\", \"src/resources/schemas/normalization_types.json\": \"00d49766bea2bb2b8be3296d0d168156b191bf7e8fd7d9bc9a195a7e55849292\", \"src/resources/schemas/ontology.json\": \"ff98bfd6887b5b5d2f2b5821c43998fe848934bc66bc1a8f1006ebe90ca5d4dc\", \"src/resources/schemas/ontology_category.json\": \"75b93671774d5ee8a2fee11d383756e0c1772864214802632a7df0b2b2e19c8a\", \"src/resources/schemas/ontology_parent.json\": \"fce65985bab3b8054a29dc221582c330069441b38c75459d33363c2188a07e12\"}" .
+    kw:documentationInputs "{\"docs/codebase/agent-guide.md\": \"257baceb759380b20e641e517ac1e9e89b8337a793ce020ab0690be59d3d67da\", \"docs/codebase/data-flow.json\": \"134215ab698ce8a7c240612cff9c99a1786a58651ffe39a3b4eda220f56224a5\", \"docs/codebase/normalization-walkthrough.md\": \"811612fa8344feda3830818630e2bb8ca1ac46c1ddf1a534e06558f33d6d3801\", \"docs/codebase/operations.json\": \"080f33955acd256bc702971dc8ef9d740adce1017a984778bf5802e566fe4044\", \"docs/codebase/stages/enrich.md\": \"b126a203a0411c3aa1955253c90e40f3bcc59745ad80e19292b1dcbaa9bb8956\", \"docs/codebase/stages/extract.md\": \"a51cb1be68401dc1d848036594d6bd0cd88dc977f58faa7192c69ad887fef942\", \"docs/codebase/stages/ingest.md\": \"5d0feaa065450716dfd0cab0154ae4ff87c225069d6480b43eb3d3a10cd754c0\", \"docs/codebase/stages/integrate.md\": \"aa17d08ade0ba30378b268de32f966c46faebc984959bfb3b16d00bb9f5bda33\", \"docs/codebase/stages/interop.md\": \"d861d3c31f5820e2b5d2fa3249a768d5022b6ee579f268e1470202d747f3cc09\", \"docs/codebase/stages/ontology.md\": \"b30ffc2cc84eb54edfe7faf25a1e686eaf53c4c7dc09eac64b27e6a3aa8fc8bc\", \"docs/codebase/stages/parse.md\": \"b40df8239f73095920fa49eb9d27b82dc7ab0b8c4b6971e9e529fe46c740130c\", \"docs/codebase/stages/preflight.md\": \"f7a0de841c3754489597386f0f8aed113357640db7b93ead1397bb101467da5c\", \"docs/codebase/stages/reports.md\": \"da9da09ca5b4836ab29901b61b485810a9055b818e0f98c45d968ef1fabb5d79\", \"docs/codebase/stages/store.md\": \"7e2c7b064a6fecb8fab817208c7d4d72af18bd6b3cb303c7b7b805e379bcbc41\", \"docs/codebase/workflow.json\": \"51704a58f77d05f041085aea3a966f4962404fc4ea08af1931a8e7c2d42afcb1\", \"docs/ontology/shapes.ttl\": \"062f96ec524c4257406a52e7846f12aeb3940db17d22a20e84f70167e730a85e\", \"src/resources/prompts/enrichment.md\": \"2bc80d4e3f1278ca0c64ce679558e9df3175fc77aa2573077a26f69f35a19052\", \"src/resources/prompts/enrichment_definitions.md\": \"65e2d973011bb6af5a82f2b05a47c58ecdfb11dc764b86d4ad190e120ed18888\", \"src/resources/prompts/enrichment_disjoint.md\": \"c22f6cf94be4aabfc2bdf908d468536742450f2289c8e719bf4ed88945fd6e3b\", \"src/resources/prompts/enrichment_restrictions.md\": \"8972bbaf4e8d9c435fe9c985bc88ea4aeaee12121f6815ce9fd6c18ca545da00\", \"src/resources/prompts/enrichment_synonyms.md\": \"fb1c0eab8274cc9eb1848376172d6eced76656de4b99ceaa750c75497f0d5420\", \"src/resources/prompts/extraction.md\": \"557092cf711a230f8af581a94d8498ac663910c97a73af508a5ebf61495a9d60\", \"src/resources/prompts/extraction_causal.md\": \"1b0ccb5a051595a79bab498fa8fa5ed3d61c7d9f5db806d654f54f6abbff1745\", \"src/resources/prompts/extraction_concepts.md\": \"9f18e905c334f9485e591747a8169af4c2af033229ea42f8e33534a821a148e5\", \"src/resources/prompts/extraction_evidence.md\": \"c90c6525dc2c33cfe57ef42aaf7bcb7d1f552046f88596053bb3894186d66c1f\", \"src/resources/prompts/extraction_measurements.md\": \"7e8d8ecebe1a8a936bb1d380ffe5ee01685d47528d31c12a88aa7656074ec8dc\", \"src/resources/prompts/extraction_relations.md\": \"11b5b2aae9ec7cbf404f87254dc235942c68b2d8f493f70310e55cad679ea2f7\", \"src/resources/prompts/facets.md\": \"cac47ced5aa2c9c906b45315b0af66846fd65d8a8b928293ee71b2270c922177\", \"src/resources/prompts/facets_domain.md\": \"c5d8a11efd4237c593e65aa71826d5bea8be0cb62f365f8dc01e659e6821f3df\", \"src/resources/prompts/facets_stage.md\": \"9bb2ed6c547d29514be4f93bb612fba805846d01a861224637b96f8cbfb83546\", \"src/resources/prompts/integration.md\": \"1fe96b81427cecb5d112c3d4b3d4e3f62b9d39c8d53fbe69013f9e086582994b\", \"src/resources/prompts/interoperability.md\": \"d50dde7ec7800f5906349fe9562da5598a2a0a207ef791241072c1dace13db90\", \"src/resources/prompts/interoperability_filter.md\": \"8212222cdb36ffaab2a3eeaa0c604586b56ad88a0dc4425934b237469097918f\", \"src/resources/prompts/normalization.md\": \"7ca8776487cf23eecd9dbecec099c81ab8a3046086553c5b62102edd281f9e31\", \"src/resources/prompts/normalization_summary.md\": \"9ee8cd62285c8a6159492ed838bd0eb0b2b8a7f5f326d43f5193318b9191c5e1\", \"src/resources/prompts/normalization_types.md\": \"bba1eb33151941abda9185718f69c61b0155ad352513c83a03d329f0061a7ab4\", \"src/resources/prompts/ontology.md\": \"07a1c01ddef1459a660d8f35a44be9410f1cbea8a279028bcec3f3e070d08dd8\", \"src/resources/prompts/ontology_category.md\": \"e73bbce794e51075c89aaae4c56df8515064a9c06086ae3d6d4ed652282a1c91\", \"src/resources/prompts/ontology_parent.md\": \"5f9146f08c9ad6146ee6df0c3d306ea08c0f73f21b401c19b9704cfcb9058c73\", \"src/resources/schemas/enrichment.json\": \"b4931a852064b66ab77b2a42b0064cd2029c7f4ba1f252660e0b410a155e2bbb\", \"src/resources/schemas/enrichment_definitions.json\": \"2920b809d46388c006b58e39f25ba48657475787797545583357727c729ac8ae\", \"src/resources/schemas/enrichment_disjoint.json\": \"c276bdccb93723baf9b41a1c8793d2eb18f93bd3ef3676a4c6f6d5ab2fb6aef4\", \"src/resources/schemas/enrichment_restrictions.json\": \"0fb5b0ce5f640ba3576b4092b089c377e8f8e6e2c9c7c077f4a8e000540550ee\", \"src/resources/schemas/enrichment_synonyms.json\": \"84f27fd5a03273e3f280f53ae3316008dee139fb94e2b1c77482fafa70500d5f\", \"src/resources/schemas/extraction.json\": \"91eeae0d8f76ef601ebcd7cd3d885e4fd4e990f2ed485cdebcc8dd1812ac5572\", \"src/resources/schemas/extraction_causal.json\": \"d4823f8e5d472c59af3f1dd4e8814b61ee2c3d91ea76323d5228002148da2414\", \"src/resources/schemas/extraction_concepts.json\": \"0b5c97cb2f8a4dc25a22b3d9def98d84cb10850d5817fe06329e55e15145eb31\", \"src/resources/schemas/extraction_evidence.json\": \"5fdcbad9b0cf4c69c81b305fa962f8fbd9521bdecdc53f97173fe0bad38477c9\", \"src/resources/schemas/extraction_measurements.json\": \"c7627feea1bba0cd8b66e401554b76b7a029975adba91c9e2535d65c68f8d928\", \"src/resources/schemas/extraction_relations.json\": \"41d3451fd1f1db4a739ae3c662df90f6a23fec132010ee92116870aaf06eae9b\", \"src/resources/schemas/facets.json\": \"b6823854052a46bc52b3a7723711ba63e491820718020ad86b8bd5b90bec661f\", \"src/resources/schemas/facets_domain.json\": \"ee058059a2b86d0c44e3db97d0d33ecdf87d2a97bd2cfda028bad2e87902b153\", \"src/resources/schemas/facets_stage.json\": \"cd254e47235a8a008d575be4fe0a636cbd7fe8489c325b371fbd8bf5776daf84\", \"src/resources/schemas/integration.json\": \"706b176cb1abdb9b2f466b4546c49106c0daa189495c6caf3adda9359419690f\", \"src/resources/schemas/interoperability.json\": \"04628119a20377190dde721663a56d41a8ed03f8cfcb08f7163adbb1604d74af\", \"src/resources/schemas/normalization.json\": \"b362a9390e367313456c0eb354977c8c55bc1f1bc63282d7ff40c6a38597e3ba\", \"src/resources/schemas/normalization_summary.json\": \"a449354834e86beb1f61ac9ac3d3c551d7fe4ab33ea3d06483ca2de0e8faf39e\", \"src/resources/schemas/normalization_types.json\": \"00d49766bea2bb2b8be3296d0d168156b191bf7e8fd7d9bc9a195a7e55849292\", \"src/resources/schemas/ontology.json\": \"ff98bfd6887b5b5d2f2b5821c43998fe848934bc66bc1a8f1006ebe90ca5d4dc\", \"src/resources/schemas/ontology_category.json\": \"75b93671774d5ee8a2fee11d383756e0c1772864214802632a7df0b2b2e19c8a\", \"src/resources/schemas/ontology_parent.json\": \"fce65985bab3b8054a29dc221582c330069441b38c75459d33363c2188a07e12\"}" .
 
 kw:operationImplementation a owl:ObjectProperty ;
     rdfs:label "operationImplementation" ;
@@ -20330,7 +20330,7 @@ kw:containedIn a owl:ObjectProperty ;
     rdfs:comment "Summary: Follow shared output specifications from producing to consuming pipeline steps." ;
     skos:definition "Summary: Follow shared output specifications from producing to consuming pipeline steps."@en ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "7711160bfc55aa0f7e9341d0b2ecbd58cd0d8d871b873f85c67bd39b6fae6478" ;
+    kw:sourceDigest "db8582b39f32ea9ecc04a7e2254fd568588332c267fbbae2bbb7fcaac7ee86d1" ;
     kw:sourcePath "docs/ontology/artifact-flow.rq" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/docs/ontology/information-flow.rq> a owl:NamedIndividual,
@@ -20339,7 +20339,7 @@ kw:containedIn a owl:ObjectProperty ;
     rdfs:comment "Summary: Discover information transformations, their data states and source implementations." ;
     skos:definition "Summary: Discover information transformations, their data states and source implementations."@en ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "49d3729a08ec90211c1a167b4f12d346534627be9edc33afd2c2e6230b6bbed4" ;
+    kw:sourceDigest "9a3045ca1206dc3da18f0fe766e109ae74f0ef49d443d3146111dfe483522f20" ;
     kw:sourcePath "docs/ontology/information-flow.rq" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/docs/ontology/next-step.rq> a owl:NamedIndividual,
@@ -20348,7 +20348,7 @@ kw:containedIn a owl:ObjectProperty ;
     rdfs:comment "Summary: Retrieve invocation templates and prerequisite specifications for an explicit step." ;
     skos:definition "Summary: Retrieve invocation templates and prerequisite specifications for an explicit step."@en ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "c690cb12e1d58f281acc04794e5ee7a42a3e17209e5cfb2126cc0d62e7b47ae5" ;
+    kw:sourceDigest "45b63ed00183b3ed6bf15c290c34afc248f3b00779472fe9f4b7346de1cd7dc5" ;
     kw:sourcePath "docs/ontology/next-step.rq" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/docs/ontology/step-functions.rq> a owl:NamedIndividual,
@@ -20357,7 +20357,7 @@ kw:containedIn a owl:ObjectProperty ;
     rdfs:comment "Summary: Navigate every operational step to its source callable and expected products." ;
     skos:definition "Summary: Navigate every operational step to its source callable and expected products."@en ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "ab8ff02b563f563cf7635601e13ff42bffba2e78a0b61530e4925bd9a59cd39d" ;
+    kw:sourceDigest "baab749310f2c0161ce6f379e8edc355d830bb92ac4c18b3b4f4adfd09634198" ;
     kw:sourcePath "docs/ontology/step-functions.rq" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/docs/ontology/viewer/frame.css> a owl:NamedIndividual,
@@ -20366,7 +20366,7 @@ kw:containedIn a owl:ObjectProperty ;
     rdfs:comment "Summary: Hide duplicate upstream details in the generated preview; retain graph controls." ;
     skos:definition "Summary: Hide duplicate upstream details in the generated preview; retain graph controls."@en ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "1aead3882ea96759ad0e1b6113ca247f4ed71632c190431bf47307fd147ba470" ;
+    kw:sourceDigest "1b8f000d2e7ef4d2dd0319d711df5e02808dab48dfd9d101ad6fcb6b72835db4" ;
     kw:sourcePath "docs/ontology/viewer/frame.css" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/docs/ontology/viewer/index.html> a owl:NamedIndividual,
@@ -20375,7 +20375,7 @@ kw:containedIn a owl:ObjectProperty ;
     rdfs:comment "Summary: Focused, read-only reviewer navigation of the operational codebase ontology." ;
     skos:definition "Summary: Focused, read-only reviewer navigation of the operational codebase ontology."@en ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "c3a66e2a7cb2bee06b5ea4bde11046b78a5aca34c0e56381d47e4da02c26b374" ;
+    kw:sourceDigest "8a67e8f183105597d94547d3c606936356fae56326533be56c579a2206f23981" ;
     kw:sourcePath "docs/ontology/viewer/index.html" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/docs/ontology/viewer/journey.css> a owl:NamedIndividual,
@@ -20384,7 +20384,7 @@ kw:containedIn a owl:ObjectProperty ;
     rdfs:comment "Summary: Stable reading-order information flow, explicit handoffs and evidence-bearing concept traces." ;
     skos:definition "Summary: Stable reading-order information flow, explicit handoffs and evidence-bearing concept traces."@en ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "5cddf625c187a09b02f3d0d4b35a4aa23b2b661dfc53ea9402dfda2bf1bd2732" ;
+    kw:sourceDigest "63a35843f93add34add0b9cca9208d6ea1ac608229a201121f3485b533ab9e28" ;
     kw:sourcePath "docs/ontology/viewer/journey.css" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/docs/ontology/viewer/journey.js> a owl:NamedIndividual,
@@ -20402,7 +20402,7 @@ kw:containedIn a owl:ObjectProperty ;
     rdfs:comment "Summary: Connect the standalone reviewer to WebVOWL with coalesced graph framing." ;
     skos:definition "Summary: Connect the standalone reviewer to WebVOWL with coalesced graph framing."@en ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "eb3a635308050f4d34da64b9c8fd1840580521be5699165621981e6aa8afcb29" ;
+    kw:sourceDigest "a3d78f47ce14f7c20da5a7de33dc4777071ce091bc8eac568a4ce911567f26e3" ;
     kw:sourcePath "docs/ontology/viewer/reviewer-bridge.js" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/docs/ontology/viewer/reviewer.css> a owl:NamedIndividual,
@@ -20411,7 +20411,7 @@ kw:containedIn a owl:ObjectProperty ;
     rdfs:comment "Summary: Accessible reviewer layout for focused WebVOWL stage and source navigation." ;
     skos:definition "Summary: Accessible reviewer layout for focused WebVOWL stage and source navigation."@en ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "28e932357addd2e6ea14ede3c23066c52e5ce68fe932a8ef8a54955a827f6ac9" ;
+    kw:sourceDigest "a149f6a38ed905a6b28d00e231abb4c8889bcd1058caf6cf6a9ed675a2fa00f9" ;
     kw:sourcePath "docs/ontology/viewer/reviewer.css" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/docs/ontology/viewer/reviewer.js> a owl:NamedIndividual,
@@ -20420,7 +20420,7 @@ kw:containedIn a owl:ObjectProperty ;
     rdfs:comment "Summary: Read-only stage, definition, contract and source navigation over exported RDF records." ;
     skos:definition "Summary: Read-only stage, definition, contract and source navigation over exported RDF records."@en ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "9c3256e35860db6f17a52f3b39ebbf8afa3e7f31f609972abe10f46726aa0d1e" ;
+    kw:sourceDigest "2d3079900fa7c7b7c318b450035903d0b45d607758f04986f652a3983728e35b" ;
     kw:sourcePath "docs/ontology/viewer/reviewer.js" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/docs/ontology/viewer/site-nav.css> a owl:NamedIndividual,
@@ -20429,7 +20429,7 @@ kw:containedIn a owl:ObjectProperty ;
     rdfs:comment "Summary: Shared documentation navigation and readable guide/library layouts." ;
     skos:definition "Summary: Shared documentation navigation and readable guide/library layouts."@en ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "f1a52394fbf64e4ff5cc6ac9a130b7da1a4ed8e0f7d326fbcf46087b4239b3b4" ;
+    kw:sourceDigest "5c9fa42bd476c2b8f356b9227fe099565bba448dae9c2de065128faf5199eba6" ;
     kw:sourcePath "docs/ontology/viewer/site-nav.css" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/docs/ontology/viewer/site-nav.js> a owl:NamedIndividual,
@@ -20438,7 +20438,7 @@ kw:containedIn a owl:ObjectProperty ;
     rdfs:comment "Summary: Return to the serving dashboard and filter the static documentation library." ;
     skos:definition "Summary: Return to the serving dashboard and filter the static documentation library."@en ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "48c5d7c3d09f37021b75f355c17d4171850ac95704b8df3b41022a83be86b1a3" ;
+    kw:sourceDigest "18b350522523c106ec16e25e729e6af9545351ab32dc857b6dfd92ccbc5238f9" ;
     kw:sourcePath "docs/ontology/viewer/site-nav.js" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/dpv_dashboard/pages/__init__.py> a owl:NamedIndividual,
@@ -20456,7 +20456,7 @@ kw:containedIn a owl:ObjectProperty ;
     rdfs:comment "Summary: dashboard support for Knowledge Workflow; retain the existing operational notes below." ;
     skos:definition "Summary: dashboard support for Knowledge Workflow; retain the existing operational notes below."@en ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "15cad2d904f1fffa1660d51f9999a526499434c28c7072699112c08448b0422d" ;
+    kw:sourceDigest "13cbb61bfaec3ac2a33d3dc29ec3a647acaa4e04ec260be55be464ad3f037a2c" ;
     kw:sourcePath "dpv_dashboard/www/dashboard.css" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/dpv_dashboard/www/dashboard.js> a owl:NamedIndividual,
@@ -27437,7 +27437,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "enrich" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, root, inventory, contract" ;
-    kw:sourceDigest "79179bdf841995b01068a3097e49dec60ec575f7f2fe23ee71347b080a2c07a8" ;
+    kw:sourceDigest "c0bda6797f354f6502dded3640887e787d7731932e458a531c491256bd98a8bf" ;
     kw:sourcePath "scripts/codebase_ontology.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/codebase_ontology.py:file_node>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/codebase_ontology.py:function_node> .
@@ -27475,7 +27475,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "freshness_errors" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, root" ;
-    kw:sourceDigest "79179bdf841995b01068a3097e49dec60ec575f7f2fe23ee71347b080a2c07a8" ;
+    kw:sourceDigest "c0bda6797f354f6502dded3640887e787d7731932e458a531c491256bd98a8bf" ;
     kw:sourcePath "scripts/codebase_ontology.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/compare_runs.py:facets> a owl:NamedIndividual,
@@ -27579,7 +27579,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "Snapshot.__init__" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "self, root" ;
-    kw:sourceDigest "35949fcebeefef117e9b778fd7666dd03ef8c9f01c353f20fe6d9fde686a6792" ;
+    kw:sourceDigest "a272e46e789e8b19e0089d98b59617023eb93da9f07e793df7a911a46c0ccbc1" ;
     kw:sourcePath "scripts/data_journey.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/data_journey.py:Snapshot.fingerprints> a owl:NamedIndividual,
@@ -27601,7 +27601,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "Snapshot.fingerprints" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "self" ;
-    kw:sourceDigest "35949fcebeefef117e9b778fd7666dd03ef8c9f01c353f20fe6d9fde686a6792" ;
+    kw:sourceDigest "a272e46e789e8b19e0089d98b59617023eb93da9f07e793df7a911a46c0ccbc1" ;
     kw:sourcePath "scripts/data_journey.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/data_journey.py:Snapshot.json> a owl:NamedIndividual,
@@ -27620,7 +27620,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "Snapshot.json" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "self, relative, optional=False" ;
-    kw:sourceDigest "35949fcebeefef117e9b778fd7666dd03ef8c9f01c353f20fe6d9fde686a6792" ;
+    kw:sourceDigest "a272e46e789e8b19e0089d98b59617023eb93da9f07e793df7a911a46c0ccbc1" ;
     kw:sourcePath "scripts/data_journey.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/data_journey.py:Snapshot.read> a owl:NamedIndividual,
@@ -27647,7 +27647,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "Snapshot.read" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "self, relative, optional=False" ;
-    kw:sourceDigest "35949fcebeefef117e9b778fd7666dd03ef8c9f01c353f20fe6d9fde686a6792" ;
+    kw:sourceDigest "a272e46e789e8b19e0089d98b59617023eb93da9f07e793df7a911a46c0ccbc1" ;
     kw:sourcePath "scripts/data_journey.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/data_journey.py:enrich_journey> a owl:NamedIndividual,
@@ -27687,7 +27687,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "enrich_journey" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, root" ;
-    kw:sourceDigest "35949fcebeefef117e9b778fd7666dd03ef8c9f01c353f20fe6d9fde686a6792" ;
+    kw:sourceDigest "a272e46e789e8b19e0089d98b59617023eb93da9f07e793df7a911a46c0ccbc1" ;
     kw:sourcePath "scripts/data_journey.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/data_journey.py:enrich_journey.entity> a owl:NamedIndividual,
@@ -27707,7 +27707,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "enrich_journey.entity" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "node, kind, label, definition" ;
-    kw:sourceDigest "35949fcebeefef117e9b778fd7666dd03ef8c9f01c353f20fe6d9fde686a6792" ;
+    kw:sourceDigest "a272e46e789e8b19e0089d98b59617023eb93da9f07e793df7a911a46c0ccbc1" ;
     kw:sourcePath "scripts/data_journey.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/data_journey.py:export_traces> a owl:NamedIndividual,
@@ -27759,7 +27759,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "export_traces" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "outputs, destination, run_id, integration_id=None" ;
-    kw:sourceDigest "35949fcebeefef117e9b778fd7666dd03ef8c9f01c353f20fe6d9fde686a6792" ;
+    kw:sourceDigest "a272e46e789e8b19e0089d98b59617023eb93da9f07e793df7a911a46c0ccbc1" ;
     kw:sourcePath "scripts/data_journey.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/data_journey.py:build_traces>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/data_journey.py:identifier> .
@@ -27796,7 +27796,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "export_traces.preview" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "relative, data" ;
-    kw:sourceDigest "35949fcebeefef117e9b778fd7666dd03ef8c9f01c353f20fe6d9fde686a6792" ;
+    kw:sourceDigest "a272e46e789e8b19e0089d98b59617023eb93da9f07e793df7a911a46c0ccbc1" ;
     kw:sourcePath "scripts/data_journey.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/data_journey.py:export_traces.write> a owl:NamedIndividual,
@@ -27820,7 +27820,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "export_traces.write" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "relative, text" ;
-    kw:sourceDigest "35949fcebeefef117e9b778fd7666dd03ef8c9f01c353f20fe6d9fde686a6792" ;
+    kw:sourceDigest "a272e46e789e8b19e0089d98b59617023eb93da9f07e793df7a911a46c0ccbc1" ;
     kw:sourcePath "scripts/data_journey.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/document-codebase.py:author_headers> a owl:NamedIndividual,
@@ -27869,7 +27869,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "author_headers" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "" ;
-    kw:sourceDigest "978820ef3433b7efce6f072bef7dfc1316d04f871e9aeb196dc10d9d97eea70b" ;
+    kw:sourceDigest "ae9a93781f80b5f6385e1dfb39e8e85b59726403f587ae8d8a75a72a37d63500" ;
     kw:sourcePath "scripts/document-codebase.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/document-codebase.py:code_files> .
 
@@ -27940,7 +27940,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "build" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "" ;
-    kw:sourceDigest "978820ef3433b7efce6f072bef7dfc1316d04f871e9aeb196dc10d9d97eea70b" ;
+    kw:sourceDigest "ae9a93781f80b5f6385e1dfb39e8e85b59726403f587ae8d8a75a72a37d63500" ;
     kw:sourcePath "scripts/document-codebase.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/document-codebase.py:inventory> .
 
@@ -27960,7 +27960,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "build.entity" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "uri, kind, label" ;
-    kw:sourceDigest "978820ef3433b7efce6f072bef7dfc1316d04f871e9aeb196dc10d9d97eea70b" ;
+    kw:sourceDigest "ae9a93781f80b5f6385e1dfb39e8e85b59726403f587ae8d8a75a72a37d63500" ;
     kw:sourcePath "scripts/document-codebase.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/documentation_library.py:build_library> a owl:NamedIndividual,
@@ -28069,7 +28069,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "build_library" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "root=ROOT, output=OUT" ;
-    kw:sourceDigest "47723ea07287ebc2dc6075c4a3f2f8e52a99b07bb88d4c8ea5e4998c518dd74a" ;
+    kw:sourceDigest "5214a1c40b01bb79aea6f039fbb1e394587c692c6c27b61f460715590800addf" ;
     kw:sourcePath "scripts/documentation_library.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/documentation_library.py:build_library.relative> a owl:NamedIndividual,
@@ -28088,7 +28088,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "build_library.relative" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "target, page" ;
-    kw:sourceDigest "47723ea07287ebc2dc6075c4a3f2f8e52a99b07bb88d4c8ea5e4998c518dd74a" ;
+    kw:sourceDigest "5214a1c40b01bb79aea6f039fbb1e394587c692c6c27b61f460715590800addf" ;
     kw:sourcePath "scripts/documentation_library.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/documentation_library.py:build_library.shell> a owl:NamedIndividual,
@@ -28109,7 +28109,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "build_library.shell" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "title, body, page" ;
-    kw:sourceDigest "47723ea07287ebc2dc6075c4a3f2f8e52a99b07bb88d4c8ea5e4998c518dd74a" ;
+    kw:sourceDigest "5214a1c40b01bb79aea6f039fbb1e394587c692c6c27b61f460715590800addf" ;
     kw:sourcePath "scripts/documentation_library.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/eval_parent_recall.py:main> a owl:NamedIndividual,
@@ -28266,7 +28266,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "main" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "" ;
-    kw:sourceDigest "4dbcd644cc433e617ca83a87006b1ff17b0ea01410a0bb231d34af98b3d48ce5" ;
+    kw:sourceDigest "fce2fb44f2550421b084596f734b62b1ae99487610fef97a8b33eb73bfebc0e9" ;
     kw:sourcePath "scripts/export-codebase-webvowl.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/dpv_dashboard/viewer.py:convert> .
 
@@ -28295,7 +28295,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "main.payload" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "selected, edges, title" ;
-    kw:sourceDigest "4dbcd644cc433e617ca83a87006b1ff17b0ea01410a0bb231d34af98b3d48ce5" ;
+    kw:sourceDigest "fce2fb44f2550421b084596f734b62b1ae99487610fef97a8b33eb73bfebc0e9" ;
     kw:sourcePath "scripts/export-codebase-webvowl.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/dpv_dashboard/viewer.py:convert> .
 
@@ -28314,7 +28314,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "main.save" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "name, value" ;
-    kw:sourceDigest "4dbcd644cc433e617ca83a87006b1ff17b0ea01410a0bb231d34af98b3d48ce5" ;
+    kw:sourceDigest "fce2fb44f2550421b084596f734b62b1ae99487610fef97a8b33eb73bfebc0e9" ;
     kw:sourcePath "scripts/export-codebase-webvowl.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/ontology_agent.py:inspect_run.read> a owl:NamedIndividual,
@@ -28332,7 +28332,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "inspect_run.read" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "path" ;
-    kw:sourceDigest "fd561802f54eec3cbb578ecc1dc83da2f6cb37628d42d500640353bcbb7621ed" ;
+    kw:sourceDigest "2b55e8e00c7490894f68e4e3b2e777e3b6a2c4e158bdcab7652ededa8793ff2b" ;
     kw:sourcePath "scripts/ontology_agent.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/ontology_agent.py:read_artifact> .
 
@@ -28383,7 +28383,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "main" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "" ;
-    kw:sourceDigest "fd561802f54eec3cbb578ecc1dc83da2f6cb37628d42d500640353bcbb7621ed" ;
+    kw:sourceDigest "2b55e8e00c7490894f68e4e3b2e777e3b6a2c4e158bdcab7652ededa8793ff2b" ;
     kw:sourcePath "scripts/ontology_agent.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/ontology_agent.py:inspect_run>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/ontology_agent.py:observation_graph>,
@@ -28423,7 +28423,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "plan.visit" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "step, stack" ;
-    kw:sourceDigest "fd561802f54eec3cbb578ecc1dc83da2f6cb37628d42d500640353bcbb7621ed" ;
+    kw:sourceDigest "2b55e8e00c7490894f68e4e3b2e777e3b6a2c4e158bdcab7652ededa8793ff2b" ;
     kw:sourcePath "scripts/ontology_agent.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/ontology_agent.py:invocation> .
 
@@ -28440,7 +28440,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "plan.visit.substitute" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "match" ;
-    kw:sourceDigest "fd561802f54eec3cbb578ecc1dc83da2f6cb37628d42d500640353bcbb7621ed" ;
+    kw:sourceDigest "2b55e8e00c7490894f68e4e3b2e777e3b6a2c4e158bdcab7652ededa8793ff2b" ;
     kw:sourcePath "scripts/ontology_agent.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/operational_contracts.py:assess.check> a owl:NamedIndividual,
@@ -28459,7 +28459,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "assess.check" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "identifier, passed, message, severity='block'" ;
-    kw:sourceDigest "51fa8b9bf152eb627b66b59692ad17b382754a95874a879376eb4fb2185662f3" ;
+    kw:sourceDigest "ca4f5669252502eb304beae2c9c7a1cb608b6e03bee7d42f62fbf2010fc2a467" ;
     kw:sourcePath "scripts/operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/operational_contracts.py:assess.identifiers> a owl:NamedIndividual,
@@ -28481,7 +28481,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "assess.identifiers" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "rows, field" ;
-    kw:sourceDigest "51fa8b9bf152eb627b66b59692ad17b382754a95874a879376eb4fb2185662f3" ;
+    kw:sourceDigest "ca4f5669252502eb304beae2c9c7a1cb608b6e03bee7d42f62fbf2010fc2a467" ;
     kw:sourcePath "scripts/operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/operational_contracts.py:assess.read> a owl:NamedIndividual,
@@ -28503,7 +28503,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "assess.read" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "pattern" ;
-    kw:sourceDigest "51fa8b9bf152eb627b66b59692ad17b382754a95874a879376eb4fb2185662f3" ;
+    kw:sourceDigest "ca4f5669252502eb304beae2c9c7a1cb608b6e03bee7d42f62fbf2010fc2a467" ;
     kw:sourcePath "scripts/operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/operational_contracts.py:assess.select> a owl:NamedIndividual,
@@ -28523,7 +28523,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "assess.select" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "data, selector='$'" ;
-    kw:sourceDigest "51fa8b9bf152eb627b66b59692ad17b382754a95874a879376eb4fb2185662f3" ;
+    kw:sourceDigest "ca4f5669252502eb304beae2c9c7a1cb608b6e03bee7d42f62fbf2010fc2a467" ;
     kw:sourcePath "scripts/operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/operational_contracts.py:assess.values> a owl:NamedIndividual,
@@ -28543,7 +28543,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "assess.values" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "pattern, selector='$'" ;
-    kw:sourceDigest "51fa8b9bf152eb627b66b59692ad17b382754a95874a879376eb4fb2185662f3" ;
+    kw:sourceDigest "ca4f5669252502eb304beae2c9c7a1cb608b6e03bee7d42f62fbf2010fc2a467" ;
     kw:sourcePath "scripts/operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/operational_contracts.py:build_contracts> a owl:NamedIndividual,
@@ -28619,7 +28619,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "build_contracts" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, root, inventory" ;
-    kw:sourceDigest "51fa8b9bf152eb627b66b59692ad17b382754a95874a879376eb4fb2185662f3" ;
+    kw:sourceDigest "ca4f5669252502eb304beae2c9c7a1cb608b6e03bee7d42f62fbf2010fc2a467" ;
     kw:sourcePath "scripts/operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/operational_contracts.py:artifact_node> .
 
@@ -28640,7 +28640,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "build_contracts.entity" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "node, kind, label, definition" ;
-    kw:sourceDigest "51fa8b9bf152eb627b66b59692ad17b382754a95874a879376eb4fb2185662f3" ;
+    kw:sourceDigest "ca4f5669252502eb304beae2c9c7a1cb608b6e03bee7d42f62fbf2010fc2a467" ;
     kw:sourcePath "scripts/operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/validate-codebase-ontology.py:main> a owl:NamedIndividual,
@@ -28705,7 +28705,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "main" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "" ;
-    kw:sourceDigest "7f1e03fd24e01c7e24aed4ef9093ee437734718e5bb826d4728103c29c5280ce" ;
+    kw:sourceDigest "8086b13a7246b0455f818f93e2b022a099d7f375a7ba5e6b1df40be306b2a486" ;
     kw:sourcePath "scripts/validate-codebase-ontology.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/validate-codebase-ontology.py:operational_errors> .
 
@@ -28726,7 +28726,7 @@ kw:containedIn a owl:ObjectProperty ;
     kw:qualifiedName "main.visit" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "step, stack" ;
-    kw:sourceDigest "7f1e03fd24e01c7e24aed4ef9093ee437734718e5bb826d4728103c29c5280ce" ;
+    kw:sourceDigest "8086b13a7246b0455f818f93e2b022a099d7f375a7ba5e6b1df40be306b2a486" ;
     kw:sourcePath "scripts/validate-codebase-ontology.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/src/agents/base.py:Agent.__init__> a owl:NamedIndividual,
@@ -34017,7 +34017,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "graph" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:test_binding_failures> a owl:NamedIndividual,
@@ -34036,7 +34036,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_binding_failures" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, bindings" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:test_cli_intermediate_products_are_not_wrapper_requirements> a owl:NamedIndividual,
@@ -34055,7 +34055,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_cli_intermediate_products_are_not_wrapper_requirements" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, tmp_path" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:run_fixture> .
 
@@ -34075,7 +34075,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_duplicate_domains_block_integration" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, tmp_path" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:write> .
 
@@ -34100,7 +34100,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_freshness_checks_contracts_and_source" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "tmp_path" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:test_missing_implementation_rejected_by_shape> a owl:NamedIndividual,
@@ -34120,7 +34120,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_missing_implementation_rejected_by_shape" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:test_missing_mode_does_not_fall_back> a owl:NamedIndividual,
@@ -34137,7 +34137,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_missing_mode_does_not_fall_back" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:test_mode_cycle_rejected> a owl:NamedIndividual,
@@ -34155,7 +34155,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_mode_cycle_rejected" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:test_modes_plan_different_extraction_work> a owl:NamedIndividual,
@@ -34173,7 +34173,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_modes_plan_different_extraction_work" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:test_observations_are_records_not_executions> a owl:NamedIndividual,
@@ -34200,7 +34200,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_observations_are_records_not_executions" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, tmp_path" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:run_fixture> .
 
@@ -34220,7 +34220,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_out_of_scope_run_rejected" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, tmp_path" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:run_fixture> .
 
@@ -34243,7 +34243,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_partial_extraction_and_later_failure_block" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, tmp_path" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:extraction>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:run_fixture>,
@@ -34266,7 +34266,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_presence_not_completion_or_semantic_acceptance" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, tmp_path" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:extraction>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:run_fixture>,
@@ -34290,7 +34290,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_recorded_completion_requires_readable_products" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, tmp_path" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:extraction>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:run_fixture> .
@@ -34309,7 +34309,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_remote_context_not_fetched" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "tmp_path" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:write> .
 
@@ -34332,7 +34332,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_reports_found_in_figures_without_inventing_completion" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, tmp_path" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:run_fixture> .
 
@@ -34355,7 +34355,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_source_rerun_blocks_old_integration" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, tmp_path" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:write> .
 
@@ -34379,7 +34379,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_validator_detects_disconnected_units" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_concept_lineage.py:OfflineNormalization.__init__> a owl:NamedIndividual,
@@ -34800,7 +34800,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "saved" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "tmp_path" ;
-    kw:sourceDigest "806f92cf54b1b07cab2964a997b667e8baa1315f96486bf686a017b2af52b6c0" ;
+    kw:sourceDigest "ce2252430fece5711dee32b4dd484b3690d71b85d9c316dcd9ec2f69db204869" ;
     kw:sourcePath "tests/test_data_journey.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:write> .
 
@@ -34821,7 +34821,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_agent_guide_exposes_retained_and_omitted_information" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "" ;
-    kw:sourceDigest "806f92cf54b1b07cab2964a997b667e8baa1315f96486bf686a017b2af52b6c0" ;
+    kw:sourceDigest "ce2252430fece5711dee32b4dd484b3690d71b85d9c316dcd9ec2f69db204869" ;
     kw:sourcePath "tests/test_data_journey.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:test_changed_iri_and_reviewed_aliases_are_not_hidden> a owl:NamedIndividual,
@@ -34841,7 +34841,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_changed_iri_and_reviewed_aliases_are_not_hidden" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "saved" ;
-    kw:sourceDigest "806f92cf54b1b07cab2964a997b667e8baa1315f96486bf686a017b2af52b6c0" ;
+    kw:sourceDigest "ce2252430fece5711dee32b4dd484b3690d71b85d9c316dcd9ec2f69db204869" ;
     kw:sourcePath "tests/test_data_journey.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:target>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:write> .
@@ -34861,7 +34861,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_changed_saved_lineage_label_requires_review" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "saved" ;
-    kw:sourceDigest "806f92cf54b1b07cab2964a997b667e8baa1315f96486bf686a017b2af52b6c0" ;
+    kw:sourceDigest "ce2252430fece5711dee32b4dd484b3690d71b85d9c316dcd9ec2f69db204869" ;
     kw:sourcePath "tests/test_data_journey.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:target>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:write> .
@@ -34881,7 +34881,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_integration_not_selecting_run_does_not_claim_membership" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "saved" ;
-    kw:sourceDigest "806f92cf54b1b07cab2964a997b667e8baa1315f96486bf686a017b2af52b6c0" ;
+    kw:sourceDigest "ce2252430fece5711dee32b4dd484b3690d71b85d9c316dcd9ec2f69db204869" ;
     kw:sourcePath "tests/test_data_journey.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:target>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:write> .
@@ -34900,7 +34900,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_merged_membership_is_independent_of_cross_domain_mapping" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "saved" ;
-    kw:sourceDigest "806f92cf54b1b07cab2964a997b667e8baa1315f96486bf686a017b2af52b6c0" ;
+    kw:sourceDigest "ce2252430fece5711dee32b4dd484b3690d71b85d9c316dcd9ec2f69db204869" ;
     kw:sourcePath "tests/test_data_journey.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:target> .
 
@@ -34924,7 +34924,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_ontology_models_information_transformations_with_real_implementations" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "" ;
-    kw:sourceDigest "806f92cf54b1b07cab2964a997b667e8baa1315f96486bf686a017b2af52b6c0" ;
+    kw:sourceDigest "ce2252430fece5711dee32b4dd484b3690d71b85d9c316dcd9ec2f69db204869" ;
     kw:sourcePath "tests/test_data_journey.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:test_original_label_shared_by_canonical_targets_is_ambiguous> a owl:NamedIndividual,
@@ -34946,7 +34946,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_original_label_shared_by_canonical_targets_is_ambiguous" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "saved" ;
-    kw:sourceDigest "806f92cf54b1b07cab2964a997b667e8baa1315f96486bf686a017b2af52b6c0" ;
+    kw:sourceDigest "ce2252430fece5711dee32b4dd484b3690d71b85d9c316dcd9ec2f69db204869" ;
     kw:sourcePath "tests/test_data_journey.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:target>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:write> .
@@ -34967,7 +34967,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_partial_recorded_map_is_not_filled_with_inferred_merges" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "saved" ;
-    kw:sourceDigest "806f92cf54b1b07cab2964a997b667e8baa1315f96486bf686a017b2af52b6c0" ;
+    kw:sourceDigest "ce2252430fece5711dee32b4dd484b3690d71b85d9c316dcd9ec2f69db204869" ;
     kw:sourcePath "tests/test_data_journey.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:target>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:write> .
@@ -34987,7 +34987,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_repeated_paper_local_ids_remain_distinct_candidates" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "saved" ;
-    kw:sourceDigest "806f92cf54b1b07cab2964a997b667e8baa1315f96486bf686a017b2af52b6c0" ;
+    kw:sourceDigest "ce2252430fece5711dee32b4dd484b3690d71b85d9c316dcd9ec2f69db204869" ;
     kw:sourcePath "tests/test_data_journey.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:target> .
 
@@ -35008,7 +35008,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_snapshot_detects_source_change" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "saved" ;
-    kw:sourceDigest "806f92cf54b1b07cab2964a997b667e8baa1315f96486bf686a017b2af52b6c0" ;
+    kw:sourceDigest "ce2252430fece5711dee32b4dd484b3690d71b85d9c316dcd9ec2f69db204869" ;
     kw:sourcePath "tests/test_data_journey.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:write> .
 
@@ -35037,7 +35037,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_snapshots_are_read_only_redacted_and_links_resolve" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "saved, tmp_path" ;
-    kw:sourceDigest "806f92cf54b1b07cab2964a997b667e8baa1315f96486bf686a017b2af52b6c0" ;
+    kw:sourceDigest "ce2252430fece5711dee32b4dd484b3690d71b85d9c316dcd9ec2f69db204869" ;
     kw:sourcePath "tests/test_data_journey.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:test_unsafe_identifiers_are_rejected> a owl:NamedIndividual,
@@ -35055,7 +35055,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_unsafe_identifiers_are_rejected" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "bad" ;
-    kw:sourceDigest "806f92cf54b1b07cab2964a997b667e8baa1315f96486bf686a017b2af52b6c0" ;
+    kw:sourceDigest "ce2252430fece5711dee32b4dd484b3690d71b85d9c316dcd9ec2f69db204869" ;
     kw:sourcePath "tests/test_data_journey.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_documentation_library.py:library_root> a owl:NamedIndividual,
@@ -35083,7 +35083,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "library_root" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "tmp_path" ;
-    kw:sourceDigest "af1eb55635c65e1f862abc9d9cfa3fabbd75533ee9d9d0ae800cffe9bf7ff358" ;
+    kw:sourceDigest "f422a658dece581921317ecad5cee678f1794cc5bdd8c40579c55001d6362791" ;
     kw:sourcePath "tests/test_documentation_library.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_documentation_library.py:test_links_headings_and_safe_sources> a owl:NamedIndividual,
@@ -35108,7 +35108,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_links_headings_and_safe_sources" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "library_root" ;
-    kw:sourceDigest "af1eb55635c65e1f862abc9d9cfa3fabbd75533ee9d9d0ae800cffe9bf7ff358" ;
+    kw:sourceDigest "f422a658dece581921317ecad5cee678f1794cc5bdd8c40579c55001d6362791" ;
     kw:sourcePath "tests/test_documentation_library.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_documentation_library.py:test_missing_graph_is_explained> a owl:NamedIndividual,
@@ -35125,7 +35125,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_missing_graph_is_explained" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "library_root" ;
-    kw:sourceDigest "af1eb55635c65e1f862abc9d9cfa3fabbd75533ee9d9d0ae800cffe9bf7ff358" ;
+    kw:sourceDigest "f422a658dece581921317ecad5cee678f1794cc5bdd8c40579c55001d6362791" ;
     kw:sourcePath "tests/test_documentation_library.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_documentation_library.py:test_output_cannot_escape_outputs> a owl:NamedIndividual,
@@ -35142,7 +35142,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_output_cannot_escape_outputs" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "library_root" ;
-    kw:sourceDigest "af1eb55635c65e1f862abc9d9cfa3fabbd75533ee9d9d0ae800cffe9bf7ff358" ;
+    kw:sourceDigest "f422a658dece581921317ecad5cee678f1794cc5bdd8c40579c55001d6362791" ;
     kw:sourcePath "tests/test_documentation_library.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_extraction_quality.py:test_actual_label_is_quarantined_with_dependent_records_and_preserved_raw> a owl:NamedIndividual,
@@ -35985,7 +35985,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "graph" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:integration_run> a owl:NamedIndividual,
@@ -36012,7 +36012,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "integration_run" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "scientific_run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36029,7 +36029,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "run" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "tmp_path" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36058,7 +36058,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "scientific_run" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36077,7 +36077,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_after_checks_require_scientific_review_even_with_valid_joins" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:test_agent_can_follow_graph_from_stage_to_argument_artifact_and_checker> a owl:NamedIndividual,
@@ -36100,7 +36100,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_agent_can_follow_graph_from_stage_to_argument_artifact_and_checker" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:test_before_checks_accept_fixture_but_do_not_execute> a owl:NamedIndividual,
@@ -36122,7 +36122,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_before_checks_accept_fixture_but_do_not_execute" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:test_before_checks_do_not_require_later_outputs> a owl:NamedIndividual,
@@ -36141,7 +36141,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_before_checks_do_not_require_later_outputs" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, scientific_run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:test_contracts_cover_every_stage_with_reviewed_operations_and_inputs> a owl:NamedIndividual,
@@ -36160,7 +36160,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_contracts_cover_every_stage_with_reviewed_operations_and_inputs" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:test_direct_invocation_remains_distinct_from_orchestrator> a owl:NamedIndividual,
@@ -36178,7 +36178,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_direct_invocation_remains_distinct_from_orchestrator" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:test_every_project_node_has_nonempty_skos_definition> a owl:NamedIndividual,
@@ -36200,7 +36200,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_every_project_node_has_nonempty_skos_definition" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:test_excluded_classes_do_not_require_live_enrichment> a owl:NamedIndividual,
@@ -36220,7 +36220,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_excluded_classes_do_not_require_live_enrichment" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, scientific_run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36240,7 +36240,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_extraction_coverage_checks_selection_not_only_completion" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, scientific_run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:test_false_saved_validation_is_not_success> a owl:NamedIndividual,
@@ -36259,7 +36259,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_false_saved_validation_is_not_success" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, scientific_run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36280,7 +36280,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_integration_rejects_path_escape_and_malformed_endpoints" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, integration_run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36302,7 +36302,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_integration_resolves_mapping_and_bridge_provenance" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, integration_run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36323,7 +36323,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_integration_unknown_bridge_member_blocks" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, integration_run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36351,7 +36351,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_large_export_comparison_is_explicitly_deferred" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, scientific_run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:test_malformed_concepts_block_normalization> a owl:NamedIndividual,
@@ -36371,7 +36371,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_malformed_concepts_block_normalization" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, run, broken" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36391,7 +36391,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_mapping_local_identifier_must_exist" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, scientific_run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36416,7 +36416,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_missing_canonical_identity_is_not_silent_loss" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, scientific_run, stage, path" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36435,7 +36435,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_no_saved_completion_is_not_success" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36457,7 +36457,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_normalization_recipe_answers_binding_and_call_questions" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:test_one_concept_can_map_to_multiple_external_terms> a owl:NamedIndividual,
@@ -36475,7 +36475,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_one_concept_can_map_to_multiple_external_terms" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, scientific_run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36496,7 +36496,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_paper_coverage_loss_blocks_without_inventing_lineage" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36516,7 +36516,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_parseable_but_different_exports_are_rejected" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, scientific_run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36539,7 +36539,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_report_availability_and_skips_are_distinct_from_completion" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, tmp_path" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:test_scientific_stages_check_actual_saved_joins> a owl:NamedIndividual,
@@ -36559,7 +36559,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_scientific_stages_check_actual_saved_joins" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, scientific_run, stage" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:test_setup_never_invents_ready_from_domain_outputs> a owl:NamedIndividual,
@@ -36578,7 +36578,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_setup_never_invents_ready_from_domain_outputs" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, scientific_run, stage" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:test_structural_descriptions_do_not_claim_reviewed_behavior> a owl:NamedIndividual,
@@ -36598,7 +36598,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_structural_descriptions_do_not_claim_reviewed_behavior" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:test_unresolved_ontology_endpoints_block> a owl:NamedIndividual,
@@ -36623,7 +36623,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_unresolved_ontology_endpoints_block" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, scientific_run, stage, path, field, value" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36644,7 +36644,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_unresolved_paper_reference_blocks" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36663,7 +36663,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_wrapper_ingestion_requires_selected_pdf_metadata" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, wrapper_run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36682,7 +36682,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_wrapper_parsing_coverage_and_sections_are_checked" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, wrapper_run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36702,7 +36702,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "test_wrong_canonical_endpoint_blocks_downstream" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, run" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -36719,7 +36719,7 @@ when one is given ('store_label'), or a close misspelling of a candidate or root
     kw:qualifiedName "wrapper_run" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "tmp_path" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> .
 
@@ -38833,7 +38833,7 @@ provide direct navigation. Source links open generated, fingerprinted code snaps
 unregistered public ontology IRIs. Full graph JSON remains downloadable, with projection semantics
 explicitly separated from the original formal RDF types.
 """ ;
-    kw:sourceDigest "1f0a037c6b805c598c984f2d88aeb91195b8119f596c3417c669084fcb8f86f2" ;
+    kw:sourceDigest "811612fa8344feda3830818630e2bb8ca1ac46c1ddf1a534e06558f33d6d3801" ;
     kw:sourcePath "docs/codebase/normalization-walkthrough.md" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#resource/docs/codebase/stages/enrich.md> a owl:NamedIndividual,
@@ -42727,7 +42727,7 @@ kw:RuntimeObservation a owl:Class ;
     kw:qualifiedName "file_node" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "path" ;
-    kw:sourceDigest "79179bdf841995b01068a3097e49dec60ec575f7f2fe23ee71347b080a2c07a8" ;
+    kw:sourceDigest "c0bda6797f354f6502dded3640887e787d7731932e458a531c491256bd98a8bf" ;
     kw:sourcePath "scripts/codebase_ontology.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/codebase_ontology.py:function_node> a owl:NamedIndividual,
@@ -42744,7 +42744,7 @@ kw:RuntimeObservation a owl:Class ;
     kw:qualifiedName "function_node" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "path, name" ;
-    kw:sourceDigest "79179bdf841995b01068a3097e49dec60ec575f7f2fe23ee71347b080a2c07a8" ;
+    kw:sourceDigest "c0bda6797f354f6502dded3640887e787d7731932e458a531c491256bd98a8bf" ;
     kw:sourcePath "scripts/codebase_ontology.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/compare_runs.py:coverage> a owl:NamedIndividual,
@@ -42897,7 +42897,7 @@ kw:RuntimeObservation a owl:Class ;
     kw:qualifiedName "build_traces" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "outputs, run_id, integration_id=None" ;
-    kw:sourceDigest "35949fcebeefef117e9b778fd7666dd03ef8c9f01c353f20fe6d9fde686a6792" ;
+    kw:sourceDigest "a272e46e789e8b19e0089d98b59617023eb93da9f07e793df7a911a46c0ccbc1" ;
     kw:sourcePath "scripts/data_journey.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/data_journey.py:identifier>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/data_journey.py:label_key>,
@@ -42920,7 +42920,7 @@ kw:RuntimeObservation a owl:Class ;
     kw:qualifiedName "label_key" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "value" ;
-    kw:sourceDigest "35949fcebeefef117e9b778fd7666dd03ef8c9f01c353f20fe6d9fde686a6792" ;
+    kw:sourceDigest "a272e46e789e8b19e0089d98b59617023eb93da9f07e793df7a911a46c0ccbc1" ;
     kw:sourcePath "scripts/data_journey.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/data_journey.py:public_record> a owl:NamedIndividual,
@@ -42937,7 +42937,7 @@ kw:RuntimeObservation a owl:Class ;
     kw:qualifiedName "public_record" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "value, fields" ;
-    kw:sourceDigest "35949fcebeefef117e9b778fd7666dd03ef8c9f01c353f20fe6d9fde686a6792" ;
+    kw:sourceDigest "a272e46e789e8b19e0089d98b59617023eb93da9f07e793df7a911a46c0ccbc1" ;
     kw:sourcePath "scripts/data_journey.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/document-codebase.py:inventory> a owl:NamedIndividual,
@@ -42976,7 +42976,7 @@ kw:RuntimeObservation a owl:Class ;
     kw:qualifiedName "inventory" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "" ;
-    kw:sourceDigest "978820ef3433b7efce6f072bef7dfc1316d04f871e9aeb196dc10d9d97eea70b" ;
+    kw:sourceDigest "ae9a93781f80b5f6385e1dfb39e8e85b59726403f587ae8d8a75a72a37d63500" ;
     kw:sourcePath "scripts/document-codebase.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/document-codebase.py:code_files> .
 
@@ -43237,7 +43237,7 @@ as the local tier assigns it) and the matched class's nearest CCO/BFO ancestors.
     kw:qualifiedName "inspect_run" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, folder, outputs" ;
-    kw:sourceDigest "fd561802f54eec3cbb578ecc1dc83da2f6cb37628d42d500640353bcbb7621ed" ;
+    kw:sourceDigest "2b55e8e00c7490894f68e4e3b2e777e3b6a2c4e158bdcab7652ededa8793ff2b" ;
     kw:sourcePath "scripts/ontology_agent.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/ontology_agent.py:read_artifact> .
 
@@ -43265,7 +43265,7 @@ as the local tier assigns it) and the matched class's nearest CCO/BFO ancestors.
     kw:qualifiedName "observation_graph" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "result" ;
-    kw:sourceDigest "fd561802f54eec3cbb578ecc1dc83da2f6cb37628d42d500640353bcbb7621ed" ;
+    kw:sourceDigest "2b55e8e00c7490894f68e4e3b2e777e3b6a2c4e158bdcab7652ededa8793ff2b" ;
     kw:sourcePath "scripts/ontology_agent.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/ontology_agent.py:plan> a owl:NamedIndividual,
@@ -43307,7 +43307,7 @@ as the local tier assigns it) and the matched class's nearest CCO/BFO ancestors.
     kw:qualifiedName "plan" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, target, mode, bindings" ;
-    kw:sourceDigest "fd561802f54eec3cbb578ecc1dc83da2f6cb37628d42d500640353bcbb7621ed" ;
+    kw:sourceDigest "2b55e8e00c7490894f68e4e3b2e777e3b6a2c4e158bdcab7652ededa8793ff2b" ;
     kw:sourcePath "scripts/ontology_agent.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/ontology_agent.py:invocation> .
 
@@ -43326,7 +43326,7 @@ as the local tier assigns it) and the matched class's nearest CCO/BFO ancestors.
     kw:qualifiedName "artifact_node" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "pattern" ;
-    kw:sourceDigest "51fa8b9bf152eb627b66b59692ad17b382754a95874a879376eb4fb2185662f3" ;
+    kw:sourceDigest "ca4f5669252502eb304beae2c9c7a1cb608b6e03bee7d42f62fbf2010fc2a467" ;
     kw:sourcePath "scripts/operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/operational_contracts.py:guide> a owl:NamedIndividual,
@@ -43359,7 +43359,7 @@ as the local tier assigns it) and the matched class's nearest CCO/BFO ancestors.
     kw:qualifiedName "guide" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, stage" ;
-    kw:sourceDigest "51fa8b9bf152eb627b66b59692ad17b382754a95874a879376eb4fb2185662f3" ;
+    kw:sourceDigest "ca4f5669252502eb304beae2c9c7a1cb608b6e03bee7d42f62fbf2010fc2a467" ;
     kw:sourcePath "scripts/operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/validate-codebase-ontology.py:operational_errors> a owl:NamedIndividual,
@@ -43405,7 +43405,7 @@ as the local tier assigns it) and the matched class's nearest CCO/BFO ancestors.
     kw:qualifiedName "operational_errors" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, root, inventory" ;
-    kw:sourceDigest "7f1e03fd24e01c7e24aed4ef9093ee437734718e5bb826d4728103c29c5280ce" ;
+    kw:sourceDigest "8086b13a7246b0455f818f93e2b022a099d7f375a7ba5e6b1df40be306b2a486" ;
     kw:sourcePath "scripts/validate-codebase-ontology.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/src/agents/base.py:_hidden_rows> a owl:NamedIndividual,
@@ -48322,7 +48322,7 @@ kw:CodebaseSnapshot a owl:Class ;
     kw:qualifiedName "identifier" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "value" ;
-    kw:sourceDigest "35949fcebeefef117e9b778fd7666dd03ef8c9f01c353f20fe6d9fde686a6792" ;
+    kw:sourceDigest "a272e46e789e8b19e0089d98b59617023eb93da9f07e793df7a911a46c0ccbc1" ;
     kw:sourcePath "scripts/data_journey.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/document-codebase.py:code_files> a owl:NamedIndividual,
@@ -48342,7 +48342,7 @@ kw:CodebaseSnapshot a owl:Class ;
     kw:qualifiedName "code_files" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "" ;
-    kw:sourceDigest "978820ef3433b7efce6f072bef7dfc1316d04f871e9aeb196dc10d9d97eea70b" ;
+    kw:sourceDigest "ae9a93781f80b5f6385e1dfb39e8e85b59726403f587ae8d8a75a72a37d63500" ;
     kw:sourcePath "scripts/document-codebase.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/eval_parent_recall.py:concept_case> a owl:NamedIndividual,
@@ -48403,7 +48403,7 @@ kw:CodebaseSnapshot a owl:Class ;
     kw:qualifiedName "invocation" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, step, mode" ;
-    kw:sourceDigest "fd561802f54eec3cbb578ecc1dc83da2f6cb37628d42d500640353bcbb7621ed" ;
+    kw:sourceDigest "2b55e8e00c7490894f68e4e3b2e777e3b6a2c4e158bdcab7652ededa8793ff2b" ;
     kw:sourcePath "scripts/ontology_agent.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/ontology_agent.py:read_artifact> a owl:NamedIndividual,
@@ -48442,7 +48442,7 @@ kw:CodebaseSnapshot a owl:Class ;
     kw:qualifiedName "read_artifact" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "path, root" ;
-    kw:sourceDigest "fd561802f54eec3cbb578ecc1dc83da2f6cb37628d42d500640353bcbb7621ed" ;
+    kw:sourceDigest "2b55e8e00c7490894f68e4e3b2e777e3b6a2c4e158bdcab7652ededa8793ff2b" ;
     kw:sourcePath "scripts/ontology_agent.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/src/agents/extraction.py:_clean_label> a owl:NamedIndividual,
@@ -50049,7 +50049,7 @@ prov:Plan rdfs:label "Plan" ;
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/documentation_library.py:build_library.relative>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/documentation_library.py:build_library.shell> ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "47723ea07287ebc2dc6075c4a3f2f8e52a99b07bb88d4c8ea5e4998c518dd74a" ;
+    kw:sourceDigest "5214a1c40b01bb79aea6f039fbb1e394587c692c6c27b61f460715590800addf" ;
     kw:sourcePath "scripts/documentation_library.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/scripts/export-codebase-webvowl.py> a owl:NamedIndividual,
@@ -50062,7 +50062,7 @@ prov:Plan rdfs:label "Plan" ;
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/export-codebase-webvowl.py:main.save> ;
     kw:definitionStatus "source-derived description" ;
     kw:importsCodeUnit <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/dpv_dashboard/viewer.py> ;
-    kw:sourceDigest "4dbcd644cc433e617ca83a87006b1ff17b0ea01410a0bb231d34af98b3d48ce5" ;
+    kw:sourceDigest "fce2fb44f2550421b084596f734b62b1ae99487610fef97a8b33eb73bfebc0e9" ;
     kw:sourcePath "scripts/export-codebase-webvowl.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/scripts/validate-codebase-ontology.py> a owl:NamedIndividual,
@@ -50074,7 +50074,7 @@ prov:Plan rdfs:label "Plan" ;
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/validate-codebase-ontology.py:main.visit>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/validate-codebase-ontology.py:operational_errors> ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "7f1e03fd24e01c7e24aed4ef9093ee437734718e5bb826d4728103c29c5280ce" ;
+    kw:sourceDigest "8086b13a7246b0455f818f93e2b022a099d7f375a7ba5e6b1df40be306b2a486" ;
     kw:sourcePath "scripts/validate-codebase-ontology.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/tests/test_materials_project.py> a owl:NamedIndividual,
@@ -51794,7 +51794,7 @@ material."""@en ;
     kw:qualifiedName "extraction" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "result" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_concept_lineage.py:concept> a owl:NamedIndividual,
@@ -51913,7 +51913,7 @@ cco:ont00000853 rdfs:label "Descriptive Information Content Entity"@en ;
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/codebase_ontology.py:freshness_errors>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/codebase_ontology.py:function_node> ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "79179bdf841995b01068a3097e49dec60ec575f7f2fe23ee71347b080a2c07a8" ;
+    kw:sourceDigest "c0bda6797f354f6502dded3640887e787d7731932e458a531c491256bd98a8bf" ;
     kw:sourcePath "scripts/codebase_ontology.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/src/agents/__init__.py> a owl:NamedIndividual,
@@ -51963,7 +51963,7 @@ cco:ont00000853 rdfs:label "Descriptive Information Content Entity"@en ;
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_documentation_library.py:test_missing_graph_is_explained>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_documentation_library.py:test_output_cannot_escape_outputs> ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "af1eb55635c65e1f862abc9d9cfa3fabbd75533ee9d9d0ae800cffe9bf7ff358" ;
+    kw:sourceDigest "f422a658dece581921317ecad5cee678f1794cc5bdd8c40579c55001d6362791" ;
     kw:sourcePath "tests/test_documentation_library.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/tests/test_row_retries.py> a owl:NamedIndividual,
@@ -53348,7 +53348,7 @@ kw:WorkflowSpecification a owl:Class ;
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/document-codebase.py:code_files>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/document-codebase.py:inventory> ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "978820ef3433b7efce6f072bef7dfc1316d04f871e9aeb196dc10d9d97eea70b" ;
+    kw:sourceDigest "ae9a93781f80b5f6385e1dfb39e8e85b59726403f587ae8d8a75a72a37d63500" ;
     kw:sourcePath "scripts/document-codebase.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/src/tools/lora_eval.py> a owl:NamedIndividual,
@@ -54888,7 +54888,7 @@ kinds / ontologies restrict the result (e.g. kinds=("class",), ontologies=("CCO"
     kw:qualifiedName "write" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "path, value" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#parameter/DOMAIN_ID> a owl:NamedIndividual,
@@ -55661,7 +55661,7 @@ then OpenAlex cited_by_count (key optional), then Crossref is-referenced-by-coun
     kw:qualifiedName "run_fixture" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "tmp_path" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:write> .
 
@@ -55678,7 +55678,7 @@ then OpenAlex cited_by_count (key optional), then Crossref is-referenced-by-coun
     kw:qualifiedName "target" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "package" ;
-    kw:sourceDigest "806f92cf54b1b07cab2964a997b667e8baa1315f96486bf686a017b2af52b6c0" ;
+    kw:sourceDigest "ce2252430fece5711dee32b4dd484b3690d71b85d9c316dcd9ec2f69db204869" ;
     kw:sourcePath "tests/test_data_journey.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:write> a owl:NamedIndividual,
@@ -55697,7 +55697,7 @@ then OpenAlex cited_by_count (key optional), then Crossref is-referenced-by-coun
     kw:qualifiedName "write" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "path, value" ;
-    kw:sourceDigest "806f92cf54b1b07cab2964a997b667e8baa1315f96486bf686a017b2af52b6c0" ;
+    kw:sourceDigest "ce2252430fece5711dee32b4dd484b3690d71b85d9c316dcd9ec2f69db204869" ;
     kw:sourcePath "tests/test_data_journey.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#step/ingest> a owl:NamedIndividual,
@@ -56395,7 +56395,7 @@ class: the gold parent is that class's nearest CCO/BFO ancestor. No model calls;
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/ontology_agent.py:plan.visit.substitute>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/ontology_agent.py:read_artifact> ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "fd561802f54eec3cbb578ecc1dc83da2f6cb37628d42d500640353bcbb7621ed" ;
+    kw:sourceDigest "2b55e8e00c7490894f68e4e3b2e777e3b6a2c4e158bdcab7652ededa8793ff2b" ;
     kw:sourcePath "scripts/ontology_agent.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/src/tools/gemini_quota.py> a owl:NamedIndividual,
@@ -56867,7 +56867,7 @@ class: the gold parent is that class's nearest CCO/BFO ancestor. No model calls;
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/operational_contracts.py:build_contracts.entity>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/operational_contracts.py:guide> ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "51fa8b9bf152eb627b66b59692ad17b382754a95874a879376eb4fb2185662f3" ;
+    kw:sourceDigest "ca4f5669252502eb304beae2c9c7a1cb608b6e03bee7d42f62fbf2010fc2a467" ;
     kw:sourcePath "scripts/operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/src/agents/interoperability.py> a owl:NamedIndividual,
@@ -57868,7 +57868,7 @@ mappings, types, deprecated, defined_by (the ontology's IRI)."""@en ;
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/data_journey.py:label_key>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/data_journey.py:public_record> ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "35949fcebeefef117e9b778fd7666dd03ef8c9f01c353f20fe6d9fde686a6792" ;
+    kw:sourceDigest "a272e46e789e8b19e0089d98b59617023eb93da9f07e793df7a911a46c0ccbc1" ;
     kw:sourcePath "scripts/data_journey.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/tests/test_workers.py> a owl:NamedIndividual,
@@ -58301,7 +58301,7 @@ kw:InformationTransformationSpecification a owl:Class ;
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:test_unsafe_identifiers_are_rejected>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_data_journey.py:write> ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "806f92cf54b1b07cab2964a997b667e8baa1315f96486bf686a017b2af52b6c0" ;
+    kw:sourceDigest "ce2252430fece5711dee32b4dd484b3690d71b85d9c316dcd9ec2f69db204869" ;
     kw:sourcePath "tests/test_data_journey.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/tests/test_slurm_metrics.py> a owl:NamedIndividual,
@@ -58948,7 +58948,7 @@ kw:ConfigurationSpecification a owl:Class ;
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:test_validator_detects_disconnected_units>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_codebase_ontology.py:write> ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68" ;
+    kw:sourceDigest "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b" ;
     kw:sourcePath "tests/test_codebase_ontology.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/tests/test_concept_lineage.py> a owl:NamedIndividual,
@@ -59021,7 +59021,7 @@ kw:ConfigurationSpecification a owl:Class ;
     kw:qualifiedName "write" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "path, data" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" .
 
 cco:ont00000965 rdfs:label "Prescriptive Information Content Entity"@en ;
@@ -59731,7 +59731,7 @@ prov:Entity rdfs:label "Entity" .
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:wrapper_run>,
         <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/tests/test_operational_contracts.py:write> ;
     kw:definitionStatus "source-derived description" ;
-    kw:sourceDigest "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d" ;
+    kw:sourceDigest "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590" ;
     kw:sourcePath "tests/test_operational_contracts.py" .
 
 <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#file/src/run.py> a owl:NamedIndividual,
@@ -60122,7 +60122,7 @@ kw:ResourceSpecification a owl:Class ;
     kw:qualifiedName "assess" ;
     kw:returnTypeExpression "unannotated; inspect implementation" ;
     kw:signature "graph, folder, outputs, stage, phase='after'" ;
-    kw:sourceDigest "51fa8b9bf152eb627b66b59692ad17b382754a95874a879376eb4fb2185662f3" ;
+    kw:sourceDigest "ca4f5669252502eb304beae2c9c7a1cb608b6e03bee7d42f62fbf2010fc2a467" ;
     kw:sourcePath "scripts/operational_contracts.py" ;
     kw:staticallyReferences <https://w3id.org/ucf-dpv/knowledge-workflow/codebase#function/scripts/operational_contracts.py:guide> .
 

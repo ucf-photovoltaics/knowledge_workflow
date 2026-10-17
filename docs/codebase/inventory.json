@@ -2,7 +2,7 @@
   {
     "path": "docs/ontology/artifact-flow.rq",
     "language": ".rq",
-    "sha256": "7711160bfc55aa0f7e9341d0b2ecbd58cd0d8d871b873f85c67bd39b6fae6478",
+    "sha256": "db8582b39f32ea9ecc04a7e2254fd568588332c267fbbae2bbb7fcaac7ee86d1",
     "functions": [],
     "imports": [],
     "summary": "Summary: Follow shared output specifications from producing to consuming pipeline steps."
@@ -10,7 +10,7 @@
   {
     "path": "docs/ontology/information-flow.rq",
     "language": ".rq",
-    "sha256": "49d3729a08ec90211c1a167b4f12d346534627be9edc33afd2c2e6230b6bbed4",
+    "sha256": "9a3045ca1206dc3da18f0fe766e109ae74f0ef49d443d3146111dfe483522f20",
     "functions": [],
     "imports": [],
     "summary": "Summary: Discover information transformations, their data states and source implementations."
@@ -18,7 +18,7 @@
   {
     "path": "docs/ontology/next-step.rq",
     "language": ".rq",
-    "sha256": "c690cb12e1d58f281acc04794e5ee7a42a3e17209e5cfb2126cc0d62e7b47ae5",
+    "sha256": "45b63ed00183b3ed6bf15c290c34afc248f3b00779472fe9f4b7346de1cd7dc5",
     "functions": [],
     "imports": [],
     "summary": "Summary: Retrieve invocation templates and prerequisite specifications for an explicit step."
@@ -26,7 +26,7 @@
   {
     "path": "docs/ontology/step-functions.rq",
     "language": ".rq",
-    "sha256": "ab8ff02b563f563cf7635601e13ff42bffba2e78a0b61530e4925bd9a59cd39d",
+    "sha256": "baab749310f2c0161ce6f379e8edc355d830bb92ac4c18b3b4f4adfd09634198",
     "functions": [],
     "imports": [],
     "summary": "Summary: Navigate every operational step to its source callable and expected products."
@@ -34,7 +34,7 @@
   {
     "path": "docs/ontology/viewer/frame.css",
     "language": ".css",
-    "sha256": "1aead3882ea96759ad0e1b6113ca247f4ed71632c190431bf47307fd147ba470",
+    "sha256": "1b8f000d2e7ef4d2dd0319d711df5e02808dab48dfd9d101ad6fcb6b72835db4",
     "functions": [],
     "imports": [],
     "summary": "Summary: Hide duplicate upstream details in the generated preview; retain graph controls."
@@ -42,7 +42,7 @@
   {
     "path": "docs/ontology/viewer/index.html",
     "language": ".html",
-    "sha256": "c3a66e2a7cb2bee06b5ea4bde11046b78a5aca34c0e56381d47e4da02c26b374",
+    "sha256": "8a67e8f183105597d94547d3c606936356fae56326533be56c579a2206f23981",
     "functions": [],
     "imports": [],
     "summary": "Summary: Focused, read-only reviewer navigation of the operational codebase ontology."
@@ -50,7 +50,7 @@
   {
     "path": "docs/ontology/viewer/journey.css",
     "language": ".css",
-    "sha256": "5cddf625c187a09b02f3d0d4b35a4aa23b2b661dfc53ea9402dfda2bf1bd2732",
+    "sha256": "63a35843f93add34add0b9cca9208d6ea1ac608229a201121f3485b533ab9e28",
     "functions": [],
     "imports": [],
     "summary": "Summary: Stable reading-order information flow, explicit handoffs and evidence-bearing concept traces."
@@ -66,7 +66,7 @@
   {
     "path": "docs/ontology/viewer/reviewer-bridge.js",
     "language": ".js",
-    "sha256": "eb3a635308050f4d34da64b9c8fd1840580521be5699165621981e6aa8afcb29",
+    "sha256": "a3d78f47ce14f7c20da5a7de33dc4777071ce091bc8eac568a4ce911567f26e3",
     "functions": [],
     "imports": [],
     "summary": "Summary: Connect the standalone reviewer to WebVOWL with coalesced graph framing."
@@ -74,7 +74,7 @@
   {
     "path": "docs/ontology/viewer/reviewer.css",
     "language": ".css",
-    "sha256": "28e932357addd2e6ea14ede3c23066c52e5ce68fe932a8ef8a54955a827f6ac9",
+    "sha256": "a149f6a38ed905a6b28d00e231abb4c8889bcd1058caf6cf6a9ed675a2fa00f9",
     "functions": [],
     "imports": [],
     "summary": "Summary: Accessible reviewer layout for focused WebVOWL stage and source navigation."
@@ -82,7 +82,7 @@
   {
     "path": "docs/ontology/viewer/reviewer.js",
     "language": ".js",
-    "sha256": "9c3256e35860db6f17a52f3b39ebbf8afa3e7f31f609972abe10f46726aa0d1e",
+    "sha256": "2d3079900fa7c7b7c318b450035903d0b45d607758f04986f652a3983728e35b",
     "functions": [],
     "imports": [],
     "summary": "Summary: Read-only stage, definition, contract and source navigation over exported RDF records."
@@ -90,7 +90,7 @@
   {
     "path": "docs/ontology/viewer/site-nav.css",
     "language": ".css",
-    "sha256": "f1a52394fbf64e4ff5cc6ac9a130b7da1a4ed8e0f7d326fbcf46087b4239b3b4",
+    "sha256": "5c9fa42bd476c2b8f356b9227fe099565bba448dae9c2de065128faf5199eba6",
     "functions": [],
     "imports": [],
     "summary": "Summary: Shared documentation navigation and readable guide/library layouts."
@@ -98,7 +98,7 @@
   {
     "path": "docs/ontology/viewer/site-nav.js",
     "language": ".js",
-    "sha256": "48c5d7c3d09f37021b75f355c17d4171850ac95704b8df3b41022a83be86b1a3",
+    "sha256": "18b350522523c106ec16e25e729e6af9545351ab32dc857b6dfd92ccbc5238f9",
     "functions": [],
     "imports": [],
     "summary": "Summary: Return to the serving dashboard and filter the static documentation library."
@@ -8377,7 +8377,7 @@
   {
     "path": "dpv_dashboard/www/dashboard.css",
     "language": ".css",
-    "sha256": "15cad2d904f1fffa1660d51f9999a526499434c28c7072699112c08448b0422d",
+    "sha256": "13cbb61bfaec3ac2a33d3dc29ec3a647acaa4e04ec260be55be464ad3f037a2c",
     "functions": [],
     "imports": [],
     "summary": "Summary: dashboard support for Knowledge Workflow; retain the existing operational notes below."
@@ -8566,7 +8566,7 @@
   {
     "path": "scripts/codebase_ontology.py",
     "language": ".py",
-    "sha256": "79179bdf841995b01068a3097e49dec60ec575f7f2fe23ee71347b080a2c07a8",
+    "sha256": "c0bda6797f354f6502dded3640887e787d7731932e458a531c491256bd98a8bf",
     "functions": [
       {
         "name": "file_node",
@@ -8881,7 +8881,7 @@
   {
     "path": "scripts/data_journey.py",
     "language": ".py",
-    "sha256": "35949fcebeefef117e9b778fd7666dd03ef8c9f01c353f20fe6d9fde686a6792",
+    "sha256": "a272e46e789e8b19e0089d98b59617023eb93da9f07e793df7a911a46c0ccbc1",
     "functions": [
       {
         "name": "enrich_journey",
@@ -9219,7 +9219,7 @@
   {
     "path": "scripts/document-codebase.py",
     "language": ".py",
-    "sha256": "978820ef3433b7efce6f072bef7dfc1316d04f871e9aeb196dc10d9d97eea70b",
+    "sha256": "ae9a93781f80b5f6385e1dfb39e8e85b59726403f587ae8d8a75a72a37d63500",
     "functions": [
       {
         "name": "code_files",
@@ -9416,7 +9416,7 @@
   {
     "path": "scripts/documentation_library.py",
     "language": ".py",
-    "sha256": "47723ea07287ebc2dc6075c4a3f2f8e52a99b07bb88d4c8ea5e4998c518dd74a",
+    "sha256": "5214a1c40b01bb79aea6f039fbb1e394587c692c6c27b61f460715590800addf",
     "functions": [
       {
         "name": "build_library",
@@ -9770,7 +9770,7 @@
   {
     "path": "scripts/export-codebase-webvowl.py",
     "language": ".py",
-    "sha256": "4dbcd644cc433e617ca83a87006b1ff17b0ea01410a0bb231d34af98b3d48ce5",
+    "sha256": "fce2fb44f2550421b084596f734b62b1ae99487610fef97a8b33eb73bfebc0e9",
     "functions": [
       {
         "name": "main",
@@ -9906,7 +9906,7 @@
   {
     "path": "scripts/ontology_agent.py",
     "language": ".py",
-    "sha256": "fd561802f54eec3cbb578ecc1dc83da2f6cb37628d42d500640353bcbb7621ed",
+    "sha256": "2b55e8e00c7490894f68e4e3b2e777e3b6a2c4e158bdcab7652ededa8793ff2b",
     "functions": [
       {
         "name": "invocation",
@@ -10227,7 +10227,7 @@
   {
     "path": "scripts/operational_contracts.py",
     "language": ".py",
-    "sha256": "51fa8b9bf152eb627b66b59692ad17b382754a95874a879376eb4fb2185662f3",
+    "sha256": "ca4f5669252502eb304beae2c9c7a1cb608b6e03bee7d42f62fbf2010fc2a467",
     "functions": [
       {
         "name": "artifact_node",
@@ -10561,7 +10561,7 @@
   {
     "path": "scripts/validate-codebase-ontology.py",
     "language": ".py",
-    "sha256": "7f1e03fd24e01c7e24aed4ef9093ee437734718e5bb826d4728103c29c5280ce",
+    "sha256": "8086b13a7246b0455f818f93e2b022a099d7f375a7ba5e6b1df40be306b2a486",
     "functions": [
       {
         "name": "operational_errors",
@@ -21722,7 +21722,7 @@
   {
     "path": "tests/test_codebase_ontology.py",
     "language": ".py",
-    "sha256": "2c6d0987fa0f81e9b4c1cdd178384fc527c0bdfdfa63e7a604edd7a311d59d68",
+    "sha256": "46d470a59bdc15a5e72878f76fa65f17369a52c312a21cde9018a91ea0b2834b",
     "functions": [
       {
         "name": "graph",
@@ -22356,7 +22356,7 @@
   {
     "path": "tests/test_data_journey.py",
     "language": ".py",
-    "sha256": "806f92cf54b1b07cab2964a997b667e8baa1315f96486bf686a017b2af52b6c0",
+    "sha256": "ce2252430fece5711dee32b4dd484b3690d71b85d9c316dcd9ec2f69db204869",
     "functions": [
       {
         "name": "write",
@@ -22603,7 +22603,7 @@
   {
     "path": "tests/test_documentation_library.py",
     "language": ".py",
-    "sha256": "af1eb55635c65e1f862abc9d9cfa3fabbd75533ee9d9d0ae800cffe9bf7ff358",
+    "sha256": "f422a658dece581921317ecad5cee678f1794cc5bdd8c40579c55001d6362791",
     "functions": [
       {
         "name": "library_root",
@@ -23389,7 +23389,7 @@
   {
     "path": "tests/test_operational_contracts.py",
     "language": ".py",
-    "sha256": "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d",
+    "sha256": "514fb1f2ff5750ae083effa77cad280e545ac2e8a70125f36f74ffbb497af590",
     "functions": [
       {
         "name": "graph",
