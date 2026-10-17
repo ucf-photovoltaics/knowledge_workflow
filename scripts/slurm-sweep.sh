@@ -33,6 +33,7 @@ cd "${SLURM_SUBMIT_DIR:-$(dirname "$0")/..}" || exit 1
 ROOT=$PWD
 export LLM_PROFILE=vllm
 export VLLM_MODEL=${VLLM_MODEL:-mistralai/Mistral-Small-4-119B-2603}
+export LLM_TEMPERATURE=${LLM_TEMPERATURE-0}   # same for every model; LLM_TEMPERATURE= (empty) = model default
 export VLLM_REASONING_EFFORT=${VLLM_REASONING_EFFORT:-none}
 export VLLM_EXTRA_ARGS=${VLLM_EXTRA_ARGS:-}
 VLLM_PORT=${VLLM_PORT:-8000}

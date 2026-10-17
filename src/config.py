@@ -85,7 +85,8 @@ def tier(agent: str | None = None) -> str:
 # Per-agent model override within that agent's routed profile (None = profile_for(agent)["model"]).
 AGENT_MODELS = {"extraction": None, "normalization": None, "ontology": None,
                 "enrichment": None, "interoperability": None, "integration": None}
-TEMPERATURE = None          # None = provider default (some reasoning models reject temperature)
+TEMPERATURE = float(os.environ["LLM_TEMPERATURE"]) if os.environ.get("LLM_TEMPERATURE") else None
+# unset = provider default (some reasoning models reject temperature); scripts/slurm-sweep.sh sets 0
 MAX_OUTPUT_TOKENS = 16000
 MAX_RETRIES = 6             # retries with exponential backoff on 429 / 5xx (e.g. "model overloaded")
 # Reuse model answers from earlier runs: identical whole requests (outputs/cache/calls) and identical rows across
