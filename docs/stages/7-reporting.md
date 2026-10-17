@@ -24,6 +24,10 @@ Every stage writes what it did, what it cost and what it could not do. `tools/re
 
 ## Figures (`python -m src.figures`)
 
+Reports open with saved setup metadata and sweep compute totals. Slurm submissions provide separate
+allocation intervals and 30-second GPU samples for estimated GPU energy and weighted utilization.
+See [Slurm metrics](../slurm-metrics.md) for formulas, fallback behavior and coverage limits.
+
 The PowerShell sweep driver builds a final report after attempting every requested run. Its
 `summary.csv` supplies the outcome of every domain and integration attempt, including failures and
 skips. `--sweep-summary PATH` rebuilds this report independently. Outputs live under

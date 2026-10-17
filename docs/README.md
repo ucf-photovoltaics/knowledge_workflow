@@ -10,6 +10,7 @@ with a **Dashboard** return button on each page. The library is served by the da
 Choose **Information journey & WebVOWL** to explore the interactive operational ontology.
 
 - [Architecture and ownership](architecture.md)
+- [Slurm environment, hardware and sweep compute accounting](slurm-metrics.md)
 - [Dashboard user guide](../dpv_dashboard/README.md)
 - [Codebase documentation and regeneration](codebase/README.md)
 - [Agent step-by-step operating guide](codebase/agent-guide.md)

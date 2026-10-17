@@ -129,6 +129,27 @@ not modified by this work; only documentation/ontology tooling and the standalon
 
 Details and limits: [ontology usability review](../ontology/usability-review-2026-10-16.md).
 
+## Slurm environment and sweep accounting, 2026-10-16
+
+- Domain invocations save bounded hardware/software/Slurm/serving snapshots before work, preserving
+  resume history. Completed integrations carry the same environment metadata. No current host is
+  fabricated as the historical execution environment of an older saved run.
+- Separate submission metadata and 30-second GPU samples support wall-time unions, allocated GPU-hours,
+  time-weighted utilization and estimated sampled GPU energy. Idle resubmission gaps are not bridged;
+  coverage, unsupported counters, incomplete records and legacy timing fallbacks remain explicit.
+- 52 focused regressions passed: environment persistence and redaction boundaries, GPU selection,
+  cache and failed-attempt tokens, parallel-duration accounting, power integration, missing samples,
+  existing runtime/cache/identity/worker behavior, and report generation. Three real Bash fixtures
+  used fake GPU/CLI commands to check normal exit, SIGTERM cleanup and retry worker metadata.
+- Git Bash syntax checking passed. Browser inspection used a clearly labeled fixture report;
+  Setup and totals were checked for table wrapping and dark-mode readability. These observations
+  do not certify an actual cluster, driver, allocation or live vLLM deployment.
+- Source/run algorithms, saved scientific outputs, credentials, stores, dependencies and running
+  processes were not changed by documentation regeneration. The approved runtime changes are
+  metadata capture/report accounting and Slurm monitoring; no model or Slurm job was launched.
+
+Details: [Slurm setup and compute accounting](../slurm-metrics.md).
+
 ## Dashboard documentation navigation, 2026-10-16
 
 - The main header exposes **Documentation** before the institutional caption; guides, source

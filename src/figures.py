@@ -9,12 +9,14 @@ Reads outputs/eval_runs.csv (row_type=run), outputs/eval_integrations.csv and ea
 workflow revision and one profile are plotted together. Each figure is written as PDF (for LaTeX) and PNG with the
 plotted numbers as CSV beside it; index.md lists every figure and its data source. A figure whose data is missing
 is skipped and listed as skipped.
+Saved run environments and per-submission GPU samples supply setup and sweep accounting.
 
 Author: Brent Thompson <brent.thompson@ucf.edu>
 """
 import argparse
 import csv
 import json
+import math
 import random
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -70,6 +72,171 @@ def num(v, default=0.0) -> float:
         return float(v) if v not in (None, "") else default
     except (TypeError, ValueError):
         return default
+
+
+def _metric(value):
+    """Missing/unsupported hardware counters stay unavailable rather than becoming zero."""
+    try:
+        value = float(value)
+        return value if math.isfinite(value) and value >= 0 else None
+    except (TypeError, ValueError):
+        return None
+
+
+def gpu_statistics(folder: Path | None) -> dict:
+    """Integrate board power/utilization per GPU and submission, with explicit coverage.
+
+    Allocation time comes from session boundaries, not summed parallel run durations.
+    Gaps over three sample periods are excluded; distinct submissions are never bridged.
+    """
+    result = dict(wall_s=None, gpu_hours=None, energy_kwh=None, gpu_utilization_pct=None,
+                  sampled_gpu_hours=0, power_gpu_hours=0, utilization_gpu_hours=0, notes=[])
+    if folder is None or not folder.is_dir():
+        return result
+    sessions = []
+    for path in folder.glob('sweep-session-*.json'):
+        session = _json(path)
+        if not isinstance(session, dict):
+            result['notes'].append('Unreadable sweep session metadata.')
+            continue
+        start, end, count = (_metric(session.get(k)) for k in ('started_at', 'ended_at', 'gpu_count'))
+        if start is not None and end is not None and end >= start:
+            sessions.append((start, end, count))
+        else:
+            result['notes'].append('Unfinished submission: allocation totals cover finalized sessions only.')
+    windows, intervals = [], []
+    for path in folder.glob('gpu-metrics-*.csv'):
+        grouped = defaultdict(dict)
+        try:
+            for row in _csv(path):
+                stamp = _metric(row.get('timestamp_epoch'))
+                gpu = (row.get('gpu_uuid') or '').strip()
+                if stamp is not None and gpu:
+                    power, util = _metric(row.get('power_w')), _metric(row.get('utilization_pct'))
+                    grouped[gpu][stamp] = (power, util if util is not None and util <= 100 else None)
+        except (OSError, csv.Error):
+            result['notes'].append('Unreadable GPU samples were omitted.')
+            continue
+        points = [stamp for series in grouped.values() for stamp in series]
+        if len(set(points)) >= 2:
+            windows.append((min(points), max(points)))
+        for gpu, series in grouped.items():
+            ordered = sorted(series.items())
+            for (start, a), (end, b) in zip(ordered, ordered[1:]):
+                if end - start > 90:
+                    result['notes'].append('GPU sample gaps over 90 seconds were excluded from energy/utilization.')
+                    continue
+                intervals.append((gpu, start, end, a, b))
+    seconds = power_seconds = util_seconds = joules = util_integral = 0.0
+    covered = {}
+    for gpu, start, end, a, b in sorted(intervals, key=lambda row: (row[0], row[1], row[2])):
+        clipped = max(start, covered.get(gpu, start))
+        if clipped > start:
+            result['notes'].append('Overlapping GPU samples were counted once per device.')
+        covered[gpu] = max(end, covered.get(gpu, end))
+        if end <= clipped:
+            continue
+        duration = end - clipped
+        seconds += duration
+        fraction = (clipped - start) / (end - start)
+        if a[0] is not None and b[0] is not None:
+            joules += ((a[0] + (b[0] - a[0]) * fraction) + b[0]) / 2 * duration
+            power_seconds += duration
+        if a[1] is not None and b[1] is not None:
+            util_integral += ((a[1] + (b[1] - a[1]) * fraction) + b[1]) / 2 * duration
+            util_seconds += duration
+    result.update(sampled_gpu_hours=seconds / 3600, power_gpu_hours=power_seconds / 3600,
+                  utilization_gpu_hours=util_seconds / 3600,
+                  energy_kwh=joules / 3_600_000 if power_seconds else None,
+                  gpu_utilization_pct=util_integral / util_seconds if util_seconds else None)
+    # Union wall intervals; parallel domains and overlapping submissions do not multiply elapsed time.
+    wall_windows = [(a, b) for a, b, _ in sessions] or windows
+    merged = []
+    for start, end in sorted(wall_windows):
+        if merged and start <= merged[-1][1]:
+            merged[-1][1] = max(merged[-1][1], end)
+        else:
+            merged.append([start, end])
+    if merged:
+        result['wall_s'] = sum(end - start for start, end in merged)
+        result['wall_basis'] = ('submission execution intervals; report generation excluded' if sessions
+                                else 'sampled spans only; allocation metadata unavailable')
+    if sessions and all(count is not None for _, _, count in sessions):
+        result['gpu_hours'] = sum((end - start) * count for start, end, count in sessions) / 3600
+        result['gpu_hours_basis'] = 'allocated GPUs × submission execution time'
+    elif seconds:
+        result['gpu_hours'] = seconds / 3600
+        result['gpu_hours_basis'] = 'covered sample intervals only; allocation count unavailable'
+    if result['gpu_hours']:
+        if result['energy_kwh'] is not None and result['power_gpu_hours'] < result['gpu_hours'] * .99:
+            result['notes'].append('Energy covers only the reported power-sample GPU-hours; unsampled allocation time is not extrapolated.')
+        if result['gpu_utilization_pct'] is not None and result['utilization_gpu_hours'] < result['gpu_hours'] * .99:
+            result['notes'].append('Average utilization covers only the reported utilization-sample GPU-hours.')
+    result['notes'] = list(dict.fromkeys(result['notes']))
+    return result
+
+
+def run_context(outputs: Path, rows: list[dict], run_ids, statuses=(), sweep_folder: Path | None = None) -> dict:
+    """Read saved setup and model-request tokens, including listed failed attempts."""
+    ids = list(dict.fromkeys([*(run_ids or []), *[r['run_id'] for r in rows],
+                             *[r['run_id'] for r in statuses if r.get('kind') in ('domain', 'integration')]]))
+    records, tokens, missing = [], {'input_tokens': 0, 'output_tokens': 0}, 0
+    lookup = {r['run_id']: r for r in rows}
+    stage_wall = 0
+    for identifier in ids:
+        directory = (outputs / identifier).resolve()
+        if directory == outputs.resolve() or not directory.is_relative_to(outputs.resolve()):
+            raise ValueError('Run identifiers must stay inside the outputs folder.')
+        manifest = _json(directory / 'run.json') or _json(directory / 'integration.json') or {}
+        if not isinstance(manifest, dict):
+            manifest = {}
+        if manifest:
+            records.append({'run_id': identifier, 'manifest': manifest})
+        ledger = directory / 'ledger.jsonl'
+        usage = None
+        if ledger.is_file():
+            usage = {'input_tokens': 0, 'output_tokens': 0}
+            incomplete = False
+            with ledger.open(encoding='utf-8') as stream:
+                for line in stream:
+                    try:
+                        record = json.loads(line)
+                        if record.get('cache_hit'):
+                            continue
+                        for key in usage:
+                            value = _metric(record.get(key))
+                            if value is None:
+                                incomplete = True
+                            else:
+                                usage[key] += value
+                    except (ValueError, AttributeError):
+                        incomplete = True
+            if incomplete:
+                missing += 1
+        else:
+            compute = manifest.get('compute', {})
+            usage = compute.get('total', compute)
+            if not all(_metric(usage.get(key)) is not None for key in tokens):
+                usage = {key: lookup.get(identifier, {}).get('total_' + key) for key in tokens}
+            if not all(_metric(usage.get(key)) is not None for key in tokens):
+                missing += 1
+                usage = None
+        if usage is not None:
+            for key in tokens:
+                tokens[key] += _metric(usage.get(key)) or 0
+        stage_wall += sum(_metric(stage.get('wall_s')) or 0 for stage in manifest.get('stages', {}).values())
+        if not manifest.get('stages'):
+            stage_wall += _metric(manifest.get('compute', {}).get('wall_s')) or _metric(lookup.get(identifier, {}).get('total_wall_s')) or 0
+    metrics = gpu_statistics(sweep_folder)
+    if metrics['wall_s'] is None and stage_wall:
+        metrics.update(wall_s=stage_wall, wall_basis='summed recorded stage wall time; parallel overlap is not removed')
+    metrics.update(tokens)
+    metrics['tokens_per_s'] = sum(tokens.values()) / metrics['wall_s'] if metrics['wall_s'] else None
+    if missing:
+        metrics['notes'].append(f'Token accounting is partial for {missing} listed attempt(s); unavailable counts are not assumed to be zero.')
+    if not ids or (missing == len(ids) and not any(tokens.values())):
+        metrics.update(input_tokens=None, output_tokens=None, tokens_per_s=None)
+    return {'records': records, 'totals': metrics}
 
 
 def label(domain: str) -> str:
@@ -1215,6 +1382,9 @@ def build(outputs: Path | None = None, revision: str = config.WORKFLOW_REVISION,
     selected_ids = [r["run_id"] for r in rows]
     if sweep_summary:
         notes.append("Plots include completed domains only; sweep outcomes below include failed and skipped attempts.")
+    integration_rows = load_integrations(outputs, selected_ids, out.integration_ids)
+    out.context = run_context(outputs, rows, selected_ids + [r['run_id'] for r in integration_rows], statuses,
+                              Path(sweep_summary).resolve().parent if sweep_summary else None)
     print(f"{len(rows)} run(s) at revision {revision}" + (f"; {'; '.join(notes)}" if notes else ""))
     steps = [(f.__name__[4:], lambda f=f: f(out, rows)) for f in FIGURES]
     steps += [("integration", lambda: fig_integration(out, outputs, rows, revision, selected_ids)),

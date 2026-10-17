@@ -1,4 +1,4 @@
-"""Pipeline entry point.
+"""Pipeline entry point with saved settings, invocation environments and compute provenance.
 
   python -m src.run collections --library ID   list a group library's collections and keys
   python -m src.run portal                     list MDS-Onto portal and MatPortal ontology acronyms
@@ -22,12 +22,16 @@ import csv
 import difflib
 import hashlib
 import json
+import os
+import platform
+import shlex
 import subprocess
 import time
 import traceback
 from threading import Lock
 from collections import Counter
 from datetime import datetime, timezone
+from importlib import metadata
 from pathlib import Path
 from openai import APIError
 
@@ -90,6 +94,86 @@ def _config() -> dict:
             "workflow_revision": config.WORKFLOW_REVISION, "ontology_iri": config.ONTOLOGY_IRI, "prices_usd_per_m": config.PRICES}
 
 
+def _environment() -> dict:
+    """Bounded, best-effort hardware/serving snapshot. Only named non-secret settings are read."""
+    def integer(name):
+        try:
+            return int(os.environ[name])
+        except (KeyError, ValueError):
+            return None
+
+    try:
+        ram = os.sysconf("SC_PAGE_SIZE") * os.sysconf("SC_PHYS_PAGES")
+    except (AttributeError, OSError, ValueError):
+        ram = None
+        if os.name == "nt":
+            import ctypes
+            class MemoryStatus(ctypes.Structure):
+                _fields_ = [("length", ctypes.c_ulong), ("load", ctypes.c_ulong)] + [
+                    (key, ctypes.c_ulonglong) for key in ("total", "available", "page_total", "page_available",
+                                                         "virtual_total", "virtual_available", "extended")]
+            status = MemoryStatus()
+            status.length = ctypes.sizeof(status)
+            if ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(status)):
+                ram = status.total
+    try:
+        vllm = metadata.version("vllm")
+    except metadata.PackageNotFoundError:
+        vllm = None
+    serving = {key: os.getenv(env) for key, env in {
+        "model": "VLLM_MODEL", "reasoning_effort": "VLLM_REASONING_EFFORT",
+        "vllm_version": "KW_VLLM_VERSION", "tensor_parallel_size": "KW_VLLM_TP",
+        "data_parallel_size": "KW_VLLM_DP", "max_model_len": "KW_VLLM_MAX_MODEL_LEN",
+        "gpu_memory_utilization": "KW_VLLM_GPU_MEMORY_UTILIZATION", "prefix_caching": "KW_VLLM_PREFIX_CACHING",
+        "workers": "KW_VLLM_WORKERS", "parallel_domains": "KW_VLLM_PARALLEL_DOMAINS"}.items() if os.getenv(env) is not None}
+    # Never persist arbitrary flags (for example --api-key). Keep only reviewed serving options.
+    allowed = {"tensor-parallel-size", "data-parallel-size", "max-model-len", "gpu-memory-utilization",
+               "dtype", "quantization", "kv-cache-dtype", "max-num-seqs", "max-num-batched-tokens",
+               "revision", "tokenizer-revision", "reasoning-parser", "tool-call-parser"}
+    try:
+        arguments = shlex.split(os.getenv("VLLM_EXTRA_ARGS", ""))
+    except ValueError:
+        arguments = []
+        serving["extra_args_status"] = "unparseable; omitted"
+    for i, argument in enumerate(arguments):
+        flag, sep, value = argument.removeprefix("--").partition("=")
+        if argument.startswith("--") and flag in allowed:
+            value = value if sep else arguments[i + 1] if i + 1 < len(arguments) else ""
+            if value and not value.startswith("--"):
+                serving[flag.replace("-", "_")] = value[:200]
+        elif argument in ("--enable-prefix-caching", "--no-enable-prefix-caching"):
+            serving["prefix_caching"] = argument == "--enable-prefix-caching"
+    result = {"captured_at": _now(), "host": platform.node(), "python_version": platform.python_version(),
+              "vllm_version": serving.get("vllm_version") or vllm, "cpu_count": os.cpu_count(), "ram_bytes": ram,
+              "slurm": {"job_id": os.getenv("SLURM_JOB_ID"), "partition": os.getenv("SLURM_JOB_PARTITION"),
+                        "node": os.getenv("SLURMD_NODENAME") or os.getenv("SLURM_JOB_NODELIST"),
+                        "cpus_per_task": integer("SLURM_CPUS_PER_TASK"),
+                        "memory_per_node_mb": integer("SLURM_MEM_PER_NODE"),
+                        "memory_per_cpu_mb": integer("SLURM_MEM_PER_CPU")},
+              "sweep_id": os.getenv("KW_SWEEP_ID"), "serving": serving, "gpus": [], "gpu_count": None}
+    selector = os.getenv("KW_GPU_IDS") or os.getenv("SLURM_JOB_GPUS") or os.getenv("CUDA_VISIBLE_DEVICES")
+    result["gpu_selector"] = selector
+    if selector in ("-1", "NoDevFiles") or os.getenv("CUDA_VISIBLE_DEVICES") == "":
+        result.update(gpu_count=0, gpu_status="disabled")
+        return result
+    command = ["nvidia-smi", "--query-gpu=uuid,name,memory.total", "--format=csv,noheader,nounits"]
+    if selector:
+        command.append("--id=" + selector)
+    try:
+        query = subprocess.run(command, capture_output=True, text=True, timeout=5, check=True)
+        for row in csv.reader(query.stdout.splitlines(), skipinitialspace=True):
+            if len(row) == 3:
+                try:
+                    memory = int(float(row[2]) * 1024 ** 2)
+                except (ValueError, OverflowError):
+                    memory = None
+                result["gpus"].append({"uuid": row[0].strip(), "name": row[1].strip(), "memory_bytes": memory})
+        result.update(gpu_count=len(result["gpus"]), gpu_status="recorded" if result["gpus"] else "no devices returned")
+    except (OSError, subprocess.SubprocessError):
+        result["gpu_status"] = "unavailable"
+    return result
+
+
 class Run:
     def __init__(self, run_id: str, collection: str):
         self.id, self.dir = run_id, OUTPUTS / run_id
@@ -105,6 +189,14 @@ class Run:
             self.manifest["scratch"] = True
         elif not path.exists():
             reports.revision_event(OUTPUTS / "eval_runs.csv", config.WORKFLOW_REVISION, _now(), config.WORKFLOW_REVISION_NOTE)
+        environment = _environment()
+        if "environment" in self.manifest:
+            history = self.manifest.setdefault("environment_history", [])
+            if not history:
+                history.append(self.manifest["environment"])
+            history.append(environment)
+        self.manifest["environment"] = environment
+        self.write("run.json", self.manifest)
 
     def read(self, name: str):
         return json.loads((self.dir / name).read_text(encoding="utf-8"))
@@ -535,6 +627,7 @@ def integrate(args):
                                  notes, len(merged))
         write("integration.json", {
             "integration_id": iid, "workers": workers.summary(), "created": _now(), "git_commit": _git(), "config": _config(),
+            "environment": _environment(),
             "integration": {**config.INTEGRATION, "llm_profile": config.AGENT_PROFILES.get("integration", config.LLM_PROFILE),
                             "model": model_for("integration"), "tier": config.tier("integration"),
                             "embedding_error": getattr(agent, "embedding_error", None)},

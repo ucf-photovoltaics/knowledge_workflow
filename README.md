@@ -157,6 +157,9 @@ By hand: quit the tray application, then in a separate PowerShell window run
 On a Slurm cluster, `sbatch scripts/slurm-sweep.sh` uses whatever the job is given: every allocated GPU
 (as many vLLM copies of the model as fit), workers scaled to the copies, and the domains of each size
 side by side. Ask for more with `sbatch --gres=gpu:N ...`; the header lists the overrides.
+Run manifests capture hardware/serving setup, and the sweep samples GPU power/utilization every 30
+seconds for report totals. See [Slurm setup and compute accounting](docs/slurm-metrics.md) for units,
+resume behavior, coverage and missing-counter handling.
 
 ```powershell
 # one domain, all stages

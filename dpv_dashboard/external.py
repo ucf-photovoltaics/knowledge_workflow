@@ -2,6 +2,7 @@
 
 Author: Brent Thompson <brent.thompson@ucf.edu>
 """
+import os
 import re
 import time
 from pathlib import Path
@@ -9,7 +10,14 @@ from dpv_dashboard import model
 
 
 def discover(root=None):
-    root = Path(root or model.ROOT / "outputs").resolve()
+    """Runs in outputs/ plus any folders listed in DPV_OUTPUT_DIRS (e.g. a mounted Cloud Storage bucket)."""
+    if root is None:
+        extra = [Path(p) for p in os.environ.get("DPV_OUTPUT_DIRS", "").split(os.pathsep) if p.strip()]
+        found = {}
+        for folder in [model.ROOT / "outputs", *extra]:
+            found.update(discover(folder))
+        return dict(sorted(found.items(), key=lambda pair: pair[1]["modified"], reverse=True))
+    root = Path(root).resolve()
     found = {}
     if not root.is_dir():
         return found
