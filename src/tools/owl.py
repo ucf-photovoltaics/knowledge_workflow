@@ -116,7 +116,7 @@ def _hidden(label: str, alt: str) -> bool:
 
 def labels(c: dict, mappings: list[dict]) -> list[tuple]:
     """(predicate, text, source IRI or None, origin) for a class: its label (rdfs:label and skos:prefLabel),
-    the paper synonyms the model kept, and every label of each exactly or equivalently matched external term."""
+    original member labels, reviewed paper synonyms, and labels of exactly or equivalently matched external terms."""
     out, seen = [(SKOS.prefLabel, c["label"], None, "label")], {c["label"].lower()}
     extra = [(a, None, "paper") for a in c.get("alt_labels", [])]
     extra += [(a, m["iri"], "external") for m in mappings if m["relation"] in ("exact", "equivalent")
@@ -239,8 +239,13 @@ def build(classes: list[dict], properties: dict, mappings: list[dict], papers: l
                 g.add((C, kw.definitionSource, Literal(c["definition_source"])))
         for pred, text, src, _ in labels(c, by_class.get(c["id"], [])):
             g.add((C, pred, Literal(text, lang="en")))
+            paper_keys = sorted({s["paper"] for s in c.get("label_sources", [])
+                                 if s["label"].lower() == text.lower() and s["paper"] in source})
+            sources = [source[k] for k in paper_keys]
             if src:
-                _annotate(g, kw, C, pred, Literal(text, lang="en"), {DCTERMS.source: URIRef(src)})
+                sources.append(URIRef(src))
+            if sources:
+                _annotate(g, kw, C, pred, Literal(text, lang="en"), {DCTERMS.source: sources})
         g.add((C, RDFS.subClassOf, ref(c["parent"])))
         add_facets(C, c.get("facets"))
         if c["parent"] not in live:

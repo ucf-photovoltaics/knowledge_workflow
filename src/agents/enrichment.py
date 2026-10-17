@@ -464,7 +464,12 @@ class EnrichmentAgent(Agent):
                     c.setdefault("review_flags", []).append("definition_category_conflict")
             if isinstance(r.get("alt_labels"), list):
                 given = {a.lower(): a for a in c["alt_labels"]}
-                c["alt_labels"] = [given[a.lower()] for a in r["alt_labels"] if isinstance(a, str) and a.lower() in given]
+                kept = [given[a.lower()] for a in r["alt_labels"] if isinstance(a, str) and a.lower() in given]
+                # Original member labels are normalization provenance, not synonym suggestions.
+                originals = {s["label"].lower() for s in c.get("label_sources", [])
+                             if s.get("origin") == "original_label"}
+                seen = {a.lower() for a in kept}
+                c["alt_labels"] = kept + [text for name, text in given.items() if name in originals and name not in seen]
             for x in items(r, "restrictions"):
                 answer = str(x.get("p", "")).split(" (")[0].removeprefix("P:").strip().lower()
                 for target in targets(x.get("o")) or [None]:

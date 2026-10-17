@@ -1,3 +1,12 @@
+# Revision 2026-10-15-concept-lineage
+
+Normalization now saves its exact paper/concept-to-canonical mapping in `normalized/concept_lineage.json`
+and attaches per-label source records to canonical concepts. Original member labels survive enrichment's
+synonym review; extracted synonyms remain reviewable. Exported labels cite their source papers while
+retaining the existing `skos:altLabel` / `skos:hiddenLabel` policy. No extraction or merge decisions change.
+Only concepts accepted by the existing cleaning boundary receive mapping rows. Older completed stages
+are not backfilled or rewritten. See [normalization](docs/stages/2-normalize.md).
+
 # New-run revision 2026-10-04-ontology-store-v2
 
 Same as v1 below, except enrichment also searches MatPortal, and both portals are searched over every ontology they host (no acronym filter). Portal hits for terms in the store join the candidates; hits outside the store are facet hints only and are counted per ontology (`candidates.portal_hits_off_store` in `run.json`, `portal_hits_*` in `eval_runs.csv`). Runs at v1 and v2 differ only in these candidates.
