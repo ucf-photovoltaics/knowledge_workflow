@@ -1,3 +1,11 @@
+# Revision 2026-10-17-lineage-quality
+
+Consolidates exact concept lineage and malformed-concept quarantine while retaining the newer embedding
+parent selection, dashboard, documentation, Slurm environment and compute-accounting changes. Extraction
+quarantine keeps rejected concepts and dependent links in review artifacts. New normalizations persist
+exact original-to-canonical mappings; older source records are not rewritten. The extraction cache code
+version distinguishes newly guarded extractions from older cached results.
+
 # Revision 2026-10-15-concept-lineage
 
 Normalization now saves its exact paper/concept-to-canonical mapping in `normalized/concept_lineage.json`

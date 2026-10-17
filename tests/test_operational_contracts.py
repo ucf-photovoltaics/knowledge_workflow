@@ -50,7 +50,8 @@ def test_structural_descriptions_do_not_claim_reviewed_behavior(graph):
 
 def test_normalization_recipe_answers_binding_and_call_questions(graph):
     recipe=guide(graph,'normalize')
-    assert len(recipe['algorithm'])==9
+    assert len(recipe['algorithm'])==10
+    assert any(row['function'].endswith('NormalizationAgent._lineage') for row in recipe['algorithm'])
     assert 'ontology' in recipe['next_steps']
     assert {'ontology','enrich','interop','integrate','reports'}<=set(recipe['downstream_recheck'])
     papers=next(b for b in recipe['bindings'] if b['id']=='papers')
@@ -112,7 +113,8 @@ def test_paper_coverage_loss_blocks_without_inventing_lineage(graph,run):
     write(run/'normalized/concepts.json',[{'id':'k1','label':'Silicon','alt_labels':[],'papers':['P1']}])
     result=assess(graph,run,run.parent,'normalize','after')
     assert next(c for c in result['checks'] if c['id']=='input-output-coverage')['status']=='blocked'
-    assert 'not persisted' in result['limitations']
+    assert 'Older saved runs lack this sidecar' in result['limitations']
+    assert not (run/'normalized/concept_lineage.json').exists()
 
 
 def test_no_saved_completion_is_not_success(graph,run):

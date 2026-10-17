@@ -15,6 +15,7 @@ ontology snapshots are not first-party source and do not receive Brent's authors
 - [Operational recipes](operations.json): curated input contracts, field bindings, source operations and read-only before/after checks embedded in RDF.
 - [Generated step reference](agent-steps.md) and [machine-readable contracts](workflow.json).
 - [Review findings](review.md): implementation and data-quality limitations, separated from fixes.
+- [Main consolidation record](main-consolidation-2026-10-17.md): preserved work, archive decisions and regression checks.
 - [Operational ontology](../ontology/README.md): navigable RDF, validation and example queries.
 - [Ontology usability audit](../ontology/usability-review-2026-10-16.md): connections, execution safeguards and verification scope.
 - [Author header ledger](author-headers.json): coverage and applied header status.

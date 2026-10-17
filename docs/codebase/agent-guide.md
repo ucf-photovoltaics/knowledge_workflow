@@ -109,8 +109,8 @@ Reports need only one completed domain; cross-domain integration is optional, no
   unrelated processes. Closing a browser is not cancellation; keep the owning server alive during jobs.
 - Quote verification checks text overlap, not assertion entailment, numeric accuracy or causal direction.
   Missing evidence, malformed labels, property/entity/unit problems and reconstructed lineage require review.
-- Do not infer saved original-to-canonical merge decisions where concept_lineage.json is absent. The current
-  pipeline does not emit that file; dashboard reconstruction is explicitly weaker evidence.
+- New normalizations emit normalized/concept_lineage.json with exact paper-local identities. Do not infer
+  saved merge decisions where it is absent in an older run; dashboard reconstruction remains weaker evidence.
 - Record run IDs, revision, model/profile, source hashes and stage results. Never describe example templates
   or ontology plans as completed executions. Runtime provenance belongs to actual manifests/ledgers.
 

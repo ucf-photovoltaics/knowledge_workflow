@@ -1,4 +1,7 @@
-"""Exact normalization identity and original-label provenance survive downstream export."""
+"""Verify exact normalization identity and original-label provenance through downstream export.
+
+Author: Brent Thompson <brent.thompson@ucf.edu>
+"""
 import copy
 import json
 from types import SimpleNamespace
@@ -180,3 +183,24 @@ def test_pipeline_writer_saves_lineage_and_other_artifacts(tmp_path):
     assert len(saved) == 3
     assert (tmp_path / "normalized/concepts.json").is_file()
     assert (tmp_path / "corpus_report.md").is_file()
+
+
+def test_quarantine_and_exact_lineage_work_together(tmp_path):
+    from src import run
+    original = papers()
+    original[0]["concepts"].append(concept("bad", "repeated invalid concept " * 40))
+    saved = {}
+    class SavedRun:
+        dir = tmp_path
+        id = "combined-fixture"
+        ledger = None
+        def papers(self):
+            return copy.deepcopy(original)
+        def write(self, name, value):
+            saved[name] = value
+    with patch.object(run, "NormalizationAgent", OfflineNormalization), patch.object(run, "_uncertain"):
+        run.normalize(SavedRun(), SimpleNamespace())
+    assert len(saved["normalized/concept_lineage.json"]) == 3
+    assert all(row["original_id"] != "bad" for row in saved["normalized/concept_lineage.json"])
+    assert saved["extraction_review/P1.json"][0]["record"]["id"] == "bad"
+    assert original[0]["concepts"][-1]["id"] == "bad"

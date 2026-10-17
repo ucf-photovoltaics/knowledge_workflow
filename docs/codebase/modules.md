@@ -699,23 +699,23 @@ Imports: `__future__`, `collections`, `dpv_dashboard`, `functools`, `pathlib`
 
 Workflow model inheritance and display changes must not break provenance joins.
 
-[Source](../../dpv_dashboard/tests/test_chat_presentation.py) · SHA256 `f3e8fbedb60f735686c4f895b8b85970975d289d92375144fcc8f73e1491d123`
+[Source](../../dpv_dashboard/tests/test_chat_presentation.py) · SHA256 `c2bc7071501b7cf7ec06eca974635aa23f2cf2563856593b8d38513b9d2c238b`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
 | `test_profiles_are_read_without_import_or_environment_changes` | 10 | `monkeypatch` | Read the linked implementation and its call-site contract. |
-| `test_chat_inherits_actual_agent_model_and_endpoint` | 20 | `tmp_path` | Read the linked implementation and its call-site contract. |
-| `test_missing_credentials_are_friendly_and_alternatives_filtered` | 33 | `tmp_path` | Read the linked implementation and its call-site contract. |
-| `test_project_model_fallback_and_custom_connection` | 44 | `tmp_path` | Read the linked implementation and its call-site contract. |
-| `test_readable_table_preserves_raw_identity_and_selection` | 51 | `` | Read the linked implementation and its call-site contract. |
-| `test_readable_table_preserves_raw_identity_and_selection.Renderer.data` | 59 | `self` | Read the linked implementation and its call-site contract. |
-| `test_readable_table_preserves_raw_identity_and_selection.Renderer.data_view` | 60 | `self, selected` | Read the linked implementation and its call-site contract. |
-| `test_anthropic_chat_uses_provider_protocol_without_real_requests` | 72 | `monkeypatch` | Read the linked implementation and its call-site contract. |
-| `test_anthropic_chat_uses_provider_protocol_without_real_requests.Response.__enter__` | 77 | `self` | Read the linked implementation and its call-site contract. |
-| `test_anthropic_chat_uses_provider_protocol_without_real_requests.Response.__exit__` | 78 | `self, *args` | Read the linked implementation and its call-site contract. |
-| `test_anthropic_chat_uses_provider_protocol_without_real_requests.Response.read` | 79 | `self, limit` | Read the linked implementation and its call-site contract. |
-| `test_anthropic_chat_uses_provider_protocol_without_real_requests.transport` | 80 | `request, timeout` | Read the linked implementation and its call-site contract. |
-| `test_report_preview_styles_and_resolves_local_images_without_source_changes` | 87 | `` | Read the linked implementation and its call-site contract. |
+| `test_chat_inherits_actual_agent_model_and_endpoint` | 20 | `tmp_path, monkeypatch` | Read the linked implementation and its call-site contract. |
+| `test_missing_credentials_are_friendly_and_alternatives_filtered` | 35 | `tmp_path` | Read the linked implementation and its call-site contract. |
+| `test_project_model_fallback_and_custom_connection` | 46 | `tmp_path` | Read the linked implementation and its call-site contract. |
+| `test_readable_table_preserves_raw_identity_and_selection` | 53 | `` | Read the linked implementation and its call-site contract. |
+| `test_readable_table_preserves_raw_identity_and_selection.Renderer.data` | 61 | `self` | Read the linked implementation and its call-site contract. |
+| `test_readable_table_preserves_raw_identity_and_selection.Renderer.data_view` | 62 | `self, selected` | Read the linked implementation and its call-site contract. |
+| `test_anthropic_chat_uses_provider_protocol_without_real_requests` | 74 | `monkeypatch` | Read the linked implementation and its call-site contract. |
+| `test_anthropic_chat_uses_provider_protocol_without_real_requests.Response.__enter__` | 79 | `self` | Read the linked implementation and its call-site contract. |
+| `test_anthropic_chat_uses_provider_protocol_without_real_requests.Response.__exit__` | 80 | `self, *args` | Read the linked implementation and its call-site contract. |
+| `test_anthropic_chat_uses_provider_protocol_without_real_requests.Response.read` | 81 | `self, limit` | Read the linked implementation and its call-site contract. |
+| `test_anthropic_chat_uses_provider_protocol_without_real_requests.transport` | 82 | `request, timeout` | Read the linked implementation and its call-site contract. |
+| `test_report_preview_styles_and_resolves_local_images_without_source_changes` | 89 | `` | Read the linked implementation and its call-site contract. |
 
 Imports: `dpv_dashboard`, `json`, `os`, `pandas`, `pathlib`, `pytest`
 
@@ -1338,7 +1338,7 @@ Imports: `collections`, `dataclasses`, `hashlib`, `json`, `re`, `sqlite3`, `src`
 
 Enrichment agent: definitions, synonyms, restrictions, disjointness, local property domain/range, and the external candidate terms for interop, all from the ontology store (src/tools/ontostore.py) plus the MDS-Onto portal and MatPortal searches.
 
-[Source](../../src/agents/enrichment.py) · SHA256 `4b47dac905ebe62b64362223b004ac302eb6fcc17fd389a967856e3023591653`
+[Source](../../src/agents/enrichment.py) · SHA256 `00cf839da23b30b0eb080dfc650b6a1757c510481af653a94e513206bb856cd5`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
@@ -1359,13 +1359,13 @@ Enrichment agent: definitions, synonyms, restrictions, disjointness, local prope
 | `EnrichmentAgent._standard_causal` | 433 | `cls, c: dict, o: dict, polarity: str, by_id: dict` | First fitting RO and CCO causal property for this cause/effect pair; RO fallback if no RO rule fits. |
 | `EnrichmentAgent._standard_causal.is_a` | 437 | `cid, category` | Read the linked implementation and its call-site contract. |
 | `EnrichmentAgent._apply` | 451 | `self, out: dict, by_id: dict, rels: dict, value_key: str \| None=None` | Read the linked implementation and its call-site contract. |
-| `EnrichmentAgent._predicate_restrictions` | 496 | `self, by_id: dict, rels: dict` | A relation with verified evidence becomes a restriction without a model call when the store settles the property: one fitting candidate carries the predicate's name exactly, or the top candidates tie (within tie_margin) and RELATION_GROUPS names one of them. Several exact names are also a tie for RELATION_GROUPS. Those relations leave rels; the rest go to the model with their candidates. |
-| `EnrichmentAgent._store_choice` | 518 | `self, cid: str, r: dict, by_id: dict` | Read the linked implementation and its call-site contract. |
-| `EnrichmentAgent._answer_property` | 532 | `self, cid: str, rel: dict, answer: str` | The IRI of the candidate the model named for this relation ("ONTOLOGY:label" or just the label). |
-| `EnrichmentAgent._fits` | 540 | `p_iri: str, c: dict, o: dict, by_id: dict` | BFO/CCO compliance: subject and target must fall under the property's declared domain and range. |
-| `EnrichmentAgent._local_properties` | 550 | `live: list[dict], by_id: dict` | Read the linked implementation and its call-site contract. |
-| `_lca` | 565 | `ids: list[str], by_id: dict` | Most specific common ancestor (local or upper); None when it is only BFO entity. |
-| `_evidenced` | 574 | `r: dict` | A joined relation with at least one usable quote (older runs carry no evidence status). |
+| `EnrichmentAgent._predicate_restrictions` | 501 | `self, by_id: dict, rels: dict` | A relation with verified evidence becomes a restriction without a model call when the store settles the property: one fitting candidate carries the predicate's name exactly, or the top candidates tie (within tie_margin) and RELATION_GROUPS names one of them. Several exact names are also a tie for RELATION_GROUPS. Those relations leave rels; the rest go to the model with their candidates. |
+| `EnrichmentAgent._store_choice` | 523 | `self, cid: str, r: dict, by_id: dict` | Read the linked implementation and its call-site contract. |
+| `EnrichmentAgent._answer_property` | 537 | `self, cid: str, rel: dict, answer: str` | The IRI of the candidate the model named for this relation ("ONTOLOGY:label" or just the label). |
+| `EnrichmentAgent._fits` | 545 | `p_iri: str, c: dict, o: dict, by_id: dict` | BFO/CCO compliance: subject and target must fall under the property's declared domain and range. |
+| `EnrichmentAgent._local_properties` | 555 | `live: list[dict], by_id: dict` | Read the linked implementation and its call-site contract. |
+| `_lca` | 570 | `ids: list[str], by_id: dict` | Most specific common ancestor (local or upper); None when it is only BFO entity. |
+| `_evidenced` | 579 | `r: dict` | A joined relation with at least one usable quote (older runs carry no evidence status). |
 
 Imports: `collections`, `concurrent.futures`, `hashlib`, `json`, `re`, `src.agents.base`, `src.config`, `src.tools`, `src.tools.owl`, `src.tools.progress`, `time`, `urllib.parse`
 
@@ -1373,7 +1373,7 @@ Imports: `collections`, `concurrent.futures`, `hashlib`, `json`, `re`, `src.agen
 
 Extraction agent: one paper -> concepts, relations, causal edges, measurements, figure links.
 
-[Source](../../src/agents/extraction.py) · SHA256 `a0ad22669bbcc5a6ffdf8d17481eeb789fa31e1b4147dd90052a2246eef5b77b`
+[Source](../../src/agents/extraction.py) · SHA256 `8134c5f4ea508317b6009110f03a103f6f558688e74c72cf7ea540a876f0c82b`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
@@ -1383,15 +1383,15 @@ Extraction agent: one paper -> concepts, relations, causal edges, measurements, 
 | `_clean_label` | 58 | `label: str` | 'n1 (Auger recombination)' or 'n1: Auger recombination' -> 'Auger recombination' (a leaked id prefix). |
 | `ExtractionAgent.__init__` | 68 | `self, ledger` | Read the linked implementation and its call-site contract. |
 | `ExtractionAgent.run` | 81 | `self, paper: dict` | Read the linked implementation and its call-site contract. |
-| `ExtractionAgent._multi_pass` | 120 | `self, chunk: str, known_text: str, known: list[dict], where: str, item: str, raw_calls: list` | Local tier: concepts first, then each other pass against the numbered concept list. |
-| `ExtractionAgent._fill_evidence` | 163 | `self, chunk: str, out: dict, kinds: tuple, labels: dict, item: str, where: str, raw_calls: list` | Items returned without a usable quote get one more call that asks only for their quotes. |
-| `ExtractionAgent._chunks` | 192 | `self, paper: dict` | Pack adjacent short sections; keep long sections separate and split them without dropping text. |
-| `ExtractionAgent._merge` | 233 | `parts: list[dict]` | Merge section answers into one paper graph. Relation/causal/measurement ends are resolved by concept id, or - since small models often write the phrase instead of the id - by label or synonym, by the longest known concept named inside the phrase, or (short phrases only) as a new concept taken from the text. |
-| `ExtractionAgent._merge.add` | 241 | `label: str, ctype: str='', definition: str='', synonyms=(), figures=()` | Read the linked implementation and its call-site contract. |
-| `ExtractionAgent._merge.names` | 255 | `` | Read the linked implementation and its call-site contract. |
-| `ExtractionAgent._merge.resolve` | 263 | `ref, local: dict, kind: str` | Read the linked implementation and its call-site contract. |
-| `ExtractionAgent._finalize` | 329 | `x: dict, paper: dict` | Read the linked implementation and its call-site contract. |
-| `_dedupe` | 366 | `rows: list[dict], keys: tuple` | Read the linked implementation and its call-site contract. |
+| `ExtractionAgent._multi_pass` | 121 | `self, chunk: str, known_text: str, known: list[dict], where: str, item: str, raw_calls: list` | Local tier: concepts first, then each other pass against the numbered concept list. |
+| `ExtractionAgent._fill_evidence` | 167 | `self, chunk: str, out: dict, kinds: tuple, labels: dict, item: str, where: str, raw_calls: list` | Items returned without a usable quote get one more call that asks only for their quotes. |
+| `ExtractionAgent._chunks` | 196 | `self, paper: dict` | Pack adjacent short sections; keep long sections separate and split them without dropping text. |
+| `ExtractionAgent._merge` | 237 | `parts: list[dict]` | Merge section answers into one paper graph. Relation/causal/measurement ends are resolved by concept id, or - since small models often write the phrase instead of the id - by label or synonym, by the longest known concept named inside the phrase, or (short phrases only) as a new concept taken from the text. |
+| `ExtractionAgent._merge.add` | 247 | `label: str, ctype: str='', definition: str='', synonyms=(), figures=()` | Read the linked implementation and its call-site contract. |
+| `ExtractionAgent._merge.names` | 261 | `` | Read the linked implementation and its call-site contract. |
+| `ExtractionAgent._merge.resolve` | 269 | `ref, local: dict, kind: str` | Read the linked implementation and its call-site contract. |
+| `ExtractionAgent._finalize` | 335 | `x: dict, paper: dict` | Read the linked implementation and its call-site contract. |
+| `_dedupe` | 373 | `rows: list[dict], keys: tuple` | Read the linked implementation and its call-site contract. |
 
 Imports: `collections`, `hashlib`, `json`, `re`, `src.agents.base`, `src.config`, `src.tools`, `src.tools.llm`, `src.tools.pdf_parse`, `src.tools.progress`, `unicodedata`
 
@@ -1444,7 +1444,7 @@ Imports: `collections`, `src.agents.base`, `src.config`, `src.tools`, `src.tools
 
 Normalization agent: per-paper concepts -> canonical corpus concepts, importance scores, causal order.
 
-[Source](../../src/agents/normalization.py) · SHA256 `3bc56d5388a869ed5f216b3568117025ad7b9184649b86f8c5803436719aab4c`
+[Source](../../src/agents/normalization.py) · SHA256 `94dde492a9bc14b9ca19b100f2960778aadbb3bd585dc7ff441e29e2e9a3e8fd`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
@@ -1453,21 +1453,22 @@ Normalization agent: per-paper concepts -> canonical corpus concepts, importance
 | `_UnionFind.find` | 39 | `self, x` | Read the linked implementation and its call-site contract. |
 | `_UnionFind.union` | 46 | `self, a, b` | Read the linked implementation and its call-site contract. |
 | `NormalizationAgent.run` | 56 | `self, papers: list[dict]` | Read the linked implementation and its call-site contract. |
-| `NormalizationAgent._lexical_groups` | 96 | `papers: list[dict]` | Read the linked implementation and its call-site contract. |
-| `NormalizationAgent._semantic_merge` | 108 | `self, groups: list[dict]` | Read the linked implementation and its call-site contract. |
-| `NormalizationAgent._semantic_merge.term` | 137 | `i` | Read the linked implementation and its call-site contract. |
-| `NormalizationAgent._canonical` | 175 | `groups: list[dict]` | Read the linked implementation and its call-site contract. |
-| `NormalizationAgent._settle_types` | 211 | `self, concepts: list[dict]` | One narrow call for concepts the papers typed differently (the rest keep their single type). |
-| `NormalizationAgent._summarize` | 230 | `self, concepts: list[dict], causal: list[dict], order: dict, n_papers: int` | Read the linked implementation and its call-site contract. |
-| `_text` | 242 | `v` | Model-supplied field as a plain string (small models sometimes return a dict or list for one). |
-| `_polarity` | 251 | `v` | Read the linked implementation and its call-site contract. |
-| `_clean_concept` | 256 | `c: dict` | Read the linked implementation and its call-site contract. |
-| `_aggregate` | 264 | `papers, cmap, field, keys, ends` | Read the linked implementation and its call-site contract. |
-| `_contradictions` | 293 | `causal: list[dict]` | Same cause and effect reported with opposite polarity (by different papers or conditions). Nothing is merged or dropped; the conditions usually explain the disagreement. |
-| `_pagerank` | 309 | `nodes, edges, d=0.85, iters=50` | Read the linked implementation and its call-site contract. |
-| `_score` | 326 | `concepts, relations, causal` | Read the linked implementation and its call-site contract. |
-| `_scc` | 344 | `nodes, succ` | Tarjan's strongly connected components (iterative). |
-| `_causal_order` | 382 | `concepts, causal` | Causal rank = longest cause->effect path depth after collapsing cycles; chains = deepest paths. |
+| `NormalizationAgent._lexical_groups` | 98 | `papers: list[dict]` | Read the linked implementation and its call-site contract. |
+| `NormalizationAgent._semantic_merge` | 110 | `self, groups: list[dict]` | Read the linked implementation and its call-site contract. |
+| `NormalizationAgent._semantic_merge.term` | 139 | `i` | Read the linked implementation and its call-site contract. |
+| `NormalizationAgent._canonical` | 177 | `groups: list[dict]` | Read the linked implementation and its call-site contract. |
+| `NormalizationAgent._lineage` | 219 | `papers: list[dict], concepts: list[dict], cmap: dict` | Persist the exact map already used for relations; never infer it from labels. |
+| `NormalizationAgent._settle_types` | 238 | `self, concepts: list[dict]` | One narrow call for concepts the papers typed differently (the rest keep their single type). |
+| `NormalizationAgent._summarize` | 257 | `self, concepts: list[dict], causal: list[dict], order: dict, n_papers: int` | Read the linked implementation and its call-site contract. |
+| `_text` | 269 | `v` | Model-supplied field as a plain string (small models sometimes return a dict or list for one). |
+| `_polarity` | 278 | `v` | Read the linked implementation and its call-site contract. |
+| `_clean_concept` | 283 | `c: dict` | Read the linked implementation and its call-site contract. |
+| `_aggregate` | 291 | `papers, cmap, field, keys, ends` | Read the linked implementation and its call-site contract. |
+| `_contradictions` | 320 | `causal: list[dict]` | Same cause and effect reported with opposite polarity (by different papers or conditions). Nothing is merged or dropped; the conditions usually explain the disagreement. |
+| `_pagerank` | 336 | `nodes, edges, d=0.85, iters=50` | Read the linked implementation and its call-site contract. |
+| `_score` | 353 | `concepts, relations, causal` | Read the linked implementation and its call-site contract. |
+| `_scc` | 371 | `nodes, succ` | Tarjan's strongly connected components (iterative). |
+| `_causal_order` | 409 | `concepts, causal` | Causal rank = longest cause->effect path depth after collapsing cycles; chains = deepest paths. |
 
 Imports: `collections`, `math`, `numpy`, `re`, `src.agents.base`, `src.config`, `src.tools`, `src.tools.progress`
 
@@ -1502,15 +1503,15 @@ Imports: `collections`, `hashlib`, `numpy`, `re`, `src.agents.base`, `src.config
 
 Pipeline settings. API keys live in .env; everything else is set here.
 
-[Source](../../src/config.py) · SHA256 `0bbeebbe709bf4d5b78cdf1ba4d76f9fa515f08fcc69521de1a1599dbbe28b87`
+[Source](../../src/config.py) · SHA256 `dce9762b389203809823d8c1209eaa9a9fb22b5487ba5d9856dde49d1542fd32`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
 | `profile_for` | 66 | `agent: str \| None=None` | Read the linked implementation and its call-site contract. |
 | `tier` | 82 | `agent: str \| None=None` | Read the linked implementation and its call-site contract. |
 | `domain_of` | 246 | `collection: dict` | The field a collection's papers come from, as the prompts name it. |
-| `secret` | 376 | `name: str \| None` | Read an API key from .env (blank counts as unset). |
-| `model_for` | 381 | `agent: str` | Read the linked implementation and its call-site contract. |
+| `secret` | 379 | `name: str \| None` | Read an API key from .env (blank counts as unset). |
+| `model_for` | 384 | `agent: str` | Read the linked implementation and its call-site contract. |
 
 Imports: `dotenv`, `os`, `pathlib`
 
@@ -1689,47 +1690,47 @@ Imports: `argparse`, `collections`, `datasets`, `glob`, `json`, `math`, `os`, `p
 
 Pipeline entry point with saved settings, invocation environments and compute provenance.
 
-[Source](../../src/run.py) · SHA256 `66f9973d7f0b087cacaa629a6fce0e0481971e1312eabe736d999d7dd3c89ad0`
+[Source](../../src/run.py) · SHA256 `7d80143417581f228173ce6dd1787185310081084d6605662ce1197caab3a71b`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
-| `_now` | 55 | `` | Read the linked implementation and its call-site contract. |
-| `_git` | 59 | `` | Read the linked implementation and its call-site contract. |
-| `_config` | 66 | `` | Run settings for the manifest. Never includes keys. |
-| `_environment` | 97 | `` | Bounded, best-effort hardware/serving snapshot. Only named non-secret settings are read. |
-| `_environment.integer` | 99 | `name` | Read the linked implementation and its call-site contract. |
-| `Run.__init__` | 178 | `self, run_id: str, collection: str` | Read the linked implementation and its call-site contract. |
-| `Run.read` | 201 | `self, name: str` | Read the linked implementation and its call-site contract. |
-| `Run.write` | 204 | `self, name: str, obj` | Read the linked implementation and its call-site contract. |
-| `Run.papers` | 208 | `self` | Read the linked implementation and its call-site contract. |
-| `Run.fail` | 211 | `self, stage: str, exc: BaseException` | Keep the error with the run (error.log, run.json "errors") and in the central outputs/errors.csv. |
-| `Run.record` | 233 | `self, stage: str, stats: dict, seconds: float` | Read the linked implementation and its call-site contract. |
-| `select_papers` | 253 | `coll: dict, top_n: int \| None, limit: int \| None=None` | Rank by citation count and fetch only enough available PDFs for the requested selection. Papers without a DOI or without a count rank last, in Zotero order. |
-| `_figures` | 290 | `what: str, **kw` | Figures and the grouped report (src.figures.build); a failure here never fails the run or integration. |
-| `_uncertain` | 302 | `run: Run, stage: str, items: list[dict]` | Keep this stage's uncertain items in ontology/uncertain.json; a failure here never fails the run. |
-| `extract` | 311 | `run: Run, args` | Read the linked implementation and its call-site contract. |
-| `extract.process` | 323 | `entry` | Read the linked implementation and its call-site contract. |
-| `normalize` | 370 | `run: Run, args` | Read the linked implementation and its call-site contract. |
-| `ontology` | 383 | `run: Run, args` | Read the linked implementation and its call-site contract. |
-| `enrich` | 401 | `run: Run, args` | Read the linked implementation and its call-site contract. |
-| `interop` | 421 | `run: Run, args` | Read the linked implementation and its call-site contract. |
-| `_require` | 453 | `ok, message: str` | Read the linked implementation and its call-site contract. |
-| `check` | 458 | `args` | Preflight for one collection. Also downloads the collection's PDFs into the cache. |
-| `check.keys` | 464 | `` | Read the linked implementation and its call-site contract. |
-| `check.model` | 472 | `` | Read the linked implementation and its call-site contract. |
-| `check.embeddings` | 477 | `` | Read the linked implementation and its call-site contract. |
-| `check.corpus` | 483 | `` | Read the linked implementation and its call-site contract. |
-| `check.parser` | 494 | `` | Read the linked implementation and its call-site contract. |
-| `check.portal` | 501 | `` | Read the linked implementation and its call-site contract. |
-| `check.matportal_check` | 511 | `` | Read the linked implementation and its call-site contract. |
-| `check.store` | 521 | `` | Read the linked implementation and its call-site contract. |
-| `collections` | 541 | `args` | Read the linked implementation and its call-site contract. |
-| `lora_data` | 547 | `args` | Read the linked implementation and its call-site contract. |
-| `lora_eval` | 552 | `args` | Read the linked implementation and its call-site contract. |
-| `portal` | 557 | `args` | Read the linked implementation and its call-site contract. |
-| `ontologies` | 567 | `args` | build: download missing ontology files, load them into Oxigraph, index labels, embed every term. status: is the store current (files, embedding model, newer MDS-Onto submission). search TEXT: try a query. |
-| `integrate` | 585 | `args` | Cross-domain stage: map the domain ontologies of completed runs to each other in one master ontology. Reads the domain runs; never rewrites them. |
-| `main` | 657 | `` | Read the linked implementation and its call-site contract. |
+| `_now` | 56 | `` | Read the linked implementation and its call-site contract. |
+| `_git` | 60 | `` | Read the linked implementation and its call-site contract. |
+| `_config` | 67 | `` | Run settings for the manifest. Never includes keys. |
+| `_environment` | 98 | `` | Bounded, best-effort hardware/serving snapshot. Only named non-secret settings are read. |
+| `_environment.integer` | 100 | `name` | Read the linked implementation and its call-site contract. |
+| `Run.__init__` | 179 | `self, run_id: str, collection: str` | Read the linked implementation and its call-site contract. |
+| `Run.read` | 202 | `self, name: str` | Read the linked implementation and its call-site contract. |
+| `Run.write` | 205 | `self, name: str, obj` | Read the linked implementation and its call-site contract. |
+| `Run.papers` | 209 | `self` | Read the linked implementation and its call-site contract. |
+| `Run.fail` | 212 | `self, stage: str, exc: BaseException` | Keep the error with the run (error.log, run.json "errors") and in the central outputs/errors.csv. |
+| `Run.record` | 234 | `self, stage: str, stats: dict, seconds: float` | Read the linked implementation and its call-site contract. |
+| `select_papers` | 254 | `coll: dict, top_n: int \| None, limit: int \| None=None` | Rank by citation count and fetch only enough available PDFs for the requested selection. Papers without a DOI or without a count rank last, in Zotero order. |
+| `_figures` | 291 | `what: str, **kw` | Figures and the grouped report (src.figures.build); a failure here never fails the run or integration. |
+| `_uncertain` | 303 | `run: Run, stage: str, items: list[dict]` | Keep this stage's uncertain items in ontology/uncertain.json; a failure here never fails the run. |
+| `extract` | 312 | `run: Run, args` | Read the linked implementation and its call-site contract. |
+| `extract.process` | 324 | `entry` | Read the linked implementation and its call-site contract. |
+| `normalize` | 373 | `run: Run, args` | Read the linked implementation and its call-site contract. |
+| `ontology` | 390 | `run: Run, args` | Read the linked implementation and its call-site contract. |
+| `enrich` | 408 | `run: Run, args` | Read the linked implementation and its call-site contract. |
+| `interop` | 428 | `run: Run, args` | Read the linked implementation and its call-site contract. |
+| `_require` | 460 | `ok, message: str` | Read the linked implementation and its call-site contract. |
+| `check` | 465 | `args` | Preflight for one collection. Also downloads the collection's PDFs into the cache. |
+| `check.keys` | 471 | `` | Read the linked implementation and its call-site contract. |
+| `check.model` | 479 | `` | Read the linked implementation and its call-site contract. |
+| `check.embeddings` | 484 | `` | Read the linked implementation and its call-site contract. |
+| `check.corpus` | 490 | `` | Read the linked implementation and its call-site contract. |
+| `check.parser` | 501 | `` | Read the linked implementation and its call-site contract. |
+| `check.portal` | 508 | `` | Read the linked implementation and its call-site contract. |
+| `check.matportal_check` | 518 | `` | Read the linked implementation and its call-site contract. |
+| `check.store` | 528 | `` | Read the linked implementation and its call-site contract. |
+| `collections` | 548 | `args` | Read the linked implementation and its call-site contract. |
+| `lora_data` | 554 | `args` | Read the linked implementation and its call-site contract. |
+| `lora_eval` | 559 | `args` | Read the linked implementation and its call-site contract. |
+| `portal` | 564 | `args` | Read the linked implementation and its call-site contract. |
+| `ontologies` | 574 | `args` | build: download missing ontology files, load them into Oxigraph, index labels, embed every term. status: is the store current (files, embedding model, newer MDS-Onto submission). search TEXT: try a query. |
+| `integrate` | 592 | `args` | Cross-domain stage: map the domain ontologies of completed runs to each other in one master ontology. Reads the domain runs; never rewrites them. |
+| `main` | 664 | `` | Read the linked implementation and its call-site contract. |
 
 Imports: `argparse`, `collections`, `csv`, `ctypes`, `datetime`, `difflib`, `hashlib`, `importlib`, `json`, `openai`, `os`, `pathlib`, `platform`, `shlex`, `src`, `src.agents`, `src.agents.base`, `src.agents.enrichment`, `src.agents.extraction`, `src.agents.integration`, `src.agents.interoperability`, `src.agents.normalization`, `src.agents.ontology`, `src.config`, `src.tools`, `src.tools.ledger`, `src.tools.progress`, `subprocess`, `threading`, `time`, `traceback`
 
@@ -1774,6 +1775,21 @@ Citation counts per DOI, tried in order: OpenCitations Index (open CC0 data, no 
 | `counts` | 78 | `dois: list[str]` | DOI (normalized) -> {"count": int \| None, "source": str \| None, "fetched": ISO date}. |
 
 Imports: `datetime`, `json`, `requests`, `src.config`, `src.tools`, `src.tools.progress`, `time`
+
+## src/tools/concept_quality.py
+
+Quarantine malformed concepts and dependent links while retaining their source records for review.
+
+[Source](../../src/tools/concept_quality.py) · SHA256 `339d72f9373a2c3b5cdf5eb4c70206defad32445c3b69ba2067088577bc6e55b`
+
+| Callable | Line | Signature | Summary |
+|---|---:|---|---|
+| `label_issues` | 13 | `value` | Read the linked implementation and its call-site contract. |
+| `concept_issues` | 27 | `record` | Read the linked implementation and its call-site contract. |
+| `bounded` | 45 | `value, limit=160` | Read the linked implementation and its call-site contract. |
+| `quarantine` | 51 | `record` | Copy valid outputs; preserve rejected rows and their dependent links for review. |
+
+Imports: `collections`, `re`
 
 ## src/tools/files.py
 
@@ -2063,7 +2079,7 @@ Imports: `collections`, `datetime`, `functools`, `hashlib`, `json`, `numpy`, `py
 
 OWL2 assembly (rdflib) -> JSON-LD, structural validation (no reasoner), and ontology metrics.
 
-[Source](../../src/tools/owl.py) · SHA256 `56c1f4f50f6b92272b9a5098d0c4646bf7a078ddb326b764910dd93fce438d44`
+[Source](../../src/tools/owl.py) · SHA256 `d22433c9f2686c30a4d3369e7cb3f9a9421db791f530c3d35f4add4834ce079c`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
@@ -2074,19 +2090,19 @@ OWL2 assembly (rdflib) -> JSON-LD, structural validation (no reasoner), and onto
 | `category_fit` | 92 | `chain: list[str], target: str, same: bool, kind: str='class'` | Can a local class (its lineage `chain`) be equivalent to (same=True) or a subclass of (same=False) the external class `target`? Only a BFO-aligned class: equivalence needs the same BFO category, a subclass needs the target's category to be the class's own or one above it. |
 | `same_as_issues` | 105 | `g: rdflib.Graph` | Read the linked implementation and its call-site contract. |
 | `_hidden` | 111 | `label: str, alt: str` | Acronyms and spelling variants go to skos:hiddenLabel: 'PERC', 'Voc', 'c-Si'; 'open circuit voltage' for 'open-circuit voltage'. |
-| `labels` | 120 | `c: dict, mappings: list[dict]` | (predicate, text, source IRI or None, origin) for a class: its label (rdfs:label and skos:prefLabel), the paper synonyms the model kept, and every label of each exactly or equivalently matched external term. |
+| `labels` | 120 | `c: dict, mappings: list[dict]` | (predicate, text, source IRI or None, origin) for a class: its label (rdfs:label and skos:prefLabel), original member labels, reviewed paper synonyms, and labels of exactly or equivalently matched external terms. |
 | `_annotate` | 134 | `g, kw, s, p, o, notes: dict` | An owl:Axiom annotating the triple (s, p, o) with notes {annotation property: value or [values]}. |
 | `build` | 147 | `classes: list[dict], properties: dict, mappings: list[dict], papers: list[dict], run_id: str, domain: str` | One ontology per domain; local class IRIs are domain-scoped to preserve separate meanings. |
 | `build.add_facets` | 196 | `subject, facets` | Read the linked implementation and its call-site contract. |
 | `build.ref` | 203 | `r: str` | Read the linked implementation and its call-site contract. |
-| `serialize_turtle` | 337 | `g: rdflib.Graph` | Read the linked implementation and its call-site contract. |
-| `serialize` | 341 | `g: rdflib.Graph` | Read the linked implementation and its call-site contract. |
-| `_parents` | 347 | `g, c` | Read the linked implementation and its call-site contract. |
-| `_depth_to_entity` | 351 | `g, c` | Read the linked implementation and its call-site contract. |
-| `validate` | 366 | `g: rdflib.Graph, text: str, extra: list[str]=()` | Structural checks only (no reasoner), plus checks made elsewhere (extra: the interop mapping checks). |
-| `_ancestors` | 411 | `g, c` | Read the linked implementation and its call-site contract. |
-| `metrics` | 421 | `g: rdflib.Graph, classes: list[dict], mappings: list[dict], properties: dict` | Read the linked implementation and its call-site contract. |
-| `metrics.cover` | 434 | `pred` | Read the linked implementation and its call-site contract. |
+| `serialize_turtle` | 342 | `g: rdflib.Graph` | Read the linked implementation and its call-site contract. |
+| `serialize` | 346 | `g: rdflib.Graph` | Read the linked implementation and its call-site contract. |
+| `_parents` | 352 | `g, c` | Read the linked implementation and its call-site contract. |
+| `_depth_to_entity` | 356 | `g, c` | Read the linked implementation and its call-site contract. |
+| `validate` | 371 | `g: rdflib.Graph, text: str, extra: list[str]=()` | Structural checks only (no reasoner), plus checks made elsewhere (extra: the interop mapping checks). |
+| `_ancestors` | 416 | `g, c` | Read the linked implementation and its call-site contract. |
+| `metrics` | 426 | `g: rdflib.Graph, classes: list[dict], mappings: list[dict], properties: dict` | Read the linked implementation and its call-site contract. |
+| `metrics.cover` | 439 | `pred` | Read the linked implementation and its call-site contract. |
 
 Imports: `collections`, `datetime`, `rdflib`, `rdflib.namespace`, `re`, `src.config`, `src.tools`, `statistics`
 
@@ -2265,11 +2281,43 @@ Verify ontology-guided planning and read-only provenance against guarded fixture
 
 Imports: `codebase_ontology`, `hashlib`, `importlib.util`, `json`, `ontology_agent`, `pathlib`, `pytest`, `rdflib`, `sys`
 
+## tests/test_concept_lineage.py
+
+Verify exact normalization identity and original-label provenance through downstream export.
+
+[Source](../../tests/test_concept_lineage.py) · SHA256 `573fbf42e2e3f6ed5034a5b3e22c1899b3ef2221023a286e8775cc055c40202c`
+
+| Callable | Line | Signature | Summary |
+|---|---:|---|---|
+| `concept` | 20 | `cid, label, synonyms=()` | Read the linked implementation and its call-site contract. |
+| `papers` | 25 | `` | Read the linked implementation and its call-site contract. |
+| `OfflineNormalization.__init__` | 35 | `self, ledger=None` | Read the linked implementation and its call-site contract. |
+| `OfflineNormalization._semantic_merge` | 38 | `self, groups` | Read the linked implementation and its call-site contract. |
+| `OfflineNormalization._summarize` | 42 | `self, *args` | Read the linked implementation and its call-site contract. |
+| `test_exact_map_scopes_local_ids_to_their_papers` | 46 | `` | Read the linked implementation and its call-site contract. |
+| `test_cleaning_and_normalization_return_recorded_lineage` | 66 | `` | Read the linked implementation and its call-site contract. |
+| `test_same_final_label_fold_retains_every_original` | 78 | `` | Read the linked implementation and its call-site contract. |
+| `test_case_dedup_keeps_original_spelling_in_lineage` | 88 | `` | Read the linked implementation and its call-site contract. |
+| `test_invalid_identity_map_fails_with_source_identified` | 97 | `` | Read the linked implementation and its call-site contract. |
+| `test_enrichment_preserves_originals_but_can_reject_synonyms` | 107 | `` | Read the linked implementation and its call-site contract. |
+| `test_old_classes_without_label_sources_keep_existing_review_behavior` | 121 | `` | Read the linked implementation and its call-site contract. |
+| `test_placement_carries_label_provenance_forward` | 130 | `` | Read the linked implementation and its call-site contract. |
+| `test_owl_export_cites_label_sources_and_preserves_hidden_label_policy` | 144 | `` | Read the linked implementation and its call-site contract. |
+| `test_owl_export_cites_label_sources_and_preserves_hidden_label_policy.sources` | 157 | `predicate, label` | Read the linked implementation and its call-site contract. |
+| `test_pipeline_writer_saves_lineage_and_other_artifacts` | 167 | `tmp_path` | Read the linked implementation and its call-site contract. |
+| `test_pipeline_writer_saves_lineage_and_other_artifacts.SavedRun.papers` | 174 | `self` | Read the linked implementation and its call-site contract. |
+| `test_pipeline_writer_saves_lineage_and_other_artifacts.SavedRun.write` | 176 | `self, name, value` | Read the linked implementation and its call-site contract. |
+| `test_quarantine_and_exact_lineage_work_together` | 188 | `tmp_path` | Read the linked implementation and its call-site contract. |
+| `test_quarantine_and_exact_lineage_work_together.SavedRun.papers` | 197 | `self` | Read the linked implementation and its call-site contract. |
+| `test_quarantine_and_exact_lineage_work_together.SavedRun.write` | 199 | `self, name, value` | Read the linked implementation and its call-site contract. |
+
+Imports: `copy`, `json`, `pytest`, `rdflib`, `rdflib.namespace`, `src`, `src.agents.enrichment`, `src.agents.normalization`, `src.agents.ontology`, `src.tools`, `types`, `unittest.mock`
+
 ## tests/test_data_journey.py
 
 Verify information flow and saved concept provenance without executing the pipeline.
 
-[Source](../../tests/test_data_journey.py) · SHA256 `839bf8391d694b670d93bc2ec0d79741dcc3126cac2dc64f2654f0a45a88df85`
+[Source](../../tests/test_data_journey.py) · SHA256 `806f92cf54b1b07cab2964a997b667e8baa1315f96486bf686a017b2af52b6c0`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
@@ -2278,16 +2326,16 @@ Verify information flow and saved concept provenance without executing the pipel
 | `target` | 52 | `package` | Read the linked implementation and its call-site contract. |
 | `test_ontology_models_information_transformations_with_real_implementations` | 56 | `` | Read the linked implementation and its call-site contract. |
 | `test_agent_guide_exposes_retained_and_omitted_information` | 69 | `` | Read the linked implementation and its call-site contract. |
-| `test_repeated_paper_local_ids_remain_distinct_candidates` | 78 | `saved` | Read the linked implementation and its call-site contract. |
-| `test_original_label_shared_by_canonical_targets_is_ambiguous` | 87 | `saved` | Read the linked implementation and its call-site contract. |
-| `test_partial_recorded_map_is_not_filled_with_inferred_merges` | 95 | `saved` | Read the linked implementation and its call-site contract. |
-| `test_changed_saved_lineage_label_requires_review` | 103 | `saved` | Read the linked implementation and its call-site contract. |
-| `test_merged_membership_is_independent_of_cross_domain_mapping` | 109 | `saved` | Read the linked implementation and its call-site contract. |
-| `test_integration_not_selecting_run_does_not_claim_membership` | 117 | `saved` | Read the linked implementation and its call-site contract. |
-| `test_changed_iri_and_reviewed_aliases_are_not_hidden` | 124 | `saved` | Read the linked implementation and its call-site contract. |
-| `test_snapshots_are_read_only_redacted_and_links_resolve` | 132 | `saved, tmp_path` | Read the linked implementation and its call-site contract. |
-| `test_snapshot_detects_source_change` | 146 | `saved` | Read the linked implementation and its call-site contract. |
-| `test_unsafe_identifiers_are_rejected` | 153 | `bad` | Read the linked implementation and its call-site contract. |
+| `test_repeated_paper_local_ids_remain_distinct_candidates` | 80 | `saved` | Read the linked implementation and its call-site contract. |
+| `test_original_label_shared_by_canonical_targets_is_ambiguous` | 89 | `saved` | Read the linked implementation and its call-site contract. |
+| `test_partial_recorded_map_is_not_filled_with_inferred_merges` | 97 | `saved` | Read the linked implementation and its call-site contract. |
+| `test_changed_saved_lineage_label_requires_review` | 105 | `saved` | Read the linked implementation and its call-site contract. |
+| `test_merged_membership_is_independent_of_cross_domain_mapping` | 111 | `saved` | Read the linked implementation and its call-site contract. |
+| `test_integration_not_selecting_run_does_not_claim_membership` | 119 | `saved` | Read the linked implementation and its call-site contract. |
+| `test_changed_iri_and_reviewed_aliases_are_not_hidden` | 126 | `saved` | Read the linked implementation and its call-site contract. |
+| `test_snapshots_are_read_only_redacted_and_links_resolve` | 134 | `saved, tmp_path` | Read the linked implementation and its call-site contract. |
+| `test_snapshot_detects_source_change` | 148 | `saved` | Read the linked implementation and its call-site contract. |
+| `test_unsafe_identifiers_are_rejected` | 155 | `bad` | Read the linked implementation and its call-site contract. |
 
 Imports: `codebase_ontology`, `data_journey`, `json`, `operational_contracts`, `pathlib`, `pytest`, `rdflib`, `sys`
 
@@ -2305,6 +2353,27 @@ Verify documentation navigation, safe publication boundaries and Markdown render
 | `test_output_cannot_escape_outputs` | 73 | `library_root` | Read the linked implementation and its call-site contract. |
 
 Imports: `documentation_library`, `json`, `pathlib`, `pytest`, `sys`
+
+## tests/test_extraction_quality.py
+
+Verify malformed extraction quarantine across cached, merged and normalization boundaries.
+
+[Source](../../tests/test_extraction_quality.py) · SHA256 `1bc762129a47cc11872ca6f7f8eb0aa554e8369bf79a62e326f6ea635f6068ee`
+
+| Callable | Line | Signature | Summary |
+|---|---:|---|---|
+| `record` | 18 | `` | Read the linked implementation and its call-site contract. |
+| `test_actual_label_is_quarantined_with_dependent_records_and_preserved_raw` | 25 | `` | Read the linked implementation and its call-site contract. |
+| `test_merge_and_finalize_preserve_valid_claims_after_id_renumbering` | 39 | `` | Read the linked implementation and its call-site contract. |
+| `test_mult_pass_does_not_feed_bad_labels_forward_or_confuse_old_ids` | 51 | `` | Read the linked implementation and its call-site contract. |
+| `test_legacy_cache_is_guarded_without_overwriting_cache` | 67 | `tmp_path, monkeypatch` | Read the linked implementation and its call-site contract. |
+| `test_normalization_boundary_guards_existing_paper_records` | 84 | `tmp_path, monkeypatch` | Read the linked implementation and its call-site contract. |
+| `test_normalization_boundary_guards_existing_paper_records.Run.papers` | 91 | `self` | Read the linked implementation and its call-site contract. |
+| `test_normalization_boundary_guards_existing_paper_records.Run.write` | 92 | `self, name, data` | Read the linked implementation and its call-site contract. |
+| `test_normalization_boundary_guards_existing_paper_records.Agent.__init__` | 95 | `self, ledger` | Read the linked implementation and its call-site contract. |
+| `test_normalization_boundary_guards_existing_paper_records.Agent.run` | 96 | `self, papers` | Read the linked implementation and its call-site contract. |
+
+Imports: `collections`, `copy`, `hashlib`, `json`, `pathlib`, `src`, `src.agents`, `src.agents.extraction`, `src.tools`, `unittest.mock`
 
 ## tests/test_gemini_quota.py
 
@@ -2400,7 +2469,7 @@ Imports: `pytest`, `src.tools`
 
 Test task navigation, paper bindings, documented checks and explicit definition coverage.
 
-[Source](../../tests/test_operational_contracts.py) · SHA256 `586fa66ec427c993d3c1a6e301b293cac14f64f70873789ebab2cde9032da756`
+[Source](../../tests/test_operational_contracts.py) · SHA256 `41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
@@ -2410,37 +2479,37 @@ Test task navigation, paper bindings, documented checks and explicit definition 
 | `test_every_project_node_has_nonempty_skos_definition` | 40 | `graph` | Read the linked implementation and its call-site contract. |
 | `test_structural_descriptions_do_not_claim_reviewed_behavior` | 46 | `graph` | Read the linked implementation and its call-site contract. |
 | `test_normalization_recipe_answers_binding_and_call_questions` | 51 | `graph` | Read the linked implementation and its call-site contract. |
-| `test_contracts_cover_every_stage_with_reviewed_operations_and_inputs` | 67 | `graph` | Read the linked implementation and its call-site contract. |
-| `test_before_checks_accept_fixture_but_do_not_execute` | 77 | `graph, run` | Read the linked implementation and its call-site contract. |
-| `test_after_checks_require_scientific_review_even_with_valid_joins` | 85 | `graph, run` | Read the linked implementation and its call-site contract. |
-| `test_malformed_concepts_block_normalization` | 93 | `graph, run, broken` | Read the linked implementation and its call-site contract. |
-| `test_unresolved_paper_reference_blocks` | 98 | `graph, run` | Read the linked implementation and its call-site contract. |
-| `test_wrong_canonical_endpoint_blocks_downstream` | 104 | `graph, run` | Read the linked implementation and its call-site contract. |
-| `test_paper_coverage_loss_blocks_without_inventing_lineage` | 111 | `graph, run` | Read the linked implementation and its call-site contract. |
-| `test_no_saved_completion_is_not_success` | 118 | `graph, run` | Read the linked implementation and its call-site contract. |
-| `test_direct_invocation_remains_distinct_from_orchestrator` | 123 | `graph` | Read the linked implementation and its call-site contract. |
-| `test_agent_can_follow_graph_from_stage_to_argument_artifact_and_checker` | 130 | `graph` | Read the linked implementation and its call-site contract. |
-| `scientific_run` | 143 | `run` | Read the linked implementation and its call-site contract. |
-| `test_scientific_stages_check_actual_saved_joins` | 170 | `graph, scientific_run, stage` | Read the linked implementation and its call-site contract. |
-| `test_missing_canonical_identity_is_not_silent_loss` | 177 | `graph, scientific_run, stage, path` | Read the linked implementation and its call-site contract. |
-| `test_excluded_classes_do_not_require_live_enrichment` | 183 | `graph, scientific_run` | Read the linked implementation and its call-site contract. |
-| `test_unresolved_ontology_endpoints_block` | 193 | `graph, scientific_run, stage, path, field, value` | Read the linked implementation and its call-site contract. |
-| `test_false_saved_validation_is_not_success` | 198 | `graph, scientific_run` | Read the linked implementation and its call-site contract. |
-| `test_parseable_but_different_exports_are_rejected` | 204 | `graph, scientific_run` | Read the linked implementation and its call-site contract. |
-| `test_large_export_comparison_is_explicitly_deferred` | 210 | `graph, scientific_run` | Read the linked implementation and its call-site contract. |
-| `test_mapping_local_identifier_must_exist` | 221 | `graph, scientific_run` | Read the linked implementation and its call-site contract. |
-| `test_one_concept_can_map_to_multiple_external_terms` | 227 | `graph, scientific_run` | Read the linked implementation and its call-site contract. |
-| `test_extraction_coverage_checks_selection_not_only_completion` | 235 | `graph, scientific_run` | Read the linked implementation and its call-site contract. |
-| `wrapper_run` | 244 | `tmp_path` | Read the linked implementation and its call-site contract. |
-| `test_wrapper_parsing_coverage_and_sections_are_checked` | 252 | `graph, wrapper_run` | Read the linked implementation and its call-site contract. |
-| `test_wrapper_ingestion_requires_selected_pdf_metadata` | 258 | `graph, wrapper_run` | Read the linked implementation and its call-site contract. |
-| `test_setup_never_invents_ready_from_domain_outputs` | 265 | `graph, scientific_run, stage` | Read the linked implementation and its call-site contract. |
-| `test_before_checks_do_not_require_later_outputs` | 269 | `graph, scientific_run` | Read the linked implementation and its call-site contract. |
-| `test_report_availability_and_skips_are_distinct_from_completion` | 276 | `graph, tmp_path` | Read the linked implementation and its call-site contract. |
-| `integration_run` | 290 | `scientific_run` | Read the linked implementation and its call-site contract. |
-| `test_integration_resolves_mapping_and_bridge_provenance` | 310 | `graph, integration_run` | Read the linked implementation and its call-site contract. |
-| `test_integration_unknown_bridge_member_blocks` | 318 | `graph, integration_run` | Read the linked implementation and its call-site contract. |
-| `test_integration_rejects_path_escape_and_malformed_endpoints` | 324 | `graph, integration_run` | Read the linked implementation and its call-site contract. |
+| `test_contracts_cover_every_stage_with_reviewed_operations_and_inputs` | 68 | `graph` | Read the linked implementation and its call-site contract. |
+| `test_before_checks_accept_fixture_but_do_not_execute` | 78 | `graph, run` | Read the linked implementation and its call-site contract. |
+| `test_after_checks_require_scientific_review_even_with_valid_joins` | 86 | `graph, run` | Read the linked implementation and its call-site contract. |
+| `test_malformed_concepts_block_normalization` | 94 | `graph, run, broken` | Read the linked implementation and its call-site contract. |
+| `test_unresolved_paper_reference_blocks` | 99 | `graph, run` | Read the linked implementation and its call-site contract. |
+| `test_wrong_canonical_endpoint_blocks_downstream` | 105 | `graph, run` | Read the linked implementation and its call-site contract. |
+| `test_paper_coverage_loss_blocks_without_inventing_lineage` | 112 | `graph, run` | Read the linked implementation and its call-site contract. |
+| `test_no_saved_completion_is_not_success` | 120 | `graph, run` | Read the linked implementation and its call-site contract. |
+| `test_direct_invocation_remains_distinct_from_orchestrator` | 125 | `graph` | Read the linked implementation and its call-site contract. |
+| `test_agent_can_follow_graph_from_stage_to_argument_artifact_and_checker` | 132 | `graph` | Read the linked implementation and its call-site contract. |
+| `scientific_run` | 145 | `run` | Read the linked implementation and its call-site contract. |
+| `test_scientific_stages_check_actual_saved_joins` | 172 | `graph, scientific_run, stage` | Read the linked implementation and its call-site contract. |
+| `test_missing_canonical_identity_is_not_silent_loss` | 179 | `graph, scientific_run, stage, path` | Read the linked implementation and its call-site contract. |
+| `test_excluded_classes_do_not_require_live_enrichment` | 185 | `graph, scientific_run` | Read the linked implementation and its call-site contract. |
+| `test_unresolved_ontology_endpoints_block` | 195 | `graph, scientific_run, stage, path, field, value` | Read the linked implementation and its call-site contract. |
+| `test_false_saved_validation_is_not_success` | 200 | `graph, scientific_run` | Read the linked implementation and its call-site contract. |
+| `test_parseable_but_different_exports_are_rejected` | 206 | `graph, scientific_run` | Read the linked implementation and its call-site contract. |
+| `test_large_export_comparison_is_explicitly_deferred` | 212 | `graph, scientific_run` | Read the linked implementation and its call-site contract. |
+| `test_mapping_local_identifier_must_exist` | 223 | `graph, scientific_run` | Read the linked implementation and its call-site contract. |
+| `test_one_concept_can_map_to_multiple_external_terms` | 229 | `graph, scientific_run` | Read the linked implementation and its call-site contract. |
+| `test_extraction_coverage_checks_selection_not_only_completion` | 237 | `graph, scientific_run` | Read the linked implementation and its call-site contract. |
+| `wrapper_run` | 246 | `tmp_path` | Read the linked implementation and its call-site contract. |
+| `test_wrapper_parsing_coverage_and_sections_are_checked` | 254 | `graph, wrapper_run` | Read the linked implementation and its call-site contract. |
+| `test_wrapper_ingestion_requires_selected_pdf_metadata` | 260 | `graph, wrapper_run` | Read the linked implementation and its call-site contract. |
+| `test_setup_never_invents_ready_from_domain_outputs` | 267 | `graph, scientific_run, stage` | Read the linked implementation and its call-site contract. |
+| `test_before_checks_do_not_require_later_outputs` | 271 | `graph, scientific_run` | Read the linked implementation and its call-site contract. |
+| `test_report_availability_and_skips_are_distinct_from_completion` | 278 | `graph, tmp_path` | Read the linked implementation and its call-site contract. |
+| `integration_run` | 292 | `scientific_run` | Read the linked implementation and its call-site contract. |
+| `test_integration_resolves_mapping_and_bridge_provenance` | 312 | `graph, integration_run` | Read the linked implementation and its call-site contract. |
+| `test_integration_unknown_bridge_member_blocks` | 320 | `graph, integration_run` | Read the linked implementation and its call-site contract. |
+| `test_integration_rejects_path_escape_and_malformed_endpoints` | 326 | `graph, integration_run` | Read the linked implementation and its call-site contract. |
 
 Imports: `codebase_ontology`, `json`, `operational_contracts`, `pathlib`, `pytest`, `rdflib`, `shutil`, `sys`
 
@@ -2533,7 +2602,7 @@ Imports: `csv`, `multiprocessing`, `pathlib`, `src.tools`, `tempfile`, `unittest
 
 Check saved environments and Slurm sweep accounting without a GPU or model server.
 
-[Source](../../tests/test_slurm_metrics.py) · SHA256 `66d6cdb5657d74a1a24f6c241a9aae71399f6c858bdb49443ab5b8591bf04a02`
+[Source](../../tests/test_slurm_metrics.py) · SHA256 `29ef8dcc4e228b0e653089bbcbd699a2303ff133370d7fb352b5283c498a0251`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|

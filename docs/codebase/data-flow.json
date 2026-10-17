@@ -73,16 +73,18 @@
         "normalized/concepts.json",
         "normalized/relations.json",
         "normalized/causal.json",
-        "normalized/measurements.json"
+        "normalized/measurements.json",
+        "normalized/concept_lineage.json"
       ],
       "fields": [
         "canonical concept ID",
         "label / alt_labels",
         "supporting paper keys",
         "canonical claim endpoints",
-        "importance / contradictions"
+        "importance / contradictions",
+        "original identities and label_sources"
       ],
-      "note": "Exact original concept-ID merge decisions are currently transient. Supporting papers and aliases cannot recover every merge."
+      "note": "New normalizations save exact original-to-canonical identities and label provenance. Older runs without the sidecar cannot recover every merge from aliases and supporting papers."
     },
     {
       "id": "placed",
@@ -268,23 +270,25 @@
       "stage": "normalize",
       "functions": [
         "src/agents/normalization.py:NormalizationAgent.run",
-        "src/agents/normalization.py:_aggregate"
+        "src/agents/normalization.py:_aggregate",
+        "src/agents/normalization.py:NormalizationAgent._lineage"
       ],
       "preserves": [
         "supporting paper identities",
         "reviewed aliases as alternate labels",
-        "retained claim evidence"
+        "retained claim evidence",
+        "original paper-local identities and original-label provenance"
       ],
       "adds": [
         "canonical IDs",
         "cross-paper support and ranks",
-        "contradiction findings"
+        "contradiction findings",
+        "saved original-to-canonical identity map"
       ],
       "omits": [
-        "exact paper-local concept-ID → canonical-ID merge map is not persisted",
         "aggregation retains limited evidence, not necessarily every quote"
       ],
-      "limitation": "The current saved runs support reconstructed candidate links, not a complete recorded merge history."
+      "limitation": "Recorded lineage is available for new normalizations. The legacy n15 example still uses reconstructed candidates because its saved run predates the sidecar."
     },
     {
       "id": "place",

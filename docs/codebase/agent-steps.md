@@ -202,7 +202,7 @@ Conditions:
 
 ## normalize: Consolidate vocabulary across papers
 
-Canonicalize terms and reviewed aliases, merge claims and rank importance. Inspect ambiguous aliases and contradictions. The current pipeline does not save exact original-to-canonical merge lineage; older dashboard links can be reconstructed or ambiguous.
+Canonicalize terms and reviewed aliases, merge claims and rank importance. New runs persist exact paper-local original-to-canonical identities and per-label sources. Older runs without the sidecar retain reconstructed or ambiguous dashboard links.
 
 Prerequisites: extract
 
@@ -221,6 +221,7 @@ Outputs:
 - `normalized/contradictions.json`
 - `normalized/corpus_stats.json`
 - `corpus_report.md`
+- `normalized/concept_lineage.json`
 
 cli prerequisites: extract
 

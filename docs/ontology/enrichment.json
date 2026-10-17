@@ -1,12 +1,12 @@
 {
-  "connected_files": 133,
-  "static_reference_edges": 1819,
+  "connected_files": 136,
+  "static_reference_edges": 1859,
   "resource_links": 39,
   "external_terms_enriched": 15,
-  "definition_nodes": 3725,
+  "definition_nodes": 3809,
   "stages_with_contracts": 11,
-  "arguments": 1922,
-  "bindings": 74,
+  "arguments": 1964,
+  "bindings": 75,
   "information_states": 10,
   "information_transformations": 9
 }

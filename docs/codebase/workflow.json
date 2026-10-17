@@ -300,7 +300,8 @@
         "normalized/measurements.json",
         "normalized/contradictions.json",
         "normalized/corpus_stats.json",
-        "corpus_report.md"
+        "corpus_report.md",
+        "normalized/concept_lineage.json"
       ],
       "functions": [
         "src/run.py:normalize",
@@ -334,7 +335,7 @@
         "--stage",
         "normalize"
       ],
-      "description": "Canonicalize terms and reviewed aliases, merge claims and rank importance. Inspect ambiguous aliases and contradictions. The current pipeline does not save exact original-to-canonical merge lineage; older dashboard links can be reconstructed or ambiguous.",
+      "description": "Canonicalize terms and reviewed aliases, merge claims and rank importance. New runs persist exact paper-local original-to-canonical identities and per-label sources. Older runs without the sidecar retain reconstructed or ambiguous dashboard links.",
       "completion": "Confirm expected artifacts are parseable and inspect the saved stage/error records. Review content; file presence alone is not completion.",
       "recovery": "CLI single-stage commands reattempt that stage in the same run; all --run-id skips recorded completion. Dashboard stage skips completed stages; restart creates a new attempt and preserves upstream/history. Inspect failures and do not mix these semantics.",
       "effects": "Writes output artifacts; may call models/providers and shared read caches. Do not execute a command template without resolving scope and credentials.",

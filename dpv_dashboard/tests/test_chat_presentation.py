@@ -17,7 +17,9 @@ def test_profiles_are_read_without_import_or_environment_changes(monkeypatch):
     assert dict(os.environ) == before
 
 
-def test_chat_inherits_actual_agent_model_and_endpoint(tmp_path):
+def test_chat_inherits_actual_agent_model_and_endpoint(tmp_path, monkeypatch):
+    # This checks saved model inheritance, independent of an actual Ollama service.
+    monkeypatch.setattr(chat_settings, "offline", lambda option: False)
     model.write(tmp_path / "integration.json", {"config": {"llm_profile": "gemini", "model_interoperability": "workflow-agent-model",
         "llm_base_url": "https://unused.example/v1", "agent_profiles": {"interoperability": {"profile": "ollama", "provider": "openai", "base_url": "http://localhost:11434/v1"}}}})
     values = chat_settings.choices(tmp_path, None, {})

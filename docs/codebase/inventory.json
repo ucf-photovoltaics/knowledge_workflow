@@ -6317,7 +6317,7 @@
   {
     "path": "dpv_dashboard/tests/test_chat_presentation.py",
     "language": ".py",
-    "sha256": "f3e8fbedb60f735686c4f895b8b85970975d289d92375144fcc8f73e1491d123",
+    "sha256": "c2bc7071501b7cf7ec06eca974635aa23f2cf2563856593b8d38513b9d2c238b",
     "functions": [
       {
         "name": "test_profiles_are_read_without_import_or_environment_changes",
@@ -6334,20 +6334,21 @@
       {
         "name": "test_chat_inherits_actual_agent_model_and_endpoint",
         "line": 20,
-        "end_line": 30,
-        "signature": "tmp_path",
+        "end_line": 32,
+        "signature": "tmp_path, monkeypatch",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
         "calls": [
           "chat_settings.choices",
           "chat_settings.connection",
-          "model.write"
+          "model.write",
+          "monkeypatch.setattr"
         ]
       },
       {
         "name": "test_missing_credentials_are_friendly_and_alternatives_filtered",
-        "line": 33,
-        "end_line": 41,
+        "line": 35,
+        "end_line": 43,
         "signature": "tmp_path",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -6361,8 +6362,8 @@
       },
       {
         "name": "test_project_model_fallback_and_custom_connection",
-        "line": 44,
-        "end_line": 48,
+        "line": 46,
+        "end_line": 50,
         "signature": "tmp_path",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -6372,8 +6373,8 @@
       },
       {
         "name": "test_readable_table_preserves_raw_identity_and_selection",
-        "line": 51,
-        "end_line": 69,
+        "line": 53,
+        "end_line": 71,
         "signature": "",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -6393,8 +6394,8 @@
       },
       {
         "name": "test_readable_table_preserves_raw_identity_and_selection.Renderer.data",
-        "line": 59,
-        "end_line": 59,
+        "line": 61,
+        "end_line": 61,
         "signature": "self",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -6402,8 +6403,8 @@
       },
       {
         "name": "test_readable_table_preserves_raw_identity_and_selection.Renderer.data_view",
-        "line": 60,
-        "end_line": 60,
+        "line": 62,
+        "end_line": 62,
         "signature": "self, selected",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -6413,8 +6414,8 @@
       },
       {
         "name": "test_anthropic_chat_uses_provider_protocol_without_real_requests",
-        "line": 72,
-        "end_line": 86,
+        "line": 74,
+        "end_line": 88,
         "signature": "monkeypatch",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -6429,8 +6430,8 @@
       },
       {
         "name": "test_anthropic_chat_uses_provider_protocol_without_real_requests.Response.__enter__",
-        "line": 77,
-        "end_line": 77,
+        "line": 79,
+        "end_line": 79,
         "signature": "self",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -6438,8 +6439,8 @@
       },
       {
         "name": "test_anthropic_chat_uses_provider_protocol_without_real_requests.Response.__exit__",
-        "line": 78,
-        "end_line": 78,
+        "line": 80,
+        "end_line": 80,
         "signature": "self, *args",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -6447,8 +6448,8 @@
       },
       {
         "name": "test_anthropic_chat_uses_provider_protocol_without_real_requests.Response.read",
-        "line": 79,
-        "end_line": 79,
+        "line": 81,
+        "end_line": 81,
         "signature": "self, limit",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -6456,8 +6457,8 @@
       },
       {
         "name": "test_anthropic_chat_uses_provider_protocol_without_real_requests.transport",
-        "line": 80,
-        "end_line": 82,
+        "line": 82,
+        "end_line": 84,
         "signature": "request, timeout",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -6469,8 +6470,8 @@
       },
       {
         "name": "test_report_preview_styles_and_resolves_local_images_without_source_changes",
-        "line": 87,
-        "end_line": 93,
+        "line": 89,
+        "end_line": 95,
         "signature": "",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -11228,7 +11229,7 @@
   {
     "path": "src/agents/enrichment.py",
     "language": ".py",
-    "sha256": "4b47dac905ebe62b64362223b004ac302eb6fcc17fd389a967856e3023591653",
+    "sha256": "00cf839da23b30b0eb080dfc650b6a1757c510481af653a94e513206bb856cd5",
     "functions": [
       {
         "name": "_public",
@@ -11633,7 +11634,7 @@
       {
         "name": "EnrichmentAgent._apply",
         "line": 451,
-        "end_line": 494,
+        "end_line": 499,
         "signature": "self, out: dict, by_id: dict, rels: dict, value_key: str | None=None",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -11643,16 +11644,20 @@
           "a.lower",
           "any",
           "by_id.get",
+          "c.get",
           "c.setdefault",
           "c.setdefault('review_flags', []).append",
           "c['disjoint_with'].append",
           "c['restrictions'].append",
+          "given.items",
           "isinstance",
           "items",
           "key",
           "next",
           "r.get",
           "r['definition'].strip",
+          "s.get",
+          "s['label'].lower",
           "self._answer_property",
           "self._fits",
           "self.doubt",
@@ -11669,8 +11674,8 @@
       },
       {
         "name": "EnrichmentAgent._predicate_restrictions",
-        "line": 496,
-        "end_line": 516,
+        "line": 501,
+        "end_line": 521,
         "signature": "self, by_id: dict, rels: dict",
         "returns": "not annotated",
         "summary": "A relation with verified evidence becomes a restriction without a model call when the store settles the\nproperty: one fitting candidate carries the predicate's name exactly, or the top candidates tie (within\ntie_margin) and RELATION_GROUPS names one of them. Several exact names are also a tie for RELATION_GROUPS.\nThose relations leave rels; the rest go to the model with their candidates.",
@@ -11687,8 +11692,8 @@
       },
       {
         "name": "EnrichmentAgent._store_choice",
-        "line": 518,
-        "end_line": 530,
+        "line": 523,
+        "end_line": 535,
         "signature": "self, cid: str, r: dict, by_id: dict",
         "returns": "str | None",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -11703,8 +11708,8 @@
       },
       {
         "name": "EnrichmentAgent._answer_property",
-        "line": 532,
-        "end_line": 537,
+        "line": 537,
+        "end_line": 542,
         "signature": "self, cid: str, rel: dict, answer: str",
         "returns": "str | None",
         "summary": "The IRI of the candidate the model named for this relation (\"ONTOLOGY:label\" or just the label).",
@@ -11717,8 +11722,8 @@
       },
       {
         "name": "EnrichmentAgent._fits",
-        "line": 540,
-        "end_line": 547,
+        "line": 545,
+        "end_line": 552,
         "signature": "p_iri: str, c: dict, o: dict, by_id: dict",
         "returns": "bool",
         "summary": "BFO/CCO compliance: subject and target must fall under the property's declared domain and range.",
@@ -11730,8 +11735,8 @@
       },
       {
         "name": "EnrichmentAgent._local_properties",
-        "line": 550,
-        "end_line": 562,
+        "line": 555,
+        "end_line": 567,
         "signature": "live: list[dict], by_id: dict",
         "returns": "dict",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -11748,8 +11753,8 @@
       },
       {
         "name": "_lca",
-        "line": 565,
-        "end_line": 571,
+        "line": 570,
+        "end_line": 576,
         "signature": "ids: list[str], by_id: dict",
         "returns": "not annotated",
         "summary": "Most specific common ancestor (local or upper); None when it is only BFO entity.",
@@ -11762,8 +11767,8 @@
       },
       {
         "name": "_evidenced",
-        "line": 574,
-        "end_line": 577,
+        "line": 579,
+        "end_line": 582,
         "signature": "r: dict",
         "returns": "bool",
         "summary": "A joined relation with at least one usable quote (older runs carry no evidence status).",
@@ -11796,7 +11801,7 @@
   {
     "path": "src/agents/extraction.py",
     "language": ".py",
-    "sha256": "a0ad22669bbcc5a6ffdf8d17481eeb789fa31e1b4147dd90052a2246eef5b77b",
+    "sha256": "8134c5f4ea508317b6009110f03a103f6f558688e74c72cf7ea540a876f0c82b",
     "functions": [
       {
         "name": "_key",
@@ -11875,7 +11880,7 @@
       {
         "name": "ExtractionAgent.run",
         "line": 81,
-        "end_line": 118,
+        "end_line": 119,
         "signature": "self, paper: dict",
         "returns": "dict",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -11888,6 +11893,7 @@
           "c.get",
           "cache.exists",
           "cache.read_text",
+          "concept_quality.quarantine",
           "dict",
           "enumerate",
           "files.atomic_write",
@@ -11915,8 +11921,8 @@
       },
       {
         "name": "ExtractionAgent._multi_pass",
-        "line": 120,
-        "end_line": 161,
+        "line": 121,
+        "end_line": 165,
         "signature": "self, chunk: str, known_text: str, known: list[dict], where: str, item: str, raw_calls: list",
         "returns": "dict",
         "summary": "Local tier: concepts first, then each other pass against the numbered concept list.",
@@ -11925,7 +11931,9 @@
           "_key",
           "c.get",
           "c['label'].strip",
+          "concept_quality.quarantine",
           "f.get",
+          "first.get",
           "isinstance",
           "items",
           "key",
@@ -11944,8 +11952,8 @@
       },
       {
         "name": "ExtractionAgent._fill_evidence",
-        "line": 163,
-        "end_line": 190,
+        "line": 167,
+        "end_line": 194,
         "signature": "self, chunk: str, out: dict, kinds: tuple, labels: dict, item: str, where: str, raw_calls: list",
         "returns": "not annotated",
         "summary": "Items returned without a usable quote get one more call that asks only for their quotes.",
@@ -11973,8 +11981,8 @@
       },
       {
         "name": "ExtractionAgent._chunks",
-        "line": 192,
-        "end_line": 230,
+        "line": 196,
+        "end_line": 234,
         "signature": "self, paper: dict",
         "returns": "list[str]",
         "summary": "Pack adjacent short sections; keep long sections separate and split them without dropping text.",
@@ -12001,8 +12009,8 @@
       },
       {
         "name": "ExtractionAgent._merge",
-        "line": 233,
-        "end_line": 326,
+        "line": 237,
+        "end_line": 332,
         "signature": "parts: list[dict]",
         "returns": "dict",
         "summary": "Merge section answers into one paper graph. Relation/causal/measurement ends are resolved by concept id,\nor - since small models often write the phrase instead of the id - by label or synonym, by the longest known\nconcept named inside the phrase, or (short phrases only) as a new concept taken from the text.",
@@ -12015,6 +12023,7 @@
           "add",
           "c.get",
           "causal.append",
+          "concept_quality.quarantine",
           "concepts.items",
           "concepts.values",
           "dict",
@@ -12033,6 +12042,7 @@
           "measures.append",
           "names",
           "out.setdefault",
+          "part.get",
           "r.get",
           "re.escape",
           "re.fullmatch",
@@ -12054,8 +12064,8 @@
       },
       {
         "name": "ExtractionAgent._merge.add",
-        "line": 241,
-        "end_line": 253,
+        "line": 247,
+        "end_line": 259,
         "signature": "label: str, ctype: str='', definition: str='', synonyms=(), figures=()",
         "returns": "str",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -12071,8 +12081,8 @@
       },
       {
         "name": "ExtractionAgent._merge.names",
-        "line": 255,
-        "end_line": 261,
+        "line": 261,
+        "end_line": 267,
         "signature": "",
         "returns": "dict",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -12084,8 +12094,8 @@
       },
       {
         "name": "ExtractionAgent._merge.resolve",
-        "line": 263,
-        "end_line": 284,
+        "line": 269,
+        "end_line": 290,
         "signature": "ref, local: dict, kind: str",
         "returns": "str | None",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -12109,8 +12119,8 @@
       },
       {
         "name": "ExtractionAgent._finalize",
-        "line": 329,
-        "end_line": 363,
+        "line": 335,
+        "end_line": 370,
         "signature": "x: dict, paper: dict",
         "returns": "dict",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -12120,6 +12130,7 @@
           "_words",
           "bool",
           "c.get",
+          "concept_quality.quarantine",
           "figures.append",
           "len",
           "link.get",
@@ -12142,8 +12153,8 @@
       },
       {
         "name": "_dedupe",
-        "line": 366,
-        "end_line": 373,
+        "line": 373,
+        "end_line": 380,
         "signature": "rows: list[dict], keys: tuple",
         "returns": "list[dict]",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -12668,7 +12679,7 @@
   {
     "path": "src/agents/normalization.py",
     "language": ".py",
-    "sha256": "3bc56d5388a869ed5f216b3568117025ad7b9184649b86f8c5803436719aab4c",
+    "sha256": "94dde492a9bc14b9ca19b100f2960778aadbb3bd585dc7ff441e29e2e9a3e8fd",
     "functions": [
       {
         "name": "norm_key",
@@ -12721,7 +12732,7 @@
       {
         "name": "NormalizationAgent.run",
         "line": 56,
-        "end_line": 93,
+        "end_line": 95,
         "signature": "self, papers: list[dict]",
         "returns": "dict",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -12746,6 +12757,7 @@
           "re.sub('[^a-z0-9]+', '_', str(_text(r.get('p')) or '').lower()).strip",
           "self._canonical",
           "self._lexical_groups",
+          "self._lineage",
           "self._semantic_merge",
           "self._settle_types",
           "self._summarize",
@@ -12756,8 +12768,8 @@
       },
       {
         "name": "NormalizationAgent._lexical_groups",
-        "line": 96,
-        "end_line": 106,
+        "line": 98,
+        "end_line": 108,
         "signature": "papers: list[dict]",
         "returns": "list[dict]",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -12773,8 +12785,8 @@
       },
       {
         "name": "NormalizationAgent._semantic_merge",
-        "line": 108,
-        "end_line": 172,
+        "line": 110,
+        "end_line": 174,
         "signature": "self, groups: list[dict]",
         "returns": "list[dict]",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -12825,8 +12837,8 @@
       },
       {
         "name": "NormalizationAgent._semantic_merge.term",
-        "line": 137,
-        "end_line": 139,
+        "line": 139,
+        "end_line": 141,
         "signature": "i",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -12836,8 +12848,8 @@
       },
       {
         "name": "NormalizationAgent._canonical",
-        "line": 175,
-        "end_line": 209,
+        "line": 177,
+        "end_line": 216,
         "signature": "groups: list[dict]",
         "returns": "tuple[list[dict], dict]",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -12855,7 +12867,9 @@
           "defs.setdefault",
           "defs.values",
           "dict",
+          "enumerate",
           "label.lower",
+          "label_sources.append",
           "len",
           "list",
           "named.setdefault",
@@ -12867,9 +12881,27 @@
         ]
       },
       {
+        "name": "NormalizationAgent._lineage",
+        "line": 219,
+        "end_line": 236,
+        "signature": "papers: list[dict], concepts: list[dict], cmap: dict",
+        "returns": "list[dict]",
+        "summary": "Persist the exact map already used for relations; never infer it from labels.",
+        "calls": [
+          "ValueError",
+          "canonical.get",
+          "cmap.get",
+          "list",
+          "original.get",
+          "records.append",
+          "seen.add",
+          "set"
+        ]
+      },
+      {
         "name": "NormalizationAgent._settle_types",
-        "line": 211,
-        "end_line": 228,
+        "line": 238,
+        "end_line": 255,
         "signature": "self, concepts: list[dict]",
         "returns": "not annotated",
         "summary": "One narrow call for concepts the papers typed differently (the rest keep their single type).",
@@ -12889,8 +12921,8 @@
       },
       {
         "name": "NormalizationAgent._summarize",
-        "line": 230,
-        "end_line": 239,
+        "line": 257,
+        "end_line": 266,
         "signature": "self, concepts: list[dict], causal: list[dict], order: dict, n_papers: int",
         "returns": "dict",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -12903,8 +12935,8 @@
       },
       {
         "name": "_text",
-        "line": 242,
-        "end_line": 248,
+        "line": 269,
+        "end_line": 275,
         "signature": "v",
         "returns": "not annotated",
         "summary": "Model-supplied field as a plain string (small models sometimes return a dict or list for one).",
@@ -12918,8 +12950,8 @@
       },
       {
         "name": "_polarity",
-        "line": 251,
-        "end_line": 253,
+        "line": 278,
+        "end_line": 280,
         "signature": "v",
         "returns": "str",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -12932,8 +12964,8 @@
       },
       {
         "name": "_clean_concept",
-        "line": 256,
-        "end_line": 261,
+        "line": 283,
+        "end_line": 288,
         "signature": "c: dict",
         "returns": "dict",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -12950,8 +12982,8 @@
       },
       {
         "name": "_aggregate",
-        "line": 264,
-        "end_line": 287,
+        "line": 291,
+        "end_line": 314,
         "signature": "papers, cmap, field, keys, ends",
         "returns": "list[dict]",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -12974,8 +13006,8 @@
       },
       {
         "name": "_contradictions",
-        "line": 293,
-        "end_line": 306,
+        "line": 320,
+        "end_line": 333,
         "signature": "causal: list[dict]",
         "returns": "list[dict]",
         "summary": "Same cause and effect reported with opposite polarity (by different papers or conditions).\nNothing is merged or dropped; the conditions usually explain the disagreement.",
@@ -12989,8 +13021,8 @@
       },
       {
         "name": "_pagerank",
-        "line": 309,
-        "end_line": 323,
+        "line": 336,
+        "end_line": 350,
         "signature": "nodes, edges, d=0.85, iters=50",
         "returns": "dict",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -13005,8 +13037,8 @@
       },
       {
         "name": "_score",
-        "line": 326,
-        "end_line": 341,
+        "line": 353,
+        "end_line": 368,
         "signature": "concepts, relations, causal",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -13028,8 +13060,8 @@
       },
       {
         "name": "_scc",
-        "line": 344,
-        "end_line": 379,
+        "line": 371,
+        "end_line": 406,
         "signature": "nodes, succ",
         "returns": "list[list]",
         "summary": "Tarjan's strongly connected components (iterative).",
@@ -13051,8 +13083,8 @@
       },
       {
         "name": "_causal_order",
-        "line": 382,
-        "end_line": 417,
+        "line": 409,
+        "end_line": 444,
         "signature": "concepts, causal",
         "returns": "dict",
         "summary": "Causal rank = longest cause->effect path depth after collapsing cycles; chains = deepest paths.",
@@ -13465,7 +13497,7 @@
   {
     "path": "src/config.py",
     "language": ".py",
-    "sha256": "0bbeebbe709bf4d5b78cdf1ba4d76f9fa515f08fcc69521de1a1599dbbe28b87",
+    "sha256": "dce9762b389203809823d8c1209eaa9a9fb22b5487ba5d9856dde49d1542fd32",
     "functions": [
       {
         "name": "profile_for",
@@ -13504,8 +13536,8 @@
       },
       {
         "name": "secret",
-        "line": 376,
-        "end_line": 378,
+        "line": 379,
+        "end_line": 381,
         "signature": "name: str | None",
         "returns": "str | None",
         "summary": "Read an API key from .env (blank counts as unset).",
@@ -13516,8 +13548,8 @@
       },
       {
         "name": "model_for",
-        "line": 381,
-        "end_line": 385,
+        "line": 384,
+        "end_line": 388,
         "signature": "agent: str",
         "returns": "str",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16351,12 +16383,12 @@
   {
     "path": "src/run.py",
     "language": ".py",
-    "sha256": "66f9973d7f0b087cacaa629a6fce0e0481971e1312eabe736d999d7dd3c89ad0",
+    "sha256": "7d80143417581f228173ce6dd1787185310081084d6605662ce1197caab3a71b",
     "functions": [
       {
         "name": "_now",
-        "line": 55,
-        "end_line": 56,
+        "line": 56,
+        "end_line": 57,
         "signature": "",
         "returns": "str",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16367,8 +16399,8 @@
       },
       {
         "name": "_git",
-        "line": 59,
-        "end_line": 63,
+        "line": 60,
+        "end_line": 64,
         "signature": "",
         "returns": "str | None",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16379,8 +16411,8 @@
       },
       {
         "name": "_config",
-        "line": 66,
-        "end_line": 94,
+        "line": 67,
+        "end_line": 95,
         "signature": "",
         "returns": "dict",
         "summary": "Run settings for the manifest. Never includes keys.",
@@ -16395,8 +16427,8 @@
       },
       {
         "name": "_environment",
-        "line": 97,
-        "end_line": 174,
+        "line": 98,
+        "end_line": 175,
         "signature": "",
         "returns": "dict",
         "summary": "Bounded, best-effort hardware/serving snapshot. Only named non-secret settings are read.",
@@ -16437,8 +16469,8 @@
       },
       {
         "name": "_environment.integer",
-        "line": 99,
-        "end_line": 103,
+        "line": 100,
+        "end_line": 104,
         "signature": "name",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16448,8 +16480,8 @@
       },
       {
         "name": "Run.__init__",
-        "line": 178,
-        "end_line": 199,
+        "line": 179,
+        "end_line": 200,
         "signature": "self, run_id: str, collection: str",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16473,8 +16505,8 @@
       },
       {
         "name": "Run.read",
-        "line": 201,
-        "end_line": 202,
+        "line": 202,
+        "end_line": 203,
         "signature": "self, name: str",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16485,8 +16517,8 @@
       },
       {
         "name": "Run.write",
-        "line": 204,
-        "end_line": 206,
+        "line": 205,
+        "end_line": 207,
         "signature": "self, name: str, obj",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16498,8 +16530,8 @@
       },
       {
         "name": "Run.papers",
-        "line": 208,
-        "end_line": 209,
+        "line": 209,
+        "end_line": 210,
         "signature": "self",
         "returns": "list[dict]",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16512,8 +16544,8 @@
       },
       {
         "name": "Run.fail",
-        "line": 211,
-        "end_line": 231,
+        "line": 212,
+        "end_line": 232,
         "signature": "self, stage: str, exc: BaseException",
         "returns": "not annotated",
         "summary": "Keep the error with the run (error.log, run.json \"errors\") and in the central outputs/errors.csv.",
@@ -16542,8 +16574,8 @@
       },
       {
         "name": "Run.record",
-        "line": 233,
-        "end_line": 250,
+        "line": 234,
+        "end_line": 251,
         "signature": "self, stage: str, stats: dict, seconds: float",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16569,8 +16601,8 @@
       },
       {
         "name": "select_papers",
-        "line": 253,
-        "end_line": 287,
+        "line": 254,
+        "end_line": 288,
         "signature": "coll: dict, top_n: int | None, limit: int | None=None",
         "returns": "tuple[list[dict], dict]",
         "summary": "Rank by citation count and fetch only enough available PDFs for the requested selection.\nPapers without a DOI or without a count rank last, in Zotero order.",
@@ -16594,8 +16626,8 @@
       },
       {
         "name": "_figures",
-        "line": 290,
-        "end_line": 299,
+        "line": 291,
+        "end_line": 300,
         "signature": "what: str, **kw",
         "returns": "not annotated",
         "summary": "Figures and the grouped report (src.figures.build); a failure here never fails the run or integration.",
@@ -16608,8 +16640,8 @@
       },
       {
         "name": "_uncertain",
-        "line": 302,
-        "end_line": 308,
+        "line": 303,
+        "end_line": 309,
         "signature": "run: Run, stage: str, items: list[dict]",
         "returns": "not annotated",
         "summary": "Keep this stage's uncertain items in ontology/uncertain.json; a failure here never fails the run.",
@@ -16623,8 +16655,8 @@
       },
       {
         "name": "extract",
-        "line": 311,
-        "end_line": 367,
+        "line": 312,
+        "end_line": 370,
         "signature": "run: Run, args",
         "returns": "dict",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16652,6 +16684,7 @@
           "p.get",
           "paper_doubts.extend",
           "pdf_parse.parse",
+          "record.get",
           "reports.paper_compute",
           "reports.write_csv",
           "result.get",
@@ -16666,8 +16699,8 @@
       },
       {
         "name": "extract.process",
-        "line": 323,
-        "end_line": 348,
+        "line": 324,
+        "end_line": 351,
         "signature": "entry",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16681,6 +16714,7 @@
           "log",
           "open",
           "pdf_parse.parse",
+          "record.get",
           "result.get",
           "run.write",
           "sum",
@@ -16689,8 +16723,8 @@
       },
       {
         "name": "normalize",
-        "line": 370,
-        "end_line": 380,
+        "line": 373,
+        "end_line": 387,
         "signature": "run: Run, args",
         "returns": "dict",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16698,7 +16732,9 @@
           "NormalizationAgent",
           "_uncertain",
           "agent.run",
+          "concept_quality.quarantine",
           "log",
+          "paper.get",
           "reports.corpus_report",
           "run.papers",
           "run.write"
@@ -16706,8 +16742,8 @@
       },
       {
         "name": "ontology",
-        "line": 383,
-        "end_line": 398,
+        "line": 390,
+        "end_line": 405,
         "signature": "run: Run, args",
         "returns": "dict",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16729,8 +16765,8 @@
       },
       {
         "name": "enrich",
-        "line": 401,
-        "end_line": 418,
+        "line": 408,
+        "end_line": 425,
         "signature": "run: Run, args",
         "returns": "dict",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16751,8 +16787,8 @@
       },
       {
         "name": "interop",
-        "line": 421,
-        "end_line": 450,
+        "line": 428,
+        "end_line": 457,
         "signature": "run: Run, args",
         "returns": "dict",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16777,8 +16813,8 @@
       },
       {
         "name": "_require",
-        "line": 453,
-        "end_line": 455,
+        "line": 460,
+        "end_line": 462,
         "signature": "ok, message: str",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16788,8 +16824,8 @@
       },
       {
         "name": "check",
-        "line": 458,
-        "end_line": 538,
+        "line": 465,
+        "end_line": 545,
         "signature": "args",
         "returns": "not annotated",
         "summary": "Preflight for one collection. Also downloads the collection's PDFs into the cache.",
@@ -16835,8 +16871,8 @@
       },
       {
         "name": "check.keys",
-        "line": 464,
-        "end_line": 470,
+        "line": 471,
+        "end_line": 477,
         "signature": "",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16850,8 +16886,8 @@
       },
       {
         "name": "check.model",
-        "line": 472,
-        "end_line": 475,
+        "line": 479,
+        "end_line": 482,
         "signature": "",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16865,8 +16901,8 @@
       },
       {
         "name": "check.embeddings",
-        "line": 477,
-        "end_line": 481,
+        "line": 484,
+        "end_line": 488,
         "signature": "",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16877,8 +16913,8 @@
       },
       {
         "name": "check.corpus",
-        "line": 483,
-        "end_line": 492,
+        "line": 490,
+        "end_line": 499,
         "signature": "",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16895,8 +16931,8 @@
       },
       {
         "name": "check.parser",
-        "line": 494,
-        "end_line": 499,
+        "line": 501,
+        "end_line": 506,
         "signature": "",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16909,8 +16945,8 @@
       },
       {
         "name": "check.portal",
-        "line": 501,
-        "end_line": 509,
+        "line": 508,
+        "end_line": 516,
         "signature": "",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16930,8 +16966,8 @@
       },
       {
         "name": "check.matportal_check",
-        "line": 511,
-        "end_line": 519,
+        "line": 518,
+        "end_line": 526,
         "signature": "",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16948,8 +16984,8 @@
       },
       {
         "name": "check.store",
-        "line": 521,
-        "end_line": 526,
+        "line": 528,
+        "end_line": 533,
         "signature": "",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16964,8 +17000,8 @@
       },
       {
         "name": "collections",
-        "line": 541,
-        "end_line": 544,
+        "line": 548,
+        "end_line": 551,
         "signature": "args",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16978,8 +17014,8 @@
       },
       {
         "name": "lora_data",
-        "line": 547,
-        "end_line": 549,
+        "line": 554,
+        "end_line": 556,
         "signature": "args",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -16989,8 +17025,8 @@
       },
       {
         "name": "lora_eval",
-        "line": 552,
-        "end_line": 554,
+        "line": 559,
+        "end_line": 561,
         "signature": "args",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -17001,8 +17037,8 @@
       },
       {
         "name": "portal",
-        "line": 557,
-        "end_line": 564,
+        "line": 564,
+        "end_line": 571,
         "signature": "args",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -17018,8 +17054,8 @@
       },
       {
         "name": "ontologies",
-        "line": 567,
-        "end_line": 582,
+        "line": 574,
+        "end_line": 589,
         "signature": "args",
         "returns": "not annotated",
         "summary": "build: download missing ontology files, load them into Oxigraph, index labels, embed every term.\nstatus: is the store current (files, embedding model, newer MDS-Onto submission). search TEXT: try a query.",
@@ -17037,8 +17073,8 @@
       },
       {
         "name": "integrate",
-        "line": 585,
-        "end_line": 651,
+        "line": 592,
+        "end_line": 658,
         "signature": "args",
         "returns": "not annotated",
         "summary": "Cross-domain stage: map the domain ontologies of completed runs to each other in one master ontology.\nReads the domain runs; never rewrites them.",
@@ -17098,8 +17134,8 @@
       },
       {
         "name": "main",
-        "line": 657,
-        "end_line": 709,
+        "line": 664,
+        "end_line": 716,
         "signature": "",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -17406,6 +17442,101 @@
       "time"
     ],
     "summary": "Citation counts per DOI, tried in order: OpenCitations Index (open CC0 data, no key; one DOI per request),\nthen OpenAlex cited_by_count (key optional), then Crossref is-referenced-by-count (no key)."
+  },
+  {
+    "path": "src/tools/concept_quality.py",
+    "language": ".py",
+    "sha256": "339d72f9373a2c3b5cdf5eb4c70206defad32445c3b69ba2067088577bc6e55b",
+    "functions": [
+      {
+        "name": "label_issues",
+        "line": 13,
+        "end_line": 24,
+        "signature": "value",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "Counter",
+          "Counter((tuple(words[i:i + 4]) for i in range(len(words) - 3))).values",
+          "isinstance",
+          "issues.append",
+          "len",
+          "max",
+          "range",
+          "re.findall",
+          "tuple",
+          "value.casefold",
+          "value.strip"
+        ]
+      },
+      {
+        "name": "concept_issues",
+        "line": 27,
+        "end_line": 42,
+        "signature": "record",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "any",
+          "isinstance",
+          "issues.append",
+          "label_issues",
+          "record.get",
+          "set",
+          "sorted"
+        ]
+      },
+      {
+        "name": "bounded",
+        "line": 45,
+        "end_line": 48,
+        "signature": "value, limit=160",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "isinstance",
+          "len",
+          "re.sub",
+          "re.sub('\\\\s+', ' ', text).strip"
+        ]
+      },
+      {
+        "name": "quarantine",
+        "line": 51,
+        "end_line": 122,
+        "signature": "record",
+        "returns": "not annotated",
+        "summary": "Copy valid outputs; preserve rejected rows and their dependent links for review.",
+        "calls": [
+          "any",
+          "bad.add",
+          "bad.update",
+          "concept_issues",
+          "dict",
+          "fields.items",
+          "figures.append",
+          "isinstance",
+          "item.get",
+          "kept.append",
+          "label_issues",
+          "link.strip",
+          "r.get",
+          "r['kind'].startswith",
+          "record.get",
+          "review.append",
+          "set",
+          "sum",
+          "v.strip",
+          "value.get",
+          "value.strip"
+        ]
+      }
+    ],
+    "imports": [
+      "collections",
+      "re"
+    ],
+    "summary": "Quarantine malformed concepts and dependent links while retaining their source records for review."
   },
   {
     "path": "src/tools/files.py",
@@ -20136,7 +20267,7 @@
   {
     "path": "src/tools/owl.py",
     "language": ".py",
-    "sha256": "56c1f4f50f6b92272b9a5098d0c4646bf7a078ddb326b764910dd93fce438d44",
+    "sha256": "d22433c9f2686c30a4d3369e7cb3f9a9421db791f530c3d35f4add4834ce079c",
     "functions": [
       {
         "name": "base",
@@ -20234,7 +20365,7 @@
         "end_line": 131,
         "signature": "c: dict, mappings: list[dict]",
         "returns": "list[tuple]",
-        "summary": "(predicate, text, source IRI or None, origin) for a class: its label (rdfs:label and skos:prefLabel),\nthe paper synonyms the model kept, and every label of each exactly or equivalently matched external term.",
+        "summary": "(predicate, text, source IRI or None, origin) for a class: its label (rdfs:label and skos:prefLabel),\noriginal member labels, reviewed paper synonyms, and labels of exactly or equivalently matched external terms.",
         "calls": [
           "_hidden",
           "c.get",
@@ -20263,7 +20394,7 @@
       {
         "name": "build",
         "line": 147,
-        "end_line": 334,
+        "end_line": 339,
         "signature": "classes: list[dict], properties: dict, mappings: list[dict], papers: list[dict], run_id: str, domain: str",
         "returns": "rdflib.Graph",
         "summary": "One ontology per domain; local class IRIs are domain-scoped to preserve separate meanings.",
@@ -20305,11 +20436,15 @@
           "r.get",
           "rdflib.Graph",
           "ref",
+          "s['label'].lower",
           "seen.add",
           "set",
+          "sorted",
           "source.values",
+          "sources.append",
           "sources.get",
           "stack.pop",
+          "text.lower",
           "tuple",
           "upper.describe",
           "upper.describe(t).get",
@@ -20346,8 +20481,8 @@
       },
       {
         "name": "serialize_turtle",
-        "line": 337,
-        "end_line": 338,
+        "line": 342,
+        "end_line": 343,
         "signature": "g: rdflib.Graph",
         "returns": "str",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -20357,8 +20492,8 @@
       },
       {
         "name": "serialize",
-        "line": 341,
-        "end_line": 344,
+        "line": 346,
+        "end_line": 349,
         "signature": "g: rdflib.Graph",
         "returns": "str",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -20370,8 +20505,8 @@
       },
       {
         "name": "_parents",
-        "line": 347,
-        "end_line": 348,
+        "line": 352,
+        "end_line": 353,
         "signature": "g, c",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -20382,8 +20517,8 @@
       },
       {
         "name": "_depth_to_entity",
-        "line": 351,
-        "end_line": 363,
+        "line": 356,
+        "end_line": 368,
         "signature": "g, c",
         "returns": "int | None",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -20396,8 +20531,8 @@
       },
       {
         "name": "validate",
-        "line": 366,
-        "end_line": 408,
+        "line": 371,
+        "end_line": 413,
         "signature": "g: rdflib.Graph, text: str, extra: list[str]=()",
         "returns": "dict",
         "summary": "Structural checks only (no reasoner), plus checks made elsewhere (extra: the interop mapping checks).",
@@ -20426,8 +20561,8 @@
       },
       {
         "name": "_ancestors",
-        "line": 411,
-        "end_line": 418,
+        "line": 416,
+        "end_line": 423,
         "signature": "g, c",
         "returns": "set",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -20440,8 +20575,8 @@
       },
       {
         "name": "metrics",
-        "line": 421,
-        "end_line": 508,
+        "line": 426,
+        "end_line": 513,
         "signature": "g: rdflib.Graph, classes: list[dict], mappings: list[dict], properties: dict",
         "returns": "dict",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -20498,8 +20633,8 @@
       },
       {
         "name": "metrics.cover",
-        "line": 434,
-        "end_line": 435,
+        "line": 439,
+        "end_line": 440,
         "signature": "pred",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -21903,9 +22038,325 @@
     "summary": "Verify ontology-guided planning and read-only provenance against guarded fixtures."
   },
   {
+    "path": "tests/test_concept_lineage.py",
+    "language": ".py",
+    "sha256": "573fbf42e2e3f6ed5034a5b3e22c1899b3ef2221023a286e8775cc055c40202c",
+    "functions": [
+      {
+        "name": "concept",
+        "line": 20,
+        "end_line": 22,
+        "signature": "cid, label, synonyms=()",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "list"
+        ]
+      },
+      {
+        "name": "papers",
+        "line": 25,
+        "end_line": 31,
+        "signature": "",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "concept"
+        ]
+      },
+      {
+        "name": "OfflineNormalization.__init__",
+        "line": 35,
+        "end_line": 36,
+        "signature": "self, ledger=None",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": []
+      },
+      {
+        "name": "OfflineNormalization._semantic_merge",
+        "line": 38,
+        "end_line": 40,
+        "signature": "self, groups",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": []
+      },
+      {
+        "name": "OfflineNormalization._summarize",
+        "line": 42,
+        "end_line": 43,
+        "signature": "self, *args",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": []
+      },
+      {
+        "name": "test_exact_map_scopes_local_ids_to_their_papers",
+        "line": 46,
+        "end_line": 63,
+        "signature": "",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "NormalizationAgent._canonical",
+          "NormalizationAgent._lineage",
+          "len",
+          "next",
+          "papers",
+          "set"
+        ]
+      },
+      {
+        "name": "test_cleaning_and_normalization_return_recorded_lineage",
+        "line": 66,
+        "end_line": 75,
+        "signature": "",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "OfflineNormalization",
+          "OfflineNormalization().run",
+          "len",
+          "original[0]['concepts'].append",
+          "papers"
+        ]
+      },
+      {
+        "name": "test_same_final_label_fold_retains_every_original",
+        "line": 78,
+        "end_line": 85,
+        "signature": "",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "NormalizationAgent._canonical",
+          "cmap.values",
+          "len",
+          "papers",
+          "set"
+        ]
+      },
+      {
+        "name": "test_case_dedup_keeps_original_spelling_in_lineage",
+        "line": 88,
+        "end_line": 94,
+        "signature": "",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "OfflineNormalization",
+          "OfflineNormalization().run",
+          "concept",
+          "len",
+          "papers"
+        ]
+      },
+      {
+        "name": "test_invalid_identity_map_fails_with_source_identified",
+        "line": 97,
+        "end_line": 104,
+        "signature": "",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "NormalizationAgent._canonical",
+          "NormalizationAgent._lexical_groups",
+          "NormalizationAgent._lineage",
+          "copy.deepcopy",
+          "original[0]['concepts'].append",
+          "papers",
+          "pytest.raises"
+        ]
+      },
+      {
+        "name": "test_enrichment_preserves_originals_but_can_reject_synonyms",
+        "line": 107,
+        "end_line": 118,
+        "signature": "",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "NormalizationAgent._canonical",
+          "agent._apply",
+          "any",
+          "c.update",
+          "object.__new__",
+          "papers",
+          "set"
+        ]
+      },
+      {
+        "name": "test_old_classes_without_label_sources_keep_existing_review_behavior",
+        "line": 121,
+        "end_line": 127,
+        "signature": "",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "object.__new__",
+          "object.__new__(EnrichmentAgent)._apply"
+        ]
+      },
+      {
+        "name": "test_placement_carries_label_provenance_forward",
+        "line": 130,
+        "end_line": 141,
+        "signature": "",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "OfflineNormalization",
+          "OfflineNormalization().run",
+          "agent.run",
+          "object.__new__",
+          "papers",
+          "patch.object"
+        ]
+      },
+      {
+        "name": "test_owl_export_cites_label_sources_and_preserves_hidden_label_policy",
+        "line": 144,
+        "end_line": 164,
+        "signature": "",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "Literal",
+          "NormalizationAgent._canonical",
+          "URIRef",
+          "c.update",
+          "graph.objects",
+          "graph.subjects",
+          "owl.build",
+          "owl.serialize",
+          "owl.validate",
+          "papers",
+          "sources"
+        ]
+      },
+      {
+        "name": "test_owl_export_cites_label_sources_and_preserves_hidden_label_policy.sources",
+        "line": 157,
+        "end_line": 161,
+        "signature": "predicate, label",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "Literal",
+          "graph.objects",
+          "graph.subjects"
+        ]
+      },
+      {
+        "name": "test_pipeline_writer_saves_lineage_and_other_artifacts",
+        "line": 167,
+        "end_line": 185,
+        "signature": "tmp_path",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "(tmp_path / 'corpus_report.md').is_file",
+          "(tmp_path / 'normalized/concept_lineage.json').read_text",
+          "(tmp_path / 'normalized/concepts.json').is_file",
+          "SavedRun",
+          "SimpleNamespace",
+          "copy.deepcopy",
+          "json.dumps",
+          "json.loads",
+          "len",
+          "papers",
+          "patch.object",
+          "path.parent.mkdir",
+          "path.write_text",
+          "run.normalize"
+        ]
+      },
+      {
+        "name": "test_pipeline_writer_saves_lineage_and_other_artifacts.SavedRun.papers",
+        "line": 174,
+        "end_line": 175,
+        "signature": "self",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "copy.deepcopy"
+        ]
+      },
+      {
+        "name": "test_pipeline_writer_saves_lineage_and_other_artifacts.SavedRun.write",
+        "line": 176,
+        "end_line": 179,
+        "signature": "self, name, value",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "json.dumps",
+          "path.parent.mkdir",
+          "path.write_text"
+        ]
+      },
+      {
+        "name": "test_quarantine_and_exact_lineage_work_together",
+        "line": 188,
+        "end_line": 206,
+        "signature": "tmp_path",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "SavedRun",
+          "SimpleNamespace",
+          "all",
+          "concept",
+          "copy.deepcopy",
+          "len",
+          "original[0]['concepts'].append",
+          "papers",
+          "patch.object",
+          "run.normalize"
+        ]
+      },
+      {
+        "name": "test_quarantine_and_exact_lineage_work_together.SavedRun.papers",
+        "line": 197,
+        "end_line": 198,
+        "signature": "self",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "copy.deepcopy"
+        ]
+      },
+      {
+        "name": "test_quarantine_and_exact_lineage_work_together.SavedRun.write",
+        "line": 199,
+        "end_line": 200,
+        "signature": "self, name, value",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": []
+      }
+    ],
+    "imports": [
+      "copy",
+      "json",
+      "pytest",
+      "rdflib",
+      "rdflib.namespace",
+      "src",
+      "src.agents.enrichment",
+      "src.agents.normalization",
+      "src.agents.ontology",
+      "src.tools",
+      "types",
+      "unittest.mock"
+    ],
+    "summary": "Verify exact normalization identity and original-label provenance through downstream export."
+  },
+  {
     "path": "tests/test_data_journey.py",
     "language": ".py",
-    "sha256": "839bf8391d694b670d93bc2ec0d79741dcc3126cac2dc64f2654f0a45a88df85",
+    "sha256": "806f92cf54b1b07cab2964a997b667e8baa1315f96486bf686a017b2af52b6c0",
     "functions": [
       {
         "name": "write",
@@ -21976,7 +22427,7 @@
       {
         "name": "test_agent_guide_exposes_retained_and_omitted_information",
         "line": 69,
-        "end_line": 75,
+        "end_line": 77,
         "signature": "",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -21984,14 +22435,15 @@
           "Graph",
           "Graph().parse",
           "any",
+          "function.endswith",
           "guide",
           "next"
         ]
       },
       {
         "name": "test_repeated_paper_local_ids_remain_distinct_candidates",
-        "line": 78,
-        "end_line": 84,
+        "line": 80,
+        "end_line": 86,
         "signature": "saved",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -22003,8 +22455,8 @@
       },
       {
         "name": "test_original_label_shared_by_canonical_targets_is_ambiguous",
-        "line": 87,
-        "end_line": 92,
+        "line": 89,
+        "end_line": 94,
         "signature": "saved",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -22020,8 +22472,8 @@
       },
       {
         "name": "test_partial_recorded_map_is_not_filled_with_inferred_merges",
-        "line": 95,
-        "end_line": 100,
+        "line": 97,
+        "end_line": 102,
         "signature": "saved",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -22034,8 +22486,8 @@
       },
       {
         "name": "test_changed_saved_lineage_label_requires_review",
-        "line": 103,
-        "end_line": 106,
+        "line": 105,
+        "end_line": 108,
         "signature": "saved",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -22047,8 +22499,8 @@
       },
       {
         "name": "test_merged_membership_is_independent_of_cross_domain_mapping",
-        "line": 109,
-        "end_line": 114,
+        "line": 111,
+        "end_line": 116,
         "signature": "saved",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -22059,8 +22511,8 @@
       },
       {
         "name": "test_integration_not_selecting_run_does_not_claim_membership",
-        "line": 117,
-        "end_line": 121,
+        "line": 119,
+        "end_line": 123,
         "signature": "saved",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -22072,8 +22524,8 @@
       },
       {
         "name": "test_changed_iri_and_reviewed_aliases_are_not_hidden",
-        "line": 124,
-        "end_line": 129,
+        "line": 126,
+        "end_line": 131,
         "signature": "saved",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -22087,8 +22539,8 @@
       },
       {
         "name": "test_snapshots_are_read_only_redacted_and_links_resolve",
-        "line": 132,
-        "end_line": 143,
+        "line": 134,
+        "end_line": 145,
         "signature": "saved, tmp_path",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -22109,8 +22561,8 @@
       },
       {
         "name": "test_snapshot_detects_source_change",
-        "line": 146,
-        "end_line": 149,
+        "line": 148,
+        "end_line": 151,
         "signature": "saved",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -22124,8 +22576,8 @@
       },
       {
         "name": "test_unsafe_identifiers_are_rejected",
-        "line": 153,
-        "end_line": 154,
+        "line": 155,
+        "end_line": 156,
         "signature": "bad",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -22229,6 +22681,158 @@
       "sys"
     ],
     "summary": "Verify documentation navigation, safe publication boundaries and Markdown rendering."
+  },
+  {
+    "path": "tests/test_extraction_quality.py",
+    "language": ".py",
+    "sha256": "1bc762129a47cc11872ca6f7f8eb0aa554e8369bf79a62e326f6ea635f6068ee",
+    "functions": [
+      {
+        "name": "record",
+        "line": 18,
+        "end_line": 22,
+        "signature": "",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": []
+      },
+      {
+        "name": "test_actual_label_is_quarantined_with_dependent_records_and_preserved_raw",
+        "line": 25,
+        "end_line": 36,
+        "signature": "",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "concept_quality.quarantine",
+          "copy.deepcopy",
+          "len",
+          "record"
+        ]
+      },
+      {
+        "name": "test_merge_and_finalize_preserve_valid_claims_after_id_renumbering",
+        "line": 39,
+        "end_line": 48,
+        "signature": "",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "ExtractionAgent._finalize",
+          "ExtractionAgent._merge",
+          "all",
+          "len",
+          "record"
+        ]
+      },
+      {
+        "name": "test_mult_pass_does_not_feed_bad_labels_forward_or_confuse_old_ids",
+        "line": 51,
+        "end_line": 64,
+        "signature": "",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "Counter",
+          "ExtractionAgent.__new__",
+          "ExtractionAgent._merge",
+          "Mock",
+          "agent._multi_pass",
+          "len"
+        ]
+      },
+      {
+        "name": "test_legacy_cache_is_guarded_without_overwriting_cache",
+        "line": 67,
+        "end_line": 81,
+        "signature": "tmp_path, monkeypatch",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "AssertionError",
+          "ExtractionAgent.__new__",
+          "Mock",
+          "agent.call.assert_not_called",
+          "agent.run",
+          "hashlib.sha256",
+          "hashlib.sha256(b'fixturechunk').hexdigest",
+          "json.dumps",
+          "len",
+          "monkeypatch.setattr",
+          "path.parent.mkdir",
+          "path.read_bytes",
+          "path.write_text",
+          "record"
+        ]
+      },
+      {
+        "name": "test_normalization_boundary_guards_existing_paper_records",
+        "line": 84,
+        "end_line": 104,
+        "signature": "tmp_path, monkeypatch",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "Run",
+          "copy.deepcopy",
+          "len",
+          "monkeypatch.setattr",
+          "record",
+          "run.normalize"
+        ]
+      },
+      {
+        "name": "test_normalization_boundary_guards_existing_paper_records.Run.papers",
+        "line": 91,
+        "end_line": 91,
+        "signature": "self",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": []
+      },
+      {
+        "name": "test_normalization_boundary_guards_existing_paper_records.Run.write",
+        "line": 92,
+        "end_line": 92,
+        "signature": "self, name, data",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": []
+      },
+      {
+        "name": "test_normalization_boundary_guards_existing_paper_records.Agent.__init__",
+        "line": 95,
+        "end_line": 95,
+        "signature": "self, ledger",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": []
+      },
+      {
+        "name": "test_normalization_boundary_guards_existing_paper_records.Agent.run",
+        "line": 96,
+        "end_line": 98,
+        "signature": "self, papers",
+        "returns": "not annotated",
+        "summary": "Read the linked implementation and its call-site contract.",
+        "calls": [
+          "len"
+        ]
+      }
+    ],
+    "imports": [
+      "collections",
+      "copy",
+      "hashlib",
+      "json",
+      "pathlib",
+      "src",
+      "src.agents",
+      "src.agents.extraction",
+      "src.tools",
+      "unittest.mock"
+    ],
+    "summary": "Verify malformed extraction quarantine across cached, merged and normalization boundaries."
   },
   {
     "path": "tests/test_gemini_quota.py",
@@ -22785,7 +23389,7 @@
   {
     "path": "tests/test_operational_contracts.py",
     "language": ".py",
-    "sha256": "586fa66ec427c993d3c1a6e301b293cac14f64f70873789ebab2cde9032da756",
+    "sha256": "41e4612709a8aee162ae75807ef5c4fd98017329a8dbb7baff8af87f8e514a8d",
     "functions": [
       {
         "name": "graph",
@@ -22859,7 +23463,7 @@
       {
         "name": "test_normalization_recipe_answers_binding_and_call_questions",
         "line": 51,
-        "end_line": 64,
+        "end_line": 65,
         "signature": "graph",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -22868,13 +23472,14 @@
           "guide",
           "len",
           "next",
+          "row['function'].endswith",
           "set"
         ]
       },
       {
         "name": "test_contracts_cover_every_stage_with_reviewed_operations_and_inputs",
-        "line": 67,
-        "end_line": 74,
+        "line": 68,
+        "end_line": 75,
         "signature": "graph",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -22887,8 +23492,8 @@
       },
       {
         "name": "test_before_checks_accept_fixture_but_do_not_execute",
-        "line": 77,
-        "end_line": 82,
+        "line": 78,
+        "end_line": 83,
         "signature": "graph, run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -22903,8 +23508,8 @@
       },
       {
         "name": "test_after_checks_require_scientific_review_even_with_valid_joins",
-        "line": 85,
-        "end_line": 89,
+        "line": 86,
+        "end_line": 90,
         "signature": "graph, run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -22915,8 +23520,8 @@
       },
       {
         "name": "test_malformed_concepts_block_normalization",
-        "line": 93,
-        "end_line": 95,
+        "line": 94,
+        "end_line": 96,
         "signature": "graph, run, broken",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -22928,8 +23533,8 @@
       },
       {
         "name": "test_unresolved_paper_reference_blocks",
-        "line": 98,
-        "end_line": 101,
+        "line": 99,
+        "end_line": 102,
         "signature": "graph, run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -22942,8 +23547,8 @@
       },
       {
         "name": "test_wrong_canonical_endpoint_blocks_downstream",
-        "line": 104,
-        "end_line": 108,
+        "line": 105,
+        "end_line": 109,
         "signature": "graph, run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -22955,12 +23560,13 @@
       },
       {
         "name": "test_paper_coverage_loss_blocks_without_inventing_lineage",
-        "line": 111,
-        "end_line": 115,
+        "line": 112,
+        "end_line": 117,
         "signature": "graph, run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
         "calls": [
+          "(run / 'normalized/concept_lineage.json').exists",
           "assess",
           "next",
           "write"
@@ -22968,8 +23574,8 @@
       },
       {
         "name": "test_no_saved_completion_is_not_success",
-        "line": 118,
-        "end_line": 120,
+        "line": 120,
+        "end_line": 122,
         "signature": "graph, run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -22980,8 +23586,8 @@
       },
       {
         "name": "test_direct_invocation_remains_distinct_from_orchestrator",
-        "line": 123,
-        "end_line": 127,
+        "line": 125,
+        "end_line": 129,
         "signature": "graph",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -22993,8 +23599,8 @@
       },
       {
         "name": "test_agent_can_follow_graph_from_stage_to_argument_artifact_and_checker",
-        "line": 130,
-        "end_line": 139,
+        "line": 132,
+        "end_line": 141,
         "signature": "graph",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23011,8 +23617,8 @@
       },
       {
         "name": "scientific_run",
-        "line": 143,
-        "end_line": 166,
+        "line": 145,
+        "end_line": 168,
         "signature": "run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23034,8 +23640,8 @@
       },
       {
         "name": "test_scientific_stages_check_actual_saved_joins",
-        "line": 170,
-        "end_line": 173,
+        "line": 172,
+        "end_line": 175,
         "signature": "graph, scientific_run, stage",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23047,8 +23653,8 @@
       },
       {
         "name": "test_missing_canonical_identity_is_not_silent_loss",
-        "line": 177,
-        "end_line": 180,
+        "line": 179,
+        "end_line": 182,
         "signature": "graph, scientific_run, stage, path",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23063,8 +23669,8 @@
       },
       {
         "name": "test_excluded_classes_do_not_require_live_enrichment",
-        "line": 183,
-        "end_line": 186,
+        "line": 185,
+        "end_line": 188,
         "signature": "graph, scientific_run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23077,8 +23683,8 @@
       },
       {
         "name": "test_unresolved_ontology_endpoints_block",
-        "line": 193,
-        "end_line": 195,
+        "line": 195,
+        "end_line": 197,
         "signature": "graph, scientific_run, stage, path, field, value",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23092,8 +23698,8 @@
       },
       {
         "name": "test_false_saved_validation_is_not_success",
-        "line": 198,
-        "end_line": 201,
+        "line": 200,
+        "end_line": 203,
         "signature": "graph, scientific_run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23105,8 +23711,8 @@
       },
       {
         "name": "test_parseable_but_different_exports_are_rejected",
-        "line": 204,
-        "end_line": 207,
+        "line": 206,
+        "end_line": 209,
         "signature": "graph, scientific_run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23118,8 +23724,8 @@
       },
       {
         "name": "test_large_export_comparison_is_explicitly_deferred",
-        "line": 210,
-        "end_line": 218,
+        "line": 212,
+        "end_line": 220,
         "signature": "graph, scientific_run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23139,8 +23745,8 @@
       },
       {
         "name": "test_mapping_local_identifier_must_exist",
-        "line": 221,
-        "end_line": 224,
+        "line": 223,
+        "end_line": 226,
         "signature": "graph, scientific_run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23152,8 +23758,8 @@
       },
       {
         "name": "test_one_concept_can_map_to_multiple_external_terms",
-        "line": 227,
-        "end_line": 232,
+        "line": 229,
+        "end_line": 234,
         "signature": "graph, scientific_run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23164,8 +23770,8 @@
       },
       {
         "name": "test_extraction_coverage_checks_selection_not_only_completion",
-        "line": 235,
-        "end_line": 240,
+        "line": 237,
+        "end_line": 242,
         "signature": "graph, scientific_run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23177,8 +23783,8 @@
       },
       {
         "name": "wrapper_run",
-        "line": 244,
-        "end_line": 249,
+        "line": 246,
+        "end_line": 251,
         "signature": "tmp_path",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23188,8 +23794,8 @@
       },
       {
         "name": "test_wrapper_parsing_coverage_and_sections_are_checked",
-        "line": 252,
-        "end_line": 255,
+        "line": 254,
+        "end_line": 257,
         "signature": "graph, wrapper_run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23200,8 +23806,8 @@
       },
       {
         "name": "test_wrapper_ingestion_requires_selected_pdf_metadata",
-        "line": 258,
-        "end_line": 261,
+        "line": 260,
+        "end_line": 263,
         "signature": "graph, wrapper_run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23212,8 +23818,8 @@
       },
       {
         "name": "test_setup_never_invents_ready_from_domain_outputs",
-        "line": 265,
-        "end_line": 266,
+        "line": 267,
+        "end_line": 268,
         "signature": "graph, scientific_run, stage",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23224,8 +23830,8 @@
       },
       {
         "name": "test_before_checks_do_not_require_later_outputs",
-        "line": 269,
-        "end_line": 273,
+        "line": 271,
+        "end_line": 275,
         "signature": "graph, scientific_run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23237,8 +23843,8 @@
       },
       {
         "name": "test_report_availability_and_skips_are_distinct_from_completion",
-        "line": 276,
-        "end_line": 286,
+        "line": 278,
+        "end_line": 288,
         "signature": "graph, tmp_path",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23253,8 +23859,8 @@
       },
       {
         "name": "integration_run",
-        "line": 290,
-        "end_line": 307,
+        "line": 292,
+        "end_line": 309,
         "signature": "scientific_run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23275,8 +23881,8 @@
       },
       {
         "name": "test_integration_resolves_mapping_and_bridge_provenance",
-        "line": 310,
-        "end_line": 315,
+        "line": 312,
+        "end_line": 317,
         "signature": "graph, integration_run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23290,8 +23896,8 @@
       },
       {
         "name": "test_integration_unknown_bridge_member_blocks",
-        "line": 318,
-        "end_line": 321,
+        "line": 320,
+        "end_line": 323,
         "signature": "graph, integration_run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23304,8 +23910,8 @@
       },
       {
         "name": "test_integration_rejects_path_escape_and_malformed_endpoints",
-        "line": 324,
-        "end_line": 328,
+        "line": 326,
+        "end_line": 330,
         "signature": "graph, integration_run",
         "returns": "not annotated",
         "summary": "Read the linked implementation and its call-site contract.",
@@ -23905,7 +24511,7 @@
   {
     "path": "tests/test_slurm_metrics.py",
     "language": ".py",
-    "sha256": "66d6cdb5657d74a1a24f6c241a9aae71399f6c858bdb49443ab5b8591bf04a02",
+    "sha256": "29ef8dcc4e228b0e653089bbcbd699a2303ff133370d7fb352b5283c498a0251",
     "functions": [
       {
         "name": "write",

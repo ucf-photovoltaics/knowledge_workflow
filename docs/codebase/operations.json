@@ -762,7 +762,7 @@
     "normalize": {
       "task": "Build the canonical corpus vocabulary",
       "recovery": "If paper contracts or references fail, repair/retry extraction in an isolated attempt before rerunning normalization. If normalized products are damaged, restart normalization using the same intact corpus and review all downstream products for staleness.",
-      "limitation": "The canonical map is transient. Exact original concept ID to canonical ID lineage is not persisted; alt_labels and supporting paper IDs are weaker provenance.",
+      "limitation": "New normalizations persist exact identities in normalized/concept_lineage.json. Older saved runs lack this sidecar; alternate labels and supporting paper IDs cannot reconstruct every merge. Legacy core checks remain compatible with those runs.",
       "bindings": [
         {
           "id": "papers",
@@ -853,6 +853,15 @@
           "selector": "$",
           "direction": "output",
           "transformation": "corpus_report writes the Markdown report as a side effect."
+        },
+        {
+          "id": "result-concept-lineage",
+          "function": "src/run.py:normalize",
+          "argument": "norm",
+          "artifact": "normalized/concept_lineage.json",
+          "selector": "$.concept_lineage",
+          "direction": "output",
+          "transformation": "Run.write serializes the exact paper/original_id to canonical_id mapping returned by NormalizationAgent.run; older saved stages are not backfilled."
         }
       ],
       "checks": [
@@ -986,39 +995,46 @@
           "order": 4,
           "label": "Assign canonical identities",
           "function": "src/agents/normalization.py:NormalizationAgent._canonical",
-          "definition": "Create k IDs, alternate labels, supporting paper lists and the transient (paper key, original concept ID) mapping."
+          "definition": "Create canonical k IDs, alternate labels, per-label paper sources and the exact paper-local identity map used by claims and persisted lineage."
+        },
+        {
+          "id": "record-lineage",
+          "order": 5,
+          "label": "Record exact original identities",
+          "function": "src/agents/normalization.py:NormalizationAgent._lineage",
+          "definition": "Validate paper-local concept identities and canonical targets, then produce original/canonical IDs, labels, types and synonyms for the saved lineage sidecar."
         },
         {
           "id": "5",
-          "order": 5,
+          "order": 6,
           "label": "Resolve type votes",
           "function": "src/agents/normalization.py:NormalizationAgent._settle_types",
           "definition": "Review conflicting canonical type votes with the model."
         },
         {
           "id": "6",
-          "order": 6,
+          "order": 7,
           "label": "Join corpus claims",
           "function": "src/agents/normalization.py:_aggregate",
           "definition": "Remap relation/causal endpoints through the canonical map, combine support and retain limited evidence; measurements are remapped separately in run."
         },
         {
           "id": "7",
-          "order": 7,
+          "order": 8,
           "label": "Flag contradictions and score",
           "function": "src/agents/normalization.py:_contradictions",
           "definition": "Keep opposed causal claims for review; _score then ranks concepts by configured evidence and graph signals."
         },
         {
           "id": "8",
-          "order": 8,
+          "order": 9,
           "label": "Order causal structure",
           "function": "src/agents/normalization.py:_causal_order",
           "definition": "Compute causal ranks/chains and cycles without claiming causal proof."
         },
         {
           "id": "9",
-          "order": 9,
+          "order": 10,
           "label": "Summarize and save",
           "function": "src/agents/normalization.py:NormalizationAgent._summarize",
           "definition": "Generate the corpus summary; src.run.normalize writes returned fields and reports.corpus_report writes summary statistics."
@@ -2372,7 +2388,7 @@
   },
   "callable_definitions": {
     "src/agents/normalization.py:NormalizationAgent.run": "Transform a list of persisted paper records into canonical concepts, remapped relations/causal claims/measurements, contradictions, causal order, summary and agent statistics. Cleans the supplied in-memory paper lists; uses optional embedding-assisted merge proposals and model-reviewed decisions. Does not write normalized files itself.",
-    "src/run.py:normalize": "Load this run's saved paper records, instantiate NormalizationAgent with its ledger, run normalization, save uncertainty and seven returned fields, then write the corpus report/statistics. Returns report-derived corpus statistics for stage recording.",
+    "src/run.py:normalize": "Load and quarantine malformed records from this run's saved paper records, instantiate NormalizationAgent with its ledger, run normalization, save uncertainty and eight returned fields including exact concept lineage, then write the corpus report/statistics. Returns report-derived corpus statistics for stage recording.",
     "src/run.py:Run.papers": "Read sorted papers/*.json under this run directory and return their JSON objects as a list. It does not discover Zotero items or validate every record schema.",
     "src/run.py:Run.write": "Serialize an object as JSON or retain supplied text, then atomically write it relative to the run directory. This is a persistence utility, not a scientific validator.",
     "src/tools/reports.py:corpus_report": "Write a Markdown corpus report from normalized results and source papers, and return derived corpus statistics for the orchestrator to persist separately.",
@@ -2388,7 +2404,7 @@
     "papers/*.json": "One finalized extraction record per paper, identified by key, retaining concepts, relations, causal claims, measurements, figures and evidence/verification information. These persisted records are the normalization input boundary.",
     "ingestion.json": "Selected citation-ranked domain papers, source metadata and corpus selection information produced by dashboard ingestion. Includes local PDF paths for parsing.",
     "parsed/*.json": "Saved parser and chunker results for a selected paper, including key, source PDF hash and extraction text chunks; these are wrapper intermediate records.",
-    "normalized/concepts.json": "Canonical corpus vocabulary with k identifiers, labels, alternate labels, type votes, supporting papers, evidence-derived definitions and importance/rank fields. Exact original concept-ID merge lineage is not persisted here.",
+    "normalized/concepts.json": "Canonical corpus vocabulary with k identifiers, labels, alternate labels, label_sources, type votes, supporting papers and ranks. The companion concept_lineage.json records exact original identities for new runs.",
     "normalized/relations.json": "Corpus relations whose subject and object use canonical concept IDs, aggregated with supporting papers, counts and retained evidence.",
     "normalized/causal.json": "Corpus causal claims with canonical cause/effect IDs, polarity, source papers, conditions and retained evidence; causal wording is not proof of causation.",
     "normalized/measurements.json": "Reported values associated with canonical property concept IDs and optional entity IDs, source paper, units, conditions and evidence status.",
@@ -2414,6 +2430,7 @@
     "ontology/review_issues.json": "Shared latest class-review artifact refreshed by placement and enrichment; it is not an immutable record of each earlier stage review.",
     "ontology/cross_domain_candidates.json": "Advisory historical correspondences found during enrichment, not the explicitly selected domain-run inputs used by IntegrationAgent.",
     "index.md": "Report figure inventory with source descriptions and recorded skipped/failed figure findings; inspect alongside report files.",
-    "sweep_summary.csv": "Report-derived domain/integration overview table; optional supplied sweep outcomes are also represented in the report."
+    "sweep_summary.csv": "Report-derived domain/integration overview table; optional supplied sweep outcomes are also represented in the report.",
+    "normalized/concept_lineage.json": "Exact paper-key/original-concept-ID to canonical-ID mapping for accepted records, preserving original labels, types, synonyms and canonical labels. Absent in older completed normalizations."
   }
 }

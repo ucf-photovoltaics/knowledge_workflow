@@ -72,7 +72,9 @@ def test_agent_guide_exposes_retained_and_omitted_information():
     recipe=guide(g,'normalize')
     t=next(t for t in recipe['information_transformations'] if t['id']=='normalize')
     assert t['from']==['extracted'] and t['to']==['canonical']
-    assert any('not persisted' in s for s in t['omits'])
+    assert 'saved original-to-canonical identity map' in t['adds']
+    assert any(function.endswith('NormalizationAgent._lineage') for function in t['functions'])
+    assert 'legacy n15' in t['limitation']
 
 
 def test_repeated_paper_local_ids_remain_distinct_candidates(saved):

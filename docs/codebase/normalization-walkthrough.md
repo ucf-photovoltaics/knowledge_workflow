@@ -52,7 +52,7 @@ The method mutates the supplied paper lists in memory; this stage's orchestrator
 saved `papers/*.json` inputs.
 
 The returned dictionary has concepts, relations, causal, measurements, contradictions, causal_order,
-summary and internal stats. The orchestrator saves seven returned fields. `reports.corpus_report()`
+summary, concept_lineage and internal stats. The orchestrator saves eight returned fields. `reports.corpus_report()`
 writes Markdown and returns separate report-derived statistics for `normalized/corpus_stats.json`.
 Do not serialize internal `norm.stats` as a substitute for the report-derived artifact.
 
@@ -75,9 +75,10 @@ checks do not change the pipeline's own runtime acceptance rules or repair sourc
 still apply. If normalization is rerun, `invalidatesStep` identifies placement, enrichment, interop,
 integration and reports for freshness review. It never deletes or reruns them automatically.
 
-Exact `(paper key, original concept ID) → canonical ID` merge lineage is transient and not persisted by
-the current normalizer. Alternate labels and supporting papers are useful but cannot reconstruct every
-reviewed merge decision. The ontology records this limitation rather than inventing provenance.
+New normalizations persist the exact `(paper key, original concept ID) → canonical ID` mapping in
+`normalized/concept_lineage.json`. Canonical `label_sources` preserve original spellings and paper
+identities through enrichment and OWL label export. Older saved runs, including the n15 worked corpus,
+lack this sidecar; aliases and supporting papers cannot reconstruct every reviewed merge decision.
 
 ## Reviewer navigation
 
