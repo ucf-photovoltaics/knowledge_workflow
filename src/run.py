@@ -37,6 +37,7 @@ from src.agents.interoperability import InteroperabilityAgent
 from src.agents.normalization import NormalizationAgent
 from src.agents.ontology import OntologyAgent
 from src import config
+from src.tools import concept_quality
 from src.config import CACHE, OUTPUTS, ROOT, model_for
 from src.tools import (bottomup, citations, files, integration, llm, matportal, mds_portal, ontostore, owl, pdf_parse,
                        reports, zotero, ontology_review, workers)
@@ -245,6 +246,8 @@ def extract(run: Run, args) -> dict:
             return None, failure, None, agent.doubts
         record = {**p, "parse_stats": parsed["parse_stats"], **result}
         run.write(f"papers/{p['key']}.json", record)
+        if record.get("quality_review"):
+            run.write(f"extraction_review/{p['key']}.json", record["quality_review"])
         with open(p["pdf"], "rb") as f:
             digest = p["key"] + hashlib.sha256(f.read()).hexdigest()
         log(f"  -> {len(result['concepts'])} concepts, {len(result['relations'])} relations, "
@@ -273,7 +276,10 @@ def extract(run: Run, args) -> dict:
 
 
 def normalize(run: Run, args) -> dict:
-    papers = run.papers()
+    papers = [concept_quality.quarantine(p) for p in run.papers()]
+    for paper in papers:
+        if paper.get("quality_review"):
+            run.write(f"extraction_review/{paper['key']}.json", paper["quality_review"])
     agent = NormalizationAgent(run.ledger)
     norm = agent.run(papers)
     _uncertain(run, "normalize", agent.doubts)
