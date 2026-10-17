@@ -48,12 +48,17 @@ METRICS = [
     ("relations_found", "Relation evidence found", "pct", True, "Grounding"),
     ("causal_found", "Causal evidence found", "pct", True, "Grounding"),
     ("measurements_found", "Value evidence found", "pct", True, "Grounding"),
+    ("multi_paper_share", "Concepts in 2+ papers", "pct", True, "Normalization"),
+    ("cluster_merge_share", "Look-alike clusters merged", "pct", True, "Normalization"),
     ("classes", "Final classes", "int", True, "Ontology"),
-    ("multi_paper_share", "Concepts in 2+ papers", "pct", True, "Ontology"),
     ("unresolved_share", "Unresolved placements", "pct", False, "Ontology"),
     ("unsupported_share", "Unsupported definitions", "pct", False, "Ontology"),
     ("defined_share", "Classes with a definition", "pct", True, "Ontology"),
     ("external_share", "Classes mapped externally", "pct", True, "Ontology"),
+    ("mean_depth", "Mean depth to BFO entity", "f1", True, "Hierarchy"),
+    ("max_local_depth", "Deepest local chain", "int", True, "Hierarchy"),
+    ("local_root_share", "Classes with no local parent", "pct", False, "Hierarchy"),
+    ("default_placement_share", "Placed by category default", "pct", False, "Hierarchy"),
     ("bridges", "Bridge concepts", "int", True, "Integration"),
     ("cross_mappings", "Cross-domain mappings", "int", True, "Integration"),
     ("gpu_hours", "GPU-hours", "f2", False, "Cost"),
@@ -126,6 +131,11 @@ def domain_run(folder: Path) -> dict | None:
          "concepts": sum(len(p.get("concepts", [])) for p in papers),
          "canonical": cs.get("canonical_concepts") or 0, "multi_paper": cs.get("concepts_in_2plus_papers") or 0,
          "classes": om.get("classes") or 0,
+         "clusters": cs.get("candidate_clusters") or 0, "merges": cs.get("semantic_merges") or 0,
+         "mean_depth": (om.get("hierarchy") or {}).get("mean_depth_to_bfo_entity"),
+         "max_local_depth": (om.get("hierarchy") or {}).get("max_local_depth"),
+         "local_roots": (om.get("hierarchy") or {}).get("local_roots"),
+         "default_placed": ((om.get("hierarchy") or {}).get("placement") or {}).get("category_default"),
          "unresolved": (stages.get("ontology") or {}).get("unresolved_placements") or 0,
          "unsupported": (stages.get("enrich") or {}).get("unsupported_definitions") or 0,
          "undefined": (om.get("definitions_by_status") or {}).get("none"),
@@ -197,6 +207,13 @@ def summarize(sid: str, entry: dict, size: int, outputs: Path, match: str) -> tu
          **{f"{k}_pp": ratio(tot(k), papers) for k in KINDS},
          **{f"{k}_found": ratio(tot(k + "_verified"), tot(k + "_items")) for k in KINDS},
          "classes": classes or None, "multi_paper_share": ratio(tot("multi_paper"), tot("canonical")),
+         "cluster_merge_share": ratio(tot("merges"), tot("clusters")),
+         "mean_depth": ratio(sum(r["mean_depth"] * r["classes"] for r in runs if r["mean_depth"] is not None),
+                             sum(r["classes"] for r in runs if r["mean_depth"] is not None)),
+         "max_local_depth": max((r["max_local_depth"] for r in runs if r["max_local_depth"] is not None), default=None),
+         "local_root_share": ratio(tot("local_roots"), classes) if any(r["local_roots"] is not None for r in runs) else None,
+         "default_placement_share": ratio(tot("default_placed"), classes)
+         if any(r["default_placed"] is not None for r in runs) else None,
          "unresolved_share": ratio(tot("unresolved"), classes), "unsupported_share": ratio(tot("unsupported"), classes),
          "defined_share": (1 - ratio(tot("undefined"), classes)) if classes and all(r["undefined"] is not None for r in runs) else None,
          "external_share": ratio(sum((r["external"] or 0) * r["classes"] for r in runs), classes)
@@ -210,6 +227,10 @@ def summarize(sid: str, entry: dict, size: int, outputs: Path, match: str) -> tu
              "canonical_concepts": r["canonical"], "final_classes": r["classes"],
              "concepts_per_paper": ratio(r["concepts"], r["papers"]),
              **{f"{k}_evidence_found": ratio(r[k + "_verified"], r[k + "_items"]) for k in KINDS},
+             "concepts_in_2plus_papers": ratio(r["multi_paper"], r["canonical"]),
+             "cluster_merge_share": ratio(r["merges"], r["clusters"]),
+             "mean_depth_to_bfo": r["mean_depth"], "max_local_depth": r["max_local_depth"],
+             "local_root_share": ratio(r["local_roots"] or 0, r["classes"]) if r["local_roots"] is not None else None,
              "json_first_try": 1 - ratio(r["first_failed"], r["first"]) if r["first"] else None} for r in runs]
     return m, rows
 
@@ -302,20 +323,26 @@ def wins(models, m) -> int:
     return n
 
 
-def per_domain(out, models, rows):
+def per_domain(out, models, rows, name, title, specs):
+    """One panel per metric; inside it, one bar per domain for each model (colour follows the domain)."""
     doms = [d for d in DOMAINS if any(r["domain"] == d for r in rows)]
     labels = [m["label"] for m in models]
-    if not doms or not rows:
-        return out.skip("domain_classes", "no domain runs yet")
-    fig, axes = plt.subplots(1, 2, figsize=(9.6, 0.42 * len(labels) * max(1, len(doms)) / 2 + 1.6), layout="constrained")
-    for ax, key, title, kind in ((axes[0], "final_classes", "Final classes", None),
-                                 (axes[1], "relations_evidence_found", "Relation evidence found", "share")):
-        values = {d: {r["model"]: r[key] or 0 for r in rows if r["domain"] == d} for d in doms}
+    specs = [s for s in specs if any(r.get(s[0]) is not None for r in rows)]
+    if not doms or not rows or not specs:
+        return out.skip(name, "no domain runs with these metrics yet")
+    fig, axes = plt.subplots(1, len(specs), figsize=(0.055 * max(len(x) for x in labels) + 3.0 * len(specs),
+                                                     0.42 * len(labels) * max(1, len(doms)) / 2 + 1.6),
+                             layout="constrained", squeeze=False)
+    for j, (ax, (key, head, kind)) in enumerate(zip(axes.flat, specs)):
+        values = {d: {r["model"]: r.get(key) or 0 for r in rows if r["domain"] == d} for d in doms}
         grouped_barh(ax, labels, {d: None for d in doms}, values, kind)
-        ax.set_title(title + " by domain", loc="left")
-    axes[0].legend(loc="lower left", bbox_to_anchor=(0, 1.08), ncol=len(doms))
-    out.save(fig, "domain_classes", "Final classes and relation evidence per model and domain", "domain_metrics.csv",
-             [r for r in rows])
+        ax.set_title(head, loc="left")
+        if j:  # same model order in every panel: label it once
+            ax.tick_params(labelleft=False)
+    axes[0, 0].legend(loc="lower left", bbox_to_anchor=(0, 1.08), ncol=len(doms))
+    keys = [k for k, *_ in specs]
+    out.save(fig, name, title, "domain_metrics.csv " + ", ".join(keys),
+             [{"model": r["model"], "domain": r["domain"], **{k: r.get(k) for k in keys}} for r in rows])
 
 
 def cost_quality(out, models):
@@ -364,9 +391,16 @@ FIGS = [("scorecard", "Scorecard", "Every metric at once. Use it to see which mo
         ("extraction", "Extraction yield", "Items extracted per paper. More is better recall only if the evidence holds up."),
         ("grounding", "Grounding", "Share of extracted items whose evidence quote was found in the paper text: the "
          "automatic precision proxy."),
-        ("ontology", "Ontology", "The final domain ontologies: size, cross-paper support, placement and definition quality, "
-         "external alignment."),
+        ("normalization", "Normalization", "How much the corpus joins up: concepts found in two or more papers, and the "
+         "share of embedding look-alike clusters the model agreed to merge as synonyms. A low merge share with many "
+         "clusters means near-duplicates stay separate concepts."),
+        ("domain_normalization", "Normalization by domain", "The same two measures per domain (corpus)."),
+        ("ontology", "Ontology", "The final domain ontologies: size, placement and definition quality, external alignment."),
         ("domain_classes", "By domain", "The same comparison per domain, to see whether a model's lead holds everywhere."),
+        ("hierarchy", "Hierarchy", "Depth of the class hierarchy: mean steps from a class to the BFO entity root, the "
+         "longest chain of local (paper-derived) classes, the share of classes with no local parent (a flat ontology "
+         "hangs most classes straight off imported categories), and classes placed only by their BFO category default."),
+        ("domain_depth", "Depth by domain", "Class depth per domain (corpus) and model."),
         ("integration", "Integration", "Cross-domain integration at this size."),
         ("cost", "Cost", "GPU-hours cover the whole sweep (every size it ran)."),
         ("cost_quality", "Cost against quality", "Trade-off between pipeline time and grounding.")]
@@ -461,6 +495,9 @@ def main():
             m, r = summarize(sid, sizes[size], size, outputs, args.match)
             models.append(m)
             rows += r
+    if len({m["domains"] for m in models}) > 1:
+        notes.append("Models finished different domains at this size (see Models); totals such as final classes are "
+                     "not comparable across them, per-paper and share metrics are.")
     labels = [m["label"] for m in models]
     if len(set(labels)) < len(labels):
         for m in models:
@@ -479,7 +516,24 @@ def main():
                                           [k for k, *_, g in METRICS if g == "Grounding"])),
              ("ontology", lambda: panels(out, models, "ontology", "Final ontology size and quality",
                                          [k for k, *_, g in METRICS if g == "Ontology"], cols=3)),
-             ("domain_classes", lambda: per_domain(out, models, rows)),
+             ("domain_classes", lambda: per_domain(out, models, rows, "domain_classes",
+                                                   "Final classes and relation evidence per model and domain",
+                                                   [("final_classes", "Final classes", None),
+                                                    ("relations_evidence_found", "Relation evidence found", "share")])),
+             ("normalization", lambda: panels(out, models, "normalization", "Concepts shared across papers and "
+                                              "synonym merges", [k for k, *_, g in METRICS if g == "Normalization"])),
+             ("domain_normalization", lambda: per_domain(out, models, rows, "domain_normalization",
+                                                         "Cross-paper concepts and synonym merges per model and domain",
+                                                         [("concepts_in_2plus_papers", "Concepts in 2+ papers", "share"),
+                                                          ("cluster_merge_share", "Look-alike clusters merged",
+                                                           "share")])),
+             ("hierarchy", lambda: panels(out, models, "hierarchy", "Class hierarchy depth and flatness",
+                                          [k for k, *_, g in METRICS if g == "Hierarchy"])),
+             ("domain_depth", lambda: per_domain(out, models, rows, "domain_depth",
+                                                 "Class depth per model and domain (corpus)",
+                                                 [("mean_depth_to_bfo", "Mean depth to BFO entity", None),
+                                                  ("max_local_depth", "Deepest local chain", None),
+                                                  ("local_root_share", "Classes with no local parent", "share")])),
              ("integration", lambda: panels(out, models, "integration", "Cross-domain integration",
                                             [k for k, *_, g in METRICS if g == "Integration"])),
              ("cost", lambda: panels(out, models, "cost", "Compute per model",
