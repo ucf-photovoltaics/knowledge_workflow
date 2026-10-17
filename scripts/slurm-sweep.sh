@@ -160,7 +160,7 @@ DP=${DP:-$((NGPU / TP))}
 WORKERS=${WORKERS:-$((WORKERS_PER_COPY * DP))}
 GPU_MEMORY_UTILIZATION=${GPU_MEMORY_UTILIZATION:-0.90}
 export KW_VLLM_TP=$TP KW_VLLM_DP=$DP KW_VLLM_MAX_MODEL_LEN=$MAX_MODEL_LEN
-export KW_VLLM_GPU_MEMORY_UTILIZATION=$GPU_MEMORY_UTILIZATION KW_VLLM_PREFIX_CACHING=true
+export KW_VLLM_GPU_MEMORY_UTILIZATION=$GPU_MEMORY_UTILIZATION KW_VLLM_PREFIX_CACHING=true KW_VLLM_NO_WHITESPACE=true
 export KW_VLLM_WORKERS=$WORKERS KW_VLLM_PARALLEL_DOMAINS=$PARALLEL_DOMAINS
 export KW_VLLM_VERSION=$("$VLLM_ENV/bin/python" -c 'from importlib.metadata import version; print(version("vllm"))')
 echo "sweep $SWEEP_ID: $VLLM_MODEL (${WEIGHTS_GB:-?} GB) on $NGPU x ${GPU_GB} GB GPU(s): $DP copy(ies) x tensor parallel $TP;" \
@@ -170,6 +170,7 @@ OLLAMA_PID=$!
 # shellcheck disable=SC2086  # VLLM_EXTRA_ARGS is a list of flags
 "$VLLM_ENV/bin/vllm" serve "$VLLM_MODEL" --port "$VLLM_PORT" --tensor-parallel-size "$TP" --data-parallel-size "$DP" \
     --max-model-len "$MAX_MODEL_LEN" --gpu-memory-utilization "$GPU_MEMORY_UTILIZATION" --enable-prefix-caching \
+    --structured-outputs-config '{"disable_any_whitespace":true}' \
     ${VLLM_EXTRA_ARGS:-} >"$LOG/vllm.log" 2>&1 &
 VLLM_PID=$!
 

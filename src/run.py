@@ -126,7 +126,8 @@ def _environment() -> dict:
         "vllm_version": "KW_VLLM_VERSION", "tensor_parallel_size": "KW_VLLM_TP",
         "data_parallel_size": "KW_VLLM_DP", "max_model_len": "KW_VLLM_MAX_MODEL_LEN",
         "gpu_memory_utilization": "KW_VLLM_GPU_MEMORY_UTILIZATION", "prefix_caching": "KW_VLLM_PREFIX_CACHING",
-        "workers": "KW_VLLM_WORKERS", "parallel_domains": "KW_VLLM_PARALLEL_DOMAINS"}.items() if os.getenv(env) is not None}
+        "workers": "KW_VLLM_WORKERS", "parallel_domains": "KW_VLLM_PARALLEL_DOMAINS",
+        "json_no_whitespace": "KW_VLLM_NO_WHITESPACE"}.items() if os.getenv(env) is not None}
     # Never persist arbitrary flags (for example --api-key). Keep only reviewed serving options.
     allowed = {"tensor-parallel-size", "data-parallel-size", "max-model-len", "gpu-memory-utilization",
                "dtype", "quantization", "kv-cache-dtype", "max-num-seqs", "max-num-batched-tokens",
