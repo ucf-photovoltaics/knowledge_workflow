@@ -17,6 +17,7 @@
 #   USE_CASE=pv-cost-chain sbatch scripts/slurm-sweep.sh          # collections (and max size) from scripts/use-cases.txt
 #   VLLM_MODEL=openai/gpt-oss-120b VLLM_REASONING_EFFORT=low sbatch scripts/slurm-sweep.sh
 #   GCS_BUCKET=gs://my-bucket sbatch scripts/slurm-sweep.sh      # copy finished runs there (gcloud signed in), PDFs excluded
+#                                                                  # and progress every PUBLISH_EVERY s (600; 0 = only at the end)
 #
 #SBATCH --job-name=kw-sweep
 #SBATCH --nodes=1
@@ -55,6 +56,7 @@ if [ -n "$USE_CASE" ]; then   # line format: name: collection collection ...  # 
 fi
 RETRIES=${RETRIES:-1}
 GCS_BUCKET=${GCS_BUCKET:-}
+PUBLISH_EVERY=${PUBLISH_EVERY:-600}
 SWEEP_ID=${SWEEP_ID:-${USE_CASE:+$USE_CASE-}$(date +%Y%m%d-%H%M%S)}
 VLLM_ENV=${VLLM_ENV:-$HOME/.venvs/vllm}
 OLLAMA=${OLLAMA:-$(command -v ollama || echo "$HOME/.local/ollama/bin/ollama")}
@@ -129,6 +131,7 @@ cleanup() {
     local rc=$?
     trap - EXIT INT TERM
     stop_gpu_monitor
+    [ -z "${PUBLISH_PID:-}" ] || kill "$PUBLISH_PID" 2>/dev/null || true
     [ -z "${VLLM_PID:-}" ] || kill "$VLLM_PID" 2>/dev/null || true
     [ -z "${OLLAMA_PID:-}" ] || kill "$OLLAMA_PID" 2>/dev/null || true
     exit "$rc"
@@ -214,6 +217,12 @@ publish() {  # copy this sweep's folders to GCS_BUCKET (only what changed); an u
             || echo "upload of $(basename "$d") failed; see $LOG/publish.log"
     done
 }
+publish_monitor() {  # progress uploads (logs, finished stages) while the sweep runs
+    local sleep_pid=''
+    trap '[ -z "$sleep_pid" ] || kill "$sleep_pid" 2>/dev/null; exit 0' TERM INT
+    while :; do sleep "$PUBLISH_EVERY" & sleep_pid=$!; wait "$sleep_pid"; publish; done
+}
+if [ -n "$GCS_BUCKET" ] && [ "$PUBLISH_EVERY" -gt 0 ]; then publish_monitor & PUBLISH_PID=$!; fi
 
 run_kw() {  # id, then src.run arguments; --workers halves after a transient error, like run-sweep.ps1. 3 = server down
     local id=$1; shift
@@ -294,6 +303,7 @@ for n in $LIMITS; do
 done
 
 stop_gpu_monitor
+[ -z "${PUBLISH_PID:-}" ] || { kill "$PUBLISH_PID" 2>/dev/null; wait "$PUBLISH_PID" 2>/dev/null; PUBLISH_PID=; }
 "${PY[@]}" -m src.figures --sweep-summary "$SUMMARY" --out "$LOG/report" --title "Paper sweep $SWEEP_ID" \
     >"$LOG/report.log" 2>&1 || save report "" "sweep-$SWEEP_ID-report" failed "see report.log"
 publish
