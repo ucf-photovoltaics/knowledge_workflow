@@ -1,0 +1,7 @@
+sweep pv-cost-chain-llama31-8b-n5: meta-llama/Llama-3.1-8B-Instruct (16 GB) on 2 x 79 GB GPU(s): 2 copy(ies) x tensor parallel 1; 16 CPUs; 32 workers per run; domains side by side: 1; sizes 5
+chat ok in 1.9s, 16 output tokens: {"ok": true, "bfo_category": "Energy Storage Device"}
+embedding ok: 768 dimensions
+16:47:55 tea-n5-pv-cost-chain-llama31-8b-n5 started
+16:47:55 reliability-n5-pv-cost-chain-llama31-8b-n5 started
+16:47:55 si-topcon-n5-pv-cost-chain-llama31-8b-n5 started
+[2026-10-17T17:02:06.043] error: *** JOB 950520 ON evc34 CANCELLED AT 2026-10-17T17:02:06 DUE to SIGNAL Terminated ***

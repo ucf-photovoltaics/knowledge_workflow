@@ -1,0 +1,2 @@
+sweep pv-cost-chain-gptoss-120b-n5: openai/gpt-oss-120b (196 GB) on 2 x 79 GB GPU(s): 1 copy(ies) x tensor parallel 2; 32 CPUs; 16 workers per run; domains side by side: 1; sizes 5
+[2026-10-17T16:45:30.256] error: *** JOB 950386 ON evc34 CANCELLED AT 2026-10-17T16:45:30 DUE to SIGNAL Terminated ***

@@ -1,0 +1,32 @@
+sweep pv-cost-chain-llama31-8b-n5: meta-llama/Llama-3.1-8B-Instruct (16 GB) on 2 x 79 GB GPU(s): 2 copy(ies) x tensor parallel 1; 32 CPUs; 32 workers per run; domains side by side: 1; sizes 5
+Using CPython 3.12.15
+Creating virtual environment at: /home/br895930/kw-hpc/venvs/kw
+Downloading numpy (16.0MiB)
+Downloading pyoxigraph (7.8MiB)
+Downloading pymupdf (24.6MiB)
+Downloading matplotlib (9.4MiB)
+ Downloaded pyoxigraph
+Downloading fonttools (5.2MiB)
+ Downloaded pymupdf
+Downloading openai (2.2MiB)
+ Downloaded matplotlib
+Downloading beartype (1.5MiB)
+ Downloaded fonttools
+Downloading kiwisolver (1.4MiB)
+ Downloaded kiwisolver
+ Downloaded beartype
+ Downloaded numpy
+   Building bibtexparser==1.4.4
+      Built bibtexparser==1.4.4
+ Downloaded openai
+Installed 95 packages in 1.46s
+chat ok in 10.2s, 16 output tokens: {"ok": true, "bfo_category": "Energy Storage Device"}
+embedding ok: 768 dimensions
+16:40:01 tea-n5-pv-cost-chain-llama31-8b-n5 started
+16:40:01 reliability-n5-pv-cost-chain-llama31-8b-n5 started
+16:40:01 si-topcon-n5-pv-cost-chain-llama31-8b-n5 started
+16:40:19 tea-n5-pv-cost-chain-llama31-8b-n5 finished (exit 1)
+16:40:19 reliability-n5-pv-cost-chain-llama31-8b-n5 finished (exit 1)
+16:40:19 si-topcon-n5-pv-cost-chain-llama31-8b-n5 finished (exit 1)
+summary: /lustre/fs1/home/br895930/knowledge_workflow/outputs/sweep-pv-cost-chain-llama31-8b-n5/summary.csv
+report:  /lustre/fs1/home/br895930/knowledge_workflow/outputs/sweep-pv-cost-chain-llama31-8b-n5/report/report.html

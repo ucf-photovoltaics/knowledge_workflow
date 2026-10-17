@@ -1,0 +1,2 @@
+sweep pv-cost-chain-gemma4-26b-n2: google/gemma-4-26B-A4B-it (52 GB) on 2 x 79 GB GPU(s): 1 copy(ies) x tensor parallel 2; 32 CPUs; 16 workers per run; domains side by side: 1; sizes 2
+vllm exited; see /lustre/fs1/home/br895930/knowledge_workflow/outputs/sweep-pv-cost-chain-gemma4-26b-n2/vllm.log

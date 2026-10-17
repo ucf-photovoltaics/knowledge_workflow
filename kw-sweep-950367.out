@@ -1,0 +1,7 @@
+sweep pv-cost-chain-gptoss-20b-n5: openai/gpt-oss-20b (41 GB) on 2 x 79 GB GPU(s): 2 copy(ies) x tensor parallel 1; 32 CPUs; 32 workers per run; domains side by side: 1; sizes 5
+chat ok in 3.7s, 88 output tokens: {"ok": true, "bfo_category": "physical object"}
+embedding ok: 768 dimensions
+16:43:20 tea-n5-pv-cost-chain-gptoss-20b-n5 started
+16:43:20 reliability-n5-pv-cost-chain-gptoss-20b-n5 started
+16:43:20 si-topcon-n5-pv-cost-chain-gptoss-20b-n5 started
+[2026-10-17T16:45:30.252] error: *** JOB 950367 ON evc43 CANCELLED AT 2026-10-17T16:45:30 DUE to SIGNAL Terminated ***

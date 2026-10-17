@@ -1,0 +1,47 @@
+sweep pv-cost-chain-20261017-135810: openai/gpt-oss-120b (196 GB) on 2 x 79 GB GPU(s): 1 copy(ies) x tensor parallel 2; 32 CPUs; 16 workers per run; domains side by side: 1; sizes 2
+[?2026h[?25l[1Gpulling manifest ⠋ [K[?25h[?2026l[?2026h[?25l[1Gpulling manifest ⠙ [K[?25h[?2026l[?2026h[?25l[1Gpulling manifest ⠹ [K[?25h[?2026l[?2026h[?25l[1Gpulling manifest ⠸ [K[?25h[?2026l[?2026h[?25l[1Gpulling manifest ⠼ [K[?25h[?2026l[?2026h[?25l[1Gpulling manifest ⠴ [K[?25h[?2026l[?2026h[?25l[1Gpulling manifest ⠦ [K[?25h[?2026l[?2026h[?25l[1Gpulling manifest ⠧ [K[?25h[?2026l[?2026h[?25l[1Gpulling manifest ⠇ [K[?25h[?2026l[?2026h[?25l[1Gpulling manifest ⠏ [K[?25h[?2026l[?2026h[?25l[1Gpulling manifest [K
+pulling 970aa74c0a90:   1% ▕                  ▏ 2.7 MB/274 MB                  [K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:   6% ▕█                 ▏  15 MB/274 MB                  [K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:   9% ▕█                 ▏  23 MB/274 MB                  [K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  14% ▕██                ▏  37 MB/274 MB                  [K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  19% ▕███               ▏  51 MB/274 MB                  [K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  21% ▕███               ▏  57 MB/274 MB                  [K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  26% ▕████              ▏  72 MB/274 MB                  [K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  31% ▕█████             ▏  86 MB/274 MB                  [K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  34% ▕██████            ▏  92 MB/274 MB                  [K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  38% ▕██████            ▏ 103 MB/274 MB                  [K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  44% ▕███████           ▏ 121 MB/274 MB  118 MB/s      1s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  46% ▕████████          ▏ 125 MB/274 MB  118 MB/s      1s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  52% ▕█████████         ▏ 142 MB/274 MB  118 MB/s      1s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  57% ▕██████████        ▏ 156 MB/274 MB  118 MB/s      0s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  59% ▕██████████        ▏ 162 MB/274 MB  118 MB/s      0s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  64% ▕███████████       ▏ 175 MB/274 MB  118 MB/s      0s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  69% ▕████████████      ▏ 190 MB/274 MB  118 MB/s      0s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  72% ▕████████████      ▏ 198 MB/274 MB  118 MB/s      0s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  77% ▕█████████████     ▏ 212 MB/274 MB  118 MB/s      0s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  81% ▕██████████████    ▏ 223 MB/274 MB  118 MB/s      0s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  84% ▕███████████████   ▏ 230 MB/274 MB  118 MB/s      0s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  88% ▕███████████████   ▏ 241 MB/274 MB  116 MB/s      0s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  92% ▕████████████████  ▏ 253 MB/274 MB  116 MB/s      0s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  95% ▕█████████████████ ▏ 260 MB/274 MB  116 MB/s      0s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  99% ▕█████████████████ ▏ 272 MB/274 MB  116 MB/s      0s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  99% ▕█████████████████ ▏ 272 MB/274 MB  116 MB/s      0s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  99% ▕█████████████████ ▏ 272 MB/274 MB  116 MB/s      0s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  99% ▕█████████████████ ▏ 272 MB/274 MB  116 MB/s      0s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  99% ▕█████████████████ ▏ 272 MB/274 MB  116 MB/s      0s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  99% ▕█████████████████ ▏ 272 MB/274 MB  116 MB/s      0s[K[?25h[?2026l[?2026h[?25l[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  99% ▕█████████████████ ▏ 272 MB/274 MB  116 MB/s      0s[K
+pulling 31df23ea7daa: 100% ▕██████████████████▏  420 B                         [K
+verifying sha256 digest ⠋ [K[?25h[?2026l[?2026h[?25l[A[A[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  99% ▕█████████████████ ▏ 272 MB/274 MB  116 MB/s      0s[K
+pulling 31df23ea7daa: 100% ▕██████████████████▏  420 B                         [K
+verifying sha256 digest ⠙ [K[?25h[?2026l[?2026h[?25l[A[A[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  99% ▕█████████████████ ▏ 272 MB/274 MB  116 MB/s      0s[K
+pulling 31df23ea7daa: 100% ▕██████████████████▏  420 B                         [K
+verifying sha256 digest ⠹ [K[?25h[?2026l[?2026h[?25l[A[A[A[1Gpulling manifest [K
+pulling 970aa74c0a90:  99% ▕█████████████████ ▏ 272 MB/274 MB  116 MB/s      0s[K
+pulling 31df23ea7daa: 100% ▕██████████████████▏  420 B                         [K
+verifying sha256 digest [K
+writing manifest [K
+success [K[?25h[?2026l
+vllm exited; see /lustre/fs1/home/br895930/knowledge_workflow/outputs/sweep-pv-cost-chain-20261017-135810/vllm.log

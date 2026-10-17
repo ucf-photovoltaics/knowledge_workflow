@@ -1,0 +1,7 @@
+sweep pv-cost-chain-gemma4-e4b-n5: google/gemma-4-E4B-it (16 GB) on 2 x 79 GB GPU(s): 2 copy(ies) x tensor parallel 1; 32 CPUs; 32 workers per run; domains side by side: 1; sizes 5
+chat ok in 9.1s, 15 output tokens: {"ok": true, "bfo_category": "Process"}
+embedding ok: 768 dimensions
+16:43:47 tea-n5-pv-cost-chain-gemma4-e4b-n5 started
+16:43:47 reliability-n5-pv-cost-chain-gemma4-e4b-n5 started
+16:43:47 si-topcon-n5-pv-cost-chain-gemma4-e4b-n5 started
+[2026-10-17T16:45:30.253] error: *** JOB 950366 ON evc40 CANCELLED AT 2026-10-17T16:45:30 DUE to SIGNAL Terminated ***

@@ -1,0 +1,2 @@
+sweep pv-cost-chain-llama32-3b-n2: meta-llama/Llama-3.2-3B-Instruct (6 GB) on 2 x 79 GB GPU(s): 2 copy(ies) x tensor parallel 1; 32 CPUs; 32 workers per run; domains side by side: 1; sizes 2
+vllm exited; see /lustre/fs1/home/br895930/knowledge_workflow/outputs/sweep-pv-cost-chain-llama32-3b-n2/vllm.log

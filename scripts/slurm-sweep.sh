@@ -170,7 +170,7 @@ OLLAMA_PID=$!
 # shellcheck disable=SC2086  # VLLM_EXTRA_ARGS is a list of flags
 "$VLLM_ENV/bin/vllm" serve "$VLLM_MODEL" --port "$VLLM_PORT" --tensor-parallel-size "$TP" --data-parallel-size "$DP" \
     --max-model-len "$MAX_MODEL_LEN" --gpu-memory-utilization "$GPU_MEMORY_UTILIZATION" --enable-prefix-caching \
-    --structured-outputs-config '{"disable_any_whitespace":true}' \
+    --structured-outputs-config '{"backend":"xgrammar","disable_any_whitespace":true}' \
     ${VLLM_EXTRA_ARGS:-} >"$LOG/vllm.log" 2>&1 &
 VLLM_PID=$!
 
