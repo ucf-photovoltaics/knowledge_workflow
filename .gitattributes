@@ -1,0 +1,3 @@
+# Author: Brent Thompson <brent.thompson@ucf.edu>
+# Slurm requires Unix line endings even when this launcher is edited on Windows.
+scripts/slurm-sweep.sh text eol=lf

@@ -1,5 +1,5 @@
 """One report with every figure, grouped by pipeline stage, each with a short paragraph computed from the numbers it
-plots; plus the sweep summary (one row per run and per integration). Written by src.figures.build:
+plots; plus saved setup, resource totals and sweep summary (one row per run/integration). Written by src.figures.build:
 
   report.md            figures linked as PNG files beside it
   report.html          self-contained (figures embedded), for sharing
@@ -113,7 +113,8 @@ READ = {  # how to read each figure (fixed); the numbers sentence follows
     "row_coverage": "For each model pass, the share of rows answered on the first call, recovered by the retry in "
                     "smaller batches, and still missing (missing rows fall back to defaults and are listed in "
                     "uncertain.json).",
-    "compute_by_stage": "Tokens and wall time per stage; extractions reused from the cache cost no tokens.",
+    "compute_by_stage": "Tokens and wall time per stage. Tokens are the additional model work recorded at each "
+                        "size, not a cumulative sum over earlier sizes; reused extraction cache entries add no tokens.",
     "uncertain_items": "Items each run lists in ontology/uncertain.json, by stage and kind (log scale above 10).",
     "scaling_runs": "Separate runs of increasing size per domain: canonical concepts, ontology classes and the share of "
                     "concepts found in two or more papers.",
@@ -408,7 +409,7 @@ def _compute(t):
         wall = {k[:-7]: F.num(v) for k, v in r.items() if k.endswith("_wall_s")}
         big = max(wall, key=wall.get) if wall else "?"
         return (f"{L(r['domain'])} ({n(r.get('papers'))} papers): {n(tok / 1e3)}k tokens and {n(sum(wall.values()) / 60)} "
-                f"minutes, {pc(wall.get(big, 0), sum(wall.values()))} of it in {big}")
+                f"minutes added at this size, {pc(wall.get(big, 0), sum(wall.values()))} of it in {big}")
     return "; ".join(one(r) for r in t) + "."
 
 
@@ -462,7 +463,7 @@ RUN_COLS = [("collection", "Domain"), ("papers_processed", "Papers"), ("stages",
             ("final_classes", "Classes"), ("placement_llm", "Placed by model"), ("placement_category_default", "Category root"),
             ("mappings_total", "Mappings"), ("restrictions", "Restrictions"),
             ("materials_project_classes_with_entries", "Materials Project classes"), ("validation_valid", "Valid"),
-            ("uncertain_total", "Uncertain items"), ("total_tokens", "Tokens"), ("total_wall_min", "Wall (min)"),
+            ("uncertain_total", "Uncertain items"), ("total_tokens", "Tokens added at size"), ("total_wall_min", "Wall (min)"),
             ("run_id", "Run")]
 INT_COLS = [("domains", "Domains"), ("papers_per_domain", "Papers/domain"), ("classes_total", "Classes"),
             ("mappings_total", "Mappings"), ("bridge_concepts", "Bridge concepts"), ("validation_valid", "Valid"),
@@ -520,6 +521,70 @@ def _cell(k, v):
 
 # ---------------------------------------------------------------- writers
 
+def setup_rows(context, revision):
+    """Describe saved execution environments, never the machine rendering an old report."""
+    configs, environments, commits, models = [], [], set(), set()
+    for record in context['records']:
+        manifest = record['manifest']
+        configs.append(manifest.get('config', {}))
+        if manifest.get('git_commit'):
+            commits.add(manifest['git_commit'])
+        for stage, data in manifest.get('stages', {}).items():
+            if data.get('model'):
+                models.add(f"{stage}: {data['model']}")
+        integration = manifest.get('integration', {})
+        if integration.get('model'):
+            models.add('integration: ' + integration['model'])
+        environments.extend(manifest.get('environment_history', []))
+        if manifest.get('environment'):
+            environments.append(manifest['environment'])
+    for cfg in configs:
+        models.update(f"{key.removeprefix('model_')}: {value}" for key, value in cfg.items()
+                      if key.startswith('model_') and value)
+    join = lambda values: '; '.join(sorted({str(value) for value in values if value not in (None, '')})) or 'Not recorded'
+    hardware, slurm, serving = set(), set(), set()
+    for env in environments:
+        gpus = env.get('gpus', [])
+        gpu_names = Counter(g.get('name', 'unknown GPU') + ' (' +
+                            (f"{g['memory_bytes'] / 1024 ** 3:.1f} GiB" if g.get('memory_bytes') is not None else 'memory not recorded') + ')'
+                            for g in gpus)
+        gpu_text = ', '.join(f'{count} × {name}' for name, count in gpu_names.items()) or env.get('gpu_status', 'not recorded')
+        ram = f"{env['ram_bytes'] / 1024 ** 3:.1f} GiB" if env.get('ram_bytes') else 'not recorded'
+        job = env.get('slurm', {})
+        allocation = f"; allocated CPUs {job['cpus_per_task']}" if job.get('cpus_per_task') else ''
+        if job.get('memory_per_node_mb') is not None:
+            allocation += (f"; requested node RAM {job['memory_per_node_mb']} MiB" if job['memory_per_node_mb']
+                           else '; requested all node RAM (Slurm --mem=0)')
+        elif job.get('memory_per_cpu_mb') is not None:
+            allocation += f"; requested RAM/CPU {job['memory_per_cpu_mb']} MiB"
+        hardware.add(f"{env.get('host') or 'Unknown host'}: {gpu_text}; host CPUs {env.get('cpu_count') or 'not recorded'}; host RAM {ram}{allocation}")
+        if job.get('job_id'):
+            slurm.add(f"job {job['job_id']}; partition {job.get('partition') or 'not recorded'}; node {job.get('node') or 'not recorded'}")
+        if env.get('serving'):
+            serving.add(', '.join(f'{key.replace("_", " ")}: {value}' for key, value in sorted(env['serving'].items())))
+    recorded_revisions = join(c.get('workflow_revision') for c in configs)
+    return [('Models', join(models)), ('Embedding model', join(c.get('embed_model') for c in configs)),
+            ('Workflow revision', recorded_revisions if recorded_revisions != 'Not recorded' else f'{revision} (report filter; run revision not recorded)'),
+            ('Git commit', join(commits)), ('Hardware', join(hardware)), ('Slurm allocation', join(slurm)),
+            ('Python / vLLM', 'Python: ' + join(e.get('python_version') for e in environments)
+             + ' / vLLM: ' + join(e.get('vllm_version') for e in environments)), ('Serving settings', join(serving)),
+            ('Request settings', join(', '.join(f'{key.replace("_", " ")}: {c[key]}' for key in
+                                               ('temperature', 'max_output_tokens', 'max_input_chars') if key in c) for c in configs))]
+
+
+def totals_line(metrics):
+    """A compact total with explicit units and unavailable counters."""
+    def value(key, suffix, scale=1):
+        item = metrics.get(key)
+        if item is None:
+            return f'{suffix}: not recorded'
+        number = f'{item:,.0f}' if key in ('input_tokens', 'output_tokens') else f'{item / scale:,.4g}'
+        return f'{number} {suffix}'
+    return ('Sweep totals: ' + ' · '.join([value('wall_s', 'wall minutes', 60), value('gpu_hours', 'GPU-hours'),
+            value('input_tokens', 'input tokens'), value('output_tokens', 'output tokens'),
+            value('tokens_per_s', 'input + output tokens/s'), value('energy_kwh', 'GPU kWh (sampled estimate)'),
+            value('gpu_utilization_pct', '% average GPU utilization')]))
+
 def sections(out) -> list[tuple[str, str, list[tuple[str, str, str, str, str]]]]:
     """Groups with the figures that exist: (group, intro, [(name, heading, title, source, paragraph)])."""
     made = {name: (title, source) for name, title, source in out.index}
@@ -548,7 +613,17 @@ def write(out, rows: list[dict], outputs: Path, revision: str, run_ids, notes: l
     lead = (f"{len(rows)} run(s) ({domains}) and {len(ints)} integration(s). Generated {stamp}. Each figure is also in "
             "this folder as PDF (for LaTeX), PNG and CSV (the plotted numbers).")
 
-    md = [f"# {title}", "", lead, *[f"\n> Note: {x}" for x in notes], "", "## Contents", ""]
+    context = getattr(out, 'context', None) or F.run_context(outputs, rows, [r['run_id'] for r in runs + ints], statuses)
+    setup, totals = setup_rows(context, revision), context['totals']
+    accounting = [f"Wall basis: {totals.get('wall_basis', 'not recorded')}. Throughput divides input + output tokens by this wall time; it is not model decoding speed.",
+                  f"GPU-hours basis: {totals.get('gpu_hours_basis', 'not recorded')}. Tokens include listed failed attempts and integration; client-side cache hits add no model-request tokens.",
+                  f"Power coverage: {totals['power_gpu_hours']:.4g} GPU-hours; utilization coverage: {totals['utilization_gpu_hours']:.4g} GPU-hours. Energy covers sampled GPU board power only, excluding CPU, RAM and facility overhead.",
+                  *totals['notes']]
+    setup_cell = lambda value: str(value).replace('|', '\\|').replace('\n', ' ')
+    md = [f"# {title}", "", lead, *[f"\n> Note: {x}" for x in notes], "", "## Setup", "",
+          '| Setting | Recorded value |', '|---|---|',
+          *[f'| {setup_cell(key)} | {setup_cell(value)} |' for key, value in setup], '', totals_line(totals), '',
+          *accounting, '', '## Contents', '']
     md += [f"{i}. [{g}](#{g.lower().replace(' ', '-')})" for i, (g, _, _) in enumerate(secs, 1)]
     md += ["", "## Sweep summary", "", "| " + " | ".join(h for _, h in RUN_COLS) + " |",
            "|" + "---|" * len(RUN_COLS)]
@@ -576,6 +651,10 @@ def write(out, rows: list[dict], outputs: Path, revision: str, run_ids, notes: l
                                 + "".join("<tr>" + "".join(f"<td>{e(_cell(k, r[k]))}</td>" for k, _ in cols) + "</tr>"
                                           for r in data) + "</tbody></table>")
     body = [f"<h1>{e(title)}</h1>", f"<p class=lead>{e(lead)}</p>", *[f"<p class=note>Note: {e(x)}</p>" for x in notes],
+            '<h2>Setup</h2><table class=setup><thead><tr><th>Setting</th><th>Recorded value</th></tr></thead><tbody>'
+            + ''.join(f'<tr><th>{e(key)}</th><td>{e(value)}</td></tr>' for key, value in setup) + '</tbody></table>',
+            '<p class=totals><b>' + e(totals_line(totals)) + '</b></p>',
+            *[f'<p class=src>{e(note)}</p>' for note in accounting],
             "<nav><b>Contents</b><ol>" + "".join(f"<li><a href='#g{i}'>{e(g)}</a></li>" for i, (g, _, _) in enumerate(secs, 1))
             + "</ol></nav>", "<h2>Sweep summary</h2>", "<div class=scroll>" + table(RUN_COLS, runs) + "</div>"]
     if ints:
@@ -600,8 +679,9 @@ def write(out, rows: list[dict], outputs: Path, revision: str, run_ids, notes: l
            ".note{background:#fff7e0;padding:6px 10px}.scroll{overflow-x:auto}table{border-collapse:collapse;font-size:13px;"
            "margin:10px 0}th,td{border-bottom:1px solid #e6e5e0;padding:4px 8px;text-align:left;white-space:nowrap}"
            "nav{background:#f6f6f3;padding:10px 16px;border-radius:6px}"
+           ".setup{width:100%;table-layout:fixed}.setup th:first-child{width:160px}.setup th,.setup td{white-space:normal;overflow-wrap:anywhere;vertical-align:top}.totals{padding:12px;background:#f6f6f3;border-left:3px solid #d4a921}"
            "@media (prefers-color-scheme: dark){body{background:#161615;color:#e8e6e1}img{background:#fff}"
-           "nav{background:#232321}.note{background:#3a3220}th,td{border-color:#333}}")
+           "nav,.totals{background:#232321}.lead,.intro{color:#c8c7c2}.src,figcaption{color:#b4b2aa}.note{background:#3a3220}th,td{border-color:#333}}")
     page = (f"<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content='width=device-width,"
             f"initial-scale=1'><title>{e(title)}</title><style>{css}</style></head><body>{''.join(body)}</body></html>")
     (out.folder / "report.html").write_text(page, encoding="utf-8")

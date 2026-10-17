@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Author: Brent Thompson <brent.thompson@ucf.edu>
-# Summary: slurm-sweep support for Knowledge Workflow; retain the existing operational notes below.
+# Summary: run/resume a GPU-backed literature sweep, record serving setup and sample GPU power/utilization.
 # Paper sweep on one GPU node. vLLM serves the LLM (profile "vllm" in src/config.py); Ollama on CPU serves
 # nomic-embed-text at localhost:11434 so the embedding cache from local runs is reused unchanged.
 # Bash port of scripts/run-sweep.ps1, plus: the sweep stops when either model server is down instead of failing
@@ -16,6 +16,7 @@
 #   SWEEP_ID=20261014-150000 sbatch scripts/slurm-sweep.sh                                  # resume
 #   USE_CASE=pv-cost-chain sbatch scripts/slurm-sweep.sh          # collections (and max size) from scripts/use-cases.txt
 #   VLLM_MODEL=openai/gpt-oss-120b VLLM_REASONING_EFFORT=low sbatch scripts/slurm-sweep.sh
+#   GCS_BUCKET=gs://my-bucket sbatch scripts/slurm-sweep.sh      # copy finished runs there (gcloud signed in), PDFs excluded
 #
 #SBATCH --job-name=kw-sweep
 #SBATCH --nodes=1
@@ -32,6 +33,8 @@ cd "${SLURM_SUBMIT_DIR:-$(dirname "$0")/..}" || exit 1
 ROOT=$PWD
 export LLM_PROFILE=vllm
 export VLLM_MODEL=${VLLM_MODEL:-mistralai/Mistral-Small-4-119B-2603}
+export VLLM_REASONING_EFFORT=${VLLM_REASONING_EFFORT:-none}
+export VLLM_EXTRA_ARGS=${VLLM_EXTRA_ARGS:-}
 VLLM_PORT=${VLLM_PORT:-8000}
 export VLLM_BASE_URL=http://localhost:$VLLM_PORT/v1
 MAX_MODEL_LEN=${MAX_MODEL_LEN:-32768}   # same window as the local kw-qwen3.5-9b-32k runs
@@ -47,6 +50,7 @@ if [ -n "$USE_CASE" ]; then   # line format: name: collection collection ...  # 
     [ -n "$max" ] && LIMITS=$(for n in $LIMITS; do [ "$n" -le "$max" ] && echo "$n"; done | xargs)
 fi
 RETRIES=${RETRIES:-1}
+GCS_BUCKET=${GCS_BUCKET:-}
 SWEEP_ID=${SWEEP_ID:-${USE_CASE:+$USE_CASE-}$(date +%Y%m%d-%H%M%S)}
 VLLM_ENV=${VLLM_ENV:-$HOME/.venvs/vllm}
 OLLAMA=${OLLAMA:-$(command -v ollama || echo "$HOME/.local/ollama/bin/ollama")}
@@ -56,20 +60,79 @@ export UV_PROJECT_ENVIRONMENT=${UV_PROJECT_ENVIRONMENT:-$HOME/.venvs/kw}   # nor
 export OLLAMA_HOST=127.0.0.1:11434
 LOG=$ROOT/outputs/sweep-$SWEEP_ID
 mkdir -p "$LOG"
+SWEEP_STARTED_AT=$(date -u +%s)
+export KW_SWEEP_ID=$SWEEP_ID
 
 # ---- model servers ----
 command -v uv >/dev/null || { echo "uv not found (curl -LsSf https://astral.sh/uv/install.sh | sh)"; exit 1; }
+[ -z "$GCS_BUCKET" ] || command -v gcloud >/dev/null || { echo "gcloud not found (needed for GCS_BUCKET)"; exit 1; }
 [ -x "$OLLAMA" ] || { echo "Ollama not found; set OLLAMA=/path/to/ollama"; exit 1; }
 if [ ! -x "$VLLM_ENV/bin/vllm" ]; then
     uv venv --python 3.12 "$VLLM_ENV" && VIRTUAL_ENV=$VLLM_ENV uv pip install "vllm${VLLM_VERSION:+==$VLLM_VERSION}" || exit 1
 fi
 
 # ---- resources this job was given ----
+export KW_GPU_IDS=${SLURM_JOB_GPUS:-${CUDA_VISIBLE_DEVICES:-}}
+GPU_QUERY=()
+[ -z "$KW_GPU_IDS" ] || GPU_QUERY=("--id=$KW_GPU_IDS")
 if [ -n "${CUDA_VISIBLE_DEVICES:-}" ]; then NGPU=$(tr ',' '\n' <<<"$CUDA_VISIBLE_DEVICES" | grep -c .)
-else NGPU=$(nvidia-smi -L 2>/dev/null | grep -c '^GPU'); fi
+else NGPU=$(nvidia-smi "${GPU_QUERY[@]}" -L 2>/dev/null | grep -c '^GPU'); fi
 [ "$NGPU" -ge 1 ] || { echo "no GPU visible to this job"; exit 1; }
-GPU_GB=$(nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits | sort -n | head -1 | awk '{print int($1 / 1024)}')
+GPU_GB=$(nvidia-smi "${GPU_QUERY[@]}" --query-gpu=memory.total --format=csv,noheader,nounits | sort -n | head -1 | awk '{print int($1 / 1024)}')
 CPUS=${SLURM_CPUS_PER_TASK:-$(nproc)}
+
+# One file per submission: resuming a sweep never joins samples across an idle job gap.
+GPU_SESSION=${SLURM_JOB_ID:-local}-$(date -u +%Y%m%dT%H%M%S)-$$
+GPU_METRICS=$LOG/gpu-metrics-$GPU_SESSION.csv
+SWEEP_SESSION=$LOG/sweep-session-$GPU_SESSION.json
+printf 'timestamp_epoch,gpu_uuid,power_w,utilization_pct\n' >"$GPU_METRICS"
+python3 - "$SWEEP_SESSION" "$SWEEP_STARTED_AT" "$NGPU" "$(basename "$GPU_METRICS")" <<'EOF'
+import json, sys
+from pathlib import Path
+Path(sys.argv[1]).write_text(json.dumps({"started_at": int(sys.argv[2]), "ended_at": None,
+    "gpu_count": int(sys.argv[3]), "gpu_metrics_file": sys.argv[4], "sample_interval_s": 30}), encoding="utf-8")
+EOF
+gpu_sample() {
+    local stamp
+    stamp=$(date -u +%s)
+    timeout 10s nvidia-smi "${GPU_QUERY[@]}" --query-gpu=uuid,power.draw,utilization.gpu \
+        --format=csv,noheader,nounits 2>>"$LOG/gpu-sampling.log" \
+        | while IFS= read -r row; do printf '%s,%s\n' "$stamp" "$row"; done >>"$GPU_METRICS"
+}
+gpu_monitor() {
+    local sleep_pid=''
+    trap '[ -z "$sleep_pid" ] || kill "$sleep_pid" 2>/dev/null; exit 0' TERM INT
+    while :; do gpu_sample; sleep 30 & sleep_pid=$!; wait "$sleep_pid"; done
+}
+GPU_MONITOR_CLOSED=0
+gpu_monitor &
+GPU_MONITOR_PID=$!
+stop_gpu_monitor() {
+    [ "$GPU_MONITOR_CLOSED" = 0 ] || return 0
+    GPU_MONITOR_CLOSED=1
+    kill "$GPU_MONITOR_PID" 2>/dev/null || true
+    wait "$GPU_MONITOR_PID" 2>/dev/null || true
+    gpu_sample || true   # close the final interval even for a sweep shorter than 30 seconds
+    python3 - "$SWEEP_SESSION" <<'EOF'
+import json, sys, time
+from pathlib import Path
+p = Path(sys.argv[1])
+d = json.loads(p.read_text(encoding="utf-8")); d["ended_at"] = time.time()
+p.write_text(json.dumps(d), encoding="utf-8")
+EOF
+}
+cleanup() {
+    local rc=$?
+    trap - EXIT INT TERM
+    stop_gpu_monitor
+    [ -z "${VLLM_PID:-}" ] || kill "$VLLM_PID" 2>/dev/null || true
+    [ -z "${OLLAMA_PID:-}" ] || kill "$OLLAMA_PID" 2>/dev/null || true
+    exit "$rc"
+}
+trap cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+
 weights_gb() {  # model weights in GB: a local folder, else the Hugging Face file listing (nothing is downloaded)
     if [ -d "$VLLM_MODEL" ]; then du -s --block-size=1G "$VLLM_MODEL" | cut -f1; return; fi
     "$VLLM_ENV/bin/python" - "$VLLM_MODEL" 2>/dev/null <<'EOF'
@@ -91,16 +154,20 @@ fi
 DP=${DP:-$((NGPU / TP))}
 [ "$DP" -ge 1 ] || DP=1
 WORKERS=${WORKERS:-$((WORKERS_PER_COPY * DP))}
+GPU_MEMORY_UTILIZATION=${GPU_MEMORY_UTILIZATION:-0.90}
+export KW_VLLM_TP=$TP KW_VLLM_DP=$DP KW_VLLM_MAX_MODEL_LEN=$MAX_MODEL_LEN
+export KW_VLLM_GPU_MEMORY_UTILIZATION=$GPU_MEMORY_UTILIZATION KW_VLLM_PREFIX_CACHING=true
+export KW_VLLM_WORKERS=$WORKERS KW_VLLM_PARALLEL_DOMAINS=$PARALLEL_DOMAINS
+export KW_VLLM_VERSION=$("$VLLM_ENV/bin/python" -c 'from importlib.metadata import version; print(version("vllm"))')
 echo "sweep $SWEEP_ID: $VLLM_MODEL (${WEIGHTS_GB:-?} GB) on $NGPU x ${GPU_GB} GB GPU(s): $DP copy(ies) x tensor parallel $TP;" \
      "$CPUS CPUs; $WORKERS workers per run; domains side by side: $PARALLEL_DOMAINS; sizes $LIMITS"
 CUDA_VISIBLE_DEVICES='' "$OLLAMA" serve >"$LOG/ollama.log" 2>&1 &
 OLLAMA_PID=$!
 # shellcheck disable=SC2086  # VLLM_EXTRA_ARGS is a list of flags
 "$VLLM_ENV/bin/vllm" serve "$VLLM_MODEL" --port "$VLLM_PORT" --tensor-parallel-size "$TP" --data-parallel-size "$DP" \
-    --max-model-len "$MAX_MODEL_LEN" --gpu-memory-utilization 0.90 --enable-prefix-caching \
+    --max-model-len "$MAX_MODEL_LEN" --gpu-memory-utilization "$GPU_MEMORY_UTILIZATION" --enable-prefix-caching \
     ${VLLM_EXTRA_ARGS:-} >"$LOG/vllm.log" 2>&1 &
 VLLM_PID=$!
-trap 'kill $VLLM_PID $OLLAMA_PID 2>/dev/null' EXIT
 
 wait_for() {  # url name pid: up to 60 min (the first run downloads the model)
     for _ in $(seq 360); do
@@ -133,15 +200,24 @@ EOF
 SUMMARY=$LOG/summary.csv
 echo '"kind","limit","run_id","status","detail"' >"$SUMMARY"
 save() { printf '"%s","%s","%s","%s","%s"\n' "$1" "$2" "$3" "$4" "$5" >>"$SUMMARY"; }
+publish() {  # copy this sweep's folders to GCS_BUCKET (only what changed); an upload failure never stops the sweep
+    [ -n "$GCS_BUCKET" ] || return 0
+    for d in "$ROOT"/outputs/*-"$SWEEP_ID"; do
+        gcloud storage rsync -r --exclude='.*\.pdf$' "$d" "$GCS_BUCKET/$(basename "$d")" >>"$LOG/publish.log" 2>&1 \
+            || echo "upload of $(basename "$d") failed; see $LOG/publish.log"
+    done
+}
 
 run_kw() {  # id, then src.run arguments; --workers halves after a transient error, like run-sweep.ps1. 3 = server down
     local id=$1; shift
-    local args=("$@") attempt log rc
+    local args=("$@") attempt log rc attempt_workers i
     for attempt in $(seq 0 "$RETRIES"); do
         healthy || return 3
         log=$LOG/$id-attempt$attempt.log
-        if [ "$PARALLEL_DOMAINS" = 1 ]; then "${PY[@]}" -m src.run "${args[@]}" >"$log" 2>&1; rc=$?   # side by side: log only
-        else "${PY[@]}" -m src.run "${args[@]}" 2>&1 | tee "$log"; rc=${PIPESTATUS[0]}; fi
+        attempt_workers=$WORKERS
+        for i in "${!args[@]}"; do [ "${args[$i]}" = --workers ] && attempt_workers=${args[i+1]}; done
+        if [ "$PARALLEL_DOMAINS" = 1 ]; then KW_VLLM_WORKERS=$attempt_workers "${PY[@]}" -m src.run "${args[@]}" >"$log" 2>&1; rc=$?   # side by side: log only
+        else KW_VLLM_WORKERS=$attempt_workers "${PY[@]}" -m src.run "${args[@]}" 2>&1 | tee "$log"; rc=${PIPESTATUS[0]}; fi
         [ "$rc" -eq 0 ] && return 0
         grep -qE 'APIConnectionError|APITimeoutError|InternalServerError|RateLimitError|HTTP (429|502|503|504)|ConnectionError|ConnectTimeout|ReadTimeout|database is locked|out of memory|overloaded' "$log" || return 1
         for i in "${!args[@]}"; do [ "${args[$i]}" = --workers ] && args[i+1]=$(( args[i+1] > 1 ? args[i+1] / 2 : 1 )); done
@@ -164,6 +240,7 @@ EOF
 }
 
 for n in $LIMITS; do
+    publish   # results of the previous size
     completed=() ids=() rcs=() pids=()
     for col in $COLLECTIONS; do
         id=$col-n$n-$SWEEP_ID
@@ -209,7 +286,9 @@ for n in $LIMITS; do
     else save integration "$n" "$iid" invalid "Structural validation failed."; fi
 done
 
+stop_gpu_monitor
 "${PY[@]}" -m src.figures --sweep-summary "$SUMMARY" --out "$LOG/report" --title "Paper sweep $SWEEP_ID" \
     >"$LOG/report.log" 2>&1 || save report "" "sweep-$SWEEP_ID-report" failed "see report.log"
+publish
 echo "summary: $SUMMARY"; echo "report:  $LOG/report/report.html"
 grep -q '"completed"' "$SUMMARY" && ! grep -qE '"(failed|invalid|partial|skipped)"' "$SUMMARY"

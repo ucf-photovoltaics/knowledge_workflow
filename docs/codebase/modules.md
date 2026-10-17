@@ -160,9 +160,9 @@ Imports:
 
 ## dpv_dashboard/__main__.py
 
-Launch locally: python -m dpv_dashboard [--port 8056].
+Launch locally: python -m dpv_dashboard [--port 8056] [--viewer] [--host 0.0.0.0].
 
-[Source](../../dpv_dashboard/__main__.py) · SHA256 `8acd140b25e126c281bdec6fbe6fc5ef0c66035cccce626e8104daaed594e806`
+[Source](../../dpv_dashboard/__main__.py) · SHA256 `796bd9045ac27857594ff2e092b523b0b78c529cac1057d1e321428dda1376ff`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
@@ -174,46 +174,46 @@ Imports: `argparse`, `dpv_dashboard.model`, `os`, `subprocess`, `sys`, `tempfile
 
 UCF DPV Knowledge Workflow standalone Shiny application.
 
-[Source](../../dpv_dashboard/app.py) · SHA256 `a34ff44f754c877ec2deffee03972bf5f7d97a50901cbfa40793fe450733a3f1`
+[Source](../../dpv_dashboard/app.py) · SHA256 `a7b57cc3d11dafcae970dbf9aa2103094b1a01831ef0413fde22d80da5225d12`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
-| `server` | 51 | `input, output, session` | Read the linked implementation and its call-site contract. |
-| `server.discover_outputs` | 57 | `` | Read the linked implementation and its call-site contract. |
-| `server.monitored` | 72 | `` | Read the linked implementation and its call-site contract. |
-| `server.latest_integration` | 76 | `` | Read the linked implementation and its call-site contract. |
-| `server.stage_files` | 99 | `root, stage` | Read the linked implementation and its call-site contract. |
-| `server.tick` | 104 | `` | Read the linked implementation and its call-site contract. |
-| `server.refresh` | 109 | `` | Read the linked implementation and its call-site contract. |
-| `server.poll_project` | 115 | `` | Read the linked implementation and its call-site contract. |
-| `server.project` | 125 | `` | Read the linked implementation and its call-site contract. |
-| `server.require_project` | 128 | `` | Read the linked implementation and its call-site contract. |
-| `server.notice` | 136 | `message, error=False` | Read the linked implementation and its call-site contract. |
-| `server.ensure_idle` | 139 | `` | Read the linked implementation and its call-site contract. |
-| `server.select_project` | 143 | `identifier` | Read the linked implementation and its call-site contract. |
-| `server.project_choices` | 151 | `` | Read the linked implementation and its call-site contract. |
-| `server.domain_choices` | 159 | `` | Read the linked implementation and its call-site contract. |
-| `server.domain` | 166 | `` | Read the linked implementation and its call-site contract. |
-| `server.attempts` | 171 | `` | Read the linked implementation and its call-site contract. |
-| `server.folder` | 185 | `stage` | Read the linked implementation and its call-site contract. |
-| `server.launch` | 209 | `action, stage=None` | Read the linked implementation and its call-site contract. |
-| `server.open_exploration` | 223 | `root, path=None` | Read the linked implementation and its call-site contract. |
-| `server.roots` | 230 | `` | Read the linked implementation and its call-site contract. |
-| `server.superseded` | 249 | `root` | Read the linked implementation and its call-site contract. |
-| `server.inspect_source` | 259 | `root, canonical=None, paper=None, tab=None` | Read the linked implementation and its call-site contract. |
-| `server.research_navigation` | 286 | `` | Read the linked implementation and its call-site contract. |
-| `server.open_research_reference` | 301 | `` | Read the linked implementation and its call-site contract. |
-| `server.graph_provenance` | 322 | `` | Read the linked implementation and its call-site contract. |
-| `server.authentication` | 335 | `` | Read the linked implementation and its call-site contract. |
-| `server.authenticate` | 341 | `` | Read the linked implementation and its call-site contract. |
-| `server.pipeline_status` | 346 | `` | Read the linked implementation and its call-site contract. |
-| `server.job_status` | 373 | `` | Read the linked implementation and its call-site contract. |
-| `server.logs` | 382 | `` | Read the linked implementation and its call-site contract. |
-| `server.view_context` | 391 | `` | Read the linked implementation and its call-site contract. |
-| `server.monitor_notice` | 400 | `` | Read the linked implementation and its call-site contract. |
-| `server.automatic` | 406 | `` | Read the linked implementation and its call-site contract. |
-| `server.resume` | 411 | `` | Read the linked implementation and its call-site contract. |
-| `server.cancel` | 416 | `` | Read the linked implementation and its call-site contract. |
+| `server` | 54 | `input, output, session` | Read the linked implementation and its call-site contract. |
+| `server.discover_outputs` | 60 | `` | Read the linked implementation and its call-site contract. |
+| `server.monitored` | 76 | `` | Read the linked implementation and its call-site contract. |
+| `server.latest_integration` | 80 | `` | Read the linked implementation and its call-site contract. |
+| `server.stage_files` | 103 | `root, stage` | Read the linked implementation and its call-site contract. |
+| `server.tick` | 108 | `` | Read the linked implementation and its call-site contract. |
+| `server.refresh` | 113 | `` | Read the linked implementation and its call-site contract. |
+| `server.poll_project` | 119 | `` | Read the linked implementation and its call-site contract. |
+| `server.project` | 129 | `` | Read the linked implementation and its call-site contract. |
+| `server.require_project` | 132 | `` | Read the linked implementation and its call-site contract. |
+| `server.notice` | 140 | `message, error=False` | Read the linked implementation and its call-site contract. |
+| `server.ensure_idle` | 143 | `` | Read the linked implementation and its call-site contract. |
+| `server.select_project` | 147 | `identifier` | Read the linked implementation and its call-site contract. |
+| `server.project_choices` | 155 | `` | Read the linked implementation and its call-site contract. |
+| `server.domain_choices` | 163 | `` | Read the linked implementation and its call-site contract. |
+| `server.domain` | 170 | `` | Read the linked implementation and its call-site contract. |
+| `server.attempts` | 175 | `` | Read the linked implementation and its call-site contract. |
+| `server.folder` | 189 | `stage` | Read the linked implementation and its call-site contract. |
+| `server.launch` | 213 | `action, stage=None` | Read the linked implementation and its call-site contract. |
+| `server.open_exploration` | 227 | `root, path=None` | Read the linked implementation and its call-site contract. |
+| `server.roots` | 234 | `` | Read the linked implementation and its call-site contract. |
+| `server.superseded` | 253 | `root` | Read the linked implementation and its call-site contract. |
+| `server.inspect_source` | 263 | `root, canonical=None, paper=None, tab=None` | Read the linked implementation and its call-site contract. |
+| `server.research_navigation` | 290 | `` | Read the linked implementation and its call-site contract. |
+| `server.open_research_reference` | 305 | `` | Read the linked implementation and its call-site contract. |
+| `server.graph_provenance` | 326 | `` | Read the linked implementation and its call-site contract. |
+| `server.authentication` | 339 | `` | Read the linked implementation and its call-site contract. |
+| `server.authenticate` | 347 | `` | Read the linked implementation and its call-site contract. |
+| `server.pipeline_status` | 352 | `` | Read the linked implementation and its call-site contract. |
+| `server.job_status` | 379 | `` | Read the linked implementation and its call-site contract. |
+| `server.logs` | 388 | `` | Read the linked implementation and its call-site contract. |
+| `server.view_context` | 397 | `` | Read the linked implementation and its call-site contract. |
+| `server.monitor_notice` | 406 | `` | Read the linked implementation and its call-site contract. |
+| `server.automatic` | 412 | `` | Read the linked implementation and its call-site contract. |
+| `server.resume` | 417 | `` | Read the linked implementation and its call-site contract. |
+| `server.cancel` | 422 | `` | Read the linked implementation and its call-site contract. |
 
 Imports: `asyncio`, `datetime`, `dpv_dashboard`, `dpv_dashboard.auth`, `dpv_dashboard.jobs`, `dpv_dashboard.pages.browse`, `dpv_dashboard.pages.exploration`, `dpv_dashboard.pages.home`, `dpv_dashboard.pages.inventory`, `dpv_dashboard.pages.research`, `dpv_dashboard.pages.stage`, `json`, `pathlib`, `shiny`, `types`, `uuid`
 
@@ -221,13 +221,13 @@ Imports: `asyncio`, `datetime`, `dpv_dashboard`, `dpv_dashboard.auth`, `dpv_dash
 
 Local credentials are saved outside source control and never returned to the browser.
 
-[Source](../../dpv_dashboard/auth.py) · SHA256 `d784a95ca2dc6e2c1599b3708a5697ef74000d5fb269ff814305f30e862de46e`
+[Source](../../dpv_dashboard/auth.py) · SHA256 `4221cfc756cbea2c7b26c9aabbddea71bd6359d47a8b8aaad7ff1e7ca1f39b77`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
 | `credentials` | 16 | `` | Read the linked implementation and its call-site contract. |
 | `save_env` | 20 | `source: Path` | Read the linked implementation and its call-site contract. |
-| `redact` | 35 | `text` | Read the linked implementation and its call-site contract. |
+| `redact` | 37 | `text` | Read the linked implementation and its call-site contract. |
 
 Imports: `__future__`, `dotenv`, `dpv_dashboard.model`, `os`, `pathlib`, `re`
 
@@ -253,18 +253,20 @@ Imports: `__future__`, `datetime`, `dpv_dashboard`, `functools`, `json`, `pathli
 
 Read existing model profiles without importing or changing pipeline configuration.
 
-[Source](../../dpv_dashboard/chat_settings.py) · SHA256 `4fb57e1020e04643c4f2785f9c80651a85240f6747e447057049f24c3194f4e4`
+[Source](../../dpv_dashboard/chat_settings.py) · SHA256 `0361a0b38599334487d6b4e7d294ea8d19ca56a9e15f6d9992bb7c5d089bebc0`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
-| `profiles` | 13 | `settings` | Read the linked implementation and its call-site contract. |
-| `profiles.resolve` | 15 | `node` | Read the linked implementation and its call-site contract. |
-| `model_label` | 47 | `name` | Read the linked implementation and its call-site contract. |
-| `choices` | 57 | `root, project, settings` | Read the linked implementation and its call-site contract. |
-| `choices.option` | 64 | `profile, name=None, base=None, provider=None` | Read the linked implementation and its call-site contract. |
-| `connection` | 102 | `option, settings` | Read the linked implementation and its call-site contract. |
+| `profiles` | 17 | `settings` | Read the linked implementation and its call-site contract. |
+| `profiles.resolve` | 19 | `node` | Read the linked implementation and its call-site contract. |
+| `reachable` | 55 | `base_url` | Whether a model server answers; cached for 30 s so page renders stay fast. |
+| `offline` | 71 | `option` | A local model server (e.g. Ollama) that is not running. |
+| `model_label` | 77 | `name` | Read the linked implementation and its call-site contract. |
+| `choices` | 87 | `root, project, settings` | Read the linked implementation and its call-site contract. |
+| `choices.option` | 94 | `profile, name=None, base=None, provider=None` | Read the linked implementation and its call-site contract. |
+| `connection` | 136 | `option, settings` | Read the linked implementation and its call-site contract. |
 
-Imports: `ast`, `dpv_dashboard`, `os`
+Imports: `ast`, `dpv_dashboard`, `os`, `time`, `urllib.error`, `urllib.parse`, `urllib.request`
 
 ## dpv_dashboard/exploration.py
 
@@ -290,17 +292,17 @@ Imports: `dpv_dashboard`, `functools`, `json`, `pathlib`, `rdflib`, `re`, `urlli
 
 Read-only discovery of existing pipeline outputs; never adopts process ownership.
 
-[Source](../../dpv_dashboard/external.py) · SHA256 `27c6b544bcbb40defadbce2502954425a672ddcf34d085d09e8db750854e9614`
+[Source](../../dpv_dashboard/external.py) · SHA256 `bda2125e8cad48e3fd5a9f88db4c10d52f3774e6ca3052b8511c02cc2b158ae2`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
-| `discover` | 11 | `root=None` | Read the linked implementation and its call-site contract. |
-| `files` | 28 | `folder, stage, kind='run'` | Read the linked implementation and its call-site contract. |
-| `log` | 45 | `folder` | Read the linked implementation and its call-site contract. |
-| `states` | 63 | `folder, kind` | Read the linked implementation and its call-site contract. |
-| `summary` | 92 | `folder, stage, kind` | Read the linked implementation and its call-site contract. |
+| `discover` | 12 | `root=None` | Runs in outputs/ plus any folders listed in DPV_OUTPUT_DIRS (e.g. a mounted Cloud Storage bucket). |
+| `files` | 36 | `folder, stage, kind='run'` | Read the linked implementation and its call-site contract. |
+| `log` | 53 | `folder` | Read the linked implementation and its call-site contract. |
+| `states` | 71 | `folder, kind` | Read the linked implementation and its call-site contract. |
+| `summary` | 100 | `folder, stage, kind` | Read the linked implementation and its call-site contract. |
 
-Imports: `dpv_dashboard`, `dpv_dashboard.inspect`, `pathlib`, `re`, `time`
+Imports: `dpv_dashboard`, `dpv_dashboard.inspect`, `os`, `pathlib`, `re`, `time`
 
 ## dpv_dashboard/highlight.py
 
@@ -350,16 +352,16 @@ Imports: `dpv_dashboard`
 
 One local supervised process tree, with durable job history and cancellation.
 
-[Source](../../dpv_dashboard/jobs.py) · SHA256 `1100610fdaa5133cbc70e76e3a318bbe33d22abbca4f45dfa403670cc70457ae`
+[Source](../../dpv_dashboard/jobs.py) · SHA256 `09b925c3468658bf8d8481c0ceb5a0785eccb26e2af3d8a3a7f7f8b61ff0972c`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
 | `Jobs.__init__` | 18 | `self` | Read the linked implementation and its call-site contract. |
 | `Jobs.running` | 23 | `self` | Read the linked implementation and its call-site contract. |
 | `Jobs.start` | 26 | `self, project, action, domain=None, stage=None` | Read the linked implementation and its call-site contract. |
-| `Jobs._wait` | 50 | `self, process, job, handle` | Read the linked implementation and its call-site contract. |
-| `Jobs.cancel` | 67 | `self, project_id` | Read the linked implementation and its call-site contract. |
-| `Jobs.log` | 81 | `self, project` | Read the linked implementation and its call-site contract. |
+| `Jobs._wait` | 51 | `self, process, job, handle` | Read the linked implementation and its call-site contract. |
+| `Jobs.cancel` | 68 | `self, project_id` | Read the linked implementation and its call-site contract. |
+| `Jobs.log` | 82 | `self, project` | Read the linked implementation and its call-site contract. |
 
 Imports: `__future__`, `dpv_dashboard`, `dpv_dashboard.auth`, `os`, `signal`, `subprocess`, `sys`, `threading`, `uuid`
 
@@ -397,25 +399,27 @@ Imports: `collections`, `dpv_dashboard`, `dpv_dashboard.inspect`, `functools`, `
 
 Project persistence and immutable stage-attempt snapshots, without pipeline imports.
 
-[Source](../../dpv_dashboard/model.py) · SHA256 `1db087bf0b3b0bf484f6cf971ee9c3ddce04520ad9ef368f5f6536417c4e1782`
+[Source](../../dpv_dashboard/model.py) · SHA256 `064384080fc4c29ae0c2b520d6ee624065fea1c1532778a8ecebda9d40d0d238`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
-| `now` | 36 | `` | Read the linked implementation and its call-site contract. |
-| `read` | 40 | `path: Path, default=None` | Read the linked implementation and its call-site contract. |
-| `write` | 47 | `path: Path, value` | Read the linked implementation and its call-site contract. |
-| `slug` | 62 | `name` | Read the linked implementation and its call-site contract. |
-| `inside` | 69 | `root: Path, relative: str` | Read the linked implementation and its call-site contract. |
-| `project_path` | 76 | `identifier` | Read the linked implementation and its call-site contract. |
-| `projects` | 82 | `` | Read the linked implementation and its call-site contract. |
-| `create_project` | 87 | `name` | Read the linked implementation and its call-site contract. |
-| `load_project` | 96 | `identifier` | Read the linked implementation and its call-site contract. |
-| `save_project` | 103 | `project` | Read the linked implementation and its call-site contract. |
-| `add_domain` | 107 | `project, name, limit, collections` | Read the linked implementation and its call-site contract. |
-| `run_dir` | 118 | `project, domain` | Read the linked implementation and its call-site contract. |
-| `new_attempt` | 122 | `project, domain, stage` | Copy only upstream products. Previous attempts are never changed or deleted. |
-| `stage_state` | 176 | `folder, stage, status, **extra` | Read the linked implementation and its call-site contract. |
-| `artifact_files` | 182 | `folder, stage` | Read the linked implementation and its call-site contract. |
+| `viewer` | 20 | `` | Viewer mode (DPV_VIEWER=1 or --viewer): saved results only; no projects, jobs or saved settings. |
+| `require_editor` | 25 | `` | Read the linked implementation and its call-site contract. |
+| `now` | 46 | `` | Read the linked implementation and its call-site contract. |
+| `read` | 50 | `path: Path, default=None` | Read the linked implementation and its call-site contract. |
+| `write` | 57 | `path: Path, value` | Read the linked implementation and its call-site contract. |
+| `slug` | 72 | `name` | Read the linked implementation and its call-site contract. |
+| `inside` | 79 | `root: Path, relative: str` | Read the linked implementation and its call-site contract. |
+| `project_path` | 86 | `identifier` | Read the linked implementation and its call-site contract. |
+| `projects` | 92 | `` | Read the linked implementation and its call-site contract. |
+| `create_project` | 99 | `name` | Read the linked implementation and its call-site contract. |
+| `load_project` | 108 | `identifier` | Read the linked implementation and its call-site contract. |
+| `save_project` | 115 | `project` | Read the linked implementation and its call-site contract. |
+| `add_domain` | 120 | `project, name, limit, collections` | Read the linked implementation and its call-site contract. |
+| `run_dir` | 131 | `project, domain` | Read the linked implementation and its call-site contract. |
+| `new_attempt` | 135 | `project, domain, stage` | Copy only upstream products. Previous attempts are never changed or deleted. |
+| `stage_state` | 189 | `folder, stage, status, **extra` | Read the linked implementation and its call-site contract. |
+| `artifact_files` | 195 | `folder, stage` | Read the linked implementation and its call-site contract. |
 
 Imports: `__future__`, `datetime`, `json`, `os`, `pathlib`, `re`, `shutil`, `time`, `uuid`
 
@@ -457,40 +461,41 @@ Imports: `concurrent.futures`, `dpv_dashboard`, `dpv_dashboard.auth`, `dpv_dashb
 
 Visual Exploration workspace: ontology graph, scoped search and grounded chat.
 
-[Source](../../dpv_dashboard/pages/exploration.py) · SHA256 `3846b25b97e99ebb6ebd4633472676526e6818931bc9b079e4e9fc3d4411a110`
+[Source](../../dpv_dashboard/pages/exploration.py) · SHA256 `e6292763d10082acab10cf984860f49b6a9ce2636493a09505a50092cc512367`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
 | `exploration_ui` | 16 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server` | 49 | `input, output, session, context` | Read the linked implementation and its call-site contract. |
-| `exploration_server.available_models` | 62 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.model_choices` | 67 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.model_info` | 75 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.choices` | 89 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.root` | 101 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.ontologies` | 105 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.path` | 133 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.poll` | 138 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.rdf` | 153 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.scope_reset` | 163 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.graph` | 179 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.graph_payload` | 186 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.graph_summary` | 195 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.edge_detail` | 211 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.search` | 244 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.results` | 257 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.actions` | 262 | `row` | Read the linked implementation and its call-site contract. |
-| `exploration_server.coverage` | 280 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.excluded_results` | 284 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.selected` | 288 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.result_detail` | 297 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.use_result` | 308 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.inspect` | 318 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.history` | 328 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.send` | 337 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.model_chat` | 368 | `question, rows, settings, name, scope, revision` | Read the linked implementation and its call-site contract. |
-| `exploration_server.receive_model` | 380 | `` | Read the linked implementation and its call-site contract. |
-| `exploration_server.clear` | 395 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server` | 50 | `input, output, session, context` | Read the linked implementation and its call-site contract. |
+| `exploration_server.keys` | 62 | `` | Saved credentials plus a Gemini key entered for this browser session only (held in memory, never written). |
+| `exploration_server.available_models` | 68 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.model_choices` | 73 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.model_info` | 82 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.choices` | 97 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.root` | 109 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.ontologies` | 113 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.path` | 141 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.poll` | 146 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.rdf` | 161 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.scope_reset` | 171 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.graph` | 187 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.graph_payload` | 194 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.graph_summary` | 203 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.edge_detail` | 219 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.search` | 252 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.results` | 265 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.actions` | 270 | `row` | Read the linked implementation and its call-site contract. |
+| `exploration_server.coverage` | 288 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.excluded_results` | 292 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.selected` | 296 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.result_detail` | 305 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.use_result` | 316 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.inspect` | 326 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.history` | 336 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.send` | 345 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.model_chat` | 376 | `question, rows, settings, name, scope, revision` | Read the linked implementation and its call-site contract. |
+| `exploration_server.receive_model` | 388 | `` | Read the linked implementation and its call-site contract. |
+| `exploration_server.clear` | 403 | `` | Read the linked implementation and its call-site contract. |
 
 Imports: `asyncio`, `collections`, `dpv_dashboard`, `dpv_dashboard.auth`, `dpv_dashboard.inspect`, `dpv_dashboard.viewer`, `pathlib`, `shiny`
 
@@ -498,20 +503,20 @@ Imports: `asyncio`, `collections`, `dpv_dashboard`, `dpv_dashboard.auth`, `dpv_d
 
 Landing page and local authentication onboarding.
 
-[Source](../../dpv_dashboard/pages/home.py) · SHA256 `ddfd1f6227b3e759fd644b239a580c34e4da49762e3b0747690bbb1e9ac70c8b`
+[Source](../../dpv_dashboard/pages/home.py) · SHA256 `8b700bc9d1eb4c69d6ba31ff98e44d67e74eaa117b826cf4182694099a866230`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
 | `home_ui` | 12 | `` | Read the linked implementation and its call-site contract. |
-| `home_server` | 41 | `input, output, session, context` | Read the linked implementation and its call-site contract. |
-| `home_server.workspace` | 45 | `` | Read the linked implementation and its call-site contract. |
-| `home_server.open_results` | 61 | `` | Read the linked implementation and its call-site contract. |
-| `home_server.auth` | 65 | `` | Read the linked implementation and its call-site contract. |
-| `home_server.upload` | 75 | `` | Read the linked implementation and its call-site contract. |
-| `home_server.create` | 88 | `` | Read the linked implementation and its call-site contract. |
-| `home_server.begin` | 100 | `` | Read the linked implementation and its call-site contract. |
-| `home_server.guide` | 105 | `` | Read the linked implementation and its call-site contract. |
-| `home_server.project_info` | 115 | `` | Read the linked implementation and its call-site contract. |
+| `home_server` | 46 | `input, output, session, context` | Read the linked implementation and its call-site contract. |
+| `home_server.workspace` | 50 | `` | Read the linked implementation and its call-site contract. |
+| `home_server.open_results` | 66 | `` | Read the linked implementation and its call-site contract. |
+| `home_server.auth` | 70 | `` | Read the linked implementation and its call-site contract. |
+| `home_server.upload` | 80 | `` | Read the linked implementation and its call-site contract. |
+| `home_server.create` | 93 | `` | Read the linked implementation and its call-site contract. |
+| `home_server.begin` | 105 | `` | Read the linked implementation and its call-site contract. |
+| `home_server.guide` | 110 | `` | Read the linked implementation and its call-site contract. |
+| `home_server.project_info` | 120 | `` | Read the linked implementation and its call-site contract. |
 
 Imports: `dpv_dashboard`, `dpv_dashboard.auth`, `pathlib`, `shiny`
 
@@ -579,35 +584,35 @@ Imports: `__future__`, `collections`, `dpv_dashboard`, `dpv_dashboard.inspect`, 
 
 Reusable stage-page module with readable summaries and scoped artifact inspection.
 
-[Source](../../dpv_dashboard/pages/stage.py) · SHA256 `6dce3ac114fa85b4c6561acc421a6ae767e3b38510ddf16081f34fe447cc603f`
+[Source](../../dpv_dashboard/pages/stage.py) · SHA256 `5208be8ff4ed4d207de877c44a14ebbb974ff1bd2c20f40356c2bf1a42591c7b`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
 | `stage_ui` | 32 | `stage, lead=None` | Read the linked implementation and its call-site contract. |
-| `stage_server` | 60 | `input, output, session, stage, context` | Read the linked implementation and its call-site contract. |
-| `stage_server.baselines` | 65 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.comparison` | 78 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.folder` | 84 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.poll_artifacts` | 90 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.choices` | 100 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.selected_file` | 115 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.document` | 126 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.sections` | 131 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.overview` | 141 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.status` | 149 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.notes` | 172 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.review` | 184 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.report_library` | 191 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.report_document` | 213 | `path` | Resolve report image paths against its own folder, within the selected run. |
-| `stage_server.report_document.asset_url` | 216 | `value` | Read the linked implementation and its call-site contract. |
-| `stage_server.preview_report` | 230 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.results` | 251 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.visual` | 282 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.explore` | 301 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.raw` | 305 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.download` | 315 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.launch` | 323 | `` | Read the linked implementation and its call-site contract. |
-| `stage_server.restart` | 328 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server` | 61 | `input, output, session, stage, context` | Read the linked implementation and its call-site contract. |
+| `stage_server.baselines` | 66 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.comparison` | 79 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.folder` | 85 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.poll_artifacts` | 91 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.choices` | 101 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.selected_file` | 116 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.document` | 127 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.sections` | 132 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.overview` | 142 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.status` | 150 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.notes` | 173 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.review` | 185 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.report_library` | 192 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.report_document` | 214 | `path` | Resolve report image paths against its own folder, within the selected run. |
+| `stage_server.report_document.asset_url` | 217 | `value` | Read the linked implementation and its call-site contract. |
+| `stage_server.preview_report` | 231 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.results` | 252 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.visual` | 283 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.explore` | 302 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.raw` | 306 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.download` | 316 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.launch` | 324 | `` | Read the linked implementation and its call-site contract. |
+| `stage_server.restart` | 329 | `` | Read the linked implementation and its call-site contract. |
 
 Imports: `__future__`, `base64`, `dpv_dashboard`, `dpv_dashboard.auth`, `dpv_dashboard.inspect`, `dpv_dashboard.pages.research`, `json`, `pandas`, `pathlib`, `rdflib`, `re`, `shiny`, `urllib.parse`
 
@@ -1223,9 +1228,9 @@ Imports:
 
 ## scripts/slurm-sweep.sh
 
-Summary: slurm-sweep support for Knowledge Workflow; retain the existing operational notes below.
+Summary: run/resume a GPU-backed literature sweep, record serving setup and sample GPU power/utilization.
 
-[Source](../../scripts/slurm-sweep.sh) · SHA256 `18a477098cd59381cc6dad9bb659d773a1bc4c182b6e26b4676d80bf45f1fcff`
+[Source](../../scripts/slurm-sweep.sh) · SHA256 `814b4b2e7acc91497ad73e036fe4ab4f945f31412d063f29c36443c9516b7221`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
@@ -1237,6 +1242,17 @@ Imports:
 Summary: stop-sweep support for Knowledge Workflow; retain the existing operational notes below.
 
 [Source](../../scripts/stop-sweep.ps1) · SHA256 `35844137ffe0e76cb8a7b2ea2d25df6062e21b5a8f49fd62f7ef3139d6995c80`
+
+| Callable | Line | Signature | Summary |
+|---|---:|---|---|
+
+Imports: 
+
+## scripts/sync-outputs.ps1
+
+Summary: Pull pipeline outputs from the Slurm cluster and push them to the dashboard's Cloud Storage bucket.
+
+[Source](../../scripts/sync-outputs.ps1) · SHA256 `f2ea0025abbd377ae5261973cce66603b2a10a1961007914fb8bd4c8247b15df`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
@@ -1486,15 +1502,15 @@ Imports: `collections`, `hashlib`, `numpy`, `re`, `src.agents.base`, `src.config
 
 Pipeline settings. API keys live in .env; everything else is set here.
 
-[Source](../../src/config.py) · SHA256 `910fdc47f3b929c39b436cc7d727e77f53ebfaae961aa1b5aedcf68bcb49667b`
+[Source](../../src/config.py) · SHA256 `0bbeebbe709bf4d5b78cdf1ba4d76f9fa515f08fcc69521de1a1599dbbe28b87`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
-| `profile_for` | 64 | `agent: str \| None=None` | Read the linked implementation and its call-site contract. |
-| `tier` | 80 | `agent: str \| None=None` | Read the linked implementation and its call-site contract. |
-| `domain_of` | 244 | `collection: dict` | The field a collection's papers come from, as the prompts name it. |
-| `secret` | 374 | `name: str \| None` | Read an API key from .env (blank counts as unset). |
-| `model_for` | 379 | `agent: str` | Read the linked implementation and its call-site contract. |
+| `profile_for` | 66 | `agent: str \| None=None` | Read the linked implementation and its call-site contract. |
+| `tier` | 82 | `agent: str \| None=None` | Read the linked implementation and its call-site contract. |
+| `domain_of` | 246 | `collection: dict` | The field a collection's papers come from, as the prompts name it. |
+| `secret` | 376 | `name: str \| None` | Read an API key from .env (blank counts as unset). |
+| `model_for` | 381 | `agent: str` | Read the linked implementation and its call-site contract. |
 
 Imports: `dotenv`, `os`, `pathlib`
 
@@ -1502,141 +1518,147 @@ Imports: `dotenv`, `os`, `pathlib`
 
 Paper figures from the evaluation tables and run folders.
 
-[Source](../../src/figures.py) · SHA256 `6268d7995e1f2458a9ed2cafa619a0f90ac5c9acfabf07f3d021760d3c369d19`
+[Source](../../src/figures.py) · SHA256 `11434e454bdcbf071484394b29592208e07db949b711b1fef8186f4e2abbeba5`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
-| `_csv` | 54 | `path: Path` | Read the linked implementation and its call-site contract. |
-| `_json` | 61 | `path: Path` | Read the linked implementation and its call-site contract. |
-| `num` | 68 | `v, default=0.0` | Read the linked implementation and its call-site contract. |
-| `label` | 75 | `domain: str` | Read the linked implementation and its call-site contract. |
-| `load_runs` | 79 | `outputs: Path, revision: str, profile: str \| None, run_ids: list[str] \| None` | Read the linked implementation and its call-site contract. |
-| `load_integrations` | 103 | `outputs: Path, selected_ids, integration_ids=None` | Only integrations whose nonempty input set is fully represented in this report. |
-| `largest` | 116 | `rows: list[dict], needs: str` | Per domain, the run with the most papers that has the given artifact. |
-| `paper_order` | 130 | `run_dir: Path` | Processed papers in selection order (citation rank). |
-| `cumulative` | 138 | `order: list[str], first_papers: list[set]` | Distinct items seen after each paper: an item counts from its earliest paper in this order. |
-| `Out.__init__` | 148 | `self, folder: Path` | Read the linked implementation and its call-site contract. |
-| `Out.save` | 152 | `self, fig, name: str, title: str, source: str, table: list[dict]` | Read the linked implementation and its call-site contract. |
-| `Out.skip` | 165 | `self, name: str, why: str` | Read the linked implementation and its call-site contract. |
-| `direct_labels` | 170 | `ax, ends: list[tuple[float, float, str, str]]` | Labels at line ends, nudged apart vertically so they do not collide. |
-| `stacked_barh` | 184 | `ax, labels: list[str], series: list[tuple[str, str, list[float]]], share: bool, frame=None` | Horizontal stacked bars with a 2px white gap between segments; optional outlined 100% frame. |
-| `fig_concept_growth` | 208 | `out: Out, rows: list[dict], permutations: int=200` | Read the linked implementation and its call-site contract. |
-| `fig_knowledge_growth` | 243 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_scaling` | 282 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_per_paper_yield` | 320 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_evidence` | 350 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_row_coverage` | 378 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `_domain_shares` | 406 | `out, rows, name, title, source, cols, prefix, total_col=None, frame=False, colors=None` | Read the linked implementation and its call-site contract. |
-| `fig_placement` | 427 | `out, rows` | Read the linked implementation and its call-site contract. |
-| `fig_definitions` | 435 | `out, rows` | Read the linked implementation and its call-site contract. |
-| `fig_restrictions` | 444 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_mappings` | 471 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_compute` | 502 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_integration` | 526 | `out: Out, outputs: Path, rows_runs: list[dict], revision: str, run_ids` | Read the linked implementation and its call-site contract. |
-| `grouped_barh` | 611 | `ax, cats: list[str], runs: dict, values: dict, fmt=None` | One bar per domain inside each category group; colour follows the domain. |
-| `top_categories` | 627 | `counts: dict[str, Counter], k: int=7` | Read the linked implementation and its call-site contract. |
-| `fold` | 635 | `c: Counter, keep: list[str]` | Read the linked implementation and its call-site contract. |
-| `share_figure` | 642 | `out, name, title, source, counts: dict[str, Counter], legend_cols=4, k=7` | Stacked share bars per domain over the k most common categories (rest folded into Other). |
-| `fig_parsing` | 657 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_extraction_checks` | 693 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_normalization` | 715 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_concept_support` | 740 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_concept_types` | 767 | `out, rows` | Read the linked implementation and its call-site contract. |
-| `fig_causal_polarity` | 774 | `out, rows` | Read the linked implementation and its call-site contract. |
-| `heatmap` | 781 | `ax, rows_labels, cols_labels, m, fmt='{:.0%}'` | Read the linked implementation and its call-site contract. |
-| `fig_relation_predicates` | 796 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `_classes` | 812 | `r` | Read the linked implementation and its call-site contract. |
-| `fig_bfo_categories` | 817 | `out, rows` | Read the linked implementation and its call-site contract. |
-| `fig_hierarchy` | 828 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_review_flags` | 869 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_study_stages` | 889 | `out, rows` | Read the linked implementation and its call-site contract. |
-| `fig_mapping_targets` | 899 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_layer_vs_ontology` | 916 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `columns` | 950 | `r: dict, prefix: str, skip=()` | Counter of the numeric columns that start with prefix (suffix -> value). |
-| `ontology_series` | 956 | `counts: dict[str, Counter]` | Share series per ontology with a fixed colour per ontology (case-insensitive), rest as Other. |
-| `fig_store_candidates` | 968 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_store_sources` | 994 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_store_propagation` | 1026 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_store_imports` | 1049 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_mapping_methods` | 1075 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_parent_answers` | 1108 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_uncertain` | 1117 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
-| `fig_integration_series` | 1143 | `out: Out, outputs: Path, revision: str, run_ids` | Read the linked implementation and its call-site contract. |
-| `build` | 1196 | `outputs: Path \| None=None, revision: str=config.WORKFLOW_REVISION, profile: str \| None=None, run_ids: list[str] \| None=None, out_dir: Path \| None=None, title: str \| None=None, sweep_summary: Path \| None=None` | Every figure (PDF, PNG, CSV), index.md, sweep_summary.csv and the grouped report (report.md, report.html). One failing figure is listed as skipped; it never stops the others. |
-| `main` | 1240 | `` | Read the linked implementation and its call-site contract. |
+| `_csv` | 56 | `path: Path` | Read the linked implementation and its call-site contract. |
+| `_json` | 63 | `path: Path` | Read the linked implementation and its call-site contract. |
+| `num` | 70 | `v, default=0.0` | Read the linked implementation and its call-site contract. |
+| `_metric` | 77 | `value` | Missing/unsupported hardware counters stay unavailable rather than becoming zero. |
+| `gpu_statistics` | 86 | `folder: Path \| None` | Integrate board power/utilization per GPU and submission, with explicit coverage. |
+| `run_context` | 179 | `outputs: Path, rows: list[dict], run_ids, statuses=(), sweep_folder: Path \| None=None` | Read saved setup and model-request tokens, including listed failed attempts. |
+| `label` | 242 | `domain: str` | Read the linked implementation and its call-site contract. |
+| `load_runs` | 246 | `outputs: Path, revision: str, profile: str \| None, run_ids: list[str] \| None` | Read the linked implementation and its call-site contract. |
+| `load_integrations` | 270 | `outputs: Path, selected_ids, integration_ids=None` | Only integrations whose nonempty input set is fully represented in this report. |
+| `largest` | 283 | `rows: list[dict], needs: str` | Per domain, the run with the most papers that has the given artifact. |
+| `paper_order` | 297 | `run_dir: Path` | Processed papers in selection order (citation rank). |
+| `cumulative` | 305 | `order: list[str], first_papers: list[set]` | Distinct items seen after each paper: an item counts from its earliest paper in this order. |
+| `Out.__init__` | 315 | `self, folder: Path` | Read the linked implementation and its call-site contract. |
+| `Out.save` | 319 | `self, fig, name: str, title: str, source: str, table: list[dict]` | Read the linked implementation and its call-site contract. |
+| `Out.skip` | 332 | `self, name: str, why: str` | Read the linked implementation and its call-site contract. |
+| `direct_labels` | 337 | `ax, ends: list[tuple[float, float, str, str]]` | Labels at line ends, nudged apart vertically so they do not collide. |
+| `stacked_barh` | 351 | `ax, labels: list[str], series: list[tuple[str, str, list[float]]], share: bool, frame=None` | Horizontal stacked bars with a 2px white gap between segments; optional outlined 100% frame. |
+| `fig_concept_growth` | 375 | `out: Out, rows: list[dict], permutations: int=200` | Read the linked implementation and its call-site contract. |
+| `fig_knowledge_growth` | 410 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_scaling` | 449 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_per_paper_yield` | 487 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_evidence` | 517 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_row_coverage` | 545 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `_domain_shares` | 573 | `out, rows, name, title, source, cols, prefix, total_col=None, frame=False, colors=None` | Read the linked implementation and its call-site contract. |
+| `fig_placement` | 594 | `out, rows` | Read the linked implementation and its call-site contract. |
+| `fig_definitions` | 602 | `out, rows` | Read the linked implementation and its call-site contract. |
+| `fig_restrictions` | 611 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_mappings` | 638 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_compute` | 669 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_integration` | 693 | `out: Out, outputs: Path, rows_runs: list[dict], revision: str, run_ids` | Read the linked implementation and its call-site contract. |
+| `grouped_barh` | 778 | `ax, cats: list[str], runs: dict, values: dict, fmt=None` | One bar per domain inside each category group; colour follows the domain. |
+| `top_categories` | 794 | `counts: dict[str, Counter], k: int=7` | Read the linked implementation and its call-site contract. |
+| `fold` | 802 | `c: Counter, keep: list[str]` | Read the linked implementation and its call-site contract. |
+| `share_figure` | 809 | `out, name, title, source, counts: dict[str, Counter], legend_cols=4, k=7` | Stacked share bars per domain over the k most common categories (rest folded into Other). |
+| `fig_parsing` | 824 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_extraction_checks` | 860 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_normalization` | 882 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_concept_support` | 907 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_concept_types` | 934 | `out, rows` | Read the linked implementation and its call-site contract. |
+| `fig_causal_polarity` | 941 | `out, rows` | Read the linked implementation and its call-site contract. |
+| `heatmap` | 948 | `ax, rows_labels, cols_labels, m, fmt='{:.0%}'` | Read the linked implementation and its call-site contract. |
+| `fig_relation_predicates` | 963 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `_classes` | 979 | `r` | Read the linked implementation and its call-site contract. |
+| `fig_bfo_categories` | 984 | `out, rows` | Read the linked implementation and its call-site contract. |
+| `fig_hierarchy` | 995 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_review_flags` | 1036 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_study_stages` | 1056 | `out, rows` | Read the linked implementation and its call-site contract. |
+| `fig_mapping_targets` | 1066 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_layer_vs_ontology` | 1083 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `columns` | 1117 | `r: dict, prefix: str, skip=()` | Counter of the numeric columns that start with prefix (suffix -> value). |
+| `ontology_series` | 1123 | `counts: dict[str, Counter]` | Share series per ontology with a fixed colour per ontology (case-insensitive), rest as Other. |
+| `fig_store_candidates` | 1135 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_store_sources` | 1161 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_store_propagation` | 1193 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_store_imports` | 1216 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_mapping_methods` | 1242 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_parent_answers` | 1275 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_uncertain` | 1284 | `out: Out, rows: list[dict]` | Read the linked implementation and its call-site contract. |
+| `fig_integration_series` | 1310 | `out: Out, outputs: Path, revision: str, run_ids` | Read the linked implementation and its call-site contract. |
+| `build` | 1363 | `outputs: Path \| None=None, revision: str=config.WORKFLOW_REVISION, profile: str \| None=None, run_ids: list[str] \| None=None, out_dir: Path \| None=None, title: str \| None=None, sweep_summary: Path \| None=None` | Every figure (PDF, PNG, CSV), index.md, sweep_summary.csv and the grouped report (report.md, report.html). One failing figure is listed as skipped; it never stops the others. |
+| `main` | 1410 | `` | Read the linked implementation and its call-site contract. |
 
-Imports: `argparse`, `collections`, `csv`, `json`, `matplotlib`, `matplotlib.pyplot`, `numpy`, `pathlib`, `random`, `src`, `src.tools`, `src.tools.reports`
+Imports: `argparse`, `collections`, `csv`, `json`, `math`, `matplotlib`, `matplotlib.pyplot`, `numpy`, `pathlib`, `random`, `src`, `src.tools`, `src.tools.reports`
 
 ## src/report.py
 
-One report with every figure, grouped by pipeline stage, each with a short paragraph computed from the numbers it plots; plus the sweep summary (one row per run and per integration). Written by src.figures.build:
+One report with every figure, grouped by pipeline stage, each with a short paragraph computed from the numbers it plots; plus saved setup, resource totals and sweep summary (one row per run/integration). Written by src.figures.build:
 
-[Source](../../src/report.py) · SHA256 `c8be35c8bf9d6f0c9fd53cd8e237e91fd233917e6258e97f5aca1ea6d43f8cb9`
+[Source](../../src/report.py) · SHA256 `3b30b089b9df3d410e61b49b357a8f1173a67db3322d29f777ea18c85e725149`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
-| `n` | 128 | `x` | Read the linked implementation and its call-site contract. |
-| `pc` | 133 | `a, b=1.0` | Read the linked implementation and its call-site contract. |
-| `L` | 138 | `d` | Read the linked implementation and its call-site contract. |
-| `by_domain` | 142 | `t: list[dict]` | Read the linked implementation and its call-site contract. |
-| `counts` | 150 | `r: dict, skip=('domain', 'run_id', 'total', 'classes', 'papers', 'concepts')` | Read the linked implementation and its call-site contract. |
-| `top` | 154 | `r: dict, k: int=2, skip=('domain', 'run_id', 'total', 'classes')` | Read the linked implementation and its call-site contract. |
-| `each` | 160 | `t, fn` | Read the linked implementation and its call-site contract. |
-| `_growth` | 166 | `t` | Read the linked implementation and its call-site contract. |
-| `_growth.one` | 169 | `d, rs` | Read the linked implementation and its call-site contract. |
-| `_knowledge` | 179 | `t` | Read the linked implementation and its call-site contract. |
-| `_scaling` | 193 | `t` | Read the linked implementation and its call-site contract. |
-| `_scaling.one` | 194 | `d, rs` | Read the linked implementation and its call-site contract. |
-| `_yield` | 207 | `t` | Read the linked implementation and its call-site contract. |
-| `_yield.one` | 210 | `d, rs` | Read the linked implementation and its call-site contract. |
-| `_parsing` | 219 | `t` | Read the linked implementation and its call-site contract. |
-| `_parsing.one` | 220 | `d, rs` | Read the linked implementation and its call-site contract. |
-| `_checks` | 228 | `t` | Read the linked implementation and its call-site contract. |
-| `_checks.one` | 229 | `r` | Read the linked implementation and its call-site contract. |
-| `_evidence` | 236 | `t` | Read the linked implementation and its call-site contract. |
-| `_evidence.one` | 237 | `d, rs` | Read the linked implementation and its call-site contract. |
-| `_normalization` | 246 | `t` | Read the linked implementation and its call-site contract. |
-| `_normalization.one` | 247 | `r` | Read the linked implementation and its call-site contract. |
-| `_support` | 255 | `t` | Read the linked implementation and its call-site contract. |
-| `_support.one` | 256 | `r` | Read the linked implementation and its call-site contract. |
-| `_shares` | 263 | `t, what='categories'` | Read the linked implementation and its call-site contract. |
-| `_hierarchy` | 267 | `t` | Read the linked implementation and its call-site contract. |
-| `_placement` | 274 | `t` | Read the linked implementation and its call-site contract. |
-| `_placement.one` | 275 | `r` | Read the linked implementation and its call-site contract. |
-| `_parent_answers` | 285 | `t` | Read the linked implementation and its call-site contract. |
-| `_parent_answers.one` | 286 | `r` | Read the linked implementation and its call-site contract. |
-| `_flags` | 296 | `t` | Read the linked implementation and its call-site contract. |
-| `_coverage` | 301 | `t` | Read the linked implementation and its call-site contract. |
-| `_definitions` | 310 | `t` | Read the linked implementation and its call-site contract. |
-| `_definitions.one` | 311 | `r` | Read the linked implementation and its call-site contract. |
-| `_restrictions` | 319 | `t` | Read the linked implementation and its call-site contract. |
-| `_restrictions.one` | 320 | `r` | Read the linked implementation and its call-site contract. |
-| `_layer` | 328 | `t` | Read the linked implementation and its call-site contract. |
-| `_layer.one` | 329 | `r` | Read the linked implementation and its call-site contract. |
-| `_mappings` | 338 | `t` | Read the linked implementation and its call-site contract. |
-| `_mappings.one` | 339 | `r` | Read the linked implementation and its call-site contract. |
-| `_methods` | 346 | `t` | Read the linked implementation and its call-site contract. |
-| `_methods.one` | 347 | `r` | Read the linked implementation and its call-site contract. |
-| `_store_candidates` | 356 | `t` | Read the linked implementation and its call-site contract. |
-| `_store_candidates.one` | 357 | `r` | Read the linked implementation and its call-site contract. |
-| `_store_sources` | 366 | `t` | Read the linked implementation and its call-site contract. |
-| `_store_sources.one` | 367 | `r` | Read the linked implementation and its call-site contract. |
-| `_propagation` | 378 | `t` | Read the linked implementation and its call-site contract. |
-| `_propagation.one` | 379 | `r` | Read the linked implementation and its call-site contract. |
-| `_imports` | 387 | `t` | Read the linked implementation and its call-site contract. |
-| `_imports.one` | 388 | `r` | Read the linked implementation and its call-site contract. |
-| `_uncertain` | 397 | `t` | Read the linked implementation and its call-site contract. |
-| `_uncertain.one` | 398 | `r` | Read the linked implementation and its call-site contract. |
-| `_compute` | 405 | `t` | Read the linked implementation and its call-site contract. |
-| `_compute.one` | 406 | `r` | Read the linked implementation and its call-site contract. |
-| `_integration` | 415 | `t` | Read the linked implementation and its call-site contract. |
-| `_integration_series` | 428 | `t` | Read the linked implementation and its call-site contract. |
-| `paragraph` | 449 | `name: str, table: list[dict]` | How to read the figure, then what its numbers say. A numbers sentence that fails is left out. |
-| `sweep` | 472 | `rows: list[dict], outputs: Path, revision: str, run_ids` | Read the linked implementation and its call-site contract. |
-| `_write_csv` | 494 | `path: Path, runs, ints, statuses=()` | Read the linked implementation and its call-site contract. |
-| `_cell` | 513 | `k, v` | Read the linked implementation and its call-site contract. |
-| `sections` | 523 | `out` | Groups with the figures that exist: (group, intro, [(name, heading, title, source, paragraph)]). |
-| `write` | 539 | `out, rows: list[dict], outputs: Path, revision: str, run_ids, notes: list[str], title: str \| None=None, statuses=()` | Read the linked implementation and its call-site contract. |
+| `n` | 129 | `x` | Read the linked implementation and its call-site contract. |
+| `pc` | 134 | `a, b=1.0` | Read the linked implementation and its call-site contract. |
+| `L` | 139 | `d` | Read the linked implementation and its call-site contract. |
+| `by_domain` | 143 | `t: list[dict]` | Read the linked implementation and its call-site contract. |
+| `counts` | 151 | `r: dict, skip=('domain', 'run_id', 'total', 'classes', 'papers', 'concepts')` | Read the linked implementation and its call-site contract. |
+| `top` | 155 | `r: dict, k: int=2, skip=('domain', 'run_id', 'total', 'classes')` | Read the linked implementation and its call-site contract. |
+| `each` | 161 | `t, fn` | Read the linked implementation and its call-site contract. |
+| `_growth` | 167 | `t` | Read the linked implementation and its call-site contract. |
+| `_growth.one` | 170 | `d, rs` | Read the linked implementation and its call-site contract. |
+| `_knowledge` | 180 | `t` | Read the linked implementation and its call-site contract. |
+| `_scaling` | 194 | `t` | Read the linked implementation and its call-site contract. |
+| `_scaling.one` | 195 | `d, rs` | Read the linked implementation and its call-site contract. |
+| `_yield` | 208 | `t` | Read the linked implementation and its call-site contract. |
+| `_yield.one` | 211 | `d, rs` | Read the linked implementation and its call-site contract. |
+| `_parsing` | 220 | `t` | Read the linked implementation and its call-site contract. |
+| `_parsing.one` | 221 | `d, rs` | Read the linked implementation and its call-site contract. |
+| `_checks` | 229 | `t` | Read the linked implementation and its call-site contract. |
+| `_checks.one` | 230 | `r` | Read the linked implementation and its call-site contract. |
+| `_evidence` | 237 | `t` | Read the linked implementation and its call-site contract. |
+| `_evidence.one` | 238 | `d, rs` | Read the linked implementation and its call-site contract. |
+| `_normalization` | 247 | `t` | Read the linked implementation and its call-site contract. |
+| `_normalization.one` | 248 | `r` | Read the linked implementation and its call-site contract. |
+| `_support` | 256 | `t` | Read the linked implementation and its call-site contract. |
+| `_support.one` | 257 | `r` | Read the linked implementation and its call-site contract. |
+| `_shares` | 264 | `t, what='categories'` | Read the linked implementation and its call-site contract. |
+| `_hierarchy` | 268 | `t` | Read the linked implementation and its call-site contract. |
+| `_placement` | 275 | `t` | Read the linked implementation and its call-site contract. |
+| `_placement.one` | 276 | `r` | Read the linked implementation and its call-site contract. |
+| `_parent_answers` | 286 | `t` | Read the linked implementation and its call-site contract. |
+| `_parent_answers.one` | 287 | `r` | Read the linked implementation and its call-site contract. |
+| `_flags` | 297 | `t` | Read the linked implementation and its call-site contract. |
+| `_coverage` | 302 | `t` | Read the linked implementation and its call-site contract. |
+| `_definitions` | 311 | `t` | Read the linked implementation and its call-site contract. |
+| `_definitions.one` | 312 | `r` | Read the linked implementation and its call-site contract. |
+| `_restrictions` | 320 | `t` | Read the linked implementation and its call-site contract. |
+| `_restrictions.one` | 321 | `r` | Read the linked implementation and its call-site contract. |
+| `_layer` | 329 | `t` | Read the linked implementation and its call-site contract. |
+| `_layer.one` | 330 | `r` | Read the linked implementation and its call-site contract. |
+| `_mappings` | 339 | `t` | Read the linked implementation and its call-site contract. |
+| `_mappings.one` | 340 | `r` | Read the linked implementation and its call-site contract. |
+| `_methods` | 347 | `t` | Read the linked implementation and its call-site contract. |
+| `_methods.one` | 348 | `r` | Read the linked implementation and its call-site contract. |
+| `_store_candidates` | 357 | `t` | Read the linked implementation and its call-site contract. |
+| `_store_candidates.one` | 358 | `r` | Read the linked implementation and its call-site contract. |
+| `_store_sources` | 367 | `t` | Read the linked implementation and its call-site contract. |
+| `_store_sources.one` | 368 | `r` | Read the linked implementation and its call-site contract. |
+| `_propagation` | 379 | `t` | Read the linked implementation and its call-site contract. |
+| `_propagation.one` | 380 | `r` | Read the linked implementation and its call-site contract. |
+| `_imports` | 388 | `t` | Read the linked implementation and its call-site contract. |
+| `_imports.one` | 389 | `r` | Read the linked implementation and its call-site contract. |
+| `_uncertain` | 398 | `t` | Read the linked implementation and its call-site contract. |
+| `_uncertain.one` | 399 | `r` | Read the linked implementation and its call-site contract. |
+| `_compute` | 406 | `t` | Read the linked implementation and its call-site contract. |
+| `_compute.one` | 407 | `r` | Read the linked implementation and its call-site contract. |
+| `_integration` | 416 | `t` | Read the linked implementation and its call-site contract. |
+| `_integration_series` | 429 | `t` | Read the linked implementation and its call-site contract. |
+| `paragraph` | 450 | `name: str, table: list[dict]` | How to read the figure, then what its numbers say. A numbers sentence that fails is left out. |
+| `sweep` | 473 | `rows: list[dict], outputs: Path, revision: str, run_ids` | Read the linked implementation and its call-site contract. |
+| `_write_csv` | 495 | `path: Path, runs, ints, statuses=()` | Read the linked implementation and its call-site contract. |
+| `_cell` | 514 | `k, v` | Read the linked implementation and its call-site contract. |
+| `setup_rows` | 524 | `context, revision` | Describe saved execution environments, never the machine rendering an old report. |
+| `totals_line` | 575 | `metrics` | A compact total with explicit units and unavailable counters. |
+| `totals_line.value` | 577 | `key, suffix, scale=1` | Read the linked implementation and its call-site contract. |
+| `sections` | 588 | `out` | Groups with the figures that exist: (group, intro, [(name, heading, title, source, paragraph)]). |
+| `write` | 604 | `out, rows: list[dict], outputs: Path, revision: str, run_ids, notes: list[str], title: str \| None=None, statuses=()` | Read the linked implementation and its call-site contract. |
 
 Imports: `base64`, `collections`, `csv`, `datetime`, `html`, `pathlib`, `src`, `statistics`
 
@@ -1665,49 +1687,51 @@ Imports: `argparse`, `collections`, `datasets`, `glob`, `json`, `math`, `os`, `p
 
 ## src/run.py
 
-Pipeline entry point.
+Pipeline entry point with saved settings, invocation environments and compute provenance.
 
-[Source](../../src/run.py) · SHA256 `16884a22b3a85c6db3d06fa62749e86a4a6ae8475392647a809c05b13fffa0eb`
+[Source](../../src/run.py) · SHA256 `66f9973d7f0b087cacaa629a6fce0e0481971e1312eabe736d999d7dd3c89ad0`
 
 | Callable | Line | Signature | Summary |
 |---|---:|---|---|
-| `_now` | 51 | `` | Read the linked implementation and its call-site contract. |
-| `_git` | 55 | `` | Read the linked implementation and its call-site contract. |
-| `_config` | 62 | `` | Run settings for the manifest. Never includes keys. |
-| `Run.__init__` | 94 | `self, run_id: str, collection: str` | Read the linked implementation and its call-site contract. |
-| `Run.read` | 109 | `self, name: str` | Read the linked implementation and its call-site contract. |
-| `Run.write` | 112 | `self, name: str, obj` | Read the linked implementation and its call-site contract. |
-| `Run.papers` | 116 | `self` | Read the linked implementation and its call-site contract. |
-| `Run.fail` | 119 | `self, stage: str, exc: BaseException` | Keep the error with the run (error.log, run.json "errors") and in the central outputs/errors.csv. |
-| `Run.record` | 141 | `self, stage: str, stats: dict, seconds: float` | Read the linked implementation and its call-site contract. |
-| `select_papers` | 161 | `coll: dict, top_n: int \| None, limit: int \| None=None` | Rank by citation count and fetch only enough available PDFs for the requested selection. Papers without a DOI or without a count rank last, in Zotero order. |
-| `_figures` | 198 | `what: str, **kw` | Figures and the grouped report (src.figures.build); a failure here never fails the run or integration. |
-| `_uncertain` | 210 | `run: Run, stage: str, items: list[dict]` | Keep this stage's uncertain items in ontology/uncertain.json; a failure here never fails the run. |
-| `extract` | 219 | `run: Run, args` | Read the linked implementation and its call-site contract. |
-| `extract.process` | 231 | `entry` | Read the linked implementation and its call-site contract. |
-| `normalize` | 278 | `run: Run, args` | Read the linked implementation and its call-site contract. |
-| `ontology` | 291 | `run: Run, args` | Read the linked implementation and its call-site contract. |
-| `enrich` | 309 | `run: Run, args` | Read the linked implementation and its call-site contract. |
-| `interop` | 329 | `run: Run, args` | Read the linked implementation and its call-site contract. |
-| `_require` | 361 | `ok, message: str` | Read the linked implementation and its call-site contract. |
-| `check` | 366 | `args` | Preflight for one collection. Also downloads the collection's PDFs into the cache. |
-| `check.keys` | 372 | `` | Read the linked implementation and its call-site contract. |
-| `check.model` | 380 | `` | Read the linked implementation and its call-site contract. |
-| `check.embeddings` | 385 | `` | Read the linked implementation and its call-site contract. |
-| `check.corpus` | 391 | `` | Read the linked implementation and its call-site contract. |
-| `check.parser` | 402 | `` | Read the linked implementation and its call-site contract. |
-| `check.portal` | 409 | `` | Read the linked implementation and its call-site contract. |
-| `check.matportal_check` | 419 | `` | Read the linked implementation and its call-site contract. |
-| `check.store` | 429 | `` | Read the linked implementation and its call-site contract. |
-| `collections` | 449 | `args` | Read the linked implementation and its call-site contract. |
-| `lora_data` | 455 | `args` | Read the linked implementation and its call-site contract. |
-| `lora_eval` | 460 | `args` | Read the linked implementation and its call-site contract. |
-| `portal` | 465 | `args` | Read the linked implementation and its call-site contract. |
-| `ontologies` | 475 | `args` | build: download missing ontology files, load them into Oxigraph, index labels, embed every term. status: is the store current (files, embedding model, newer MDS-Onto submission). search TEXT: try a query. |
-| `integrate` | 493 | `args` | Cross-domain stage: map the domain ontologies of completed runs to each other in one master ontology. Reads the domain runs; never rewrites them. |
-| `main` | 564 | `` | Read the linked implementation and its call-site contract. |
+| `_now` | 55 | `` | Read the linked implementation and its call-site contract. |
+| `_git` | 59 | `` | Read the linked implementation and its call-site contract. |
+| `_config` | 66 | `` | Run settings for the manifest. Never includes keys. |
+| `_environment` | 97 | `` | Bounded, best-effort hardware/serving snapshot. Only named non-secret settings are read. |
+| `_environment.integer` | 99 | `name` | Read the linked implementation and its call-site contract. |
+| `Run.__init__` | 178 | `self, run_id: str, collection: str` | Read the linked implementation and its call-site contract. |
+| `Run.read` | 201 | `self, name: str` | Read the linked implementation and its call-site contract. |
+| `Run.write` | 204 | `self, name: str, obj` | Read the linked implementation and its call-site contract. |
+| `Run.papers` | 208 | `self` | Read the linked implementation and its call-site contract. |
+| `Run.fail` | 211 | `self, stage: str, exc: BaseException` | Keep the error with the run (error.log, run.json "errors") and in the central outputs/errors.csv. |
+| `Run.record` | 233 | `self, stage: str, stats: dict, seconds: float` | Read the linked implementation and its call-site contract. |
+| `select_papers` | 253 | `coll: dict, top_n: int \| None, limit: int \| None=None` | Rank by citation count and fetch only enough available PDFs for the requested selection. Papers without a DOI or without a count rank last, in Zotero order. |
+| `_figures` | 290 | `what: str, **kw` | Figures and the grouped report (src.figures.build); a failure here never fails the run or integration. |
+| `_uncertain` | 302 | `run: Run, stage: str, items: list[dict]` | Keep this stage's uncertain items in ontology/uncertain.json; a failure here never fails the run. |
+| `extract` | 311 | `run: Run, args` | Read the linked implementation and its call-site contract. |
+| `extract.process` | 323 | `entry` | Read the linked implementation and its call-site contract. |
+| `normalize` | 370 | `run: Run, args` | Read the linked implementation and its call-site contract. |
+| `ontology` | 383 | `run: Run, args` | Read the linked implementation and its call-site contract. |
+| `enrich` | 401 | `run: Run, args` | Read the linked implementation and its call-site contract. |
+| `interop` | 421 | `run: Run, args` | Read the linked implementation and its call-site contract. |
+| `_require` | 453 | `ok, message: str` | Read the linked implementation and its call-site contract. |
+| `check` | 458 | `args` | Preflight for one collection. Also downloads the collection's PDFs into the cache. |
+| `check.keys` | 464 | `` | Read the linked implementation and its call-site contract. |
+| `check.model` | 472 | `` | Read the linked implementation and its call-site contract. |
+| `check.embeddings` | 477 | `` | Read the linked implementation and its call-site contract. |
+| `check.corpus` | 483 | `` | Read the linked implementation and its call-site contract. |
+| `check.parser` | 494 | `` | Read the linked implementation and its call-site contract. |
+| `check.portal` | 501 | `` | Read the linked implementation and its call-site contract. |
+| `check.matportal_check` | 511 | `` | Read the linked implementation and its call-site contract. |
+| `check.store` | 521 | `` | Read the linked implementation and its call-site contract. |
+| `collections` | 541 | `args` | Read the linked implementation and its call-site contract. |
+| `lora_data` | 547 | `args` | Read the linked implementation and its call-site contract. |
+| `lora_eval` | 552 | `args` | Read the linked implementation and its call-site contract. |
+| `portal` | 557 | `args` | Read the linked implementation and its call-site contract. |
+| `ontologies` | 567 | `args` | build: download missing ontology files, load them into Oxigraph, index labels, embed every term. status: is the store current (files, embedding model, newer MDS-Onto submission). search TEXT: try a query. |
+| `integrate` | 585 | `args` | Cross-domain stage: map the domain ontologies of completed runs to each other in one master ontology. Reads the domain runs; never rewrites them. |
+| `main` | 657 | `` | Read the linked implementation and its call-site contract. |
 
-Imports: `argparse`, `collections`, `csv`, `datetime`, `difflib`, `hashlib`, `json`, `openai`, `pathlib`, `src`, `src.agents`, `src.agents.base`, `src.agents.enrichment`, `src.agents.extraction`, `src.agents.integration`, `src.agents.interoperability`, `src.agents.normalization`, `src.agents.ontology`, `src.config`, `src.tools`, `src.tools.ledger`, `src.tools.progress`, `subprocess`, `threading`, `time`, `traceback`
+Imports: `argparse`, `collections`, `csv`, `ctypes`, `datetime`, `difflib`, `hashlib`, `importlib`, `json`, `openai`, `os`, `pathlib`, `platform`, `shlex`, `src`, `src.agents`, `src.agents.base`, `src.agents.enrichment`, `src.agents.extraction`, `src.agents.integration`, `src.agents.interoperability`, `src.agents.normalization`, `src.agents.ontology`, `src.config`, `src.tools`, `src.tools.ledger`, `src.tools.progress`, `subprocess`, `threading`, `time`, `traceback`
 
 ## src/tools/__init__.py
 
@@ -2504,6 +2528,32 @@ Runs in parallel share eval_runs.csv: no row may be lost.
 | `SharedFileTests.test_parallel_upserts_keep_every_row` | 21 | `self` | Read the linked implementation and its call-site contract. |
 
 Imports: `csv`, `multiprocessing`, `pathlib`, `src.tools`, `tempfile`, `unittest`
+
+## tests/test_slurm_metrics.py
+
+Check saved environments and Slurm sweep accounting without a GPU or model server.
+
+[Source](../../tests/test_slurm_metrics.py) · SHA256 `66d6cdb5657d74a1a24f6c241a9aae71399f6c858bdb49443ab5b8591bf04a02`
+
+| Callable | Line | Signature | Summary |
+|---|---:|---|---|
+| `write` | 21 | `path, value` | Read the linked implementation and its call-site contract. |
+| `samples` | 26 | `folder, name, rows` | Read the linked implementation and its call-site contract. |
+| `test_environment_queries_selected_devices_and_excludes_secrets` | 34 | `monkeypatch` | Read the linked implementation and its call-site contract. |
+| `test_missing_gpu_probe_is_nonfatal` | 60 | `monkeypatch, error` | Read the linked implementation and its call-site contract. |
+| `test_run_saves_environment_before_work_and_keeps_resume_history` | 68 | `tmp_path, monkeypatch` | Read the linked implementation and its call-site contract. |
+| `test_power_integral_weighted_utilization_and_allocation_totals` | 86 | `tmp_path` | Read the linked implementation and its call-site contract. |
+| `test_resume_sessions_do_not_bridge_idle_gaps_or_double_count_samples` | 98 | `tmp_path` | Read the linked implementation and its call-site contract. |
+| `test_missing_power_and_long_gaps_stay_explicit` | 110 | `tmp_path` | Read the linked implementation and its call-site contract. |
+| `test_failed_attempt_tokens_and_cache_hits_are_accounted_once` | 119 | `tmp_path` | Read the linked implementation and its call-site contract. |
+| `test_parallel_runs_use_submission_wall_and_gpu_allocation_once` | 133 | `tmp_path` | Read the linked implementation and its call-site contract. |
+| `test_partial_ledger_and_legacy_wall_are_labeled` | 145 | `tmp_path` | Read the linked implementation and its call-site contract. |
+| `test_setup_and_totals_in_both_reports_without_probe` | 156 | `tmp_path, monkeypatch` | Read the linked implementation and its call-site contract. |
+| `test_bad_run_id_cannot_read_outside_outputs` | 174 | `tmp_path` | Read the linked implementation and its call-site contract. |
+| `test_sampler_cleanup_and_exit_status_in_bash` | 180 | `tmp_path, termination, expected` | Read the linked implementation and its call-site contract. |
+| `test_slurm_retry_exports_its_reduced_worker_limit` | 216 | `tmp_path` | Read the linked implementation and its call-site contract. |
+
+Imports: `csv`, `json`, `os`, `pathlib`, `pytest`, `shutil`, `src`, `subprocess`, `sys`, `types`, `unittest.mock`
 
 ## tests/test_speedups.py
 
