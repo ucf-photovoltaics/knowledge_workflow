@@ -36,6 +36,9 @@ export VLLM_MODEL=${VLLM_MODEL:-mistralai/Mistral-Small-4-119B-2603}
 export LLM_TEMPERATURE=${LLM_TEMPERATURE-0}   # same for every model; LLM_TEMPERATURE= (empty) = model default
 export VLLM_REASONING_EFFORT=${VLLM_REASONING_EFFORT:-none}
 export VLLM_EXTRA_ARGS=${VLLM_EXTRA_ARGS:-}
+# FlashInfer's sampler compiles a CUDA kernel at start-up, which needs nvcc (absent on many compute nodes);
+# PyTorch's sampler needs no compiler and is plenty for temperature-0 requests.
+export VLLM_USE_FLASHINFER_SAMPLER=${VLLM_USE_FLASHINFER_SAMPLER:-0}
 VLLM_PORT=${VLLM_PORT:-8000}
 export VLLM_BASE_URL=http://localhost:$VLLM_PORT/v1
 MAX_MODEL_LEN=${MAX_MODEL_LEN:-32768}   # same window as the local kw-qwen3.5-9b-32k runs
