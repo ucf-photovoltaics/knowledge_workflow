@@ -38,8 +38,10 @@ PROFILES = {
              "model": os.getenv("VLLM_MODEL", "mistralai/Mistral-Small-4-119B-2603"), "api_key_env": None,
              "max_input_chars": 48000, "outage_wait_s": 900,
              "request": {"reasoning_effort": os.getenv("VLLM_REASONING_EFFORT", "none"), "max_tokens": 8000,
-                         # Qwen-style templates ignore reasoning_effort; other templates ignore this flag
-                         "extra_body": {"chat_template_kwargs": {"enable_thinking": False}}}},
+                         # Qwen-style templates ignore reasoning_effort; other templates ignore this flag.
+                         # vLLM rejects chat-template arguments for Mistral tokenizers (--tokenizer-mode mistral).
+                         "extra_body": {} if "--tokenizer-mode mistral" in os.getenv("VLLM_EXTRA_ARGS", "")
+                         else {"chat_template_kwargs": {"enable_thinking": False}}}},
     "gemini": {"tier": "frontier", "provider": "openai", "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
                "model": "gemini-3-flash-preview", "api_key_env": "GEMINI_API_KEY", "max_input_chars": 60000},
     "deepseek": {"tier": "frontier", "provider": "openai", "base_url": "https://api.deepseek.com/v1",
