@@ -18,7 +18,7 @@ from collections import Counter
 
 from src.agents.base import Agent, compact, items, key, load_prompt, targets
 from src.config import CACHE, EXTRACTION_PASSES, TEMPERATURE, tier
-from src.tools import files
+from src.tools import files, concept_quality
 from src.tools.llm import Usage
 from src.tools.pdf_parse import MENTION
 from src.tools.progress import log
@@ -33,7 +33,7 @@ PASS_REFS = {"causal": ("cause", "effect"), "relations": ("s", "o"), "measuremen
 PROPERTY_TYPES = ("property", "quantity", "parameter")
 EVIDENCE_WORDS = 3         # a quote shorter than this is no evidence: re-asked once, then flagged unevidenced
 EVIDENCE_BATCH = 40
-CODE_VERSION = "2026-10-05-runtime"  # part of the cache key: bump when merge/finalize logic changes
+CODE_VERSION = "2026-10-15-concept-quality"  # part of the cache key: bump when merge/finalize logic changes
 TYPES = ("material", "device", "equipment", "process", "parameter", "phenomenon", "property", "quantity", "method",
          "defect", "condition", "information")
 VERIFY_SHARE = 0.8         # share of an evidence quote's word 3-grams that must appear in the paper
@@ -85,7 +85,7 @@ class ExtractionAgent(Agent):
         if cache.exists():
             self.ledger.log(self.name, paper["key"], self.model, Usage(), cache_hit=True)
             log("  reusing cached extraction (same text, prompt and model): 0 tokens")
-            return {**json.loads(cache.read_text(encoding="utf-8")), "cache_hit": True}
+            return {**concept_quality.quarantine(json.loads(cache.read_text(encoding="utf-8"))), "cache_hit": True}
         before, failed_before, new_before = Counter(self.spent), Counter(self.failures), Counter(self.new_concepts)
         evidence_before = Counter(self.evidence)
         parts, raw_calls = [], []
@@ -99,6 +99,7 @@ class ExtractionAgent(Agent):
                                 label=f"extract {where}", soft=True)
                 raw_calls.append({"pass": "combined", "prompt": PASS_PROMPT["combined"],
                                   "input": known_text + chunk, "output": out})
+                out = concept_quality.quarantine(out)
                 labels = {key(c.get("id")): c.get("label") for c in items(out, "concepts")}
                 self._fill_evidence(chunk, out, ("relations", "causal", "measurements"), labels, paper["key"], where,
                                     raw_calls)
@@ -124,6 +125,7 @@ class ExtractionAgent(Agent):
                           soft=True)
         raw_calls.append({"pass": "concepts", "prompt": PASS_PROMPT["concepts"], "input": known_text + chunk,
                           "output": first})
+        first = concept_quality.quarantine(first)
         listed, remap = [], {}
         for c in items(first, "concepts"):
             if isinstance(c.get("label"), str) and c["label"].strip():
@@ -137,7 +139,7 @@ class ExtractionAgent(Agent):
             if _key(c["label"]) not in section_labels:
                 listed.append({"id": f"c{len(listed) + 1}", "label": c["label"], "type": c.get("type", ""),
                                "synonyms": c.get("synonyms", [])})
-        part = {"concepts": list(listed),
+        part = {"concepts": list(listed), "quality_review": first.get("quality_review", []),
                 "figures": [{**f, "concepts": [remap[c] for c in targets(f.get("concepts")) if c in remap]}
                             for f in items(first, "figures")]}
         concept_list = "CONCEPTS:\n" + "\n".join(f"{c['id']}: {c['label']} ({c.get('type', '')})" for c in listed)
@@ -147,6 +149,8 @@ class ExtractionAgent(Agent):
             prompt_in = f"{concept_list}\n{chunk}"
             out = self.call(prompt_in, item=item, system=self.prompts[name], label=f"{name} {where}", soft=True)
             raw_calls.append({"pass": name, "prompt": PASS_PROMPT[name], "input": prompt_in, "output": out})
+            out = concept_quality.quarantine({**out, "quality_review": part["quality_review"]})
+            part["quality_review"] = out["quality_review"]
             labels = {c["id"]: c["label"] for c in listed} | {
                 key(nc.get("id")): nc.get("label") for nc in items(out, "new_concepts") if key(nc.get("id"))}
             self._fill_evidence(chunk, out, (name,), labels, item, where, raw_calls)
@@ -234,6 +238,8 @@ class ExtractionAgent(Agent):
         """Merge section answers into one paper graph. Relation/causal/measurement ends are resolved by concept id,
         or - since small models often write the phrase instead of the id - by label or synonym, by the longest known
         concept named inside the phrase, or (short phrases only) as a new concept taken from the text."""
+        parts = [concept_quality.quarantine(part) for part in parts]
+        review = [row for part in parts for row in part.get("quality_review", [])]
         concepts: dict[str, dict] = {}
         rels, causal, figs, measures = [], [], {}, []
         stats, unresolved = Counter(), []
@@ -323,10 +329,11 @@ class ExtractionAgent(Agent):
                 "causal": _dedupe(causal, ("cause", "effect", "polarity")),
                 "measurements": _dedupe(measures, ("concept", "entity", "value", "unit", "condition")),
                 "figure_links": {k: {"concepts": sorted(v["concepts"]), "shows": v["shows"]} for k, v in figs.items()},
-                "resolution": dict(stats), "unresolved_ends": unresolved}
+                "resolution": dict(stats), "unresolved_ends": unresolved, "quality_review": review}
 
     @staticmethod
     def _finalize(x: dict, paper: dict) -> dict:
+        x = concept_quality.quarantine(x)
         words = _words(" ".join(s["text"] for s in paper["sections"]))
         grams = set(zip(words, words[1:], words[2:]))
         verification = {}
@@ -360,7 +367,7 @@ class ExtractionAgent(Agent):
             figures.append({**f, "concepts": link.get("concepts", []), "shows": link.get("shows", "")})
         return {"concepts": x["concepts"], "relations": x["relations"], "causal": x["causal"],
                 "measurements": x["measurements"], "figures": figures, "resolution": x.get("resolution", {}),
-                "unresolved_ends": x.get("unresolved_ends", []), "verification": verification, "checks": checks}
+                "unresolved_ends": x.get("unresolved_ends", []), "verification": verification, "checks": {**x.get("checks", {}), **checks}, "quality_review": x.get("quality_review", [])}
 
 
 def _dedupe(rows: list[dict], keys: tuple) -> list[dict]:
