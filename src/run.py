@@ -372,7 +372,8 @@ def normalize(run: Run, args) -> dict:
     agent = NormalizationAgent(run.ledger)
     norm = agent.run(papers)
     _uncertain(run, "normalize", agent.doubts)
-    for name in ("concepts", "relations", "causal", "measurements", "contradictions", "causal_order", "summary"):
+    for name in ("concepts", "relations", "causal", "measurements", "contradictions", "causal_order", "summary",
+                 "concept_lineage"):
         run.write(f"normalized/{name}.json", norm[name])
     stats = reports.corpus_report(run.dir / "corpus_report.md", run.id, norm, papers)
     run.write("normalized/corpus_stats.json", stats)

@@ -346,8 +346,11 @@ LORA = {
 # ---- Output ontology ----
 ONTOLOGY_IRI = "http://example.org/kw/"
 ONTOLOGY_TITLE = "PV Knowledge Workflow Ontology"
-WORKFLOW_REVISION = "2026-10-16-embedding-parents"
-WORKFLOW_REVISION_NOTE = ("External terms from a local ontology store (Oxigraph + trigram + embedding search over BFO, "
+WORKFLOW_REVISION = "2026-10-17-lineage-quality"
+WORKFLOW_REVISION_NOTE = ("Exact original-to-canonical concept lineage, original-label retention through enrichment, "
+                          "per-label paper provenance in OWL exports, and malformed extraction quarantine. "
+                          "External terms from a local ontology store "
+                          "(Oxigraph + trigram + embedding search over BFO, "
                           "CCO, RO, QUDT, PMDCO, IOF, MDS-Onto): placement parents (CCO, then BFO; same-name MDS-Onto/PMDCO "
                           "class wins), restriction properties, mapping candidates with 1-2 hop propagation; broader, "
                           "narrower and related matches; imported definitions and labels; MIREOT imports of every term; "

@@ -17,7 +17,24 @@ Joins the per-paper records into one corpus vocabulary without rewriting them. A
 
 ## Outputs
 
-`normalized/{concepts,relations,causal,measurements,contradictions,causal_order,summary}.json`, `normalized/corpus_stats.json`, `corpus_report.md`.
+`normalized/{concepts,relations,causal,measurements,contradictions,causal_order,summary,concept_lineage}.json`, `normalized/corpus_stats.json`, `corpus_report.md`.
+
+`concept_lineage.json` records one row per retained extracted concept: `paper`, `original_id`,
+`original_label`, `original_type`, `original_synonyms`, `canonical_id`, and `canonical_label`.
+The key is `(paper, original_id)`; local concept ids are not unique across papers. Rows come from
+the exact normalization map used to aggregate relations and values, not reconstructed label matches.
+Malformed concepts discarded by the existing cleaning boundary are not represented as accepted mappings.
+Duplicate local ids or missing canonical targets fail with the paper/concept identified.
+
+Each canonical concept also carries `label_sources` (`label`, `paper`, `concept_id`, `origin`).
+`origin` distinguishes `original_label` from `extracted_synonym`. Original labels differing from the
+canonical name remain in `alt_labels` through enrichment; suggested synonyms can still be removed.
+Placement and enrichment carry these fields forward. OWL label axioms cite the source papers using
+the existing DOI-or-Zotero source representation. The existing altLabel/hiddenLabel distinction remains.
+Original label casing is preserved in lineage even when display labels deduplicate case-insensitively.
+
+Older completed normalizations do not acquire lineage automatically. Their artifacts are unchanged;
+a new normalization attempt is required to record the exact mapping. This change adds no model calls.
 
 ## Checks and limits
 

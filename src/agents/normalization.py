@@ -67,6 +67,8 @@ class NormalizationAgent(Agent):
         log(f"lexical merge (same wording and plurals only; synonyms require model review): {len(groups):,} groups")
         groups = self._semantic_merge(groups)
         concepts, cmap = self._canonical(groups)
+        lineage = self._lineage(papers, concepts, cmap)
+        self.stats["concept_lineage_records"] = len(lineage)
         log(f"canonical concepts: {len(concepts):,} ({self.stats['semantic_merges']} merged by meaning)")
         self._settle_types(concepts)
         relations = _aggregate(papers, cmap, "relations", ("s", "p", "o"), ("s", "o"))
@@ -90,7 +92,7 @@ class NormalizationAgent(Agent):
         return {"concepts": concepts, "relations": relations, "causal": causal, "measurements": measurements,
                 "contradictions": contradictions,
                 "causal_order": order,
-                "summary": summary, "stats": self.stats}
+                "summary": summary, "concept_lineage": lineage, "stats": self.stats}
 
     @staticmethod
     def _lexical_groups(papers: list[dict]) -> list[dict]:
@@ -187,11 +189,15 @@ class NormalizationAgent(Agent):
             kid = f"k{len(concepts) + 1}"
             members = g["members"]
             label = g["label"] or Counter(c["label"] for _, c in members).most_common(1)[0][0]
-            alts, defs = {}, {}
+            alts, defs, label_sources = {}, {}, []
             for key, c in members:
-                for t in [c["label"], *c.get("synonyms", [])]:
+                for i, t in enumerate([c["label"], *c.get("synonyms", [])]):
                     if t.lower() != label.lower():
                         alts.setdefault(t.lower(), t)
+                    record = {"label": t, "paper": key, "concept_id": c["id"],
+                              "origin": "original_label" if i == 0 else "extracted_synonym"}
+                    if record not in label_sources:
+                        label_sources.append(record)
                 d = c.get("definition", "").strip()
                 if d:
                     defs.setdefault(d.lower(), {"text": d, "paper": key})
@@ -199,6 +205,7 @@ class NormalizationAgent(Agent):
             papers = sorted({key for key, _ in members})
             concepts.append({
                 "id": kid, "label": label, "alt_labels": sorted(alts.values()),
+                "label_sources": label_sources,
                 "type": Counter(c.get("type", "") for _, c in members).most_common(1)[0][0],
                 "type_votes": dict(Counter(c.get("type", "") for _, c in members if c.get("type"))),
                 "definitions": sorted(defs.values(), key=lambda d: -len(d["text"]))[:3],
@@ -207,6 +214,26 @@ class NormalizationAgent(Agent):
                 "figures": sorted({f"{key}:{f}" for key, c in members for f in c.get("figures", [])}),
             })
         return concepts, cmap
+
+    @staticmethod
+    def _lineage(papers: list[dict], concepts: list[dict], cmap: dict) -> list[dict]:
+        """Persist the exact map already used for relations; never infer it from labels."""
+        canonical = {c["id"]: c for c in concepts}
+        records, seen = [], set()
+        for paper in papers:
+            for original in paper["concepts"]:
+                identity = (paper["key"], original["id"])
+                if identity in seen:
+                    raise ValueError(f"Duplicate concept id {original['id']!r} in paper {paper['key']!r}")
+                seen.add(identity)
+                target = canonical.get(cmap.get(identity))
+                if target is None:
+                    raise ValueError(f"Missing canonical concept for {paper['key']}:{original['id']}")
+                records.append({"paper": paper["key"], "original_id": original["id"],
+                                "original_label": original["label"], "original_type": original.get("type", ""),
+                                "original_synonyms": list(original.get("synonyms", [])),
+                                "canonical_id": target["id"], "canonical_label": target["label"]})
+        return records
 
     def _settle_types(self, concepts: list[dict]):
         """One narrow call for concepts the papers typed differently (the rest keep their single type)."""
