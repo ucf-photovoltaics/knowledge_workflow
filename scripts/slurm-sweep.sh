@@ -179,7 +179,9 @@ wait_for() {  # url name pid: up to 60 min (the first run downloads the model)
     echo "$2 not ready after 60 min"; return 1
 }
 wait_for http://127.0.0.1:11434/api/tags ollama $OLLAMA_PID || exit 2
-"$OLLAMA" pull nomic-embed-text >/dev/null || exit 2
+# A registry hiccup must not stop a sweep whose embedding model is already local: retry, then use the local copy.
+for i in 1 2 3; do "$OLLAMA" pull nomic-embed-text >/dev/null 2>&1 && break; sleep 20; done
+"$OLLAMA" show nomic-embed-text >/dev/null 2>&1 || { echo "nomic-embed-text: pull failed and no local copy"; exit 2; }
 wait_for "http://localhost:$VLLM_PORT/health" vllm $VLLM_PID || exit 2
 healthy() { curl -sf "http://localhost:$VLLM_PORT/health" >/dev/null && curl -sf http://127.0.0.1:11434/api/tags >/dev/null; }
 
