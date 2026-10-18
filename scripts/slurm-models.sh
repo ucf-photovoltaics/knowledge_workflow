@@ -13,8 +13,12 @@
 # their license accepted on Hugging Face); a model that isn't downloaded is skipped with a message.
 # Overrides: USE_CASE (pv-cost-chain), LIMITS (25), PARTITION (normal), ACCOUNT (kdavis), GRES, MAIL_USER,
 # ENV_FILE (~/kw-hpc/env.sh, sourced if present), GCS_BUCKET, LLM_TEMPERATURE, TIME_LIMIT (instead of each model's),
-# EXCLUDE (nodes to avoid).
+# EXCLUDE (nodes to avoid), CPUS (32), MEM (240G), JOB_SUFFIX (added to job names, so a test can run beside a
+# queued sweep of the same model).
 # Quick test of every small model: LIMITS=2 TIME_LIMIT=01:30:00 scripts/slurm-models.sh small
+# Start-up check of every model (1 paper per domain; short, small jobs that backfill ahead of the queue):
+#   LIMITS=1 TIME_LIMIT=01:00:00 CPUS=8 MEM=96G JOB_SUFFIX=-check MAX_MODEL_LEN=24576 GPU_MEMORY_UTILIZATION=0.95 \
+#   scripts/slurm-models.sh all
 set -uo pipefail
 
 cd "$(dirname "$0")/.." || exit 1
@@ -27,6 +31,7 @@ ACCOUNT=${ACCOUNT:-kdavis}
 GRES=${GRES:-gpu:nvidia_h100_pcie:2}
 EXCLUDE=${EXCLUDE:-}   # nodes to avoid, e.g. EXCLUDE=evc26 (GPUs not visible to jobs)
 MAIL_USER=${MAIL_USER:-}
+CPUS=${CPUS:-32} MEM=${MEM:-240G} JOB_SUFFIX=${JOB_SUFFIX:-}
 HF_HUB=${HF_HOME:-$HOME/.cache/huggingface}/hub
 MISTRAL="--tokenizer-mode mistral --config-format mistral --load-format mistral"
 
@@ -68,11 +73,11 @@ while read -r tier tag repo reasoning time place extra; do
     [[ " ${tiers[*]} " == *" $tier "* ]] || continue
     sweep=$USE_CASE-$tag-n${LIMITS// /-}
     if [ -f "outputs/sweep-$sweep/report/report.html" ]; then echo "$tag: done (outputs/sweep-$sweep)"; continue; fi
-    if [ -n "$(squeue -h -u "${USER:-$(id -un)}" -n "kw-$tag" 2>/dev/null)" ]; then echo "$tag: already queued"; continue; fi
+    if [ -n "$(squeue -h -u "${USER:-$(id -un)}" -n "kw-$tag$JOB_SUFFIX" 2>/dev/null)" ]; then echo "$tag: already queued"; continue; fi
     if [ ! -d "$HF_HUB/models--${repo//\//--}" ]; then echo "$tag: skipped, not downloaded (hf download $repo)"; continue; fi
     gres=$GRES part=$PARTITION
     [ "$place" = - ] || { gres=${place%@*}; part=${place#*@}; }   # models too large for the default nodes
-    cmd=(sbatch --parsable -J "kw-$tag" -p "$part" -A "$ACCOUNT" --gres="$gres" --cpus-per-task=32 --mem=240G
+    cmd=(sbatch --parsable -J "kw-$tag$JOB_SUFFIX" -p "$part" -A "$ACCOUNT" --gres="$gres" --cpus-per-task="$CPUS" --mem="$MEM"
          --time="${TIME_LIMIT:-$time}" ${EXCLUDE:+--exclude=$EXCLUDE} ${after:+--dependency=afterok:$after}
          ${MAIL_USER:+--mail-type=END,FAIL --mail-user=$MAIL_USER} scripts/slurm-sweep.sh)
     if [ -n "$dry" ]; then
