@@ -13,7 +13,7 @@
 # their license accepted on Hugging Face); a model that isn't downloaded is skipped with a message.
 # Overrides: USE_CASE (pv-cost-chain), LIMITS (25), PARTITION (normal), ACCOUNT (kdavis), GRES, MAIL_USER,
 # ENV_FILE (~/kw-hpc/env.sh, sourced if present), GCS_BUCKET, LLM_TEMPERATURE, TIME_LIMIT (instead of each model's),
-# EXCLUDE (nodes to avoid), CPUS (32), MEM (240G), JOB_SUFFIX (added to job names, so a test can run beside a
+# EXCLUDE (nodes to avoid), ONLY (model tags to submit, e.g. ONLY="gemma4-26b gptoss-120b"), CPUS (32), MEM (240G), JOB_SUFFIX (added to job names, so a test can run beside a
 # queued sweep of the same model).
 # Quick test of every small model: LIMITS=2 TIME_LIMIT=01:30:00 scripts/slurm-models.sh small
 # Start-up check of every model: model server + smoke test only (slurm-sweep.sh SMOKE_ONLY), on 1 GPU where it
@@ -32,7 +32,7 @@ ACCOUNT=${ACCOUNT:-kdavis}
 GRES=${GRES:-gpu:nvidia_h100_pcie:2}
 EXCLUDE=${EXCLUDE:-}   # nodes to avoid, e.g. EXCLUDE=evc26 (GPUs not visible to jobs)
 MAIL_USER=${MAIL_USER:-}
-CPUS=${CPUS:-32} MEM=${MEM:-240G} JOB_SUFFIX=${JOB_SUFFIX:-}
+CPUS=${CPUS:-32} MEM=${MEM:-240G} JOB_SUFFIX=${JOB_SUFFIX:-} ONLY=${ONLY:-}
 HF_HUB=${HF_HOME:-$HOME/.cache/huggingface}/hub
 MISTRAL="--tokenizer-mode mistral --config-format mistral --load-format mistral"
 
@@ -73,6 +73,7 @@ unset TP DP WORKERS   # let slurm-sweep.sh size each model to the GPUs
 
 while read -r tier tag repo reasoning time place extra; do
     [[ " ${tiers[*]} " == *" $tier "* ]] || continue
+    [ -z "$ONLY" ] || [[ " $ONLY " == *" $tag "* ]] || continue
     sweep=$USE_CASE-$tag-n${LIMITS// /-}
     if [ -f "outputs/sweep-$sweep/report/report.html" ]; then echo "$tag: done (outputs/sweep-$sweep)"; continue; fi
     if [ -n "$(squeue -h -u "${USER:-$(id -un)}" -n "kw-$tag$JOB_SUFFIX" 2>/dev/null)" ]; then echo "$tag: already queued"; continue; fi
