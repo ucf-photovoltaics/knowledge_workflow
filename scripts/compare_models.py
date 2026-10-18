@@ -124,7 +124,7 @@ def domain_run(folder: Path) -> dict | None:
     cs = _json(folder / "normalized" / "corpus_stats.json") or {}
     om = _json(folder / "ontology" / "metrics.json") or {}
     val = _json(folder / "ontology" / "validation.json") or {}
-    cap = int(cfg.get("max_output_tokens") or (cfg.get("request_options") or {}).get("max_tokens") or 8000)
+    cap = int((cfg.get("request_options") or {}).get("max_tokens") or cfg.get("max_output_tokens") or 8000)  # served cap
     r = {"collection": (m.get("collection") or {}).get("name") or folder.name.split("-n")[0],
          "model": cfg.get("model_extraction") or "", "revision": cfg.get("workflow_revision") or "",
          "papers": corpus.get("processed") or len(papers), "papers_failed": len(corpus.get("failed", [])),
@@ -221,7 +221,7 @@ def summarize(sid: str, entry: dict, size: int, outputs: Path, match: str) -> tu
          "bridges": integ.get("bridges"), "cross_mappings": integ.get("cross_mappings"),
          "integration_valid": integ.get("valid"),
          "gpu_hours": gpu.get("gpu_hours"), "gpu_utilization_pct": gpu.get("gpu_utilization_pct"),
-         "min_per_paper": ratio(tot("wall_s") / 60, papers),
+         "min_per_paper": ratio(tot("wall_s") / 60, papers) if tot("wall_s") else None,
          "tokens_per_class": ratio(tot("tokens") + (integ.get("tokens") or 0), classes)}
     rows = [{"model": m["label"], "domain": r["collection"], "papers": r["papers"], "complete": r["complete"],
              "canonical_concepts": r["canonical"], "final_classes": r["classes"],
