@@ -204,6 +204,12 @@ t = time.time()
 text, u = llm.chat("Return ONLY JSON.", 'Return {"ok": true, "bfo_category": "<BFO category of: solar cell>"}', LLM["model"], profile=LLM)
 json.loads(text)
 print(f"chat ok in {time.time() - t:.1f}s, {u.output_tokens} output tokens: {text[:200]}")
+from src.config import AGENT_PROFILES, PROFILES
+if "vllm-think" in AGENT_PROFILES.values():  # VLLM_THINK_AGENTS: the reasoning parser must still leave valid JSON
+    t = time.time()
+    text, u = llm.chat("Return ONLY JSON.", 'Return {"ok": true, "bfo_category": "<BFO category of: solar cell>"}', LLM["model"], profile=PROFILES["vllm-think"])
+    json.loads(text)
+    print(f"thinking chat ok in {time.time() - t:.1f}s, {u.output_tokens} output tokens, for {sorted(a for a, p in AGENT_PROFILES.items() if p == 'vllm-think')}: {text[:200]}")
 vec, _ = llm.embed(["solar cell"])
 print(f"embedding ok: {len(vec[0])} dimensions")
 EOF

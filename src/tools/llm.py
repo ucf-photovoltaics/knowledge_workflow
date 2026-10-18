@@ -109,7 +109,7 @@ def chat(system: str, user: str, model: str, max_tokens: int = MAX_OUTPUT_TOKENS
             r = _outage_safe(profile, lambda: client.chat.completions.create(
                 model=model, response_format={"type": "json_object"},
                 messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
-                **kw, **profile.get("request", {})))
+                **{**kw, **profile.get("request", {})}))  # a profile may set its own temperature
         text = r.choices[0].message.content or ""
         u = r.usage
         details = getattr(u, "prompt_tokens_details", None)

@@ -37,6 +37,8 @@ HF_HUB=${HF_HOME:-$HOME/.cache/huggingface}/hub
 MISTRAL="--tokenizer-mode mistral --config-format mistral --load-format mistral"
 
 # tier  tag  Hugging Face repo  reasoning  time  placement (- = PARTITION/GRES, or GRES@partition)  extra vLLM flags
+# gemma4-31b-thinkonto: thinking off for extraction (reused from the gemma4-31b cache: same model and prompts), on
+# for the ontology-building agents, so it differs from gemma4-31b only there.
 # Dropped after the n2 test (2026-10-17): phi4-mini, llama32-3b, llama31-8b lost 4-65% of extraction calls
 # to runaway JSON even with whitespace-free decoding; their n2 sweeps stay as the low baseline. llama33-70b dropped
 # too (only 31% of its relation/causal evidence found in the papers); mistral-small4 takes the large slot.
@@ -52,6 +54,7 @@ mid   ministral3-14b mistralai/Ministral-3-14B-Instruct-2512      none 10:00:00 
 mid   gemma4-26b    google/gemma-4-26B-A4B-it                     none 10:00:00 -
 mid   gemma4-31b    google/gemma-4-31B-it                         none 12:00:00 -
 mid   gemma4-31b-think google/gemma-4-31B-it                      high 16:00:00 - --reasoning-parser gemma4
+mid   gemma4-31b-thinkonto google/gemma-4-31B-it                  none 12:00:00 - --reasoning-parser gemma4 VLLM_THINK_AGENTS=normalization,ontology,enrichment,interoperability,integration
 large gptoss-120b   openai/gpt-oss-120b                           low  16:00:00 -
 large mistral-small4 mistralai/Mistral-Small-4-119B-2603          none 16:00:00 gpu:nvidia_h100_pcie:2@normal --tokenizer-mode mistral --reasoning-parser mistral
 EOF
@@ -78,15 +81,18 @@ while read -r tier tag repo reasoning time place extra; do
     if [ -f "outputs/sweep-$sweep/report/report.html" ]; then echo "$tag: done (outputs/sweep-$sweep)"; continue; fi
     if [ -n "$(squeue -h -u "${USER:-$(id -un)}" -n "kw-$tag$JOB_SUFFIX" 2>/dev/null)" ]; then echo "$tag: already queued"; continue; fi
     if [ ! -d "$HF_HUB/models--${repo//\//--}" ]; then echo "$tag: skipped, not downloaded (hf download $repo)"; continue; fi
+    envs=() flags=()   # KEY=VALUE words in the extra column are job settings, the rest vLLM flags
+    for w in $extra; do if [[ $w =~ ^[A-Z_]+= ]]; then envs+=("$w"); else flags+=("$w"); fi; done
+    extra=${flags[*]-}
     gres=$GRES part=$PARTITION
     [ "$place" = - ] || { gres=${place%@*}; part=${place#*@}; }   # models too large for the default nodes
     cmd=(sbatch --parsable -J "kw-$tag$JOB_SUFFIX" -p "$part" -A "$ACCOUNT" --gres="$gres" --cpus-per-task="$CPUS" --mem="$MEM"
          --time="${TIME_LIMIT:-$time}" ${EXCLUDE:+--exclude=$EXCLUDE} ${after:+--dependency=afterok:$after}
          ${MAIL_USER:+--mail-type=END,FAIL --mail-user=$MAIL_USER} scripts/slurm-sweep.sh)
     if [ -n "$dry" ]; then
-        echo "$tag: VLLM_MODEL=$repo VLLM_REASONING_EFFORT=$reasoning VLLM_EXTRA_ARGS='$extra' SWEEP_ID=$sweep ${cmd[*]}"
+        echo "$tag: ${envs[*]-} VLLM_MODEL=$repo VLLM_REASONING_EFFORT=$reasoning VLLM_EXTRA_ARGS='$extra' SWEEP_ID=$sweep ${cmd[*]}"
         continue
     fi
-    job=$(USE_CASE=$USE_CASE LIMITS=$LIMITS SWEEP_ID=$sweep VLLM_MODEL=$repo VLLM_REASONING_EFFORT=$reasoning \
-          VLLM_EXTRA_ARGS=$extra "${cmd[@]}") && echo "$tag: job $job, sweep $sweep" || echo "$tag: sbatch failed"
+    job=$(env ${envs[@]+"${envs[@]}"} USE_CASE=$USE_CASE LIMITS=$LIMITS SWEEP_ID=$sweep VLLM_MODEL=$repo \
+          VLLM_REASONING_EFFORT=$reasoning VLLM_EXTRA_ARGS="$extra" "${cmd[@]}") && echo "$tag: job $job, sweep $sweep" || echo "$tag: sbatch failed"
 done <<<"$MODELS"
