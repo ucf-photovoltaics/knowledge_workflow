@@ -30,22 +30,22 @@ MAIL_USER=${MAIL_USER:-}
 HF_HUB=${HF_HOME:-$HOME/.cache/huggingface}/hub
 MISTRAL="--tokenizer-mode mistral --config-format mistral --load-format mistral"
 
-# tier  tag  Hugging Face repo  reasoning  time  extra vLLM flags
+# tier  tag  Hugging Face repo  reasoning  time  placement (- = PARTITION/GRES, or GRES@partition)  extra vLLM flags
 # Dropped after the n2 test (2026-10-17): phi4-mini, llama32-3b, llama31-8b lost 4-65% of extraction calls
 # to runaway JSON even with whitespace-free decoding; their n2 sweeps stay as the low baseline. llama33-70b dropped
 # too (only 31% of its relation/causal evidence found in the papers); mistral-small4 takes the large slot.
 # gemma4-31b-think: Gemma 4 31B with thinking on (reasoning high; src/config.py doubles max_tokens for it).
-# mistral-small4: FP8 MoE, ~120 GB of weights; on 2 x H100 80 GB it runs tensor parallel 2 with little KV cache.
+# mistral-small4: FP8 MoE, ~120 GB of weights: placed on 4 x H100 80 GB (highgpu, no time limit), tensor parallel 4.
 MODELS=$(cat <<EOF
-small gemma4-e4b    google/gemma-4-E4B-it                         none 06:00:00
-small ministral3-8b mistralai/Ministral-3-8B-Instruct-2512        none 06:00:00 $MISTRAL
-small gptoss-20b    openai/gpt-oss-20b                            low  08:00:00
-mid   ministral3-14b mistralai/Ministral-3-14B-Instruct-2512      none 10:00:00 $MISTRAL
-mid   gemma4-26b    google/gemma-4-26B-A4B-it                     none 10:00:00
-mid   gemma4-31b    google/gemma-4-31B-it                         none 12:00:00
-mid   gemma4-31b-think google/gemma-4-31B-it                      high 16:00:00 --reasoning-parser gemma4
-large gptoss-120b   openai/gpt-oss-120b                           low  16:00:00
-large mistral-small4 mistralai/Mistral-Small-4-119B-2603          none 16:00:00 --tokenizer-mode mistral --reasoning-parser mistral
+small gemma4-e4b    google/gemma-4-E4B-it                         none 06:00:00 -
+small ministral3-8b mistralai/Ministral-3-8B-Instruct-2512        none 06:00:00 - $MISTRAL
+small gptoss-20b    openai/gpt-oss-20b                            low  08:00:00 -
+mid   ministral3-14b mistralai/Ministral-3-14B-Instruct-2512      none 10:00:00 - $MISTRAL
+mid   gemma4-26b    google/gemma-4-26B-A4B-it                     none 10:00:00 -
+mid   gemma4-31b    google/gemma-4-31B-it                         none 12:00:00 -
+mid   gemma4-31b-think google/gemma-4-31B-it                      high 16:00:00 - --reasoning-parser gemma4
+large gptoss-120b   openai/gpt-oss-120b                           low  16:00:00 -
+large mistral-small4 mistralai/Mistral-Small-4-119B-2603          none 16:00:00 gpu:nvidia_h100_80gb_hbm3:4@highgpu --tokenizer-mode mistral --reasoning-parser mistral
 EOF
 )
 
@@ -63,13 +63,15 @@ done
 [ ${#tiers[@]} -gt 0 ] || { echo "give a tier: small, mid, large or all"; exit 1; }
 unset TP DP WORKERS   # let slurm-sweep.sh size each model to the GPUs
 
-while read -r tier tag repo reasoning time extra; do
+while read -r tier tag repo reasoning time place extra; do
     [[ " ${tiers[*]} " == *" $tier "* ]] || continue
     sweep=$USE_CASE-$tag-n${LIMITS// /-}
     if [ -f "outputs/sweep-$sweep/report/report.html" ]; then echo "$tag: done (outputs/sweep-$sweep)"; continue; fi
     if [ -n "$(squeue -h -u "${USER:-$(id -un)}" -n "kw-$tag" 2>/dev/null)" ]; then echo "$tag: already queued"; continue; fi
     if [ ! -d "$HF_HUB/models--${repo//\//--}" ]; then echo "$tag: skipped, not downloaded (hf download $repo)"; continue; fi
-    cmd=(sbatch --parsable -J "kw-$tag" -p "$PARTITION" -A "$ACCOUNT" --gres="$GRES" --cpus-per-task=32 --mem=240G
+    gres=$GRES part=$PARTITION
+    [ "$place" = - ] || { gres=${place%@*}; part=${place#*@}; }   # models too large for the default nodes
+    cmd=(sbatch --parsable -J "kw-$tag" -p "$part" -A "$ACCOUNT" --gres="$gres" --cpus-per-task=32 --mem=240G
          --time="${TIME_LIMIT:-$time}" ${EXCLUDE:+--exclude=$EXCLUDE} ${after:+--dependency=afterok:$after}
          ${MAIL_USER:+--mail-type=END,FAIL --mail-user=$MAIL_USER} scripts/slurm-sweep.sh)
     if [ -n "$dry" ]; then
