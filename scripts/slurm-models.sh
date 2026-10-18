@@ -32,7 +32,7 @@ ACCOUNT=${ACCOUNT:-kdavis}
 GRES=${GRES:-gpu:nvidia_h100_pcie:2}
 EXCLUDE=${EXCLUDE:-}   # nodes to avoid, e.g. EXCLUDE=evc26 (GPUs not visible to jobs)
 MAIL_USER=${MAIL_USER:-}
-CPUS=${CPUS:-8} MEM=${MEM:-96G}   # job 954103 (gemma4-31b, n10): 2.4 cores average, 16.6 GB peak JOB_SUFFIX=${JOB_SUFFIX:-} ONLY=${ONLY:-}
+CPUS=${CPUS:-8} MEM=${MEM:-96G} JOB_SUFFIX=${JOB_SUFFIX:-} ONLY=${ONLY:-}   # job 954103 (gemma4-31b, n10): 2.4 cores average, 16.6 GB peak
 HF_HUB=${HF_HOME:-$HOME/.cache/huggingface}/hub
 MISTRAL="--tokenizer-mode mistral --config-format mistral --load-format mistral"
 
