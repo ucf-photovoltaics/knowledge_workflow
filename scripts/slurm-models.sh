@@ -16,9 +16,10 @@
 # EXCLUDE (nodes to avoid), CPUS (32), MEM (240G), JOB_SUFFIX (added to job names, so a test can run beside a
 # queued sweep of the same model).
 # Quick test of every small model: LIMITS=2 TIME_LIMIT=01:30:00 scripts/slurm-models.sh small
-# Start-up check of every model (1 paper per domain; short, small jobs that backfill ahead of the queue):
-#   LIMITS=1 TIME_LIMIT=01:00:00 CPUS=8 MEM=96G JOB_SUFFIX=-check MAX_MODEL_LEN=24576 GPU_MEMORY_UTILIZATION=0.95 \
-#   scripts/slurm-models.sh all
+# Start-up check of every model: model server + smoke test only (slurm-sweep.sh SMOKE_ONLY), on 1 GPU where it
+# fits; tiny, short jobs that backfill ahead of the queue:
+#   SMOKE_ONLY=1 LIMITS=1 TIME_LIMIT=00:30:00 GRES=gpu:nvidia_h100_pcie:1 CPUS=4 MEM=64G JOB_SUFFIX=-check \
+#   MAX_MODEL_LEN=24576 GPU_MEMORY_UTILIZATION=0.95 scripts/slurm-models.sh all
 set -uo pipefail
 
 cd "$(dirname "$0")/.." || exit 1
@@ -41,7 +42,8 @@ MISTRAL="--tokenizer-mode mistral --config-format mistral --load-format mistral"
 # too (only 31% of its relation/causal evidence found in the papers); mistral-small4 takes the large slot.
 # gemma4-31b-think: Gemma 4 31B with thinking on (reasoning high; src/config.py doubles max_tokens for it).
 # mistral-small4: FP8 MoE, ~120 GB of weights on 2 x H100 PCIe (kdavis cannot use highgpu or short): submit it with
-#   MAX_MODEL_LEN=24576 GPU_MEMORY_UTILIZATION=0.95 so the KV cache fits; move it to bigger GPUs with a placement.
+#   MAX_MODEL_LEN=24576 GPU_MEMORY_UTILIZATION=0.95 so the KV cache fits. Its placement pins 2 GPUs, so a
+#   GRES=...:1 override for the others never shrinks it; move it to bigger GPUs by editing the placement.
 MODELS=$(cat <<EOF
 small gemma4-e4b    google/gemma-4-E4B-it                         none 06:00:00 -
 small ministral3-8b mistralai/Ministral-3-8B-Instruct-2512        none 06:00:00 - $MISTRAL
@@ -51,7 +53,7 @@ mid   gemma4-26b    google/gemma-4-26B-A4B-it                     none 10:00:00 
 mid   gemma4-31b    google/gemma-4-31B-it                         none 12:00:00 -
 mid   gemma4-31b-think google/gemma-4-31B-it                      high 16:00:00 - --reasoning-parser gemma4
 large gptoss-120b   openai/gpt-oss-120b                           low  16:00:00 -
-large mistral-small4 mistralai/Mistral-Small-4-119B-2603          none 16:00:00 - --tokenizer-mode mistral --reasoning-parser mistral
+large mistral-small4 mistralai/Mistral-Small-4-119B-2603          none 16:00:00 gpu:nvidia_h100_pcie:2@normal --tokenizer-mode mistral --reasoning-parser mistral
 EOF
 )
 

@@ -17,6 +17,7 @@
 #   USE_CASE=pv-cost-chain sbatch scripts/slurm-sweep.sh          # collections (and max size) from scripts/use-cases.txt
 #   VLLM_MODEL=openai/gpt-oss-120b VLLM_REASONING_EFFORT=low sbatch scripts/slurm-sweep.sh
 #   GCS_BUCKET=gs://my-bucket sbatch scripts/slurm-sweep.sh      # copy finished runs there (gcloud signed in), PDFs excluded
+#   SMOKE_ONLY=1 sbatch scripts/slurm-sweep.sh                    # start the model server, run the smoke test, stop
 #                                                                  # and progress every PUBLISH_EVERY s (600; 0 = only at the end)
 #
 #SBATCH --job-name=kw-sweep
@@ -205,6 +206,7 @@ print(f"chat ok in {time.time() - t:.1f}s, {u.output_tokens} output tokens: {tex
 vec, _ = llm.embed(["solar cell"])
 print(f"embedding ok: {len(vec[0])} dimensions")
 EOF
+[ -z "${SMOKE_ONLY:-}" ] || { echo "SMOKE_ONLY: model server and smoke test ok; no runs"; exit 0; }
 
 # ---- sweep ----
 SUMMARY=$LOG/summary.csv
