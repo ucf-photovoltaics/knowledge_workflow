@@ -135,6 +135,7 @@ cleanup() {
     [ -z "${PUBLISH_PID:-}" ] || kill "$PUBLISH_PID" 2>/dev/null || true
     [ -z "${VLLM_PID:-}" ] || kill "$VLLM_PID" 2>/dev/null || true
     [ -z "${OLLAMA_PID:-}" ] || kill "$OLLAMA_PID" 2>/dev/null || true
+    [ -z "${STORE_COPY:-}" ] || rm -rf "$STORE_COPY"
     exit "$rc"
 }
 trap cleanup EXIT
@@ -207,6 +208,26 @@ vec, _ = llm.embed(["solar cell"])
 print(f"embedding ok: {len(vec[0])} dimensions")
 EOF
 [ -z "${SMOKE_ONLY:-}" ] || { echo "SMOKE_ONLY: model server and smoke test ok; no runs"; exit 0; }
+
+# Private copy of the ontology store on node-local disk: a rebuild or re-copy of the shared store while this job
+# runs (ontologies build, scp) can no longer delete or corrupt the files under it. Oxigraph is only used to build.
+STORE=$ROOT/outputs/cache/ontology_store
+STORE_COPY=${TMPDIR:-/tmp}/kw-store-${SLURM_JOB_ID:-$$}
+mkdir -p "$STORE_COPY/ontology_store"
+for f in terms.sqlite vectors.npy vectors.json manifest.json; do
+    [ ! -e "$STORE/$f" ] || cp "$STORE/$f" "$STORE_COPY/ontology_store/" || { echo "ontology store copy failed ($f)"; exit 2; }
+done
+export KW_ONTOLOGY_STORE=$STORE_COPY/ontology_store
+"${PY[@]}" - <<'EOF' || { echo "ontology store at $STORE is missing or damaged: rebuild it (python -m src.run ontologies build) or copy it again"; exit 2; }
+import sqlite3
+from src.tools import ontostore
+ontostore.require()
+ok = sqlite3.connect(f"file:{ontostore.DB}?mode=ro", uri=True).execute("PRAGMA quick_check").fetchone()[0]
+assert ok == "ok", ok
+m = ontostore.manifest()
+print(f"ontology store ok: {m.get('terms', 0):,} terms, built {m.get('built')}, "
+      f"vectors {'on' if ontostore.has_vectors() else 'off'}; private copy {ontostore.DB.parent}")
+EOF
 
 # ---- sweep ----
 SUMMARY=$LOG/summary.csv

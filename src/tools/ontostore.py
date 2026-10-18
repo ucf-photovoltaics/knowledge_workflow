@@ -133,10 +133,12 @@ def build():
         data = src["path"].read_bytes()
         sources[name] = {**src, "path": src["path"], "file": src["path"].name,
                          "sha256": hashlib.sha256(data).hexdigest(), "format": _rdf_format(data)}
-    if ONTOLOGY_STORE.exists():
-        shutil.rmtree(ONTOLOGY_STORE)
-    ONTOLOGY_STORE.mkdir(parents=True)
-    store = ox.Store(str(ONTOLOGY_STORE / "oxigraph"))
+    # Build beside the live store and swap it in at the end, so readers never see a half-built or missing store.
+    staging = ONTOLOGY_STORE.with_name(ONTOLOGY_STORE.name + ".building")
+    if staging.exists():
+        shutil.rmtree(staging)
+    staging.mkdir(parents=True)
+    store = ox.Store(str(staging / "oxigraph"))
     for name, s in sources.items():
         fmt = ox.RdfFormat.RDF_XML if s["format"] == "xml" else ox.RdfFormat.TURTLE
         store.bulk_load(path=str(s["path"]), format=fmt, to_graph=ox.NamedNode(GRAPH + name), lenient=True)
@@ -147,13 +149,20 @@ def build():
         log(f"{name}: {s['file']} version {s.get('version') or '?'}")
     terms = _extract(store, list(sources))
     del store
-    _write_index(terms)
-    model = _write_vectors(terms)
+    _write_index(terms, staging / DB.name)
+    model = _write_vectors(terms, staging)
     manifest = {"built": datetime.now(timezone.utc).isoformat(timespec="seconds"),
                 "sources": {n: {k: v for k, v in s.items() if k != "path"} for n, s in sources.items()},
                 "terms": len(terms), "by_ontology": _count(terms, "ontology"), "by_kind": _count(terms, "kind"),
                 "embed_model": model, "embed_recipe": RECIPE}
-    MANIFEST.write_text(json.dumps(manifest, indent=1), encoding="utf-8")
+    (staging / MANIFEST.name).write_text(json.dumps(manifest, indent=1), encoding="utf-8")
+    old = ONTOLOGY_STORE.with_name(ONTOLOGY_STORE.name + ".old")
+    if old.exists():
+        shutil.rmtree(old)
+    if ONTOLOGY_STORE.exists():
+        ONTOLOGY_STORE.rename(old)
+    staging.rename(ONTOLOGY_STORE)
+    shutil.rmtree(old, ignore_errors=True)
     _reset()
     log(f"ontology store built: {len(terms):,} terms {manifest['by_ontology']}; "
         f"embeddings {'by ' + model if model else 'off'}")
@@ -260,8 +269,8 @@ def _norm(text: str) -> str:
     return match_key(text.replace("_", " "))
 
 
-def _write_index(terms: dict):
-    con = sqlite3.connect(DB)
+def _write_index(terms: dict, path):
+    con = sqlite3.connect(path)
     con.executescript("""
         CREATE TABLE terms(iri TEXT PRIMARY KEY, ontology TEXT, kind TEXT, label TEXT, definition TEXT,
                            deprecated INTEGER, data TEXT);
@@ -289,7 +298,7 @@ def _text(t: dict) -> str:
     return f"{t['label']}" + (f"; {'; '.join(others)}" if others else "") + f": {t['definition'][:200]}"
 
 
-def _write_vectors(terms: dict) -> str | None:
+def _write_vectors(terms: dict, folder) -> str | None:
     if not EMBED["model"]:
         return None
     from src.tools import llm
@@ -302,8 +311,8 @@ def _write_vectors(terms: dict) -> str | None:
         return None
     m = np.asarray(vecs, dtype=np.float32)
     m /= np.linalg.norm(m, axis=1, keepdims=True) + 1e-12
-    np.save(VECTORS, m)
-    (ONTOLOGY_STORE / "vectors.json").write_text(json.dumps({"model": EMBED["model"], "recipe": RECIPE, "ids": ids}),
+    np.save(folder / VECTORS.name, m)
+    (folder / "vectors.json").write_text(json.dumps({"model": EMBED["model"], "recipe": RECIPE, "ids": ids}),
                                                  encoding="utf-8")
     return EMBED["model"]
 

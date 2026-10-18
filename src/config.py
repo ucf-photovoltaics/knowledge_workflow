@@ -293,7 +293,8 @@ ONTOLOGY_SOURCES = {
             "home": ["https://spec.industrialontologies.org/"]},
     "MDS-Onto": {"portal": "MDS-ONTO", "file": "MDS-Onto-{version}.ttl", "home": ["https://cwrusdle.bitbucket.io/mds/"]},
 }
-ONTOLOGY_STORE = CACHE / "ontology_store"
+# KW_ONTOLOGY_STORE points a job at a private copy (scripts/slurm-sweep.sh) so a rebuild cannot break it mid-run
+ONTOLOGY_STORE = Path(os.getenv("KW_ONTOLOGY_STORE") or CACHE / "ontology_store")
 ONTOLOGY_SEARCH = {
     "weights": {"lexical": 0.4, "cosine": 0.6},  # fused score: lexical = 1 for an exact label, else trigram similarity
     "min_score": 0.35,           # fused score a candidate needs (exact label matches are always kept)
