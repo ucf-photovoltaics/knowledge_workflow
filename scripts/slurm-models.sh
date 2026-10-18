@@ -35,7 +35,8 @@ MISTRAL="--tokenizer-mode mistral --config-format mistral --load-format mistral"
 # to runaway JSON even with whitespace-free decoding; their n2 sweeps stay as the low baseline. llama33-70b dropped
 # too (only 31% of its relation/causal evidence found in the papers); mistral-small4 takes the large slot.
 # gemma4-31b-think: Gemma 4 31B with thinking on (reasoning high; src/config.py doubles max_tokens for it).
-# mistral-small4: FP8 MoE, ~120 GB of weights: placed on 4 x H100 80 GB (highgpu, no time limit), tensor parallel 4.
+# mistral-small4: FP8 MoE, ~120 GB of weights on 2 x H100 PCIe (kdavis cannot use highgpu or short): submit it with
+#   MAX_MODEL_LEN=24576 GPU_MEMORY_UTILIZATION=0.95 so the KV cache fits; move it to bigger GPUs with a placement.
 MODELS=$(cat <<EOF
 small gemma4-e4b    google/gemma-4-E4B-it                         none 06:00:00 -
 small ministral3-8b mistralai/Ministral-3-8B-Instruct-2512        none 06:00:00 - $MISTRAL
@@ -45,7 +46,7 @@ mid   gemma4-26b    google/gemma-4-26B-A4B-it                     none 10:00:00 
 mid   gemma4-31b    google/gemma-4-31B-it                         none 12:00:00 -
 mid   gemma4-31b-think google/gemma-4-31B-it                      high 16:00:00 - --reasoning-parser gemma4
 large gptoss-120b   openai/gpt-oss-120b                           low  16:00:00 -
-large mistral-small4 mistralai/Mistral-Small-4-119B-2603          none 16:00:00 gpu:nvidia_h100_80gb_hbm3:4@highgpu --tokenizer-mode mistral --reasoning-parser mistral
+large mistral-small4 mistralai/Mistral-Small-4-119B-2603          none 16:00:00 - --tokenizer-mode mistral --reasoning-parser mistral
 EOF
 )
 
