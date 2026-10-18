@@ -22,6 +22,7 @@ CACHE = OUTPUTS / "cache"
 # request = extra fields sent with every chat call (OpenAI-compatible providers only).
 # tier = "local" or "frontier": local models get each stage split into narrow single-task calls; frontier models
 #        get one combined call per stage (see PIPELINE_TIER below).
+_VLLM_EFFORT = os.getenv("VLLM_REASONING_EFFORT", "none")  # none, low, medium or high
 PROFILES = {
     "ollama": {"tier": "local", "provider": "openai", "base_url": "http://localhost:11434/v1",
                "model": "kw-qwen3.5-9b-32k", "api_key_env": None, "max_input_chars": 48000,
@@ -37,10 +38,14 @@ PROFILES = {
     "vllm": {"tier": "local", "provider": "openai", "base_url": os.getenv("VLLM_BASE_URL", "http://localhost:8000/v1"),
              "model": os.getenv("VLLM_MODEL", "mistralai/Mistral-Small-4-119B-2603"), "api_key_env": None,
              "max_input_chars": 48000, "outage_wait_s": 900,
-             "request": {"reasoning_effort": os.getenv("VLLM_REASONING_EFFORT", "none"), "max_tokens": 8000,
-                         # Qwen-style templates ignore reasoning_effort; other templates ignore this flag.
-                         # vLLM rejects chat-template arguments for Mistral tokenizers (--tokenizer-mode mistral).
-                         "extra_body": {} if "--tokenizer-mode mistral" in os.getenv("VLLM_EXTRA_ARGS", "")
+             "request": {"reasoning_effort": _VLLM_EFFORT,
+                         # thinking tokens count against max_tokens, so medium/high reasoning gets twice the budget
+                         "max_tokens": 16000 if _VLLM_EFFORT in ("medium", "high") else 8000,
+                         # Qwen-style templates ignore reasoning_effort, so thinking is also switched off explicitly.
+                         # Not when reasoning is requested (an explicit flag would override it, e.g. Gemma 4), and
+                         # never for Mistral tokenizers (vLLM rejects chat-template arguments for them).
+                         "extra_body": {} if _VLLM_EFFORT != "none"
+                         or "--tokenizer-mode mistral" in os.getenv("VLLM_EXTRA_ARGS", "")
                          else {"chat_template_kwargs": {"enable_thinking": False}}}},
     "gemini": {"tier": "frontier", "provider": "openai", "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
                "model": "gemini-3-flash-preview", "api_key_env": "GEMINI_API_KEY", "max_input_chars": 60000},
