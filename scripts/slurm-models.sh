@@ -31,11 +31,10 @@ HF_HUB=${HF_HOME:-$HOME/.cache/huggingface}/hub
 MISTRAL="--tokenizer-mode mistral --config-format mistral --load-format mistral"
 
 # tier  tag  Hugging Face repo  reasoning  time  extra vLLM flags
+# Dropped after the n2 test (2026-10-17): phi4-mini, llama32-3b, llama31-8b lost 4-65% of extraction calls
+# to runaway JSON even with whitespace-free decoding; their n2 sweeps stay as the low baseline.
 MODELS=$(cat <<EOF
-small phi4-mini     microsoft/Phi-4-mini-instruct                 none 06:00:00
-small llama32-3b    meta-llama/Llama-3.2-3B-Instruct              none 06:00:00
 small gemma4-e4b    google/gemma-4-E4B-it                         none 06:00:00
-small llama31-8b    meta-llama/Llama-3.1-8B-Instruct              none 06:00:00
 small ministral3-8b mistralai/Ministral-3-8B-Instruct-2512        none 06:00:00 $MISTRAL
 small gptoss-20b    openai/gpt-oss-20b                            low  08:00:00
 mid   ministral3-14b mistralai/Ministral-3-14B-Instruct-2512      none 10:00:00 $MISTRAL
