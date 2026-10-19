@@ -29,7 +29,8 @@ _handler = _DiagnosticHandler(logging.WARNING)
 
 def redact(message: str) -> str:
     for name, value in os.environ.items():
-        if value and re.search(r'KEY|TOKEN|PASSWORD|SECRET', name, re.I):
+        # short values are settings such as MAX_TOKENS=8000 or a flag of 1, not secrets; masking them garbles numbers
+        if value and len(value) >= 8 and re.search(r'KEY|TOKEN|PASSWORD|SECRET', name, re.I):
             for encoded in (value, quote(value, safe=''), quote_plus(value)):
                 message = message.replace(encoded, '***')
     message = re.sub(r'(?i)((?:apikey|api_key|access_token|password|secret)\s*[=:]\s*)[^&\s,;]+', r'\1***', message)

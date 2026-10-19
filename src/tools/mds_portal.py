@@ -3,8 +3,11 @@
 Author: Brent Thompson <brent.thompson@ucf.edu>
 """
 import random
+import threading
 import time
+from collections import Counter
 from functools import lru_cache
+from urllib.parse import urlparse
 
 import requests
 
@@ -16,6 +19,20 @@ from src.tools.lexical import validate_search_query
 PORTAL = "https://www.mdsonto-portal.com:8443"
 
 
+_waits, _waits_lock, _last_note = Counter(), threading.Lock(), [0.0]
+
+
+def _note_wait(url: str, status: int, delay: float):
+    """Log rate-limit waits at most every 30 s per process, with running totals per portal and status."""
+    with _waits_lock:
+        _waits[(urlparse(url).hostname, status)] += 1
+        if time.time() - _last_note[0] < 30:
+            return
+        _last_note[0] = time.time()
+        totals = ", ".join(f"{host} HTTP {code}: {n}" for (host, code), n in sorted(_waits.items()))
+    log(f"  portal busy, waiting {delay:.0f}s and retrying; waits so far: {totals}")
+
+
 def get(url: str, params: dict, attempts: int = 6) -> requests.Response:
     """GET that waits and retries on 429 and 5xx (Retry-After when given, else 2, 4, ... 32 s plus jitter): several
     sweep jobs searching a portal at once trip its rate limit, and a failed search loses that class's candidates."""
@@ -25,7 +42,9 @@ def get(url: str, params: dict, attempts: int = 6) -> requests.Response:
             r.raise_for_status()
             return r
         wait = r.headers.get("Retry-After", "")
-        time.sleep((float(wait) if wait.isdigit() else 2 ** (attempt + 1)) + random.uniform(0, 1))
+        delay = (float(wait) if wait.isdigit() else 2 ** (attempt + 1)) + random.uniform(0, 1)
+        _note_wait(url, r.status_code, delay)
+        time.sleep(delay)
 
 
 @lru_cache

@@ -241,13 +241,14 @@ class EnrichmentAgent(Agent):
         portals = [("MDS-Onto portal", mds_portal.search, MDS_ONTOLOGIES, "mds")]
         if MATPORTAL["enabled"] and secret("MATPORTAL_API_KEY"):
             portals.append(("MatPortal", matportal.search, MATPORTAL["ontologies"], "matportal"))
-        failed = set()
+        failed, failures = set(), Counter()
 
         def fetch(portal: str, search, onts, folder: str, query: str, exact: bool) -> list[dict]:
             try:
                 return _portal_fetch(search, onts, folder, query, exact)
             except Exception as e:
                 failed.add(portal)
+                failures[portal] += 1
                 log(f"  {portal}: a search failed ({type(e).__name__}: {e}); "
                     f"query_sha256={hashlib.sha256(query.encode()).hexdigest()} exact={exact}; other searches continue")
                 return []
@@ -273,8 +274,14 @@ class EnrichmentAgent(Agent):
         jobs = [(c["id"], portal, q, exact) for c in live for portal in portals for q, exact in queries(c)]
         unique = list(dict.fromkeys((portal[0], q, exact) for _, portal, q, exact in jobs))
         by_portal = {p[0]: p for p in portals}
+        log(f"  portal searches: {len(unique):,} ({', '.join(f'{n:,} {p}' for p, n in Counter(u[0] for u in unique).items())});"
+            f" cached ones return at once, the rest wait on the portals")
+        t0, waits0 = time.time(), sum(mds_portal._waits.values())
         with ThreadPoolExecutor(8) as ex:
             fetched = dict(zip(unique, ex.map(lambda j: fetch(*by_portal[j[0]], j[1], j[2]), unique)))
+        log(f"  portal searches done in {time.time() - t0:.0f}s: {sum(failures.values())} failed after retries"
+            f"{' (' + ', '.join(f'{p} {n}' for p, n in failures.items()) + ')' if failures else ''}, "
+            f"{sum(mds_portal._waits.values()) - waits0} rate-limit waits")
         results = [fetched[(portal[0], q, exact)] for _, portal, q, exact in jobs]
 
         def from_store(t: dict, source: str, **extra) -> dict:
