@@ -12,14 +12,17 @@ from dpv_dashboard import model
 
 def discover(root=None):
     """Runs in outputs/ plus any folders listed in DPV_OUTPUT_DIRS (e.g. a mounted Cloud Storage bucket). An entry
-    may be a pattern: /app/hpc-outputs/experiments/* reads every experiment folder of the bucket layout."""
+    may be a pattern: /app/hpc-outputs/experiments/* reads every experiment folder of the bucket layout.
+    DPV_DEFAULT_OUTPUT names the folder listed first, which the dashboard opens with (else the newest)."""
     if root is None:
         entries = [p.strip() for p in os.environ.get("DPV_OUTPUT_DIRS", "").split(os.pathsep) if p.strip()]
         extra = [Path(m) for p in entries for m in (sorted(glob.glob(p)) if any(c in p for c in "*?[") else [p])]
         found = {}
         for folder in [model.ROOT / "outputs", *extra]:
             found.update(discover(folder))
-        return dict(sorted(found.items(), key=lambda pair: pair[1]["modified"], reverse=True))
+        found = dict(sorted(found.items(), key=lambda pair: pair[1]["modified"], reverse=True))
+        pinned = os.environ.get("DPV_DEFAULT_OUTPUT", "").strip()
+        return {pinned: found[pinned], **found} if pinned in found else found
     root = Path(root).resolve()
     found = {}
     if not root.is_dir():
