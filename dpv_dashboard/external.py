@@ -2,6 +2,7 @@
 
 Author: Brent Thompson <brent.thompson@ucf.edu>
 """
+import glob
 import os
 import re
 import time
@@ -10,9 +11,11 @@ from dpv_dashboard import model
 
 
 def discover(root=None):
-    """Runs in outputs/ plus any folders listed in DPV_OUTPUT_DIRS (e.g. a mounted Cloud Storage bucket)."""
+    """Runs in outputs/ plus any folders listed in DPV_OUTPUT_DIRS (e.g. a mounted Cloud Storage bucket). An entry
+    may be a pattern: /app/hpc-outputs/experiments/* reads every experiment folder of the bucket layout."""
     if root is None:
-        extra = [Path(p) for p in os.environ.get("DPV_OUTPUT_DIRS", "").split(os.pathsep) if p.strip()]
+        entries = [p.strip() for p in os.environ.get("DPV_OUTPUT_DIRS", "").split(os.pathsep) if p.strip()]
+        extra = [Path(m) for p in entries for m in (sorted(glob.glob(p)) if any(c in p for c in "*?[") else [p])]
         found = {}
         for folder in [model.ROOT / "outputs", *extra]:
             found.update(discover(folder))

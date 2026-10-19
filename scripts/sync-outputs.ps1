@@ -2,7 +2,8 @@
 # Summary: Pull pipeline outputs from the Slurm cluster and push them to the dashboard's Cloud Storage bucket.
 <#
 .SYNOPSIS
-Copies outputs/ from the cluster checkout into the bucket the Cloud Run dashboard mounts at /app/outputs.
+Copies outputs/ from the cluster checkout into the bucket the Cloud Run dashboard mounts at /app/outputs, one folder
+per experiment (experiments/<use case>-n<size>/; scripts/bucket_layout.py decides where each folder goes).
 .DESCRIPTION
 Packs outputs/ on the cluster (no PDFs, caches, dashboard data, private settings or databases), downloads it
 over SSH, unpacks it into a local staging folder, then uploads only new or changed files to the bucket.
@@ -32,6 +33,14 @@ tar -xzf $local -C $Staging
 if ($LASTEXITCODE -ne 0) { throw 'Could not unpack the outputs archive.' }
 Remove-Item $local
 
-gcloud storage rsync (Join-Path $Staging 'outputs') $Bucket --recursive
-if ($LASTEXITCODE -ne 0) { throw "Could not upload to $Bucket." }
+$outputs = Join-Path $Staging 'outputs'
+$folders = python (Join-Path $PSScriptRoot 'bucket_layout.py') map $outputs
+if ($LASTEXITCODE -ne 0) { throw 'Could not map the outputs to bucket folders (scripts/bucket_layout.py).' }
+$failed = @()
+foreach ($line in $folders) {
+    $name, $dest = $line -split "`t", 2
+    gcloud storage rsync (Join-Path $outputs $name) "$Bucket/$dest" --recursive
+    if ($LASTEXITCODE -ne 0) { $failed += $name }
+}
+if ($failed) { throw "Could not upload to ${Bucket}: $($failed -join ', ')" }
 Write-Host "$(Get-Date -Format s) synced $SshHost`:$RemoteRepo/outputs -> $Bucket"

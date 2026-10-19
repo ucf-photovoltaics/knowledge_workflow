@@ -16,7 +16,8 @@
 #   SWEEP_ID=20261014-150000 sbatch scripts/slurm-sweep.sh                                  # resume
 #   USE_CASE=pv-cost-chain sbatch scripts/slurm-sweep.sh          # collections (and max size) from scripts/use-cases.txt
 #   VLLM_MODEL=openai/gpt-oss-120b VLLM_REASONING_EFFORT=low sbatch scripts/slurm-sweep.sh
-#   GCS_BUCKET=gs://my-bucket sbatch scripts/slurm-sweep.sh      # copy finished runs there (gcloud signed in), PDFs excluded
+#   GCS_BUCKET=gs://my-bucket sbatch scripts/slurm-sweep.sh      # copy finished runs there (gcloud signed in), PDFs excluded,
+#                                                                # into experiments/<use case>-n<size>/ (scripts/bucket_layout.py)
 #   SMOKE_ONLY=1 sbatch scripts/slurm-sweep.sh                    # start the model server, run the smoke test, stop
 #                                                                  # and progress every PUBLISH_EVERY s (600; 0 = only at the end)
 #
@@ -255,8 +256,10 @@ echo '"kind","limit","run_id","status","detail"' >"$SUMMARY"
 save() { printf '"%s","%s","%s","%s","%s"\n' "$1" "$2" "$3" "$4" "$5" >>"$SUMMARY"; }
 publish() {  # copy this sweep's folders to GCS_BUCKET (only what changed); an upload failure never stops the sweep
     [ -n "$GCS_BUCKET" ] || return 0
+    local d to
     for d in "$ROOT"/outputs/*-"$SWEEP_ID"; do
-        gcloud storage rsync -r --exclude='.*\.pdf$' "$d" "$GCS_BUCKET/$(basename "$d")" >>"$LOG/publish.log" 2>&1 \
+        to=$(python3 "$ROOT/scripts/bucket_layout.py" dest "$(basename "$d")") && [ -n "$to" ] || continue
+        gcloud storage rsync -r --exclude='.*\.pdf$' "$d" "$GCS_BUCKET/$to" >>"$LOG/publish.log" 2>&1 \
             || echo "upload of $(basename "$d") failed; see $LOG/publish.log"
     done
 }

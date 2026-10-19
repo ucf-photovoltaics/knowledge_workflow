@@ -34,6 +34,7 @@ MODELS=${MODELS:-"gptoss-20b gemma4-31b gptoss-120b"}
 export SIZE MODELS USE_CASE MAIL_TO   # the comparison job reads the same values
 OUT=outputs/model-comparison/$USE_CASE-n$SIZE
 BUCKET=${GCS_BUCKET:-gs://research-dpv-kw-outputs}   # the comparison is also uploaded here (dashboard, PC sync)
+BUCKET_OUT=${BUCKET:+$BUCKET/$(python3 scripts/bucket_layout.py dest "$(basename "$OUT")" model-comparison)}  # experiments/<use case>-n<size>/_comparison
 
 send_mail() {  # subject, body (file or text), attachments...: sendmail, else SMTP_* from .env, else SMTP on localhost
     python3 - "$MAIL_TO" "$@" <<'EOF'
@@ -98,10 +99,10 @@ if [ "${1:-}" = "--compare" ]; then   # inside the Slurm job
         (cd "$(dirname "$OUT")" && rm -f "$(basename "$OUT").zip" && python3 -m zipfile -c "$(basename "$OUT").zip" "$(basename "$OUT")")
         { cat "$log"; echo; echo "Full report with figures: unzip the attachment and open report.html."; echo
           cat "$OUT/report.md"; } >"$OUT.mail.txt"
-        [ -z "$BUCKET" ] || gcloud storage rsync -r "$OUT" "$BUCKET/model-comparison/$(basename "$OUT")" >>"$log" 2>&1 \
+        [ -z "$BUCKET" ] || gcloud storage rsync -r "$OUT" "$BUCKET_OUT" >>"$log" 2>&1 \
             || echo "upload to $BUCKET failed" >>"$log"
         send_mail "n$SIZE model comparison ($USE_CASE)" "$OUT.mail.txt" "$OUT.zip" "$OUT/report.html" "$OUT/model_metrics.csv" \
-            || echo "email failed; the report is in $OUT${BUCKET:+ and $BUCKET/model-comparison/$(basename "$OUT")}"
+            || echo "email failed; the report is in $OUT${BUCKET:+ and $BUCKET_OUT}"
     else
         send_mail "n$SIZE model comparison FAILED ($USE_CASE)" "$log" "$log" || cat "$log"
     fi
