@@ -56,6 +56,16 @@ PROFILES = {
     "anthropic": {"tier": "frontier", "provider": "anthropic", "base_url": None,
                   "model": "", "api_key_env": "ANTHROPIC_API_KEY", "max_input_chars": 60000},
 }
+# Thinking for chosen agents only (vLLM): VLLM_THINK_AGENTS="ontology,enrichment" sends those agents' calls with
+# reasoning on, the rest with VLLM_REASONING_EFFORT. The server needs a --reasoning-parser for the model.
+# Greedy decoding makes thinking loop, so these calls sample (Gemma's recommended 1.0 / 0.95 / 64 by default).
+_THINK_TEMPERATURE = os.getenv("VLLM_THINK_TEMPERATURE", "1.0")
+PROFILES["vllm-think"] = {**PROFILES["vllm"], "request": {
+    "reasoning_effort": os.getenv("VLLM_THINK_EFFORT", "medium"),
+    "max_tokens": int(os.getenv("VLLM_THINK_MAX_TOKENS", "16000")),
+    **({"temperature": float(_THINK_TEMPERATURE), "top_p": float(os.getenv("VLLM_THINK_TOP_P", "0.95"))}
+       if _THINK_TEMPERATURE else {}),
+    "extra_body": {"top_k": int(os.getenv("VLLM_THINK_TOP_K", "64"))} if _THINK_TEMPERATURE else {}}}
 # Select via PowerShell: $env:LLM_PROFILE = "gemini" (or "gemini-lite").
 PROFILES["gemini-lite"] = {**PROFILES["gemini"], "model": "gemini-3.1-flash-lite"}
 # User-specified ceilings. None means TPM was not specified; 429 responses still back off.
@@ -68,6 +78,8 @@ LLM = PROFILES[LLM_PROFILE]
 # Gemini hybrid: local drafting/alignment, frontier semantic decisions.
 AGENT_PROFILES = {"extraction": "ollama", "interoperability": "ollama"} \
     if LLM_PROFILE in ("gemini", "gemini-lite") else {}
+if LLM_PROFILE == "vllm":
+    AGENT_PROFILES.update({a: "vllm-think" for a in os.getenv("VLLM_THINK_AGENTS", "").replace(",", " ").split()})
 
 
 def profile_for(agent: str | None = None) -> dict:
@@ -295,6 +307,10 @@ ONTOLOGY_SOURCES = {
 }
 # KW_ONTOLOGY_STORE points a job at a private copy (scripts/slurm-sweep.sh) so a rebuild cannot break it mid-run
 ONTOLOGY_STORE = Path(os.getenv("KW_ONTOLOGY_STORE") or CACHE / "ontology_store")
+# The SQLite answer and embedding caches. Slurm jobs use node-local copies (scripts/cache_sync.py): SQLite locking
+# does not work across the nodes of a network filesystem, and concurrent writers there corrupt the file.
+ROWS_DB = Path(os.getenv("KW_ROWS_DB") or CACHE / "rows.sqlite3")
+EMBED_DB = Path(os.getenv("KW_EMBED_DB") or CACHE / "embeddings.sqlite3")
 ONTOLOGY_SEARCH = {
     "weights": {"lexical": 0.4, "cosine": 0.6},  # fused score: lexical = 1 for an exact label, else trigram similarity
     "min_score": 0.35,           # fused score a candidate needs (exact label matches are always kept)

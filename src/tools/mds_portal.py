@@ -2,6 +2,8 @@
 
 Author: Brent Thompson <brent.thompson@ucf.edu>
 """
+import random
+import time
 from functools import lru_cache
 
 import requests
@@ -14,12 +16,22 @@ from src.tools.lexical import validate_search_query
 PORTAL = "https://www.mdsonto-portal.com:8443"
 
 
+def get(url: str, params: dict, attempts: int = 6) -> requests.Response:
+    """GET that waits and retries on 429 and 5xx (Retry-After when given, else 2, 4, ... 32 s plus jitter): several
+    sweep jobs searching a portal at once trip its rate limit, and a failed search loses that class's candidates."""
+    for attempt in range(attempts):
+        r = requests.get(url, params=params, timeout=60)
+        if r.status_code not in (429, 500, 502, 503, 504) or attempt == attempts - 1:
+            r.raise_for_status()
+            return r
+        wait = r.headers.get("Retry-After", "")
+        time.sleep((float(wait) if wait.isdigit() else 2 ** (attempt + 1)) + random.uniform(0, 1))
+
+
 @lru_cache
 def list_ontologies() -> dict[str, str]:
     """Acronym -> name for every ontology on the portal."""
-    r = requests.get(f"{PORTAL}/ontologies", timeout=60,
-                     params={"apikey": secret("MDS_API_KEY"), "display_links": "false", "display_context": "false"})
-    r.raise_for_status()
+    r = get(f"{PORTAL}/ontologies", {"apikey": secret("MDS_API_KEY"), "display_links": "false", "display_context": "false"})
     return {o["acronym"]: o.get("name", "") for o in r.json()}
 
 
@@ -52,8 +64,7 @@ def search(query: str, ontologies: str | None = None, max_results: int = 10, exa
                   "also_search_obsolete": "false", "include": "prefLabel,synonym,definition,properties,cui,semanticType"}
         if ontologies:
             params["ontologies"] = ontologies
-        response = requests.get(f"{PORTAL}/search", params=params, timeout=60)
-        response.raise_for_status()
+        response = get(f"{PORTAL}/search", params)
         data = response.json()
         if not isinstance(data, dict) or not isinstance(data.get("collection"), list):
             raise ValueError("MDS portal returned no search collection")

@@ -135,7 +135,11 @@ cleanup() {
     [ -z "${PUBLISH_PID:-}" ] || kill "$PUBLISH_PID" 2>/dev/null || true
     [ -z "${VLLM_PID:-}" ] || kill "$VLLM_PID" 2>/dev/null || true
     [ -z "${OLLAMA_PID:-}" ] || kill "$OLLAMA_PID" 2>/dev/null || true
-    [ -z "${STORE_COPY:-}" ] || rm -rf "$STORE_COPY"
+    if [ -n "${STORE_COPY:-}" ]; then   # merge this job's new cache entries into the shared caches, then tidy up
+        [ -z "${KW_ROWS_DB:-}" ] || timeout 1200 "${PY[@]}" scripts/cache_sync.py push "$ROOT/outputs/cache" "$STORE_COPY" \
+            || echo "cache merge failed; this job's new cache entries are lost"
+        rm -rf "$STORE_COPY"
+    fi
     exit "$rc"
 }
 trap cleanup EXIT
@@ -195,20 +199,6 @@ wait_for "http://localhost:$VLLM_PORT/health" vllm $VLLM_PID || exit 2
 healthy() { curl -sf "http://localhost:$VLLM_PORT/health" >/dev/null && curl -sf http://127.0.0.1:11434/api/tags >/dev/null; }
 
 PY=(uv run --with-requirements requirements.txt python)
-# Smoke test through the pipeline's own client: JSON mode, reasoning off, embeddings.
-"${PY[@]}" - <<'EOF' || { echo "smoke test failed"; exit 2; }
-import json, time
-from src.config import LLM
-from src.tools import llm
-t = time.time()
-text, u = llm.chat("Return ONLY JSON.", 'Return {"ok": true, "bfo_category": "<BFO category of: solar cell>"}', LLM["model"], profile=LLM)
-json.loads(text)
-print(f"chat ok in {time.time() - t:.1f}s, {u.output_tokens} output tokens: {text[:200]}")
-vec, _ = llm.embed(["solar cell"])
-print(f"embedding ok: {len(vec[0])} dimensions")
-EOF
-[ -z "${SMOKE_ONLY:-}" ] || { echo "SMOKE_ONLY: model server and smoke test ok; no runs"; exit 0; }
-
 # Private copy of the ontology store on node-local disk: a rebuild or re-copy of the shared store while this job
 # runs (ontologies build, scp) can no longer delete or corrupt the files under it. Oxigraph is only used to build.
 STORE=$ROOT/outputs/cache/ontology_store
@@ -218,6 +208,30 @@ for f in terms.sqlite vectors.npy vectors.json manifest.json; do
     [ ! -e "$STORE/$f" ] || cp "$STORE/$f" "$STORE_COPY/ontology_store/" || { echo "ontology store copy failed ($f)"; exit 2; }
 done
 export KW_ONTOLOGY_STORE=$STORE_COPY/ontology_store
+# Same for the SQLite answer and embedding caches: SQLite locking does not work across Lustre nodes, so jobs writing
+# the shared files at once corrupted them. Each job works on local copies and merges its new entries back at the end.
+"${PY[@]}" scripts/cache_sync.py pull "$ROOT/outputs/cache" "$STORE_COPY" || { echo "cache copy failed"; exit 2; }
+export KW_ROWS_DB=$STORE_COPY/rows.sqlite3 KW_EMBED_DB=$STORE_COPY/embeddings.sqlite3
+
+# Smoke test through the pipeline's own client: JSON mode, reasoning off, embeddings.
+"${PY[@]}" - <<'EOF' || { echo "smoke test failed"; exit 2; }
+import json, time
+from src.config import LLM
+from src.tools import llm
+t = time.time()
+text, u = llm.chat("Return ONLY JSON.", 'Return {"ok": true, "bfo_category": "<BFO category of: solar cell>"}', LLM["model"], profile=LLM)
+json.loads(text)
+print(f"chat ok in {time.time() - t:.1f}s, {u.output_tokens} output tokens: {text[:200]}")
+from src.config import AGENT_PROFILES, PROFILES
+if "vllm-think" in AGENT_PROFILES.values():  # VLLM_THINK_AGENTS: the reasoning parser must still leave valid JSON
+    t = time.time()
+    text, u = llm.chat("Return ONLY JSON.", 'Return {"ok": true, "bfo_category": "<BFO category of: solar cell>"}', LLM["model"], profile=PROFILES["vllm-think"])
+    json.loads(text)
+    print(f"thinking chat ok in {time.time() - t:.1f}s, {u.output_tokens} output tokens, for {sorted(a for a, p in AGENT_PROFILES.items() if p == 'vllm-think')}: {text[:200]}")
+vec, _ = llm.embed(["solar cell"])
+print(f"embedding ok: {len(vec[0])} dimensions")
+EOF
+[ -z "${SMOKE_ONLY:-}" ] || { echo "SMOKE_ONLY: model server and smoke test ok; no runs"; exit 0; }
 "${PY[@]}" - <<'EOF' || { echo "ontology store at $STORE is missing or damaged: rebuild it (python -m src.run ontologies build) or copy it again"; exit 2; }
 import sqlite3
 from src.tools import ontostore
