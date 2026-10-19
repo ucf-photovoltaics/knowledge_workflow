@@ -10,14 +10,13 @@ from functools import lru_cache
 import requests
 
 from src.config import MATPORTAL, secret
+from src.tools import mds_portal
 from src.tools.progress import log
 from src.tools.lexical import validate_search_query
 
 def _get(path: str, params: dict):
-    r = requests.get(MATPORTAL["base_url"].rstrip("/") + path, timeout=60,
-                     params={"apikey": secret("MATPORTAL_API_KEY"), **params})
-    r.raise_for_status()
-    return r.json()
+    return mds_portal.get(MATPORTAL["base_url"].rstrip("/") + path,
+                          {"apikey": secret("MATPORTAL_API_KEY"), **params}).json()
 
 
 @lru_cache
