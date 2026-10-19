@@ -33,11 +33,16 @@ def healthy(path: Path) -> bool:
         return False
 
 
-def _copy(src: Path, dst: Path):
-    dst.unlink(missing_ok=True)
-    with _open_ro(src) as s, sqlite3.connect(dst) as d:
-        s.backup(d)
-        d.execute("PRAGMA journal_mode=DELETE")
+def _copy(src: Path, dst: Path) -> bool:
+    """Copy src to local dst and check it there: one sequential read of the network filesystem instead of the
+    random reads of an integrity check on it, which take minutes for a large file. False (and no dst) if damaged."""
+    shutil.copyfile(src, dst)
+    if healthy(dst):
+        with sqlite3.connect(dst) as d:
+            d.execute("PRAGMA journal_mode=DELETE")
+        return True
+    dst.unlink()
+    return False
 
 
 def _count(path: Path, table: str) -> int:
@@ -50,12 +55,12 @@ def pull(shared: Path, local: Path):
     for name, table in TABLES.items():
         src = shared / name
         if not src.exists():
-            print(f"{name}: none yet; this job starts an empty cache")
-        elif healthy(src):
-            _copy(src, local / name)
-            print(f"{name}: {_count(local / name, table):,} entries copied to {local}")
+            print(f"{name}: none yet; this job starts an empty cache", flush=True)
+        elif _copy(src, local / name):
+            print(f"{name}: {_count(local / name, table):,} entries copied to {local}", flush=True)
         else:
-            print(f"{name}: shared copy is damaged; this job starts an empty cache (the merge at the end replaces it)")
+            print(f"{name}: shared copy is damaged; this job starts an empty cache (the merge at the end replaces it)",
+                  flush=True)
 
 
 def _lock(path: Path, wait_s: int = 1800) -> bool:
@@ -87,21 +92,19 @@ def push(shared: Path, local: Path):
             if not mine.exists():
                 continue
             merged = local / f"{name}.merged"
-            if target.exists() and healthy(target):
-                _copy(target, merged)
-            else:
+            if not (target.exists() and _copy(target, merged)):
                 if target.exists():
                     damaged = target.with_name(f"{name}.damaged-{time.strftime('%Y%m%d-%H%M%S')}")
                     target.rename(damaged)
-                    print(f"{name}: shared copy was damaged; kept as {damaged.name}")
-                _copy(mine, merged)
+                    print(f"{name}: shared copy was damaged; kept as {damaged.name}", flush=True)
+                shutil.copyfile(mine, merged)
             with sqlite3.connect(merged) as con:
                 con.execute("ATTACH DATABASE ? AS job", (str(mine),))
                 added = con.execute(f"INSERT OR IGNORE INTO main.{table} SELECT * FROM job.{table}").rowcount
                 con.commit()
                 con.execute("DETACH DATABASE job")
             if not healthy(merged):
-                print(f"{name}: merged copy failed its check; shared copy left as it was")
+                print(f"{name}: merged copy failed its check; shared copy left as it was", flush=True)
                 continue
             tmp = shared / f"{name}.incoming-{os.getpid()}"
             shutil.copyfile(merged, tmp)
@@ -109,7 +112,7 @@ def push(shared: Path, local: Path):
                 Path(f"{target}{side}").unlink(missing_ok=True)
             os.replace(tmp, target)
             merged.unlink()
-            print(f"{name}: {added:,} new entries merged; {_count(target, table):,} in {target}")
+            print(f"{name}: {added:,} new entries merged; {_count(target, table):,} in {target}", flush=True)
     finally:
         lock.rmdir()
 
