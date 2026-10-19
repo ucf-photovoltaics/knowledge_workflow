@@ -70,6 +70,12 @@ mkdir -p "$LOG"
 SWEEP_STARTED_AT=$(date -u +%s)
 export KW_SWEEP_ID=$SWEEP_ID
 
+# Batch jobs get the submitting shell's PATH, which may lack tools added by hand in another login session.
+for d in "$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/kw-hpc/bin" "$HOME/kw-hpc/google-cloud-sdk/bin"; do
+    [ -d "$d" ] && case ":$PATH:" in *":$d:"*) ;; *) PATH="$d:$PATH" ;; esac
+done
+export PATH
+
 # ---- model servers ----
 command -v uv >/dev/null || { echo "uv not found (curl -LsSf https://astral.sh/uv/install.sh | sh)"; exit 1; }
 [ -z "$GCS_BUCKET" ] || command -v gcloud >/dev/null || { echo "gcloud not found (needed for GCS_BUCKET)"; exit 1; }

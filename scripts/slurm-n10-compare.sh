@@ -17,6 +17,11 @@ set -uo pipefail
 cd "${SLURM_SUBMIT_DIR:-$(dirname "$0")/..}" || exit 1   # in the job, $0 is Slurm's copy of this script
 ENV_FILE=${ENV_FILE:-$HOME/kw-hpc/env.sh}
 [ -f "$ENV_FILE" ] && source "$ENV_FILE"
+# Batch jobs get the submitting shell's PATH, which may lack tools added by hand in another login session.
+for d in "$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/kw-hpc/bin" "$HOME/kw-hpc/google-cloud-sdk/bin"; do
+    [ -d "$d" ] && case ":$PATH:" in *":$d:"*) ;; *) PATH="$d:$PATH" ;; esac
+done
+export PATH
 MAIL_TO=${MAIL_TO:-br895930@ucf.edu}
 ME=${USER:-$(id -un)}
 USE_CASE=${USE_CASE:-pv-cost-chain}
@@ -99,6 +104,7 @@ fi
 
 # ---- login node: submit the sweeps, then the comparison ----
 command -v sbatch >/dev/null || { echo "run this on the cluster login node"; exit 1; }
+command -v uv >/dev/null || { echo "uv not found on PATH or in ~/.local/bin, ~/.cargo/bin, ~/kw-hpc/bin: every job would fail at start"; exit 1; }
 jobname() { [ "$1" = mistral-small4 ] && echo "kw-$1-n10" || echo "kw-$1"; }
 for t in $MODELS; do
     if [ -n "$(squeue -h -u "$ME" -n "$(jobname "$t")")" ]; then echo "$t: already queued or running"; continue; fi
