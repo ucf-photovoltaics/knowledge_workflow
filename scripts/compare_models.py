@@ -10,7 +10,8 @@ normalized/), not from eval_runs.csv, so a copy synced from the bucket works. Sw
 size (--size, default: the largest size most sweeps reached). Unfinished sweeps are compared on what exists.
 
 Writes to --out (default outputs/model-comparison/<match>-n<size>/): model_metrics.csv, domain_metrics.csv, one
-PDF/PNG/CSV per figure, report.md and report.html. Counts measure recall; evidence shares are the automatic
+PDF/PNG/CSV per figure, report.md and report.html. Matched paper reports and paper_metrics.csv
+compare all saved papers; --top-papers (default 1) controls citation-ranked detail per domain. Counts measure output volume; evidence shares are the automatic
 precision proxy. Correctness needs expert review (scripts/review_sample.py).
 
 Author: Brent Thompson <brent.thompson@ucf.edu>
@@ -231,7 +232,7 @@ def summarize(sid: str, entry: dict, size: int, outputs: Path, match: str) -> tu
              "cluster_merge_share": ratio(r["merges"], r["clusters"]),
              "mean_depth_to_bfo": r["mean_depth"], "max_local_depth": r["max_local_depth"],
              "local_root_share": ratio(r["local_roots"] or 0, r["classes"]) if r["local_roots"] is not None else None,
-             "json_first_try": 1 - ratio(r["first_failed"], r["first"]) if r["first"] else None} for r in runs]
+             "json_first_try": 1 - ratio(r.get("first_failed", 0), r["first"]) if r.get("first") else None} for r in runs]
     return m, rows
 
 
@@ -411,7 +412,7 @@ def write_report(out, models, size, outputs, notes):
     cols = [("label", "Model tag"), ("model", "Model"), ("domains", "Domains"), ("papers", "Papers"),
             ("calls", "Calls"), ("revision", "Revision")]
     title = f"Model comparison at n={size}"
-    lead = (f"{len(models)} model(s) from {outputs}. Generated {datetime.now():%Y-%m-%d %H:%M}. Counts measure recall; "
+    lead = (f"{len(models)} model(s) from {outputs}. Generated {datetime.now():%Y-%m-%d %H:%M}. Counts measure output volume; "
             "evidence shares are the automatic precision proxy; correctness needs expert review "
             "(scripts/review_sample.py). Each figure is also saved as PDF, PNG and CSV.")
     md = [f"# {title}", "", lead, *[f"\n> Note: {n}" for n in notes], "", "## Models", "",
@@ -470,6 +471,122 @@ def write_csv(path: Path, rows: list[dict]):
         w.writerows(rows)
 
 
+def compare_papers(outputs: Path, models: list[dict], found: dict, size: int, out: Path, top: int):
+    """Match saved paper keys within domains; rank frozen citations without model calls."""
+    if top < 1:
+        raise ValueError("--top-papers must be at least 1")
+    records, domains = {}, set()
+    for model in models:
+        for folder in found[model["sweep"]][size]["domains"]:
+            manifest = _json(folder / "run.json") or {}
+            domain = (manifest.get("collection") or {}).get("name") or folder.name.split("-n")[0]
+            domains.add(domain)
+            for path in sorted((folder / "papers").glob("*.json")):
+                paper = _json(path)
+                if not isinstance(paper, dict) or not paper.get("key"):
+                    raise ValueError(f"Missing paper object or key: {path}")
+                key = (domain, str(paper["key"]), model["sweep"])
+                if key in records:
+                    raise ValueError(f"Duplicate paper within domain and sweep: {key}")
+                records[key] = (paper, path)
+    rows, coverage, lines = [], [], ["# Matched paper comparison", "",
+        "Citation counts are frozen run metadata. Rank is within the union of saved papers in each domain; "
+        "unknown counts rank last. Ties use paper keys. Evidence matching checks quote presence, not scientific "
+        "correctness. Counts describe output volume, not measured recall. Missing records stay blank. "
+        "Latency is summed request latency and can overlap across concurrent calls; it is not wall time.", ""]
+    def cell(value):
+        return str(value if value is not None else "-").replace("|", " / ").replace("\n", " ")
+    for domain in sorted(domains):
+        keys = sorted({key for dom, key, sweep in records if dom == domain})
+        metadata = {}
+        for key in keys:
+            copies = [paper for (dom, pk, sweep), (paper, path) in records.items() if dom == domain and pk == key]
+            counts = {p.get("citations") for p in copies if isinstance(p.get("citations"), (int, float))}
+            dois = {str(p.get("doi")).strip().lower() for p in copies if p.get("doi")}
+            metadata[key] = (max(counts) if counts else None, len(counts) > 1, len(dois) > 1)
+        ranked = sorted(keys, key=lambda key: (metadata[key][0] is None, -(metadata[key][0] or 0), key))
+        sets = [{key for dom, key, sweep in records if dom == domain and sweep == m["sweep"]} for m in models]
+        common = set.intersection(*sets) if sets else set()
+        lines += [f"## {domain}", "", f"{len(common)} papers shared by all {len(models)} models; "
+                  f"{len(keys)} distinct saved paper keys. Identical paper sets: {all(s == sets[0] for s in sets)}.", ""]
+        for model, paper_set in zip(models, sets):
+            coverage.append({"domain": domain, "model": model["label"], "sweep": model["sweep"],
+                             "papers": len(paper_set), "shared_by_all": len(common),
+                             "missing_keys": ";".join(sorted(set(keys) - paper_set))})
+        for rank, key in enumerate(ranked, 1):
+            count, citation_conflict, doi_conflict = metadata[key]
+            paper_rows = []
+            for model in models:
+                saved = records.get((domain, key, model["sweep"]))
+                paper, path = saved if saved else ({}, None)
+                compute = paper.get("compute") or {}
+                row = {"domain": domain, "citation_rank": rank, "paper_key": key,
+                       "title": paper.get("title"), "doi": paper.get("doi"), "citations": count,
+                       "recorded_citations": paper.get("citations"),
+                       "citations_source": paper.get("citations_source"), "citations_fetched": paper.get("citations_fetched"),
+                       "citation_conflict": citation_conflict, "doi_conflict": doi_conflict,
+                       "shared_by_all": key in common, "model": model["label"], "sweep": model["sweep"],
+                       "present": saved is not None, "source": str(path.resolve()) if path else None,
+                       **{kind: len(paper.get(kind, [])) if saved else None for kind in ("concepts", *KINDS)},
+                       **{k: compute.get(k) for k in ("calls", "input_tokens", "output_tokens", "latency_s")}}
+                for kind in KINDS:
+                    verification = (paper.get("verification") or {}).get(kind) or {}
+                    row[kind + "_checked"] = verification.get("items")
+                    row[kind + "_verified"] = verification.get("verified")
+                    row[kind + "_evidence_found"] = ratio(verification["verified"], verification.get("items")) if verification.get("verified") is not None else None
+                rows.append(row)
+                paper_rows.append(row)
+            if rank > top:
+                continue
+            title = next((r["title"] for r in paper_rows if r["title"]), key)
+            lines += [f"### {rank}. {cell(title)}", "", f"Paper `{key}`; citations: {cell(count)}. "
+                      f"Shared by all models: {key in common}. Citation conflict: {citation_conflict}; "
+                      f"DOI conflict: {doi_conflict}.", "",
+                      "| Model | Concepts | Relations | Causal | Values | Relation evidence | Causal evidence | Value evidence | Output tokens | Request seconds |",
+                      "|---|---|---|---|---|---|---|---|---|---|"]
+            for row in paper_rows:
+                values = [row["model"], *[row[k] for k in ("concepts", *KINDS)],
+                          *[fmt(row[k + "_evidence_found"], "pct") for k in KINDS],
+                          row["output_tokens"], row["latency_s"]]
+                lines.append("| " + " | ".join(cell(v) for v in values) + " |")
+            lines.append("")
+            available = [r for r in paper_rows if r["present"]]
+            if available:
+                largest = max(available, key=lambda r: r["concepts"])
+                lines += [f"Largest concept output: {largest['model']} ({largest['concepts']:,}). "
+                          "This is an output-volume comparison, not a correctness ranking.", ""]
+    write_csv(out / "paper_metrics.csv", rows)
+    write_csv(out / "paper_coverage.csv", coverage)
+    (out / "paper_comparison.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    body, in_table = [], False
+    for line in lines:
+        if line.startswith("|"):
+            cells = [c.strip() for c in line.strip("|").split("|")]
+            if all(c == "---" for c in cells):
+                continue
+            tag_name = "td" if in_table else "th"
+            if not in_table:
+                body.append("<div style='overflow-x:auto'><table>")
+            body.append("<tr>" + "".join(f"<{tag_name}>{html.escape(c)}</{tag_name}>" for c in cells) + "</tr>")
+            in_table = True
+            continue
+        if in_table:
+            body.append("</table></div>")
+            in_table = False
+        if line.startswith("#"):
+            level = len(line) - len(line.lstrip("#"))
+            body.append(f"<h{level}>{html.escape(line[level:].strip())}</h{level}>")
+        elif line:
+            body.append(f"<p>{html.escape(line)}</p>")
+    if in_table:
+        body.append("</table></div>")
+    (out / "paper_comparison.html").write_text(
+        "<!doctype html><meta charset=utf-8><title>Matched paper comparison</title>"
+        "<style>body{font:14px/1.5 system-ui;margin:24px}table{border-collapse:collapse}"
+        "td,th{border:1px solid #ddd;padding:6px;text-align:left;white-space:nowrap}</style>"
+        + "".join(body), encoding="utf-8")
+
+
 def main():
     ap = argparse.ArgumentParser(description="Compare models across sweeps, with figures and a report")
     ap.add_argument("--outputs", default=str(ROOT / "outputs"), help="folder holding the sweep and run folders")
@@ -477,7 +594,10 @@ def main():
     ap.add_argument("--sweeps", nargs="*", help="explicit sweep ids (with or without the sweep- prefix)")
     ap.add_argument("--size", type=int, help="corpus size to compare (default: largest size most sweeps reached)")
     ap.add_argument("--out", help="report folder (default: outputs/model-comparison/<match>-n<size>)")
+    ap.add_argument("--top-papers", type=int, default=1, help="highest-cited papers per domain shown in the paper report")
     args = ap.parse_args()
+    if args.top_papers < 1:
+        ap.error("--top-papers must be at least 1")
     outputs = Path(args.outputs).resolve()
     found = {s: e for s, e in discover(outputs, args.match, args.sweeps).items() if e}
     if not found:
@@ -507,6 +627,8 @@ def main():
     write_csv(out.folder / "model_metrics.csv", models)
     if rows:
         write_csv(out.folder / "domain_metrics.csv", rows)
+    compare_papers(outputs, models, found, size, out.folder, args.top_papers)
+    notes.append("Matched paper details: paper_comparison.md / paper_comparison.html; all papers: paper_metrics.csv; corpus matching: paper_coverage.csv.")
     steps = [("scorecard", lambda: scorecard(out, models)),
              ("reliability", lambda: panels(out, models, "reliability", "JSON validity, cut-off replies, lost calls, "
                                             "completed runs", [k for k, *_, g in METRICS if g == "Reliability"])),
