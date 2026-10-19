@@ -93,6 +93,16 @@ def load_domain(s: dict) -> tuple[list[dict], rdflib.Graph, str]:
     return out, g, onto
 
 
+def subclass_edges(graphs: dict) -> dict[str, set[str]]:
+    """Direct named superclasses of every class in the domain graphs: the hierarchy validate() checks for cycles."""
+    edges = defaultdict(set)
+    for x in graphs.values():
+        for s, o in x["graph"].subject_objects(RDFS.subClassOf):
+            if isinstance(s, URIRef) and isinstance(o, URIRef):
+                edges[str(s)].add(str(o))
+    return edges
+
+
 def master_name(domains: list[str]) -> str:
     """The master ontology's name: its domains in input order, joined by "_" (domain names may contain "-")."""
     return "_".join(domains)

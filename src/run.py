@@ -615,7 +615,7 @@ def integrate(args):
             log(f"{s['domain']}: {s['run_id']} ({len(domains[s['domain']])} classes, revision {s['revision'] or 'none'})")
         config.DOMAIN = " and ".join(dict.fromkeys(config.domain_of(s["manifest"]["collection"]) for s in selected))
         agent = IntegrationAgent(Ledger(out / "ledger.jsonl"))
-        result = agent.run(domains)
+        result = agent.run(domains, integration.subclass_edges(graphs))
         master = integration.build_master(selected, graphs, result["mappings"], iid)
         text = owl.serialize(master)
         validation = integration.validate(master, text, graphs, result["mappings"])

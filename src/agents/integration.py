@@ -3,7 +3,8 @@
 Candidate pairs are deterministic: the same normalized label or synonym, a class IRI already shared by two domains
 (runs from before domain-scoped IRIs), and mutual nearest neighbours by label embedding. The model then chooses the
 relation of each pair. Checks keep owl:equivalentClass only for same-label pairs in the same BFO category, and never
-let an equivalence cluster join two classes of one domain; everything else becomes a SKOS mapping, so the master
+let an equivalence cluster join two classes of one domain or a class with its own ancestor or descendant (which would
+close a subclass cycle across domains); everything else becomes a SKOS mapping, so the master
 ontology does not change the hierarchy of any domain ontology. Every mapping records its source and confidence.
 
 Author: Brent Thompson <brent.thompson@ucf.edu>
@@ -60,8 +61,10 @@ class IntegrationAgent(Agent):
         super().__init__(ledger)
         self.stats = Counter()
 
-    def run(self, domains: dict[str, list[dict]]) -> dict:
-        """domains: domain name -> live classes (iri, label, alt_labels, category, parent_label, definition, ...)."""
+    def run(self, domains: dict[str, list[dict]], superclasses: dict[str, set[str]] | None = None) -> dict:
+        """domains: domain name -> live classes (iri, label, alt_labels, category, parent_label, definition, ...).
+        superclasses: class IRI -> direct named superclasses in the domain ontologies (tools.integration.subclass_edges)."""
+        self.superclasses = superclasses or {}
         usable = lambda c: (mk := match_key(c["label"])) and not ID_LIKE.fullmatch(mk) and not ID_PREFIX.match(c["label"].strip())
         self.stats["classes_skipped_label_defect"] = sum(1 for cs in domains.values() for c in cs if not usable(c))
         domains = {d: [c for c in cs if usable(c)] for d, cs in domains.items()}  # leaked ids, parentheses-only labels
@@ -205,7 +208,9 @@ class IntegrationAgent(Agent):
                 "candidate_kind": p["kind"], "category_a": a["category"], "category_b": b["category"], "pair": p["id"]}
 
     def _guard_equivalence(self, mappings):
-        """Equivalence is transitive: an equivalence cluster must never contain two classes of the same domain."""
+        """Equivalence is transitive: an equivalence cluster must never contain two classes of the same domain, nor make
+        a class equivalent to its own ancestor or descendant. A subclass of A' in one domain and B' subclass of B in
+        another, with A = B and A' = B', would put all four in one subclass cycle. Such pairs become exact matches."""
         domain_of = {}
         for m in mappings:
             domain_of[m["a_iri"]], domain_of[m["b_iri"]] = m["a_domain"], m["b_domain"]
@@ -216,7 +221,28 @@ class IntegrationAgent(Agent):
                 m["downgraded_from"], m["relation"] = "equivalent", "exact"
                 self.stats["downgraded_equivalent_same_domain_cluster"] += 1
                 continue
+            if m["relation"] == "equivalent" and self._subclass_related(uf, m["a_iri"], m["b_iri"]):
+                m["downgraded_from"], m["relation"] = "equivalent", "exact"
+                self.stats["downgraded_equivalent_subclass_cycle"] += 1
+                continue
             uf.union(m["a_iri"], m["b_iri"])
+
+    def _subclass_related(self, uf, a, b) -> bool:
+        """Whether a and b already reach each other through rdfs:subClassOf once equivalent classes are identified."""
+        ra, rb = uf.find(a), uf.find(b)
+
+        def reaches(src, dst):
+            seen, stack = {src}, list(uf.members[src])
+            while stack:
+                for sup in getattr(self, "superclasses", {}).get(stack.pop(), ()):
+                    r = uf.find(sup)
+                    if r == dst:
+                        return True
+                    if r not in seen:
+                        seen.add(r)
+                        stack.extend(uf.members[r])
+            return False
+        return ra != rb and (reaches(ra, rb) or reaches(rb, ra))
 
     def _clusters(self, mappings) -> list[dict]:
         """Bridge concepts: connected components of equivalent / exact / shared-IRI mappings."""
