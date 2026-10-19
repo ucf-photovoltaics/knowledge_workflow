@@ -9,7 +9,7 @@ import math
 import sqlite3
 from dataclasses import dataclass
 
-from src.config import CACHE, EMBED, GEMINI_LIMITS, LLM, MAX_OUTPUT_TOKENS, MAX_RETRIES, TEMPERATURE, secret
+from src.config import CACHE, EMBED, EMBED_DB, GEMINI_LIMITS, LLM, MAX_OUTPUT_TOKENS, MAX_RETRIES, TEMPERATURE, secret
 from src.tools import gemini_quota, workers
 from src.tools.progress import log
 
@@ -129,8 +129,8 @@ def embed(texts: list[str], batch: int = 100) -> tuple[list[list[float]], Usage]
         return [], Usage()
     if not EMBED["model"]:
         raise ValueError("Set EMBED['model'] before requesting embeddings")
-    CACHE.mkdir(parents=True, exist_ok=True)
-    con = sqlite3.connect(CACHE / "embeddings.sqlite3", timeout=60)
+    EMBED_DB.parent.mkdir(parents=True, exist_ok=True)
+    con = sqlite3.connect(EMBED_DB, timeout=60)
     try:
         con.execute("CREATE TABLE IF NOT EXISTS embeddings (key TEXT PRIMARY KEY, vector TEXT NOT NULL)")
         identity = json.dumps([EMBED["base_url"], EMBED["model"], EMBED.get("cache_version", 1)])

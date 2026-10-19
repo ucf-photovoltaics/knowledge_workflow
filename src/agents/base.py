@@ -13,7 +13,7 @@ from collections import Counter
 from threading import RLock
 
 from src import config
-from src.config import CACHE, RESOURCES, REUSE_ANSWERS, TEMPERATURE, WORKFLOW_REVISION, model_for, profile_for
+from src.config import CACHE, RESOURCES, REUSE_ANSWERS, ROWS_DB, TEMPERATURE, WORKFLOW_REVISION, model_for, profile_for
 from src.tools import files, llm, workers
 from src.tools.ledger import Ledger
 from src.tools.progress import finish, log
@@ -168,8 +168,8 @@ class RowCache:
                          "temperature": TEMPERATURE, "request": agent.profile.get("request", {}),
                          "system": system, "field": field, "value_key": value_key}
         self.run = agent.ledger.path.parent.name
-        CACHE.mkdir(parents=True, exist_ok=True)
-        self.db = sqlite3.connect(CACHE / "rows.sqlite3", timeout=60)
+        ROWS_DB.parent.mkdir(parents=True, exist_ok=True)
+        self.db = sqlite3.connect(ROWS_DB, timeout=60)
         self.db.execute("PRAGMA journal_mode=WAL")
         self.db.execute("CREATE TABLE IF NOT EXISTS rows (key TEXT PRIMARY KEY, answer TEXT NOT NULL, "
                         "source_run TEXT, created REAL)")

@@ -307,6 +307,10 @@ ONTOLOGY_SOURCES = {
 }
 # KW_ONTOLOGY_STORE points a job at a private copy (scripts/slurm-sweep.sh) so a rebuild cannot break it mid-run
 ONTOLOGY_STORE = Path(os.getenv("KW_ONTOLOGY_STORE") or CACHE / "ontology_store")
+# The SQLite answer and embedding caches. Slurm jobs use node-local copies (scripts/cache_sync.py): SQLite locking
+# does not work across the nodes of a network filesystem, and concurrent writers there corrupt the file.
+ROWS_DB = Path(os.getenv("KW_ROWS_DB") or CACHE / "rows.sqlite3")
+EMBED_DB = Path(os.getenv("KW_EMBED_DB") or CACHE / "embeddings.sqlite3")
 ONTOLOGY_SEARCH = {
     "weights": {"lexical": 0.4, "cosine": 0.6},  # fused score: lexical = 1 for an exact label, else trigram similarity
     "min_score": 0.35,           # fused score a candidate needs (exact label matches are always kept)
