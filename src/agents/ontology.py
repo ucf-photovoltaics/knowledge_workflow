@@ -35,14 +35,18 @@ FUZZY_PARENT = 0.85  # trigram similarity for an answer that misspells one of th
 
 def answer_texts(answer: str) -> list[str]:
     """Readings of a free-form parent answer, most literal first. Small models write 'U:Material Artifact - <def>',
-    'UMaterial Artifact', 'Material Artifact (or U:material entity)', 'u:k38' or 'molecular_entity'."""
+    'UMaterial Artifact', 'Material Artifact (or U:material entity)', 'u:k38', 'molecular_entity', or echo the whole
+    corpus line 'k675: bulk solder -'."""
     out = []
 
     def add(t: str):
-        t = PREFIX.sub("", t).split(" - ")[0].strip().strip("'\"").strip()
+        t = re.split(r"\s+-(?:\s|$)", PREFIX.sub("", t))[0].strip().strip("'\"").strip()
         if t and t not in out:
             out.append(t)
 
+    # the corpus menu line echoed back, 'k675: bulk solder -' or 'k675: bulk solder - <definition>': its id
+    if m := re.match(r"^\s*(?:[Uu]\s*:\s*)?([A-Za-z]{1,2}\d+)\s*(?::|-\s|-$)", answer):
+        add(m.group(1))
     add(answer)
     if m := re.match(r"^U([A-Z].*)$", answer.strip()):  # the colon after U: left out
         add(m.group(1))

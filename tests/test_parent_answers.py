@@ -21,6 +21,9 @@ class ParentAnswerTests(unittest.TestCase):
         self.assertIn("Material Artifact", answer_texts("UMaterial Artifact"))
         self.assertIn("material entity", answer_texts("Material Artifact (or U:material entity)"))
         self.assertNotIn("k442", answer_texts("made_of(k442)"))
+        self.assertEqual(answer_texts("k675: bulk solder -")[0], "k675")  # the corpus menu line echoed back
+        self.assertEqual(answer_texts("k34: ethylene vinyl acetate (EVA) - an encapsulant")[0], "k34")
+        self.assertNotIn("Sn", answer_texts("Sn-rich solder"))
 
     def test_resolve(self):
         r = self.a._resolve
@@ -28,6 +31,7 @@ class ParentAnswerTests(unittest.TestCase):
         self.assertEqual(r("k1", "UMaterial Artifact"), ("http://x/Artifact", "candidate"))
         self.assertEqual(r("k1", "Material Artifact (or U:material entity)"), ("http://x/Artifact", "candidate"))
         self.assertEqual(r("k1", "u:k38"), ("k38", "corpus"))
+        self.assertEqual(r("k1", "k38: cell -"), ("k38", "corpus"))
         self.assertEqual(r("k1", "U:quality"), (CATEGORIES["quality"], "root"))
         self.assertEqual(r("k1", "Widget-Assembly Frames"), ("http://x/Frame", "fuzzy"))
         self.assertEqual(r("k1", "Biodiesel Generator - A type of electrical generator"), (None, "unresolved"))
