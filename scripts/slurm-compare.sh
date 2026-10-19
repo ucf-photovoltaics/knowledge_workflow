@@ -34,7 +34,7 @@ MODELS=${MODELS:-"gptoss-20b gemma4-31b gptoss-120b"}
 export SIZE MODELS USE_CASE MAIL_TO   # the comparison job reads the same values
 OUT=outputs/model-comparison/$USE_CASE-n$SIZE
 BUCKET=${GCS_BUCKET:-gs://research-dpv-kw-outputs}   # the comparison is also uploaded here (dashboard, PC sync)
-BUCKET_OUT=${BUCKET:+$BUCKET/$(python3 scripts/bucket_layout.py dest "$(basename "$OUT")" model-comparison)}  # experiments/<use case>-n<size>/_comparison
+BUCKET_OUT=${BUCKET:+$BUCKET/$("${VLLM_ENV:-$HOME/.venvs/vllm}/bin/python" scripts/bucket_layout.py dest "$(basename "$OUT")" model-comparison)}  # experiments/<use case>-n<size>/_comparison
 
 send_mail() {  # subject, body (file or text), attachments...: sendmail, else SMTP_* from .env, else SMTP on localhost
     python3 - "$MAIL_TO" "$@" <<'EOF'

@@ -44,6 +44,18 @@ def _get_client(profile=None):
     return _clients[identity]
 
 
+def _server_alive(profile: dict) -> bool:
+    """Whether the model server answers at all. A 500 from a server that is up concerns that one request (vLLM
+    rejects it when, e.g., gpt-oss emits a tool-call token that the JSON grammar cannot accept), not an outage."""
+    import urllib.request
+    try:
+        opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+        opener.open(profile["base_url"].rstrip("/") + "/models", timeout=5).close()
+        return True
+    except Exception:
+        return False
+
+
 def _outage_safe(profile: dict, request):
     """A local server (Ollama) that is restarting, reloading the model or briefly gone: after the client's own
     retries, wait and try again for up to profile['outage_wait_s'] (default 0: fail at once) before giving up."""
@@ -55,6 +67,8 @@ def _outage_safe(profile: dict, request):
                     return request()
             except (openai.APIConnectionError, openai.APITimeoutError, openai.APIStatusError) as e:
                 status = getattr(e, "status_code", None)
+                if status == 500 and _server_alive(profile):
+                    raise  # the server is up: this request failed, waiting will not help
                 timeout = isinstance(e, openai.APITimeoutError)
                 memory = any(s in str(e).lower() for s in ("out of memory", "overloaded", "insufficient memory"))
                 transient = isinstance(e, (openai.APIConnectionError, openai.APITimeoutError)) or status in (429, 500, 502, 503, 504) or memory
@@ -73,7 +87,7 @@ def _outage_safe(profile: dict, request):
         try:
             return request()
         except (openai.APIConnectionError, openai.APITimeoutError, openai.InternalServerError) as e:
-            if waited >= budget:
+            if waited >= budget or isinstance(e, openai.InternalServerError) and _server_alive(profile):
                 raise
             log(f"  model server unavailable ({type(e).__name__}); retrying in 60 s "
                 f"({waited // 60} of {budget // 60} min waited)")
@@ -83,7 +97,10 @@ def _outage_safe(profile: dict, request):
 
 def chat(system: str, user: str, model: str, max_tokens: int = MAX_OUTPUT_TOKENS,
          profile: dict | None = None) -> tuple[str, Usage]:
-    """One JSON-returning call. The system prompt is the stable, cacheable prefix."""
+    """One JSON-returning call. The system prompt is the stable, cacheable prefix. A request the server itself
+    fails (HTTP 500 while the server is up) returns "", so callers treat it like a reply that is not JSON: rows are
+    re-sent in smaller batches and then fall back to recorded defaults, and the run goes on."""
+    import openai
     profile = LLM if profile is None else profile
     client = _get_client(profile)
     gemini = profile.get("api_key_env") == "GEMINI_API_KEY"
@@ -106,10 +123,16 @@ def chat(system: str, user: str, model: str, max_tokens: int = MAX_OUTPUT_TOKENS
             r = gemini_quota.call(client, model, system, user,
                                   {**kw, **profile.get("request", {}), "max_tokens": max_tokens}, _quota, MAX_RETRIES)
         else:
-            r = _outage_safe(profile, lambda: client.chat.completions.create(
-                model=model, response_format={"type": "json_object"},
-                messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
-                **{**kw, **profile.get("request", {})}))  # a profile may set its own temperature
+            try:
+                r = _outage_safe(profile, lambda: client.chat.completions.create(
+                    model=model, response_format={"type": "json_object"},
+                    messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
+                    **{**kw, **profile.get("request", {})}))  # a profile may set its own temperature
+            except openai.InternalServerError as e:
+                if not _server_alive(profile):
+                    raise
+                log(f"  server failed this request ({str(e)[:100]}); counted as a reply without JSON")
+                return "", Usage(latency_s=round(time.perf_counter() - t0, 3))
         text = r.choices[0].message.content or ""
         u = r.usage
         details = getattr(u, "prompt_tokens_details", None)

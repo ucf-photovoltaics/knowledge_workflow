@@ -258,7 +258,7 @@ publish() {  # copy this sweep's folders to GCS_BUCKET (only what changed); an u
     [ -n "$GCS_BUCKET" ] || return 0
     local d to
     for d in "$ROOT"/outputs/*-"$SWEEP_ID"; do
-        to=$(python3 "$ROOT/scripts/bucket_layout.py" dest "$(basename "$d")") && [ -n "$to" ] || continue
+        to=$("$VLLM_ENV/bin/python" "$ROOT/scripts/bucket_layout.py" dest "$(basename "$d")") && [ -n "$to" ] || continue
         gcloud storage rsync -r --exclude='.*\.pdf$' "$d" "$GCS_BUCKET/$to" >>"$LOG/publish.log" 2>&1 \
             || echo "upload of $(basename "$d") failed; see $LOG/publish.log"
     done

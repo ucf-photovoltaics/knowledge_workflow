@@ -13,10 +13,13 @@
     python scripts/bucket_layout.py migrate gs://BUCKET        # plan: what would move out of the bucket's top level
     python scripts/bucket_layout.py migrate gs://BUCKET --apply   # move it (copy, then delete the old copy)
 
-Standard library and Python 3.6 syntax only, so it runs on the cluster's system python and on Windows. Migration needs gcloud signed in.
+Standard library only, Python 3.8+ (on the cluster: $VLLM_ENV/bin/python, not the system python3).
+Migration needs gcloud signed in.
 
 Author: Brent Thompson <brent.thompson@ucf.edu>
 """
+from __future__ import annotations
+
 import argparse
 import re
 import shutil
@@ -25,19 +28,19 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-KEEP = {"experiments", "review", "embeddings", "misc", "private"}      # private holds runtime access config; never migrate it
+KEEP = {"experiments", "review", "embeddings", "misc"}                 # already in place in the bucket
 LOCAL_ONLY = {"cache", "dashboard", "hpc-sync", "bucket", "development", "tmp", "private"}
 STAMP = r"\d{8}-\d{6}"
 
 
-def use_cases():
+def use_cases() -> list[str]:
     path = ROOT / "scripts" / "use-cases.txt"
-    lines = path.read_text(encoding="utf-8").splitlines() if path.exists() else []
-    names = [m.group(1) for m in (re.match(r"\s*([\w-]+)\s*:", line) for line in lines if not line.lstrip().startswith("#")) if m]
+    names = [m.group(1) for line in path.read_text(encoding="utf-8").splitlines()
+             if (m := re.match(r"\s*([\w-]+)\s*:", line)) and not line.lstrip().startswith("#")] if path.exists() else []
     return sorted(names, key=len, reverse=True)  # longest first, so pv-cost-chain-x never matches pv-cost
 
 
-def sweep_of(name):
+def sweep_of(name: str) -> str | None:
     """The sweep id in a sweep folder (sweep-<id>) or a run folder (<collection>-n<size>-<id>, integration-n<size>-<id>)."""
     if name.startswith("sweep-"):
         return name[6:]
@@ -45,19 +48,18 @@ def sweep_of(name):
     return m.group(1) if m else None
 
 
-def experiment(sweep):
+def experiment(sweep: str) -> str:
     if re.fullmatch(STAMP, sweep):
         return f"local-{sweep}"
     for uc in use_cases():
         if sweep.startswith(uc + "-"):
-            m = re.search(r"-n(\d+(?:-\d+)*)$", sweep)
-            if m:
+            if m := re.search(r"-n(\d+(?:-\d+)*)$", sweep):
                 return f"{uc}-n{m.group(1)}"
             return f"{uc}-tests"
     return "misc"
 
 
-def dest(name, parent=""):
+def dest(name: str, parent: str = "") -> str:
     """The bucket path (relative to the bucket) of a top-level outputs/ folder NAME; "" = not uploaded."""
     if parent == "model-comparison":
         return f"experiments/{name}/_comparison" if not name.startswith("_") else ""
@@ -71,15 +73,15 @@ def dest(name, parent=""):
     return f"experiments/{experiment(sweep)}/{name}" if sweep else f"misc/{name}"
 
 
-def gcloud(*args, check=True):
+def gcloud(*args, check=True) -> str:
     exe = shutil.which("gcloud") or shutil.which("gcloud.cmd") or "gcloud"
-    r = subprocess.run([exe, *args], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+    r = subprocess.run([exe, *args], capture_output=True, text=True)
     if check and r.returncode:
         sys.exit(f"gcloud {' '.join(args)} failed:\n{r.stderr.strip()}")
     return r.stdout
 
 
-def migrate(bucket, apply):
+def migrate(bucket: str, apply: bool):
     bucket = bucket.rstrip("/")
     moves = []
     for line in gcloud("storage", "ls", bucket + "/").splitlines():
@@ -89,12 +91,10 @@ def migrate(bucket, apply):
         if name == "model-comparison":
             for sub in gcloud("storage", "ls", f"{bucket}/model-comparison/").splitlines():
                 child = sub.rstrip("/").rsplit("/", 1)[-1]
-                d = dest(child, "model-comparison")
-                if sub.endswith("/") and d:
+                if sub.endswith("/") and (d := dest(child, "model-comparison")):
                     moves.append((f"model-comparison/{child}", d))
             continue
-        d = dest(name)
-        if d:
+        if d := dest(name):
             moves.append((name, d))
     groups = {}
     for src, d in moves:
@@ -131,11 +131,10 @@ def main():
                 continue
             if p.name == "model-comparison":
                 for c in sorted(p.iterdir()):
-                    d = dest(c.name, "model-comparison")
-                    if c.is_dir() and d:
+                    if c.is_dir() and (d := dest(c.name, "model-comparison")):
                         print(f"model-comparison/{c.name}\t{d}")
-            elif dest(p.name):
-                print(f"{p.name}\t{dest(p.name)}")
+            elif d := dest(p.name):
+                print(f"{p.name}\t{d}")
     else:
         migrate(a.bucket, a.apply)
 
