@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 # Author: Brent Thompson <brent.thompson@ucf.edu>
-# The n10 model comparison in one step. Run on the login node from the repo folder:
+# A model comparison at one corpus size, in one step. Run on the login node from the repo folder:
 #
-#   scripts/slurm-n10-compare.sh                 # submit every model's n10 sweep not yet finished or queued, then a
-#                                                # CPU job that waits for all of them, builds the comparison and
-#                                                # emails it (report.md in the body, the whole report as a .zip)
-#   scripts/slurm-n10-compare.sh --test-mail     # send a one-line test email now, to check mail leaves the cluster
+#   scripts/slurm-compare.sh                     # SIZE=25 for the default MODELS: submit each model's sweep that is not
+#                                                # finished or queued, then a CPU job that waits for all of them,
+#                                                # builds the comparison and emails it
+#   SIZE=10 MODELS="gemma4-e4b gemma4-26b" scripts/slurm-compare.sh
+#   scripts/slurm-compare.sh --test-mail         # send a one-line test email now, to check mail leaves the cluster
 #
-# Overrides: MAIL_TO (br895930@ucf.edu), MODELS (tags below), TIME_LIMIT for the resumed sweeps (05:00:00), GCS_BUCKET.
+# Sweeps are <use case>-<tag>-n<SIZE>; the papers of a smaller size come from the extraction cache, so an n25 sweep
+# after n10 extracts only the 15 new papers per domain. Jobs are named kw-<tag>-n<SIZE>.
+# Overrides: SIZE (25), MODELS (best of each size at n10: gptoss-20b, gemma4-31b, gptoss-120b), TIME_LIMIT (each
+# model's own from scripts/slurm-models.sh), MAIL_TO (br895930@ucf.edu), GCS_BUCKET.
 # Mail goes through sendmail when the node has it, else the SMTP server named in .env (SMTP_HOST, SMTP_PORT 587 or 465,
 # SMTP_USER, SMTP_PASSWORD, optional SMTP_FROM), else localhost:25. The report is also uploaded to the bucket, and
 # Slurm sends its own end-of-job notice.
@@ -25,8 +29,10 @@ export PATH
 MAIL_TO=${MAIL_TO:-br895930@ucf.edu}
 ME=${USER:-$(id -un)}
 USE_CASE=${USE_CASE:-pv-cost-chain}
-MODELS=${MODELS:-"gemma4-e4b gptoss-20b gemma4-26b gemma4-31b gptoss-120b ministral3-8b ministral3-14b gemma4-31b-thinkonto mistral-small4"}
-OUT=outputs/model-comparison/$USE_CASE-n10
+SIZE=${SIZE:-25}
+MODELS=${MODELS:-"gptoss-20b gemma4-31b gptoss-120b"}
+export SIZE MODELS USE_CASE MAIL_TO   # the comparison job reads the same values
+OUT=outputs/model-comparison/$USE_CASE-n$SIZE
 BUCKET=${GCS_BUCKET:-gs://research-dpv-kw-outputs}   # the comparison is also uploaded here (dashboard, PC sync)
 
 send_mail() {  # subject, body (file or text), attachments...: sendmail, else SMTP_* from .env, else SMTP on localhost
@@ -69,7 +75,7 @@ EOF
 }
 
 if [ "${1:-}" = "--test-mail" ]; then
-    send_mail "kw test from $(hostname -s)" "If this arrived, the n10 comparison will reach you the same way." 2>&1 | tail -1
+    send_mail "kw test from $(hostname -s)" "If this arrived, the model comparison will reach you the same way." 2>&1 | tail -1
     rc=${PIPESTATUS[0]}
     [ "$rc" -eq 0 ] || echo "could not send from $(hostname -s): no sendmail here, and the SMTP server (SMTP_HOST in .env, else localhost:25) refused"
     exit "$rc"
@@ -77,15 +83,15 @@ fi
 
 if [ "${1:-}" = "--compare" ]; then   # inside the Slurm job
     export UV_CACHE_DIR=${UV_CACHE_DIR:-$HOME/.cache/uv-kw} UV_PROJECT_ENVIRONMENT=${UV_PROJECT_ENVIRONMENT:-$HOME/.venvs/kw}
-    sweeps=(); for t in $MODELS; do sweeps+=("$USE_CASE-$t-n10"); done
+    sweeps=(); for t in $MODELS; do sweeps+=("$USE_CASE-$t-n$SIZE"); done
     log=$OUT.log; mkdir -p "$(dirname "$OUT")"
     {
-        echo "n10 sweeps, integration rows:"
+        echo "n$SIZE sweeps, integration rows:"
         for s in "${sweeps[@]}"; do
             r=$(grep -h '"integration"' "outputs/sweep-$s/summary.csv" 2>/dev/null | cut -d, -f4 | tr -d '"')
             printf "  %-45s %s\n" "$s" "${r:-no summary}"
         done
-        uv run --with-requirements requirements.txt python scripts/compare_models.py --sweeps "${sweeps[@]}" --size 10 --out "$OUT"
+        uv run --with-requirements requirements.txt python scripts/compare_models.py --sweeps "${sweeps[@]}" --size "$SIZE" --out "$OUT"
     } >"$log" 2>&1
     rc=$?
     if [ "$rc" -eq 0 ] && [ -f "$OUT/report.md" ]; then
@@ -94,10 +100,10 @@ if [ "${1:-}" = "--compare" ]; then   # inside the Slurm job
           cat "$OUT/report.md"; } >"$OUT.mail.txt"
         [ -z "$BUCKET" ] || gcloud storage rsync -r "$OUT" "$BUCKET/model-comparison/$(basename "$OUT")" >>"$log" 2>&1 \
             || echo "upload to $BUCKET failed" >>"$log"
-        send_mail "n10 model comparison ($USE_CASE)" "$OUT.mail.txt" "$OUT.zip" "$OUT/report.html" "$OUT/model_metrics.csv" \
+        send_mail "n$SIZE model comparison ($USE_CASE)" "$OUT.mail.txt" "$OUT.zip" "$OUT/report.html" "$OUT/model_metrics.csv" \
             || echo "email failed; the report is in $OUT${BUCKET:+ and $BUCKET/model-comparison/$(basename "$OUT")}"
     else
-        send_mail "n10 model comparison FAILED ($USE_CASE)" "$log" "$log" || cat "$log"
+        send_mail "n$SIZE model comparison FAILED ($USE_CASE)" "$log" "$log" || cat "$log"
     fi
     exit "$rc"
 fi
@@ -105,24 +111,21 @@ fi
 # ---- login node: submit the sweeps, then the comparison ----
 command -v sbatch >/dev/null || { echo "run this on the cluster login node"; exit 1; }
 command -v uv >/dev/null || { echo "uv not found on PATH or in ~/.local/bin, ~/.cargo/bin, ~/kw-hpc/bin: every job would fail at start"; exit 1; }
-jobname() { [ "$1" = mistral-small4 ] && echo "kw-$1-n10" || echo "kw-$1"; }
+jobname() { echo "kw-$1-n$SIZE"; }
 for t in $MODELS; do
+    sweep=outputs/sweep-$USE_CASE-$t-n$SIZE
     if [ -n "$(squeue -h -u "$ME" -n "$(jobname "$t")")" ]; then echo "$t: already queued or running"; continue; fi
-    if grep -q '"integration".*"completed"' "outputs/sweep-$USE_CASE-$t-n10/summary.csv" 2>/dev/null; then
-        echo "$t: n10 integration already completed"; continue
+    if grep -q '"integration".*"completed"' "$sweep/summary.csv" 2>/dev/null; then
+        echo "$t: n$SIZE integration already completed"; continue
     fi
-    rm -rf "outputs/sweep-$USE_CASE-$t-n10/report"   # else slurm-models.sh counts the failed sweep as done
-    case $t in
-        mistral-small4) ONLY=$t LIMITS=10 JOB_SUFFIX=-n10 scripts/slurm-models.sh large ;;
-        gemma4-31b-thinkonto) ONLY=$t LIMITS=10 scripts/slurm-models.sh mid ;;
-        *) ONLY=$t LIMITS=10 TIME_LIMIT=${TIME_LIMIT:-05:00:00} scripts/slurm-models.sh all ;;
-    esac
+    rm -rf "$sweep/report"   # else slurm-models.sh counts a failed sweep as done
+    ONLY=$t LIMITS=$SIZE JOB_SUFFIX=-n$SIZE scripts/slurm-models.sh all
 done
-old=$(squeue -h -u "$ME" -n kw-n10-compare -o %i)
+old=$(squeue -h -u "$ME" -n "kw-n$SIZE-compare" -o %i)
 [ -z "$old" ] || { scancel $old; echo "replaced the queued comparison job $old"; }
 ids=$(for t in $MODELS; do squeue -h -u "$ME" -n "$(jobname "$t")" -o %i; done | paste -sd:)
 dep=${ids:+--dependency=afterany:$ids}
-job=$(sbatch --parsable -J kw-n10-compare -p "${PARTITION:-normal}" -A "${ACCOUNT:-kdavis}" -c 4 --mem=16G -t 01:00:00 \
-      $dep --mail-type=END,FAIL --mail-user="$MAIL_TO" -o "kw-n10-compare-%j.out" scripts/slurm-n10-compare.sh --compare) || exit 1
+job=$(sbatch --parsable -J "kw-n$SIZE-compare" -p "${PARTITION:-normal}" -A "${ACCOUNT:-kdavis}" -c 4 --mem=16G -t 01:00:00 \
+      $dep --mail-type=END,FAIL --mail-user="$MAIL_TO" -o "kw-n$SIZE-compare-%j.out" scripts/slurm-compare.sh --compare) || exit 1
 echo "comparison: job $job, after ${ids:-nothing (all sweeps already ended)}; emails $MAIL_TO when done"
 echo "check progress: scripts/slurm-status.sh"
