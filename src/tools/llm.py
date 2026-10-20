@@ -6,6 +6,7 @@ import time
 import hashlib
 import json
 import math
+import re
 import sqlite3
 from dataclasses import dataclass
 
@@ -95,11 +96,25 @@ def _outage_safe(profile: dict, request):
             waited += 60
 
 
+MIN_OUTPUT_TOKENS = 1024  # below this a JSON answer would be cut off; the rows are re-sent in smaller batches instead
+
+
+def _context_room(message: str) -> int | None:
+    """Output tokens the server's context window leaves for this prompt, read from its context-length error (vLLM:
+    "maximum context length is 24576 tokens ... your prompt contains 16757 input tokens"); None for other errors."""
+    limit = re.search(r"maximum context length is (\d+)", message)
+    prompt = re.search(r"prompt contains (\d+) input tokens|\((\d+) in the messages", message)
+    if not limit or not prompt:
+        return None
+    return int(limit.group(1)) - int(prompt.group(1) or prompt.group(2)) - 16
+
+
 def chat(system: str, user: str, model: str, max_tokens: int = MAX_OUTPUT_TOKENS,
          profile: dict | None = None) -> tuple[str, Usage]:
     """One JSON-returning call. The system prompt is the stable, cacheable prefix. A request the server itself
     fails (HTTP 500 while the server is up) returns "", so callers treat it like a reply that is not JSON: rows are
-    re-sent in smaller batches and then fall back to recorded defaults, and the run goes on."""
+    re-sent in smaller batches and then fall back to recorded defaults, and the run goes on. A prompt that leaves too
+    little of the server's context window for max_tokens is retried once with the room that is left, or returns ""."""
     import openai
     profile = LLM if profile is None else profile
     client = _get_client(profile)
@@ -123,11 +138,22 @@ def chat(system: str, user: str, model: str, max_tokens: int = MAX_OUTPUT_TOKENS
             r = gemini_quota.call(client, model, system, user,
                                   {**kw, **profile.get("request", {}), "max_tokens": max_tokens}, _quota, MAX_RETRIES)
         else:
+            request = {**kw, **profile.get("request", {})}  # a profile may set its own temperature
+            create = lambda req: _outage_safe(profile, lambda: client.chat.completions.create(
+                model=model, response_format={"type": "json_object"},
+                messages=[{"role": "system", "content": system}, {"role": "user", "content": user}], **req))
             try:
-                r = _outage_safe(profile, lambda: client.chat.completions.create(
-                    model=model, response_format={"type": "json_object"},
-                    messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
-                    **{**kw, **profile.get("request", {})}))  # a profile may set its own temperature
+                try:
+                    r = create(request)
+                except openai.BadRequestError as e:
+                    room = _context_room(str(e))
+                    if room is None:
+                        raise
+                    if room < MIN_OUTPUT_TOKENS:
+                        log(f"  prompt fills the context window ({room} output tokens left); counted as a reply without JSON")
+                        return "", Usage(latency_s=round(time.perf_counter() - t0, 3))
+                    log(f"  prompt leaves {room} output tokens of the context window; retrying with that limit")
+                    r = create({**request, "max_tokens": room})
             except openai.InternalServerError as e:
                 if not _server_alive(profile):
                     raise

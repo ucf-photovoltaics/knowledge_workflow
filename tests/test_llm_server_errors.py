@@ -42,3 +42,38 @@ def test_server_down_still_raises(monkeypatch):
     monkeypatch.setattr(llm.time, "sleep", lambda s: None)
     with pytest.raises(openai.InternalServerError):
         llm.chat("Return ONLY JSON.", "{}", "m", profile=PROFILE)
+
+
+CONTEXT = ("This model's maximum context length is 24576 tokens. However, you requested 8000 output tokens and your "
+           "prompt contains 16757 input tokens, for a total of 24757 tokens.")
+
+
+def context_error():
+    response = SimpleNamespace(status_code=400, headers={}, request=SimpleNamespace(method="POST", url=PROFILE["base_url"]))
+    return openai.BadRequestError(CONTEXT, response=response, body=None)
+
+
+def test_prompt_too_long_for_max_tokens_is_retried_with_the_room_left(monkeypatch):
+    sent = []
+
+    class Fits(Client):
+        def create(self, **kw):
+            sent.append(kw.get("max_tokens"))
+            if len(sent) == 1:
+                raise context_error()
+            return SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content="{}"))],
+                                   usage=SimpleNamespace(prompt_tokens=16757, completion_tokens=2))
+    monkeypatch.setattr(llm, "_get_client", lambda profile: Fits())
+    text, _ = llm.chat("Return ONLY JSON.", "{}", "m", profile={**PROFILE, "request": {"max_tokens": 8000}})
+    assert text == "{}" and sent == [8000, 24576 - 16757 - 16]
+
+
+def test_prompt_filling_the_context_is_an_unusable_reply(monkeypatch):
+    monkeypatch.setattr(llm, "_context_room", lambda message: 200)
+
+    class Full(Client):
+        def create(self, **kw):
+            raise context_error()
+    monkeypatch.setattr(llm, "_get_client", lambda profile: Full())
+    text, usage = llm.chat("Return ONLY JSON.", "{}", "m", profile=PROFILE)
+    assert text == "" and usage.output_tokens == 0
