@@ -374,8 +374,11 @@ LORA = {
 # ---- Output ontology ----
 ONTOLOGY_IRI = "http://example.org/kw/"
 ONTOLOGY_TITLE = "PV Knowledge Workflow Ontology"
-WORKFLOW_REVISION = "2026-10-17-lineage-quality"
-WORKFLOW_REVISION_NOTE = ("Exact original-to-canonical concept lineage, original-label retention through enrichment, "
+WORKFLOW_REVISION = "2026-10-20-values-tables"
+WORKFLOW_REVISION_NOTE = ("Tables parsed into their sections as rows under their caption; reported values carry a basis "
+                          "(measured, simulated, cited, target) and the device or technology they are for; rows a model "
+                          "returns as lists are read in schema order. "
+                          "Exact original-to-canonical concept lineage, original-label retention through enrichment, "
                           "per-label paper provenance in OWL exports, and malformed extraction quarantine. "
                           "External terms from a local ontology store "
                           "(Oxigraph + trigram + embedding search over BFO, "

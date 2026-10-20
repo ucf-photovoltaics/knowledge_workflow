@@ -4,7 +4,8 @@ Built only from what the papers say, with no upper ontology:
 - skos:broader from extracted is_a relations and obvious lexical heads (cycles skipped);
 - every extracted relation and causal claim as a direct link plus a kw:Claim node (support, evidence, condition,
   source papers), whether or not it holds universally;
-- every reported value as a kw:ReportedValue node;
+- every reported value as a kw:ReportedValue node (value, unit, condition, quote, basis: measured, simulated,
+  cited or target);
 - kw:ontologyClass links each concept to its class in the run's BFO/CCO ontology.
 
 Author: Brent Thompson <brent.thompson@ucf.edu>
@@ -152,7 +153,7 @@ def build(domain: str, norm: dict, classes: list[dict], papers: list[dict]) -> t
         if m.get("property_missing"):
             g.add((node, kw.propertyMissing, Literal(True)))
         g.add((node, kw.value, Literal(m["value"])))
-        for k in ("unit", "condition", "evidence"):
+        for k in ("unit", "condition", "evidence", "basis"):
             if m.get(k):
                 g.add((node, kw[k], Literal(m[k])))
         if m.get("paper") in source:

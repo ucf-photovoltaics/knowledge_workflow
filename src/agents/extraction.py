@@ -6,6 +6,7 @@ cites and the labels already found earlier in the paper:
 - local tier: one narrow call per pass - concepts first, then causal, relations and measurements, each given the
   section's numbered concept list so they refer to ids instead of inventing them (EXTRACTION_PASSES in config).
 Every evidence quote is checked against the paper text (word 3-gram overlap) and marked verified or not.
+Rows a model returns as plain lists (Gemma does this for long tables) are read in the schema's field order.
 The LLM does the semantic work; mention counts, sections, id checks and figure citations are deterministic.
 
 Author: Brent Thompson <brent.thompson@ucf.edu>
@@ -16,7 +17,7 @@ import re
 import unicodedata
 from collections import Counter
 
-from src.agents.base import Agent, compact, items, key, load_prompt, targets
+from src.agents.base import RESOURCES, Agent, compact, items, key, load_prompt, targets
 from src.config import CACHE, EXTRACTION_PASSES, TEMPERATURE, tier
 from src.tools import files, concept_quality
 from src.tools.llm import Usage
@@ -33,10 +34,33 @@ PASS_REFS = {"causal": ("cause", "effect"), "relations": ("s", "o"), "measuremen
 PROPERTY_TYPES = ("property", "quantity", "parameter")
 EVIDENCE_WORDS = 3         # a quote shorter than this is no evidence: re-asked once, then flagged unevidenced
 EVIDENCE_BATCH = 40
-CODE_VERSION = "2026-10-15-concept-quality"  # part of the cache key: bump when merge/finalize logic changes
+CODE_VERSION = "2026-10-20-tables-basis"  # part of the cache key: bump when merge/finalize logic changes
+BASES = ("measured", "simulated", "cited", "target")  # where a reported value comes from
 TYPES = ("material", "device", "equipment", "process", "parameter", "phenomenon", "property", "quantity", "method",
          "defect", "condition", "information")
 VERIFY_SHARE = 0.8         # share of an evidence quote's word 3-grams that must appear in the paper
+
+
+def row_fields(schemas) -> dict[str, list[str]]:
+    """Answer field -> its item fields in schema order (measurements -> property, entity, value, ...)."""
+    fields = {}
+    for name in schemas:
+        props = json.loads((RESOURCES / "schemas" / f"{name}.json").read_text(encoding="utf-8"))["properties"]
+        for field, spec in props.items():
+            if spec.get("type") == "array" and isinstance(spec.get("items", {}).get("properties"), dict):
+                fields.setdefault(field, list(spec["items"]["properties"]))
+    return fields
+
+
+def named(out, fields: dict) -> dict:
+    """Rows a model returned as lists, read in schema field order (the last, optional field may be left off)."""
+    if isinstance(out, dict):
+        out = dict(out)  # raw_calls keeps the answer exactly as returned
+        for name, order in fields.items():
+            if isinstance(out.get(name), list):
+                out[name] = [dict(zip(order, r)) if isinstance(r, list) and len(order) - 1 <= len(r) <= len(order) else r
+                             for r in out[name]]
+    return out
 
 
 def _key(label: str) -> str:
@@ -64,12 +88,14 @@ def _clean_label(label: str) -> str:
 
 class ExtractionAgent(Agent):
     name = "extraction"
+    fields: dict = {}  # answer field -> item field order (set from the pass schemas in __init__)
 
     def __init__(self, ledger):
         super().__init__(ledger)
         self.tier = tier(self.name)
         self.passes = EXTRACTION_PASSES[self.tier]
         self.prompts = {p: load_prompt(PASS_PROMPT[p]) for p in self.passes}
+        self.fields = row_fields(PASS_PROMPT[p] for p in self.passes)
         self.evidence_prompt = load_prompt("extraction_evidence")
         self.fingerprint = hashlib.sha256(compact({"model": self.model, "tier": self.tier, "version": CODE_VERSION,
             "provider": self.profile["provider"], "base_url": self.profile["base_url"], "temperature": TEMPERATURE,
@@ -99,6 +125,7 @@ class ExtractionAgent(Agent):
                                 label=f"extract {where}", soft=True)
                 raw_calls.append({"pass": "combined", "prompt": PASS_PROMPT["combined"],
                                   "input": known_text + chunk, "output": out})
+                out = named(out, self.fields)
                 out = concept_quality.quarantine(out)
                 labels = {key(c.get("id")): c.get("label") for c in items(out, "concepts")}
                 self._fill_evidence(chunk, out, ("relations", "causal", "measurements"), labels, paper["key"], where,
@@ -149,6 +176,7 @@ class ExtractionAgent(Agent):
             prompt_in = f"{concept_list}\n{chunk}"
             out = self.call(prompt_in, item=item, system=self.prompts[name], label=f"{name} {where}", soft=True)
             raw_calls.append({"pass": name, "prompt": PASS_PROMPT[name], "input": prompt_in, "output": out})
+            out = named(out, self.fields)
             out = concept_quality.quarantine({**out, "quality_review": part["quality_review"]})
             part["quality_review"] = out["quality_review"]
             labels = {c["id"]: c["label"] for c in listed} | {
@@ -210,8 +238,8 @@ class ExtractionAgent(Agent):
             if available < 1:
                 raise ValueError("Section heading exceeds the extraction input budget")
             text = s["text"]
-            while len(text) > available:
-                cut = text.rfind(". ", 0, available)
+            while len(text) > available:  # cut at a sentence end or a table row, not inside a row
+                cut = max(text.rfind(". ", 0, available), text.rfind("\n", 0, available))
                 cut = cut + 1 if cut > available // 2 else available
                 pieces.append(heading + text[:cut].strip() + "\n")
                 text = text[cut:]
@@ -316,9 +344,11 @@ class ExtractionAgent(Agent):
                 if pid and type_of.get(pid) not in PROPERTY_TYPES and not eid:
                     pid, eid = None, pid  # the value was attached to the thing measured, not to a property
                 if pid or eid:
+                    basis = str(m.get("basis") or "").strip().lower()
                     measures.append({"concept": pid or eid, "entity": (eid or "") if pid else "", "property_missing": not pid,
                                      **{k: str(m.get(k, "") or "").strip()
-                                        for k in ("value", "unit", "condition", "evidence")}})
+                                        for k in ("value", "unit", "condition", "evidence")},
+                                     "basis": basis if basis in BASES else ""})
             for f in items(part, "figures"):
                 if not key(f.get("id")):
                     continue

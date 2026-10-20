@@ -19,7 +19,7 @@
      },
      "entity": {
       "type": "string",
-      "description": "concept id of the thing measured on, if named"
+      "description": "concept id of the device, material, technology or system the value is for, whenever the text, table or caption names one"
      },
      "value": {
       "type": "string"
@@ -33,6 +33,15 @@
      },
      "evidence": {
       "type": "string"
+     },
+     "basis": {
+      "enum": [
+       "measured",
+       "simulated",
+       "cited",
+       "target"
+      ],
+      "description": "measured: obtained in this work; simulated: calculated or modelled in this work; cited: reported from another source; target: a goal, projection or assumed input"
      }
     }
    }

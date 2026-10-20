@@ -41,7 +41,8 @@ CAUSAL - the most important part. Extract EVERY cause -> effect claim, including
 - evidence = verbatim quote of at most 20 words. Direction matters: cause is what changes first.
 - cause and effect MUST be concept ids (c1, c2, ...) from your CONCEPTS list, never phrases. If a cause or effect is not in CONCEPTS yet, add it there first (e.g. "performance loss", "lifetime").
 
-MEASUREMENTS - every reported value: property = id of the property, parameter or quantity the value is a value of (for "a conductivity of 12 mS cm-1 for Li7P3S11" the property is conductivity, never the material); entity = id of the thing it was measured on, if the text names one; value exactly as written (e.g. "22.5", "850-900", "<1"); unit as written; condition = the stated context; and a verbatim quote of at most 20 words.
+MEASUREMENTS - every reported value: property = id of the property, parameter or quantity the value is a value of (for "a conductivity of 12 mS cm-1 for Li7P3S11" the property is conductivity, never the material); entity = id of the device, material, technology or system the value is for: give it whenever the sentence, table or caption names one; value exactly as written (e.g. "22.5", "850-900", "<1"); unit as written; condition = the stated context; basis = measured (obtained in this work), simulated (calculated or modelled in this work), cited (reported from another source, e.g. with a reference) or target (a goal, projection or assumed input); and a verbatim quote of at most 20 words.
+- TABLE blocks give a table as "| cell | cell |" rows under its caption: every cell holding a value is a measurement. The column header names the property (and often the unit), the row label usually the entity or condition; the quote is the row as written.
 - If the property is not in CONCEPTS yet, add it to CONCEPTS as type property, quantity or parameter.
 
 FIGURES - for each F<n> listed: the concept ids it depicts and what it shows in at most 12 words.

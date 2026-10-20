@@ -22,11 +22,12 @@
       "evidence": {"type": "string"}}}},
     "measurements": {"type": "array", "items": {"type": "object", "required": ["property", "value"], "properties": {
       "property": {"type": "string", "description": "concept id of the property, parameter or quantity"},
-      "entity": {"type": "string", "description": "concept id of the thing measured on, if named"},
+      "entity": {"type": "string", "description": "concept id of the device, material, technology or system the value is for, whenever the text, table or caption names one"},
       "value": {"type": "string"},
       "unit": {"type": "string"},
       "condition": {"type": "string", "description": "stated context (temperature, illumination, sample state)"},
-      "evidence": {"type": "string"}}}},
+      "evidence": {"type": "string"},
+      "basis": {"enum": ["measured", "simulated", "cited", "target"], "description": "measured: obtained in this work; simulated: calculated or modelled in this work; cited: reported from another source; target: a goal, projection or assumed input"}}}},
     "figures": {"type": "array", "items": {"type": "object", "required": ["id", "concepts"], "properties": {
       "id": {"type": "string"},
       "concepts": {"type": "array", "items": {"type": "string"}},
