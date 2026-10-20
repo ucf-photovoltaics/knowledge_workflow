@@ -105,6 +105,6 @@ while read -r tier tag repo reasoning time place extra; do
         echo "$tag: ${envs[*]-} VLLM_MODEL=$repo VLLM_REASONING_EFFORT=$reasoning VLLM_EXTRA_ARGS='$extra' SWEEP_ID=$sweep ${cmd[*]}"
         continue
     fi
-    job=$(env ${envs[@]+"${envs[@]}"} USE_CASE=$USE_CASE LIMITS=$LIMITS SWEEP_ID=$sweep VLLM_MODEL=$repo \
+    job=$(env ${envs[@]+"${envs[@]}"} USE_CASE=$USE_CASE LIMITS="$LIMITS" SWEEP_ID=$sweep VLLM_MODEL=$repo \
           VLLM_REASONING_EFFORT=$reasoning VLLM_EXTRA_ARGS="$extra" "${cmd[@]}") && echo "$tag: job $job, sweep $sweep" || echo "$tag: sbatch failed"
 done <<<"$MODELS"
