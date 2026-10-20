@@ -18,6 +18,7 @@ polymer-durability: pmma eva-pe-degr rubber-microplastics  # max=30  mixed: phot
 
 # ---- Scale test: domains over 100 papers each (tea-xl = scripts/zotero_collect.py TEA-Extended; <= 5 shared PDFs) ----
 pv-scale-7: tea-xl reliability si-topcon si-shj backsheets optics timeseries  # max=130  PV: 7-way cost chain at 130 papers per domain
+pv-scale-7-now: reliability si-topcon si-shj si-perc backsheets optics timeseries  # max=118  PV: the same 7-way scale test with si-perc until tea-xl exists
 
 # ---- Possible: weaker evidence, smaller domains, or overlapping papers (dedupe before trusting integration counts) ----
 circular-economy: recycling tea reliability  # max=50  PV: lifetime extension vs end-of-life recovery vs LCOE
