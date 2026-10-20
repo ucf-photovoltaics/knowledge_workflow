@@ -16,6 +16,9 @@ chem-materials-bridge: chem-reactions matdatasci onto-chem  # max=35  non-PV: ch
 semantic-web-stack: kg-rdf reasoning fair-data  # max=40  non-PV: KG construction, OWL reasoning, FAIR data
 polymer-durability: pmma eva-pe-degr rubber-microplastics  # max=30  mixed: photo/thermal degradation across PMMA optics, EVA, tire rubber
 
+# ---- Scale test: domains over 100 papers each (tea-xl = scripts/zotero_collect.py TEA-Extended; <= 5 shared PDFs) ----
+pv-scale-7: tea-xl reliability si-topcon si-shj backsheets optics timeseries  # max=130  PV: 7-way cost chain at 130 papers per domain
+
 # ---- Possible: weaker evidence, smaller domains, or overlapping papers (dedupe before trusting integration counts) ----
 circular-economy: recycling tea reliability  # max=50  PV: lifetime extension vs end-of-life recovery vs LCOE
 test-to-field: iec-climatic accel-testing field-studies  # max=25  PV: which lab stresses reproduce which field failures

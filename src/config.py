@@ -198,6 +198,7 @@ COLLECTIONS = {
     "sic": {"library_id": "37619", "collection_key": "QBMET8FE", "domain": "silicon carbide"},  # CWRU-SDLE: Materials / SiC (53 PDFs)
     "solar-forecast": {"library_id": "37619", "collection_key": "4SQFK67E"},  # CWRU-SDLE: PVlit / SolarForecast (43 PDFs)
     "spatial-char": {"library_id": "2189702", "collection_key": "8CP6VFBU"},  # UCF DEPV: Characterization and Metrology / Spatially-Resolved Cha (58 PDFs)
+    "optics": {"library_id": "2189702", "collection_key": "XZ9Q7WKY"},  # UCF DEPV: Optics (171 PDFs)
     "timeseries": {"library_id": "37619", "collection_key": "7W8F2922", "domain": "time series statistics"},  # CWRU-SDLE: Statistics / TimeSeriesAnalysis (134 PDFs)
     "topcon-rel": {"library_id": "2189702", "collection_key": "NEEKPD6J"},  # UCF DEPV: Reliability-Durability / TOPCon (37 PDFs)
     "xct": {"library_id": "37619", "collection_key": "Y5QLU9XG", "domain": "X-ray computed tomography of materials"},  # CWRU-SDLE: DataScience / XCT (47 PDFs)
@@ -346,7 +347,9 @@ MAPPING = {
 INTEGRATION = {
     "collections": ["tea", "reliability", "si-perc", "si-topcon"],
     "min_similarity": 0.80,      # embedding cosine for a mutual-nearest-neighbour candidate pair (EMBED model required)
-    "max_model_pairs": 1500,     # candidate pairs sent to the model; the rest are listed in candidates.json unreviewed
+    # candidate pairs sent to the model; the rest are listed in candidates.json unreviewed. KW_MAX_MODEL_PAIRS raises it
+    # for one sweep (many or large domains), e.g. KW_MAX_MODEL_PAIRS=20000.
+    "max_model_pairs": int(os.getenv("KW_MAX_MODEL_PAIRS", "1500")),
     "batch": {"local": 12, "frontier": 30},
 }
 
