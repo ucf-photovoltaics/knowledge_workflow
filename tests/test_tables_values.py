@@ -20,7 +20,8 @@ def table_pdf(path):
     doc.save(path)
 
 
-def test_table_is_written_into_its_section_once(tmp_path):
+def test_table_is_written_into_its_section_once(tmp_path, monkeypatch):
+    monkeypatch.setattr(pdf_parse, "CACHE", tmp_path / "cache")
     table_pdf(tmp_path / "t.pdf")
     parsed = pdf_parse.parse(str(tmp_path / "t.pdf"))
     text = " ".join(s["text"] for s in parsed["sections"])
@@ -47,3 +48,11 @@ def test_basis_is_kept_and_unknown_bases_dropped():
                              {"property": "c1", "entity": "c2", "value": "26", "unit": "%", "basis": "guess"}]}
     merged = ExtractionAgent._merge([part])
     assert [m["basis"] for m in merged["measurements"]] == ["measured", ""]
+
+
+def test_parse_is_cached_by_pdf_content(tmp_path, monkeypatch):
+    monkeypatch.setattr(pdf_parse, "CACHE", tmp_path / "cache")
+    table_pdf(tmp_path / "t.pdf")
+    first = pdf_parse.parse(str(tmp_path / "t.pdf"))
+    monkeypatch.setattr(pdf_parse, "_parse", lambda path: (_ for _ in ()).throw(AssertionError("parsed again")))
+    assert pdf_parse.parse(str(tmp_path / "t.pdf")) == first

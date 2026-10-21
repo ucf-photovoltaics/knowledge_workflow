@@ -2,7 +2,7 @@
 # Author: Brent Thompson <brent.thompson@ucf.edu>
 # Summary: run/resume a GPU-backed literature sweep, record serving setup and sample GPU power/utilization.
 # Paper sweep on one GPU node. vLLM serves the LLM (profile "vllm" in src/config.py); Ollama on CPU serves
-# nomic-embed-text at localhost:11434 so the embedding cache from local runs is reused unchanged.
+# the embedding model (KW_EMBED_MODEL, default embeddinggemma; src/config.py EMBED_MODELS) at localhost:11434.
 # Bash port of scripts/run-sweep.ps1, plus: the sweep stops when either model server is down instead of failing
 # every remaining run. Resubmit with the same SWEEP_ID to resume; completed stages are skipped.
 #
@@ -39,6 +39,7 @@ export VLLM_MODEL=${VLLM_MODEL:-mistralai/Mistral-Small-4-119B-2603}
 export LLM_TEMPERATURE=${LLM_TEMPERATURE-0}   # same for every model; LLM_TEMPERATURE= (empty) = model default
 export VLLM_REASONING_EFFORT=${VLLM_REASONING_EFFORT:-none}
 export VLLM_EXTRA_ARGS=${VLLM_EXTRA_ARGS:-}
+export KW_EMBED_MODEL=${KW_EMBED_MODEL:-embeddinggemma}   # src/config.py reads the same variable
 # FlashInfer's sampler compiles a CUDA kernel at start-up, which needs nvcc (absent on many compute nodes);
 # PyTorch's sampler needs no compiler and is plenty for temperature-0 requests.
 export VLLM_USE_FLASHINFER_SAMPLER=${VLLM_USE_FLASHINFER_SAMPLER:-0}
@@ -200,25 +201,30 @@ wait_for() {  # url name pid: up to 60 min (the first run downloads the model)
 }
 wait_for http://127.0.0.1:11434/api/tags ollama $OLLAMA_PID || exit 2
 # A registry hiccup must not stop a sweep whose embedding model is already local: retry, then use the local copy.
-for i in 1 2 3; do "$OLLAMA" pull nomic-embed-text >/dev/null 2>&1 && break; sleep 20; done
-"$OLLAMA" show nomic-embed-text >/dev/null 2>&1 || { echo "nomic-embed-text: pull failed and no local copy"; exit 2; }
+for i in 1 2 3; do "$OLLAMA" pull "$KW_EMBED_MODEL" >/dev/null 2>&1 && break; sleep 20; done
+"$OLLAMA" show "$KW_EMBED_MODEL" >/dev/null 2>&1 || { echo "$KW_EMBED_MODEL: pull failed and no local copy"; exit 2; }
 wait_for "http://localhost:$VLLM_PORT/health" vllm $VLLM_PID || exit 2
 healthy() { curl -sf "http://localhost:$VLLM_PORT/health" >/dev/null && curl -sf http://127.0.0.1:11434/api/tags >/dev/null; }
 
 PY=(uv run --with-requirements requirements.txt python)
 # Private copy of the ontology store on node-local disk: a rebuild or re-copy of the shared store while this job
 # runs (ontologies build, scp) can no longer delete or corrupt the files under it. Oxigraph is only used to build.
-STORE=$ROOT/outputs/cache/ontology_store
+STORE=$("${PY[@]}" -c "from src.config import ONTOLOGY_STORE; print(ONTOLOGY_STORE)") || exit 2  # one per embedding model
 STORE_COPY=${TMPDIR:-/tmp}/kw-store-${SLURM_JOB_ID:-$$}
 mkdir -p "$STORE_COPY/ontology_store"
-for f in terms.sqlite vectors.npy vectors.json manifest.json; do
-    [ ! -e "$STORE/$f" ] || cp "$STORE/$f" "$STORE_COPY/ontology_store/" || { echo "ontology store copy failed ($f)"; exit 2; }
-done
-export KW_ONTOLOGY_STORE=$STORE_COPY/ontology_store
 # Same for the SQLite answer and embedding caches: SQLite locking does not work across Lustre nodes, so jobs writing
 # the shared files at once corrupted them. Each job works on local copies and merges its new entries back at the end.
 "${PY[@]}" scripts/cache_sync.py pull "$ROOT/outputs/cache" "$STORE_COPY" || { echo "cache copy failed"; exit 2; }
 export KW_ROWS_DB=$STORE_COPY/rows.sqlite3 KW_EMBED_DB=$STORE_COPY/embeddings.sqlite3
+if [ ! -e "$STORE/terms.sqlite" ]; then  # first job with this embedding model builds its store; others wait for it
+    echo "no ontology store for $KW_EMBED_MODEL at $STORE: building it (log: $LOG/ontologies-build.log)"
+    flock "$STORE.lock" bash -c '[ -e "$1/terms.sqlite" ] || "${@:2}" -m src.run ontologies build' _ "$STORE" "${PY[@]}" \
+        >"$LOG/ontologies-build.log" 2>&1 || { echo "ontology store build failed; see $LOG/ontologies-build.log"; exit 2; }
+fi
+for f in terms.sqlite vectors.npy vectors.json manifest.json; do
+    [ ! -e "$STORE/$f" ] || cp "$STORE/$f" "$STORE_COPY/ontology_store/" || { echo "ontology store copy failed ($f)"; exit 2; }
+done
+export KW_ONTOLOGY_STORE=$STORE_COPY/ontology_store
 
 # Smoke test through the pipeline's own client: JSON mode, reasoning off, embeddings.
 "${PY[@]}" - <<'EOF' || { echo "smoke test failed"; exit 2; }

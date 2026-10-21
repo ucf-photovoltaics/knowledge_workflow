@@ -1,0 +1,1 @@
+{"type":"object","required":["claims"],"properties":{"claims":{"type":"array","items":{"type":"object","required":["id","support"],"properties":{"id":{"type":"string"},"support":{"enum":["yes","partial","no"]}}}}}}

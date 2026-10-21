@@ -1,4 +1,4 @@
-"""Blind expert review of a random sample of finished ontologies: three checks, one per reviewer.
+"""Blind expert review of a random sample of finished ontologies: four checks, one per reviewer.
 
     uv run --with-requirements requirements.txt --with openpyxl python scripts/review_sample.py sample --name models-n25 \
         --sweeps pv-cost-chain-llama31-8b pv-cost-chain-gptoss-120b [--runs RUN ...] [--per-run 20] [--seed 1]
@@ -8,6 +8,7 @@ sample writes outputs/review/<name>/:
   placement.xlsx    reviewer 1: is every <term> a <parent>?
   definitions.xlsx  reviewer 2: is the definition correct, and supported by the paper excerpts?
   relations.xlsx    reviewer 3: is the relation between two terms, or the mapping to an external ontology, correct?
+  values.xlsx       reviewer 4: is the reported value (property, technology, value, unit, basis) what the quote says?
   key.csv           item -> run, model, domain and origin. Keep it from the reviewers.
 Items are drawn at random from each run's final ontology (the same number per run, reproducible from --seed) and
 shuffled across runs; workbooks show no run, model or IRI. score reads the returned workbooks and writes scores.csv:
@@ -60,13 +61,31 @@ CHECKS = {
                   "vs part of, wrong direction).",
                   "Wrong: the two are not related this way at all.",
                   "Can't judge: outside your expertise. These items are left out of the scores."]},
+    "values": {
+        "question": "Is the reported Value right: the Property, the Technology it is for, the value and unit, and the "
+                    "Basis, as the Quote states them?",
+        "answers": ["Correct", "Correct, technology missing", "Wrong technology", "Wrong property", "Wrong value or unit",
+                    "Wrong basis", "Not stated in quote", "Can't judge"],
+        "correct": {"Correct"}, "acceptable": {"Correct", "Correct, technology missing"},
+        "notes": ["Correct: everything shown matches the quote (Technology may be blank when the quote names none).",
+                  "Correct, technology missing: right, but the quote names the device or technology and it is blank.",
+                  "Wrong technology: the value is for something else than the Technology shown.",
+                  "Wrong property: the value is not a value of this Property.",
+                  "Wrong value or unit: the number, range or unit differs from the quote.",
+                  "Wrong basis: measured, simulated, cited or target is wrong (e.g. a cited value shown as measured).",
+                  "Not stated in quote: the quote does not give this value.",
+                  "Can't judge: outside your expertise. These items are left out of the scores."]},
 }
+BASIS_WORDS = {"measured": "measured in this work", "simulated": "simulated or calculated in this work",
+               "cited": "cited from another source", "target": "target, projection or assumed input"}
 COLUMNS = {
     "placement": ["Item", "Term", "Term definition", "Found in", "Parent", "Parent definition", "Parent from", "Answer",
                   "Better parent", "Notes"],
     "definitions": ["Item", "Term", "Definition", "Paper excerpts", "Found in", "Answer", "Notes"],
     "relations": ["Item", "Kind", "Term", "Term definition", "Found in", "Relation", "Target", "Target definition", "Evidence",
                   "Answer", "Notes"],
+    "values": ["Item", "Property", "Technology", "Value", "Unit", "Condition", "Basis", "Quote", "Found in", "Answer",
+               "Notes"],
 }
 MAPPING_WORDS = {"equivalent": "is equivalent to", "exact": "is the same as", "close": "is nearly the same as",
                  "broader": "is a kind of", "narrower": "is more general than", "related": "is related to"}
@@ -88,8 +107,12 @@ def load_runs(names):
         for p in (d / "papers").glob("*.json"):
             titles[p.stem] = json.loads(p.read_text(encoding="utf-8")).get("title", p.stem)
         cfg = manifest.get("config", {})
+        values = d / "normalized" / "measurements.json"
+        labels = {c["id"]: c["label"] for c in json.loads((d / "normalized" / "concepts.json").read_text(encoding="utf-8"))}
         runs.append({"id": name, "domain": manifest.get("collection", {}).get("name", ""), "cfg": cfg,
-                     "classes": [c for c in classes if not c.get("excluded")], "mappings": mappings, "titles": titles})
+                     "classes": [c for c in classes if not c.get("excluded")], "mappings": mappings, "titles": titles,
+                     "labels": labels,
+                     "values": json.loads(values.read_text(encoding="utf-8")) if values.exists() else []})
     return runs
 
 
@@ -185,6 +208,19 @@ def relations(run, rng, n):
     return items
 
 
+def values(run, rng, n):
+    label = run["labels"]
+    items = []
+    for m in rng.sample(run["values"], min(n, len(run["values"]))):
+        items.append(({"Property": label.get(m.get("concept"), ""), "Technology": label.get(m.get("entity"), ""),
+                       "Value": m.get("value", ""), "Unit": m.get("unit", ""), "Condition": short(m.get("condition"), 200),
+                       "Basis": BASIS_WORDS.get(m.get("basis"), "(not given)"), "Quote": short(m.get("evidence"), 300),
+                       "Found in": short(run["titles"].get(m.get("paper"), m.get("paper", "")), 120)},
+                      {"model": run["cfg"].get("model_extraction", ""), "class_id": m.get("concept", ""),
+                       "origin": f"basis:{m.get('basis') or 'none'}"}))
+    return items
+
+
 def write_book(path, check, rows):
     spec = CHECKS[check]
     wb = Workbook()
@@ -194,7 +230,8 @@ def write_book(path, check, rows):
     ws.append(cols)
     for row in rows:
         ws.append([row.get(c, "") for c in cols])
-    widths = {"Item": 8, "Kind": 10, "Answer": 24, "Parent from": 14, "Relation": 24, "Found in": 30}
+    widths = {"Item": 8, "Kind": 10, "Answer": 24, "Parent from": 14, "Relation": 24, "Found in": 30, "Value": 12,
+              "Unit": 10, "Basis": 20}
     for i, c in enumerate(cols, 1):
         letter = ws.cell(1, i).column_letter
         ws.column_dimensions[letter].width = widths.get(c, 40)
@@ -229,7 +266,8 @@ def sample(args):
         sys.exit(f"{out} already has workbooks; use --force to replace them (reviewers may be working on them)")
     out.mkdir(parents=True, exist_ok=True)
     key = []
-    for check, draw in (("placement", placement), ("definitions", definitions), ("relations", relations)):
+    for check, draw in (("placement", placement), ("definitions", definitions), ("relations", relations),
+                        ("values", values)):
         pool = []
         for run in runs:
             rng = random.Random(f"{args.seed}:{check}:{run['id']}")

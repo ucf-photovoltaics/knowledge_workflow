@@ -55,10 +55,12 @@ MISTRAL="--tokenizer-mode mistral --config-format mistral --load-format mistral"
 # mistral-small4: FP8 MoE, ~120 GB of weights on 2 x H100 PCIe (kdavis cannot use highgpu or short): submit it with
 #   MAX_MODEL_LEN=24576 GPU_MEMORY_UTILIZATION=0.95 so the KV cache fits. Its placement pins 2 GPUs, so a
 #   GRES=...:1 override for the others never shrinks it; move it to bigger GPUs by editing the placement.
+# WORKERS_PER_COPY=32 (default 16) where the n10 runs left the GPUs idle: gemma4-e4b 41%, gptoss-20b 32%,
+# gptoss-120b 41% average utilization. A WORKERS_PER_COPY set when submitting still wins.
 MODELS=$(cat <<EOF
-small gemma4-e4b    google/gemma-4-E4B-it                         none 06:00:00 -
+small gemma4-e4b    google/gemma-4-E4B-it                         none 06:00:00 - WORKERS_PER_COPY=${WORKERS_PER_COPY:-32}
 small ministral3-8b mistralai/Ministral-3-8B-Instruct-2512        none 06:00:00 - $MISTRAL
-small gptoss-20b    openai/gpt-oss-20b                            low  08:00:00 -
+small gptoss-20b    openai/gpt-oss-20b                            low  08:00:00 - WORKERS_PER_COPY=${WORKERS_PER_COPY:-32}
 small gemma4-12b    google/gemma-4-12B-it                         none 06:00:00 -
 mid   ministral3-14b mistralai/Ministral-3-14B-Instruct-2512      none 10:00:00 - $MISTRAL
 mid   gemma4-26b    google/gemma-4-26B-A4B-it                     none 10:00:00 -
@@ -66,7 +68,7 @@ mid   gemma4-31b    google/gemma-4-31B-it                         none 12:00:00 
 mid   gemma4-31b-think google/gemma-4-31B-it                      high 16:00:00 - --reasoning-parser gemma4
 mid   gemma4-31b-thinkonto google/gemma-4-31B-it                  none 12:00:00 - --reasoning-parser gemma4 VLLM_THINK_AGENTS=normalization,ontology,enrichment,interoperability,integration
 mid   granite42-30b ibm-granite/granite-4.2-30b                   none 12:00:00 -
-large gptoss-120b   openai/gpt-oss-120b                           low  16:00:00 -
+large gptoss-120b   openai/gpt-oss-120b                           low  16:00:00 - WORKERS_PER_COPY=${WORKERS_PER_COPY:-32}
 large mistral-small4 mistralai/Mistral-Small-4-119B-2603          none 16:00:00 gpu:nvidia_h100_pcie:2@normal --tokenizer-mode mistral --reasoning-parser mistral
 large nemotron3-super nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8 none 16:00:00 - --trust-remote-code
 EOF
@@ -89,7 +91,7 @@ unset TP DP WORKERS   # let slurm-sweep.sh size each model to the GPUs
 while read -r tier tag repo reasoning time place extra; do
     [[ " ${tiers[*]} " == *" $tier "* ]] || continue
     [ -z "$ONLY" ] || [[ " $ONLY " == *" $tag "* ]] || continue
-    sweep=$USE_CASE-$tag-n${LIMITS// /-}
+    sweep=$USE_CASE-$tag${SWEEP_SUFFIX:-}-n${LIMITS// /-}   # SWEEP_SUFFIX (e.g. -v2): a second sweep at the same sizes
     if [ -f "outputs/sweep-$sweep/report/report.html" ]; then echo "$tag: done (outputs/sweep-$sweep)"; continue; fi
     if [ -n "$(squeue -h -u "${USER:-$(id -un)}" -n "kw-$tag$JOB_SUFFIX" 2>/dev/null)" ]; then echo "$tag: already queued"; continue; fi
     if [ ! -d "$HF_HUB/models--${repo//\//--}" ]; then echo "$tag: skipped, not downloaded (hf download $repo)"; continue; fi

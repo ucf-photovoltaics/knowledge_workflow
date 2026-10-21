@@ -112,17 +112,31 @@ MAX_RETRIES = 6             # retries with exponential backoff on 429 / 5xx (e.g
 # runs, e.g. tea-n5 answers inside tea-n10 (outputs/cache/rows.sqlite3, src/agents/base.py RowCache).
 # KW_FRESH=1 asks the model again for everything (benchmarks and the reuse check).
 REUSE_ANSWERS = os.getenv("KW_FRESH", "") != "1"
+# Normalization asks whether each joined claim's and reported value's quote states it (yes/partial/no); claims whose
+# quote does not ("no") never become axioms. KW_SUPPORT_CHECK=0 turns the pass off.
+SUPPORT_CHECK = os.getenv("KW_SUPPORT_CHECK", "1") != "0"
 # KW_SCRATCH=1: a benchmark or check run - kept out of eval_runs.csv, the sweep figures and integration's run choice.
 SCRATCH_RUN = os.getenv("KW_SCRATCH", "") == "1"
 
 # ---- Embeddings (normalization synonym clustering; OpenAI-compatible /embeddings) ----
 # model None = skip embedding clustering (lexical merging only). e.g. "nomic-embed-text" on Ollama.
 # inputs_per_minute = provider quota on texts embedded per minute (Gemini free tier: 100); None = no pacing.
-EMBED = {"base_url": "http://localhost:11434/v1", "model": "nomic-embed-text", "api_key_env": None,
-         "inputs_per_minute": None, "cache_version": 1,  # bump if a model is replaced under the same name
-         # retrieval task prefixes (nomic-embed-text expects these; "" for models without them). Ontology-store
-         # terms are documents, concepts searched against the store are queries; changing them needs `ontologies build`.
-         "query_prefix": "search_query: ", "document_prefix": "search_document: "}
+# Embedding models: task prefixes (ontology-store terms are documents, concepts searched against the store are
+# queries, concept-to-concept comparisons use the similarity prefix) and cosine thresholds. EmbeddingGemma's
+# thresholds let through the same share of look-alike pairs as nomic's did on the synonym benchmark
+# (scripts/eval_embeddings.py, 2026-10-19: 4.6%, 9.5%, 15.1%) and find 10-11 points more synonyms at each.
+# Each model has its own ontology store (built by `ontologies build`, or by scripts/slurm-sweep.sh when missing).
+EMBED_MODELS = {
+    "nomic-embed-text": {"query_prefix": "search_query: ", "document_prefix": "search_document: ",
+                         "similarity_prefix": "", "synonym_threshold": 0.85, "pair_threshold": 0.80,
+                         "store_min_cosine": 0.75},
+    "embeddinggemma": {"query_prefix": "task: search result | query: ", "document_prefix": "title: none | text: ",
+                       "similarity_prefix": "task: sentence similarity | query: ", "synonym_threshold": 0.885,
+                       "pair_threshold": 0.85, "store_min_cosine": 0.82},
+}
+EMBED = {"base_url": "http://localhost:11434/v1", "model": os.getenv("KW_EMBED_MODEL", "embeddinggemma"),
+         "api_key_env": None, "inputs_per_minute": None, "cache_version": 1}  # bump if a model is replaced under the same name
+EMBED.update(EMBED_MODELS.get(EMBED["model"], EMBED_MODELS["nomic-embed-text"]))
 # Gemini alternative: {"base_url": "https://generativelanguage.googleapis.com/v1beta/openai/", "model": "gemini-embedding-001",
 #                      "api_key_env": "GEMINI_API_KEY", "inputs_per_minute": 90}
 
@@ -307,7 +321,8 @@ ONTOLOGY_SOURCES = {
     "MDS-Onto": {"portal": "MDS-ONTO", "file": "MDS-Onto-{version}.ttl", "home": ["https://cwrusdle.bitbucket.io/mds/"]},
 }
 # KW_ONTOLOGY_STORE points a job at a private copy (scripts/slurm-sweep.sh) so a rebuild cannot break it mid-run
-ONTOLOGY_STORE = Path(os.getenv("KW_ONTOLOGY_STORE") or CACHE / "ontology_store")
+ONTOLOGY_STORE = Path(os.getenv("KW_ONTOLOGY_STORE") or CACHE / (
+    "ontology_store" if EMBED["model"] == "nomic-embed-text" else f"ontology_store-{EMBED['model']}"))
 # The SQLite answer and embedding caches. Slurm jobs use node-local copies (scripts/cache_sync.py): SQLite locking
 # does not work across the nodes of a network filesystem, and concurrent writers there corrupt the file.
 ROWS_DB = Path(os.getenv("KW_ROWS_DB") or CACHE / "rows.sqlite3")
@@ -316,7 +331,7 @@ ONTOLOGY_SEARCH = {
     "weights": {"lexical": 0.4, "cosine": 0.6},  # fused score: lexical = 1 for an exact label, else trigram similarity
     "min_score": 0.35,           # fused score a candidate needs (exact label matches are always kept)
     "min_fuzzy": 0.5,            # trigram similarity that counts as a lexical hit (labels must share a whole word)
-    "min_cosine": 0.75,          # embedding cosine that counts as a semantic hit (nomic-embed-text: any two terms ~0.5)
+    "min_cosine": EMBED["store_min_cosine"],  # embedding cosine that counts as a semantic hit (per model, EMBED_MODELS)
     "candidates_per_class": 8,   # external candidates from the store shown per class (interop)
     "portal_per_class": 5,       # plus up to this many portal terms outside the store (SKOS mappings only),
     "portal_min_score": 0.6,     # each a same-name term or one with at least this fused score
@@ -346,7 +361,7 @@ MAPPING = {
 # interop (current WORKFLOW_REVISION preferred).
 INTEGRATION = {
     "collections": ["tea", "reliability", "si-perc", "si-topcon"],
-    "min_similarity": 0.80,      # embedding cosine for a mutual-nearest-neighbour candidate pair (EMBED model required)
+    "min_similarity": EMBED["pair_threshold"],  # cosine for a mutual-nearest-neighbour candidate pair (EMBED_MODELS)
     # candidate pairs sent to the model; the rest are listed in candidates.json unreviewed. KW_MAX_MODEL_PAIRS raises it
     # for one sweep (many or large domains), e.g. KW_MAX_MODEL_PAIRS=20000.
     "max_model_pairs": int(os.getenv("KW_MAX_MODEL_PAIRS", "1500")),
@@ -374,8 +389,13 @@ LORA = {
 # ---- Output ontology ----
 ONTOLOGY_IRI = "http://example.org/kw/"
 ONTOLOGY_TITLE = "PV Knowledge Workflow Ontology"
-WORKFLOW_REVISION = "2026-10-20-values-tables"
-WORKFLOW_REVISION_NOTE = ("Tables parsed into their sections as rows under their caption; reported values carry a basis "
+WORKFLOW_REVISION = "2026-10-20-values-tables-v2"
+WORKFLOW_REVISION_NOTE = ("v2: quotes not found in their section re-asked once; values and leaked ids stripped from "
+                          "concept labels; section kind per claim and value; quote support (yes/partial/no) checked in "
+                          "normalization, unsupported claims never become axioms; same-name external definitions offered "
+                          "to the definitions pass; EmbeddingGemma with benchmark-matched thresholds and its own ontology "
+                          "store; parsed PDFs cached. "
+                          "Tables parsed into their sections as rows under their caption; reported values carry a basis "
                           "(measured, simulated, cited, target) and the device or technology they are for; rows a model "
                           "returns as lists are read in schema order. "
                           "Exact original-to-canonical concept lineage, original-label retention through enrichment, "

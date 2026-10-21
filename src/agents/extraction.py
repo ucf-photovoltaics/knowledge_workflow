@@ -34,7 +34,7 @@ PASS_REFS = {"causal": ("cause", "effect"), "relations": ("s", "o"), "measuremen
 PROPERTY_TYPES = ("property", "quantity", "parameter")
 EVIDENCE_WORDS = 3         # a quote shorter than this is no evidence: re-asked once, then flagged unevidenced
 EVIDENCE_BATCH = 40
-CODE_VERSION = "2026-10-20-tables-basis"  # part of the cache key: bump when merge/finalize logic changes
+CODE_VERSION = "2026-10-20-tables-basis-v2"  # part of the cache key: bump when merge/finalize logic changes
 BASES = ("measured", "simulated", "cited", "target")  # where a reported value comes from
 TYPES = ("material", "device", "equipment", "process", "parameter", "phenomenon", "property", "quantity", "method",
          "defect", "condition", "information")
@@ -79,11 +79,43 @@ def _words(text: str) -> list[str]:
     return re.findall(r"\w+", unicodedata.normalize("NFKC", text).lower())
 
 
+def _grams(text: str) -> set:
+    words = _words(text)
+    return set(zip(words, words[1:], words[2:]))
+
+
+def _found(quote: str, grams: set) -> bool:
+    """At least VERIFY_SHARE of the quote's word 3-grams occur in the text (quotes with omissions: per segment)."""
+    tri = [t for seg in re.split(r"\.\.\.|\u2026", quote) for ev in [_words(seg)] for t in zip(ev, ev[1:], ev[2:])]
+    return bool(tri) and sum(t in grams for t in tri) / len(tri) >= VERIFY_SHARE
+
+
+SECTION_KINDS = (("abstract", r"abstract|front matter"), ("conclusions", r"conclu|summary|outlook|future"),
+                 ("results", r"result|discussion|analys|performance|evaluat|comparison"),
+                 ("methods", r"method|experiment|material|procedure|fabricat|characteri|setup|model|simulat|design"),
+                 ("introduction", r"intro|background|literature|related work|motivation|theory|overview"))
+
+
+def section_kind(heading: str) -> str:
+    """abstract, introduction, methods, results, conclusions or other, from a section heading."""
+    return next((kind for kind, pattern in SECTION_KINDS if re.search(pattern, heading or "", re.I)), "other")
+
+
+VALUE_TAIL = re.compile(r"(.*?\S)\s*(?:[<>=~\u2248\u2264\u2265]|\u00b1)\s*[-+]?\d[\d.,]*\s*[%\w\u00b0/\u00b5.-]{0,8}")
+
+
 def _clean_label(label: str) -> str:
-    """'n1 (Auger recombination)' or 'n1: Auger recombination' -> 'Auger recombination' (a leaked id prefix)."""
+    """Leaked ids and values out of a label: 'n1 (Auger recombination)', 'n1: Auger recombination' -> 'Auger
+    recombination'; 'n7_round_trip_efficiency' -> 'round trip efficiency'; 'front-side efficiency > 23%' ->
+    'front-side efficiency' (the value belongs in a measurement, not in the concept's name)."""
     m = re.fullmatch(r"[cnf]\d+\s*(?:\((.+)\)|[:\-\u2013]\s*(.+))\s*", label.strip(), re.I)
     rest = (m.group(1) or m.group(2)).strip() if m else ""
-    return rest if rest and not re.fullmatch(r"(?:[cnf]\d+\W*)+", rest, re.I) else label.strip()
+    label = rest if rest and not re.fullmatch(r"(?:[cnf]\d+\W*)+", rest, re.I) else label.strip()
+    if m := re.fullmatch(r"[cnf]\d+_([a-z0-9_]*[a-z][a-z0-9_]*)", label, re.I):
+        label = m.group(1).replace("_", " ").strip()
+    if (m := VALUE_TAIL.fullmatch(label)) and len(m.group(1)) >= 3:
+        label = m.group(1).strip()
+    return label
 
 
 class ExtractionAgent(Agent):
@@ -194,11 +226,13 @@ class ExtractionAgent(Agent):
 
     def _fill_evidence(self, chunk: str, out: dict, kinds: tuple, labels: dict, item: str, where: str,
                        raw_calls: list):
-        """Items returned without a usable quote get one more call that asks only for their quotes."""
-        rows, refs = [], {}
+        """Items returned without a usable quote, or with one not found in the section, get one more call that asks
+        only for their quotes. A new quote replaces an unfound one only when it is found."""
+        rows, refs, grams = [], {}, _grams(chunk)
         for kind in kinds:
             for i, r in enumerate(items(out, kind), 1):
-                if len(_words(str(r.get("evidence") or ""))) >= EVIDENCE_WORDS:
+                quote = str(r.get("evidence") or "")
+                if len(_words(quote)) >= EVIDENCE_WORDS and _found(quote, grams):
                     continue
                 name = lambda f: str(labels.get(key(r.get(f))) or r.get(f) or "")
                 claim = (f"{name('property') or name('concept')} = {r.get('value', '')} {r.get('unit') or ''}"
@@ -206,20 +240,25 @@ class ExtractionAgent(Agent):
                          f"{name('cause')} {r.get('polarity', '')} {name('effect')}" if kind == "causal" else
                          f"{name('s')} {str(r.get('p', '')).replace('_', ' ')} {name('o')}")
                 rid = f"{kind[0]}{i}"
-                rows.append({"id": rid, "claim": claim.strip()})
+                rows.append({"id": rid, "claim": claim.strip(),
+                             **({"not_found": quote[:200]} if len(_words(quote)) >= EVIDENCE_WORDS else {})})
                 refs[rid] = r
         if not rows:
             return
         self.evidence["asked"] += len(rows)
+        self.evidence["asked_unfound"] += sum("not_found" in r for r in rows)
         for i in range(0, len(rows), EVIDENCE_BATCH):
             user = f"SECTION\n{chunk}\n\nCLAIMS\n{compact(rows[i:i + EVIDENCE_BATCH])}"
             out2 = self.call(user, item=item, system=self.evidence_prompt, label=f"evidence {where}", soft=True)
             raw_calls.append({"pass": "evidence", "prompt": "extraction_evidence", "input": user, "output": out2})
             for a in items(out2, "quotes", "evidence"):
                 r, quote = refs.get(key(a.get("id"))), str(a.get("evidence") or "").strip()
-                if r is not None and len(_words(quote)) >= EVIDENCE_WORDS:
+                if r is None or len(_words(quote)) < EVIDENCE_WORDS:
+                    continue
+                unfound = len(_words(str(r.get("evidence") or ""))) >= EVIDENCE_WORDS
+                if not unfound or _found(quote, grams):
                     r["evidence"] = quote
-                    self.evidence["filled"] += 1
+                    self.evidence["refound" if unfound else "filled"] += 1
 
     def _chunks(self, paper: dict) -> list[str]:
         """Pack adjacent short sections; keep long sections separate and split them without dropping text."""
@@ -364,15 +403,18 @@ class ExtractionAgent(Agent):
     @staticmethod
     def _finalize(x: dict, paper: dict) -> dict:
         x = concept_quality.quarantine(x)
-        words = _words(" ".join(s["text"] for s in paper["sections"]))
-        grams = set(zip(words, words[1:], words[2:]))
+        grams = _grams(" ".join(s["text"] for s in paper["sections"]))
+        by_section = [(s["heading"], _grams(s["text"])) for s in paper["sections"]]
         verification = {}
         for kind in ("relations", "causal", "measurements"):
             for r in x[kind]:
                 evidence = str(r.get("evidence", "") or "")
-                segments = re.split(r"\.\.\.|\u2026", evidence)  # quotes with omissions
-                tri = [t for seg in segments for ev in [_words(seg)] for t in zip(ev, ev[1:], ev[2:])]
-                r["verified"] = bool(tri) and sum(t in grams for t in tri) / len(tri) >= VERIFY_SHARE
+                r["verified"] = _found(evidence, grams)
+                quote = _grams(evidence)
+                if quote and by_section:  # the section that holds most of the quote
+                    heading, found = max(((h, len(quote & g)) for h, g in by_section), key=lambda hg: hg[1])
+                    if found:
+                        r["section"], r["section_kind"] = heading, section_kind(heading)
                 r["evidence_status"] = ("unevidenced" if len(_words(evidence)) < EVIDENCE_WORDS else
                                         "verified" if r["verified"] else "unverified")
             verification[kind] = {"items": len(x[kind]), "verified": sum(r["verified"] for r in x[kind]),

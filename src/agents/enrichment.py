@@ -33,7 +33,9 @@ PASS_FIELD = {"definitions": "definition", "synonyms": "alt_labels", "restrictio
               "disjointness": "disjoint_with"}  # the answer field each local pass fills (reads {"k1": value} replies)
 MAX_RELATIONS = 8
 MAX_SIBLINGS = 12  # disjointness: each class is shown the next siblings by label, so every pair is asked once
-BASIS = {"source_definition": "supported", "evidence": "draft_evidence", "model_knowledge": "model_generated"}
+BASIS = {"source_definition": "supported", "evidence": "draft_evidence", "model_knowledge": "model_generated",
+         "external": "imported"}
+EXTERNAL_DEFINITIONS = 2  # definitions of same-name external terms shown to the definitions pass
 DEFINITION_RULE = {
     True: "basis=model_knowledge is allowed: when the source definitions and evidence are not enough, write a standard "
           "definition of the concept from general domain knowledge and return basis=model_knowledge.",
@@ -102,17 +104,20 @@ class EnrichmentAgent(Agent):
             f"{sum(1 for c in live if any(x['label_match'] for x in c['candidates']))} with a label match; "
             f"{sum(1 for c in live for x in c['candidates'] if x.get('hop'))} propagated through mappings")
         self._materials(live, by_id)
-        self._causal(by_id, causal)
+        self.dropped["unsupported_causal"] = sum(r.get("quote_support") == "no" for r in causal)
+        self._causal(by_id, [r for r in causal if r.get("quote_support") != "no"])  # its quote does not state it
         log(f"causal restrictions added (local + RO + CCO): {sum(len(c['restrictions']) for c in live):,}")
 
         system = self.system + rule
         rels = defaultdict(list)
-        for r in relations:  # unevidenced relations never become axioms
-            if r["p"] != "is_a" and r["s"] in by_id and r["o"] in by_id and _evidenced(r):
+        for r in relations:  # unevidenced relations, and those their quote does not state, never become axioms
+            if r["p"] != "is_a" and r["s"] in by_id and r["o"] in by_id and _evidenced(r) \
+                    and r.get("quote_support") != "no":
                 rels[r["s"]].append(r)
             elif r["p"] != "is_a" and r["s"] in by_id and r["o"] in by_id:
-                self.dropped["unevidenced"] += 1
-                self.doubt("restriction_dropped", reason="unevidenced", id=r["s"], label=by_id[r["s"]]["label"],
+                reason = "unevidenced" if not _evidenced(r) else "unsupported"
+                self.dropped[reason] += 1
+                self.doubt("restriction_dropped", reason=reason, id=r["s"], label=by_id[r["s"]]["label"],
                            p=r["p"], o=r["o"], target=by_id[r["o"]]["label"], support=r.get("support"))
         self._property_candidates(by_id, rels)
         self._predicate_restrictions(by_id, rels)  # exact store names or RELATION_GROUPS tie-breaks: no model call
@@ -138,12 +143,17 @@ class EnrichmentAgent(Agent):
                               for r in rels[c["id"]][:MAX_RELATIONS]]
         sibs = lambda c: [f"{s}: {by_id[s]['label']}"  # siblings after c only: each pair is asked from one side
                           for s in children[c["parent"]][place[c["id"]] + 1:place[c["id"]] + 1 + MAX_SIBLINGS]]
+        self.external = {c["id"]: {f"E{n}": x for n, x in enumerate(
+            [x for x in c["candidates"] if x.get("label_match") and x.get("definition")][:EXTERNAL_DEFINITIONS], 1)}
+            for c in live}  # same-name external terms with a definition: E1, E2 per class
         if tier(self.name) == "local":
             passes = [  # (name, prompt, batch, which classes, row)
                 ("definitions", load_prompt("enrichment_definitions") + rule, PASS_BATCH["definitions"], live,
                  lambda c: {"id": c["id"], "label": c["label"], "parent": label_of(c["parent"], by_id),
                             "defs": [d["text"][:200] for d in c["definitions"][:2]], "relations": rel_text(c)[:4],
-                            "evidence": quotes[c["id"]]}),
+                            "evidence": quotes[c["id"]],
+                            **({"external": [f"{e}: {x['label']} ({x['ontology']}) - {x['definition'][:200]}"
+                                             for e, x in self.external[c["id"]].items()]} if self.external[c["id"]] else {})}),
                 ("synonyms", load_prompt("enrichment_synonyms"), PASS_BATCH["synonyms"], [c for c in live if c["alt_labels"]],
                  lambda c: {"id": c["id"], "label": c["label"], "alt": c["alt_labels"][:8]}),
                 ("restrictions", load_prompt("enrichment_restrictions"), PASS_BATCH["restrictions"],
@@ -468,8 +478,12 @@ class EnrichmentAgent(Agent):
                 status = BASIS.get(basis) if text else None
                 if status == "model_generated" and not self.model_definitions:
                     status = None  # outside knowledge is only allowed on the profiles that permit it
+                source = self.definition_source
+                if basis == "external":  # adapted from a same-name external term: its IRI is the source
+                    term = getattr(self, "external", {}).get(c["id"], {}).get(str(r.get("source") or "").strip().upper())
+                    status, source = ("imported", term["iri"]) if term and status else (None, "")
                 if status:
-                    c["definition"], c["definition_status"], c["definition_source"] = text, status, self.definition_source
+                    c["definition"], c["definition_status"], c["definition_source"] = text, status, source
                 else:
                     c["definition"], c["definition_status"], c["definition_source"] = "", "none", ""
                 if r.get("category_conflict") is True:

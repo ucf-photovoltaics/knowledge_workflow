@@ -198,7 +198,7 @@ class OntologyAgent(Agent):
         if not retrieval.enabled() or len(members) < 2:
             return {}
         try:
-            v = retrieval.embed([_text(c) for c in members], self.ledger, self.name)
+            v = retrieval.similar([_text(c) for c in members], self.ledger, self.name)
         except Exception as e:  # never lose the stage to the embedding service
             log(f"nearest corpus concepts: embedding failed ({type(e).__name__}); listing top concepts instead")
             return {}

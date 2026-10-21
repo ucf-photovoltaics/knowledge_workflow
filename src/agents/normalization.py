@@ -9,15 +9,17 @@ import re
 from collections import Counter, defaultdict
 
 from src.agents.base import Agent, compact, items, key, load_prompt
-from src.config import EMBED
+from src.config import EMBED, SUPPORT_CHECK
 from src.tools import llm, upper
 from src.tools.progress import log
 
 WEIGHTS = {"papers": 0.35, "mentions": 0.25, "centrality": 0.20, "causal": 0.10, "figures": 0.10}
 TIERS = ((0.10, "core"), (0.30, "major"), (1.00, "minor"))  # cumulative share of ranked concepts
-SIM_THRESHOLD = 0.85
+SIM_THRESHOLD = EMBED["synonym_threshold"]
 MAX_CLUSTER = 12
 TERMS_PER_CALL = 150
+SUPPORT_BATCH = 20
+SUPPORT = ("yes", "partial", "no")
 
 
 def norm_key(label: str) -> str:
@@ -78,6 +80,8 @@ class NormalizationAgent(Agent):
                         for p in papers for m in p.get("measurements", []) if (p["key"], m["concept"]) in cmap]
         log(f"joined edges: {len(relations):,} distinct relations, {len(causal):,} distinct causal edges, "
             f"{len(measurements):,} reported values")
+        if SUPPORT_CHECK:
+            self._check_support(concepts, relations, causal, measurements)
         contradictions = _contradictions(causal)
         self.stats["causal_contradictions"] = len(contradictions)
         if contradictions:
@@ -116,7 +120,7 @@ class NormalizationAgent(Agent):
         import numpy as np
         labels = [Counter(c["label"] for _, c in g["members"]).most_common(1)[0][0] for g in groups]
         try:
-            vectors, usage = llm.embed(labels)
+            vectors, usage = llm.embed([EMBED.get("similarity_prefix", "") + label for label in labels])
         except Exception as e:  # never lose a run to the embedding service; fall back to lexical merging
             self.stats.update(semantic_merges=0, embedding_error=f"{type(e).__name__}: {e}"[:300])
             log(f"embedding failed ({type(e).__name__}); continuing with lexical merging only")
@@ -254,6 +258,40 @@ class NormalizationAgent(Agent):
         self.stats["types_settled_by_model"] = settled
         self.stats["row_coverage"] = {k: dict(v) for k, v in self.row_stats.items()}
 
+    def _check_support(self, concepts: list[dict], relations: list[dict], causal: list[dict], measurements: list[dict]):
+        """Whether a quote states what was extracted from it (a quote found in the paper may still not support the
+        claim): quote_support yes, partial or no, for each joined relation and causal claim (its first usable quote)
+        and each reported value."""
+        label = {c["id"]: c["label"] for c in concepts}
+        self.concept_labels = label
+        rows, refs = [], {}
+
+        def add(rid, obj, claim, quote):
+            if len(str(quote or "").split()) >= 3:
+                rows.append({"id": rid, "claim": claim[:240], "quote": str(quote)[:300]})
+                refs[rid] = obj
+        usable = lambda r: next((e["text"] for e in r.get("evidence", [])
+                                 if e.get("text") and e.get("status") != "unevidenced"), "")
+        for i, r in enumerate(relations):
+            add(f"r{i}", r, f"{label.get(r['s'])} {r['p'].replace('_', ' ')} {label.get(r['o'])}", usable(r))
+        for i, r in enumerate(causal):
+            add(f"c{i}", r, f"{label.get(r['cause'])} {r['polarity']} {label.get(r['effect'])}", usable(r))
+        for i, m in enumerate(measurements):
+            claim = f"{label.get(m['concept'])} = {m.get('value', '')} {m.get('unit') or ''}".strip()
+            claim += f" for {label[m['entity']]}" if m.get("entity") in label else ""
+            add(f"m{i}", m, claim + (f" ({m['condition']})" if m.get("condition") else ""), m.get("evidence"))
+        if not rows:
+            return
+        log(f"quote support: {len(rows):,} claims and values ({-(-len(rows) // SUPPORT_BATCH)} call(s))")
+        for a in self.call_rows(rows, load_prompt("normalization_support"), "quote_support", "claims", "support",
+                                size=SUPPORT_BATCH, label="quote support"):
+            obj, verdict = refs.get(key(a.get("id"))), str(a.get("support") or "").strip().lower()
+            if obj is not None and verdict in SUPPORT:
+                obj["quote_support"] = verdict
+        self.stats["quote_support"] = dict(Counter(o.get("quote_support", "unanswered") for o in refs.values()))
+        self.stats["row_coverage"] = {k: dict(v) for k, v in self.row_stats.items()}
+        log(f"quote support: {self.stats['quote_support']}")
+
     def _summarize(self, concepts: list[dict], causal: list[dict], order: dict, n_papers: int) -> dict:
         label = {c["id"]: c["label"] for c in concepts}
         user = compact({
@@ -303,7 +341,7 @@ def _aggregate(papers, cmap, field, keys, ends) -> list[dict]:
                 e["conditions"].add(r["condition"])
             if r.get("evidence") and len(e["evidence"]) < 2:
                 e["evidence"].append({"paper": p["key"], "text": r["evidence"], "verified": r.get("verified"),
-                                      "status": r.get("evidence_status")})
+                                      "status": r.get("evidence_status"), "section_kind": r.get("section_kind")})
     out = []
     for e in agg.values():
         e["papers"], e["support"] = sorted(e["papers"]), len(e["papers"])

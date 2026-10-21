@@ -115,7 +115,7 @@ class IntegrationAgent(Agent):
         import numpy as np
         labels = sorted({c["label"] for cs in domains.values() for c in cs})
         try:
-            vectors, usage = llm.embed(labels)
+            vectors, usage = llm.embed([EMBED.get("similarity_prefix", "") + label for label in labels])
         except Exception as e:  # never lose the stage to the embedding service
             self.stats["embedding_error"] = 1
             self.embedding_error = f"{type(e).__name__}: {e}"[:300]

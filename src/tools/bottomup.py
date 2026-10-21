@@ -112,10 +112,14 @@ def build(domain: str, norm: dict, classes: list[dict], papers: list[dict]) -> t
         g.add((node, kw.support, Literal(r["support"], datatype=XSD.integer)))
         for e in r.get("evidence", [])[:2]:
             g.add((node, kw.evidence, Literal(e["text"])))
+            if e.get("section_kind"):
+                g.add((node, kw.sectionKind, Literal(e["section_kind"])))
         if any(e.get("verified") for e in r.get("evidence", [])):
             g.add((node, kw.evidenceVerified, Literal(True)))
         if not any(e.get("text") and e.get("status") != "unevidenced" for e in r.get("evidence", [])):
             g.add((node, kw.evidenceStatus, Literal("unevidenced")))
+        if r.get("quote_support"):
+            g.add((node, kw.quoteSupport, Literal(r["quote_support"])))
         for cond in r.get("conditions", []):
             g.add((node, kw.condition, Literal(cond)))
         for k in r["papers"]:
@@ -153,9 +157,10 @@ def build(domain: str, norm: dict, classes: list[dict], papers: list[dict]) -> t
         if m.get("property_missing"):
             g.add((node, kw.propertyMissing, Literal(True)))
         g.add((node, kw.value, Literal(m["value"])))
-        for k in ("unit", "condition", "evidence", "basis"):
+        for k, p in (("unit", kw.unit), ("condition", kw.condition), ("evidence", kw.evidence), ("basis", kw.basis),
+                     ("section_kind", kw.sectionKind), ("quote_support", kw.quoteSupport)):
             if m.get(k):
-                g.add((node, kw[k], Literal(m[k])))
+                g.add((node, p, Literal(m[k])))
         if m.get("paper") in source:
             g.add((node, DCTERMS.source, source[m["paper"]]))
 

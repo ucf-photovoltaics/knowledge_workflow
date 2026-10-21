@@ -6,11 +6,18 @@ dropped so nothing is read twice. Cell text is read by position (clip, sorted), 
 
 Author: Brent Thompson <brent.thompson@ucf.edu>
 """
+import hashlib
+import json
 import re
 import time
 from collections import Counter
 
 import pymupdf
+
+from src.config import CACHE
+from src.tools import files
+
+VERSION = "2026-10-20-tables"  # part of the parse cache key: bump when parsing changes
 
 SECTION_WORDS = (r"abstract|introduction|background|literature review|related work|theory|methods?|methodology|"
                  r"materials and methods|experimental(?: methods| details| section)?|experiments?|model|"
@@ -58,6 +65,19 @@ def _table_text(tid: str, caption: str, rows: list[list[str]]) -> str:
 
 
 def parse(pdf_path: str) -> dict:
+    """The parsed paper, cached by PDF content and parser version (parsing runs again at every corpus size)."""
+    with open(pdf_path, "rb") as f:
+        digest = hashlib.sha256(f.read()).hexdigest()[:24]
+    cache = CACHE / "parsed" / f"{digest}-{VERSION}.json"
+    if cache.exists():
+        return json.loads(cache.read_text(encoding="utf-8"))
+    result = _parse(pdf_path)
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    files.atomic_write(cache, json.dumps(result, ensure_ascii=False))
+    return result
+
+
+def _parse(pdf_path: str) -> dict:
     t0 = time.perf_counter()
     doc = pymupdf.open(pdf_path)
     blocks, tables = [], []  # blocks: (page, text, table index or None)

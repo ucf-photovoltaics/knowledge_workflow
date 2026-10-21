@@ -42,5 +42,10 @@ def document(texts: list[str], ledger=None, agent: str = "enrichment") -> np.nda
     return embed([EMBED.get("document_prefix", "") + t for t in texts], ledger, agent)
 
 
+def similar(texts: list[str], ledger=None, agent: str = "enrichment") -> np.ndarray:
+    """Vectors for comparing concepts with each other (EMBED similarity prefix)."""
+    return embed([EMBED.get("similarity_prefix", "") + t for t in texts], ledger, agent)
+
+
 def similarity(a: str, b: str) -> float:
     return float(_vectors[a] @ _vectors[b])
