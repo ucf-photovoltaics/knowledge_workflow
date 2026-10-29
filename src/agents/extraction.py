@@ -17,7 +17,7 @@ import unicodedata
 from collections import Counter
 
 from src.agents.base import Agent, compact, items, key, load_prompt, targets
-from src.config import CACHE, EXTRACTION_PASSES, TEMPERATURE, tier
+from src.config import CACHE, EXTRACTION_PASSES, REUSE_EXTRACTION, TEMPERATURE, tier
 from src.tools import files, concept_quality
 from src.tools.llm import Usage
 from src.tools.pdf_parse import MENTION
@@ -82,7 +82,7 @@ class ExtractionAgent(Agent):
         chunks = self._chunks(paper)
         digest = hashlib.sha256((self.fingerprint + "".join(chunks)).encode()).hexdigest()[:16]
         cache = CACHE / "extraction" / f"{paper['key']}-{digest}.json"
-        if cache.exists():
+        if REUSE_EXTRACTION and cache.exists():
             self.ledger.log(self.name, paper["key"], self.model, Usage(), cache_hit=True)
             log("  reusing cached extraction (same text, prompt and model): 0 tokens")
             return {**concept_quality.quarantine(json.loads(cache.read_text(encoding="utf-8"))), "cache_hit": True}
@@ -115,7 +115,8 @@ class ExtractionAgent(Agent):
                             "evidence": dict(self.evidence - evidence_before), **result.pop("checks", {})}
         result["raw_calls"] = raw_calls  # exact model input/output per section, reusable as training data
         result["compute"] = {"model": self.model, **{k: round(v, 3) for k, v in spent.items()}}
-        files.atomic_write(cache, json.dumps(result))
+        if REUSE_EXTRACTION:
+            files.atomic_write(cache, json.dumps(result))
         return result
 
     def _multi_pass(self, chunk: str, known_text: str, known: list[dict], where: str, item: str,

@@ -6,6 +6,8 @@
   python scripts/compare_runs.py facets C S X    C: stage and domain in one call; S: the same run's interop redone
                                                  with separate calls; X: redone in one call again (the noise floor)
   python scripts/compare_runs.py coverage RUN... rows answered by the model on the first call, per pass
+  python scripts/compare_runs.py repeats SWEEP...  the same sweep repeated (scripts/slurm-repeat.sh): how much of
+                                                 each run's content the repeats share
 Answers are compared with concept ids replaced by labels and lists as sets.
 
 Author: Brent Thompson <brent.thompson@ucf.edu>
@@ -14,6 +16,7 @@ import json
 import re
 import sys
 from collections import defaultdict
+from itertools import combinations
 from pathlib import Path
 
 OUT = Path(__file__).resolve().parent.parent / "outputs"
@@ -100,8 +103,65 @@ def coverage(*runs: str):
             print(f"{run[:44]:44} {name:22} {s['rows']:6} {rate:>11} {s.get('missing', 0):8}")
 
 
+def _read(path: Path, default):
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else default
+
+
+def _jaccard(a: set, b: set) -> float:
+    return len(a & b) / len(a | b) if a | b else 1.0
+
+
+def _content(d: Path) -> dict:
+    """What one run produced, as label sets keyed so that two runs can be compared item by item."""
+    papers = {p.stem: {c["label"].strip().lower() for c in _read(p, {}).get("concepts", []) if c.get("label")}
+              for p in sorted((d / "papers").glob("*.json"))}
+    classes = _read(d / "ontology" / "enriched.json", None) or _read(d / "ontology" / "classes.json", [])
+    names = {c["id"]: c["label"].strip().lower() for c in classes if c.get("id") and c.get("label")}
+    live = {c["label"].strip().lower(): (names.get(c.get("parent"), c.get("parent")), c.get("category"))
+            for c in classes if not c.get("excluded") and c.get("label")}
+    maps = {(frozenset({(m["a_domain"], m["a_label"].lower()), (m["b_domain"], m["b_label"].lower())}), m["relation"])
+            for m in _read(d / "mappings.json", [])}
+    return {"papers": papers, "concepts": set(labels(d.name).values()), "classes": live, "mappings": maps}
+
+
+def repeats(*sweeps: str):
+    sweeps = [s.removeprefix("sweep-") for s in sweeps]
+    groups = defaultdict(dict)  # run name without its sweep id, e.g. tea-n5 -> {sweep: content}
+    for s in sweeps:
+        for d in sorted(OUT.glob(f"*-{s}")):
+            if (d / "run.json").exists() or (d / "integration.json").exists():
+                groups[d.name[: -len(s) - 1]][s] = _content(d)
+    if not groups:
+        raise SystemExit(f"no runs of {', '.join(sweeps)} in {OUT}")
+    mean = lambda xs: f"{sum(xs) / len(xs):6.1%}" if xs else "     -"
+    low = lambda xs: f"{min(xs):6.1%}" if xs else "     -"
+    print("Mean (and lowest) over each pair of repeats. Same papers: every repeat used the same paper keys.\n")
+    print(f"{'run':28} {'n':>2} {'same papers':>11} {'paper concepts':>16} {'corpus concepts':>16} {'classes':>16} "
+          f"{'same parent':>16} {'same category':>16} {'mappings':>16}")
+    for name, runs in sorted(groups.items()):
+        pairs = list(combinations(runs.values(), 2))
+        same_papers = all(set(a["papers"]) == set(b["papers"]) for a, b in pairs)
+        per_paper = [sum(_jaccard(a["papers"][k], b["papers"][k]) for k in a["papers"].keys() & b["papers"].keys())
+                     / max(1, len(a["papers"].keys() & b["papers"].keys())) for a, b in pairs]
+        shared = [(a["classes"], b["classes"], a["classes"].keys() & b["classes"].keys()) for a, b in pairs]
+        col = lambda xs: f"{mean(xs)} ({low(xs).strip()})"
+        cell = lambda key: col([_jaccard(set(a[key]), set(b[key])) for a, b in pairs])
+        agree = lambda i: col([sum(x[k][i] == y[k][i] for k in ks) / len(ks) for x, y, ks in shared if ks])
+        if name.startswith("integration"):
+            cells = ["-"] * 6 + [cell("mappings")]
+        else:
+            cells = ["yes" if same_papers else "NO", col(per_paper), cell("concepts"), cell("classes"), agree(0), agree(1), "-"]
+        print(f"{name[:28]:28} {len(runs):2} " + " ".join(f"{c:>{w}}" for c, w in zip(cells, (11, 16, 16, 16, 16, 16, 16))))
+    print("\nLabels are compared lowercased; parents and categories only for classes both repeats kept. Concepts and classes:"
+          "\nshare of the labels in either run found in both (Jaccard). Mappings: the same two classes with the same relation.")
+    print(f"\n{'run':28} " + " ".join(f"{s[-16:]:>17}" for s in sweeps) + "   (classes, or mappings for integrations)")
+    for name, runs in sorted(groups.items()):
+        key = "mappings" if name.startswith("integration") else "classes"
+        print(f"{name[:28]:28} " + " ".join(f"{len(runs[s][key]) if s in runs else '-':>17}" for s in sweeps))
+
+
 if __name__ == "__main__":
-    commands = {"reuse": (reuse, 4), "facets": (facets, 3), "coverage": (coverage, None)}
+    commands = {"reuse": (reuse, 4), "facets": (facets, 3), "coverage": (coverage, None), "repeats": (repeats, None)}
     if len(sys.argv) < 3 or sys.argv[1] not in commands:
         raise SystemExit(__doc__)
     fn, n = commands[sys.argv[1]]

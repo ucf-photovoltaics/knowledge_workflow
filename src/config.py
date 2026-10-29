@@ -110,8 +110,10 @@ MAX_OUTPUT_TOKENS = 16000
 MAX_RETRIES = 6             # retries with exponential backoff on 429 / 5xx (e.g. "model overloaded")
 # Reuse model answers from earlier runs: identical whole requests (outputs/cache/calls) and identical rows across
 # runs, e.g. tea-n5 answers inside tea-n10 (outputs/cache/rows.sqlite3, src/agents/base.py RowCache).
-# KW_FRESH=1 asks the model again for everything (benchmarks and the reuse check).
-REUSE_ANSWERS = os.getenv("KW_FRESH", "") != "1"
+# KW_FRESH=1 asks the model again for everything (benchmarks and the reuse check);
+# KW_FRESH=all also re-extracts every paper without reading or writing the extraction cache (scripts/slurm-repeat.sh).
+REUSE_ANSWERS = os.getenv("KW_FRESH", "") not in ("1", "all")
+REUSE_EXTRACTION = os.getenv("KW_FRESH", "") != "all"
 # KW_SCRATCH=1: a benchmark or check run - kept out of eval_runs.csv, the sweep figures and integration's run choice.
 SCRATCH_RUN = os.getenv("KW_SCRATCH", "") == "1"
 
