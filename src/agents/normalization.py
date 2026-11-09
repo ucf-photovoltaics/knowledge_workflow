@@ -15,7 +15,7 @@ from src.tools.progress import log
 
 WEIGHTS = {"papers": 0.35, "mentions": 0.25, "centrality": 0.20, "causal": 0.10, "figures": 0.10}
 TIERS = ((0.10, "core"), (0.30, "major"), (1.00, "minor"))  # cumulative share of ranked concepts
-SIM_THRESHOLD = 0.85
+SIM_THRESHOLD = EMBED["synonym_threshold"]
 MAX_CLUSTER = 12
 TERMS_PER_CALL = 150
 
@@ -116,7 +116,7 @@ class NormalizationAgent(Agent):
         import numpy as np
         labels = [Counter(c["label"] for _, c in g["members"]).most_common(1)[0][0] for g in groups]
         try:
-            vectors, usage = llm.embed(labels)
+            vectors, usage = llm.embed([EMBED["similarity_prefix"] + label for label in labels])
         except Exception as e:  # never lose a run to the embedding service; fall back to lexical merging
             self.stats.update(semantic_merges=0, embedding_error=f"{type(e).__name__}: {e}"[:300])
             log(f"embedding failed ({type(e).__name__}); continuing with lexical merging only")
