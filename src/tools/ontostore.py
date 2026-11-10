@@ -8,7 +8,7 @@
 
 Oxigraph has no full-text or vector search (https://github.com/oxigraph/oxigraph/issues/48), hence the two sidecars.
 
-  python -m src.run ontologies build | status | search <text>
+  python -m src.run ontologies build | reembed <store> | status | search <text>
 
 Author: Brent Thompson <brent.thompson@ucf.edu>
 """
@@ -156,6 +156,39 @@ def build():
                 "terms": len(terms), "by_ontology": _count(terms, "ontology"), "by_kind": _count(terms, "kind"),
                 "embed_model": model, "embed_recipe": RECIPE}
     (staging / MANIFEST.name).write_text(json.dumps(manifest, indent=1), encoding="utf-8")
+    _swap(staging)
+    log(f"ontology store built: {len(terms):,} terms {manifest['by_ontology']}; "
+        f"embeddings {'by ' + model if model else 'off'}")
+    return manifest
+
+
+def reembed(source):
+    """A store with the same terms as the store in folder source (same ontology files, no download), embedded with
+    the current EMBED model: an embedding-model comparison then differs in the vectors only."""
+    staging = ONTOLOGY_STORE.with_name(ONTOLOGY_STORE.name + ".building")
+    if staging.exists():
+        shutil.rmtree(staging)
+    staging.mkdir(parents=True)
+    shutil.copy(source / DB.name, staging / DB.name)
+    con = sqlite3.connect(staging / DB.name)
+    rows = {iri: {"label": label, "definition": definition or "", "labels": json.loads(data)["labels"]}
+            for iri, label, definition, data in con.execute("SELECT iri, label, definition, data FROM terms")}
+    con.close()
+    order = json.loads((source / "vectors.json").read_text(encoding="utf-8"))["ids"]
+    model = _write_vectors({i: rows[i] for i in order}, staging)
+    if not model:
+        raise RuntimeError(f"embedding with {EMBED['model']} failed")
+    manifest = json.loads((source / MANIFEST.name).read_text(encoding="utf-8"))
+    manifest.update(built=datetime.now(timezone.utc).isoformat(timespec="seconds"), embed_model=model,
+                    embed_recipe=RECIPE, terms_from=str(source))
+    (staging / MANIFEST.name).write_text(json.dumps(manifest, indent=1), encoding="utf-8")
+    _swap(staging)
+    log(f"ontology store re-embedded from {source}: {len(order):,} terms by {model}")
+    return manifest
+
+
+def _swap(staging):
+    """Swap a finished store in, so readers never see a half-built or missing store."""
     old = ONTOLOGY_STORE.with_name(ONTOLOGY_STORE.name + ".old")
     if old.exists():
         shutil.rmtree(old)
@@ -164,9 +197,6 @@ def build():
     staging.rename(ONTOLOGY_STORE)
     shutil.rmtree(old, ignore_errors=True)
     _reset()
-    log(f"ontology store built: {len(terms):,} terms {manifest['by_ontology']}; "
-        f"embeddings {'by ' + model if model else 'off'}")
-    return manifest
 
 
 def _count(terms: dict, field: str) -> dict:

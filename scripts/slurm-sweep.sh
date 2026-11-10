@@ -209,29 +209,24 @@ healthy() { curl -sf "http://localhost:$VLLM_PORT/health" >/dev/null && curl -sf
 PY=(uv run --with-requirements requirements.txt python)
 # Private copy of the ontology store on node-local disk: a rebuild or re-copy of the shared store while this job
 # runs (ontologies build, scp) can no longer delete or corrupt the files under it. Oxigraph is only used to build.
-STORE=$("${PY[@]}" -c "from src.config import ONTOLOGY_STORE; print(ONTOLOGY_STORE)") || exit 2  # one per embedding model
+STORE=$ROOT/outputs/cache/ontology_store
 STORE_COPY=${TMPDIR:-/tmp}/kw-store-${SLURM_JOB_ID:-$$}
-mkdir -p "$STORE_COPY/ontology_store"
+mkdir -p "$STORE_COPY"
 # Same for the SQLite answer and embedding caches: SQLite locking does not work across Lustre nodes, so jobs writing
 # the shared files at once corrupted them. Each job works on local copies and merges its new entries back at the end.
 "${PY[@]}" scripts/cache_sync.py pull "$ROOT/outputs/cache" "$STORE_COPY" || { echo "cache copy failed"; exit 2; }
 export KW_ROWS_DB=$STORE_COPY/rows.sqlite3 KW_EMBED_DB=$STORE_COPY/embeddings.sqlite3
-if [ ! -e "$STORE/terms.sqlite" ]; then  # first job with this embedding model builds its store; others wait for it
-    echo "no ontology store for $KW_EMBED_MODEL at $STORE: building it (log: $LOG/ontologies-build.log)"
-    flock "$STORE.lock" bash -c '[ -e "$1/terms.sqlite" ] || "${@:2}" -m src.run ontologies build' _ "$STORE" "${PY[@]}" \
-        >"$LOG/ontologies-build.log" 2>&1 || { echo "ontology store build failed; see $LOG/ontologies-build.log"; exit 2; }
-fi
-# An embedding-model comparison is only clean if both stores hold the same ontology files.
-[ "$STORE" = "$ROOT/outputs/cache/ontology_store" ] || "${PY[@]}" -c '
-import json, sys
-a, b = (json.load(open(f"{d}/manifest.json"))["sources"] for d in sys.argv[1:])
-diff = sorted(n for n in a.keys() | b.keys() if a.get(n, {}).get("sha256") != b.get(n, {}).get("sha256"))
-print(f"WARNING: ontology files differ from the nomic store: {diff}" if diff else "ontology files match the nomic store")
-' "$ROOT/outputs/cache/ontology_store" "$STORE" || true
-for f in terms.sqlite vectors.npy vectors.json manifest.json; do
-    [ ! -e "$STORE/$f" ] || cp "$STORE/$f" "$STORE_COPY/ontology_store/" || { echo "ontology store copy failed ($f)"; exit 2; }
-done
 export KW_ONTOLOGY_STORE=$STORE_COPY/ontology_store
+if [ "$KW_EMBED_MODEL" = nomic-embed-text ]; then
+    mkdir -p "$KW_ONTOLOGY_STORE"
+    for f in terms.sqlite vectors.npy vectors.json manifest.json; do
+        [ ! -e "$STORE/$f" ] || cp "$STORE/$f" "$KW_ONTOLOGY_STORE/" || { echo "ontology store copy failed ($f)"; exit 2; }
+    done
+else  # same terms as the nomic store (same ontology files), embedded with this model; cached embeddings are reused
+    echo "ontology store: the terms of $STORE embedded with $KW_EMBED_MODEL (log: $LOG/ontologies-build.log)"
+    "${PY[@]}" -m src.run ontologies reembed "$STORE" >"$LOG/ontologies-build.log" 2>&1 \
+        || { echo "ontology store embedding failed; see $LOG/ontologies-build.log"; exit 2; }
+fi
 
 # Smoke test through the pipeline's own client: JSON mode, reasoning off, embeddings.
 "${PY[@]}" - <<'EOF' || { echo "smoke test failed"; exit 2; }

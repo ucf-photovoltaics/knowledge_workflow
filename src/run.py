@@ -574,10 +574,13 @@ def portal(args):
 
 def ontologies(args):
     """build: download missing ontology files, load them into Oxigraph, index labels, embed every term.
-    status: is the store current (files, embedding model, newer MDS-Onto submission). search TEXT: try a query."""
+    status: is the store current (files, embedding model, newer MDS-Onto submission). search TEXT: try a query.
+    reembed STORE: the terms of the store in folder STORE, embedded with the current EMBED model (KW_EMBED_MODEL)."""
     action = args.action or "status"
     if action == "build":
         ontostore.build()
+    elif action == "reembed":
+        ontostore.reembed(Path(" ".join(args.query)).resolve())
     elif action == "status":
         print(json.dumps(ontostore.status(), indent=1))
     elif action == "search":
@@ -587,7 +590,7 @@ def ontologies(args):
             print(f"{c['score']:.2f}  {c['ontology']:<10} {c['kind']:<19} {c['label'][:50]:<50} {c['iri']}"
                   f"  [{', '.join(c['methods']) or 'fused'}]")
     else:
-        raise SystemExit("ontologies: build, status or search TEXT")
+        raise SystemExit("ontologies: build, reembed STORE, status or search TEXT")
 
 
 def integrate(args):
