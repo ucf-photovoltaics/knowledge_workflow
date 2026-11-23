@@ -18,6 +18,7 @@ def inventory_ui():
         ui.input_select("stage", "Stage", choices={"all": "All stages", **{s: presentation.STAGES[s] for s in
                         ("ingest", "parse", "extract", "normalize", "ontology", "enrich", "interop", "integrate", "reports", "review", "execution", "other")}}),
         ui.output_ui("overview"),
+        ui.output_ui("recommended"),
         ui.p("Select a row, then open its preview. The opened artifact stays selected when new files arrive. Missing/unavailable rows explain coverage gaps; no placeholder files are created.", class_="muted"),
         ui.div(ui.input_action_button("open_artifact", "Open selected artifact"), ui.download_button("download", "Download selected artifact"), class_="button-row"),
         ui.output_data_frame("inventory"), ui.output_ui("selected_info"),
@@ -28,6 +29,28 @@ def inventory_ui():
 def inventory_server(input, output, session, context):
     listing = reactive.Value([])
     chosen = reactive.Value(None)
+
+    @render.ui
+    def recommended():
+        rows = listing.get()
+        groups = (("Ontology", "Reuse the formal vocabulary and modeled constraints", (".ttl", ".jsonld")),
+                  ("Evidence", "Inspect original claims, quotes and normalization lineage", ("papers/", "normalized/")),
+                  ("Report", "Read findings, methods and figure explanations", ("report.html", "report.md")),
+                  ("Quality", "Inspect recorded checks and their input versions", ("quality/", "validation.json")))
+        cards = []
+        for title, description, patterns in groups:
+            matches = [r for r in rows if any(str(r["path"]).replace("\\", "/").endswith(p) or str(r["path"]).replace("\\", "/").startswith(p) for p in patterns)
+                       and r.get("availability") in ("present", "readable")]
+            cards.append(ui.div(ui.h4(title), ui.p(description), *(ui.tags.button(str(r["path"]), type="button", class_="btn btn-sm artifact-recommendation",
+                **{"data-path": r["path"]}) for r in matches[:3]), ui.p("No matching file recorded in this source.", class_="muted") if not matches else None, class_="download-card"))
+        return ui.div(*cards, class_="recommended-downloads")
+
+    @reactive.effect
+    @reactive.event(input.recommended)
+    def choose_recommended():
+        relative = input.recommended()
+        if folder() and any(r["path"] == relative for r in listing.get()):
+            chosen.set((str(folder()), relative))
 
     @reactive.effect
     def roots():
@@ -43,6 +66,8 @@ def inventory_server(input, output, session, context):
 
     @reactive.effect
     def poll():
+        if not context.active("inventory"):
+            return
         context.tick()
         root = folder()
         kind = "integration" if root and (root / "integration.json").is_file() else "run"

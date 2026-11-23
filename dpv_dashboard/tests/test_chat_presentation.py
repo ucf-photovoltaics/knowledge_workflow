@@ -7,6 +7,26 @@ import pandas as pd
 from dpv_dashboard import chat_settings, model, presentation
 
 
+def test_session_gemini_is_available_without_saved_credentials(monkeypatch):
+    monkeypatch.setattr(chat_settings, "offline", lambda option: option.get("profile") in ("ollama", "vllm"))
+    # An opaque marker tests credential routing without creating or using an API key.
+    marker = object()
+    settings = {"GEMINI_API_KEY": marker}
+    options = chat_settings.choices(None, None, settings)
+    connection, name = chat_settings.connection(options["gemini"], settings)
+    assert connection["DPV_CHAT_API_KEY"] is marker
+    assert connection["DPV_CHAT_BASE_URL"] == "https://generativelanguage.googleapis.com/v1beta/openai/"
+    assert name == chat_settings.profiles({})["gemini"]["model"]
+    assert "gemini" not in chat_settings.choices(None, None, {})
+
+
+def test_computed_optional_setting_does_not_hide_later_profiles(tmp_path, monkeypatch):
+    (tmp_path / "src").mkdir()
+    (tmp_path / "src/config.py").write_text('PROFILES = {"first": {"model": "local", "request": unknown()}, "gemini": {"model": "cloud"}}')
+    monkeypatch.setattr(model, "ROOT", tmp_path)
+    assert chat_settings.profiles({})["gemini"]["model"] == "cloud"
+
+
 def test_profiles_are_read_without_import_or_environment_changes(monkeypatch):
     import os
     before = dict(os.environ)

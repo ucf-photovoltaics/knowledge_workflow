@@ -9,6 +9,8 @@ import time
 from pathlib import Path
 from dpv_dashboard import model
 
+_KINDS = {}  # folder -> run / integration / sweep; a saved output keeps its kind, so it is read once, not every poll
+
 
 def discover(root=None):
     """Runs in outputs/ plus any folders listed in DPV_OUTPUT_DIRS (e.g. a mounted Cloud Storage bucket). An entry
@@ -19,7 +21,14 @@ def discover(root=None):
         extra = [Path(m) for p in entries for m in (sorted(glob.glob(p)) if any(c in p for c in "*?[") else [p])]
         found = {}
         for folder in [model.ROOT / "outputs", *extra]:
-            found.update(discover(folder))
+            for identifier, record in discover(folder).items():
+                if identifier in found and found[identifier]["path"] != record["path"]:
+                    prior = found.pop(identifier)
+                    found[prior["path"]] = prior
+                    identifier = record["path"]
+                elif any(Path(value["path"]).name == identifier and value["path"] != record["path"] for value in found.values()):
+                    identifier = record["path"]
+                found[identifier] = record
         found = dict(sorted(found.items(), key=lambda pair: pair[1]["modified"], reverse=True))
         pinned = os.environ.get("DPV_DEFAULT_OUTPUT", "").strip()
         return {pinned: found[pinned], **found} if pinned in found else found
@@ -30,13 +39,40 @@ def discover(root=None):
     for folder in root.iterdir():
         if not folder.is_dir() or folder.name in ("cache", "dashboard") or not folder.resolve().is_relative_to(root):
             continue
-        kind = next((kind for name, kind in (("run.json", "run"), ("integration.json", "integration"))
-                     if model.read(folder / name)), None)
-        if not kind and folder.name.startswith("sweep-") and (folder / "summary.csv").is_file():
-            kind = "sweep"
+        kind = _KINDS.get(str(folder))
+        if kind is None:
+            kind = next((kind for name, kind in (("run.json", "run"), ("integration.json", "integration"))
+                         if model.read(folder / name)), None)
+            if not kind and folder.name.startswith("sweep-") and (folder / "summary.csv").is_file():
+                kind = "sweep"
         if kind:
+            _KINDS[str(folder)] = kind
             found[folder.name] = {"path": str(folder), "kind": kind, "modified": folder.stat().st_mtime}
     return dict(sorted(found.items(), key=lambda pair: pair[1]["modified"], reverse=True))
+
+
+def experiment(record):
+    """Use the actual enclosing experiment directory, never infer it from a run name."""
+    parent = Path(record["path"]).parent
+    return "experiments/" + parent.name if parent.parent.name == "experiments" else "outputs"
+
+
+def experiment_folders():
+    """List configured experiment folders, including those without completed runs."""
+    patterns = [str(model.ROOT / "outputs/experiments/*"),
+                *[value.strip() for value in os.environ.get("DPV_OUTPUT_DIRS", "").split(os.pathsep) if value.strip()]]
+    return tuple(sorted({Path(path) for pattern in patterns for path in glob.glob(pattern)
+                         if Path(path).is_dir() and Path(path).parent.name == "experiments"}))
+
+
+def experiments(records, folders=()):
+    scopes = {experiment(record) for record in records.values()} | {"experiments/" + folder.name for folder in folders}
+    ordered = sorted(scopes, key=lambda value: [int(part) if part.isdigit() else part for part in re.split(r"(\d+)", value)])
+    return {scope: scope.removeprefix("experiments/") if scope != "outputs" else "Other saved outputs" for scope in ordered}
+
+
+def in_experiment(records, scope):
+    return {key: record for key, record in records.items() if experiment(record) == scope}
 
 
 def files(folder, stage, kind="run"):

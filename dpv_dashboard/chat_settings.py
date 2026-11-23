@@ -16,16 +16,23 @@ PROVIDERS = {"ollama": "Local Ollama", "ollama-lora": "Local Ollama", "vllm": "v
 
 def profiles(settings):
     values = {}
+    constants = {}
     def resolve(node):
         if isinstance(node, ast.Constant):
             return node.value
+        if isinstance(node, ast.Name) and node.id in constants:
+            return constants[node.id]
         if isinstance(node, ast.Dict):
             result = {}
             for key, value in zip(node.keys, node.values):
                 if key is None:
                     result.update(resolve(value))
                 else:
-                    result[resolve(key)] = resolve(value)
+                    try:
+                        result[resolve(key)] = resolve(value)
+                    except ValueError:
+                        # Optional computed request settings must not hide later providers.
+                        continue
             return result
         if isinstance(node, ast.Subscript) and isinstance(node.value, ast.Name) and node.value.id == "PROFILES":
             return values.get(resolve(node.slice), {})
@@ -43,6 +50,11 @@ def profiles(settings):
                 values.update(resolve(statement.value))
             elif isinstance(target, ast.Subscript) and isinstance(target.value, ast.Name) and target.value.id == "PROFILES":
                 values[resolve(target.slice)] = resolve(statement.value)
+            elif isinstance(target, ast.Name):
+                try:
+                    constants[target.id] = resolve(statement.value)
+                except ValueError:
+                    continue
     except (OSError, SyntaxError, ValueError, TypeError):
         return values
     return values

@@ -125,6 +125,15 @@ def selected(renderer):
 
 def run_label(path):
     name = path.name
+    experiment = re.fullmatch(r"(integration|tea|reliability|si-topcon)-n(\d+)-(.+)-n\d+", name)
+    if experiment:
+        domain, count, detail = experiment.groups()
+        detail = detail.removeprefix("pv-cost-chain-")
+        for key, label in {"gemma4": "Gemma 4", "gptoss": "GPT-OSS", "ministral3": "Ministral 3", "mistral-small4": "Mistral Small 4"}.items():
+            detail = detail.replace(key, label)
+        detail = detail.replace("-thinkonto", " + ThinkOnto").replace("-", " ")
+        scope = "Integrated" if domain == "integration" else {"tea": "Techno-economic analysis", "si-topcon": "Silicon TOPCon", "reliability": "Reliability"}[domain]
+        return f"{scope} · {count} papers{' per domain' if domain == 'integration' else ''} · {detail}"
     match = re.fullmatch(r"(.+)-n(\d+)-(\d{4})(\d{2})(\d{2})-(\d{2})(\d{2})(\d{2})", name)
     if not match:
         return name.replace("_", " ")

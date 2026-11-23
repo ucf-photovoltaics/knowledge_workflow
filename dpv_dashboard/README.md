@@ -110,6 +110,32 @@ Progress and top-of-page paragraphs summarize saved outputs, dominant types/labe
 
 Research joins and file inspections are cached by path, size and modification time, in dashboard memory. They do not write to source run folders, call a model, backfill lineage, or update ontology stores. Verification can run as a separate instance using `python -m dpv_dashboard --port 8057`, leaving the normal 8056 server and its jobs alone.
 
+## WebVOWL graph loading
+
+Select an **Experiment** using its folder name under the bucket's `experiments/` directory,
+then select a **Run / integration** within that experiment. The latest integration card follows
+the selected experiment. Outputs outside that structure appear under **Other saved outputs**.
+The startup experiment follows the configured default run. Switching experiment clears the
+previous run's graph until a valid run in the new experiment is selected.
+Experiment folders without discoverable runs remain listed with an explicit empty run selector.
+
+WebVOWL starts with an overview of up to 160 nodes and 320 relationships. **Graph size** expands
+the view to 400 nodes or the complete graph; the latter can be slow in the browser. Search for a
+concept and focus it to explore its neighborhood. Double-click a displayed node to open its evidence.
+The coverage line distinguishes displayed counts from the complete projection. Graph preparation
+runs in the background and its projection is cached in server memory, keyed by source file stamps
+and graph options. Each Cloud Run instance prepares its own cache after startup; no source files
+or credentials are written by this cache.
+
+## Chat with your Gemini key
+
+In the read-only Cloud Run app, **Visual Exploration → Chat** accepts each user's own Gemini API key.
+Use **Get a Gemini API key in Google AI Studio** beside the field, or visit
+[Google AI Studio](https://aistudio.google.com/apikey). Entering a key selects Gemini and AI answers.
+The key stays in the Shiny session and is never written to disk. AI answers send the question and
+selected research evidence to Google using that user's key. Clearing the field removes it from
+subsequent requests; reconnecting starts a new session. Pipeline execution remains disabled.
+
 ## Focused paper and figure viewing
 
 Concept references carry their canonical identity and source paper into the viewer. The dashboard matches saved original terms, alternative labels and linked evidence quotes against PDF text. Hover thumbnails and the opened PDF use the same focus; the opened view starts at an evidence-match page when available. Blue rectangles mark text matches; a text match does not establish scientific support. Unmatched terms are explicitly reported, without invented coordinates.
@@ -188,6 +214,15 @@ Stage contracts remain in [pipeline stage documentation](../docs/stages/1-extrac
   separate environment. Use the explicit installation command above to update an existing environment,
   with no dashboard-owned job running. This does not upgrade the pipeline environment.
 
+## Password tiers and Cloud Run
+
+The application now requires `DPV_ACCESS_CONFIG`, pointing to a private JSON file
+(mount Secret Manager's `latest` version in Cloud Run). Team credentials reach
+Shiny; collaborators and paper readers use explicitly scoped read-only file views.
+See [access setup, rotation and publication deployment](../docs/dashboard-access.md).
+The separate publication image does not contain the working dashboard or outputs.
+Configure access before starting/redeploying; no default password is included.
+
 ## Verification command
 
 ```powershell
@@ -215,5 +250,25 @@ Long figure lists open a bounded caption-searchable gallery. Previews identify s
 Implementation: presentation.py (display/identity), record_view.py (shared inspector/review counts), media.py (scoped names and galleries), pages/research.py (selection/navigation), pages/stage.py (review and reports), app.py/www (view context), viewer.py (domain colors), and pages/home.py/pages/browse.py/pages/exploration.py (contextual presentation). Pipeline source and existing outputs are not rewritten.
 
 Each stage also offers an explicitly selected saved-run baseline for count and literal-label comparisons. It never treats a label match as semantic equivalence.
+
+## Persistent viewer bundles
+
+`DPV_VIEWER_CACHE` optionally points to a read-only viewer-cache directory. The dashboard loads prebuilt 160/400-node views, focused neighborhoods from saved projections, and searchable documents with evidence references. Missing, damaged, or outdated bundles fall back to background preparation. Source paths, sizes, modification times, and viewer code version identify each bundle; source research JSON also invalidates the search documents.
+
+Run `python scripts/build-viewer-cache.py` with a writable `DPV_VIEWER_CACHE`, `DPV_SHARE_ROOT` pointing to outputs, and `DPV_OUTPUT_DIRS` pointing to experiment folders. It covers individual and integrated Turtle files, with and without literature claims. Optional `--only RUN_FOLDER`, `--force`, and Cloud Run task sharding support initial preparation and changed-source refreshes. Source outputs remain read-only. Assets publish before their manifest; failed preparation never replaces a valid manifest. The builder exits nonzero if any ontology fails and logs per-file results and totals. Keep the bucket's `viewer-cache/` prefix separate from published research files and private access configuration.
+
+## Research workspace and beginner guidance
+
+Visual Exploration opens first and retains the Gemma startup scope. Single-click nodes populate the adjacent concept inspector; double-click retains full evidence tracing. Relationship inspection distinguishes source claims, ontology constraints and mappings. The inspector includes definitions, source-domain papers, original terminology and incoming/outgoing references; full-scope backlinks require explicitly loading research tools. Node positions and pins are retained for the source in browser-session storage.
+
+Ontology discovery and periodic graph polling use scoped file metadata rather than repeatedly probing file contents on the Cloud Storage mount. Bundle identities remain identical to the existing viewer cache; actual content failures still surface when a source is consumed. An unloaded full-scope inspector does not probe ontology files. Connection evidence is rendered on selection instead of pre-rendering every backlink's quotes and source records.
+
+Graph settings offer combined, findings, ontology and cross-domain presets, one/two-hop focus, relation/domain filters, pin/hide/undo, layout freeze/fit and display history. Up to 30 named views per scope are stored locally in the browser; source fingerprints prevent restoring an old view against changed inputs. Neither chat keys nor messages enter saved views.
+
+Full-scope research tools find a bounded path using explicitly selected relationship origins, arrow direction and one to six hops. The search stops after 50,000 visited nodes. Paths show their graph, evidence and any traversal against a recorded arrow; they do not establish causation. Saved-run comparisons are restricted to the selected experiment and match papers by DOI (otherwise exact key/title), comparing only labels with resolvable recorded lineage in shared papers. Lineage coverage is displayed; vocabulary agreement is not a semantic or quality ranking.
+
+JSON and CSV exports include the displayed subset, source stamps/fingerprints and recorded evidence; CSV neutralizes spreadsheet formulas. BibTeX preserves recorded citation metadata, without invented missing fields. SVG exports include a subset/provenance annotation. All exports remain behind the app access gate. Quality review stays last and separates saved assessment reports from malformed-record exclusions; missing assessments are explicitly not treated as passed.
+
+Home provides research entry routes. The nine production stages have Input → Process → Output explanations and inline interpretation guidance, and upstream stages offer contributing-domain selectors when an integration is selected globally. The complete inventory adds recommended ontology/evidence/report/quality downloads. `/research-guide.html` provides a short guide, worked route, glossary and methods; technical documentation remains separate. All additions are confined to the dashboard wrapper; pipeline outputs and source ontology files remain unchanged.
 
 The top progress steps open their corresponding stage details and support keyboard activation. Concept growth previews explain citation-order lines and the shaded 5th–95th percentile over random paper orders; embedded HTML reports receive the same dashboard-only explanation. Original report and figure downloads are preserved.

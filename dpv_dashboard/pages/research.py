@@ -62,6 +62,8 @@ def research_server(input, output, session, stage, context):
 
     @reactive.effect
     def poll():
+        if not context.active(stage):
+            return
         context.tick()
         value = research.index(context.folder(stage))
         with reactive.isolate():
@@ -198,7 +200,8 @@ def provenance_ui():
         ui.p("Trace a finding back to the literature. Choose a concept or paper, inspect its quotes and figures, and check whether its lineage was recorded or reconstructed.", class_="page-purpose"),
         ui.input_select("source", "Source run", choices={}),
         ui.input_checkbox("technical", "Show identifiers and technical columns", False),
-        ui.layout_columns(ui.input_selectize("concept", "Canonical concept (blank shows the whole paper)", choices={}),
+        ui.div(ui.span("Paper passage → extracted statement → shared concept → ontology result"), class_="process-strip"),
+        ui.layout_columns(ui.input_selectize("concept", "Concept / shared name (optional)", choices={}),
                           ui.input_selectize("paper", "Paper", choices={}), col_widths=(6, 6)),
         ui.output_ui("overview"),
         ui.navset_tab(
@@ -237,6 +240,8 @@ def provenance_server(input, output, session, context):
         with reactive.isolate():
             previous = input.source()
         desired = previous
+        if desired not in options or desired and not (Path(desired) / "run.json").is_file():
+            desired = next((key for key in options if (Path(key) / "run.json").is_file()), desired)
         if focus.get("request") != source_focus and focus.get("root") in options:
             desired = focus["root"]
             source_focus = focus.get("request")
@@ -244,6 +249,8 @@ def provenance_server(input, output, session, context):
 
     @reactive.effect
     def poll():
+        if not context.active("provenance"):
+            return
         context.tick()
         allowed = {str(root) for root in context.roots()}
         root = input.source()
@@ -296,7 +303,7 @@ def provenance_server(input, output, session, context):
         if paper:
             rows = [row for row in rows if row.get("paper") == paper]
         states = Counter(row["lineage_status"] for row in rows)
-        note = "; ".join(f"{status}: {count}" for status, count in states.items()) or "No source mapping available"
+        note = "; ".join(f"{presentation.friendly(status)}: {count}" for status, count in states.items()) or "No original-to-shared concept links recorded in this source. Choose a contributing domain or inspect a paper directly."
         return ui.div(ui.p(note, class_="summary-paragraph"),
                       media.reference(data, data.label(cid), canonical=cid) if cid else None,
                       ui.p("Quote verification indicates a text match in the parsed paper, not that the quote establishes the claim.", class_="muted"))

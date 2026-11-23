@@ -7,11 +7,13 @@ from __future__ import annotations
 import base64
 import json
 from pathlib import Path
+from types import SimpleNamespace
 import pandas as pd
 from shiny import module, reactive, render, ui
-from dpv_dashboard import model, external, research, media, catalog
+from dpv_dashboard import model, external, research, media, catalog, exploration
 from dpv_dashboard.auth import redact
 from dpv_dashboard import presentation, record_view
+from dpv_dashboard import guidance
 from dpv_dashboard.inspect import summary, table
 from dpv_dashboard.pages.research import research_ui, research_server
 
@@ -34,6 +36,7 @@ def stage_ui(stage, lead=None):
     return ui.nav_panel(f"{index + 1}. {model.TITLES[index]}",
         ui.div(ui.p(f"STAGE {index + 1:02d}", class_="eyebrow"), ui.h2(model.TITLES[index]),
                ui.p(PURPOSES[stage], class_="page-purpose"),
+               guidance.stage(stage), ui.output_ui("domain_scope"),
                ui.output_ui("overview"), class_="stage-heading"),
         lead if lead is not None else None,
         ui.output_ui("status"),
@@ -59,11 +62,36 @@ def stage_ui(stage, lead=None):
 
 @module.server
 def stage_server(input, output, session, stage, context):
+    original_context = context
+    def sources():
+        root = original_context.folder(stage)
+        return [p for p in original_context.roots() if p != root and (p / "run.json").is_file()] if root and (root / "integration.json").is_file() and stage not in ("integrate", "reports") else []
+    def source_folder(current_stage):
+        choices = sources()
+        chosen = input.domain_source() if choices else ""
+        return next((p for p in choices if str(p) == chosen), choices[0] if choices else original_context.folder(current_stage))
+    def source_files(root, current_stage):
+        if sources():
+            return external.files(root, current_stage, "run")
+        return original_context.files(root, current_stage)
+    context = SimpleNamespace(**{**vars(original_context), "folder": source_folder, "files": source_files})
+
+    @render.ui
+    def domain_scope():
+        choices = sources()
+        if not choices:
+            return None
+        return ui.div(ui.p("This stage belongs to the contributing domains. The integrated run stays selected above."),
+            ui.input_select("domain_source", "Inspect contributing domain", choices={str(p): presentation.run_label(p) for p in choices},
+                            selected=str(choices[0])), class_="scope-note")
+
     research_server("research", stage, context)
     baseline_choices = reactive.Value({})
 
     @reactive.effect
     def baselines():
+        if not context.active(stage):
+            return
         import re
         context.tick()
         root = context.folder(stage)
@@ -89,6 +117,8 @@ def stage_server(input, output, session, stage, context):
 
     @reactive.effect
     def poll_artifacts():
+        if not context.active(stage):
+            return
         context.tick()
         root = folder()
         value = [(str(p), p.stat().st_mtime_ns, p.stat().st_size) for p in context.files(root, stage)]
@@ -99,6 +129,8 @@ def stage_server(input, output, session, stage, context):
 
     @reactive.effect
     def choices():
+        if not context.active(stage):
+            return
         signature.get()
         root = folder()
         options = {str(p.relative_to(root)): str(p.relative_to(root)) for p in context.files(root, stage)} if root else {}
@@ -152,7 +184,7 @@ def stage_server(input, output, session, stage, context):
         root = folder()
         record = context.monitored()
         if record:
-            status = external.states(root, record["kind"])[stage]
+            status = external.states(root, "run" if (root / "run.json").is_file() else record["kind"])[stage]
             return ui.div(ui.span(status.title(), class_="status"), ui.span("Read-only · " + root.name, class_="muted"))
         state = model.read(root / "dashboard.json", {}) if root else {}
         status = state.get("stages", {}).get(stage, {}).get("status", "waiting")
@@ -270,8 +302,8 @@ def stage_server(input, output, session, stage, context):
                 else:
                     frame = table(value)
             elif path.suffix == ".ttl":
-                from rdflib import Graph, RDF, RDFS, OWL
-                graph = Graph().parse(path, format="turtle")
+                from rdflib import RDF, RDFS, OWL
+                graph = exploration.graph(str(path), catalog.fingerprint(path))
                 frame = media.rich_table(research.index(folder()), [{"label": str(graph.value(c, RDFS.label) or c), "iri": str(c)} for c in graph.subjects(RDF.type, OWL.Class)])
             else:
                 frame = pd.DataFrame()

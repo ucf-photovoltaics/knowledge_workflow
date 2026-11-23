@@ -28,8 +28,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-KEEP = {"experiments", "review", "embeddings", "misc"}                 # already in place in the bucket
-LOCAL_ONLY = {"cache", "dashboard", "hpc-sync", "bucket", "development", "tmp", "private"}
+KEEP = {"experiments", "review", "embeddings", "misc", "viewer-cache"}  # already in place in the bucket
+LOCAL_ONLY = {"cache", "dashboard", "hpc-sync", "bucket", "development", "tmp", "private", "viewer-cache"}
 STAMP = r"\d{8}-\d{6}"
 
 

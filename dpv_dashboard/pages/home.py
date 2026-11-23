@@ -6,13 +6,15 @@ from pathlib import Path
 from shiny import module, reactive, render, ui
 from dpv_dashboard.auth import ENV, credentials, save_env
 from dpv_dashboard import model
+from dpv_dashboard import guidance
 
 
 @module.ui
 def home_ui():
     return ui.nav_panel("Home", ui.div(
         ui.output_ui("workspace"),
-        ui.p("Start with the current workspace to explore saved findings. Use setup below when connecting research libraries or creating a new project.", class_="page-purpose"),
+        ui.p("Explore the selected literature, inspect the evidence behind a result, or check what still needs review.", class_="page-purpose"),
+        guidance.routes(),
         ui.div(ui.p("UCF DATA-ENABLED PHOTOVOLTAICS", class_="eyebrow"),
                ui.h1("From literature to\nconnected knowledge."),
                ui.p("Build evidence-backed domain ontologies from your Zotero libraries. Follow every stage, inspect every connection, and keep the research behind each result.", class_="hero-copy"),
@@ -48,17 +50,21 @@ def home_server(input, output, session, context):
 
     @render.ui
     def workspace():
-        from dpv_dashboard import presentation, research
+        if not context.active("home"):
+            return None
+        from dpv_dashboard import presentation, research, research_tools
         context.tick()
         record, project = context.monitored(), context.project()
         if not record and not project:
             return None
         root = Path(record["path"]) if record else context.folder("extract")
-        data = research.index(root)
+        sources = [research.index(p) for p in research.source_roots(root)] if root else []
+        papers = {research_tools.paper_identity(paper, key) for data in sources for key, paper in data.papers.items()}
+        concepts = sum(len(data.concepts) for data in sources)
         return ui.card(ui.card_header("Your current workspace"),
             ui.h4(presentation.run_label(root) if root else project["name"]),
-            ui.p(f"{len(data.papers):,} readable paper records · {len(data.concepts):,} canonical/class records"),
-            ui.p("Next: inspect evidence and review findings before accepting the results." if data.papers else "Next: configure the domain collections and paper selection."),
+            ui.p(f"{len(papers):,} distinct recorded papers · {concepts:,} concept/class records across contributing domains"),
+            ui.p("Next: inspect evidence and review findings before accepting the results." if papers else "No readable source papers are recorded in this selection. Choose a contributing domain or another saved run."),
             ui.input_action_button("open_results", "Inspect current results"))
 
     @reactive.effect

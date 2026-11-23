@@ -15,10 +15,16 @@ from dpv_dashboard import catalog, research, presentation, quality
 def graph(path, stamp):
     if not stamp or stamp[1] > 64 * 1024 * 1024:
         raise ValueError("Select a readable Turtle file smaller than 64 MB.")
-    return Graph().parse(Path(path), format="turtle")
+    from dpv_dashboard.visual_graph import parse
+    return parse(path)
 
 
-def documents(root, ontology=None, excluded=None):
+def documents(root, ontology=None, excluded=None, use_cache=True):
+    if use_cache:
+        from dpv_dashboard import viewer_cache
+        saved = viewer_cache.load_documents(root, ontology, excluded)
+        if saved is not None:
+            return saved
     rows = []
     blocked_iris = set()
     iri_sources = {}

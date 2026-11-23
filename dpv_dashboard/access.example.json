@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "session_key": "",
+  "credentials": {
+    "dpv-team": {
+      "role": "team",
+      "password_hash": "",
+      "version": "1",
+      "enabled": true
+    },
+    "collaborator-alice": {
+      "role": "collaborator",
+      "password_hash": "",
+      "version": "1",
+      "enabled": true,
+      "shares": ["collaboration"]
+    },
+    "paper-2026": {
+      "role": "paper",
+      "password_hash": "",
+      "version": "1",
+      "enabled": true,
+      "shares": ["publication"]
+    }
+  },
+  "shares": {
+    "collaboration": {
+      "title": "Collaboration research outputs",
+      "root": "collaboration-release",
+      "files": ["ontology.ttl", "ontology_report.md"]
+    },
+    "publication": {
+      "title": "Paper supplementary research outputs",
+      "root": "paper-release-v1",
+      "files": ["ontology.ttl", "results.csv"]
+    }
+  }
+}

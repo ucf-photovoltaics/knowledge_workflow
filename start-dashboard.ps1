@@ -11,6 +11,14 @@ Does not stop an existing dashboard or change the pipeline environment.
 param([ValidateRange(1, 65535)][int]$Port = 8056)
 $ErrorActionPreference = 'Stop'
 Set-Location $PSScriptRoot
+# Saved HPC results beside this checkout, with their prebuilt graph views (scripts/build-viewer-cache.py).
+# Settings already in the environment win.
+$hpc = Join-Path (Split-Path $PSScriptRoot -Parent) 'kw-hpc-outputs'
+if (Test-Path -LiteralPath $hpc) {
+    if (-not $env:DPV_OUTPUT_DIRS) { $env:DPV_OUTPUT_DIRS = Join-Path $hpc 'experiments\*' }
+    if (-not $env:DPV_SHARE_ROOT) { $env:DPV_SHARE_ROOT = $hpc }
+    if (-not $env:DPV_VIEWER_CACHE) { $env:DPV_VIEWER_CACHE = Join-Path $hpc 'viewer-cache' }
+}
 $dashboardPython = Join-Path $PSScriptRoot 'outputs\dashboard\.venv\Scripts\python.exe'
 if (-not (Test-Path -LiteralPath $dashboardPython)) {
     uv --cache-dir outputs/dashboard/uv-cache venv --python .venv/Scripts/python.exe outputs/dashboard/.venv

@@ -21,14 +21,19 @@ from dpv_dashboard.pages.exploration import exploration_ui, exploration_server
 
 WWW = model.ROOT / "dpv_dashboard" / "www"
 DOCUMENTATION = model.ROOT / "outputs/development/codebase-docs/webvowl"
+if (model.ROOT / "dashboard-documentation/library.html").is_file():
+    DOCUMENTATION = model.ROOT / "dashboard-documentation"
 
 app_ui = ui.page_fluid(
     ui.tags.link(rel="stylesheet", href=f"dashboard.css?v={(WWW / 'dashboard.css').stat().st_mtime_ns}"),
     ui.tags.script(src=f"dashboard.js?v={(WWW / 'dashboard.js').stat().st_mtime_ns}"),
+    ui.tags.script(src=f"research-workspace.js?v={(WWW / 'research-workspace.js').stat().st_mtime_ns}"),
     ui.tags.header(ui.div(ui.tags.img(src="ucf-knight.jpg", alt="UCF Knighthead", class_="brand-logo"),
                          ui.div(ui.span("UCF DPV", class_="brand-name"), ui.span("Knowledge Workflow", class_="brand-subtitle")), class_="brand"),
-                   ui.div(ui.tags.a("Documentation", href="documentation/library.html", class_="documentation-button"),
-                          ui.span("DATA-ENABLED PHOTOVOLTAICS", class_="header-caption"), ui.output_ui("authentication"), class_="header-right"), class_="app-header"),
+                   ui.div(ui.tags.a("Researcher's guide", href="research-guide.html", class_="documentation-button"),
+                          ui.tags.a("Technical docs", href="documentation/library.html", class_="documentation-button"),
+                          ui.span("DATA-ENABLED PHOTOVOLTAICS", class_="header-caption"), ui.output_ui("authentication"),
+                          ui.tags.a("Sign out", href="/access/logout", class_="documentation-button"), class_="header-right"), class_="app-header"),
     ui.div(ui.div(ui.input_select("project", "PROJECT", choices={"": "Create a project on Home"}),
                   ui.input_select("domain", "DOMAIN", choices={}),
                   ui.input_select("attempt", "ATTEMPT", choices={"latest": "Latest attempt"}), class_="workspace-selectors",
@@ -36,16 +41,16 @@ app_ui = ui.page_fluid(
            ui.div(ui.div(ui.input_action_button("automatic", "Run workflow", class_="btn-primary"),
                          ui.input_action_button("resume", "Resume"), ui.input_action_button("cancel", "Cancel"), class_="button-row workflow-actions",
                          **({"style": "display:none"} if model.viewer() else {})),
-                  ui.div(ui.input_select("existing", "EXISTING OUTPUTS · READ-ONLY MONITOR", choices={"": "Dashboard project"}), class_="output-selector"),
-                  ui.output_ui("latest_integration"), class_="output-toolbar"), class_="workspace-bar"),
-    ui.output_ui("pipeline_status"),
-    ui.output_ui("view_context"),
+                  ui.div(ui.input_select("experiment", "EXPERIMENT", choices={}),
+                         ui.input_select("existing", "RUN / INTEGRATION · READ-ONLY", choices={}), class_="output-selector"),
+                  ui.output_ui("latest_integration"), class_="output-toolbar" + (" viewer-toolbar" if model.viewer() else "")), class_="workspace-bar"),
     ui.tags.details(ui.tags.summary("Run details"), ui.output_ui("monitor_notice")),
-    ui.navset_pill_list(home_ui("home"), provenance_ui("provenance"), inventory_ui("inventory"),
+    ui.navset_pill_list(exploration_ui("exploration"), home_ui("home"), provenance_ui("provenance"), inventory_ui("inventory"),
         *(stage_ui(stage, stage, (ui.div(browse_ui("browse"), style="display:none") if model.viewer() else browse_ui("browse"))
                    if stage == "ingest" else None) for stage in model.STAGES),
-        exploration_ui("exploration"),
-        id="pages", selected="home", widths=(2, 10)),
+        id="pages", selected="explore" if model.viewer() else "home", widths=(2, 10)),
+    ui.output_ui("pipeline_status"),
+    ui.output_ui("view_context"),
     ui.accordion(ui.accordion_panel("Execution log & job status", ui.output_ui("job_status"), ui.output_code("logs")), open=False),
     ui.tags.footer("UCF Data-Enabled Photovoltaics · Evidence, provenance, and connected research", class_="app-footer"),
     title="UCF DPV Knowledge Workflow")
@@ -54,32 +59,65 @@ app_ui = ui.page_fluid(
 def server(input, output, session):
     revision = reactive.Value(0)
     external_choices = reactive.Value({})
-    discovery_started = False
+    experiment_folders = reactive.Value(())
+
+    @reactive.extended_task
+    async def discover_task():
+        return await asyncio.to_thread(lambda: (external.discover(), external.experiment_folders()))
+
+    @reactive.effect
+    def request_discovery():
+        reactive.invalidate_later(5)
+        with reactive.isolate():
+            running = discover_task.status() == "running"
+        if not running:
+            discover_task.invoke()
 
     @reactive.effect
     def discover_outputs():
-        nonlocal discovery_started
-        reactive.invalidate_later(5)
-        records = external.discover()
+        records, folders = discover_task.result()
         with reactive.isolate():
             previous = external_choices.get()
-            selected = input.existing()
-        if records != previous or not discovery_started:
+            prior_folders = experiment_folders.get()
+        if records != previous:
             external_choices.set(records)
-            choices = {} if model.viewer() else {"": "Dashboard project (enable execution controls)"}
-            choices.update({k: presentation.run_label(Path(v["path"])) for k, v in records.items()})
-            if not discovery_started:
-                selected = next(iter(records), "")
-            ui.update_select("existing", choices=choices, selected=selected if selected in choices else "")
-        discovery_started = True
+        if folders != prior_folders:
+            experiment_folders.set(folders)
+
+    @reactive.effect
+    def experiment_choices():
+        records = external_choices.get()
+        choices = {**({} if model.viewer() else {"": "Dashboard project"}), **external.experiments(records, experiment_folders.get())}
+        with reactive.isolate():
+            selected = input.experiment()
+            current = input.existing()
+        if selected not in choices:
+            preferred = records.get(current) or next(iter(records.values()), None)
+            selected = external.experiment(preferred) if preferred else next(iter(choices), "")
+        ui.update_select("experiment", choices=choices, selected=selected)
+
+    @reactive.calc
+    def selected_records():
+        return external.in_experiment(external_choices.get(), input.experiment())
+
+    @reactive.effect
+    def run_choices():
+        records = selected_records()
+        choices = {**({"": "Dashboard project"} if not model.viewer() and input.experiment() == "" else {}),
+                   **{key: presentation.run_label(Path(record["path"])) for key, record in records.items()}}
+        if not choices and input.experiment():
+            choices = {"": "No saved runs available in this experiment"}
+        with reactive.isolate():
+            selected = input.existing()
+        ui.update_select("existing", choices=choices, selected=selected if selected in choices else next(iter(choices), ""))
 
     def monitored():
-        return external_choices.get().get(input.existing())
+        return selected_records().get(input.existing())
 
     @render.ui
     def latest_integration():
         candidates = []
-        for identifier, record in external_choices.get().items():
+        for identifier, record in selected_records().items():
             if record["kind"] != "integration":
                 continue
             manifest = model.read(Path(record["path"]) / "integration.json", {})
@@ -145,6 +183,7 @@ def server(input, output, session):
             raise ValueError("A dashboard job is running. Wait or cancel before changing configuration.")
 
     def select_project(identifier):
+        ui.update_select("experiment", selected="", session=session)
         ui.update_select("existing", selected="", session=session)
         choices = {p["id"]: p["name"] for p in model.projects()}
         ui.update_select("project", choices=choices, selected=identifier, session=session)
@@ -271,7 +310,7 @@ def server(input, output, session):
         focused.set({"root": str(root), "canonical": canonical, "paper": paper, "tab": tab, "request": uuid4().hex})
         ui.update_navset("pages", selected="provenance", session=session)
 
-    context = SimpleNamespace(tick=tick, refresh=refresh, project=project, require_project=require_project,
+    context = SimpleNamespace(tick=tick, active=lambda page: input.pages() == page, refresh=refresh, project=project, require_project=require_project,
         select_project=select_project, navigate=lambda page: ui.update_navset("pages", selected=page, session=session),
         notice=notice, ensure_idle=ensure_idle, folder=folder, launch=launch, monitored=monitored, files=stage_files,
         roots=roots, superseded=superseded, focused=focused.get, inspect=inspect_source,
@@ -397,6 +436,10 @@ def server(input, output, session):
     def view_context():
         record = monitored()
         current = project()
+        if model.viewer() and not record:
+            title = external.experiments(external_choices.get(), experiment_folders.get()).get(input.experiment(), "Select an experiment")
+            return ui.div(ui.strong(title), ui.span("No saved run selected · execution disabled"),
+                          class_="view-context", **{"data-readonly": "true"})
         title = presentation.run_label(Path(record["path"])) if record else (current["name"] if current else "No project selected")
         return ui.div(ui.strong(title), ui.span("Viewing saved results · execution disabled" if record else "Project workspace"),
                       ui.p("Source-specific selectors on evidence and exploration pages identify the contributing domain being inspected."),
@@ -430,3 +473,7 @@ def server(input, output, session):
 
 app = App(app_ui, server, static_assets={"/": WWW, **({"/documentation": DOCUMENTATION} if DOCUMENTATION.is_dir() else {})})
 app.starlette_app.router.routes.insert(0, media.route)
+
+# Wrap the entire ASGI surface, including static files, downloads and WebSockets.
+from dpv_dashboard.access import protect
+app = protect(app)

@@ -88,15 +88,21 @@ Summary: dashboard support for Knowledge Workflow; retain the existing operation
       if (event.data.type === 'dpv-vowl-stats') {
         const payload = JSON.parse(box.querySelector('.vowl-data').textContent);
         if (payload._dpv.token !== event.data.token) return;
-        box.querySelector('.graph-rendered-status').textContent = `Graph supplied: ${payload.class.length} nodes / ${payload.property.length} relationships. WebVOWL currently renders ${event.data.nodes} nodes / ${event.data.edges} relationship labels. Its Filter controls can collapse or hide elements.`;
+        box.querySelector('.graph-rendered-status').textContent = `${event.data.nodes} concepts visible · ${Math.max(0,payload.class.length-event.data.nodes)} collapsed/hidden by viewer filters · ${payload.class.length} loaded. Use WebVOWL Filter to reveal hidden items.`;
         return;
       }
       if (event.data.type === 'dpv-vowl-select') {
         if (typeof event.data.edgeId === 'string' && window.Shiny) {
-          Shiny.setInputValue('exploration-edge', {id:event.data.edgeId, token:event.data.token}, {priority:'event'});
+          Shiny.setInputValue('exploration-edge', {id:event.data.edgeId, token:event.data.token, at:Date.now()}, {priority:'event'});
           return;
         }
         if (typeof event.data.iri === 'string' && window.Shiny) {
+          const payload = JSON.parse(box.querySelector('.vowl-data').textContent);
+          if (payload._dpv.token !== event.data.token) return;
+          if (frame.id === 'exploration-vowl') {
+            Shiny.setInputValue('exploration-node', {iri:event.data.iri, token:event.data.token}, {priority:'event'});
+            return;
+          }
           Shiny.setInputValue('provenance_graph', {iri: event.data.iri, frame: frame.id}, {priority: 'event'});
         }
         return;

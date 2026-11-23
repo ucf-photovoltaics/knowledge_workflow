@@ -6,6 +6,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt shiny pandas "uvicorn[standard]"
 COPY . .
+RUN mkdir -p dashboard-documentation && cp -a outputs/development/codebase-docs/webvowl/. dashboard-documentation/
 RUN find outputs -iname "*.pdf" -delete && rm -rf outputs/cache outputs/dashboard/private
-# No secrets in the image or service: users enter their own Gemini key under Visual Exploration -> Chat (held in memory for that session only).
+# DPV_ACCESS_CONFIG points to a private runtime-mounted JSON file; never bake credentials into the image.
+# DPV_VIEWER remains independent: team login does not enable execution in this read-only deployment.
 CMD exec uvicorn dpv_dashboard.app:app --host 0.0.0.0 --port ${PORT:-8080}

@@ -1,6 +1,7 @@
 # Files uploaded by `gcloud run deploy --source .` (everything else stays on this computer).
 /*
 !/Dockerfile
+!/Dockerfile.publication
 !/requirements.txt
 !/dpv_dashboard/
 !/src/

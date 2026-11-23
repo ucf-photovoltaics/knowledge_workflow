@@ -69,6 +69,7 @@ def convert(text, show_disjoint=False, show_hierarchy=True, show_mappings=True, 
             for target in graph.objects(prop, RDFS.range):
                 add(subject, prop, target, "Property domain/range", (prop, RDFS.domain, subject))
     visible = {mapped(c) for c in classes if c not in blocked and mapped(c) not in blocked and isinstance(c, URIRef)}
+    base_nodes = set(visible)
     for s, p, o, kind in edges:
         visible.update((s, o))
     ids = {c: str(i) for i, c in enumerate(sorted(visible, key=str), 1)}
@@ -85,6 +86,7 @@ def convert(text, show_disjoint=False, show_hierarchy=True, show_mappings=True, 
         "class": [{"id": ids[c], "type": "owl:Class"} for c in ids],
         "classAttribute": [node_attributes(c) for c in ids], "property": [], "propertyAttribute": [],
         "_dpv": {"token": uuid4().hex, "edges": {}, "withheld_nodes": len(blocked), "domain_colors": domain_colors,
+                 "base_nodes": [ids[c] for c in sorted(base_nodes, key=str)],
                  "settings": {"disjoint": show_disjoint, "hierarchy": show_hierarchy, "mappings": show_mappings, "literature": show_literature}}}
     for number, ((subject, prop, target, kind), detail) in enumerate(sorted(edges.items(), key=lambda item: tuple(str(v) for v in item[0]))):
         identifier = "p" + str(number)
@@ -99,7 +101,7 @@ def convert(text, show_disjoint=False, show_hierarchy=True, show_mappings=True, 
 def viewer(text, identifier, payload=None):
     payload = json.dumps(payload if payload is not None else convert(text)).replace("<", "\\u003c")
     return ui.div(
-        ui.p("Select a relationship to inspect its saved sources and evidence. Literature nodes align to ontology classes only through recorded links; source graphs remain unchanged."),
+        ui.p("Double-click a node to open its evidence trace. Click a relationship to inspect its saved sources and evidence. Literature nodes align to ontology classes only through recorded links; source graphs remain unchanged."),
         ui.p("Waiting for rendered graph counts…", class_="graph-rendered-status muted"),
         ui.tags.button("Full screen", type="button", class_="viewer-fullscreen btn btn-outline-secondary"),
         ui.tags.iframe(src="webvowl/index.html", id=identifier, title="WebVOWL ontology viewer", class_="ontology-frame"),
