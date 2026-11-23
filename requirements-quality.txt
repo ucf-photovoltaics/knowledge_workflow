@@ -1,0 +1,2 @@
+# Optional assessment tools; keep separate from active generation environments.
+OntoCheck==0.1.3

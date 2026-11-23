@@ -1,0 +1,6 @@
+WARN	annotation_whitespace
+ERROR	duplicate_label
+ERROR	label_whitespace
+WARN	missing_label
+ERROR	multiple_labels
+WARN	invalid_entity_uri

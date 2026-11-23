@@ -1,0 +1,10 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+SELECT DISTINCT ?entity ?property ?value WHERE {
+  ?entity a owl:Class .
+  FILTER(isIRI(?entity))
+  FILTER NOT EXISTS { ?entity skos:definition|obo:IAO_0000115 ?definition }
+  BIND(skos:definition AS ?property)
+  BIND("" AS ?value)
+}

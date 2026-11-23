@@ -46,7 +46,7 @@ from src import config
 from src.tools import concept_quality
 from src.config import CACHE, OUTPUTS, ROOT, model_for
 from src.tools import (bottomup, citations, files, integration, llm, matportal, mds_portal, ontostore, owl, pdf_parse,
-                       reports, zotero, ontology_review, workers)
+                       reports, zotero, ontology_review, ontology_quality, workers)
 from src.tools.ledger import Ledger
 from src.tools.progress import configure_logging, log, redact, set_stage
 
@@ -449,13 +449,25 @@ def interop(run: Run, args) -> dict:
     run.write("ontology/facets.json", out["facets"])
     run.write("ontology/validation.json", out["validation"])
     run.write("ontology/metrics.json", out["metrics"])
+    quality = _quality(run.dir / "ontology.ttl", run.dir / "quality", args)
     _uncertain(run, "interop", agent.doubts)
     run.record("interop", {}, 0)  # refresh compute totals before the report reads them
     reports.ontology_report(run.dir / "ontology_report.md", run.id, out["metrics"], out["validation"], classes,
                             run.manifest["compute"]["by_agent"], run.manifest)
     log(f"wrote ontology.jsonld, ontology.ttl and ontology_report.md ({out['metrics']['classes']} classes)")
     return {"classes": out["metrics"]["classes"], "mappings": len(out["mappings"]),
-            "valid": out["validation"]["valid"], "issues": out["validation"]["n_issues"], "checks": out["checks"]}
+            "valid": out["validation"]["valid"], "issues": out["validation"]["n_issues"], "checks": out["checks"],
+            "quality_status": quality["status"]}
+
+
+def _quality(source, output, args, imports=None):
+    result = ontology_quality.assess(source, output, imports=imports,
+        questions=getattr(args, "quality_questions", None),
+        domain_prefixes=getattr(args, "quality_domain_prefixes", ()),
+        timeout=getattr(args, "quality_timeout", 600), base_iri=owl.base(),
+        search_term=getattr(args, "quality_search_term", None))
+    log(f"ontology quality: {result['status']}; {output / 'summary.json'}")
+    return result
 
 
 def _require(ok, message: str):
@@ -627,6 +639,8 @@ def integrate(args):
         write("mappings.json", result["mappings"])
         write("bridge_concepts.json", result["clusters"])
         write("validation.json", validation)
+        quality = _quality(out / f"{name}.ttl", out / "quality", args,
+                           {graphs[s["domain"]]["iri"]: s["dir"] / "ontology.ttl" for s in selected})
         by_agent = agent.ledger.summary("agent")
         compute = {k: round(sum(s.get(k, 0) or 0 for s in by_agent.values()), 6)
                    for k in ("calls", "input_tokens", "cached_tokens", "output_tokens", "latency_s")}
@@ -644,6 +658,7 @@ def integrate(args):
             "ontology": {"name": name, "iri": f"{owl.base()}{name}",
                          "files": [f"{name}.ttl", f"{name}.jsonld", f"{name}_merged.ttl"]},
             "notes": notes, "stats": result["stats"], "validation": {k: validation[k] for k in ("valid", "n_issues")},
+            "quality": {"status": quality["status"], "summary": "quality/summary.json"},
             "compute": compute})
         reports.upsert_eval(outputs / "eval_integrations.csv", row)
     except BaseException as exc:
@@ -678,12 +693,22 @@ def main():
     ap.add_argument("--runs", nargs="*", help="integrate: one completed run id per domain (default: latest per collection)")
     ap.add_argument("--collections", nargs="*", help="integrate: collections to include (default: INTEGRATION in config)")
     ap.add_argument("--outputs", help="integrate: outputs folder holding the runs (default: this checkout's outputs)")
+    ap.add_argument("--quality-questions", type=Path, help="OntoCheck competency questions JSON or Markdown")
+    ap.add_argument("--quality-domain-prefixes", nargs="*", default=[], help="OntoCheck competency-question domain prefixes")
+    ap.add_argument("--quality-search-term", help="OntoCheck searchClass probe (default: first sorted local class label)")
+    ap.add_argument("--quality-timeout", type=int, default=600, help="maximum seconds per quality tool (default: 600)")
     ap.add_argument("--no-figures", action="store_true",
                     help="skip the figures and report written after a finished run or integration")
     ap.add_argument("--workers", type=int, default=2, help="independent paper/batch workers (default: 2; each overload halves the model request limit)")
     args = ap.parse_args()
     if args.workers < 1:
         ap.error("--workers must be positive")
+    if args.quality_timeout <= 0:
+        ap.error("--quality-timeout must be positive")
+    if args.quality_questions and not args.quality_questions.is_file():
+        ap.error("--quality-questions must name an existing file")
+    if args.quality_questions and not args.quality_domain_prefixes:
+        ap.error("--quality-domain-prefixes is required with --quality-questions")
     workers.configure(args.workers)
     utilities = {"check": check, "collections": collections, "portal": portal, "lora-data": lora_data, "lora-eval": lora_eval,
                  "integrate": integrate, "ontologies": ontologies}

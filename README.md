@@ -33,6 +33,11 @@ scientific correctness; uncertain/reconstructed links remain identified.
 
 ## Pipeline stages
 
+Domain exports and final integrations automatically run post-generation ontology
+assessment with ROBOT/HermiT and all OntoCheck metrics. See
+[ontology quality checks](docs/ontology-quality.md) for setup, saved reports and
+assessment of existing outputs. Missing tools are reported as incomplete checks.
+
 For agent-driven, stepwise operation, start with the [operational codebase ontology](docs/ontology/README.md)
 and [agent guide](docs/codebase/agent-guide.md). The [source inventory](docs/codebase/modules.md) links
 callables to source locations and hashes; [review findings](docs/codebase/review.md) record known limits.

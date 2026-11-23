@@ -28,6 +28,10 @@ One run per domain that completed `interop`. By default the newest such run per 
 
 ## Checks and limits
 
+- Post-generation assessment resolves selected domains locally and checks the
+  master plus their axioms using ROBOT/HermiT and all OntoCheck metrics. Reports:
+  `quality/summary.json` and `quality/report.md`. See [quality checks](../ontology-quality.md).
+
 - Validation: JSON-LD round trip, mapped classes declared in their domain ontology, no within-domain mappings, no equivalence cluster joining two classes of one domain, no subclass cycle once equivalent classes are identified.
 - Mapping correctness is not established by these checks; mappings are candidates for expert confirmation.
 - Integrating runs that were not produced together (an older run picked because the newest failed) mixes code versions; the report lists each input run and revision so this is visible.

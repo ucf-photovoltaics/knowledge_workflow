@@ -7,6 +7,7 @@ tzdata
 requests
 fastmcp
 rdflib
+OntoCheck==0.1.3
 numpy
 matplotlib
 pyoxigraph
