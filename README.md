@@ -5,8 +5,8 @@ Builds draft domain ontologies from curated photovoltaics literature and connect
 ## KWEAVE paper (Semantic Web Journal)
 
 KWEAVE is this pipeline plus embeddings, automation and visual exploration, as described in the SWJ paper. The paper's
-runs use the `pv-cost-chain` use case (TEA, reliability and Si-TOPCon, 50 papers each) and the seven-domain
-`pv-scale-7-now` run, both at workflow revision `2026-10-17-lineage-quality`. `scripts/use-cases.txt` defines the
+runs use the `pv-cost-chain` use case (TEA, reliability and Si-TOPCon, 50 papers each) at workflow revision
+`2026-10-17-lineage-quality`. `scripts/use-cases.txt` defines the
 use cases, and `USE_CASE=pv-cost-chain LIMITS=50 scripts/slurm-models.sh all` reruns the model comparison on a Slurm
 cluster. The paper's figures are in `paper/swj/`, and `scripts/review_sample.py` draws the expert review sample.
 
