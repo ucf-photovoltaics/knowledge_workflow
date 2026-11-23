@@ -16,3 +16,8 @@ outputs/*
 # Paper drafts live in Overleaf; only figures are tracked
 paper/swj/*
 !paper/swj/*.pdf
+
+# Slurm job logs and local notes
+*.out
+PLAN.md
+script.txt

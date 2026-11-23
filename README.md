@@ -154,7 +154,7 @@ uv run --with-requirements requirements.txt python -m src.figures `
     --out outputs/sweep-YOUR_SWEEP_ID/report
 ```
 
-`script.txt` and `scripts\auto-sweep.ps1` start Ollama with as many request slots as workers and restart
+`scripts\auto-sweep.ps1` starts Ollama with as many request slots as workers and restarts
 it with fewer slots when the pipeline halves its limit (which frees Ollama's reserved context memory).
 By hand: quit the tray application, then in a separate PowerShell window run
 `$env:OLLAMA_NUM_PARALLEL = "2"; ollama serve` with the slot count matching `-Workers`.
