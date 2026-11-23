@@ -260,6 +260,10 @@ def load_runs(outputs: Path, revision: str, profile: str | None, run_ids: list[s
     for r in rows:
         r["_dir"] = outputs / r["run_id"]
     rows = [r for r in rows if r["_dir"].exists()]
+    for r in rows:  # domains beyond the fixed ones take the next free palette slot and marker
+        if r.get("collection") and r["collection"] not in DOMAINS:
+            i = len(DOMAINS)
+            DOMAINS[r["collection"]] = (r["collection"].replace("-", " ").title(), SLOTS[i % len(SLOTS)], "vPXh<>p*"[i % 8])
     if run_ids is not None:
         missing = sorted(set(run_ids) - {r["run_id"] for r in rows})
         if missing:

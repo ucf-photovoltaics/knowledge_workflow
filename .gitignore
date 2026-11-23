@@ -3,6 +3,7 @@
 !.env.example
 .venv/
 .uv-cache/
+.uv-cache-quality/
 __pycache__/
 *.py[cod]
 outputs/*
@@ -11,3 +12,7 @@ outputs/*
 .codex/
 *.sqlite3
 *.sqlite3-*
+
+# Paper drafts live in Overleaf; only figures are tracked
+paper/swj/*
+!paper/swj/*.pdf
