@@ -2,6 +2,8 @@
 
     uv run --with-requirements requirements.txt --with openpyxl python scripts/review_sample.py sample --name models-n25 \
         --sweeps pv-cost-chain-llama31-8b pv-cost-chain-gptoss-120b [--runs RUN ...] [--per-run 20] [--seed 1]
+    uv run --with-requirements requirements.txt --with openpyxl python scripts/review_sample.py split --name models-n25 \
+        --reviewers Kris Max Kevin [--due "Dec 2"]
     uv run --with-requirements requirements.txt --with openpyxl python scripts/review_sample.py score --name models-n25
 
 sample writes outputs/review/<name>/:
@@ -9,6 +11,8 @@ sample writes outputs/review/<name>/:
   definitions.xlsx  reviewer 2: is the definition correct, and supported by the paper excerpts?
   relations.xlsx    reviewer 3: is the relation between two terms, or the mapping to an external ontology, correct?
   key.csv           item -> run, model, domain and origin. Keep it from the reviewers.
+split deals the three checks out evenly across the reviewers (balanced by domain) and writes one workbook per reviewer,
+reviewer-<name>.xlsx, with a Start here sheet and one sheet per check, plus assignments.csv (item -> reviewer).
 Items are drawn at random from each run's final ontology (the same number per run, reproducible from --seed) and
 shuffled across runs; workbooks show no run, model or IRI. score reads the returned workbooks and writes scores.csv:
 per check and model (and per origin), the share judged correct with a 95% Wilson interval.
@@ -23,7 +27,9 @@ from collections import defaultdict
 from pathlib import Path
 
 from openpyxl import Workbook, load_workbook
-from openpyxl.styles import Alignment, Font
+from openpyxl.formatting.rule import FormulaRule
+from openpyxl.styles import Alignment, Font, PatternFill
+from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -42,21 +48,21 @@ CHECKS = {
                   "Can't judge: outside your expertise. These items are left out of the scores."]},
     "definitions": {
         "question": "Is the Definition correct for the Term, and supported by the Paper excerpts?",
-        "answers": ["Correct and supported", "Correct, not in excerpts", "Partly correct", "Wrong", "Not a valid term",
+        "answers": ["Correct and supported", "Correct but not in excerpts", "Partly correct", "Wrong", "Not a valid term",
                     "Can't judge"],
-        "correct": {"Correct and supported"}, "acceptable": {"Correct and supported", "Correct, not in excerpts"},
+        "correct": {"Correct and supported"}, "acceptable": {"Correct and supported", "Correct but not in excerpts"},
         "notes": ["Correct and supported: accurate, and the excerpts say the same thing.",
-                  "Correct, not in excerpts: accurate, but the excerpts don't support it (added knowledge).",
+                  "Correct but not in excerpts: accurate, but the excerpts don't support it (added knowledge).",
                   "Partly correct: the main idea is right but some of it is wrong, too narrow or too broad.",
                   "Wrong: inaccurate, or it defines a different concept.",
                   "Not a valid term: not a meaningful concept in this domain.",
                   "Can't judge: outside your expertise. These items are left out of the scores."]},
     "relations": {
         "question": "Is the stated Relation between Term and Target correct? (Use the evidence quote where given.)",
-        "answers": ["Correct", "Right terms, wrong relation", "Wrong", "Can't judge"],
+        "answers": ["Correct", "Right terms but wrong relation", "Wrong", "Can't judge"],
         "correct": {"Correct"}, "acceptable": {"Correct"},
         "notes": ["Correct: the relation holds as stated, in that direction.",
-                  "Right terms, wrong relation: the two are related, but not as stated (e.g. exact vs broader, causes "
+                  "Right terms but wrong relation: the two are related, but not as stated (e.g. exact vs broader, causes "
                   "vs part of, wrong direction).",
                   "Wrong: the two are not related this way at all.",
                   "Can't judge: outside your expertise. These items are left out of the scores."]},
@@ -88,8 +94,18 @@ def load_runs(names):
         for p in (d / "papers").glob("*.json"):
             titles[p.stem] = json.loads(p.read_text(encoding="utf-8")).get("title", p.stem)
         cfg = manifest.get("config", {})
+        quotes = defaultdict(list)  # evidence each class takes part in: what enrichment drafted definitions from
+        for kind in ("relations", "causal"):
+            for r in json.loads((d / "normalized" / f"{kind}.json").read_text(encoding="utf-8")):
+                ends = (r.get("s"), r.get("o")) if "s" in r else (r.get("cause"), r.get("effect"))
+                for e in r.get("evidence", []):
+                    if e.get("text") and e.get("status") != "unevidenced":
+                        for cid in ends:
+                            if cid and len(quotes[cid]) < 3 and e["text"] not in [q["text"] for q in quotes[cid]]:
+                                quotes[cid].append({"paper": e.get("paper", ""), "text": e["text"]})
         runs.append({"id": name, "domain": manifest.get("collection", {}).get("name", ""), "cfg": cfg,
-                     "classes": [c for c in classes if not c.get("excluded")], "mappings": mappings, "titles": titles})
+                     "classes": [c for c in classes if not c.get("excluded")], "mappings": mappings, "titles": titles,
+                     "quotes": quotes})
     return runs
 
 
@@ -102,7 +118,8 @@ def sweep_runs(sweep):
 
 
 def describe(iri, by_iri):
-    """Label, definition and source of a parent or target: a class of this ontology or a store term."""
+    """Label, definition and source of a parent or target: a class of this ontology (by IRI or concept id) or a store
+    term."""
     if iri in by_iri:
         c = by_iri[iri]
         return c["label"], c.get("definition") or (c["definitions"][0]["text"] if c["definitions"] else ""), "this ontology"
@@ -120,7 +137,7 @@ def found_in(run, c):
 
 
 def placement(run, rng, n):
-    by_iri = {c["iri"]: c for c in run["classes"]}
+    by_iri = {**{c["id"]: c for c in run["classes"]}, **{c["iri"]: c for c in run["classes"]}}
     items = []
     for c in rng.sample(run["classes"], min(n, len(run["classes"]))):
         label, text, source = describe(c["parent"], by_iri)
@@ -137,7 +154,7 @@ def definitions(run, rng, n):
     items = []
     for c in rng.sample(pool, min(n, len(pool))):
         excerpts = "\n".join(f"[{short(run['titles'].get(d['paper'], d['paper']), 80)}] {short(d['text'], 300)}"
-                             for d in c["definitions"][:3]) or "(no excerpt)"
+                             for d in (c["definitions"] or run["quotes"].get(c["id"], []))[:3]) or "(no excerpt)"
         items.append(({"Term": c["label"], "Definition": short(c["definition"], 600), "Paper excerpts": excerpts,
                        "Found in": found_in(run, c)},
                       {"model": run["cfg"].get("model_enrichment", ""), "class_id": c["id"],
@@ -248,6 +265,127 @@ def sample(args):
     print(f"key: {out / 'key.csv'} (do not share with reviewers)")
 
 
+SHEETS = {"placement": "1 Placement", "definitions": "2 Definitions", "relations": "3 Relations"}
+TODO, DONE = PatternFill("solid", fgColor="FFF2CC"), PatternFill("solid", fgColor="D9EAD3")
+
+
+def write_reviewer_book(path, reviewer, due, items):
+    """One workbook per reviewer: a Start here sheet, then one sheet per check with the question above the table."""
+    wb = Workbook()
+    start = wb.active
+    start.title = "Start here"
+    for check, rows in items.items():
+        spec, cols = CHECKS[check], COLUMNS[check]
+        ws = wb.create_sheet(SHEETS[check])
+        ws.append([spec["question"]])
+        ws.cell(1, 1).font = Font(bold=True, size=12)
+        ws.append(cols)
+        for row in rows:
+            ws.append([row.get(c, "") for c in cols])
+        widths = {"Item": 7, "Kind": 10, "Answer": 26, "Parent from": 12, "Relation": 22, "Found in": 28,
+                  "Term": 24, "Parent": 24, "Target": 24, "Better parent": 22, "Notes": 30}
+        for i, c in enumerate(cols, 1):
+            letter = ws.cell(2, i).column_letter
+            ws.column_dimensions[letter].width = widths.get(c, 45)
+            ws.cell(2, i).font = Font(bold=True)
+        for line in ws.iter_rows(min_row=3):
+            for cell in line:
+                cell.alignment = Alignment(wrap_text=True, vertical="top")
+        ws.freeze_panes = "C3"
+        last = len(rows) + 2
+        answer = ws.cell(2, cols.index("Answer") + 1).column_letter
+        rng = f"{answer}3:{answer}{last}"
+        dv = DataValidation(type="list", formula1='"' + ",".join(spec["answers"]) + '"', allow_blank=True)
+        dv.add(rng)
+        ws.add_data_validation(dv)
+        ws.conditional_formatting.add(rng, FormulaRule(formula=[f'LEN({answer}3)=0'], fill=TODO))
+        ws.conditional_formatting.add(rng, FormulaRule(formula=[f'LEN({answer}3)>0'], fill=DONE))
+    start.column_dimensions["A"].width = 26
+    start.column_dimensions["B"].width = 12
+    start.column_dimensions["C"].width = 12
+    start.column_dimensions["D"].width = 90
+    start.append([f"Thank you, {reviewer}."])
+    start.cell(1, 1).font = Font(bold=True, size=14)
+    start.append([f"{sum(len(r) for r in items.values())} items in three short sheets. Please return this file"
+                  + (f" by {due}." if due else ".")])
+    start.append(["Pick one Answer per row from the drop-down; yellow cells still need an answer, green ones are done. "
+                  "Notes are optional. Choose Can't judge for anything outside your expertise."])
+    start.append([])
+    start.append(["Sheet", "Items", "Answered", "Question"])
+    for c in range(1, 5):
+        start.cell(5, c).font = Font(bold=True)
+    for check, rows in items.items():
+        cols = COLUMNS[check]
+        answer = get_column_letter(cols.index("Answer") + 1)
+        sheet = SHEETS[check]
+        start.append([sheet, len(rows), f"=COUNTA('{sheet}'!{answer}3:{answer}{len(rows) + 2})", CHECKS[check]["question"]])
+    start.append([])
+    for check in items:
+        start.append([f"{SHEETS[check]}: answers"])
+        start.cell(start.max_row, 1).font = Font(bold=True)
+        for note in CHECKS[check]["notes"]:
+            start.append(["", "", "", note])
+    start.append([])
+    start.append(["Judge each row on its own, with your domain knowledge and the text shown. Rows come from several "
+                  "domains in random order. Please leave the Item column unchanged."])
+    for line in start.iter_rows(min_row=6):
+        for cell in line:
+            cell.alignment = Alignment(wrap_text=True, vertical="top")
+    for r in (2, 3, start.max_row):  # sentences span the sheet instead of wrapping in column A
+        start.merge_cells(start_row=r, start_column=1, end_row=r, end_column=4)
+        start.cell(r, 1).alignment = Alignment(wrap_text=True, vertical="top")
+        start.row_dimensions[r].height = 32
+    wb.save(path)
+
+
+def split(args):
+    """Deal each check's items evenly across the reviewers, balanced by domain, into one workbook per reviewer."""
+    out = OUTPUTS / "review" / args.name
+    key = {(r["check"], r["item"]): r for r in csv.DictReader(open(out / "key.csv", encoding="utf-8"))}
+    books = [out / f"reviewer-{r.lower()}.xlsx" for r in args.reviewers]
+    if any(b.exists() for b in books) and not args.force:
+        sys.exit(f"{out} already has reviewer workbooks; use --force to replace them (reviewers may be working on them)")
+    items = {r: {} for r in args.reviewers}
+    assignments = []
+    turn = 0
+    for check in CHECKS:
+        ws = load_workbook(out / f"{check}.xlsx", read_only=True)["Review"]
+        rows = list(ws.iter_rows(values_only=True))
+        pool = [dict(zip(rows[0], values)) for values in rows[1:]]
+        pool.sort(key=lambda row: key[(check, row["Item"])]["domain"])  # deal domain by domain so each gets a mix
+        for r in args.reviewers:
+            items[r][check] = []
+        for row in pool:
+            reviewer = args.reviewers[turn % len(args.reviewers)]
+            turn += 1
+            items[reviewer][check].append(row)
+            assignments.append({"check": check, "item": row["Item"], "reviewer": reviewer})
+    for reviewer, book in zip(args.reviewers, books):
+        for check in items[reviewer]:
+            items[reviewer][check].sort(key=lambda row: row["Item"])  # Item numbers were assigned in shuffled order
+        write_reviewer_book(book, reviewer, args.due, items[reviewer])
+        print(f"{reviewer}: " + ", ".join(f"{len(v)} {k}" for k, v in items[reviewer].items()) + f" -> {book}")
+    with open(out / "assignments.csv", "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, ["check", "item", "reviewer"])
+        w.writeheader()
+        w.writerows(assignments)
+    print(f"assignments: {out / 'assignments.csv'}")
+
+
+def returned_rows(out, check):
+    """Answered rows for one check: from the reviewer workbooks if split was used, else from <check>.xlsx."""
+    books = sorted(out.glob("reviewer-*.xlsx"))
+    sheets = [(load_workbook(b, read_only=True), SHEETS[check]) for b in books] if books else \
+        [(load_workbook(out / f"{check}.xlsx", read_only=True), "Review")] if (out / f"{check}.xlsx").exists() else []
+    for wb, name in sheets:
+        rows = wb[name].iter_rows(values_only=True)
+        header = next(rows)
+        if header[0] != "Item":  # reviewer sheets carry the question above the header
+            header = next(rows)
+        for values in rows:
+            yield dict(zip(header, values))
+
+
 def wilson(k, n, z=1.96):
     if not n:
         return 0.0, 0.0
@@ -262,13 +400,7 @@ def score(args):
     groups = defaultdict(lambda: defaultdict(int))
     unanswered = defaultdict(int)
     for check, spec in CHECKS.items():
-        path = out / f"{check}.xlsx"
-        if not path.exists():
-            continue
-        ws = load_workbook(path, read_only=True)["Review"]
-        header = [c.value for c in next(ws.iter_rows(max_row=1))]
-        for values in ws.iter_rows(min_row=2, values_only=True):
-            row = dict(zip(header, values))
+        for row in returned_rows(out, check):
             k = key.get((check, row.get("Item")))
             answer = (row.get("Answer") or "").strip()
             if not k:
@@ -315,10 +447,15 @@ def main():
     s.add_argument("--per-run", type=int, default=20, help="items per run and check (default 20)")
     s.add_argument("--seed", default="1")
     s.add_argument("--force", action="store_true")
+    d = sub.add_parser("split")
+    d.add_argument("--name", required=True)
+    d.add_argument("--reviewers", nargs="+", required=True, help="names, one workbook each")
+    d.add_argument("--due", default="", help='return date shown to reviewers, e.g. "Dec 2"')
+    d.add_argument("--force", action="store_true")
     c = sub.add_parser("score")
     c.add_argument("--name", required=True)
     args = ap.parse_args()
-    sample(args) if args.cmd == "sample" else score(args)
+    {"sample": sample, "split": split, "score": score}[args.cmd](args)
 
 
 if __name__ == "__main__":
