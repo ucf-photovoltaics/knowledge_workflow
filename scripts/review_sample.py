@@ -68,8 +68,8 @@ CHECKS = {
                   "Can't judge: outside your expertise. These items are left out of the scores."]},
 }
 COLUMNS = {
-    "placement": ["Item", "Term", "Term definition", "Found in", "Parent", "Parent definition", "Parent from", "Answer",
-                  "Better parent", "Notes"],
+    "placement": ["Item", "Term", "Term definition", "Paper excerpts", "Found in", "Parent", "Parent definition",
+                  "Parent from", "Answer", "Better parent", "Notes"],
     "definitions": ["Item", "Term", "Definition", "Paper excerpts", "Found in", "Answer", "Notes"],
     "relations": ["Item", "Kind", "Term", "Term definition", "Found in", "Relation", "Target", "Target definition", "Evidence",
                   "Answer", "Notes"],
@@ -136,13 +136,19 @@ def found_in(run, c):
     return "\n".join(short(run["titles"].get(p, p), 120) for p in c.get("papers", [])[:2])
 
 
+def excerpts(run, c):
+    """Up to three quotes the term's definition or links come from, each prefixed with its paper title."""
+    return "\n".join(f"[{short(run['titles'].get(d['paper'], d['paper']), 80)}] {short(d['text'], 300)}"
+                     for d in (c["definitions"] or run["quotes"].get(c["id"], []))[:3]) or "(no excerpt)"
+
+
 def placement(run, rng, n):
     by_iri = {**{c["id"]: c for c in run["classes"]}, **{c["iri"]: c for c in run["classes"]}}
     items = []
     for c in rng.sample(run["classes"], min(n, len(run["classes"]))):
         label, text, source = describe(c["parent"], by_iri)
-        items.append(({"Term": c["label"], "Term definition": short(definition(c)), "Found in": found_in(run, c),
-                       "Parent": label,
+        items.append(({"Term": c["label"], "Term definition": short(definition(c)), "Paper excerpts": excerpts(run, c),
+                       "Found in": found_in(run, c), "Parent": label,
                        "Parent definition": short(text), "Parent from": source},
                       {"model": run["cfg"].get("model_ontology", ""), "class_id": c["id"],
                        "origin": c.get("parent_source", "")}))
@@ -153,9 +159,7 @@ def definitions(run, rng, n):
     pool = [c for c in run["classes"] if c.get("definition")]
     items = []
     for c in rng.sample(pool, min(n, len(pool))):
-        excerpts = "\n".join(f"[{short(run['titles'].get(d['paper'], d['paper']), 80)}] {short(d['text'], 300)}"
-                             for d in (c["definitions"] or run["quotes"].get(c["id"], []))[:3]) or "(no excerpt)"
-        items.append(({"Term": c["label"], "Definition": short(c["definition"], 600), "Paper excerpts": excerpts,
+        items.append(({"Term": c["label"], "Definition": short(c["definition"], 600), "Paper excerpts": excerpts(run, c),
                        "Found in": found_in(run, c)},
                       {"model": run["cfg"].get("model_enrichment", ""), "class_id": c["id"],
                        "origin": c.get("definition_status", "")}))
@@ -196,7 +200,7 @@ def relations(run, rng, n):
                        "Found in": found_in(run, c),
                        "Relation": MAPPING_WORDS.get(m.get("relation"), m.get("relation", "")),
                        "Target": f"{m.get('label', '')} ({m.get('ontology', '')})",
-                       "Target definition": short(m.get("definition", "")), "Evidence": ""},
+                       "Target definition": short(m.get("definition", "")), "Evidence": excerpts(run, c)},
                       {"model": run["cfg"].get("model_interoperability", ""), "class_id": c["id"],
                        "origin": f"mapping:{m.get('relation', '')}"}))
     return items

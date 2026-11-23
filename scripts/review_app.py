@@ -41,7 +41,7 @@ def load(book):
             row = {h: ws.cell(r, cols[h]).value for h in header}
             cards.append({"sheet": ws.title, "row": r, "cols": cols, "question": ws.cell(1, 1).value,
                           "answers": answers, "hints": hints.get(ws.title, {}),
-                          "fields": [(h, row[h]) for h in header if h not in HIDE and row[h]],
+                          "fields": {h: row[h] for h in header if h not in HIDE and row[h]},
                           "answer": row.get("Answer") or "", "notes": row.get("Notes") or "",
                           "better": row.get("Better parent") or "", "has_better": "Better parent" in cols})
     return cards
@@ -55,8 +55,18 @@ body { background: #f4f5f7; }
 .card { background: #fff; border-radius: 14px; padding: 22px 26px; box-shadow: 0 2px 10px rgba(0,0,0,.08); margin-top: 12px; }
 .check { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: #6b7280; }
 .question { font-size: 1.15rem; font-weight: 600; margin: 4px 0 16px; }
-.field { margin-bottom: 10px; } .field b { display: block; font-size: .78rem; color: #6b7280; }
-.field span { white-space: pre-wrap; }
+.concept { border-left: 4px solid #2563eb; padding: 4px 0 4px 14px; margin: 10px 0; }
+.concept.parent { border-color: #16a34a; }
+.role { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: #6b7280; }
+.name { font-size: 1.35rem; font-weight: 700; }
+.def { margin-top: 2px; } .def b { font-weight: 600; }
+.judged { background: #fff7e0; border-radius: 8px; padding: 8px 12px; margin-top: 6px; font-size: 1.05rem; }
+.link { font-weight: 700; font-size: 1.05rem; color: #374151; margin: 4px 0 4px 18px; }
+.note { font-size: .82rem; color: #6b7280; }
+.quotes h6 { margin: 16px 0 6px; color: #6b7280; font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; }
+blockquote { border-left: 3px solid #cbd5e1; margin: 0 0 8px; padding: 2px 0 2px 12px; }
+blockquote p { margin: 0; font-style: italic; } blockquote cite { font-size: .8rem; color: #6b7280; }
+.found { font-size: .82rem; color: #6b7280; margin-top: 10px; white-space: pre-wrap; }
 .answers { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 12px; }
 .answers button { border: 1px solid #cbd5e1; background: #fff; border-radius: 10px; padding: 10px 14px; cursor: pointer; }
 .answers button.on { background: #2563eb; color: #fff; border-color: #2563eb; }
@@ -82,6 +92,44 @@ document.addEventListener('touchend', e => {
   if (Math.abs(dx) > 70) send('nav', dx < 0 ? 1 : -1);
 });
 """
+
+def concept(role, name, definition, judged=False, note="", kind=""):
+    """A term in bold with its definition underneath; the definition being judged is highlighted."""
+    text = definition or "No definition given."
+    return ui.div(ui.div(role, class_="role"), ui.div(name, class_="name"),
+                  ui.div(text, class_="judged" if judged else "def"),
+                  ui.div(note, class_="note") if note else None, class_=f"concept {kind}")
+
+
+def quotes(text):
+    """'[Paper title] quote' lines as block quotes with the paper as the citation."""
+    out = []
+    for line in str(text or "").splitlines():
+        line = line.strip()
+        if not line or line.startswith("(no "):
+            continue
+        source, sep, body = line[1:].partition("] ") if line.startswith("[") else ("", "", line)
+        if not sep:
+            source, body = "", line
+        out.append(ui.tags.blockquote(ui.p(f"“{body}”"), ui.tags.cite(source) if source else None))
+    return ui.div(ui.tags.h6("From the papers"), *out, class_="quotes") if out else None
+
+
+def body(f):
+    """Term, definition and parent (or target) in bold, then the paper quotes and where the term was found."""
+    if "Parent" in f:
+        main = [concept("Term", f.get("Term"), f.get("Term definition")), ui.div("is a kind of ↓", class_="link"),
+                concept("Parent", f.get("Parent"), f.get("Parent definition"), kind="parent",
+                        note=f"from {f['Parent from']}" if f.get("Parent from") else "")]
+    elif "Relation" in f:
+        main = [concept("Term", f.get("Term"), f.get("Term definition")), ui.div(f"{f['Relation']} ↓", class_="link"),
+                concept("Outside term" if f.get("Kind") == "Mapping" else "Target", f.get("Target"),
+                        f.get("Target definition"), kind="parent")]
+    else:
+        main = [concept("Term", f.get("Term"), f.get("Definition"), judged=True)]
+    found = ui.div(f"Found in: {f['Found in']}", class_="found") if f.get("Found in") else None
+    return [*main, quotes(f.get("Paper excerpts") or f.get("Evidence")), found]
+
 
 app_ui = ui.page_fixed(
     ui.tags.style(CSS), ui.tags.script(JS),
@@ -168,7 +216,7 @@ def server(input, output, session):
         return ui.div(
             ui.div(f"{c['sheet']} · card {n + 1} of {len(CARDS)}", class_="check"),
             ui.div(c["question"], class_="question"),
-            *[ui.div(ui.tags.b(h), ui.tags.span(str(v)), class_="field") for h, v in c["fields"]],
+            *body(c["fields"]),
             ui.div(*buttons, class_="answers"),
             ui.div(c["hints"].get(c["answer"], "Hover an answer to see what it means."), class_="hint"),
             *extra,
