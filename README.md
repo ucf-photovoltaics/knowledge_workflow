@@ -222,3 +222,26 @@ What the pipeline checks, and what it does not establish:
 ## History
 
 This repository replaced the earlier `kw/` and Kweave implementations on 2026-10-03; their code remains in Git history (branch `legacy/pre-opus-20261003`).
+
+## Expert review
+
+Each reviewer has a workbook in `review/`. From a terminal with git and [uv](https://docs.astral.sh/uv/):
+
+```powershell
+git clone https://github.com/ucf-photovoltaics/knowledge_workflow
+cd knowledge_workflow
+uv run scripts/review_app.py review/reviewer-<name>.xlsx
+```
+
+The app shows one item per card and saves every answer into the workbook; rerun it to continue. To return it:
+
+```powershell
+git commit -am "<name> review"
+git push origin HEAD:review-<name>
+```
+
+## License
+
+Code: Apache-2.0 ([LICENSE](LICENSE)). Generated ontologies and run data: CC BY 4.0. Imported ontologies and bundled
+tools keep their own licences (BFO: CC BY 4.0; CCO: BSD-3-Clause; WebVOWL: MIT). Paper excerpts quoted in run
+outputs belong to their publishers and are not covered by these licences.
