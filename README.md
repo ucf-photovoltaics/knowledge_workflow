@@ -2,6 +2,14 @@
 
 Builds draft domain ontologies from curated photovoltaics literature and connects them. For each Zotero collection the pipeline extracts concepts and claims from every paper with verbatim evidence, joins them into a corpus vocabulary, places them under BFO/CCO, enriches and maps them, and exports an OWL ontology plus a literature layer that keeps every claim with its source. A final stage maps the domain ontologies of one run set to each other in a master ontology. The output is a starting point for domain-expert review, not a finished ontology.
 
+## KWEAVE paper (Semantic Web Journal)
+
+KWEAVE is this pipeline plus embeddings, automation and visual exploration, as described in the SWJ paper. The paper's
+runs use the `pv-cost-chain` use case (TEA, reliability and Si-TOPCon, 50 papers each) and the seven-domain
+`pv-scale-7-now` run, both at workflow revision `2026-10-17-lineage-quality`. `scripts/use-cases.txt` defines the
+use cases, and `USE_CASE=pv-cost-chain LIMITS=50 scripts/slurm-models.sh all` reruns the model comparison on a Slurm
+cluster. The paper's figures are in `paper/swj/`, and `scripts/review_sample.py` draws the expert review sample.
+
 ## Local dashboard: UCF DPV Knowledge Workflow
 
 The standalone Shiny dashboard wraps the existing pipeline: select Zotero collections across accessible
